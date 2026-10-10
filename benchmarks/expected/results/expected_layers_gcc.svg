@@ -26,206 +26,206 @@
 <text x="600" y="860" text-anchor="middle" fill="#555">a hollow dot: the processes of that executable disagree by more than 25 %, read it as noise</text>
 <rect x="0" y="70.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="84.0" text-anchor="end">construct_value_int</text>
-<circle cx="880.0" cy="80.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.97 ns, 1.74x</title></circle>
-<circle cx="877.6" cy="80.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.96 ns, 1.73x</title></circle>
-<circle cx="890.9" cy="80.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.99 ns, 1.78x</title></circle>
-<circle cx="891.0" cy="80.0" r="4" fill="none" stroke="#0b4f8a" stroke-width="1.6"><title>lumex C++23: 0.99 ns, 1.78x (unstable)</title></circle>
+<circle cx="538.1" cy="80.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.58 ns, 0.88x</title></circle>
+<circle cx="540.3" cy="80.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.58 ns, 0.89x</title></circle>
+<circle cx="536.9" cy="80.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.57 ns, 0.88x</title></circle>
+<circle cx="534.9" cy="80.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.57 ns, 0.88x</title></circle>
 <text x="242" y="104.0" text-anchor="end">construct_error_int</text>
-<circle cx="880.4" cy="100.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.97 ns, 1.74x</title></circle>
-<circle cx="883.6" cy="100.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.98 ns, 1.75x</title></circle>
-<circle cx="881.6" cy="100.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.98 ns, 1.75x</title></circle>
-<circle cx="886.3" cy="100.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.99 ns, 1.76x</title></circle>
+<circle cx="536.8" cy="100.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.57 ns, 0.88x</title></circle>
+<circle cx="538.2" cy="100.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.58 ns, 0.88x</title></circle>
+<circle cx="537.2" cy="100.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.57 ns, 0.88x</title></circle>
+<circle cx="539.0" cy="100.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.58 ns, 0.89x</title></circle>
 <rect x="0" y="110.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="124.0" text-anchor="end">construct_value_big</text>
-<circle cx="601.2" cy="120.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 3.50 ns, 1.00x</title></circle>
-<circle cx="605.8" cy="120.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.53 ns, 1.01x</title></circle>
-<circle cx="606.0" cy="120.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 3.53 ns, 1.01x</title></circle>
-<circle cx="598.5" cy="120.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 3.48 ns, 1.00x</title></circle>
+<circle cx="598.9" cy="120.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 3.62 ns, 1.00x</title></circle>
+<circle cx="602.0" cy="120.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.64 ns, 1.00x</title></circle>
+<circle cx="598.0" cy="120.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 3.61 ns, 1.00x</title></circle>
+<circle cx="600.3" cy="120.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 3.63 ns, 1.00x</title></circle>
 <text x="242" y="144.0" text-anchor="end">construct_value_str12</text>
-<circle cx="605.5" cy="140.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 5.31 ns, 1.01x</title></circle>
-<circle cx="599.8" cy="140.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 5.25 ns, 1.00x</title></circle>
-<circle cx="479.7" cy="140.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 4.14 ns, 0.79x</title></circle>
-<circle cx="480.0" cy="140.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 4.14 ns, 0.79x</title></circle>
+<circle cx="596.8" cy="140.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 5.47 ns, 0.99x</title></circle>
+<circle cx="602.9" cy="140.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 5.53 ns, 1.01x</title></circle>
+<circle cx="454.9" cy="140.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 4.13 ns, 0.75x</title></circle>
+<circle cx="457.8" cy="140.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 4.15 ns, 0.75x</title></circle>
 <rect x="0" y="150.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="164.0" text-anchor="end">construct_value_str64</text>
-<circle cx="636.0" cy="160.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 20.05 ns, 1.07x</title></circle>
-<circle cx="638.0" cy="160.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 20.13 ns, 1.08x</title></circle>
-<circle cx="535.9" cy="160.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 16.45 ns, 0.88x</title></circle>
-<circle cx="538.0" cy="160.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 16.52 ns, 0.88x</title></circle>
+<circle cx="623.5" cy="160.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 19.86 ns, 1.05x</title></circle>
+<circle cx="629.0" cy="160.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 20.07 ns, 1.06x</title></circle>
+<circle cx="541.6" cy="160.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 16.88 ns, 0.89x</title></circle>
+<circle cx="543.1" cy="160.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 16.93 ns, 0.89x</title></circle>
 <text x="242" y="184.0" text-anchor="end">construct_error_str12</text>
-<circle cx="606.1" cy="180.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 5.29 ns, 1.01x</title></circle>
-<circle cx="600.3" cy="180.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 5.23 ns, 1.00x</title></circle>
-<circle cx="449.7" cy="180.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 3.88 ns, 0.74x</title></circle>
-<circle cx="452.6" cy="180.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 3.90 ns, 0.75x</title></circle>
+<circle cx="590.5" cy="180.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 5.43 ns, 0.98x</title></circle>
+<circle cx="599.2" cy="180.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 5.53 ns, 1.00x</title></circle>
+<circle cx="449.7" cy="180.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 4.11 ns, 0.74x</title></circle>
+<circle cx="454.7" cy="180.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 4.15 ns, 0.75x</title></circle>
 <rect x="0" y="190.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="204.0" text-anchor="end">copy_value_int</text>
-<circle cx="604.7" cy="200.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.68 ns, 1.01x</title></circle>
-<circle cx="604.3" cy="200.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.68 ns, 1.01x</title></circle>
-<circle cx="603.6" cy="200.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.68 ns, 1.01x</title></circle>
-<circle cx="596.2" cy="200.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.67 ns, 0.99x</title></circle>
+<circle cx="602.1" cy="200.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.48 ns, 1.00x</title></circle>
+<circle cx="600.9" cy="200.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.48 ns, 1.00x</title></circle>
+<circle cx="605.1" cy="200.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.49 ns, 1.01x</title></circle>
+<circle cx="601.6" cy="200.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.48 ns, 1.00x</title></circle>
 <text x="242" y="224.0" text-anchor="end">copy_error_int</text>
-<circle cx="596.2" cy="220.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.46 ns, 0.99x</title></circle>
-<circle cx="597.5" cy="220.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.47 ns, 1.00x</title></circle>
-<circle cx="601.2" cy="220.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.47 ns, 1.00x</title></circle>
-<circle cx="601.6" cy="220.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.47 ns, 1.00x</title></circle>
+<circle cx="535.8" cy="220.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.53 ns, 0.88x</title></circle>
+<circle cx="514.4" cy="220.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.51 ns, 0.84x</title></circle>
+<circle cx="606.1" cy="220.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.61 ns, 1.01x</title></circle>
+<circle cx="605.4" cy="220.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.61 ns, 1.01x</title></circle>
 <rect x="0" y="230.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="244.0" text-anchor="end">copy_value_big</text>
-<circle cx="599.6" cy="240.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.05 ns, 1.00x</title></circle>
-<circle cx="600.8" cy="240.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.05 ns, 1.00x</title></circle>
-<circle cx="599.7" cy="240.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.05 ns, 1.00x</title></circle>
-<circle cx="598.4" cy="240.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.04 ns, 1.00x</title></circle>
+<circle cx="597.1" cy="240.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.08 ns, 0.99x</title></circle>
+<circle cx="598.7" cy="240.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.08 ns, 1.00x</title></circle>
+<circle cx="601.3" cy="240.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.09 ns, 1.00x</title></circle>
+<circle cx="599.8" cy="240.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.09 ns, 1.00x</title></circle>
 <text x="242" y="264.0" text-anchor="end">copy_value_str12</text>
-<circle cx="597.5" cy="260.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 3.47 ns, 1.00x</title></circle>
-<circle cx="597.5" cy="260.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.47 ns, 1.00x</title></circle>
-<circle cx="418.8" cy="260.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 2.44 ns, 0.70x</title></circle>
-<circle cx="419.9" cy="260.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 2.44 ns, 0.70x</title></circle>
+<circle cx="599.8" cy="260.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 3.69 ns, 1.00x</title></circle>
+<circle cx="597.4" cy="260.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.67 ns, 0.99x</title></circle>
+<circle cx="414.5" cy="260.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 2.56 ns, 0.69x</title></circle>
+<circle cx="412.7" cy="260.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 2.55 ns, 0.69x</title></circle>
 <rect x="0" y="270.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="284.0" text-anchor="end">copy_value_str64</text>
-<circle cx="653.4" cy="280.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 22.06 ns, 1.11x</title></circle>
-<circle cx="632.6" cy="280.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 21.17 ns, 1.07x</title></circle>
-<circle cx="556.2" cy="280.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 18.20 ns, 0.92x</title></circle>
-<circle cx="565.2" cy="280.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 18.53 ns, 0.93x</title></circle>
+<circle cx="646.6" cy="280.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 21.67 ns, 1.10x</title></circle>
+<circle cx="657.5" cy="280.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 22.14 ns, 1.12x</title></circle>
+<circle cx="569.7" cy="280.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 18.61 ns, 0.94x</title></circle>
+<circle cx="576.3" cy="280.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 18.85 ns, 0.95x</title></circle>
 <text x="242" y="304.0" text-anchor="end">copy_error_str12</text>
-<circle cx="600.6" cy="300.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 3.49 ns, 1.00x</title></circle>
-<circle cx="599.6" cy="300.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.48 ns, 1.00x</title></circle>
-<circle cx="419.7" cy="300.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 2.44 ns, 0.70x</title></circle>
-<circle cx="420.4" cy="300.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 2.44 ns, 0.70x</title></circle>
+<circle cx="609.4" cy="300.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 3.75 ns, 1.02x</title></circle>
+<circle cx="597.5" cy="300.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.66 ns, 1.00x</title></circle>
+<circle cx="413.0" cy="300.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 2.54 ns, 0.69x</title></circle>
+<circle cx="407.5" cy="300.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 2.51 ns, 0.68x</title></circle>
 <rect x="0" y="310.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="324.0" text-anchor="end">move_value_int</text>
-<circle cx="499.5" cy="320.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.56 ns, 0.82x</title></circle>
-<circle cx="498.0" cy="320.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.56 ns, 0.82x</title></circle>
-<circle cx="498.2" cy="320.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.56 ns, 0.82x</title></circle>
-<circle cx="499.7" cy="320.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.56 ns, 0.82x</title></circle>
+<circle cx="646.9" cy="320.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.63 ns, 1.10x</title></circle>
+<circle cx="655.5" cy="320.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.64 ns, 1.12x</title></circle>
+<circle cx="604.2" cy="320.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.58 ns, 1.01x</title></circle>
+<circle cx="605.2" cy="320.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.58 ns, 1.01x</title></circle>
 <text x="242" y="344.0" text-anchor="end">move_value_str12</text>
-<circle cx="589.5" cy="340.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 5.94 ns, 0.98x</title></circle>
-<circle cx="594.5" cy="340.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 6.00 ns, 0.99x</title></circle>
-<circle cx="588.0" cy="340.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 5.92 ns, 0.98x</title></circle>
-<circle cx="588.6" cy="340.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 5.93 ns, 0.98x</title></circle>
+<circle cx="603.6" cy="340.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 6.37 ns, 1.01x</title></circle>
+<circle cx="609.7" cy="340.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 6.45 ns, 1.02x</title></circle>
+<circle cx="598.4" cy="340.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 6.30 ns, 1.00x</title></circle>
+<circle cx="594.9" cy="340.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 6.26 ns, 0.99x</title></circle>
 <rect x="0" y="350.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="364.0" text-anchor="end">move_value_str64</text>
-<circle cx="605.3" cy="360.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 19.10 ns, 1.01x</title></circle>
-<circle cx="616.8" cy="360.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 19.54 ns, 1.03x</title></circle>
-<circle cx="567.4" cy="360.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 17.72 ns, 0.94x</title></circle>
-<circle cx="564.7" cy="360.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 17.63 ns, 0.93x</title></circle>
+<circle cx="579.0" cy="360.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 19.43 ns, 0.96x</title></circle>
+<circle cx="606.9" cy="360.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 20.54 ns, 1.01x</title></circle>
+<circle cx="567.5" cy="360.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 18.99 ns, 0.94x</title></circle>
+<circle cx="563.2" cy="360.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 18.83 ns, 0.93x</title></circle>
 <text x="242" y="384.0" text-anchor="end">move_error_str12</text>
-<circle cx="597.6" cy="380.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 6.12 ns, 1.00x</title></circle>
-<circle cx="597.2" cy="380.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 6.11 ns, 0.99x</title></circle>
-<circle cx="580.4" cy="380.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 5.91 ns, 0.96x</title></circle>
-<circle cx="583.5" cy="380.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 5.95 ns, 0.97x</title></circle>
+<circle cx="598.3" cy="380.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 6.33 ns, 1.00x</title></circle>
+<circle cx="600.3" cy="380.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 6.35 ns, 1.00x</title></circle>
+<circle cx="589.8" cy="380.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 6.22 ns, 0.98x</title></circle>
+<circle cx="602.0" cy="380.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 6.38 ns, 1.00x</title></circle>
 <rect x="0" y="390.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="404.0" text-anchor="end">assign_same_int</text>
-<circle cx="605.9" cy="400.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.77 ns, 1.01x</title></circle>
-<circle cx="605.7" cy="400.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.77 ns, 1.01x</title></circle>
-<circle cx="604.7" cy="400.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.77 ns, 1.01x</title></circle>
-<circle cx="600.3" cy="400.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.76 ns, 1.00x</title></circle>
+<circle cx="528.6" cy="400.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.72 ns, 0.87x</title></circle>
+<circle cx="528.0" cy="400.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.72 ns, 0.87x</title></circle>
+<circle cx="532.6" cy="400.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.73 ns, 0.87x</title></circle>
+<circle cx="531.9" cy="400.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.73 ns, 0.87x</title></circle>
 <text x="242" y="424.0" text-anchor="end">assign_same_str12</text>
-<circle cx="603.3" cy="420.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 3.83 ns, 1.01x</title></circle>
-<circle cx="603.3" cy="420.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.83 ns, 1.01x</title></circle>
-<circle cx="504.8" cy="420.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 3.15 ns, 0.83x</title></circle>
-<circle cx="495.4" cy="420.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 3.10 ns, 0.81x</title></circle>
+<circle cx="595.0" cy="420.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 4.04 ns, 0.99x</title></circle>
+<circle cx="598.9" cy="420.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 4.07 ns, 1.00x</title></circle>
+<circle cx="487.2" cy="420.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 3.26 ns, 0.80x</title></circle>
+<circle cx="486.7" cy="420.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 3.26 ns, 0.80x</title></circle>
 <rect x="0" y="430.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="444.0" text-anchor="end">assign_switch_int</text>
-<circle cx="546.5" cy="440.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.52 ns, 0.90x</title></circle>
-<circle cx="544.7" cy="440.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.52 ns, 0.90x</title></circle>
-<circle cx="544.0" cy="440.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.52 ns, 0.90x</title></circle>
-<circle cx="544.4" cy="440.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.52 ns, 0.90x</title></circle>
+<circle cx="592.9" cy="440.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.44 ns, 0.99x</title></circle>
+<circle cx="590.5" cy="440.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.44 ns, 0.98x</title></circle>
+<circle cx="590.3" cy="440.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.44 ns, 0.98x</title></circle>
+<circle cx="591.1" cy="440.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.44 ns, 0.98x</title></circle>
 <text x="242" y="464.0" text-anchor="end">assign_switch_str12</text>
-<circle cx="659.2" cy="460.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 10.91 ns, 1.12x</title></circle>
-<circle cx="629.8" cy="460.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 10.29 ns, 1.06x</title></circle>
-<circle cx="562.8" cy="460.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 9.01 ns, 0.93x</title></circle>
-<circle cx="570.7" cy="460.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 9.16 ns, 0.94x</title></circle>
+<circle cx="618.2" cy="460.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 10.75 ns, 1.04x</title></circle>
+<circle cx="606.9" cy="460.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 10.52 ns, 1.01x</title></circle>
+<circle cx="516.0" cy="460.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 8.79 ns, 0.85x</title></circle>
+<circle cx="519.0" cy="460.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 8.84 ns, 0.85x</title></circle>
 <rect x="0" y="470.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="484.0" text-anchor="end">value_int</text>
-<circle cx="298.8" cy="480.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.36 ns, 0.55x</title></circle>
-<circle cx="607.9" cy="480.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.67 ns, 1.02x</title></circle>
-<circle cx="598.2" cy="480.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.66 ns, 1.00x</title></circle>
-<circle cx="588.7" cy="480.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.65 ns, 0.98x</title></circle>
+<circle cx="427.7" cy="480.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.37 ns, 0.71x</title></circle>
+<circle cx="580.7" cy="480.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.50 ns, 0.96x</title></circle>
+<circle cx="600.2" cy="480.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.52 ns, 1.00x</title></circle>
+<circle cx="603.8" cy="480.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.52 ns, 1.01x</title></circle>
 <text x="242" y="504.0" text-anchor="end">deref_int</text>
-<circle cx="599.6" cy="500.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.37 ns, 1.00x</title></circle>
-<circle cx="899.6" cy="500.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.66 ns, 1.81x</title></circle>
-<circle cx="596.8" cy="500.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.36 ns, 0.99x</title></circle>
-<circle cx="598.1" cy="500.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.37 ns, 1.00x</title></circle>
+<circle cx="460.5" cy="500.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.39 ns, 0.76x</title></circle>
+<circle cx="446.5" cy="500.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.38 ns, 0.74x</title></circle>
+<circle cx="446.7" cy="500.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.38 ns, 0.74x</title></circle>
+<circle cx="447.7" cy="500.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.38 ns, 0.74x</title></circle>
 <rect x="0" y="510.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="524.0" text-anchor="end">error_int</text>
-<circle cx="855.0" cy="520.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.60 ns, 1.66x</title></circle>
-<circle cx="599.4" cy="520.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.36 ns, 1.00x</title></circle>
-<circle cx="592.2" cy="520.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.36 ns, 0.98x</title></circle>
-<circle cx="601.0" cy="520.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.37 ns, 1.00x</title></circle>
+<circle cx="743.7" cy="520.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.50 ns, 1.33x</title></circle>
+<circle cx="740.0" cy="520.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.50 ns, 1.32x</title></circle>
+<circle cx="715.3" cy="520.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.47 ns, 1.26x</title></circle>
+<circle cx="733.9" cy="520.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.49 ns, 1.30x</title></circle>
 <text x="242" y="544.0" text-anchor="end">value_str12</text>
-<circle cx="619.7" cy="540.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.42 ns, 1.04x</title></circle>
-<circle cx="608.0" cy="540.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.41 ns, 1.02x</title></circle>
-<circle cx="607.4" cy="540.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.41 ns, 1.01x</title></circle>
-<circle cx="601.3" cy="540.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.40 ns, 1.00x</title></circle>
+<circle cx="618.9" cy="540.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.43 ns, 1.04x</title></circle>
+<circle cx="603.6" cy="540.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.42 ns, 1.01x</title></circle>
+<circle cx="600.1" cy="540.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.42 ns, 1.00x</title></circle>
+<circle cx="603.6" cy="540.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.42 ns, 1.01x</title></circle>
 <rect x="0" y="550.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="564.0" text-anchor="end">has_value_ok</text>
-<circle cx="399.6" cy="560.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.36 ns, 0.67x</title></circle>
-<circle cx="406.4" cy="560.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.36 ns, 0.68x</title></circle>
-<circle cx="382.0" cy="560.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.35 ns, 0.65x</title></circle>
-<circle cx="384.8" cy="560.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.35 ns, 0.65x</title></circle>
+<circle cx="482.9" cy="560.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.36 ns, 0.79x</title></circle>
+<circle cx="489.7" cy="560.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.36 ns, 0.80x</title></circle>
+<circle cx="472.6" cy="560.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.35 ns, 0.78x</title></circle>
+<circle cx="476.6" cy="560.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.35 ns, 0.78x</title></circle>
 <text x="242" y="584.0" text-anchor="end">has_value_mixed</text>
-<circle cx="572.3" cy="580.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.35 ns, 0.95x</title></circle>
-<circle cx="579.0" cy="580.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.35 ns, 0.96x</title></circle>
-<circle cx="575.7" cy="580.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.35 ns, 0.95x</title></circle>
-<circle cx="573.4" cy="580.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.35 ns, 0.95x</title></circle>
+<circle cx="592.1" cy="580.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.36 ns, 0.98x</title></circle>
+<circle cx="590.4" cy="580.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.35 ns, 0.98x</title></circle>
+<circle cx="582.3" cy="580.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.35 ns, 0.97x</title></circle>
+<circle cx="592.4" cy="580.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.36 ns, 0.99x</title></circle>
 <rect x="0" y="590.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="604.0" text-anchor="end">branch_mixed</text>
-<circle cx="775.1" cy="600.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.89 ns, 1.41x</title></circle>
-<circle cx="777.2" cy="600.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.89 ns, 1.42x</title></circle>
-<circle cx="770.5" cy="600.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.88 ns, 1.40x</title></circle>
-<circle cx="769.8" cy="600.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.88 ns, 1.40x</title></circle>
+<circle cx="770.1" cy="600.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.91 ns, 1.40x</title></circle>
+<circle cx="776.7" cy="600.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.92 ns, 1.42x</title></circle>
+<circle cx="773.8" cy="600.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.91 ns, 1.41x</title></circle>
+<circle cx="778.4" cy="600.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.92 ns, 1.42x</title></circle>
 <text x="242" y="624.0" text-anchor="end">value_or_mixed</text>
-<circle cx="547.3" cy="620.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.56 ns, 0.90x</title></circle>
-<circle cx="539.6" cy="620.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.55 ns, 0.89x</title></circle>
-<circle cx="544.6" cy="620.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.55 ns, 0.90x</title></circle>
-<circle cx="545.3" cy="620.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.56 ns, 0.90x</title></circle>
+<circle cx="379.9" cy="620.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.57 ns, 0.65x</title></circle>
+<circle cx="379.5" cy="620.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.57 ns, 0.65x</title></circle>
+<circle cx="384.9" cy="620.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.57 ns, 0.65x</title></circle>
+<circle cx="376.1" cy="620.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.56 ns, 0.64x</title></circle>
 <rect x="0" y="630.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="644.0" text-anchor="end">transform_int</text>
-<circle cx="654.9" cy="640.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.13 ns, 1.11x</title></circle>
-<circle cx="639.5" cy="640.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.10 ns, 1.08x</title></circle>
-<circle cx="582.4" cy="640.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.98 ns, 0.97x</title></circle>
-<circle cx="579.1" cy="640.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.97 ns, 0.96x</title></circle>
+<circle cx="677.2" cy="640.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.08 ns, 1.17x</title></circle>
+<circle cx="688.2" cy="640.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.10 ns, 1.19x</title></circle>
+<circle cx="688.7" cy="640.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.11 ns, 1.19x</title></circle>
+<circle cx="689.1" cy="640.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.11 ns, 1.19x</title></circle>
 <text x="242" y="664.0" text-anchor="end">and_then_int</text>
-<circle cx="552.4" cy="660.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.11 ns, 0.91x</title></circle>
-<circle cx="583.8" cy="660.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.18 ns, 0.97x</title></circle>
-<circle cx="659.6" cy="660.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.37 ns, 1.13x</title></circle>
-<circle cx="652.5" cy="660.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.35 ns, 1.11x</title></circle>
+<circle cx="553.1" cy="660.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.22 ns, 0.91x</title></circle>
+<circle cx="565.3" cy="660.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.24 ns, 0.93x</title></circle>
+<circle cx="609.7" cy="660.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.36 ns, 1.02x</title></circle>
+<circle cx="607.7" cy="660.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.35 ns, 1.02x</title></circle>
 <rect x="0" y="670.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="684.0" text-anchor="end">or_else_int</text>
-<circle cx="597.6" cy="680.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.77 ns, 1.00x</title></circle>
-<circle cx="603.4" cy="680.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.78 ns, 1.01x</title></circle>
-<circle cx="599.7" cy="680.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.77 ns, 1.00x</title></circle>
-<circle cx="598.4" cy="680.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.77 ns, 1.00x</title></circle>
+<circle cx="617.6" cy="680.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 0.82 ns, 1.04x</title></circle>
+<circle cx="621.0" cy="680.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.82 ns, 1.04x</title></circle>
+<circle cx="609.9" cy="680.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 0.80 ns, 1.02x</title></circle>
+<circle cx="600.1" cy="680.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 0.79 ns, 1.00x</title></circle>
 <text x="242" y="704.0" text-anchor="end">chain_int</text>
-<circle cx="571.0" cy="700.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.04 ns, 0.94x</title></circle>
-<circle cx="556.0" cy="700.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.01 ns, 0.92x</title></circle>
-<circle cx="601.9" cy="700.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.11 ns, 1.00x</title></circle>
-<circle cx="603.1" cy="700.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.11 ns, 1.01x</title></circle>
+<circle cx="569.9" cy="700.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.07 ns, 0.94x</title></circle>
+<circle cx="616.8" cy="700.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.18 ns, 1.03x</title></circle>
+<circle cx="572.3" cy="700.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.08 ns, 0.95x</title></circle>
+<circle cx="568.4" cy="700.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.07 ns, 0.94x</title></circle>
 <rect x="0" y="710.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="724.0" text-anchor="end">transform_str12</text>
-<circle cx="437.0" cy="720.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.37 ns, 0.72x</title></circle>
-<circle cx="494.0" cy="720.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.53 ns, 0.81x</title></circle>
-<circle cx="470.5" cy="720.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.46 ns, 0.77x</title></circle>
-<circle cx="478.2" cy="720.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.49 ns, 0.79x</title></circle>
+<circle cx="689.4" cy="720.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 1.01 ns, 1.19x</title></circle>
+<circle cx="709.9" cy="720.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.05 ns, 1.24x</title></circle>
+<circle cx="708.7" cy="720.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 1.05 ns, 1.24x</title></circle>
+<circle cx="709.9" cy="720.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 1.05 ns, 1.24x</title></circle>
 <text x="242" y="744.0" text-anchor="end">return_chain_int</text>
-<circle cx="602.9" cy="740.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 29.00 ns, 1.01x</title></circle>
-<circle cx="595.5" cy="740.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 28.57 ns, 0.99x</title></circle>
-<circle cx="601.0" cy="740.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 28.89 ns, 1.00x</title></circle>
-<circle cx="598.5" cy="740.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 28.74 ns, 1.00x</title></circle>
+<circle cx="462.4" cy="740.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 5.21 ns, 0.76x</title></circle>
+<circle cx="474.1" cy="740.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 5.33 ns, 0.78x</title></circle>
+<circle cx="469.1" cy="740.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 5.28 ns, 0.77x</title></circle>
+<circle cx="469.1" cy="740.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 5.28 ns, 0.77x</title></circle>
 <rect x="0" y="750.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="764.0" text-anchor="end">return_chain_str12</text>
-<circle cx="598.3" cy="760.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 44.40 ns, 1.00x</title></circle>
-<circle cx="602.7" cy="760.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 44.78 ns, 1.01x</title></circle>
-<circle cx="602.7" cy="760.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 44.79 ns, 1.01x</title></circle>
-<circle cx="598.6" cy="760.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 44.43 ns, 1.00x</title></circle>
+<circle cx="595.3" cy="760.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 44.84 ns, 0.99x</title></circle>
+<circle cx="598.6" cy="760.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 45.13 ns, 1.00x</title></circle>
+<circle cx="601.0" cy="760.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 45.34 ns, 1.00x</title></circle>
+<circle cx="600.5" cy="760.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 45.30 ns, 1.00x</title></circle>
 <text x="242" y="784.0" text-anchor="end">return_chain_str64</text>
-<circle cx="627.1" cy="780.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 24.46 ns, 1.06x</title></circle>
-<circle cx="615.8" cy="780.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 23.93 ns, 1.03x</title></circle>
-<circle cx="564.0" cy="780.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 21.59 ns, 0.93x</title></circle>
-<circle cx="557.7" cy="780.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 21.32 ns, 0.92x</title></circle>
+<circle cx="595.3" cy="780.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 23.79 ns, 0.99x</title></circle>
+<circle cx="611.0" cy="780.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 24.54 ns, 1.02x</title></circle>
+<circle cx="580.5" cy="780.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 23.10 ns, 0.96x</title></circle>
+<circle cx="584.5" cy="780.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 23.28 ns, 0.97x</title></circle>
 <rect x="0" y="790.0" width="980" height="20" fill="#f6f8fa"/>
 <text x="242" y="804.0" text-anchor="end">return_chain_big</text>
-<circle cx="597.8" cy="800.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 16.76 ns, 1.00x</title></circle>
-<circle cx="598.5" cy="800.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 16.79 ns, 1.00x</title></circle>
-<circle cx="597.9" cy="800.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 16.77 ns, 1.00x</title></circle>
-<circle cx="597.6" cy="800.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 16.75 ns, 1.00x</title></circle>
+<circle cx="597.9" cy="800.0" r="4" fill="#a9d1ee" fill-opacity="0.9"><title>lumex C++14: 17.07 ns, 1.00x</title></circle>
+<circle cx="599.3" cy="800.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 17.12 ns, 1.00x</title></circle>
+<circle cx="597.0" cy="800.0" r="4" fill="#2f7fc1" fill-opacity="0.9"><title>lumex C++20: 17.04 ns, 0.99x</title></circle>
+<circle cx="599.4" cy="800.0" r="4" fill="#0b4f8a" fill-opacity="0.9"><title>lumex C++23: 17.12 ns, 1.00x</title></circle>
 </svg>
