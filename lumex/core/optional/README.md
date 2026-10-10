@@ -31,13 +31,9 @@ main ()
 
 From `lumex/examples/optional/example_optional_workflow.cpp`. The members in use (`has_value`, `value_or`, `reset`, `emplace`, `nullopt` comparison and assignment) are in `lumex/examples/optional/example_optional.cpp`. Both are built and run by the tests (`examples.optional.*`).
 
-From C++17 the conversions to and from the standard type are implicit (compiled and run for this README, there is no example file for them yet):
+From C++17 the conversions to and from the standard type are implicit (`lumex/examples/optional/example_optional_std_conversion.cpp`, built at C++17 and run by the tests):
 
 ```cpp
-#include <optional>
-
-#include "lumex/core/optional/LumexOptional"
-
 std::optional<int> standard = 3;
 optional<int> own = standard;       // implicit, copies the value or stays empty
 std::optional<int> back = own;      // implicit
@@ -81,7 +77,7 @@ A header of the library that returns the type includes `opt/LumexOptional.hpp` a
 
 - **Storage.** `alignas (T) unsigned char m_storage[sizeof (T)]` and `bool m_has_value`; the value is built with placement `new` and destroyed by an explicit destructor call. This is not `std::aligned_storage` (deprecated in C++23). The object has the size and alignment of the old `aligned_storage` layout, which is also `std::optional`'s for the types measured (benchmark: all ten equal).
 - **Not trivial for any `T`.** The copy and move constructors, the assignments and the destructor are user-provided, so `optional<int>` is not trivially copyable, not trivially destructible and not a literal type: it cannot be a `constexpr` variable and is not passed in registers (it is returned and passed through memory). `std::optional<int>` is all three.
-- **Assignment destroys and rebuilds.** Copy and move assignment of two engaged optionals destroy the old value and construct the new one, instead of assigning to the contained value (`std::optional` assigns). Consequence for exceptions: if the copy constructor of `T` throws in a copy assignment, `*this` is empty afterwards (`std::optional` keeps its old value); measured below. Value assignment (`o = value`) does assign when `o` is engaged.
+- **Assignment destroys and rebuilds.** Copy and move assignment of two engaged optionals destroy the old value and construct the new one, instead of assigning to the contained value (`std::optional` assigns). Consequence for exceptions: if the copy constructor of `T` throws in a copy assignment between two engaged optionals, `*this` is left empty; `std::optional` calls `T`'s copy assignment instead, so it is affected by a throwing assignment operator, not by a throwing copy constructor. Value assignment (`o = value`) does assign when `o` is engaged.
 - **A moved-from optional is empty.** The move constructor and the move assignment move the value and then destroy it in the source, so `source.has_value ()` is `false` afterwards. In `std::optional` the source still holds a moved-from value. Code that reads a moved-from optional (`if (src)`) behaves differently.
 - **Exception safety.** Constructors and `emplace` leave the object empty when the constructor of `T` throws; `value ()` is the only function of the interface that throws by itself; `noexcept` on the special members follows `T` (`std::is_nothrow_*`). No operation of the module allocates.
 - **Thread safety.** None added: an optional is a plain object; concurrent const access is as safe as for the contained value.
@@ -90,7 +86,7 @@ A header of the library that returns the type includes `opt/LumexOptional.hpp` a
 
 ## Comparison with existing solutions
 
-Measured with [benchmarks/optional](../../../benchmarks/optional/README.md): GCC 13.2.0, libstdc++, Release (`-O2`, `-march=x86-64`), no sanitizers, Intel Core i7-12700K pinned to one core, idle machine under the build lock, 5 passes, Boost 1.92.0 headers. Clang, libc++, MSVC and other CPUs were not measured. The ratios are the time of the library divided by the time of `std::optional` at C++17 (above 1 is slower).
+Measured with [benchmarks/optional](../../../benchmarks/optional/README.md): GCC 13.2.0, libstdc++, Release (`-O2`, `-march=x86-64`), no sanitizers, Intel Core i7-12700K pinned to one core, idle machine under the build lock, 5 passes, Boost 1.92.0 headers. Clang, libc++, MSVC and other CPUs were not measured. The ratios are the time of the library divided by the time of `std::optional` at C++17 (above 1 is slower); each time is the best of 5 pass medians (the worst pass is in the results table, a dagger marks a spread above 25 %).
 
 | | this library | `std::optional` (C++17) | `boost::optional` |
 | --- | --- | --- | --- |
@@ -112,13 +108,14 @@ Run-time results from the benchmark (46 scenarios):
 | What | lumex / `std::optional` | Reason |
 | --- | --- | --- |
 | geometric mean, all scenarios | 0.93 (C++17), 0.92 (C++11) | the extremes below dominate in both directions |
-| construct, emplace, reset, swap, `==` with `nullopt`, `*o`, `value ()`, strings | within 10 %, mostly 0.9x to 1.0x | same operations |
-| `value_or` in a loop over a half-engaged array of `int` | 5.1x slower (2 715 ns against 535 ns per 1 024) | compiled to a branch that mispredicts; the standard one uses a conditional move |
-| copy assignment of an engaged `optional<std::string>` (80 chars) | 3.9x to 4.0x slower (12.8 ns against 3.3 ns) | destroy and reallocate instead of reusing the buffer |
+| construct, emplace, reset, swap, `==` with `nullopt`, `*o`, `value ()`, strings | mostly within 10 % (0.9x to 1.0x); exceptions: `ctor_empty_str_short` 0.67x (the baseline is marked unstable) and the rows below | same operations |
+| `make_move_destroy` and `assign_copy` of the 32-byte struct | 1.19x to 1.20x (1.40 against 1.18 ns) and 1.18x to 1.19x (1.02 against 0.86 ns) | the generated code differs from the standard's; real, small |
+| `value_or` in a loop over a half-engaged array of `int` | 5.1x slower (2 715 ns against 535 ns per 1 024) | the loop is the same machine code in both executables; the branch predictor learns the fixed pattern in the `std` executable and not in this one (with both loops in one binary, both take about 2 750 ns): code placement, not a property of the library |
+| copy assignment of an engaged `optional<std::string>` (80 chars) | 3.9x to 4.0x slower (12.8 ns against 3.3 ns best pass of the baseline; its worst pass is 4.73 ns, 2.7x at that pass) | destroy and reallocate instead of reusing the buffer |
 | copy of a `std::vector<optional<int>>` of 1 024 | 2.8x slower (539 ns against 194 ns) | element by element instead of `memmove` |
 | copy construction, copy assignment of `optional<int>` | 2.0x slower (0.47 ns against 0.23 ns) | a branch instead of an 8-byte copy |
 | `==` and `<` of `optional<int>` arrays, `==` of `optional<std::string>` arrays | 0.79x to 1.23x | placement dependent, mixed |
-| a `noinline` function returning or taking an `optional<int>` by value, `push_back` of `optional<int>` | 0.11x to 0.14x (7x to 9x faster) | a store forwarding stall in GCC 13.2's code for the trivially copyable `std::optional<int>`; not a merit of the library, may not occur with another compiler or in a program that keeps the value in registers |
+| a `noinline` function returning or taking an `optional<int>` by value, `push_back` of `optional<int>` | 0.11x to 0.14x (7x to 9x faster) | GCC 13.2 at -O2 builds a `std::optional<int>` returned or passed in a register with a 4-byte and a 1-byte store and reloads it with one 8-byte load that cannot be forwarded (`LD_BLOCKS.STORE_FORWARD`, about one blocked load per call, confirmed with the hardware counter by an independent check). This happens in any non-inlined call with this compiler, not when the call is inlined; other compilers were not measured. Not a merit of the library |
 | compile time, `-fsyntax-only` of one unit, over the same unit without an optional | include: +7 ms (C++11), +41 ms (C++17) against +5 ms for `std::optional`; use of the whole API: +32 ms and +66 ms against +43 ms | at C++17 the header includes `<optional>` and `<functional>` |
 
 `boost::optional` is within a few percent of this library in most scenarios (geometric mean of lumex against Boost at C++17: 1.06).
@@ -130,14 +127,14 @@ Strengths:
 - One class and one behavior from C++11 to C++23; `sizeof` equals that of `std::optional` and `boost::optional` for the ten types measured.
 - Implicit conversions to and from `std::optional<T>` and comparisons with it at C++17, so a lumex-returning API can feed a `std::optional` consumer.
 - Header-only, no dependency on another module, 256 test entries of the module pass (below).
-- `optional<int>` as a function result or argument by value is 7x to 9x faster than `std::optional<int>` in this GCC build (an artifact of that codegen, see the table).
+- Returned and passed through memory, so a non-inlined call does not hit GCC 13.2's store-forwarding stall of `std::optional<int>` (0.12x to 0.14x the time; `boost::optional`, also not trivially copyable, measures the same).
 - Compile time at C++11 is at the level of `std::optional` at C++17 (+7 ms against +5 ms for the `include` unit).
 
 Weaknesses:
 
 - Not trivially copyable, not trivially destructible, not a literal type for any `T`: no `constexpr` variables, no `memmove` copies in containers (a vector of 1 024 `optional<int>` copies 2.8x slower), passed through memory.
 - A moved-from optional is empty (the standard's holds a moved-from value); copy assignment destroys and rebuilds, so a throwing copy constructor leaves the target empty and an engaged long string is reallocated (4x slower than the standard in the benchmark).
-- `value_or` compiled to a branch: 5x slower than `std::optional` in a loop over unpredictable data in GCC 13.2.
+- At C++17 the header costs +41 ms against +5 ms for `std::optional` (`include` unit) and +66 against +43 ms (`use` unit), because it includes `<optional>` and `<functional>`.
 - Not the whole C++17/23 interface: no monadic operations, no `optional<T&>`, no `optional<const T>`, no conversions between `optional<U>` and `optional<T>`, no constructor from `U &&` (so `optional<std::string> s = "abc";` does not compile, `optional<std::string> s ("abc");` does), no `operator= (U &&)` for a `U` that is not `T` (`o = "text"` for `optional<std::string>` does not compile).
 - `is_copy_constructible<optional<std::unique_ptr<int>>>` is `true` although a copy fails to compile when used (the copy constructor is not constrained on `T`).
 - `lumex_bad_optional_access` derives from `std::logic_error`, not from `std::bad_optional_access`: code that catches the standard exception does not catch it.
@@ -146,7 +143,7 @@ Weaknesses:
 
 ## Testing
 
-`ctest -R ptional` in a Release build with GCC 13.2.0 runs 256 entries, all passing: 51 unit tests at C++11, 67 at each of C++17, C++20 and C++23 (the 16 additional ones are `LumexOptionalStdTwin`, the `std::optional` conversions and comparisons, which exist from C++17), the two examples (`examples.optional.LumexOptionalExample`, `...Workflow`), `cmake.wiring_optional` (the types header declares no global name, the umbrella includes the globals header, `utility` requires the module) and `cmake.require_fail_utility_without_optional`. The unit tests cover every constructor, the assignments, observers, `value_or`, `emplace`, `swap`, the comparisons with optionals, `nullopt` and values, `make_optional`, the storage (size and alignment of odd-sized and over-aligned types), lifetimes (copies, moves and destructions counted), nested optionals, self assignment, `std::hash` and the global names. There are no differential tests against the standard other than the `StdTwin` conversion and comparison tests, no sanitizer run and no mutation check in the run behind these numbers. The benchmark (`benchmarks/optional`) also checks its checksums against plain-value references.
+`ctest -R ptional` in a Release build with GCC 13.2.0 runs 256 entries, all passing: 51 unit tests at C++11, 67 at each of C++17, C++20 and C++23 (the suites are C++11, 17, 20 and 23; there is no C++14 suite) (the 16 additional ones are `LumexOptionalStdTwin`, the `std::optional` conversions and comparisons, which exist from C++17), the two examples that existed then (`examples.optional.LumexOptionalExample`, `...Workflow`; the std conversion example was added afterwards and is not in the 256), `cmake.wiring_optional` (the types header declares no global name, the umbrella includes the globals header, `utility` requires the module) and `cmake.require_fail_utility_without_optional`. The unit tests cover every constructor, the assignments, observers, `value_or`, `emplace`, `swap`, the comparisons with optionals, `nullopt` and values, `make_optional`, the storage (size and alignment of odd-sized and over-aligned types), lifetimes (copies, moves and destructions counted), nested optionals, self assignment, `std::hash` and the global names. There are no differential tests against the standard other than the `StdTwin` conversion and comparison tests, no sanitizer run and no mutation check in the run behind these numbers. The benchmark (`benchmarks/optional`) also checks its checksums against plain-value references.
 
 ## Not done on purpose / limits / known issues
 
@@ -155,4 +152,4 @@ Weaknesses:
 - `in_place` has no global alias (two modules would collide).
 - The header uses `std::string` (the constructors of `lumex_bad_optional_access`) and includes only `<stdexcept>`, relying on it to bring `<string>`.
 - The state after a throwing copy assignment is empty, and a moved-from optional is empty: both differ from `std::optional` and are not documented as deviations in the header.
-- Known gaps found while writing this file, not fixed here: `value_or` code generation, `is_copy_constructible` of a move-only `T`, no example for the `std::optional` conversions.
+- Known gap found while writing this file, not fixed here: `is_copy_constructible` of a move-only `T`.

@@ -17,3 +17,11 @@ lumex_example_executable(
   LINK lumex::optional
   REQUIRE_TARGET lumex::optional
 )
+# The conversions to and from std::optional exist from C++17.
+lumex_example_executable(
+  NAME LumexOptionalExampleStdConversion
+  SOURCE example_optional_std_conversion.cpp
+  LINK lumex::optional
+  REQUIRE_TARGET lumex::optional
+  CXX_STANDARD 17
+)
