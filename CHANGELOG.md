@@ -59,6 +59,14 @@
 
 **Проверено:** каждый README прошел независимое ревью Opus 5.5 на правдивость (числа сверены с `results/`, утверждения о коде с самим кодом); найденные расхождения исправлены.
 
+##### Графики бенчмарков: таблицы размеров и свойств, время компиляции, Clang рядом с GCC
+
+**Файлы:** `benchmarks/expected/`, `optional/`, `string_view/`, `span/`, `circular_buffer/`, `atomic/`, `fmt/`, `hazard_pointer/` (`plot_results.py`, `run_benchmark.py`, `compile_time.cpp`, `results/*.csv`, `results/*.svg`, `README.md`), `lumex/core/{expected,optional,string_view,span,circular_buffer,atomic,fmt}/README.md`.
+
+**Суть:** SVG для таблиц размеров и свойств типов (`expected_sizes`, `optional_traits`, `string_view_traits`, `header_cost` у `span`, `circular_buffer_footprint`), для прогона `atomic/lock_free_reduced` (параметр `--prefix` у `plot_results.py`), графики времени компиляции (`-fsyntax-only`, медиана; новые замеры у `circular_buffer`, `fmt`, `atomic`, `hazard_pointer`; у `circular_buffer` с Boost и простыми кольцами) и строки Clang 23.1 (с libc++) рядом со строками GCC у `expected`, `optional`, `string_view`, `circular_buffer` с графиками `*_clang.svg`. Строки GCC в CSV не изменены. Среднее геометрическое относительно стандартного типа с Clang: `optional` 0,987 (C++17), `string_view` 1,056 (C++17), `circular_buffer` относительно Boost 0,915 (C++17), `expected` 1,009 (C++23); причины различий между Clang и GCC не исследовались (README это говорит). Не измерено: Clang с libstdc++, MSVC (кроме прежних прогонов `atomic` и `fmt`), время компиляции библиотек libcds и движка libc++ в `hazard_pointer`.
+
+**Проверено:** графики воспроизводятся из CSV побайтно, `cmake.*` и `lint.*` 196 из 196 (GCC 13.2).
+
 ##### Тесты движка split-count: имитация планировщика с оракулами и сценарии ABA
 
 **Файлы:** `lumex/tests/core/atomic/smart_ptr/split_count/LumexSplitCountSim.hpp`, `LumexSplitCountSimScenarios.hpp`, `LumexSplitCountSimAba.hpp`, `LumexSplitCountSim.cxx11.tests.cpp`, `LumexSplitCountSimSoak.cxx11.tests.cpp`, `LumexSplitCountSimAba.cxx11.tests.cpp`, `LumexSplitCountSimAbaSoak.cxx11.tests.cpp`, `LumexSplitCountTestSupport.hpp`, `LumexSplitCountAllocHooks.cxx11.tests.cpp`, `CMakeLists.txt` того же каталога.
