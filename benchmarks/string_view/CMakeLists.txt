@@ -11,11 +11,6 @@
 #   LumexStringViewBench_lumex_cxx11   the view of this library at C++11
 #   LumexStringViewBench_lumex_cxx17   the same at C++17 (it does not become
 #                                      std::string_view there)
-#   LumexStringViewBench_lumex_unity_cxx17
-#                                      the view of this library with its
-#                                      compiled part (the .cpp files) built
-#                                      into the benchmark's translation unit,
-#                                      so that it is inlined and not linked
 #   LumexStringViewBench_std_cxx17     std::string_view of the standard library
 #                                      in use (only where <string_view> exists)
 #   LumexStringViewBench_std_cxx20     the same at C++20, where starts_with and
@@ -30,19 +25,15 @@
 # installation). Without it the boost variants are skipped. Nothing of Boost is
 # linked or vendored.
 #
-# The view has a compiled part (lumex::string_view): whether it is a shared or
-# a static library follows LUMEX_BUILD_SHARED_LIBS, so the comparison of the
-# two is two build trees whose bin/ directories run_benchmark.py reads
-# together (a standard library needs its own compiler for the same reason):
+# The view is header-only (lumex::string_view is an interface target), so
+# there is one build tree; a standard library needs its own compiler for the
+# std variants, so a second compiler is a second build tree whose bin/
+# directory run_benchmark.py reads together with the first:
 #
-#   cmake -S . -B build-bench-shared -DCMAKE_BUILD_TYPE=Release
+#   cmake -S . -B build-bench -DCMAKE_BUILD_TYPE=Release
 #         -DCMAKE_CXX_COMPILER=g++ -DLUMEX_BUILD_BENCHMARKS=ON
 #         -DLUMEX_BENCH_BOOST_INCLUDE_DIR=/opt/boost-1.92.0/include
-#   cmake -S . -B build-bench-static -DCMAKE_BUILD_TYPE=Release
-#         -DCMAKE_CXX_COMPILER=g++ -DLUMEX_BUILD_BENCHMARKS=ON
-#         -DLUMEX_BUILD_SHARED_LIBS=OFF
-#         -DLUMEX_BENCH_BOOST_INCLUDE_DIR=/opt/boost-1.92.0/include
-#   cmake --build build-bench-shared --target LumexStringViewBenchmarkRun
+#   cmake --build build-bench --target LumexStringViewBenchmarkRun
 
 set(LUMEX_BENCH_BOOST_INCLUDE_DIR "" CACHE PATH
     "Directory that holds boost/utility/string_view.hpp (headers only); empty: find_package(Boost)")
@@ -83,7 +74,7 @@ int main () { std::string_view v (\"a\"); return static_cast<int> (v.size ()) - 
 set(CMAKE_CXX_STANDARD "${_lumex_bench_saved_standard}")
 
 function(lumex_string_view_bench_variant impl standard)
-    if(impl STREQUAL "lumex" OR impl STREQUAL "lumex_unity")
+    if(impl STREQUAL "lumex")
         set(_id 1)
     elseif(impl STREQUAL "std")
         set(_id 2)
@@ -97,13 +88,7 @@ function(lumex_string_view_bench_variant impl standard)
     set(_target LumexStringViewBench_${impl}_cxx${standard})
     add_executable(${_target} bench_string_view.cpp)
     target_compile_definitions(${_target} PRIVATE BENCH_STRING_VIEW_IMPL=${_id})
-    if(impl STREQUAL "lumex_unity")
-        target_compile_definitions(${_target} PRIVATE BENCH_LUMEX_UNITY=1)
-        target_link_libraries(${_target} PRIVATE lumex::utility)
-        target_include_directories(${_target} PRIVATE "${LumexLib_SOURCE_DIR}")
-    else()
-        target_link_libraries(${_target} PRIVATE lumex::string_view)
-    endif()
+    target_link_libraries(${_target} PRIVATE lumex::string_view)
     if(impl STREQUAL "boost")
         target_include_directories(${_target} SYSTEM PRIVATE
             "${_lumex_bench_boost_include}")
@@ -124,7 +109,6 @@ endfunction()
 set(LUMEX_STRING_VIEW_BENCH_TARGETS "")
 lumex_string_view_bench_variant(lumex 11)
 lumex_string_view_bench_variant(lumex 17)
-lumex_string_view_bench_variant(lumex_unity 17)
 if(LUMEX_BENCH_HAS_STD_STRING_VIEW)
     lumex_string_view_bench_variant(std 17)
     lumex_string_view_bench_variant(std 20)

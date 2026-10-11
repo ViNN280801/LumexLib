@@ -32,14 +32,12 @@ import sys
 from xml.sax.saxutils import escape
 
 VARIANT_ORDER = ["std_cxx17", "std_cxx20", "lumex_cxx11", "lumex_cxx17",
-                 "lumex_unity_cxx17",
                  "boost_cxx11", "boost_cxx17"]
 VARIANT_LABEL = {
     "std_cxx17": "std C++17",
     "std_cxx20": "std C++20",
     "lumex_cxx11": "lumex C++11",
     "lumex_cxx17": "lumex C++17",
-    "lumex_unity_cxx17": "lumex inlined C++17",
     "boost_cxx11": "boost C++11",
     "boost_cxx17": "boost C++17",
     "none_cxx11": "no view C++11",
@@ -51,7 +49,6 @@ VARIANT_COLOR = {
     "std_cxx20": "#b0601a",
     "lumex_cxx11": "#1b6ca8",
     "lumex_cxx17": "#6fb1e0",
-    "lumex_unity_cxx17": "#7b4fb0",
     "boost_cxx11": "#3c9d4a",
     "boost_cxx17": "#8fd19a",
     "none_cxx11": "#888888",
@@ -70,9 +67,7 @@ UNSTABLE = 1.25
 # compared with std_cxx20 through the fallback below.
 PAIRS = [("lumex_cxx17", "std_cxx17"), ("lumex_cxx11", "std_cxx17"),
          ("lumex_cxx11", "lumex_cxx17"), ("lumex_cxx17", "boost_cxx17"),
-         ("lumex_cxx11", "boost_cxx11"), ("boost_cxx17", "std_cxx17"),
-         ("lumex_unity_cxx17", "std_cxx17"),
-         ("lumex_cxx17", "lumex_unity_cxx17")]
+         ("lumex_cxx11", "boost_cxx11"), ("boost_cxx17", "std_cxx17")]
 COMPILE_MODES = [("include", "the header is included and one object is "
                   "declared (`-fsyntax-only -O0`)"),
                  ("use", "the whole API is used: construction, observers, "
