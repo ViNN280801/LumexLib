@@ -355,9 +355,9 @@ Digits: текст раскрытого макроса (`#x` через два �
 
 **Файлы:** `create_release.ps1`
 
-**Суть:** параметр CMake `LUMEX_WERROR` (`/WX` у MSVC и clang-cl, `-Werror` у GCC и Clang) уже есть: `create_release.sh` включает его по умолчанию (`--no-werror` отключает), а `create_release.ps1` не передавал его вовсе: в логе выпуска стояло `Warnings as errors: OFF`, и предупреждение не валило сборку. Теперь скрипт передаёт `-DLUMEX_WERROR=ON` в `--cmake-args` (той же строкой с аргументами CPack, когда задан `-Formats exe`) и получил `-NoWerror`; баннер печатает `, -Werror`, как баннер `create_release.sh`. У тега старше 2.0.0.0 параметра нет, такой тег собирается как был выпущен.
+**Суть:** параметр CMake `LUMEX_WERROR` (`/WX` у MSVC и clang-cl, `-Werror` у GCC и Clang) уже есть: `create_release.sh` включает его по умолчанию (`--no-werror` отключает), а `create_release.ps1` не передавал его вовсе: в логе выпуска стояло `Warnings as errors: OFF`, и предупреждение не валило сборку. Теперь скрипт передает `-DLUMEX_WERROR=ON` в `--cmake-args` (той же строкой с аргументами CPack, когда задан `-Formats exe`) и получил `-NoWerror`; баннер печатает `, -Werror`, как баннер `create_release.sh`. У тега старше 2.0.0.0 параметра нет, такой тег собирается как был выпущен.
 
-**Проверено:** разбор AST PowerShell, `-Help`; холостые прогоны `-Compilers v145 -DryRun` (в баннере `formats: zip, -Werror`, в команде `--cmake-args=-DLUMEX_WERROR=ON`), `-Formats exe` (одним аргументом вместе с `-DCPACK_*`) и `-Formats exe -NoWerror` (в команде только `-DCPACK_*`, в баннере нет `-Werror`). Полный прогон `-Compilers v145,D:\local\LLVM\bin\clang-cl.exe -Formats zip` с включённым `-Werror`: обе сборки и оба пакета, предупреждений 0 (см. запись «Windows-матрица» ниже).
+**Проверено:** разбор AST PowerShell, `-Help`; холостые прогоны `-Compilers v145 -DryRun` (в баннере `formats: zip, -Werror`, в команде `--cmake-args=-DLUMEX_WERROR=ON`), `-Formats exe` (одним аргументом вместе с `-DCPACK_*`) и `-Formats exe -NoWerror` (в команде только `-DCPACK_*`, в баннере нет `-Werror`). Полный прогон `-Compilers v145,D:\local\LLVM\bin\clang-cl.exe -Formats zip` с включенным `-Werror`: обе сборки и оба пакета, предупреждений 0 (см. запись «Windows-матрица» ниже).
 
 #### Изменено
 
