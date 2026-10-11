@@ -35,3 +35,9 @@ lumex_example_executable(
   LINK lumex::circular_buffer
   REQUIRE_TARGET lumex::circular_buffer
 )
+lumex_example_executable(
+  NAME LumexCircularBufferExampleEditing
+  SOURCE example_circular_buffer_editing.cpp
+  LINK lumex::circular_buffer
+  REQUIRE_TARGET lumex::circular_buffer
+)

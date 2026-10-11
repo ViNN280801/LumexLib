@@ -12,15 +12,12 @@ main ()
 {
   std::cout << "=== Checked access, capacity and moved-from buffers ===\n\n";
 
-  // A zero capacity is refused: there is no empty "unallocated" buffer.
-  try
-    {
-      circular_buffer<int> none (0);
-    }
-  catch (std::length_error const &error)
-    {
-      std::cout << "capacity 0: " << error.what () << '\n';
-    }
+  // A zero capacity is allowed: the buffer is valid, empty and full, and
+  // push_back does nothing.
+  circular_buffer<int> none (0);
+  none.push_back (1);
+  std::cout << "capacity 0: size=" << none.size ()
+            << " full=" << (none.full () ? "yes" : "no") << '\n';
 
   circular_buffer<std::string> log (2);
   // front(), back() and operator[] are unchecked; at(), front_safe() and
@@ -47,7 +44,8 @@ main ()
       std::cout << "at(2): out_of_range\n";
     }
 
-  // A moved-from buffer has capacity 0: assign to it before the next push.
+  // A moved-from buffer has capacity 0 and is valid (push does nothing):
+  // assign to it to use it again.
   circular_buffer<std::string> moved (std::move (log));
   std::cout << "moved-from capacity=" << log.capacity ()
             << " size=" << log.size () << '\n';
