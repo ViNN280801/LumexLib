@@ -337,6 +337,14 @@ lumex_add_consumer_test(consumer_standard_mismatch_lib20_consumer11
 # by a C++11 unit is searched by a C++17 (and C++20) program.
 lumex_add_consumer_test(consumer_string_view_hash_standard_mismatch
     string_view_hash_standard_mismatch)
+# The string views compile without exceptions (the throwing paths terminate)
+# and still throw std::out_of_range with them.
+lumex_add_consumer_test(consumer_string_view_no_exceptions_cxx11
+    string_view_no_exceptions -DSV_STD=11 -DSV_EXCEPTIONS=OFF)
+lumex_add_consumer_test(consumer_string_view_no_exceptions_cxx17
+    string_view_no_exceptions -DSV_STD=17 -DSV_EXCEPTIONS=OFF)
+lumex_add_consumer_test(consumer_string_view_exceptions_cxx11
+    string_view_no_exceptions -DSV_STD=11 -DSV_EXCEPTIONS=ON)
 # Before C++20 the lock-based atomic smart pointers sleep on a table in a
 # function-local static; two shared libraries built with hidden visibility
 # must share it (skipped on Windows, where DLLs cannot).

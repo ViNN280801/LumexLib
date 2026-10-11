@@ -725,7 +725,7 @@ TEST_F (LumexWStringViewTest, ThreadSafeReads)
 {
   lumex_wstring_view wsv (test_wstring);
   std::vector<std::thread> threads;
-  std::vector<bool> results (10, false);
+  std::vector<int> results (10, 0);
 
   for (int i = 0; i < 10; ++i)
     {
@@ -741,8 +741,8 @@ TEST_F (LumexWStringViewTest, ThreadSafeReads)
   for (auto &thread : threads)
     thread.join ();
 
-  for (bool result : results)
-    EXPECT_TRUE (result);
+  for (int result : results)
+    EXPECT_NE (result, 0);
 }
 
 // --- Platform-Specific Tests

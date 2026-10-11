@@ -8,6 +8,7 @@
 
 #include <gtest/gtest.h>
 
+#include "LumexStringViewTestSupport.hpp"
 #include "lumex/core/string_view/LumexStringView"
 
 // The members and constructors that the view has beyond the first version of
@@ -487,4 +488,22 @@ TEST (LumexStringViewApiTest,
   std::wstring wide = L"wide";
   lumex_wstring_view const from_wide_string (wide);
   EXPECT_EQ (from_wide_string.size (), 4U);
+}
+
+TEST (LumexStringViewApiTest, GivenCopy_WhenCopyOut_ThenThroughTraitsCopy)
+{
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ < 9
+  // GCC 8 has only __builtin_constant_p: a count that the optimizer proves
+  // constant takes the library's own loop (correct, but not Traits::copy).
+  GTEST_SKIP () << "no __builtin_is_constant_evaluated";
+#endif
+  lumex_sv_test::counting_view const view ("abcdef");
+  char buffer[8] = {};
+  lumex_sv_test::counting_traits::copies () = 0;
+  EXPECT_EQ (view.copy (buffer, 3, 2), 3U);
+  EXPECT_EQ (std::string (buffer, 3), "cde");
+  EXPECT_EQ (lumex_sv_test::counting_traits::copies (), 1);
+  EXPECT_EQ (view.copy (buffer, 3, 6), 0U);
+  EXPECT_EQ (lumex_sv_test::counting_traits::copies (), 1)
+      << "nothing to copy: no call";
 }

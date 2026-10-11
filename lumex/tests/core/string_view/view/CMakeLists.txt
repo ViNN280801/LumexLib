@@ -14,8 +14,8 @@
 #                                  files: the conversions to and from
 #                                  std::string_view and std::wstring_view, the
 #                                  comparisons with them, the differential
-#                                  tests against them, std::hash equal to
-#                                  theirs, constexpr reverse iterators
+#                                  tests against them, constexpr reverse
+#                                  iterators
 #   LumexStringViewViewCxx20Tests  the same files at C++20 and the .cxx20
 #                                  files: operator<=>, the ranges concepts and
 #                                  the iterator-pair constructor

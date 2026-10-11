@@ -51,6 +51,8 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cwchar>
+#include <ios>
 #include <memory>
 #include <string>
 #include <vector>
@@ -59,6 +61,8 @@
 
 namespace lumex_sv_test
 {
+using lumex::core::string_view::view::lumex_basic_string_view;
+
 /// The two character types of the views of the library under test.
 template <class CharT> struct char_set;
 
@@ -164,6 +168,120 @@ positions (std::size_t size)
   result.push_back (static_cast<std::size_t> (-1) - 1);
   return result;
 }
+// Traits without a comparison_category, comparing without regard to case.
+struct caseless_traits
+{
+  typedef char char_type;
+  typedef int int_type;
+  typedef std::streamoff off_type;
+  typedef std::streampos pos_type;
+  typedef std::mbstate_t state_type;
+  static constexpr char
+  fold (char c) noexcept
+  {
+    return (c >= 'A' && c <= 'Z') ? static_cast<char> (c - 'A' + 'a') : c;
+  }
+  static void
+  assign (char &r, char const &a) noexcept
+  {
+    r = a;
+  }
+  static constexpr bool
+  eq (char a, char b) noexcept
+  {
+    return fold (a) == fold (b);
+  }
+  static constexpr bool
+  lt (char a, char b) noexcept
+  {
+    return fold (a) < fold (b);
+  }
+  static int
+  compare (char const *a, char const *b, std::size_t n)
+  {
+    for (std::size_t i = 0; i < n; ++i)
+      {
+        if (lt (a[i], b[i]))
+          return -1;
+        if (lt (b[i], a[i]))
+          return 1;
+      }
+    return 0;
+  }
+  static std::size_t
+  length (char const *s)
+  {
+    return std::char_traits<char>::length (s);
+  }
+  static char const *
+  find (char const *s, std::size_t n, char const &c)
+  {
+    for (std::size_t i = 0; i < n; ++i)
+      if (eq (s[i], c))
+        return s + i;
+    return nullptr;
+  }
+  static char *
+  move (char *d, char const *s, std::size_t n)
+  {
+    return std::char_traits<char>::move (d, s, n);
+  }
+  static char *
+  copy (char *d, char const *s, std::size_t n)
+  {
+    return std::char_traits<char>::copy (d, s, n);
+  }
+  static char *
+  assign (char *d, std::size_t n, char c)
+  {
+    return std::char_traits<char>::assign (d, n, c);
+  }
+  static constexpr char
+  to_char_type (int_type i) noexcept
+  {
+    return static_cast<char> (i);
+  }
+  static constexpr int_type
+  to_int_type (char c) noexcept
+  {
+    return static_cast<unsigned char> (c);
+  }
+  static constexpr bool
+  eq_int_type (int_type a, int_type b) noexcept
+  {
+    return a == b;
+  }
+  static constexpr int_type
+  eof () noexcept
+  {
+    return -1;
+  }
+  static constexpr int_type
+  not_eof (int_type i) noexcept
+  {
+    return i == -1 ? 0 : i;
+  }
+};
+
+// Traits that count their copy () calls (the view must copy through them).
+struct counting_traits : std::char_traits<char>
+{
+  static int &
+  copies ()
+  {
+    static int count = 0;
+    return count;
+  }
+  static char *
+  copy (char *dest, char const *src, std::size_t count)
+  {
+    ++copies ();
+    return std::char_traits<char>::copy (dest, src, count);
+  }
+};
+
+typedef lumex_basic_string_view<char, counting_traits> counting_view;
+typedef lumex_basic_string_view<char, caseless_traits> caseless_view;
 } // namespace lumex_sv_test
 
 #endif // LUMEX_TESTS_CORE_STRING_VIEW_VIEW_TEST_SUPPORT_HPP
