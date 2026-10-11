@@ -20,11 +20,9 @@ standard, named LumexStringViewBench_<impl>_cxx<std>
      scenario (a scenario with different checksums is an error: the numbers
      would compare different work),
   5. asks every executable once for the layout and the traits of the view,
-  6. writes library.csv when a build tree has a compiled string_view library
-     (the view is header-only now, so normally none),
-  7. optionally measures the compile time of one translation unit per variant
+  6. optionally measures the compile time of one translation unit per variant
      (--compile-time), and
-  8. writes string_view_benchmark.csv, string_view_traits.csv (and
+  7. writes string_view_benchmark.csv, string_view_traits.csv (and
      compile_time.csv) and calls plot_results.py for the Markdown table and
      the SVG charts.
 
@@ -306,51 +304,6 @@ def compile_times(compilers, boost_include, repeats, cpu):
     return rows
 
 
-def library_rows(build_dirs):
-    """Size and exported symbols of the compiled part, per build tree."""
-    rows = []
-    for toolchain, build_dir in build_dirs:
-        candidates = (glob.glob(os.path.join(build_dir, "bin",
-                                             "libLumexCore_string_view.so"))
-                      + glob.glob(os.path.join(build_dir, "lib",
-                                               "libLumexCore_string_view.a"))
-                      + glob.glob(os.path.join(build_dir, "bin",
-                                               "libLumexCore_string_view.a"))
-                      + glob.glob(os.path.join(
-                          build_dir, "**", "libLumexCore_string_view.a"),
-                          recursive=True))
-        if not candidates:
-            continue
-        path = os.path.realpath(candidates[0])
-        kind = "shared" if path.endswith(".so") or ".so." in path else "static"
-        nm_flags = ["-C", "--defined-only"] + (["-D"] if kind == "shared"
-                                               else [])
-        symbols = subprocess.run(["nm"] + nm_flags + [path],
-                                 stdout=subprocess.PIPE,
-                                 universal_newlines=True).stdout.splitlines()
-        text = [s for s in symbols if re.match(r"^[0-9a-f]+ [TWi] ", s)]
-        narrow = [s for s in text if "lumex_string_view" in s]
-        wide = [s for s in text if "lumex_wstring_view" in s]
-        stripped = os.path.join(tempfile.gettempdir(),
-                                "lumex_sv_strip_%d" % os.getpid())
-        shutil.copyfile(path, stripped)
-        subprocess.run(["strip", "--strip-unneeded", stripped])
-        stripped_size = os.path.getsize(stripped)
-        os.remove(stripped)
-        rows.append({
-            "toolchain": toolchain,
-            "kind": kind,
-            "file": os.path.basename(path),
-            "bytes": os.path.getsize(path),
-            "stripped_bytes": stripped_size,
-            "text_bytes": text_bytes(path),
-            "defined_text_symbols": len(text),
-            "narrow_symbols": len(narrow),
-            "wide_symbols": len(wide),
-        })
-    return rows
-
-
 def write_traits(executables, path):
     """Asks every executable for the layout and the traits of the view."""
     rows = []
@@ -507,16 +460,6 @@ def main():
 
     write_traits(executables, os.path.join(args.out_dir,
                                            "string_view_traits.csv"))
-    libs = library_rows(build_dirs)
-    if libs:
-        lib_path = os.path.join(args.out_dir, "library.csv")
-        with open(lib_path, "w", newline="") as handle:
-            writer = csv.DictWriter(handle, lineterminator="\n",
-                                    fieldnames=list(libs[0].keys()))
-            writer.writeheader()
-            writer.writerows(libs)
-        log("wrote " + lib_path)
-
     if args.compile_time:
         measure_compile_time(args, compile_path)
     finish(args, csv_path, compile_path)
