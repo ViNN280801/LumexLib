@@ -68,7 +68,7 @@ bool const soak_sim_suite = false;
       GTEST_SKIP () << "set LUMEX_TEST_SOAK to run the soak tests";                                        \
     scenario_def_t const &def = scenario_of (sc_##Id);                                                     \
     run_result_t const result                                                                              \
-        = run_scenario (sc_##Id, pol_##Policy, soak_budget (def.nthreads));                                \
+        = run_scenario (sc_##Id, pol_##Policy, soak_budget (def));                                         \
     EXPECT_GT (result.dfs.schedules, 0);                                                                   \
     if (def.cov && !result.dfs.capped)                                                                     \
       EXPECT_TRUE (result.covered)                                                                         \

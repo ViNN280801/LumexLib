@@ -95,6 +95,15 @@ enum scenario_id_t
   sc_TL,
   sc_SC,
   sc_SCL,
+  sc_TB,
+  sc_HC,
+  sc_HM,
+  sc_XB,
+  sc_E1,
+  sc_WX,
+  sc_WC,
+  sc_WCW,
+  sc_SW,
   sc_count
 };
 
@@ -104,13 +113,14 @@ enum policy_id_t
   pol_R8,
   pol_R0,
   pol_L2,
+  pol_L1,
   pol_count
 };
 
 inline char const *
 policy_name (policy_id_t policy)
 {
-  static char const *const names[pol_count] = { "R8", "R0", "L2" };
+  static char const *const names[pol_count] = { "R8", "R0", "L2", "L1" };
   return names[policy];
 }
 
@@ -127,7 +137,11 @@ enum op_kind_t
   op_rc,  ///< held[a] = a new block in slot b (enabled while the slot is free)
   op_wld, ///< weak[a] = weak_cell.load ()
   op_wst, ///< weak_cell.store (move (weak[a]))
-  op_wrs  ///< weak[a].reset ()
+  op_wrs, ///< weak[a].reset ()
+  op_casw, ///< ok = cell.compare_exchange_weak (held[a], move (held[b]))
+  op_wxc,  ///< weak[b] = weak_cell.exchange (move (weak[a]))
+  op_wcas, ///< weak_cell.compare_exchange_strong (weak[a], move (weak[b]))
+  op_wcasw ///< weak_cell.compare_exchange_weak (weak[a], move (weak[b]))
 };
 
 struct op_t
@@ -150,15 +164,24 @@ enum flavor_t
 /// and the flavor.
 struct vspec_t
 {
-  int slot;
+  int slot; ///< -1: no value at all; -2: an empty pointer with a stored
+            ///< pointer
   int flavor;
+  int alt; ///< 1: the second far alias (+8 bytes); 2: the stored empty pointer
 };
 
 inline vspec_t
-vs (int slot, int flavor = fl_plain)
+vs (int slot, int flavor = fl_plain, int alt = 0)
 {
-  vspec_t const v = { slot, flavor };
+  vspec_t const v = { slot, flavor, alt };
   return v;
+}
+
+/// An empty smart pointer that stores a pointer (an alias of no owner).
+inline vspec_t
+raw_empty ()
+{
+  return vs (-2, fl_plain, 2);
 }
 
 inline vspec_t
@@ -193,8 +216,10 @@ struct scenario_def_t
   thread_def_t threads[6];
   unsigned policies; ///< mask of `1u << policy_id_t`
   std::vector<std::string> rows;
-  int outcomes; ///< the number of expected outcomes of the table
-  bool cov;     ///< COVERAGE is asserted at the soak bound
+  int outcomes;     ///< the number of expected outcomes of the table
+  bool cov;         ///< COVERAGE is asserted at the soak bound
+  int quick_bound;  ///< the preemption bound of the quick run (0: by threads)
+  bool bound1_pass; ///< the soak run adds a complete bound-1 pass first
   std::set<std::string> expected;
 };
 
@@ -247,7 +272,7 @@ th_W (scenario_def_t &s, vspec_t v0, vspec_t v1 = vs (-1),
   vspec_t const values[3] = { v0, v1, v2 };
   for (int i = 0; i < 3; ++i)
     {
-      if (values[i].slot < 0)
+      if (values[i].slot == -1)
         break;
       if (values[i].flavor == fl_recreate)
         add_op (t, op_rc, i, values[i].slot);
@@ -285,6 +310,39 @@ th_X (scenario_def_t &s, vspec_t d)
   t.held[0] = d;
   add_op (t, op_xc, 0, 1);
   add_op (t, op_rs, 1);
+}
+
+/// `Cw (e -> d)`: the weak form, `[casw 0 1, rs 0]`.
+inline void
+th_Cw (scenario_def_t &s, vspec_t e, vspec_t d)
+{
+  thread_def_t &t = new_thread (s);
+  t.held[0] = e;
+  t.held[1] = d;
+  add_op (t, op_casw, 0, 1);
+  add_op (t, op_rs, 0);
+}
+
+/// The weak exchange: `[wxc 0 1, wrs 1]` with `weak[0]` naming @p d.
+inline void
+th_WX (scenario_def_t &s, vspec_t d)
+{
+  thread_def_t &t = new_thread (s);
+  t.weak[0] = d;
+  add_op (t, op_wxc, 0, 1);
+  add_op (t, op_wrs, 1);
+}
+
+/// The weak compare-exchange: `[wcas 0 1, wrs 0]` (`[wcasw 0 1, wrs 0]` when
+/// @p weak_form).
+inline void
+th_WC (scenario_def_t &s, vspec_t e, vspec_t d, bool weak_form)
+{
+  thread_def_t &t = new_thread (s);
+  t.weak[0] = e;
+  t.weak[1] = d;
+  add_op (t, weak_form ? op_wcasw : op_wcas, 0, 1);
+  add_op (t, op_wrs, 0);
 }
 
 /// The weak loader of W1: `[wld 0, lk 0 0, rs 0, wrs 0]`.
@@ -409,6 +467,8 @@ begin (std::vector<scenario_def_t> &table, scenario_id_t id, char const *name,
   s.policies = (1u << pol_R8) | (1u << pol_R0);
   s.outcomes = 0;
   s.cov = true;
+  s.quick_bound = 0;
+  s.bound1_pass = false;
   return s;
 }
 
@@ -511,6 +571,7 @@ build_table ()
   th_K (*s, 1);
   keepers_in_threads (*s);
   s->cov = false;
+  s->bound1_pass = true;
   expect (*s, 8, "0:{A,B}|1:{A,B}|final={A,B}");
 
   s = &begin (t, sc_S09, "S09", engine_shared, A, blockAB);
@@ -558,7 +619,7 @@ build_table ()
   th_W (*s, B, rec (0));
   th_K (*s, 0);
   keepers_in_threads (*s);
-  s->cov = false;
+  s->cov = true;
   expect (*s, 18, "0:{A,B,A'}|1:{A,B,A'}|2:{T,F/B}|final=A'");
 
   s = &begin (t, sc_S15, "S15", engine_shared, A, blockAB);
@@ -568,7 +629,7 @@ build_table ()
   th_K (*s, 0);
   th_K (*s, 1);
   keepers_in_threads (*s);
-  s->cov = false;
+  s->cov = true;
   expect (*s, 8, "0:{A,B},{A,B}|1:{A,B}|final=B");
 
   s = &begin (t, sc_S16, "S16", engine_shared, A, blockAB);
@@ -578,7 +639,7 @@ build_table ()
   th_W (*s, B, A);
   th_K (*s, 0);
   keepers_in_threads (*s);
-  s->cov = false;
+  s->cov = true;
   s->policies |= 1u << pol_L2;
   expect (*s, 8, "0:{A,B}|1:{A,B}|2:{A,B}|final=A");
 
@@ -620,20 +681,20 @@ build_table ()
   th_WW (*s, vs (1));
   th_K (*s, 0);
   keepers_in_threads (*s);
-  s->policies = 1u << pol_R8;
+  s->policies = (1u << pol_R8) | (1u << pol_R0);
   expect (*s, 3, "0:wA,{A,-}|final=wB", "0:wB,B|final=wB");
 
   s = &begin (t, sc_W2, "W2", engine_weak, Af, blockAB);
   th_WL (*s);
   th_WW (*s, vs (1));
-  s->policies = 1u << pol_R8;
+  s->policies = (1u << pol_R8) | (1u << pol_R0);
   expect (*s, 2, "0:{wA~f,wB}|final=wB");
 
   s = &begin (t, sc_W3, "W3", engine_weak, A, blockABD);
   th_WL (*s);
   th_WW (*s, vs (1));
   th_WW (*s, vs (2));
-  s->policies = 1u << pol_R8;
+  s->policies = (1u << pol_R8) | (1u << pol_R0);
   expect (*s, 6, "0:{wA,wD,wB}|final=wB", "0:{wA,wB,wD}|final=wD");
 
   // -- lock and expired racing the last release --
@@ -690,6 +751,7 @@ build_table ()
   th_L (*s, 1);
   th_W (*s, B);
   s->policies = 1u << pol_R0;
+  s->quick_bound = 3; // the top-up needs three preemptions (M36)
   expect (*s, 4, "0:{A,B}|1:{A,B}|final=B");
 
   s = &begin (t, sc_TL, "TL", engine_shared, A, blockAB);
@@ -710,6 +772,80 @@ build_table ()
   th_L (*s, 1);
   th_C (*s, A, D);
   expect (*s, 2, "0:{A,D}|1:T|final=D");
+
+  // -- The tick limit of 1: the loader and the writer both back off --
+  s = &begin (t, sc_TB, "TB", engine_shared, A, blockAB);
+  th_L (*s, 1);
+  th_L (*s, 1);
+  th_W (*s, B);
+  s->policies = 1u << pol_L1;
+  expect (*s, 4, "0:{A,B}|1:{A,B}|final=B");
+
+  // -- A holder compare-exchange against another alias of the same owner
+  // (the stored pointers differ: no match), and a matching one, with the
+  // tick limit of 2 so that it backs off --
+  vspec_t const Ag = vs (0, fl_far, 1);
+  s = &begin (t, sc_HC, "HC", engine_shared, Af, blockAB);
+  th_L (*s, 1);
+  th_L (*s, 1);
+  th_C (*s, Ag, B);
+  s->policies = (1u << pol_R8) | (1u << pol_L2);
+  expect (*s, 1, "0:A~f|1:A~f|2:F/A~f|final=A~f");
+
+  s = &begin (t, sc_HM, "HM", engine_shared, Af, blockAB);
+  th_L (*s, 1);
+  th_L (*s, 1);
+  th_C (*s, Af, B);
+  s->policies = 1u << pol_L2;
+  expect (*s, 4, "0:{A~f,B}|1:{A~f,B}|2:T|final=B");
+
+  // -- The exchange of a block word with a member alias --
+  s = &begin (t, sc_XB, "XB", engine_shared, Am, blockAB);
+  th_L (*s, 1);
+  th_X (*s, B);
+  expect (*s, 2, "0:{A.m,B}|1:A.m|final=B");
+
+  // -- An empty pointer with a stored pointer, stored and held --
+  s = &begin (t, sc_E1, "E1", engine_shared, raw_empty (), blockAB);
+  th_L (*s, 1);
+  th_L (*s, 1);
+  th_W (*s, B, raw_empty ());
+  expect (*s, 4, "0:{-*,B}|1:{-*,B}|final=-*");
+
+  // -- The weak engine: exchange and compare-exchange, both forms --
+  vspec_t const wA = vs (0);
+  vspec_t const wB = vs (1);
+  vspec_t const wD = vs (2);
+  s = &begin (t, sc_WX, "WX", engine_weak, wA, blockABD);
+  th_WL (*s);
+  th_WL (*s);
+  th_WX (*s, wB);
+  s->policies = (1u << pol_R8) | (1u << pol_R0) | (1u << pol_L2);
+  expect (*s, 4, "0:{wA,wB}|1:{wA,wB}|2:wA|final=wB");
+
+  s = &begin (t, sc_WC, "WC", engine_weak, wA, blockABD);
+  th_WL (*s);
+  th_WC (*s, wA, wB, false);
+  th_WW (*s, wD);
+  s->policies = (1u << pol_R8) | (1u << pol_R0) | (1u << pol_L2);
+  expect (*s, 5, "0:{wA,wB,wD}|1:T|final=wD", "0:{wA,wD}|1:F/wD|final=wD");
+
+  s = &begin (t, sc_WCW, "WCW", engine_weak, wA, blockABD);
+  th_WL (*s);
+  th_WC (*s, wA, wB, true);
+  th_WW (*s, wD);
+  s->policies = (1u << pol_R8) | (1u << pol_R0) | (1u << pol_L2);
+  // A weak compare-exchange that fails although the value is equivalent
+  // (a loader's tick changed the word) leaves that loader on A.
+  expect (*s, 6, "0:{wA,wB,wD}|1:T|final=wD", "0:{wA,wD}|1:F/wD|final=wD",
+          "0:wA|1:F/wA|final=wD");
+
+  // -- The weak form on the shared engine --
+  s = &begin (t, sc_SW, "SW", engine_shared, A, blockAB);
+  th_L (*s, 1);
+  th_L (*s, 1);
+  th_Cw (*s, A, B);
+  expect (*s, 5, "0:{A,B}|1:{A,B}|2:T|final=B", "0:A|1:A|2:F/A|final=A");
   return t;
 }
 } // namespace detail
@@ -816,7 +952,29 @@ scenario_runs_policy (scenario_def_t const &s, policy_id_t policy)
   X (SC, R0)                                                                  \
   X (SCL, R0)                                                                 \
   X (TL, L2)                                                                  \
-  X (S16, L2)
+  X (S16, L2)                                                                 \
+  X (TB, L1)                                                                  \
+  X (HC, R8)                                                                  \
+  X (HC, L2)                                                                  \
+  X (HM, L2)                                                                  \
+  X (XB, R8)                                                                  \
+  X (XB, R0)                                                                  \
+  X (E1, R8)                                                                  \
+  X (E1, R0)                                                                  \
+  X (W1, R0)                                                                  \
+  X (W2, R0)                                                                  \
+  X (W3, R0)                                                                  \
+  X (WX, R8)                                                                  \
+  X (WX, R0)                                                                  \
+  X (WX, L2)                                                                  \
+  X (WC, R8)                                                                  \
+  X (WC, R0)                                                                  \
+  X (WC, L2)                                                                  \
+  X (WCW, R8)                                                                 \
+  X (WCW, R0)                                                                 \
+  X (WCW, L2)                                                                 \
+  X (SW, R8)                                                                  \
+  X (SW, R0)
 
 #endif // LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
 

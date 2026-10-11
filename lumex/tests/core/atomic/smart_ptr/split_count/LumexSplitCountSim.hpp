@@ -226,12 +226,14 @@ struct val_t
   signed char flavor;
   signed char hslot; ///< the holder arena slot of a holder word, else -1
   bool weak;
+  signed char
+      alt; ///< 1: the second far alias (+8); 2: an empty stored pointer
 };
 
 inline val_t
 empty_val (bool weak = false)
 {
-  val_t const v = { -1, 0, 0, -1, weak };
+  val_t const v = { -1, 0, 0, -1, weak, 0 };
   return v;
 }
 
@@ -245,9 +247,9 @@ inline bool
 veq (val_t const &a, val_t const &b)
 {
   if (a.slot < 0 || b.slot < 0)
-    return a.slot == b.slot && a.weak == b.weak;
+    return a.slot == b.slot && a.weak == b.weak && a.alt == b.alt;
   return a.slot == b.slot && a.gen == b.gen && a.flavor == b.flavor
-         && a.weak == b.weak;
+         && a.weak == b.weak && a.alt == b.alt;
 }
 
 /// Same block (slot and generation), whatever the flavor.
@@ -271,7 +273,7 @@ label_text (val_t const &v)
     text += 'w';
   if (v.slot < 0)
     {
-      text += '-';
+      text += v.alt == 2 ? "-*" : "-";
       return text;
     }
   text += v.slot < 6 ? "ABDEFG"[v.slot] : '?';
@@ -280,7 +282,7 @@ label_text (val_t const &v)
   if (v.flavor == fl_member)
     text += ".m";
   else if (v.flavor == fl_far)
-    text += "~f";
+    text += v.alt == 1 ? "~g" : "~f";
   else if (v.flavor != fl_plain)
     text += "?";
   return text;
@@ -573,11 +575,15 @@ inline sim_obj_t::sim_obj_t (int identity)
 inline sim_obj_t::~sim_obj_t ()
 {
   sim_mem_t &m = mem ();
-  if (magic != live_magic ())
+  // Read and written through volatile: the compiler may drop a store to an
+  // object that is being destroyed, and then neither a second destruction nor
+  // a read of a destroyed object would show.
+  volatile std::uint64_t *const mark = &magic;
+  if (*mark != live_magic ())
     ++m.double_dispose;
   else
     {
-      magic = dead_magic ();
+      *mark = dead_magic ();
       --m.live_objects;
     }
 }
@@ -710,11 +716,17 @@ inline val_t
 classify (ctl_t *block, void const *stored, bool weak)
 {
   if (block == nullptr)
-    return empty_val (weak);
+    {
+      val_t e = empty_val (weak);
+      if (stored != nullptr)
+        e.alt = 2;
+      return e;
+    }
   sim_mem_t &m = mem ();
   val_t v;
   v.weak = weak;
   v.hslot = -1;
+  v.alt = 0;
   int const raw_slot = m.obj.slot_of (block);
   if (raw_slot < 0)
     {
@@ -739,6 +751,11 @@ classify (ctl_t *block, void const *stored, bool weak)
     v.flavor = fl_member;
   else if (address == anchor + (std::uintptr_t (1) << 41))
     v.flavor = fl_far;
+  else if (address == anchor + (std::uintptr_t (1) << 41) + 8u)
+    {
+      v.flavor = fl_far;
+      v.alt = 1;
+    }
   else
     v.flavor = 9;
   return v;
@@ -759,15 +776,23 @@ value_of (sp::weak_ptr<sim_obj_t> const &p)
 
 /// A pointer that names the value @p spec of the block in the base slot.
 inline sim_obj_t *
-alias_of (sim_obj_t *object, int flavor)
+alias_of (sim_obj_t *object, int flavor, int alt = 0)
 {
   std::uintptr_t const address = reinterpret_cast<std::uintptr_t> (object);
   if (flavor == fl_member)
     return reinterpret_cast<sim_obj_t *> (address + 12u);
   if (flavor == fl_far)
-    return reinterpret_cast<sim_obj_t *> (address
-                                          + (std::uintptr_t (1) << 41));
+    return reinterpret_cast<sim_obj_t *> (address + (std::uintptr_t (1) << 41)
+                                          + (alt == 1 ? 8u : 0u));
   return object;
+}
+
+/// The stored pointer of an empty smart pointer that stores one (E1).
+inline sim_obj_t *
+raw_marker ()
+{
+  static unsigned char storage[16];
+  return reinterpret_cast<sim_obj_t *> (storage);
 }
 
 // -- The oracles (the names printed after `oracles=`) --
@@ -814,6 +839,18 @@ oracle_name (oracle_t o)
           "PEAK",      "OUTCOME",  "LEAK",    "PROGRESS", "HANG", "DEADLOCK",
           "TIME",      "COVERAGE", "NONDET" };
   return names[o];
+}
+
+/// The factor of every time limit (`LUMEX_SIM_TIME_SCALE`, default 1) for
+/// slow trees such as the sanitizer builds.
+inline double
+time_scale ()
+{
+  char const *const text = std::getenv ("LUMEX_SIM_TIME_SCALE");
+  if (text == nullptr)
+    return 1.0;
+  double const value = std::atof (text);
+  return value > 0.0 ? value : 1.0;
 }
 
 // -- The explorer: baton, threads, depth-first search with a preemption bound
@@ -1377,8 +1414,11 @@ private:
     std::unique_lock<std::mutex> lock (mutex_);
     turn_ = x;
     rec_[x].cv.notify_one ();
-    bool const ok = sched_cv_.wait_for (lock, std::chrono::seconds (10), [this]
-                                          { return turn_ == sched_turn; });
+    bool const ok
+        = sched_cv_.wait_for (lock,
+                              std::chrono::milliseconds (
+                                  static_cast<long> (10000.0 * time_scale ())),
+                              [this] { return turn_ == sched_turn; });
     if (!ok)
       {
         char text[240];
@@ -1729,6 +1769,7 @@ struct sim_policy_t
 typedef sim_policy_t<8u, 0xFFFFFFu> sim_r8_t;
 typedef sim_policy_t<0u, 0xFFFFFFu> sim_r0_t;
 typedef sim_policy_t<8u, 2u> sim_l2_t;
+typedef sim_policy_t<8u, 1u> sim_l1_t;
 
 // -- The cells --
 
@@ -1746,8 +1787,12 @@ public:
   virtual void st (strong_t &in) = 0;
   virtual void xc (strong_t &in, strong_t &out) = 0;
   virtual bool cas (strong_t &expected, strong_t &desired) = 0;
+  virtual bool casw (strong_t &expected, strong_t &desired) = 0;
   virtual void wld (weak_t &out) = 0;
   virtual void wst (weak_t &in) = 0;
+  virtual void wxc (weak_t &in, weak_t &out) = 0;
+  virtual bool wcas (weak_t &expected, weak_t &desired) = 0;
+  virtual bool wcasw (weak_t &expected, weak_t &desired) = 0;
 };
 
 template <typename Policy> class shared_cell_ops_t : public cell_ops_t
@@ -1787,6 +1832,14 @@ public:
                                           std::memory_order_seq_cst);
   }
 
+  bool
+  casw (strong_t &expected, strong_t &desired) override
+  {
+    return cell_.compare_exchange_weak (expected, std::move (desired),
+                                        std::memory_order_seq_cst,
+                                        std::memory_order_seq_cst);
+  }
+
   void
   wld (weak_t &) override
   {
@@ -1795,6 +1848,24 @@ public:
 
   void
   wst (weak_t &) override
+  {
+    std::abort ();
+  }
+
+  void
+  wxc (weak_t &, weak_t &) override
+  {
+    std::abort ();
+  }
+
+  bool
+  wcas (weak_t &, weak_t &) override
+  {
+    std::abort ();
+  }
+
+  bool
+  wcasw (weak_t &, weak_t &) override
   {
     std::abort ();
   }
@@ -1838,6 +1909,12 @@ public:
     std::abort ();
   }
 
+  bool
+  casw (strong_t &, strong_t &) override
+  {
+    std::abort ();
+  }
+
   void
   wld (weak_t &out) override
   {
@@ -1848,6 +1925,28 @@ public:
   wst (weak_t &in) override
   {
     cell_.store (std::move (in), std::memory_order_seq_cst);
+  }
+
+  void
+  wxc (weak_t &in, weak_t &out) override
+  {
+    out = cell_.exchange (std::move (in), std::memory_order_seq_cst);
+  }
+
+  bool
+  wcas (weak_t &expected, weak_t &desired) override
+  {
+    return cell_.compare_exchange_strong (expected, std::move (desired),
+                                          std::memory_order_seq_cst,
+                                          std::memory_order_seq_cst);
+  }
+
+  bool
+  wcasw (weak_t &expected, weak_t &desired) override
+  {
+    return cell_.compare_exchange_weak (expected, std::move (desired),
+                                        std::memory_order_seq_cst,
+                                        std::memory_order_seq_cst);
   }
 
 private:
@@ -1902,6 +2001,8 @@ policy_info (policy_id_t id)
       return make_policy_info<sim_r0_t> (pol_R0, 0u, 0xFFFFFFu);
     case pol_L2:
       return make_policy_info<sim_l2_t> (pol_L2, 8u, 2u);
+    case pol_L1:
+      return make_policy_info<sim_l1_t> (pol_L1, 8u, 1u);
     case pol_R8:
     case pol_count:
     default:
@@ -1961,6 +2062,7 @@ struct gthread_t
   val_t arg;
   val_t expected;
   bool built;
+  bool weak_form; ///< compare_exchange_weak: no retry on an equivalent value
   val_t cas_current;
   val_t load_result;
   int swap_hist;
@@ -1994,6 +2096,7 @@ struct gthread_t
     arg = empty_val (weak);
     expected = empty_val (weak);
     built = false;
+    weak_form = false;
     cas_current = empty_val (weak);
     load_result = empty_val (weak);
     swap_hist = -1;
@@ -2211,7 +2314,7 @@ public:
         thread_def_t const &td = def_->threads[t];
         for (int i = 0; i < 4; ++i)
           {
-            if (td.held[i].slot >= 0)
+            if (td.held[i].slot != -1)
               rt_[t].held[i] = alias_strong (base, td.held[i]);
             if (td.weak[i].slot >= 0)
               rt_[t].weak[i] = weak_t (alias_strong (base, td.weak[i]));
@@ -2346,7 +2449,8 @@ public:
     for (int s = 0; s < 6; ++s)
       if (m.obj.is_live (s))
         {
-          h ^= obj_block (s)->strong_counter ().load () + 0x9E37u * (s + 1);
+          h ^= obj_block (s)->strong_counter ().load ()
+               + 0x9E37u * static_cast<unsigned> (s + 1);
           h *= 1099511628211ull;
           h ^= obj_block (s)->weak_counter ().load ();
           h *= 1099511628211ull;
@@ -2354,7 +2458,8 @@ public:
     for (int s = 0; s < hold_arena_t::slot_count; ++s)
       if (m.hold.is_live (s))
         {
-          h ^= hold_block (s)->strong_counter ().load () + 0x7F4Au * (s + 1);
+          h ^= hold_block (s)->strong_counter ().load ()
+               + 0x7F4Au * static_cast<unsigned> (s + 1);
           h *= 1099511628211ull;
         }
     return h;
@@ -2415,10 +2520,12 @@ private:
   static strong_t
   alias_strong (strong_t const *base, vspec_t const &spec)
   {
+    if (spec.slot == -2)
+      return strong_t (strong_t (), raw_marker ());
     strong_t const &b = base[spec.slot];
     if (spec.flavor == fl_plain)
       return b;
-    return strong_t (b, alias_of (b.get (), spec.flavor));
+    return strong_t (b, alias_of (b.get (), spec.flavor, spec.alt));
   }
 
   val_t
@@ -2430,6 +2537,12 @@ private:
     v.flavor = static_cast<signed char> (def_->cell.flavor);
     v.hslot = -1;
     v.weak = weak_engine_;
+    v.alt = static_cast<signed char> (def_->cell.alt);
+    if (def_->cell.slot == -2)
+      {
+        v.slot = -1;
+        v.gen = 0;
+      }
     return v;
   }
 
@@ -2463,6 +2576,13 @@ private:
     if (d.empty)
       {
         d.valid = w.hi == 0u;
+        if (w.hi
+            == static_cast<std::uint64_t> (
+                reinterpret_cast<std::uintptr_t> (raw_marker ())))
+          {
+            d.valid = true;
+            d.value.alt = 2;
+          }
         return d;
       }
     d.ticks = static_cast<int> (word::ticks_of (w));
@@ -2513,6 +2633,7 @@ private:
     v.gen = static_cast<signed char> (m.obj.generation (s));
     v.hslot = -1;
     v.weak = weak_engine_;
+    v.alt = 0;
     if (offset == 0)
       v.flavor = fl_plain;
     else if (offset == 12)
@@ -2598,7 +2719,8 @@ private:
         rt.result_fault = true;
         return;
       }
-    if (v.flavor == fl_plain && p.get ()->magic != live_magic ())
+    if (v.slot >= 0 && v.flavor == fl_plain
+        && p.get ()->magic != live_magic ())
       rt.result_fault = true;
   }
 
@@ -2625,6 +2747,26 @@ private:
           bool const ok = cell_->cas (rt.held[op.a], rt.held[op.b]);
           check_result (rt, rt.held[op.a]);
           push_flag (rt, 'c', ok, value_of (rt.held[op.a]));
+        }
+        break;
+      case op_casw:
+        {
+          bool const ok = cell_->casw (rt.held[op.a], rt.held[op.b]);
+          check_result (rt, rt.held[op.a]);
+          push_flag (rt, 'c', ok, value_of (rt.held[op.a]));
+        }
+        break;
+      case op_wxc:
+        cell_->wxc (rt.weak[op.a], rt.weak[op.b]);
+        push_value (rt, value_of (rt.weak[op.b]));
+        break;
+      case op_wcas:
+      case op_wcasw:
+        {
+          bool const ok = op.kind == op_wcas
+                              ? cell_->wcas (rt.weak[op.a], rt.weak[op.b])
+                              : cell_->wcasw (rt.weak[op.a], rt.weak[op.b]);
+          push_flag (rt, 'c', ok, value_of (rt.weak[op.a]));
         }
         break;
       case op_rs:
@@ -2734,9 +2876,11 @@ private:
       case op_st:
       case op_xc:
       case op_wst:
+      case op_wxc:
         g.role = r_wr;
-        g.exchange = op.kind == op_xc;
-        g.arg = op.kind == op_wst ? sn.weak[op.a] : sn.held[op.a];
+        g.exchange = op.kind == op_xc || op.kind == op_wxc;
+        g.arg = (op.kind == op_wst || op.kind == op_wxc) ? sn.weak[op.a]
+                                                         : sn.held[op.a];
         if (!is_empty_val (g.arg))
           {
             if (g.arg.flavor == fl_far)
@@ -2758,8 +2902,15 @@ private:
                  "a store starts with the swap");
         break;
       case op_cas:
-        g.expected = sn.held[op.a];
-        g.arg = sn.held[op.b];
+      case op_casw:
+      case op_wcas:
+      case op_wcasw:
+        {
+          bool const weak_ptrs = op.kind == op_wcas || op.kind == op_wcasw;
+          g.expected = weak_ptrs ? sn.weak[op.a] : sn.held[op.a];
+          g.arg = weak_ptrs ? sn.weak[op.b] : sn.held[op.b];
+          g.weak_form = op.kind == op_casw || op.kind == op_wcasw;
+        }
         g.role = g.expected.flavor == fl_far ? r_ch : r_cs;
         if (!is_empty_val (g.arg))
           {
@@ -2803,7 +2954,7 @@ private:
       }
     g.cas_current = value;
     g.nested = false;
-    if (veq (value, g.expected))
+    if (!g.weak_form && veq (value, g.expected))
       require (to == pt_cas_read, id, from, to,
                "an equivalent result retries the compare-exchange");
     else if (g.built)
@@ -2931,7 +3082,7 @@ private:
                     "but loaded %s",
                     id, label_text (result.value).c_str (),
                     label_text (g.cas_current).c_str ());
-            if (!result.flag && veq (result.value, g.expected))
+            if (!g.weak_form && !result.flag && veq (result.value, g.expected))
               fail (or_LIN,
                     "thread %d: CAS-STRONG: a strong compare-exchange "
                     "failed but returned %s, equivalent to its "
@@ -2962,14 +3113,17 @@ private:
     if (target.slot < 0 || target.slot >= 6 || rt.nresults == 0)
       return;
     result_t const &result = rt.results[rt.nresults - 1];
-    int const owners_before = owners_[target.slot];
-    if (op.kind == op_lk && is_empty_val (result.value) && owners_before != 0)
-      fail (or_LOCK, "thread %d: lock returned empty with %d owners of %s", id,
-            owners_before, label_text (target).c_str ());
-    if (op.kind == op_ex && result.flag && owners_before != 0)
+    long const use_before = use_prev_[target.slot];
+    if (op.kind == op_lk && is_empty_val (result.value) != (use_before == 0))
+      fail (or_LOCK,
+            "thread %d: lock returned %s with use_count %ld before it (%s)",
+            id, is_empty_val (result.value) ? "empty" : "a pointer",
+            use_before, label_text (target).c_str ());
+    if (op.kind == op_ex && result.flag != (use_before == 0))
       fail (or_EXPIRED,
-            "thread %d: expired returned true with %d owners of %s", id,
-            owners_before, label_text (target).c_str ());
+            "thread %d: expired returned %s with use_count %ld before it (%s)",
+            id, result.flag ? "true" : "false", use_before,
+            label_text (target).c_str ());
   }
 
   /// The row of 2.2 for the step of @p id that resumed at @p P and stopped at
@@ -3078,7 +3232,7 @@ private:
             if (word::is_empty (wb))
               {
                 if (E != pt_load_tick)
-                  end_load (id, P, E, empty_val (weak_engine_));
+                  end_load (id, P, E, before.value);
               }
             else
               require (E == pt_load_tick || E == pt_back_off, id, P, E,
@@ -3379,8 +3533,9 @@ private:
     gthread_t &g = rt_[id].g;
     int const ticks = ticks_of (wb);
     if (wb.lo == g.pinned_lo && ticks >= 1)
-      require (E == again || (E == pt_transfer && ticks - 1 > g.dep), id, P, E,
-               "the same block with other ticks: top up or retry");
+      require (ticks - 1 > g.dep ? E == pt_transfer : E == again, id, P, E,
+               "the same block with other ticks: top up when they outgrew "
+               "the deposit, else retry");
     else if (g.dep > 0)
       require (E == pt_note_untransfer, id, P, E,
                "the block is gone: pay back with the deposit");
@@ -3596,11 +3751,14 @@ private:
         if (mem ().obj.generation (s) == 0u)
           {
             owners_[s] = 0;
+            use_prev_[s] = 0;
             continue;
           }
         quant_t q;
         compute_quant (s, q);
         owners_[s] = owners_of (q);
+        use_prev_[s]
+            = mem ().obj.is_live (s) ? q.counts.count + q.counts.ext : 0;
       }
   }
 
@@ -3745,6 +3903,7 @@ private:
         compute_quant (s, q);
         int const owners = owners_of (q);
         owners_[s] = owners;
+        use_prev_[s] = 0;
         if (!m.obj.is_live (s))
           {
             if (owners > 0 || q.weak_refs > 0)
@@ -3763,10 +3922,13 @@ private:
         sim_obj_t const *const object
             = reinterpret_cast<sim_obj_t const *> (obj_block (s)->anchor ());
         bool const alive = object->magic == live_magic ();
-        if (owners > 0 && alive != (use > 0))
-          fail (or_SAFETY, "block %s: object %s with count+ext %ld",
+        use_prev_[s] = use;
+        if (alive != (use > 0))
+          fail (or_SAFETY,
+                "block %s: object %s (magic %llx) with count+ext %ld",
                 label_text (block_val (s)).c_str (),
-                alive ? "alive" : "destroyed", use);
+                alive ? "alive" : "destroyed",
+                static_cast<unsigned long long> (object->magic), use);
         if (weak_engine_)
           {
             if (owners > 0 || q.weak_refs > 0)
@@ -4275,6 +4437,7 @@ private:
   step_snap_t ring_[ring_size];
   int ring_count_;
   int owners_[6];
+  long use_prev_[6]; ///< count + ext of every live block, before the step
   int executing_op_[max_threads]; ///< the operation the next step from
                                   ///< op_begin runs
   long stepno_;
@@ -4347,23 +4510,15 @@ private:
 /// What one search may spend.
 struct budget_t
 {
+  bool dfs; ///< run the depth-first search (else only the random runs)
   int bound;
-  long cap; ///< schedules of the depth-first search (0: no cap)
+  long cap;          ///< schedules of the depth-first search (0: no cap)
+  bool bound1_first; ///< a complete bound-1 pass before the search
   long random_count;
   std::uint64_t seed;
-  double seconds;
+  double seconds; ///< one limit for all the phases of the run
   bool assert_coverage;
 };
-
-inline double
-time_scale ()
-{
-  char const *const text = std::getenv ("LUMEX_SIM_TIME_SCALE");
-  if (text == nullptr)
-    return 1.0;
-  double const value = std::atof (text);
-  return value > 0.0 ? value : 1.0;
-}
 
 inline std::uint64_t
 sim_seed ()
@@ -4371,30 +4526,39 @@ sim_seed ()
   return 20261010u;
 }
 
-/// The quick budget by the number of threads of the scenario.
+/// The quick budget of a scenario. The depth-first search is left out for
+/// five and six threads (the 200 random schedules remain; the soak run has
+/// the search). The limit stays below the CTest timeout of 300 s whatever
+/// `LUMEX_SIM_TIME_SCALE` is.
 inline budget_t
-quick_budget (int threads)
+quick_budget (scenario_def_t const &def)
 {
+  int const threads = def.nthreads;
   budget_t b;
-  b.bound = threads <= 3 ? 2 : 1;
+  b.dfs = threads < 5;
+  b.bound = def.quick_bound != 0 ? def.quick_bound : (threads <= 3 ? 2 : 1);
   b.cap = threads >= 5 ? 10000 : 0;
+  b.bound1_first = false;
   b.random_count = threads >= 5 ? 200 : 0;
   b.seed = sim_seed ();
-  b.seconds = 120.0 * time_scale ();
+  b.seconds = std::min (120.0 * time_scale (), 280.0);
   b.assert_coverage = false;
   return b;
 }
 
-/// The soak budget by the number of threads of the scenario.
+/// The soak budget of a scenario (a strict superset of the quick one).
 inline budget_t
-soak_budget (int threads)
+soak_budget (scenario_def_t const &def)
 {
+  int const threads = def.nthreads;
   budget_t b;
+  b.dfs = true;
   b.bound = threads <= 3 ? 3 : 2;
   b.cap = threads >= 5 ? 600000 : 0;
+  b.bound1_first = def.bound1_pass;
   b.random_count = threads >= 5 ? 5000 : 0;
   b.seed = sim_seed ();
-  b.seconds = 1800.0 * time_scale ();
+  b.seconds = std::min (1800.0 * time_scale (), 3500.0);
   b.assert_coverage = true;
   return b;
 }
@@ -4406,15 +4570,15 @@ public:
   redirect_guard_t ()
   {
     split_test::sim_alloc_redirect_t &r = split_test::sim_alloc_redirect ();
-    r.allocate = &redirect_allocate;
-    r.release = &redirect_release;
+    r.allocate.store (&redirect_allocate, std::memory_order_relaxed);
+    r.release.store (&redirect_release, std::memory_order_relaxed);
   }
 
   ~redirect_guard_t ()
   {
     split_test::sim_alloc_redirect_t &r = split_test::sim_alloc_redirect ();
-    r.allocate = nullptr;
-    r.release = nullptr;
+    r.allocate.store (nullptr, std::memory_order_relaxed);
+    r.release.store (nullptr, std::memory_order_relaxed);
   }
 
   redirect_guard_t (redirect_guard_t const &) = delete;
@@ -4498,6 +4662,20 @@ struct run_result_t
   int bound;
 };
 
+inline void
+print_stats (scenario_def_t const &def, policy_id_t policy, int bound,
+             search_stats_t const &dfs, search_stats_t const &random, int seen,
+             int expected)
+{
+  std::printf ("SIM-STATS scenario=%s policy=%s bound=%d schedules=%ld "
+               "random=%ld steps=%ld seconds=%.2f outcomes=%d/%d capped=%d\n",
+               def.name, policy_name (policy), bound, dfs.schedules,
+               random.schedules, dfs.steps + random.steps,
+               dfs.seconds + random.seconds, seen, expected,
+               dfs.capped ? 1 : 0);
+  std::fflush (stdout);
+}
+
 /// Explores the scenario @p id with the policy @p policy within @p budget.
 /// The environment may narrow the bound (`LUMEX_SIM_ONLY`) or replay one
 /// schedule (`LUMEX_SIM_REPLAY`).
@@ -4511,12 +4689,12 @@ run_scenario (scenario_id_t id, policy_id_t policy, budget_t budget)
   char header[120];
   std::snprintf (header, sizeof (header), "scenario=%s policy=%s", def.name,
                  policy_name (policy));
-  explorer_t explorer (world, header);
-  world.set_explorer (&explorer);
   run_result_t result;
   std::memset (&result, 0, sizeof (result));
   if (choice.replay)
     {
+      explorer_t explorer (world, header);
+      world.set_explorer (&explorer);
       explorer.set_trace (true);
       explorer.run_replay (choice.decisions);
       result.dfs = explorer.stats ();
@@ -4526,43 +4704,70 @@ run_scenario (scenario_id_t id, policy_id_t policy, budget_t budget)
     }
   if (choice.only)
     {
+      budget.dfs = true;
       budget.bound = choice.bound;
       budget.cap = 600000;
+      budget.bound1_first = false;
       budget.random_count = 0;
-      budget.seconds = 1800.0 * time_scale ();
+      budget.seconds = std::min (1800.0 * time_scale (), 3500.0);
     }
-  explorer.set_time_limit (budget.seconds);
-  explorer.set_trace (env_flag ("LUMEX_SIM_TRACE"));
-  explorer.run_dfs (budget.bound, budget.cap);
-  result.dfs = explorer.stats ();
-  result.bound = budget.bound;
+  std::chrono::steady_clock::time_point const started
+      = std::chrono::steady_clock::now ();
+  // The phases share one limit.
+  struct left_t
+  {
+    static double
+    of (std::chrono::steady_clock::time_point const &t0, double total)
+    {
+      double const used = std::chrono::duration<double> (
+                              std::chrono::steady_clock::now () - t0)
+                              .count ();
+      return total - used > 1.0 ? total - used : 1.0;
+    }
+  };
+  bool const trace = env_flag ("LUMEX_SIM_TRACE");
+  if (budget.bound1_first)
+    {
+      explorer_t first (world, header);
+      world.set_explorer (&first);
+      first.set_time_limit (left_t::of (started, budget.seconds));
+      first.set_trace (trace);
+      first.run_dfs (1, 0);
+      search_stats_t const none = search_stats_t ();
+      print_stats (def, policy, 1, first.stats (), none,
+                   static_cast<int> (world.seen ().size ()),
+                   static_cast<int> (def.expected.size ()));
+    }
+  if (budget.dfs)
+    {
+      explorer_t explorer (world, header);
+      world.set_explorer (&explorer);
+      explorer.set_time_limit (left_t::of (started, budget.seconds));
+      explorer.set_trace (trace);
+      explorer.run_dfs (budget.bound, budget.cap);
+      result.dfs = explorer.stats ();
+    }
+  result.bound = budget.dfs ? budget.bound : 0;
   if (budget.random_count > 0)
     {
       explorer_t randomizer (world, header);
       world.set_explorer (&randomizer);
       randomizer.set_bound_text (-1);
-      randomizer.set_time_limit (budget.seconds);
+      randomizer.set_time_limit (left_t::of (started, budget.seconds));
       randomizer.run_random (budget.seed, budget.random_count);
       result.random = randomizer.stats ();
-      world.set_explorer (&explorer);
     }
   result.seen = static_cast<int> (world.seen ().size ());
   result.expected = static_cast<int> (def.expected.size ());
   result.covered = result.seen == result.expected;
-  if (!result.covered)
+  if (!result.covered && budget.assert_coverage)
     for (std::set<std::string>::const_iterator it = def.expected.begin ();
          it != def.expected.end (); ++it)
       if (world.seen ().count (*it) == 0)
         std::printf ("SIM-UNSEEN scenario=%s policy=%s outcome=%s\n", def.name,
                      policy_name (policy), it->c_str ());
-  std::printf ("SIM-STATS scenario=%s policy=%s bound=%d schedules=%ld "
-               "random=%ld steps=%ld seconds=%.2f outcomes=%d/%d capped=%d\n",
-               def.name, policy_name (policy), budget.bound,
-               result.dfs.schedules, result.random.schedules,
-               result.dfs.steps + result.random.steps,
-               result.dfs.seconds + result.random.seconds, result.seen,
-               result.expected, result.dfs.capped ? 1 : 0);
-  std::fflush (stdout);
+  print_stats (def, policy, result.bound, result.dfs, result.random,
+               result.seen, result.expected);
   return result;
 }
 } // namespace split_sim

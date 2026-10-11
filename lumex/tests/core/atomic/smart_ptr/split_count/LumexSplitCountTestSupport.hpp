@@ -551,14 +551,16 @@ expect_allocations (unsigned long mark, unsigned long want,
 /// behaves as it always did.
 struct sim_alloc_redirect_t
 {
-  void *(*allocate) (std::size_t size);
-  bool (*release) (void *block);
+  constexpr sim_alloc_redirect_t () : allocate (nullptr), release (nullptr) {}
+
+  std::atomic<void *(*)(std::size_t size)> allocate;
+  std::atomic<bool (*) (void *block)> release;
 };
 
 inline sim_alloc_redirect_t &
 sim_alloc_redirect ()
 {
-  static sim_alloc_redirect_t redirect = { nullptr, nullptr };
+  static sim_alloc_redirect_t redirect;
   return redirect;
 }
 

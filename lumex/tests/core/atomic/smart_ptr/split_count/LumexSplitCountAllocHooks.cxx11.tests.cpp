@@ -52,9 +52,12 @@ void *
 split_allocate (std::size_t size, bool may_throw)
 {
   ++split_test::new_calls ();
-  if (split_test::sim_alloc_redirect ().allocate != nullptr)
+  void *(*const redirect) (std::size_t)
+      = split_test::sim_alloc_redirect ().allocate.load (
+          std::memory_order_relaxed);
+  if (redirect != nullptr)
     {
-      void *const offered = split_test::sim_alloc_redirect ().allocate (size);
+      void *const offered = redirect (size);
       if (offered != nullptr)
         return offered;
     }
@@ -81,8 +84,10 @@ split_release (void *block) noexcept
 {
   if (block == nullptr)
     return;
-  if (split_test::sim_alloc_redirect ().release != nullptr
-      && split_test::sim_alloc_redirect ().release (block))
+  bool (*const redirect) (void *)
+      = split_test::sim_alloc_redirect ().release.load (
+          std::memory_order_relaxed);
+  if (redirect != nullptr && redirect (block))
     return;
   split_test::live_allocations ().fetch_sub (1, std::memory_order_relaxed);
   std::free (block);
