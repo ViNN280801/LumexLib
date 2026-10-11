@@ -217,21 +217,18 @@ template <int Tag, bool NothrowMove> struct counted
 };
 template <int Tag, bool NothrowMove> int counted<Tag, NothrowMove>::live = 0;
 
-using val_t = counted<0, true>;  // copy may throw, move does not
-using err_t = counted<1, false>; // copy and move may throw
-using ex_t = expected<val_t, err_t>;
-
+template <typename Ex>
 int
 live_total ()
 {
-  return val_t::live + err_t::live;
+  return Ex::value_type::live + Ex::error_type::live;
 }
 
-template <typename Op>
+template <typename Ex, typename Op>
 void
-check_throwing (ex_t &x, ex_t &y, Op op, int line)
+check_throwing (Ex &x, Ex &y, Op op, int line)
 {
-  int const before = live_total ();
+  int const before = live_total<Ex> ();
   bool const x_value = x.has_value ();
   bool const y_value = y.has_value ();
   int const x_id = x_value ? x.value ().id : x.error ().id;
@@ -259,15 +256,20 @@ check_throwing (ex_t &x, ex_t &y, Op op, int line)
       CHECK ((x_value ? x.value ().id : x.error ().id) == x_id);
       CHECK ((y_value ? y.value ().id : y.error ().id) == y_id);
     }
-  CHECK (live_total () == before);
-  if (live_total () != before)
-    std::fprintf (stderr, "line %d: live %d, before %d\n", line, live_total (),
-                  before);
+  CHECK (live_total<Ex> () == before);
+  if (live_total<Ex> () != before)
+    std::fprintf (stderr, "line %d: live %d, before %d\n", line,
+                  live_total<Ex> (), before);
 }
 
+// V is the value type and E the error type of the expected under test.
+template <typename V, typename E>
 void
-check_lifetimes ()
+check_lifetimes_of ()
 {
+  using ex_t = expected<V, E>;
+  using val_t = V;
+  using err_t = E;
   for (int xs = 0; xs < 2; ++xs)
     for (int ys = 0; ys < 2; ++ys)
       {
@@ -303,7 +305,17 @@ check_lifetimes ()
               x, y, [] (ex_t &a, ex_t &) { a.emplace (6); }, __LINE__);
         }
       }
-  CHECK (live_total () == 0);
+  CHECK ((live_total<ex_t> () == 0));
+}
+
+void
+check_lifetimes ()
+{
+  // The value moves without throwing, the error may throw (swap parks the
+  // value) ...
+  check_lifetimes_of<counted<0, true>, counted<1, false>> ();
+  // ... and the other way round (swap parks the error).
+  check_lifetimes_of<counted<2, false>, counted<3, true>> ();
 }
 
 // The calls that must terminate. Each one is run in a child process.

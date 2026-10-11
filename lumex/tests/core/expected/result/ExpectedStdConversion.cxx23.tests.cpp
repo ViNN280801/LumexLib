@@ -685,6 +685,62 @@ TEST (ExpectedStdConversionTest,
   EXPECT_EQ (4, moved.error ());
 }
 
+namespace
+{
+template <typename X, typename = void> struct has_to_std : std::false_type
+{
+};
+
+template <typename X>
+struct has_to_std<X, lumex::core::utility::traits::meta::void_t<
+                         decltype (std::declval<X> ().to_std ())>>
+    : std::true_type
+{
+};
+
+// to_std () on an lvalue needs copies; on an rvalue it needs moves.
+static_assert (!has_to_std<lex<std::unique_ptr<int>, int> &>::value,
+               "move-only T: no to_std () on an lvalue");
+static_assert (!has_to_std<lex<std::unique_ptr<int>, int> const &>::value,
+               "move-only T: no to_std () on a const lvalue");
+static_assert (has_to_std<lex<std::unique_ptr<int>, int>>::value,
+               "move-only T: to_std () on an rvalue");
+static_assert (!has_to_std<lex<int, std::unique_ptr<int>> &>::value,
+               "move-only E: no to_std () on an lvalue");
+static_assert (has_to_std<lex<int, std::unique_ptr<int>>>::value,
+               "move-only E: to_std () on an rvalue");
+static_assert (!has_to_std<lex<void, std::unique_ptr<int>> &>::value,
+               "void, move-only E: no to_std () on an lvalue");
+static_assert (has_to_std<lex<void, std::unique_ptr<int>>>::value,
+               "void, move-only E: to_std () on an rvalue");
+} // namespace
+
+TEST (ExpectedStdConversionTest,
+      VoidToStd_MovesFromAnRvalueAndCopiesFromAnLvalue)
+{
+  lex<void, tracked_t> error (lx::result::unexpect, tracked_t (1));
+  int const copies = error.error ().copies;
+  int const moves = error.error ().moves;
+  auto const copied = error.to_std ();
+  ASSERT_FALSE (copied.has_value ());
+  EXPECT_EQ (copies + 1, copied.error ().copies);
+  EXPECT_EQ (moves, copied.error ().moves);
+  EXPECT_EQ (1, error.error ().id) << "the source is left alone";
+  auto const moved = std::move (error).to_std ();
+  ASSERT_FALSE (moved.has_value ());
+  EXPECT_EQ (copies, moved.error ().copies);
+  EXPECT_EQ (moves + 1, moved.error ().moves);
+  EXPECT_EQ (-1, error.error ().id) << "the error was moved from";
+
+  lex<void, std::unique_ptr<int>> owner (lx::result::unexpect,
+                                         std::make_unique<int> (9));
+  auto const std_owner = std::move (owner).to_std ();
+  ASSERT_FALSE (std_owner.has_value ());
+  EXPECT_EQ (9, *std_owner.error ());
+  lex<void, tracked_t> const success;
+  EXPECT_TRUE (success.to_std ().has_value ());
+}
+
 TEST (ExpectedStdConversionTest, ToStd_ConvertsTheStateOfEveryKind)
 {
   lex<int, std::string> const value (lx::result::in_place, 5);
