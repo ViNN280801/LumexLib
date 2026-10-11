@@ -73,6 +73,21 @@ struct sixteen_bytes
   long long b;
 };
 
+struct alignas (16) aligned16
+{
+  char c;
+};
+
+struct alignas (32) aligned32
+{
+  char c;
+};
+
+struct alignas (64) aligned64
+{
+  char c;
+};
+
 template <typename T, typename E>
 void
 check_same_layout ()
@@ -134,6 +149,9 @@ TEST (ExpectedLayoutTest, Size_IsThatOfABoolAndAUnion)
   check_same_layout<sixteen_bytes, int> ();
   check_same_layout<bool, bool> ();
   check_same_layout<void *, int> ();
+  check_same_layout<aligned16, int> ();
+  check_same_layout<int, aligned32> ();
+  check_same_layout<aligned64, aligned16> ();
   check_same_layout_void<int> ();
   check_same_layout_void<char> ();
   check_same_layout_void<short> ();
@@ -206,6 +224,9 @@ TEST (ExpectedLayoutTest, Storage_HasNoTailPadding)
   check_storage_has_no_tail_padding<sixteen_bytes, int> ();
   check_storage_has_no_tail_padding<void *, void *> ();
   check_storage_has_no_tail_padding<bool, bool> ();
+  check_storage_has_no_tail_padding<aligned16, int> ();
+  check_storage_has_no_tail_padding<int, aligned32> ();
+  check_storage_has_no_tail_padding<aligned64, aligned16> ();
 }
 
 TEST (ExpectedLayoutTest, StorageOfVoid_HasNoTailPadding)

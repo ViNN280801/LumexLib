@@ -152,7 +152,7 @@ LUMEX_EXPECTED_CONSTEXPR_CXX20 void
 reinit_nothrow (std::false_type, std::false_type, N &newval, O &oldval,
                 Args &&...args)
 {
-#if LUMEX_EXPECTED_HAS_EXCEPTIONS
+#if LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
   O tmp (detail::mv (oldval));
   detail::destroy_at (detail::address_of (oldval));
   try
@@ -574,6 +574,11 @@ using source_of =
  * `sizeof (union) + alignment` is also what the `bool` and its padding made.
  * @tparam Alignment Alignment of the union before the flag.
  */
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4324) // structure was padded due to alignment
+                                // specifier (intentional)
+#endif
 template <std::size_t Alignment> struct alignas (Alignment) has_val_flag
 {
   bool m_flag; ///< The flag.
@@ -594,6 +599,9 @@ template <std::size_t Alignment> struct alignas (Alignment) has_val_flag
     return *this;
   }
 };
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
 // ====================== The storage ====================== //
 
@@ -808,7 +816,7 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
   {
     E tmp (detail::mv (rhs.m_storage.m_error));
     detail::destroy_at (detail::address_of (rhs.m_storage.m_error));
-#if LUMEX_EXPECTED_HAS_EXCEPTIONS
+#if LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
     try
       {
         detail::construct_at (detail::address_of (rhs.m_storage.m_value),
@@ -840,7 +848,7 @@ template <typename T, typename E> struct expected_storage : checks_of<T, E>
   {
     val_type tmp (detail::mv (m_storage.m_value));
     detail::destroy_at (detail::address_of (m_storage.m_value));
-#if LUMEX_EXPECTED_HAS_EXCEPTIONS
+#if LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
     try
       {
         detail::construct_at (detail::address_of (m_storage.m_error),

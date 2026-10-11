@@ -3,7 +3,6 @@
 // the program says so.
 #include <iostream>
 #include <string>
-#include <version>
 
 #if __has_include(<expected>)
 #include <expected>

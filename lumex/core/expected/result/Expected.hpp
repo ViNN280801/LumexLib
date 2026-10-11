@@ -451,6 +451,46 @@ public:
                        : S (std::unexpect,
                             static_cast<ErrorType &&> (m_storage.m_error));
   }
+
+  /**
+   * @brief The `std::expected<SuccessType, ErrorType>` with the state of this
+   * object (an lvalue or a const object: copies); a spelling that cannot
+   * be mistaken for a construction.
+   * @details `std::expected<bool, E> theirs (mine)`, `theirs {mine}` and
+   * `static_cast<std::expected<bool, E>> (mine)` select the constructor of
+   * `std::expected` that takes a value, through the explicit `operator bool`
+   * of this class, so an error becomes the value `false`; the same wraps the
+   * object as the value of a `std::expected<std::any, E>`. Copy
+   * initialization (`std::expected<bool, E> theirs = mine;`) and `to_std ()`
+   * convert the state.
+   * @tparam S `std::expected<SuccessType, ErrorType>` (the default).
+   * @note Same constraints and `noexcept` as the conversion operator.
+   */
+  template <typename S = std::expected<SuccessType, ErrorType>,
+            bool Ok = std::is_copy_constructible<SuccessType>::value
+                      && std::is_copy_constructible<ErrorType>::value,
+            typename std::enable_if<Ok, int>::type = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 S
+  to_std () const &LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_copy_constructible<SuccessType>::value
+          &&std::is_nothrow_copy_constructible<ErrorType>::value)
+  {
+    return this->template operator S ();
+  }
+
+  /// @brief As above for an rvalue: moves the value or the error.
+  template <typename S = std::expected<SuccessType, ErrorType>,
+            bool Ok = std::is_move_constructible<SuccessType>::value
+                      && std::is_move_constructible<ErrorType>::value,
+            typename std::enable_if<Ok, int>::type = 0>
+      LUMEX_EXPECTED_CONSTEXPR_CXX20 S
+      to_std ()
+      && LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_move_constructible<SuccessType>::value
+              &&std::is_nothrow_move_constructible<ErrorType>::value)
+  {
+    return static_cast<expected &&> (*this).template operator S ();
+  }
 #endif // LUMEX_EXPECTED_HAS_STD_CONVERSION
 
   /**
