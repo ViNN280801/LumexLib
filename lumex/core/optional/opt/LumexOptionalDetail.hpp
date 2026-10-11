@@ -203,17 +203,13 @@ voidify (T &object) LUMEX_NOEXCEPT
 }
 
 /// @brief `std::construct_at`: `constexpr` from C++20, a placement new
-/// before. `T` may be `const` (`optional<const U>`): `std::construct_at` of
-/// libc++ does not take a pointer to a `const` object, so the `const` is
-/// removed from the pointer first.
+/// before. `T` is not `const`: the union stores the value without it.
 template <typename T, typename... Args>
 LUMEX_OPTIONAL_CONSTEXPR_CXX20 T *
 construct_at (T *where, Args &&...args)
 {
 #if LUMEX_OPTIONAL_HAS_CONSTRUCT_AT
-  return std::construct_at (
-      const_cast<typename std::remove_cv<T>::type *> (where),
-      detail::fwd<Args> (args)...);
+  return std::construct_at (where, detail::fwd<Args> (args)...);
 #else
   return ::new (detail::voidify (*where)) T (detail::fwd<Args> (args)...);
 #endif
@@ -248,6 +244,32 @@ struct is_tag_type
           std::is_same<typename std::remove_cv<T>::type, in_place_t>::value
               || std::is_same<typename std::remove_cv<T>::type,
                               nullopt_t>::value>
+{
+};
+
+/// @brief `std::conjunction` of C++17: the first false trait ends the
+/// evaluation, so a later trait is not instantiated. The constraints of the
+/// converting operations name the cheap exclusions first (`T` is `U`, `U` is
+/// `optional`) so that a `T` whose constructor template tests
+/// `is_copy_constructible<optional<T>>` (such as `std::any`) is not asked
+/// about `optional<T>` while `optional<T>` is being declared.
+template <typename... B> struct conjunction : std::true_type
+{
+};
+
+template <typename B> struct conjunction<B> : B
+{
+};
+
+template <typename B, typename... Rest>
+struct conjunction<B, Rest...>
+    : std::conditional<bool (B::value), conjunction<Rest...>, B>::type
+{
+};
+
+/// @brief `std::negation` of C++17.
+template <typename B>
+struct negation : std::integral_constant<bool, !bool (B::value)>
 {
 };
 
@@ -432,61 +454,158 @@ struct empty_member
 {
 };
 
-/**
- * @brief `{ dummy, value }`, the union of [optional.optional.general] for a
- * trivially destructible `T`: its destructor is trivial.
- */
-template <typename T, bool = std::is_trivially_destructible<T>::value>
-union optional_union
+/// @brief Whether `T` has a copy assignment that takes a non-const reference
+/// (`T &operator= (T &)`, as `std::auto_ptr`) and none that takes a const one.
+template <typename T>
+struct has_nonconst_copy_assign
+    : std::integral_constant<
+          bool,
+          std::is_class<typename std::remove_cv<T>::type>::value
+              && std::is_assignable<typename std::remove_cv<T>::type &,
+                                    typename std::remove_cv<T>::type &>::value
+              && !std::is_assignable<
+                  typename std::remove_cv<T>::type &,
+                  typename std::remove_cv<T>::type const &>::value>
 {
-  empty_member dummy;
-  T value;
-
-  LUMEX_CONSTEXPR_CTOR
-  optional_union () LUMEX_NOEXCEPT : dummy () {}
-
-  template <typename... Args>
-  LUMEX_CONSTEXPR_CTOR explicit optional_union (in_place_t, Args &&...args)
-      : value (detail::fwd<Args> (args)...)
-  {
-  }
-
-  template <typename Fn, typename... Args>
-  LUMEX_CONSTEXPR_CTOR
-  optional_union (invoke_tag, Fn &&fn, Args &&...args)
-      : value (
-            detail::invoke (detail::fwd<Fn> (fn), detail::fwd<Args> (args)...))
-  {
-  }
 };
 
-/// @brief The union for a `T` with a non-trivial destructor: the union does
-/// not destroy `value`, `opt_destruct_base` does.
-template <typename T> union optional_union<T, false>
+/// @brief Whether `T` has a copy constructor that takes a non-const reference
+/// and none that takes a const one.
+template <typename T>
+struct has_nonconst_copy_ctor
+    : std::integral_constant<
+          bool, std::is_class<typename std::remove_cv<T>::type>::value
+                    && std::is_constructible<
+                        typename std::remove_cv<T>::type,
+                        typename std::remove_cv<T>::type &>::value
+                    && !std::is_constructible<
+                        typename std::remove_cv<T>::type,
+                        typename std::remove_cv<T>::type const &>::value>
 {
-  empty_member dummy;
-  T value;
+};
 
-  LUMEX_CONSTEXPR_CTOR
-  optional_union () LUMEX_NOEXCEPT : dummy () {}
-
-  template <typename... Args>
-  LUMEX_CONSTEXPR_CTOR explicit optional_union (in_place_t, Args &&...args)
-      : value (detail::fwd<Args> (args)...)
-  {
+/**
+ * @def LUMEX_OPTIONAL_UNION_BODY
+ * @brief The members and constructors every form of `optional_union` shares.
+ */
+#define LUMEX_OPTIONAL_UNION_BODY                                             \
+  empty_member dummy;                                                         \
+  typename std::remove_cv<T>::type value;                                     \
+                                                                              \
+  LUMEX_CONSTEXPR_CTOR                                                        \
+  optional_union () LUMEX_NOEXCEPT : dummy () {}                              \
+                                                                              \
+  template <typename... Args>                                                 \
+  LUMEX_CONSTEXPR_CTOR explicit optional_union (in_place_t, Args &&...args)   \
+      : value (detail::fwd<Args> (args)...)                                   \
+  {                                                                           \
+  }                                                                           \
+                                                                              \
+  template <typename Fn, typename... Args>                                    \
+  LUMEX_CONSTEXPR_CTOR optional_union (invoke_tag, Fn &&fn, Args &&...args)   \
+      : value (detail::invoke (detail::fwd<Fn> (fn),                          \
+                               detail::fwd<Args> (args)...))                  \
+  {                                                                           \
   }
 
-  template <typename Fn, typename... Args>
-  LUMEX_CONSTEXPR_CTOR
-  optional_union (invoke_tag, Fn &&fn, Args &&...args)
-      : value (
-            detail::invoke (detail::fwd<Fn> (fn), detail::fwd<Args> (args)...))
-  {
-  }
+/**
+ * @brief `{ dummy, value }`, the union of [optional.optional.general]. The
+ * value is stored without `const` (as both standard libraries do), so that an
+ * `optional<const U>` can be re-emplaced in a constant expression.
+ * @details Eight forms. Whether the destructor is trivial (`T` trivially
+ * destructible) or empty (the value is destroyed by `opt_destruct_base`)
+ * selects two. The other two flags tell a `T` whose copy assignment
+ * (`NonConstAssign`) or copy constructor (`NonConstCtor`) takes a non-const
+ * reference (`std::auto_ptr`). The implicit copy operation of a class that
+ * holds such a `T` takes a non-const reference too, and the layers declare
+ * theirs `= default` with `const &`, which is ill-formed before C++20
+ * (P0641). The union therefore declares the operation that cannot work
+ * deleted, with a `const &` parameter, and so fixes the signature of every
+ * layer above. For any other `T` it declares nothing.
+ */
+template <typename T,
+          bool TrivialDestructor = std::is_trivially_destructible<T>::value,
+          bool NonConstAssign = has_nonconst_copy_assign<T>::value,
+          bool NonConstCtor = has_nonconst_copy_ctor<T>::value>
+union optional_union;
+
+template <typename T> union optional_union<T, true, false, false>
+{
+  LUMEX_OPTIONAL_UNION_BODY
+};
+
+template <typename T> union optional_union<T, true, true, false>
+{
+  LUMEX_OPTIONAL_UNION_BODY
+  optional_union (optional_union const &) = default;
+  optional_union (optional_union &&) = default;
+  optional_union &operator= (optional_union const &) = delete;
+  optional_union &operator= (optional_union &&) = delete;
+};
+
+template <typename T> union optional_union<T, true, false, true>
+{
+  LUMEX_OPTIONAL_UNION_BODY
+  optional_union (optional_union const &) = delete;
+  optional_union (optional_union &&) = default;
+  optional_union &operator= (optional_union const &) = default;
+  optional_union &operator= (optional_union &&) = default;
+};
+
+template <typename T> union optional_union<T, true, true, true>
+{
+  LUMEX_OPTIONAL_UNION_BODY
+  optional_union (optional_union const &) = delete;
+  optional_union (optional_union &&) = default;
+  optional_union &operator= (optional_union const &) = delete;
+  optional_union &operator= (optional_union &&) = delete;
+};
+
+template <typename T> union optional_union<T, false, false, false>
+{
+  LUMEX_OPTIONAL_UNION_BODY
 
   LUMEX_CONSTEXPR_DTOR
   ~optional_union () {}
 };
+
+template <typename T> union optional_union<T, false, true, false>
+{
+  LUMEX_OPTIONAL_UNION_BODY
+
+  LUMEX_CONSTEXPR_DTOR
+  ~optional_union () {}
+  optional_union (optional_union const &) = default;
+  optional_union (optional_union &&) = default;
+  optional_union &operator= (optional_union const &) = delete;
+  optional_union &operator= (optional_union &&) = delete;
+};
+
+template <typename T> union optional_union<T, false, false, true>
+{
+  LUMEX_OPTIONAL_UNION_BODY
+
+  LUMEX_CONSTEXPR_DTOR
+  ~optional_union () {}
+  optional_union (optional_union const &) = delete;
+  optional_union (optional_union &&) = default;
+  optional_union &operator= (optional_union const &) = default;
+  optional_union &operator= (optional_union &&) = default;
+};
+
+template <typename T> union optional_union<T, false, true, true>
+{
+  LUMEX_OPTIONAL_UNION_BODY
+
+  LUMEX_CONSTEXPR_DTOR
+  ~optional_union () {}
+  optional_union (optional_union const &) = delete;
+  optional_union (optional_union &&) = default;
+  optional_union &operator= (optional_union const &) = delete;
+  optional_union &operator= (optional_union &&) = delete;
+};
+
+#undef LUMEX_OPTIONAL_UNION_BODY
 
 // ====================== Layer: destructor ====================== //
 
@@ -859,13 +978,19 @@ struct and_then_result<
 };
 
 /// @brief Whether `U` can be held by an `optional` and constructed from the
-/// call result `R`.
+/// call result `R`. From C++17 a prvalue result of the type `U` itself is
+/// built in place (guaranteed elision), so `U` need not be movable.
 template <typename U, typename R>
 struct is_transform_target
-    : std::integral_constant<bool, std::is_object<U>::value
-                                       && !std::is_array<U>::value
-                                       && !is_tag_type<U>::value
-                                       && std::is_constructible<U, R>::value>
+    : std::integral_constant<
+          bool,
+          std::is_object<U>::value && !std::is_array<U>::value
+              && !is_tag_type<U>::value
+              && (std::is_constructible<U, R>::value
+#if __cplusplus >= 201703L
+                  || std::is_same<typename std::remove_cv<R>::type, U>::value
+#endif
+                  )>
 {
 };
 
