@@ -519,9 +519,11 @@ struct has_nonconst_copy_ctor
  * reference (`std::auto_ptr`). The implicit copy operation of a class that
  * holds such a `T` takes a non-const reference too, and the layers declare
  * theirs `= default` with `const &`, which is ill-formed before C++20
- * (P0641). The union therefore declares the operation that cannot work
- * deleted, with a `const &` parameter, and so fixes the signature of every
- * layer above. For any other `T` it declares nothing.
+ * (P0641). The union therefore declares the copy operation that cannot
+ * work deleted, with a `const &` parameter, and so fixes the signature of
+ * every layer above; the move operations are defaulted (a `T` with
+ * `T &operator= (T &&) = default` stays move assignable). For any other `T` it
+ * declares nothing.
  */
 template <typename T,
           bool TrivialDestructor = std::is_trivially_destructible<T>::value,
@@ -540,7 +542,7 @@ template <typename T> union optional_union<T, true, true, false>
   optional_union (optional_union const &) = default;
   optional_union (optional_union &&) = default;
   optional_union &operator= (optional_union const &) = delete;
-  optional_union &operator= (optional_union &&) = delete;
+  optional_union &operator= (optional_union &&) = default;
 };
 
 template <typename T> union optional_union<T, true, false, true>
@@ -558,7 +560,7 @@ template <typename T> union optional_union<T, true, true, true>
   optional_union (optional_union const &) = delete;
   optional_union (optional_union &&) = default;
   optional_union &operator= (optional_union const &) = delete;
-  optional_union &operator= (optional_union &&) = delete;
+  optional_union &operator= (optional_union &&) = default;
 };
 
 template <typename T> union optional_union<T, false, false, false>
@@ -578,7 +580,7 @@ template <typename T> union optional_union<T, false, true, false>
   optional_union (optional_union const &) = default;
   optional_union (optional_union &&) = default;
   optional_union &operator= (optional_union const &) = delete;
-  optional_union &operator= (optional_union &&) = delete;
+  optional_union &operator= (optional_union &&) = default;
 };
 
 template <typename T> union optional_union<T, false, false, true>
@@ -602,7 +604,7 @@ template <typename T> union optional_union<T, false, true, true>
   optional_union (optional_union const &) = delete;
   optional_union (optional_union &&) = default;
   optional_union &operator= (optional_union const &) = delete;
-  optional_union &operator= (optional_union &&) = delete;
+  optional_union &operator= (optional_union &&) = default;
 };
 
 #undef LUMEX_OPTIONAL_UNION_BODY
