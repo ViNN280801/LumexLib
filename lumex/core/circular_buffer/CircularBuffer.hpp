@@ -85,6 +85,11 @@ namespace circular_buffer
  * (or by `set_capacity`, `rset_capacity`, `resize` and `assign`) and may be 0:
  * a buffer with capacity 0 is valid, holds nothing and ignores `push_*`.
  *
+ * @note Brace initialization with one integer is a list, as for
+ * `std::vector`: `circular_buffer<int> b{16};` has capacity 1 and holds 16,
+ * and `circular_buffer<int> b = {5, 3};` has capacity 2 and holds 5 and 3.
+ * Use parentheses for a capacity: `circular_buffer<int> b (16);`.
+ *
  * @section characteristics Characteristics
  *  - Insert into a full buffer overwrites the oldest element.
  *  - `T` need not be default-constructible (elements are created on demand).
@@ -152,11 +157,12 @@ namespace circular_buffer
  * (commit-or-rollback).
  *  - Overwrite (full buffer): the new element is first built in a temporary,
  * so when its construction throws the buffer is unchanged. Then the replaced
- * element is destroyed and the new one is moved into its place; if that move
- * throws the buffer stays consistent and holds one element fewer (basic). For
- * a `T` that is not move-constructible the replaced element is destroyed
- * first, then the new one is constructed in place (basic, and the arguments
- * must not refer to the replaced element).
+ * element is destroyed and the new one is moved (or, for a `T` without a move
+ * constructor, copied) from the temporary into its place; if that throws the
+ * buffer stays consistent and holds one element fewer (basic). Only for a `T`
+ * that is neither move- nor copy-constructible is the replaced element
+ * destroyed first and the new one constructed in place (basic, and the
+ * arguments must not refer to the replaced element).
  *  - Copy construction and copy assignment: strong (nothing leaks, `*this` is
  * unchanged when a copy throws).
  *  - `set_capacity`, `rset_capacity`, `linearize`, `assign`: strong.
@@ -196,7 +202,8 @@ namespace circular_buffer
  * when it is `true` the allocator of the source is taken (the old storage is
  * released with the old allocator); otherwise the own allocator is kept and
  * the new storage is made with it. The move operations always move the
- * allocator along with the storage. On `swap`, allocators are exchanged only
+ * allocator along with the storage (`propagate_on_container_move_assignment`
+ * is not consulted). On `swap`, allocators are exchanged only
  * if
  * <tt>std::allocator_traits\<Allocator\>\::propagate_on_container_swap\::value</tt>
  * is `true`. Otherwise they are assumed equivalent (as for the standard
@@ -679,6 +686,8 @@ public:
   /**
    * @brief Creates a full buffer with the elements of a list (capacity = size
    * of the list).
+   * @note `circular_buffer<int> b{16};` is this constructor (capacity 1,
+   * holding 16), not a capacity of 16: use parentheses for the capacity.
    * @param init Elements, oldest first.
    * @param alloc Allocator used to allocate memory.
    */
@@ -1398,10 +1407,10 @@ public:
    *
    * Constructs a new element in the buffer from the forwarded arguments.
    * If the buffer is full, the oldest element is replaced. When `T` is
-   * move-constructible the new element is built in a temporary first (so the
-   * arguments may refer to the oldest element and a throwing constructor
-   * leaves the buffer unchanged) and then moved into the slot of the oldest
-   * element.
+   * move- or copy-constructible the new element is built in a temporary first
+   * (so the arguments may refer to the oldest element and a throwing
+   * constructor leaves the buffer unchanged) and then moved (copied when there
+   * is no move constructor) into the slot of the oldest element.
    *
    * @tparam Args Argument types forwarded to the `T` constructor.
    * @param args Arguments forwarded to the `T` constructor.
@@ -2063,8 +2072,6 @@ private:
   void
   destroy_elements () LUMEX_NOEXCEPT
   {
-    if (std::is_trivially_destructible<T>::value)
-      return;
     size_type idx = m_head;
     for (size_type i = 0; i < m_size; ++i)
       {
@@ -2146,6 +2153,17 @@ private:
     swap_data (tmp);
   }
 
+  /// The temporary of an overwrite as the source of the final construction:
+  /// an rvalue when `T` is move-constructible, else a const lvalue (a copy;
+  /// a deleted move constructor must not be selected).
+  static typename std::conditional<std::is_move_constructible<T>::value, T &&,
+                                   T const &>::type
+  take (T &value) LUMEX_NOEXCEPT
+  {
+    return static_cast<typename std::conditional<
+        std::is_move_constructible<T>::value, T &&, T const &>::type> (value);
+  }
+
   /// Builds the element for an overwrite in a temporary on the stack.
   struct scratch
   {
@@ -2186,20 +2204,25 @@ private:
         ++m_size;
         return slot;
       }
-    return overwrite_oldest (std::is_move_constructible<T> (),
-                             std::forward<Args> (args)...);
+    return overwrite_oldest (
+        std::integral_constant<bool,
+                               std::is_move_constructible<T>::value
+                                   || std::is_copy_constructible<T>::value> (),
+        std::forward<Args> (args)...);
   }
 
-  /// Full buffer, `T` movable: build the new element first, then replace.
+  /// Full buffer, `T` movable or copyable: build the new element first, then
+  /// replace (the temporary is moved from, or copied when `T` has no move).
   template <class... Args>
   T *
   overwrite_oldest (std::true_type, Args &&...args)
   {
     scratch tmp (m_allocator, std::forward<Args> (args)...);
-    return replace_oldest (std::move (*tmp.ptr ()));
+    return replace_oldest (take (*tmp.ptr ()));
   }
 
-  /// Full buffer, `T` not movable: destroy first, then construct in place.
+  /// Full buffer, `T` neither movable nor copyable: destroy first, then
+  /// construct in place.
   template <class... Args>
   T *
   overwrite_oldest (std::false_type, Args &&...args)
@@ -2240,20 +2263,25 @@ private:
         ++m_size;
         return slot;
       }
-    return overwrite_newest (std::is_move_constructible<T> (),
-                             std::forward<Args> (args)...);
+    return overwrite_newest (
+        std::integral_constant<bool,
+                               std::is_move_constructible<T>::value
+                                   || std::is_copy_constructible<T>::value> (),
+        std::forward<Args> (args)...);
   }
 
-  /// Full buffer, `T` movable: build the new element first, then replace.
+  /// Full buffer, `T` movable or copyable: build the new element first, then
+  /// replace (the temporary is moved from, or copied when `T` has no move).
   template <class... Args>
   T *
   overwrite_newest (std::true_type, Args &&...args)
   {
     scratch tmp (m_allocator, std::forward<Args> (args)...);
-    return replace_newest (std::move (*tmp.ptr ()));
+    return replace_newest (take (*tmp.ptr ()));
   }
 
-  /// Full buffer, `T` not movable: destroy first, then construct in place.
+  /// Full buffer, `T` neither movable nor copyable: destroy first, then
+  /// construct in place.
   template <class... Args>
   T *
   overwrite_newest (std::false_type, Args &&...args)
