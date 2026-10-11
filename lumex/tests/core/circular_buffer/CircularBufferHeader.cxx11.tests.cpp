@@ -148,9 +148,13 @@ TEST (CircularBufferHeader, CopyAndMoveKeepFrontBack)
   EXPECT_EQ (src.size (), 0U);
 }
 
-TEST (CircularBufferHeader, ZeroCapacityThrows)
+TEST (CircularBufferHeader, ZeroCapacityIsValid)
 {
-  EXPECT_THROW (circular_buffer<int> buf (0), std::length_error);
+  circular_buffer<int> buf (0);
+  EXPECT_EQ (buf.capacity (), 0U);
+  EXPECT_TRUE (buf.empty ());
+  buf.push_back (1);
+  EXPECT_TRUE (buf.empty ());
 }
 
 TEST (CircularBufferHeader, CompareAndClear)
