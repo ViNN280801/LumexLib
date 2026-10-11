@@ -4,15 +4,13 @@
 
     python plot_results.py results/string_view_benchmark.csv [results/compile_time.csv]
 
-Reads string_view_traits.csv and library.csv from the directory of the CSV
-when they exist. Writes next to the CSV:
+Reads string_view_traits.csv from the directory of the CSV when it exists. Writes next to the CSV:
     string_view_benchmark.md             the numbers: per build tree a table
                                          of the median time per operation of
                                          every variant and its ratio to
                                          std::string_view at C++17, summaries,
                                          the layout and traits of the views,
-                                         the compiled library, and the
-                                         compile times when given
+                                         and the compile times when given
     string_view_benchmark_<tree>.svg     one chart per build tree: a dot per
                                          variant and scenario at its time
                                          relative to std::string_view C++17
@@ -174,7 +172,7 @@ def yes(value):
 
 
 def markdown(comments, grouped, order, compile_rows, compile_comments,
-             traits, libs):
+             traits):
     lines = ["# string_view benchmark results", ""]
     for comment in comments:
         lines.append("- " + comment)
@@ -305,25 +303,6 @@ def markdown(comments, grouped, order, compile_rows, compile_comments,
                              yes(row["to_std_string_implicit"]),
                              yes(row["to_std_string_view_implicit"]),
                              yes(row["from_std_string_view_implicit"])))
-        lines.append("")
-    if libs:
-        lines.append("## The compiled library")
-        lines.append("")
-        lines.append("`libLumexCore_string_view` of each build tree (the "
-                     "narrow and the wide view): file size, size after "
-                     "`strip --strip-unneeded`, the `.text` of its code, and "
-                     "the defined exported function symbols (`nm`).")
-        lines.append("")
-        lines.append("| build tree | kind | file | bytes | stripped | .text | "
-                     "function symbols | narrow | wide |")
-        lines.append("| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | "
-                     "---: |")
-        for row in libs:
-            lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
-                row["toolchain"], row["kind"], row["file"], row["bytes"],
-                row["stripped_bytes"], row["text_bytes"],
-                row["defined_text_symbols"], row["narrow_symbols"],
-                row["wide_symbols"]))
         lines.append("")
     if compile_rows:
         lines.append("## Compile time")
@@ -519,11 +498,9 @@ def main():
         compile_comments, compile_rows = read_compile(compile_path)
     traits_path = os.path.join(out_dir, "string_view_traits.csv")
     traits = read_plain(traits_path) if os.path.exists(traits_path) else []
-    lib_path = os.path.join(out_dir, "library.csv")
-    libs = read_plain(lib_path) if os.path.exists(lib_path) else []
     with open(os.path.join(out_dir, "string_view_benchmark.md"), "w") as out:
         out.write(markdown(comments, grouped, order, compile_rows,
-                           compile_comments, traits, libs))
+                           compile_comments, traits))
     machine = next((c for c in comments if c.startswith("machine=")), "")
     for toolchain, per_variant in grouped.items():
         compilers = sorted({c.split("compiler=")[1].split(" library=")[0]
