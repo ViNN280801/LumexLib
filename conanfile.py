@@ -202,10 +202,7 @@ class LumexLibConan(ConanFile):
         )
         if windows:
             filesystem.system_libs.append("shlwapi")
-        self._component(
-            "core_string_view", "string_view", ["LumexCore_string_view"],
-            ["core_utility"],
-        )
+        self._component("core_string_view", "string_view")
         self._component(
             "core_time", "time", ["LumexCore_time"], ["core_environment"]
         )

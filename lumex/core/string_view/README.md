@@ -1,6 +1,6 @@
 # LumexStringView: non-owning string views from C++11 {#lumex_string_view}
 
-`lumex::core::string_view::view::lumex_string_view` and `lumex_wstring_view` (target `lumex::string_view`, a compiled library that depends on `lumex::utility`) are the library's own non-owning views over a `char` and a `wchar_t` sequence: the interface of C++17 `std::string_view` and `std::wstring_view` from C++11 on, on every compiler of the library. Each view is one class on every standard and is never an alias of the standard type: from C++17 it converts implicitly to and from `std::string_view` (`std::wstring_view`) and compares with it. The umbrella adds the global aliases `lumex_string_view` and `lumex_wstring_view`. These are the text parameter types of the library: the string overloads of base64, crc, exceptions and xml (and of fmt, json and others) take `lumex_string_view` by value in every standard, and a literal, a `std::string` or, from C++17, a `std::string_view` converts to it.
+`lumex::core::string_view::view::lumex_basic_string_view<CharT, Traits>` and its aliases `lumex_string_view` (`char`), `lumex_wstring_view` (`wchar_t`), `lumex_u16string_view`, `lumex_u32string_view` and, with `char8_t`, `lumex_u8string_view` (target `lumex::string_view`, an interface target: header-only, nothing to build or to link) are the library's own non-owning views over a character sequence: the interface of `std::basic_string_view` of the newest standard, from C++11 on, on every compiler of the library. The view is one class template on every standard and is never an alias of the standard type: from C++17 it converts implicitly to and from `std::string_view` (`std::wstring_view`, ...) and compares with it. The umbrella adds the global aliases `lumex_string_view` and `lumex_wstring_view`. These are the text parameter types of the library: the string overloads of base64, crc, exceptions and xml (and of fmt, json and others) take `lumex_string_view` by value in every standard, and a literal, a `std::string` or, from C++17, a `std::string_view` converts to it.
 
 ```cpp
 #include <iostream>
@@ -64,7 +64,44 @@ main ()
 }
 ```
 
-From C++17 the conversions to and from the standard type are implicit; the view has no `std::hash` (`lumex/examples/string_view/example_string_view_std_conversion.cpp`, built at C++17, prints `1 1 21`):
+`std::hash`, the `_sv` literals, `contains`, constant evaluation in C++11 and `operator<<` that honors `setw` and `setfill` (`lumex/examples/string_view/example_string_view_literals_hash.cpp`, built at C++11, prints `2 1 [******ab]`):
+
+```cpp
+#include <iomanip>
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+#include "lumex/core/string_view/LumexStringView"
+
+using namespace lumex::core::string_view::view::literals;
+
+namespace
+{
+// Evaluated by the compiler, in C++11 as well.
+constexpr lumex_string_view method = "isocratic.ini"_sv;
+static_assert (method.find ('.') == 9 && method.ends_with (".ini")
+                   && method.contains ("crat"),
+               "constant evaluation");
+}
+
+int
+main ()
+{
+  // std::hash: a view is a key, and an equal text found elsewhere finds it.
+  std::unordered_map<lumex_string_view, int> priority;
+  priority["isocratic.ini"_sv] = 1;
+  priority["gradient.ini"_sv] = 2;
+  std::string const name = "gradient.ini";
+  int const found = priority.at (lumex_string_view (name));
+
+  std::cout << found << ' ' << method.contains ("crat") << ' ';
+  // operator<< honors the width and the fill, and resets the width.
+  std::cout << '[' << std::setw (8) << std::setfill ('*') << "ab"_sv << "]\n";
+}
+```
+
+From C++17 the conversions to and from the standard type are implicit and the hash of a view is the hash of the standard view (`lumex/examples/string_view/example_string_view_std_conversion.cpp`, built at C++17, prints `1 1 21`):
 
 ```cpp
 #include <cstddef>
@@ -79,13 +116,13 @@ int
 main ()
 {
   std::string_view standard = "methods/isocratic.ini";
-  lumex_string_view own = standard;       // implicit, no copy of the text
-  std::string_view back = own;            // implicit
-  bool const same = (own == standard)     // compares like two views
+  lumex_string_view own = standard;   // implicit, no copy of the text
+  std::string_view back = own;        // implicit
+  bool const same = (own == standard) // compares like two views
                     && !(own != back) && (own < lumex_string_view ("z"));
-  // The view has no std::hash: hash the standard view it converts to.
-  std::size_t const hash = std::hash<std::string_view> () (own);
-  std::string const copy = own.to_string ();   // an owning copy is explicit
+  // The hash of the view is the hash of the standard view of the same text.
+  std::size_t const hash = std::hash<lumex_string_view> () (own);
+  std::string const copy = own.to_string (); // an owning copy is explicit
   std::cout << same << ' ' << (hash == std::hash<std::string_view> () (back))
             << ' ' << copy.size () << '\n';
 }
@@ -110,121 +147,139 @@ main ()
 
 ## Origin
 
-The interface follows `std::basic_string_view` of C++17 ([string.view]; the proposal N3921): the types, the iterators, `find` and its relatives, `compare`, `substr`, `remove_prefix`, `remove_suffix`, `starts_with` and `ends_with` (C++20), `copy`, `swap`, `operator<<`. The library needs it below C++17 (the overloads that take text could not otherwise name a view type) and keeps one class on every standard so that an overload set means the same thing in C++11 and in C++20; the decision is the project's own (the span and the optional of the library follow it).
+The interface follows `std::basic_string_view` ([string.view]; the proposal N3921) as it stands in C++23: the types and `traits_type`, the iterators, `find` and its relatives, the six `compare` overloads, `substr`, `remove_prefix`, `remove_suffix`, `starts_with` and `ends_with` (C++20), `contains` (C++23), `copy`, `swap`, `operator<<`, `operator<=>` (C++20), `std::hash`, the `_sv` literals, `std::ranges::enable_view` and `enable_borrowed_range` (C++20), the iterator-pair constructor (C++20) and the range constructor (C++23). The library needs it below C++17 (the overloads that take text could not otherwise name a view type) and keeps one class on every standard so that an overload set means the same thing in C++11 and in C++20; the decision is the project's own (the span and the optional of the library follow it), and so is giving the later standards' members from C++11.
 
 ## Headers
 
 | Header | Contents |
 | --- | --- |
-| `lumex/core/string_view/LumexStringView` | Umbrella: includes both view headers |
-| `view/LumexStringView.hpp` | `lumex_string_view` in `lumex::core::string_view::view`, the six comparison operators, the C++17 operators with `std::string_view`, `operator<<`, and the global alias `lumex_string_view` |
-| `view/LumexWStringView.hpp` | The same for `wchar_t`: `lumex_wstring_view`, `std::wstring_view` operators, the wide `operator<<`, the global alias `lumex_wstring_view` |
+| `lumex/core/string_view/LumexStringView` | Umbrella: includes the three headers below |
+| `view/LumexBasicStringView.hpp` | The class template `lumex_basic_string_view`, the comparison operators, the operators with the standard view (C++17), `operator<<`, the aliases of every character type, the `_sv` literals (namespace `lumex::core::string_view::view::literals`, not inline), `std::hash`, the ranges opt-ins |
+| `view/LumexStringView.hpp` | The global alias `lumex_string_view` |
+| `view/LumexWStringView.hpp` | The global alias `lumex_wstring_view` |
 
-The compiled part is `view/LumexStringView.cpp` and `view/LumexWStringView.cpp` (library `LumexCore_string_view`, alias `lumex::string_view`; 94 exported functions, 47 per view). The export macro of the module is `LUMEX_STRING_VIEW_API`: `dllexport` while the library itself is built on Windows, `dllimport` for everyone else, default visibility on ELF. There is no `portable_*` alias; headers of the library that take text include `view/LumexStringView.hpp` and spell the type out.
+There is no compiled part and no export macro (`LUMEX_STRING_VIEW_API` is gone from `LumexExport.hpp`; the six comparison operators are hidden friends of the class). The CMake target `lumex::string_view` (`LumexCore_string_view`) is an `INTERFACE` library that carries the include directory; it does not link `lumex::utility`, although the headers include the macro and attribute headers of the utility module. The Conan component `core_string_view` has no library and no requirements. There is no `portable_*` alias; headers of the library that take text include `view/LumexStringView.hpp` and spell the type out.
 
 ## Interface
 
-The facts are from `view/LumexStringView.hpp`; the wide view has the same shape over `wchar_t` (`std::wstring`, `std::wostream`, `wcslen`).
-
 | Name | Notes |
 | --- | --- |
-| types | `value_type`, `pointer`, `const_pointer`, `reference`, `const_reference`, `iterator`, `const_iterator` (both `char const *`), `reverse_iterator`, `const_reverse_iterator`, `size_type` (`std::size_t`), `difference_type`, `npos` |
-| construction | default (null pointer, size 0), `char const *` (implicit; `strlen` in the library; a null pointer gives an empty view), `char const *` and size (inline, `constexpr`), `std::string const &` and any `std::basic_string<char, ..., Allocator> const &` (implicit), copy and move (defaulted) |
-| C++17 | implicit construction from and implicit conversion to exactly `std::string_view` (member templates, inline, `constexpr`) |
-| iterators | `begin`, `end`, `cbegin`, `cend` (inline raw pointers, `constexpr`), `rbegin`, `rend`, `crbegin`, `crend` (in the library) |
-| capacity | `size`, `length`, `empty` (inline, `constexpr`), `max_size` (static, `constexpr`) |
-| access | `operator[]`, `front`, `back`, `data` (inline, `constexpr`, unchecked), `at` (checked, throws `std::out_of_range`) |
+| types | `traits_type`, `value_type`, `pointer`, `const_pointer`, `reference`, `const_reference`, `iterator`, `const_iterator` (both pointers), `reverse_iterator`, `const_reverse_iterator`, `size_type`, `difference_type`, `npos` |
+| construction | default (null pointer, size 0); `CharT const *` (implicit; a null pointer gives an empty view); `CharT const *` and size; `std::basic_string` with any allocator (implicit); exactly `std::basic_string_view<CharT, Traits>` (C++17, implicit); two pointers (below C++20) or two contiguous iterators (C++20, constrained as the standard's); a contiguous range with `data ()` and `size ()` of the same character type and traits, such as `std::vector<char>`, `std::array<char, N>` or `std::span<char const>` (explicit, in every standard) |
+| iterators | `begin`, `end`, `cbegin`, `cend`, `rbegin`, `rend`, `crbegin`, `crend` |
+| capacity | `size`, `length`, `empty`, `max_size` (static) |
+| access | `operator[]`, `front`, `back`, `data` (unchecked), `at` (throws `std::out_of_range`) |
 | modifiers | `remove_prefix`, `remove_suffix` (clamp `n` to the size), `swap`, `clear` (null pointer and size 0) |
-| operations | `copy` (throws `std::out_of_range` when `pos > size`), `substr` (same), `compare` with a view, a `char const *`, and `pos, len, view` |
-| searches | `find`, `rfind`, `find_first_of`, `find_last_of`, `find_first_not_of`, `find_last_not_of`, each for a view, a character, a `char const *` with a count and a `char const *`; all `noexcept` |
-| `starts_with`, `ends_with` | for a view and for a character (C++20 in the standard, available from C++11 here) |
-| to `std::string` | `explicit operator std::basic_string<char, std::char_traits<char>, Allocator> ()` and `to_string (alloc)`; never implicit |
-| comparisons | `==`, `!=`, `<`, `<=`, `>`, `>=` between two views (inline, calling the exported `compare`), and from C++17 with `std::string_view` in both orders (constrained templates that win over the standard's operators); a `char const *` or a `std::string` argument goes through the implicit constructor |
-| `operator<<` | writes the characters with `ostream::write`: width and fill are not applied and the width is not reset to 0, so it pads the next formatted insertion (`os << '[' << setw (8) << setfill ('*') << v << ']'` prints `[ab*******]`, narrow and wide) |
+| operations | `copy`, `substr` (both throw `std::out_of_range` when `pos > size`) |
+| `compare` | with a view, with `pos, n, view`, with `pos, n, view, pos2, n2`, with a C string, with `pos, n, cstr` and with `pos, n, cstr, n2` |
+| searches | `find`, `rfind`, `find_first_of`, `find_last_of`, `find_first_not_of`, `find_last_not_of`, each for a view, a character, a C string with a count and a C string |
+| `starts_with`, `ends_with`, `contains` | for a view, a character and a C string (`starts_with`, `ends_with` are C++20 and `contains` C++23 in the standard) |
+| to `std::basic_string` | `explicit operator std::basic_string<CharT, Traits, Allocator> ()` and `to_string (alloc)`; never implicit |
+| C++17 | implicit conversion to and from `std::basic_string_view<CharT, Traits>`; `==`, `!=`, `<`, `>`, `<=`, `>=` with it in both orders (constrained templates that win over the standard's operators) |
+| comparisons | `==`, `!=`, `<`, `<=`, `>`, `>=` between two views; a C string or a `std::basic_string` argument goes through the implicit constructor; `operator<=>` (C++20) gives `std::strong_ordering` (`Traits::comparison_category` if the traits name one), also with the standard view |
+| `std::hash` | from C++17 equal to `std::hash<std::basic_string_view<CharT>>` of the same characters (and so to `std::hash<std::basic_string>`); below C++17 a deterministic FNV-1a over the code units |
+| `operator<<` | a formatted output function as the standard's: `width`, `fill` and `adjustfield`, the width reset to 0, the sentry, `badbit` on a failing buffer |
+| ranges (C++20) | `std::ranges::enable_view` and `enable_borrowed_range` are true; `std::ranges::contiguous_range`, `sized_range` hold |
+| literals | `"text"_sv`, `L"text"_sv`, `u"text"_sv`, `U"text"_sv` (and `u8` with `char8_t`) |
 
-Most members are marked `nodiscard`. `lumex_string_view` is the view of `char`; there is no conversion between the narrow and the wide view.
+Most members are marked `nodiscard`. There is no conversion between views of different character types. Differences from the standard view: a null `CharT const *` is an empty view (undefined in the standard); `remove_prefix` and `remove_suffix` clamp (undefined in the standard when `n > size`); `clear`, `to_string` and the conversion to `std::basic_string` are additions; `std::basic_string_view`'s deleted `nullptr_t` constructor is not there; the iterator-pair constructor below C++20 accepts pointers only.
 
 ## How it works
 
-- **Layout.** A pointer and a size: `sizeof` is 16 bytes for both views on x86-64 Linux, the type is trivially copyable, trivially destructible and standard layout, and is passed in registers (the benchmark's `pass_by_value` and `return_value` are the same speed as `std::string_view`). It is not trivially default constructible: the default constructor sets the pointer to null.
-- **Complexity.** Every operation is linear in the size of the data it looks at, like the standard's. `find` of a view tests each position (a character comparison, then `memcmp`), O(n*m) in the worst case like the standard's, but it does not use `memchr` to skip to the next occurrence of the first character, which is what makes it slow on a long text (see the comparison). `find` of a character uses `memchr`, `compare` uses `memcmp`, the set searches are nested loops.
-- **The compiled part.** The class is declared `class LUMEX_STRING_VIEW_API lumex_string_view`, so every member is exported, and every member that is not written in the class body is defined in `LumexStringView.cpp` (and `LumexWStringView.cpp`). The inline members are the accessors listed above, the copy and move and the constructor from pointer and size, the six comparison operators and the C++17 conversions. Everything else, including `substr`, `clear`, `remove_prefix` and the constructors from `char const *` and `std::string`, is a call into the library, so the optimizer sees a call and not the code, and a literal's length is not folded (see the comparison for the cost). The C++17 member templates and the operators with the standard view are inline and never exported, so a library built at C++11 serves a consumer at C++17.
-- **Contract.** The view does not own the data: the characters must outlive it. `operator[]`, `front`, `back` and `data` do not check; `remove_prefix` and `remove_suffix` clamp instead of leaving it undefined; `at`, `substr` and `copy` throw `std::out_of_range`. A null pointer is a valid empty view. The characters are compared with `memcmp` (`wmemcmp` for the wide view), so for `char` the order is that of the unsigned bytes.
-- **Exception safety and threads.** The members that allocate nothing and throw nothing are `noexcept` (the searches, `compare` with a view, `starts_with`, `ends_with`, the constructors from a view, a `char const *` and a `std::string`); `compare (char const *)` is not. Concurrent read access to one view is safe; modifying (`remove_prefix`, ...) one view from two threads is a data race, as for any object.
-- **Conversions at C++17.** The conversion operator and the constructor accept exactly `std::string_view` (and `std::wstring_view`); a `std::basic_string_view` with other traits is not accepted. The comparisons with the standard view do not become ambiguous with the standard's own operators (a test covers the overload sets). Hashing of the view is not provided (see the limits); the conversion to `std::string_view` gives access to `std::hash`.
+- **Layout.** A pointer and a size: `sizeof` is 16 bytes for every view on x86-64 Linux, the type is trivially copyable, trivially destructible and standard layout, and is passed in registers. It is not trivially default constructible: the default constructor sets the pointer to null. The standard view of libstdc++ keeps `{length, pointer}`, this one `{pointer, length}`.
+- **Complexity and the searches.** Every operation is linear in the size of the data it looks at. `find` of a character looks it up with `char_traits::find` (`memchr`); `find` of a view looks up the first character of the needle with `char_traits::find` and compares the rest with `char_traits::compare` (`memcmp`) only where it was found, as libstdc++ does, so a text that lacks the first character costs one call and the worst case is O(n*m); `compare`, `starts_with` and `ends_with` use `char_traits::compare`; `rfind` and the "last" searches are backward loops (there is no portable `memrchr`); the set searches look every character up in the set with `char_traits::find`, as libstdc++ does.
+- **Constant evaluation.** C++17 and later: every query is `constexpr` and calls the `constexpr` `char_traits` functions (on GCC 8, whose `char_traits<char>::compare` orders a byte 0x80 below `'a'` in a constant expression, the library's own loops are used, as in C++14). C++14: every query and the modifiers (`remove_prefix`, `remove_suffix`, `swap`, `clear`, `copy`) are `constexpr`; the library's own loops run in a constant expression and `char_traits` at run time, chosen with `__builtin_is_constant_evaluated` (GCC 9, Clang 9, MSVC 19.25) or, on GCC 8, `__builtin_constant_p`. C++11: the queries are `constexpr` (one `return` statement each); a search is a recursion over halves of the range, so its depth is the logarithm of the length (a text of 1000 characters is searched in a constant expression, probed with GCC's default depth of 512), the length of a narrow C string is `__builtin_strlen` and of a wide one a recursion of 4 characters per step (403 wide characters are tested); the modifiers are not `constexpr`. `rbegin`, `rend`, `crbegin` and `crend` are `constexpr` from C++17 (`std::reverse_iterator`). The compiler without the builtins (not GCC, Clang or MSVC) takes the constant-expression path at run time as well: correct, with the recursion over halves.
+- **Contract.** The view does not own the data: the characters must outlive it. `operator[]`, `front`, `back` and `data` do not check; `remove_prefix` and `remove_suffix` clamp instead of leaving it undefined; `at`, `substr` and `copy` throw `std::out_of_range`. A null pointer with size 0 is a valid empty view and no function dereferences it. The characters are compared as `Traits::lt` orders them: for `char` as unsigned bytes, whatever the signedness of `char`, and a NUL is a character.
+- **Exception safety and threads.** The members that allocate nothing and throw nothing are `noexcept` (the searches over a view or a character, `compare` with a view, `starts_with`, `ends_with`, `contains`, the constructors from a view, a pointer and a `std::string`); the overloads that take a C string are not (the standard leaves them without `noexcept`). Concurrent read access to one view is safe; modifying one view from two threads is a data race, as for any object.
+- **Conversions at C++17.** The conversion operator and the constructor accept exactly `std::basic_string_view<CharT, Traits>`. The comparisons with the standard view do not become ambiguous with the standard's own operators (a test covers the overload sets).
+- **Hash.** From C++17 `std::hash<lumex_string_view>` returns `std::hash<std::string_view>` of the same characters, so a view and a string of equal text hash alike, as the standard requires of its own types; this holds for the traits that the standard hashes (`std::char_traits` of `char`, `wchar_t`, `char16_t`, `char32_t`, `char8_t`). Below C++17 (and for other traits) the hash is FNV-1a over the unsigned code units, one multiplication per code unit: deterministic on every platform, but not equal to the hash of `std::string` there, and several times slower than libstdc++'s (see the benchmark).
+- **`operator<<`.** Pads on the left, or on the right when `adjustfield` is `left`; `internal` pads like right, as libstdc++ does. The output is compared with `std::string_view`'s, `std::string`'s and a failing buffer's in the tests.
 
 ## Comparison with existing solutions
 
-Measured by [benchmarks/string_view](../../../benchmarks/string_view/README.md) against `std::string_view` of libstdc++ 13.2.0 (C++17, and C++20 for `starts_with` and `ends_with`) and `boost::string_view` of Boost 1.92.0 (headers only, C++11 and C++17), GCC 13.2.0 `-O2`, Intel Core i7-12700K pinned to one core, 5 passes of 15 repetitions, the compiled part linked as a shared library (the default) and, where noted, as a static one. Ratios are to `std::string_view`; below 1.00 is faster than it. Other string views in wide use (`absl::string_view` is an alias of `std::string_view` where the standard has it, `llvm::StringRef`, `folly::StringPiece`, `nonstd::string_view`) are not installed on this machine and were not measured.
+Measured by [benchmarks/string_view](../../../benchmarks/string_view/README.md) against `std::string_view` of libstdc++ 13.2.0 (C++17, and C++20 for `starts_with` and `ends_with`) and `boost::string_view` of Boost 1.92.0 (headers only, C++11 and C++17), GCC 13.2.0 `-O2`, Intel Core i7-12700K pinned to one core, 5 passes of 15 repetitions. Ratios are to `std::string_view`; below 1.00 is faster than it. Other string views in wide use (`llvm::StringRef`, `folly::StringPiece`, `nonstd::string_view`) are not installed on this machine and were not measured.
 
 | | `lumex_string_view` | `std::string_view` | `boost::string_view` |
 | --- | --- | --- | --- |
 | Standard floor | C++11, one class on every standard | C++17 | C++11 |
-| Header-only | no, a compiled library (35288 bytes shared) | yes | yes |
+| Header-only | yes | yes | yes |
 | `sizeof`, trivially copyable | 16 bytes, yes | 16 bytes, yes | 16 bytes, yes |
-| `constexpr` | construction from pointer and size, default and copy construction, accessors, `begin`/`end`/`cbegin`/`cend`, the C++17 conversions; not `rbegin`/`rend`, `at`, `substr`, `compare`, `==`, `find`, `starts_with`, `remove_prefix` or the `char const *` constructor (probed at C++11, 17, 20) | nearly all members (C++17 and later) | most members |
+| `constexpr` | every query from C++11 (single `return` form), the modifiers from C++14, `rbegin`/`rend` from C++17 | nearly all members (C++17 and later) | most members |
 | `starts_with`, `ends_with` | yes, from C++11 | C++20 | yes, from C++11 |
-| `contains` | no | C++23 | yes |
-| `std::hash`, `operator<=>`, `std::ranges::view`, `borrowed_range` | none of the four | all four (hash C++17, others C++20) | `boost::hash` through `hash_value`; no `<=>`, not a `std::ranges::view` or `borrowed_range` at C++20 (probe) |
+| `contains` | yes, from C++11 | C++23 | yes, from C++11 |
+| `std::hash` | yes (C++17: the standard's value; below: FNV-1a) | yes (C++17) | `boost::hash` through `hash_value` |
+| `operator<=>`, `std::ranges::view`, `borrowed_range` | yes (C++20) | yes (C++20) | no `<=>`, not a `std::ranges::view` or `borrowed_range` at C++20 (probe of the earlier README) |
 | `std::string_view` conversions | implicit both ways at C++17 | n/a | none |
-| `operator<<` with `setw` | does not apply width and fill; the width stays set for the next insertion | honors them | honors them (`[******ab]`, probe) |
+| `operator<<` with `setw` | honors width, fill and adjust | honors them | honors them |
 | Wide view | `lumex_wstring_view` | `std::wstring_view` | `boost::wstring_view` |
 
-Numbers (GCC 13.2.0, libstdc++; absolute times in ns per operation, ratio to `std::string_view` in parentheses; the first pair is the shared library, the second the static one; best of 5 passes; the ratios of the static column are to `std::string_view` of the static tree (for example 2.97 ns for `ctor_cstr`), which the table does not show). The `std::string_view` baseline of `map_lookup` moves between 30 and 37 ns between processes of one executable (best pass 30.47, median of passes 36.87), so the shared ratio of that row is 1.65 to 1.94:
+Numbers (GCC 13.2.0, libstdc++; absolute times in ns per operation, ratio to `std::string_view` in parentheses; best of 5 passes):
 
-| Scenario | lumex C++17, shared | lumex C++17, static | `std::string_view` | `boost::string_view` C++17 |
-| --- | --- | --- | --- | --- |
-| construct from a literal | 2.17 (3.49) | 2.03 (3.48) | 0.62 | 0.59 (0.95) |
-| construct from a `char const *` | 3.81 (1.34) | 3.36 (1.13) | 2.84 | 2.92 (1.03) |
-| construct from a `std::string` | 1.12 (1.32) | 1.01 (1.12) | 0.85 | 0.87 (1.02) |
-| construct from pointer and size | 0.73 (0.95) | 0.76 (1.00) | 0.76 | 0.77 (1.01) |
-| `find ('/')` | 3.36 (1.93) | 2.80 (1.62) | 1.74 | 1.70 (0.97) |
-| `find` of a 9-character view in a string of 35 | 9.25 (1.70) | 9.42 (1.85) | 5.46 | 5.94 (1.09) |
-| `find` of an 8-character view in a text of 4 096, first letter common | 1720 (1.19) | 1842 (1.27) | 1448 | 1457 (1.01) |
-| `find` of an 8-character view in a text of 4 096, first letter absent | 969.6 (33.9) | 998.8 (34.4) | 28.63 | 31.87 (1.11) |
-| `substr (8, 12)` | 1.34 (1.36) | 1.26 (1.29) | 0.99 | 1.00 (1.01) |
-| `compare` of equal strings | 3.11 (1.17) | 3.16 (1.18) | 2.66 | 2.15 (0.81) |
-| `==` of equal strings | 2.78 (1.35) | 2.75 (1.34) | 2.06 | 2.05 (0.99) |
-| `==` with a literal | 1.73 (5.66) | 1.79 (6.26) | 0.31 | 0.29 (0.96) |
-| `starts_with` a literal (std at C++20) | 3.71 (8.14) | 3.37 (7.34) | 0.46 | 0.48 (1.04) |
-| `std::sort` of 256 views, per element | 42.97 (1.47) | 39.00 (1.32) | 29.21 | 30.58 (1.05) |
-| `std::map` lookup of a view | 59.05 (1.94) | 39.02 (1.25) | 30.47 | 28.35 (0.93) |
-| split a text of 4 096 at `,` | 2799 (1.27) | 2790 (1.28) | 2204 | 2170 (0.98) |
-| to / from `std::string_view` | 0.77 / 0.85 | 0.69 / 0.90 | a copy: 0.62 / 0.73 | not available |
+| Scenario | lumex C++17 | `std::string_view` | `boost::string_view` C++17 |
+| --- | --- | --- | --- |
+| construct from a literal | 0.58 (1.03) | 0.57 | 0.58 (1.03) |
+| construct from a `char const *` | 2.99 (1.07) | 2.80 | 2.90 (1.04) |
+| construct from a `std::string` | 0.86 (1.02) | 0.84 | 0.85 (1.01) |
+| construct from pointer and size | 0.76 (1.00) | 0.77 | 0.76 (1.00) |
+| `find ('/')` | 1.75 (1.02) | 1.72 | 1.68 (0.98) |
+| `find` of a 9-character view in a string of 35 | 5.33 (1.05) | 5.09 | 5.38 (1.06) |
+| `find` of an 8-character view in a text of 4 096, first letter common | 1332 (0.90) | 1482 | 1484 (1.00) |
+| `find` of an 8-character view in a text of 4 096, first letter absent | 29.08 (1.00) | 29.02 | 31.60 (1.09) |
+| `substr (8, 12)` | 1.00 (0.98) | 1.02 | 1.00 (0.99) |
+| `compare` of equal strings | 2.55 (0.91) | 2.80 | 2.18 (0.78) |
+| `==` of equal strings | 2.09 (1.02) | 2.04 | 2.09 (1.02) |
+| `==` with a literal | 0.29 (1.00) | 0.29 | 0.29 (1.00) |
+| `starts_with` a literal (std at C++20) | 0.46 (0.99) | 0.46 | 0.46 (1.00) |
+| `std::sort` of 256 views, per element | 28.42 (0.96) | 29.52 | 31.72 (1.07) |
+| `std::map` lookup of a view | 28.99 (1.11) | 26.16 | 29.19 (1.12) |
+| split a text of 4 096 at `,` | 2242 (1.04) | 2153 | 2177 (1.01) |
+| hash of a string (C++11 / C++17) | 15.07 (3.23) / 4.66 (1.00) | 4.66 | 5.53 (1.19) |
+| to / from `std::string_view` | 0.70 / 0.87 | a copy: 0.64 / 0.74 | not available |
 
-Summary of the whole set (44 scenarios): the geometric mean of the time of `lumex_string_view` over `std::string_view` is 1.55 (shared) and 1.53 (static); it is slower by more than 10 % in 33 scenarios (shared) and faster by more than 10 % in 1; `boost::string_view` over `std::string_view` is 1.00. The view of this library is slower than both on every row above except construction from pointer and size, where all three are equal, and the conversions, which cost a fraction of a nanosecond. That is a property of the compiled part (a call for every operation and no folding of a literal's length) and, for `find` of a view, of the algorithm. No scenario is reliably faster: `find_last_of` is 0.76x with the shared library and 1.12x with the static one, and it is the same machine code in both (equal instruction and mispredicted-branch counts, IPC 4.5 against 3.6 by hardware counters), so the difference is code placement. With the shared library the calls go through the PLT; for `map_lookup` that is 59 to 65 against 38 to 40 ns, and the same executable built with `-fno-plt` takes 38 ns; the PLT run has 10 times as many mispredicted branches (22.7 M against 2.2 M per run) for 2.6 % more instructions (hardware counters, `perf_event_open`). The same code built into the benchmark's translation unit, with no library boundary, is 1.10 of `std::string_view` over all scenarios and within 10 % of it (or faster) in every row above except the three `find` of a view rows and the two conversions (about a tenth of a nanosecond). Compile time (`-fsyntax-only -O0`, over a unit with a stub): including the header costs +62 ms at C++11 and +100 ms at C++17, against +46 ms for `<string_view>` and +265 ms for Boost at C++17 (+162 ms at C++11); a unit that uses the whole API compiled at `-O2` has 4641 bytes of `.text` against 5779 for `std::string_view` and 8939 for Boost. Details, the method and the caveats: [benchmarks/string_view/README.md](../../../benchmarks/string_view/README.md).
+Summary of the whole set (44 scenarios): the geometric mean of the time of `lumex_string_view` over `std::string_view` is 1.012 (C++17) and 1.031 (C++11, 40 scenarios); it is slower by more than 10 % in 4 scenarios and faster by more than 10 % in 2; `boost::string_view` over `std::string_view` is 1.024. The scenarios that are more than 10 % off, and what the disassembly says about them, are listed in the benchmark README (`from_std` 1.17x, `find_first_not_of` 1.14x, `find_last_of` 1.11x, `map_lookup` 1.11x, where `std::string_view` itself moves by 14 % between C++17 and C++20 for the same code). Before the rework, when the view had a compiled library, the same figure was 1.55 (shared) and 1.53 (static), `find` of a view whose first letter is absent was 33.9x and a string literal 3.5x to 8.1x; the old numbers are kept in `benchmarks/string_view/results/*_before_rework.csv`. Compile time (`-fsyntax-only -O0`, machine busy): including the header costs +85 ms at C++11 and +134 ms at C++17, against +54 ms for `<string_view>` and +159 ms (C++11) and +271 ms (C++17) for Boost; a unit that uses the whole API compiled at `-O2` has 5381 bytes of `.text` (C++11) and 5539 (C++17) against 5779 for `std::string_view` and 8845 and 8939 for Boost.
 
 ## Strengths and weaknesses
 
 Strengths:
-- One class on every standard: the type and the overload sets of a text API are the same in C++11, C++14, C++17 and C++20, where `std::string_view` does not exist below C++17. The interface includes `starts_with` and `ends_with` from C++11.
-- `sizeof` is 16 bytes, trivially copyable, passed in registers; construction from pointer and size, copy, `pass_by_value`, iteration and the 16-byte layout cost the same as `std::string_view` (within 10 %).
-- From C++17 it converts implicitly to and from `std::string_view`, at a cost of a fraction of a nanosecond (`to_std` 0.77 ns against 0.62 ns for a copy of the standard type), and compares with it without ambiguity; `boost::string_view` has no such conversion.
+- One class on every standard: the type and the overload sets of a text API are the same in C++11, C++14, C++17 and C++20, where `std::string_view` does not exist below C++17. The interface is the newest standard's (`starts_with`, `ends_with`, `contains`, `<=>`, `std::hash`, literals, ranges opt-ins) from C++11.
+- Header-only: no library to build, link or deploy, no export macro, no dllimport/dllexport on Windows; the interface target only carries the include directory.
+- On par with `std::string_view` in speed on this machine (geometric mean 1.01), including a string literal (the length is folded) and `find` of a view (the same `memchr` jump as libstdc++).
+- `constexpr` for every query in C++11, and for the modifiers from C++14.
+- Tested against `std::string_view` and `std::string` exhaustively on all short texts of an alphabet with a NUL and a high-bit byte, and on random texts (see Testing).
 - A null pointer, `remove_prefix (n > size)` and `remove_suffix` are defined (an empty view, a clamp) where the standard leaves them undefined.
-- Cheaper than Boost to compile at C++11 (+62 ms to include, Boost +162 ms). A unit that uses the whole API compiles to 4641 bytes of `.text` against 5779 for `std::string_view` at C++17 (without `starts_with` and `ends_with`) and 7019 at C++20 (Boost: 8939), because calls replace inlined code; the library adds its 4885 bytes of `.text` once per program (GCC 13.2 -O2, one unit)
 
 Weaknesses:
-- Slower than `std::string_view` and `boost::string_view` in most operations because they are calls into a library: geometric mean 1.55x (shared) and 1.53x (static) over 44 scenarios.
-- A string literal is the worst case: construction 3.49x, `==` with a literal 5.66x, `starts_with ("methods/")` 8.14x, because the length of a literal is computed by `strlen` inside a call into the library, and `==` and `starts_with` add a second call (`memcmp` inside); `std::string_view` folds the length and compares with one or two 8-byte loads (read from the disassembly; the inlined build compiles to the same instructions as `std::string_view`).
-- `find` of a view tests every position (no `memchr` jump): 1.19x the time of `std::string_view` on a text of 4 096 characters whose first letter is common, 33.9x when the first letter does not occur at all, 1.70x on a short string.
-- A compiled library: it must be built, linked and, if shared, deployed; the shared library needs `libLumexCore_utility` too.
-- Not `constexpr` beyond construction from pointer and size and the accessors (no `constexpr` search, comparison, `substr`, or construction from a literal), where the standard's are.
-- Missing next to `std::string_view`: `std::hash` (so no `unordered_map` key as it stands), `operator<=>` (C++20), `contains` (C++23, Boost has it), `std::ranges::enable_view` and `enable_borrowed_range`, a user-defined literal, the four- and five-argument `compare` overloads (`compare (pos1, n1, s, n2)`, `compare (pos1, n1, v, pos2, n2)`; `compare (pos, n, "lit")` works through the implicit constructor) and the iterator-pair constructor (C++20; read from the header, not probed).
-- `operator<<` does not apply `setw` and the fill character, and leaves the width set so that the next insertion is padded.
-- A `std::basic_string_view` with other traits is not accepted by the C++17 conversions.
-- The narrow and the wide view do not convert to each other.
+- Compiles slower than `<string_view>`: a class template with its algorithms (+134 ms against +54 ms at C++17 for the include unit, on a busy machine).
+- Below C++17 the hash is a byte-wise FNV-1a, 3.2x slower than libstdc++'s hash of the same text, and not equal to `std::hash<std::string>`.
+- `from_std` costs 0.87 ns against 0.74 for a copy of the standard view (two 8-byte moves where GCC uses one 16-byte move for the standard type).
+- The `_sv` suffix is in a namespace that has to be opened (`using namespace lumex::core::string_view::view::literals;`); there is no global shortcut.
+- The iterator-pair constructor accepts only pointers below C++20 (contiguity cannot be tested before concepts); the range constructor is duck-typed (`data ()` and `size ()`) below C++20.
+- The aliases for `char16_t`, `char32_t` and `char8_t` are in the namespace only; no global alias, and no conversion to and from `std::u16string_view` and the others is tested beyond the hash.
+- A `std::basic_string_view` with other traits is not accepted by the C++17 conversions; the narrow and the wide view do not convert to each other.
+- Clang with libc++ and MSVC were not measured; the `find` of a view relies on how `char_traits::find` is implemented there.
 
 ## Testing
 
-On GCC 13.2.0 Release (the build used for these numbers) `ctest -R string_view` runs 428 tests and all pass: 131 view tests at C++11, 142 at C++17 and 142 at C++20 (the C++17 and C++20 suites add `LumexStringViewStd.cxx17.tests.cpp`: the conversions to and from the standard views, the comparisons, the overload sets and the stream), 5 examples (`examples.string_view.*`) and 8 `cmake.*` tests (`cmake.wiring_string_view`, `cmake.wiring_string_view_export`, `cmake.require_fail_string_view_without_utility` and the `require_fail_*_without_string_view` cases of base64, crc, xml, exceptions and json). The test files cover the narrow view (`LumexStringView.cxx11.tests.cpp`), the wide view (`LumexWStringView.cxx11.tests.cpp`), the implicit conversions (`LumexStringViewImplicit`) and the view as a by-value text parameter (`LumexStringViewParameter`). The tests are unit tests with expected values; there is no randomized test against `std::string_view` in the module, but the benchmark compares the result of 44 operations of the view with the same operations on `std::string` on a corpus of 256 strings and a text of 4 096 characters, and stops on a difference. Sanitizer runs and GCC 8.3 and Clang builds, and 10 deliberate corruptions of the conversions and the comparisons with the standard view that the tests catch at C++17 and C++20, are recorded in the CHANGELOG entry of the conversions between the views (`[v2.0.0.0]`); they were not repeated for this README (MinGW is not recorded for the views).
+On GCC 13.2.0 Release `ctest -R string_view` runs the module's tests and all pass: 213 view tests at C++11, 214 at C++14, 238 at C++17 and 244 at C++20 (each suite also runs the files of the lower standards), 6 examples (`examples.string_view.*`) and 7 `cmake.*` tests (`cmake.wiring_string_view`, `cmake.wiring_string_view_export` and the `require_fail_*_without_string_view` cases of base64, crc, xml, exceptions and json). Before the rework there were 131, 142 and 142 view tests at C++11, C++17 and C++20. The same suites pass on GCC 8.3 (C++11, 14, 17), on Clang 23 with libc++ and with libstdc++ (C++11, 20) and, built with AddressSanitizer and UndefinedBehaviorSanitizer on GCC 13 (C++11, 20), without a report.
+
+The test files, in `lumex/tests/core/string_view/view/`:
+- `LumexStringView.cxx11.tests.cpp`, `LumexWStringView.cxx11.tests.cpp`, `LumexStringViewImplicit`, `LumexStringViewParameter`: the class, the implicit conversions and the view as a text parameter (unchanged).
+- `LumexStringViewSearch.cxx11.tests.cpp`: all six search families (view, character, C string with and without a count) against the `std::basic_string` members, for every text of an alphabet with `a`, `b`, a NUL and a high-bit byte up to 5 characters (4 for the wide view) against every needle up to 3 characters at every position from 0 to size + 2 and at `npos`, then 1500 random texts of each width; plus the fixed values of the edge cases (empty needle, needle longer than the text, `npos`, a position past the end, the first letter absent, a null view). The texts are exact-size heap copies, so a read past the end is an AddressSanitizer error.
+- `LumexStringViewOrdering.cxx11.tests.cpp`: the six operators and every `compare` overload (including the exceptions) against `std::basic_string::compare` over all short texts; the unsigned order, the embedded NUL and the size tie-break as fixed values. `LumexStringViewOrdering.cxx20.tests.cpp`: `operator<=>` against `std::string_view`'s, its type, `std::sort`.
+- `LumexStringViewApi.cxx11.tests.cpp`: `contains`, the C string overloads, the null-pointer views through every member, the range and the iterator-pair constructors with the types they accept and refuse (static asserts), the literals, the other character types.
+- `LumexStringViewHash.cxx11.tests.cpp`: the published FNV-1a vectors, equal text equal hash, the null view, use as an `unordered_map` key; `LumexStringViewHash.cxx17.tests.cpp`: equality with `std::hash<std::string_view>` and `std::hash<std::string>` on every short text and on random ones.
+- `LumexStringViewStream.cxx11.tests.cpp`: `operator<<` against `std::string`'s over widths, fills and adjust fields, the width reset, a failed stream, a buffer that fails, a buffer that throws (with and without `exceptions (badbit)`); `LumexStringViewStdDifferential.cxx17.tests.cpp`: the same probe against `std::string_view`'s and `std::wstring_view`'s, and every query against the standard view on every short text.
+- `LumexStringViewConstexpr.cxx11/14/17.tests.cpp`: static asserts of every query under the rules of C++11 (including 1000-character and 400-wide-character texts), of the modifiers in C++14, of the reverse iterators and the standard-view conversions in C++17. `LumexStringViewRanges.cxx20.tests.cpp`: `std::ranges::view`, `borrowed_range`, the contiguous iterators accepted and refused by the constructor.
+
+Every new test was falsified: 106 deliberate corruptions of a copy of `LumexBasicStringView.hpp` (each new member, the hash constants, the order and the six operators, the search algorithms at their edges, `operator<<`, the conversions, the null-pointer cases, `constexpr` per standard, the literals and the constructors) were compiled against the tests placed first on the include path; 105 are caught (a failing test, a crash, a hang or a failing `static_assert`) and one, making the range constructor implicit, changes nothing a program can observe (the constructor excludes every type that converts implicitly, so it stays unusable either way).
+
 
 ## Not done on purpose / limits / known issues
 
-- No `constexpr` search, comparison, `substr` or construction from `char const *`; no `std::hash`, `operator<=>`, `contains`, range traits (`enable_view`, `enable_borrowed_range`) or user-defined literal. Whether they will come is open; the benchmark's numbers say where the compiled part costs.
-- The whole class is exported from the library and the small members (`clear`, `remove_prefix`, `remove_suffix`, `swap`, `substr`, the constructors from `char const *` and `std::string`) are not inline; making them inline would remove most of the measured cost without changing the interface (the benchmark's "inlined" build shows the size of it), and a `find` that skips with `memchr` would remove the rest on long texts. Reported, not changed here.
-- The shared library `LumexCore_string_view` lists `libLumexCore_utility` as a needed library, although the view uses only macros and attributes of the utility headers (checked with `readelf -d`).
-- Configuring the whole project with `-DLUMEX_BUILD_SHARED_LIBS=OFF` fails at the generate step while the install rules are on (`LumexApplied_settings` requires `nlohmann_json`, which is in no export set); `-DLUMEX_INSTALL=OFF` avoids it. Unrelated to this module, found while building the static benchmark tree.
-- Only exactly `std::string_view` and `std::wstring_view` convert; `std::u16string_view`, `std::u32string_view` and `std::u8string_view` have no counterpart.
-- The wide view is not measured and has the width of `wchar_t` (4 bytes on Linux, 2 on Windows); its `operator<<` behaves like the narrow one with `setw` (probe).
-- The comparison operators are `inline` but call the exported `compare`; on Windows they are therefore part of the DLL boundary.
-- On Windows with a static library `LUMEX_STRING_VIEW_API` is `dllimport` both for the library's own sources and for consumers. MinGW (`x86_64-w64-mingw32-g++-posix`) emits 46 "redeclared without dllimport attribute: previous dllimport ignored" warnings on `LumexStringView.cpp`; one, for `npos`, is "after being referenced with dll linkage". The DLL build gives none. MSVC was not tested. (Reported by a reviewer; not reproduced in this work.)
+- The `_sv` literals are not exported to the global namespace; no `operator""_sv` for `char8_t` before C++20.
+- `std::hash` below C++17 is not the value of `std::hash<std::string>`; making it so would need the hash of the standard library in use, which does not exist below C++17.
+- The `nullptr_t` constructor of `std::basic_string_view` (deleted in C++23) is not deleted here: `lumex_string_view (nullptr)` is an empty view, and existing code passes `nullptr` for a missing text.
+- Contiguity of an iterator pair is checked only from C++20 (pointers only before).
+- Constant evaluation in C++11 of a wide C string is limited by the compiler's constexpr depth (4 characters per step; 403 characters are tested at GCC's default depth of 512); a narrow string has no such limit (`__builtin_strlen`). On GCC 8, whose `__builtin_constant_p` stands in for `__builtin_is_constant_evaluated`, a call with an argument that the optimizer proves constant takes the recursion at run time as well: correct, only slower.
+- The decision 97a (the Windows export of the six inline comparison operators through a per-module macro) is obsolete: the operators are inline members of a header-only class, and the macro `LUMEX_STRING_VIEW_API` is removed.
+- MinGW and MSVC: the headers are compiled by MinGW in the release matrix only; MSVC was not tested.

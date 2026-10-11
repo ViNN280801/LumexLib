@@ -1,33 +1,21 @@
 # lumex/core/string_view/CMakeLists.txt
 
+# Header-only: every view is a class template (lumex_basic_string_view) and
+# its members are inline, so there is no library to build or to link. The
+# interface target carries the include directory.
 set(LUMEX_STRING_VIEW_NAME LumexCore_string_view)
 set(EXPORT_TO LumexCoreTargets)
 
-file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
-add_library(${LUMEX_STRING_VIEW_NAME} ${SOURCES})
+add_library(${LUMEX_STRING_VIEW_NAME} INTERFACE)
 add_library(lumex::string_view ALIAS ${LUMEX_STRING_VIEW_NAME})
 
-if(WIN32 AND BUILD_SHARED_LIBS)
-    target_compile_definitions(${LUMEX_STRING_VIEW_NAME} PRIVATE LUMEX_EXPORTS)
-endif()
-
-target_include_directories(${LUMEX_STRING_VIEW_NAME} PUBLIC
+target_include_directories(${LUMEX_STRING_VIEW_NAME} INTERFACE
     $<BUILD_INTERFACE:${LumexLib_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(${LUMEX_STRING_VIEW_NAME} PUBLIC
-    lumex::utility
-)
-
-lumex_apply_library_versioning(${LUMEX_STRING_VIEW_NAME} "Lumex String View Library")
-
 if(LUMEX_INSTALL)
-    install(TARGETS ${LUMEX_STRING_VIEW_NAME} EXPORT ${EXPORT_TO}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    )
+    install(TARGETS ${LUMEX_STRING_VIEW_NAME} EXPORT ${EXPORT_TO})
 
     install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
