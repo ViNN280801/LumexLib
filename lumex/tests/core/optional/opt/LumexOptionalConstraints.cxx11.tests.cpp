@@ -113,6 +113,48 @@ struct NonConstAssign
   }
 };
 
+// Non-const copy assignment, implicit (trivial) copy constructor.
+struct NonConstAssignTrivialCtor
+{
+  int value = 0;
+  NonConstAssignTrivialCtor () = default;
+  NonConstAssignTrivialCtor &
+  operator= (NonConstAssignTrivialCtor &other)
+  {
+    value = other.value;
+    return *this;
+  }
+};
+
+// Non-const copy assignment, non-trivial destructor (a std::string member).
+struct NonConstAssignString
+{
+  std::string text;
+  NonConstAssignString () = default;
+  NonConstAssignString &
+  operator= (NonConstAssignString &other)
+  {
+    text = other.text;
+    return *this;
+  }
+};
+
+// R2-1: non-const copy assignment, defaulted (trivial) move assignment.
+struct NonConstCopyDefaultedMove
+{
+  int value = 0;
+  NonConstCopyDefaultedMove () = default;
+  NonConstCopyDefaultedMove (NonConstCopyDefaultedMove const &) = default;
+  NonConstCopyDefaultedMove &
+  operator= (NonConstCopyDefaultedMove &other)
+  {
+    value = other.value;
+    return *this;
+  }
+  NonConstCopyDefaultedMove &operator= (NonConstCopyDefaultedMove &&)
+      = default;
+};
+
 struct LegacyCopy
 {
   LegacyCopy () = default;
@@ -184,6 +226,49 @@ TEST (LumexOptionalConstraintsTest,
   legacy.reset ();
   legacy.emplace ();
   EXPECT_TRUE (legacy.has_value ());
+}
+
+// R2-1, R2-2: the forms of the union for a non-const copy assignment with a
+// trivial copy constructor, with a non-trivial destructor, and with a
+// defaulted move assignment.
+TEST (LumexOptionalConstraintsTest,
+      GivenNonConstCopyAssignmentVariants_WhenOptional_ThenCopyAndMoveWork)
+{
+  using trivial_ctor = optional<NonConstAssignTrivialCtor>;
+  static_assert (std::is_trivially_copy_constructible<trivial_ctor>::value,
+                 "R2-2: the union's defaulted copy constructor is trivial");
+  static_assert (!std::is_copy_assignable<trivial_ctor>::value, "");
+  trivial_ctor first (in_place);
+  first->value = 7;
+  trivial_ctor copy (first);
+  ASSERT_TRUE (copy.has_value ());
+  EXPECT_EQ (copy->value, 7);
+
+  using with_string = optional<NonConstAssignString>;
+  static_assert (std::is_copy_constructible<with_string>::value, "R2-2");
+  static_assert (!std::is_trivially_destructible<with_string>::value, "");
+  with_string text (in_place);
+  text->text = std::string (40, 's');
+  with_string text_copy (text);
+  ASSERT_TRUE (text_copy.has_value ());
+  EXPECT_EQ (text_copy->text, std::string (40, 's'));
+  with_string text_moved (std::move (text));
+  EXPECT_EQ (text_moved->text, std::string (40, 's'));
+
+  using moves = optional<NonConstCopyDefaultedMove>;
+  static_assert (std::is_move_assignable<moves>::value, "R2-1");
+  static_assert (std::is_trivially_move_assignable<moves>::value, "R2-1");
+  static_assert (std::is_nothrow_move_assignable<moves>::value, "R2-1");
+  static_assert (!std::is_copy_assignable<moves>::value, "");
+  moves target (in_place);
+  moves source (in_place);
+  source->value = 9;
+  target = std::move (source);
+  ASSERT_TRUE (target.has_value ());
+  EXPECT_EQ (target->value, 9);
+  moves empty_target;
+  empty_target = moves (in_place);
+  EXPECT_TRUE (empty_target.has_value ());
 }
 
 // O1: trivial copy assignment, non-trivial destructor: assigning an empty
