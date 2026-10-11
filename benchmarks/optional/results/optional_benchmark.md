@@ -14,67 +14,67 @@ Time per operation in nanoseconds: the lowest median of 15 repetitions over all 
 
 | scenario | size | std::optional C++17 | lumex C++11 | lumex C++17 | boost::optional C++11 | boost::optional C++17 |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| ctor_empty_int |  | 0.29 | 0.29 (1.00) | 0.29 (1.00) | 0.28 (0.98) | 0.29 (1.00) |
-| ctor_empty_str_short |  | 0.35† | 0.24 (0.67) | 0.24 (0.67) | 0.35 (1.00)† | 0.35 (1.00)† |
-| ctor_value_int |  | 0.29 | 0.29 (1.00) | 0.28 (0.98) | 0.29 (1.00) | 0.29 (1.00) |
-| ctor_value_pod32 |  | 0.70 | 0.71 (1.01) | 0.71 (1.00) | 0.70 (1.00) | 0.70 (1.00)† |
-| ctor_value_str_short |  | 2.69 | 2.58 (0.96) | 2.72 (1.01) | 2.58 (0.96) | 2.57 (0.96) |
-| ctor_value_str_long |  | 13.82 | 12.59 (0.91) | 12.94 (0.94) | 12.71 (0.92) | 13.56 (0.98) |
-| copy_ctor_int |  | 0.23 | 0.47 (2.00) | 0.47 (2.00) | 0.42 (1.80) | 0.56 (2.40) |
-| copy_ctor_pod32 |  | 0.87 | 0.86 (1.00) | 0.86 (0.99) | 0.93 (1.07) | 0.86 (0.99) |
-| copy_ctor_str_short |  | 2.82 | 2.82 (1.00) | 2.82 (1.00) | 2.83 (1.00) | 2.59 (0.92) |
-| copy_ctor_str_long |  | 14.10 | 12.70 (0.90) | 13.29 (0.94) | 12.92 (0.92) | 13.47 (0.96) |
-| make_move_destroy_int |  | 5.37 | 0.77 (0.14) | 0.73 (0.14)† | 0.68 (0.13) | 0.71 (0.13) |
-| make_move_destroy_pod32 |  | 1.18 | 1.41 (1.20) | 1.40 (1.19) | 1.40 (1.19)† | 1.40 (1.19) |
-| make_move_destroy_str_short |  | 7.26 | 7.03 (0.97) | 7.01 (0.97) | 7.25 (1.00) | 7.25 (1.00) |
-| make_move_destroy_str_long |  | 14.74 | 13.01 (0.88) | 13.54 (0.92) | 13.54 (0.92) | 13.57 (0.92) |
-| assign_copy_int |  | 0.23 | 0.47 (2.00) | 0.47 (2.00) | 0.47 (2.00) | 0.47 (1.99) |
-| assign_copy_pod32 |  | 0.86 | 1.01 (1.18) | 1.02 (1.19) | 0.94 (1.09) | 0.94 (1.09) |
-| assign_copy_str_short |  | 3.04 | 2.83 (0.93) | 2.82 (0.93) | 2.82 (0.93) | 2.82 (0.93) |
-| assign_copy_str_long |  | 3.29† | 12.77 (3.88) | 13.23 (4.02) | 3.30 (1.00) | 3.28 (1.00) |
-| assign_value_int |  | 0.32 | 0.35 (1.10) | 0.35 (1.09) | 0.35 (1.09) | 0.35 (1.09) |
-| assign_value_pod32 |  | 0.86 | 0.86 (1.00) | 0.86 (1.00) | 0.86 (1.00) | 0.86 (1.00) |
-| assign_value_str_short |  | 2.82 | 2.82 (1.00) | 2.83 (1.00) | 2.81 (1.00) | 2.82 (1.00) |
-| assign_value_str_long |  | 3.17 | 3.12 (0.98) | 3.27 (1.03) | 3.06 (0.96) | 3.06 (0.96) |
-| emplace_reset_int |  | 0.42 | 0.42 (1.00) | 0.42 (1.00) | 0.35 (0.84) | 0.35 (0.83) |
-| emplace_reset_pod32 |  | 0.87 | 0.86 (0.99) | 0.86 (0.99) | 0.71 (0.82)† | 0.71 (0.82)† |
-| emplace_reset_str_short |  | 2.64 | 2.60 (0.98) | 2.63 (1.00) | 2.63 (1.00) | 2.63 (0.99) |
-| emplace_reset_str_long |  | 13.63 | 12.51 (0.92) | 13.16 (0.97) | 12.91 (0.95) | 13.72 (1.01) |
-| swap_int |  | 0.52 | 0.52 (1.00) | 0.52 (1.00) | 0.47 (0.91) | 0.47 (0.91) |
-| swap_str_short |  | 3.99 | 4.00 (1.00) | 3.99 (1.00) | 4.00 (1.00) | 4.00 (1.00) |
-| deref_sum | 8 | 2.20 | 1.64 (0.75) | 2.31 (1.05) | 2.63 (1.20) | 1.64 (0.75) |
-| deref_sum | 1,024 | 235.4 | 234.0 (0.99) | 235.5 (1.00) | 235.7 (1.00) | 236.4 (1.00) |
-| value_sum | 1,024 | 346.7 | 329.3 (0.95) | 329.8 (0.95) | 329.0 (0.95) | 346.7 (1.00) |
-| value_or_sum | 1,024 | 534.7 | 2715 (5.08) | 2699 (5.05) | 513.9 (0.96) | 498.8 (0.93) |
-| count_engaged | 1,024 | 242.7 | 243.0 (1.00) | 235.0 (0.97) | 235.2 (0.97) | 233.5 (0.96) |
-| eq_opt_opt | 1,024 | 708.1 | 745.0 (1.05) | 560.1 (0.79) | 710.5 (1.00) | 688.2 (0.97) |
-| lt_opt_opt | 1,024 | 509.8 | 555.3 (1.09) | 625.3 (1.23) | 649.8 (1.27) | 607.0 (1.19) |
-| eq_value | 1,024 | 679.7 | 535.1 (0.79) | 624.1 (0.92) | 514.1 (0.76) | 497.8 (0.73) |
-| eq_nullopt | 1,024 | 251.3 | 251.5 (1.00) | 250.4 (1.00) | 251.1 (1.00) | 251.1 (1.00) |
-| eq_opt_opt_str | 256 | 450.4 | 508.5 (1.13) | 503.5 (1.12) | 525.6 (1.17) | 571.2 (1.27) |
-| return_int |  | 5.31 | 0.65 (0.12) | 0.65 (0.12) | 0.65 (0.12) | 0.64 (0.12) |
-| pass_int |  | 4.38 | 0.59 (0.13) | 0.59 (0.14) | 0.59 (0.13) | 0.59 (0.13) |
-| return_str |  | 4.37 | 3.94 (0.90) | 4.24 (0.97) | 4.19 (0.96) | 4.06 (0.93) |
-| pass_str |  | 3.89 | 3.66 (0.94) | 3.61 (0.93) | 3.99 (1.03) | 3.98 (1.02) |
-| vector_copy_int | 1,024 | 194.4 | 539.1 (2.77) | 522.0 (2.69) | 751.3 (3.86) | 534.0 (2.75) |
-| vector_copy_str | 256 | 894.7 | 841.7 (0.94) | 796.0 (0.89) | 870.0 (0.97) | 824.6 (0.92) |
-| vector_push_int | 1,024 | 4557 | 502.7 (0.11) | 492.2 (0.11) | 732.4 (0.16) | 733.2 (0.16) |
-| vector_grow_str | 256 | 2203 | 2082 (0.94) | 2190 (0.99) | 2225 (1.01) | 2179 (0.99) |
+| ctor_empty_int |  | 0.30 | 0.30 (1.01) | 0.31 (1.01) | 0.30 (1.01) | 0.30 (1.00) |
+| ctor_empty_str_short |  | 0.39† | 0.38 (0.97)† | 0.38 (0.98)† | 0.38 (0.97)† | 0.38 (0.98) |
+| ctor_value_int |  | 0.30 | 0.30 (0.99) | 0.31 (1.02) | 0.31 (1.01) | 0.30 (1.00) |
+| ctor_value_pod32 |  | 0.73 | 0.73 (1.00) | 0.73 (1.00) | 0.73 (1.00)† | 0.73 (1.00) |
+| ctor_value_str_short |  | 2.83 | 2.74 (0.97) | 2.83 (1.00) | 2.74 (0.97) | 2.72 (0.96) |
+| ctor_value_str_long |  | 14.72 | 13.60 (0.92) | 14.57 (0.99) | 13.57 (0.92) | 14.45 (0.98) |
+| copy_ctor_int |  | 0.25 | 0.25 (1.00) | 0.25 (1.00) | 0.45 (1.79) | 0.60 (2.41) |
+| copy_ctor_pod32 |  | 0.89 | 0.88 (1.00) | 0.88 (1.00) | 0.90 (1.02)† | 0.89 (1.01) |
+| copy_ctor_str_short |  | 3.09 | 3.05 (0.99) | 3.10 (1.00) | 3.08 (0.99) | 2.87 (0.93) |
+| copy_ctor_str_long |  | 15.14 | 13.93 (0.92) | 14.47 (0.96) | 13.77 (0.91) | 14.25 (0.94) |
+| make_move_destroy_int |  | 5.38 | 5.37 (1.00) | 5.39 (1.00) | 0.63 (0.12) | 0.75 (0.14) |
+| make_move_destroy_pod32 |  | 1.23 | 1.21 (0.99) | 1.23 (1.00) | 1.49 (1.22) | 1.69 (1.38) |
+| make_move_destroy_str_short |  | 7.58 | 7.22 (0.95) | 7.36 (0.97) | 7.36 (0.97) | 7.36 (0.97) |
+| make_move_destroy_str_long |  | 15.91 | 14.47 (0.91) | 15.24 (0.96) | 14.76 (0.93) | 14.92 (0.94) |
+| assign_copy_int |  | 0.25 | 0.26 (1.02) | 0.25 (1.00) | 0.49 (1.97) | 0.49 (1.97) |
+| assign_copy_pod32 |  | 0.89 | 0.89 (1.00) | 0.89 (1.00) | 0.98 (1.09) | 0.98 (1.10) |
+| assign_copy_str_short |  | 3.41 | 3.34 (0.98) | 3.37 (0.99) | 3.10 (0.91) | 3.08 (0.90) |
+| assign_copy_str_long |  | 3.65† | 3.59 (0.98)† | 3.64 (1.00)† | 3.59 (0.98) | 3.62 (0.99) |
+| assign_value_int |  | 0.35 | 0.33 (0.96) | 0.35 (0.99) | 0.37 (1.07) | 0.37 (1.06) |
+| assign_value_pod32 |  | 0.90 | 0.89 (0.99) | 0.89 (0.99) | 0.90 (1.00) | 0.89 (0.99) |
+| assign_value_str_short |  | 3.08 | 3.13 (1.02) | 3.05 (0.99) | 3.09 (1.00) | 3.07 (1.00) |
+| assign_value_str_long |  | 3.43† | 3.46 (1.01) | 3.48 (1.01) | 3.38 (0.98) | 3.32 (0.97)† |
+| emplace_reset_int |  | 0.46 | 0.38 (0.83) | 0.38 (0.83) | 0.38 (0.83) | 0.38 (0.83) |
+| emplace_reset_pod32 |  | 0.89 | 0.75 (0.84) | 0.74 (0.83) | 0.74 (0.84)† | 0.73 (0.83)† |
+| emplace_reset_str_short |  | 2.89 | 2.88 (1.00) | 2.83 (0.98) | 2.83 (0.98) | 2.87 (0.99) |
+| emplace_reset_str_long |  | 14.57 | 13.69 (0.94) | 14.17 (0.97) | 13.93 (0.96) | 14.50 (0.99) |
+| swap_int |  | 0.56 | 0.55 (0.99) | 0.55 (0.99) | 0.50 (0.90) | 0.50 (0.90) |
+| swap_str_short |  | 4.34 | 4.41 (1.02) | 4.38 (1.01) | 4.32 (1.00) | 4.34 (1.00) |
+| deref_sum | 8 | 2.27 | 2.38 (1.05) | 2.12 (0.93) | 2.53 (1.11) | 1.78 (0.78) |
+| deref_sum | 1,024 | 243.2 | 239.4 (0.98) | 240.8 (0.99) | 239.2 (0.98) | 242.4 (1.00) |
+| value_sum | 1,024 | 356.9 | 360.2 (1.01) | 358.6 (1.00) | 349.7 (0.98) | 362.4 (1.02) |
+| value_or_sum | 1,024 | 552.1 | 2698 (4.89) | 763.9 (1.38) | 535.1 (0.97) | 520.2 (0.94) |
+| count_engaged | 1,024 | 246.2 | 240.1 (0.98) | 251.2 (1.02) | 240.5 (0.98) | 241.5 (0.98) |
+| eq_opt_opt | 1,024 | 735.7 | 654.3 (0.89) | 1015 (1.38) | 750.3 (1.02) | 689.8 (0.94) |
+| lt_opt_opt | 1,024 | 545.4 | 543.7 (1.00) | 546.9 (1.00) | 678.1 (1.24) | 636.7 (1.17) |
+| eq_value | 1,024 | 588.9 | 684.2 (1.16) | 601.2 (1.02) | 536.9 (0.91) | 516.8 (0.88) |
+| eq_nullopt | 1,024 | 259.5 | 258.7 (1.00) | 266.1 (1.03) | 262.3 (1.01) | 260.5 (1.00) |
+| eq_opt_opt_str | 256 | 473.2 | 474.4 (1.00) | 468.3 (0.99) | 558.2 (1.18) | 596.6 (1.26) |
+| return_int |  | 5.30 | 5.33 (1.01) | 5.32 (1.00) | 0.71 (0.13) | 0.68 (0.13) |
+| pass_int |  | 4.37 | 4.36 (1.00) | 4.36 (1.00) | 0.66 (0.15) | 0.62 (0.14) |
+| return_str |  | 4.56 | 4.21 (0.92) | 4.67 (1.02) | 4.39 (0.96) | 4.41 (0.97) |
+| pass_str |  | 4.09 | 4.08 (1.00) | 3.95 (0.97) | 4.22 (1.03) | 4.25 (1.04) |
+| vector_copy_int | 1,024 | 204.1 | 212.8 (1.04) | 202.8 (0.99) | 785.4 (3.85) | 573.5 (2.81) |
+| vector_copy_str | 256 | 940.5 | 919.2 (0.98) | 896.6 (0.95) | 930.2 (0.99) | 868.8 (0.92) |
+| vector_push_int | 1,024 | 4585 | 4595 (1.00) | 4593 (1.00) | 764.0 (0.17) | 773.2 (0.17) |
+| vector_grow_str | 256 | 2311 | 2249 (0.97) | 2322 (1.00) | 2360 (1.02) | 2314 (1.00) |
 
 Variants compared with each other (time of the first divided by the time of the second; the first is faster below 1.00): geometric mean over all scenarios, the best and the worst scenario of the first, and the number of scenarios where the first is slower or faster by more than 10 %:
 
 | compared | scenarios | geometric mean | slower | faster | best | worst |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| lumex C++17 / std::optional C++17 | 46 | 0.926 | 9 | 7 | vector_push_int (1,024) 0.11x | value_or_sum (1,024) 5.05x |
-| lumex C++11 / std::optional C++17 | 46 | 0.916 | 8 | 8 | vector_push_int (1,024) 0.11x | value_or_sum (1,024) 5.08x |
-| lumex C++11 / lumex C++17 | 46 | 0.989 | 1 | 3 | deref_sum (8) 0.71x | eq_opt_opt (1,024) 1.33x |
-| lumex C++17 / boost::optional C++17 | 46 | 1.064 | 6 | 5 | ctor_empty_str_short 0.67x | value_or_sum (1,024) 5.41x |
-| lumex C++11 / boost::optional C++11 | 46 | 1.038 | 7 | 5 | deref_sum (8) 0.62x | value_or_sum (1,024) 5.28x |
+| lumex C++17 / std::optional C++17 | 46 | 1.000 | 2 | 2 | emplace_reset_pod32 0.83x | value_or_sum (1,024) 1.38x |
+| lumex C++11 / std::optional C++17 | 46 | 1.015 | 2 | 3 | emplace_reset_int 0.83x | value_or_sum (1,024) 4.89x |
+| lumex C++11 / lumex C++17 | 46 | 1.015 | 3 | 1 | eq_opt_opt (1,024) 0.64x | value_or_sum (1,024) 3.53x |
+| lumex C++17 / boost::optional C++17 | 46 | 1.135 | 9 | 6 | vector_copy_int (1,024) 0.35x | return_int 7.80x |
+| lumex C++11 / boost::optional C++11 | 46 | 1.144 | 7 | 8 | vector_copy_int (1,024) 0.27x | make_move_destroy_int 8.49x |
 
-- lumex C++17 is slower than std::optional C++17 by more than 10 % in: value_or_sum (1,024) 5.05x, assign_copy_str_long 4.02x, vector_copy_int (1,024) 2.69x, assign_copy_int 2.00x, copy_ctor_int 2.00x, lt_opt_opt (1,024) 1.23x, make_move_destroy_pod32 1.19x, assign_copy_pod32 1.19x, eq_opt_opt_str (256) 1.12x
-- lumex C++17 is faster than std::optional C++17 by more than 10 % in: vector_push_int (1,024) 0.11x, return_int 0.12x, pass_int 0.14x, make_move_destroy_int 0.14x, ctor_empty_str_short 0.67x, eq_opt_opt (1,024) 0.79x, vector_copy_str (256) 0.89x
-- lumex C++11 is slower than std::optional C++17 by more than 10 % in: value_or_sum (1,024) 5.08x, assign_copy_str_long 3.88x, vector_copy_int (1,024) 2.77x, assign_copy_int 2.00x, copy_ctor_int 2.00x, make_move_destroy_pod32 1.20x, assign_copy_pod32 1.18x, eq_opt_opt_str (256) 1.13x
-- lumex C++11 is faster than std::optional C++17 by more than 10 % in: vector_push_int (1,024) 0.11x, return_int 0.12x, pass_int 0.13x, make_move_destroy_int 0.14x, ctor_empty_str_short 0.67x, deref_sum (8) 0.75x, eq_value (1,024) 0.79x, make_move_destroy_str_long 0.88x
+- lumex C++17 is slower than std::optional C++17 by more than 10 % in: value_or_sum (1,024) 1.38x, eq_opt_opt (1,024) 1.38x
+- lumex C++17 is faster than std::optional C++17 by more than 10 % in: emplace_reset_pod32 0.83x, emplace_reset_int 0.83x
+- lumex C++11 is slower than std::optional C++17 by more than 10 % in: value_or_sum (1,024) 4.89x, eq_value (1,024) 1.16x
+- lumex C++11 is faster than std::optional C++17 by more than 10 % in: emplace_reset_int 0.83x, emplace_reset_pod32 0.84x, eq_opt_opt (1,024) 0.89x
 
 ## Layout and traits of optional<T>
 
@@ -82,12 +82,12 @@ Variants compared with each other (time of the first divided by the time of the 
 
 | T | sizeof (T) | std::optional C++17: size, TC/TD/TCC/SL/NM | lumex C++11: size, TC/TD/TCC/SL/NM | lumex C++17: size, TC/TD/TCC/SL/NM | boost::optional C++11: size, TC/TD/TCC/SL/NM | boost::optional C++17: size, TC/TD/TCC/SL/NM |
 | --- | ---: | --- | --- | --- | --- | --- |
-| `bool` | 1 | 2, Y/Y/Y/Y/Y | 2, n/n/n/Y/Y | 2, n/n/n/Y/Y | 2, n/Y/n/Y/Y | 2, n/Y/n/Y/Y |
-| `char` | 1 | 2, Y/Y/Y/Y/Y | 2, n/n/n/Y/Y | 2, n/n/n/Y/Y | 2, n/Y/n/Y/Y | 2, n/Y/n/Y/Y |
-| `int` | 4 | 8, Y/Y/Y/Y/Y | 8, n/n/n/Y/Y | 8, n/n/n/Y/Y | 8, n/Y/n/Y/Y | 8, n/Y/n/Y/Y |
-| `double` | 8 | 16, Y/Y/Y/Y/Y | 16, n/n/n/Y/Y | 16, n/n/n/Y/Y | 16, n/Y/n/Y/Y | 16, n/Y/n/Y/Y |
-| `uint64_t` | 8 | 16, Y/Y/Y/Y/Y | 16, n/n/n/Y/Y | 16, n/n/n/Y/Y | 16, n/Y/n/Y/Y | 16, n/Y/n/Y/Y |
-| `pod32` | 32 | 40, Y/Y/Y/Y/Y | 40, n/n/n/Y/Y | 40, n/n/n/Y/Y | 40, n/Y/n/Y/Y | 40, n/Y/n/Y/Y |
+| `bool` | 1 | 2, Y/Y/Y/Y/Y | 2, Y/Y/Y/Y/Y | 2, Y/Y/Y/Y/Y | 2, n/Y/n/Y/Y | 2, n/Y/n/Y/Y |
+| `char` | 1 | 2, Y/Y/Y/Y/Y | 2, Y/Y/Y/Y/Y | 2, Y/Y/Y/Y/Y | 2, n/Y/n/Y/Y | 2, n/Y/n/Y/Y |
+| `int` | 4 | 8, Y/Y/Y/Y/Y | 8, Y/Y/Y/Y/Y | 8, Y/Y/Y/Y/Y | 8, n/Y/n/Y/Y | 8, n/Y/n/Y/Y |
+| `double` | 8 | 16, Y/Y/Y/Y/Y | 16, Y/Y/Y/Y/Y | 16, Y/Y/Y/Y/Y | 16, n/Y/n/Y/Y | 16, n/Y/n/Y/Y |
+| `uint64_t` | 8 | 16, Y/Y/Y/Y/Y | 16, Y/Y/Y/Y/Y | 16, Y/Y/Y/Y/Y | 16, n/Y/n/Y/Y | 16, n/Y/n/Y/Y |
+| `pod32` | 32 | 40, Y/Y/Y/Y/Y | 40, Y/Y/Y/Y/Y | 40, Y/Y/Y/Y/Y | 40, n/Y/n/Y/Y | 40, n/Y/n/Y/Y |
 | `std::string` | 32 | 40, n/n/n/Y/Y | 40, n/n/n/Y/Y | 40, n/n/n/Y/Y | 40, n/n/n/Y/Y | 40, n/n/n/Y/Y |
 | `std::vector<int>` | 24 | 32, n/n/n/Y/Y | 32, n/n/n/Y/Y | 32, n/n/n/Y/Y | 32, n/n/n/Y/Y | 32, n/n/n/Y/Y |
 | `std::unique_ptr<int>` | 8 | 16, n/n/n/Y/Y | 16, n/n/n/Y/Y | 16, n/n/n/Y/Y | 16, n/n/n/Y/Y | 16, n/n/n/Y/Y |
@@ -103,11 +103,11 @@ Unit `include`: the header is included and one object is declared.
 
 | toolchain | no optional C++11 | no optional C++17 | std::optional C++17 | lumex C++11 | lumex C++17 | boost::optional C++11 | boost::optional C++17 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| gcc | 110 | 147 | 152 | 117 | 188 | 131 | 192 |
+| gcc | 123 | 161 | 166 | 135 | 208 | 145 | 212 |
 
 Unit `use`: the whole API is used: construction, observers, modifiers, comparisons, `swap`, `std::vector` of optionals, `std::hash`.
 
 | toolchain | no optional C++11 | no optional C++17 | std::optional C++17 | lumex C++11 | lumex C++17 | boost::optional C++11 | boost::optional C++17 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| gcc | 110 | 146 | 189 | 142 | 212 | 149 | 212 |
+| gcc | 122 | 160 | 201 | 170 | 242 | 166 | 234 |
 

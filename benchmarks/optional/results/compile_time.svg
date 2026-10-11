@@ -4,46 +4,46 @@
 <text x="20" y="42" fill="#555">include: the header and one object; use: the whole API; "no optional" is the same unit with a stub</text>
 <text x="20" y="72" font-weight="bold">gcc, include</text>
 <text x="184" y="71" text-anchor="end">no optional C++11</text>
-<rect x="190" y="60" width="328.2" height="12" fill="#888888"/>
-<text x="523.2" y="71">110</text>
+<rect x="190" y="60" width="319.8" height="12" fill="#888888"/>
+<text x="514.8" y="71">123</text>
 <text x="184" y="85" text-anchor="end">no optional C++17</text>
-<rect x="190" y="74" width="436.3" height="12" fill="#bbbbbb"/>
-<text x="631.3" y="85">147</text>
+<rect x="190" y="74" width="419.6" height="12" fill="#bbbbbb"/>
+<text x="614.6" y="85">161</text>
 <text x="184" y="99" text-anchor="end">std::optional C++17</text>
-<rect x="190" y="88" width="450.9" height="12" fill="#d9822b"/>
-<text x="645.9" y="99">152</text>
+<rect x="190" y="88" width="432.1" height="12" fill="#d9822b"/>
+<text x="627.1" y="99">166</text>
 <text x="184" y="113" text-anchor="end">lumex C++11</text>
-<rect x="190" y="102" width="348.2" height="12" fill="#1b6ca8"/>
-<text x="543.2" y="113">117</text>
+<rect x="190" y="102" width="351.1" height="12" fill="#1b6ca8"/>
+<text x="546.1" y="113">135</text>
 <text x="184" y="127" text-anchor="end">lumex C++17</text>
-<rect x="190" y="116" width="558.0" height="12" fill="#6fb1e0"/>
-<text x="753.0" y="127">188</text>
+<rect x="190" y="116" width="540.9" height="12" fill="#6fb1e0"/>
+<text x="735.9" y="127">208</text>
 <text x="184" y="141" text-anchor="end">boost::optional C++11</text>
-<rect x="190" y="130" width="390.4" height="12" fill="#3c9d4a"/>
-<text x="585.4" y="141">131</text>
+<rect x="190" y="130" width="378.2" height="12" fill="#3c9d4a"/>
+<text x="573.2" y="141">145</text>
 <text x="184" y="155" text-anchor="end">boost::optional C++17</text>
-<rect x="190" y="144" width="572.3" height="12" fill="#8fd19a"/>
-<text x="767.3" y="155">192</text>
+<rect x="190" y="144" width="551.9" height="12" fill="#8fd19a"/>
+<text x="746.9" y="155">212</text>
 <text x="20" y="192" font-weight="bold">gcc, use</text>
 <text x="184" y="191" text-anchor="end">no optional C++11</text>
-<rect x="190" y="180" width="328.8" height="12" fill="#888888"/>
-<text x="523.8" y="191">110</text>
+<rect x="190" y="180" width="316.4" height="12" fill="#888888"/>
+<text x="511.4" y="191">122</text>
 <text x="184" y="205" text-anchor="end">no optional C++17</text>
-<rect x="190" y="194" width="433.3" height="12" fill="#bbbbbb"/>
-<text x="628.3" y="205">146</text>
+<rect x="190" y="194" width="417.5" height="12" fill="#bbbbbb"/>
+<text x="612.5" y="205">160</text>
 <text x="184" y="219" text-anchor="end">std::optional C++17</text>
-<rect x="190" y="208" width="561.3" height="12" fill="#d9822b"/>
-<text x="756.3" y="219">189</text>
+<rect x="190" y="208" width="523.5" height="12" fill="#d9822b"/>
+<text x="718.5" y="219">201</text>
 <text x="184" y="233" text-anchor="end">lumex C++11</text>
-<rect x="190" y="222" width="422.9" height="12" fill="#1b6ca8"/>
-<text x="617.9" y="233">142</text>
+<rect x="190" y="222" width="443.5" height="12" fill="#1b6ca8"/>
+<text x="638.5" y="233">170</text>
 <text x="184" y="247" text-anchor="end">lumex C++17</text>
 <rect x="190" y="236" width="630.0" height="12" fill="#6fb1e0"/>
-<text x="825.0" y="247">212</text>
+<text x="825.0" y="247">242</text>
 <text x="184" y="261" text-anchor="end">boost::optional C++11</text>
-<rect x="190" y="250" width="444.6" height="12" fill="#3c9d4a"/>
-<text x="639.6" y="261">149</text>
+<rect x="190" y="250" width="433.4" height="12" fill="#3c9d4a"/>
+<text x="628.4" y="261">166</text>
 <text x="184" y="275" text-anchor="end">boost::optional C++17</text>
-<rect x="190" y="264" width="629.4" height="12" fill="#8fd19a"/>
-<text x="824.4" y="275">212</text>
+<rect x="190" y="264" width="609.4" height="12" fill="#8fd19a"/>
+<text x="804.4" y="275">234</text>
 </svg>
