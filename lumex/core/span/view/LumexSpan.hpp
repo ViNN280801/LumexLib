@@ -72,12 +72,16 @@
  * `std::initializer_list` of C++26 is not provided, because it makes a call
  * such as `f ({1, 2, 3})` ambiguous between a `std::vector` overload and a
  * `span` overload, which existing code has); a `std::initializer_list` object
- * does convert, like any range, to a span of const elements; before C++20 an
- * iterator class has to be named by `is_contiguous_iterator`.
+ * does convert, like any range, to a span of const elements; before C++20 the
+ * iterator classes of the standard containers are recognized by name and any
+ * other iterator class has to be named by `is_contiguous_iterator`.
  *
  * @note A span does not own what it views. Using one after the viewed storage
- * is destroyed, or passing arguments that break a documented precondition, is
- * undefined behavior; nothing is checked except by `at`.
+ * is destroyed is undefined behavior. The preconditions of the members are
+ * checked when `LUMEX_SPAN_CHECKS` is 1 (the default without `NDEBUG`, see
+ * `LumexSpanChecks.hpp`): a violated one prints the condition, the file and
+ * the line and aborts (a handler of that header); with the checks off
+ * breaking one is undefined behavior and only `at` checks.
  */
 #ifndef LUMEX_CORE_SPAN_VIEW_SPAN_HPP
 #define LUMEX_CORE_SPAN_VIEW_SPAN_HPP
@@ -89,6 +93,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "lumex/core/span/view/LumexSpanChecks.hpp"
 #include "lumex/core/span/view/LumexSpanTraits.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
@@ -224,7 +229,10 @@ public:
             = 0>
   explicit LUMEX_CONSTEXPR_CTOR
   span (Iterator first, size_type count) LUMEX_NOEXCEPT
-      : m_storage (detail::iterator_address (first, count), count)
+      : m_storage (LUMEX_SPAN_CHECKED (count == Extent,
+                                       detail::iterator_address (first,
+                                                                 count)),
+                   count)
   {
   }
 
@@ -252,8 +260,10 @@ public:
   span (Iterator first, Sentinel last)
       LUMEX_NOEXCEPT_IF (noexcept (std::declval<Sentinel &> ()
                                    - std::declval<Iterator &> ()))
-      : m_storage (detail::iterator_address (
-                       first, static_cast<size_type> (last - first)),
+      : m_storage (LUMEX_SPAN_CHECKED (
+                       static_cast<difference_type> (last - first) >= 0,
+                       detail::iterator_address (
+                           first, static_cast<size_type> (last - first))),
                    static_cast<size_type> (last - first))
   {
   }
@@ -271,8 +281,11 @@ public:
   span (Iterator first, Sentinel last)
       LUMEX_NOEXCEPT_IF (noexcept (std::declval<Sentinel &> ()
                                    - std::declval<Iterator &> ()))
-      : m_storage (detail::iterator_address (
-                       first, static_cast<size_type> (last - first)),
+      : m_storage (LUMEX_SPAN_CHECKED (
+                       static_cast<difference_type> (last - first) >= 0
+                           && static_cast<size_type> (last - first) == Extent,
+                       detail::iterator_address (
+                           first, static_cast<size_type> (last - first))),
                    static_cast<size_type> (last - first))
   {
   }
@@ -370,7 +383,9 @@ public:
   span (Range &&range) LUMEX_NOEXCEPT_IF (
       noexcept (detail::range_data (std::declval<Range &> ())) && noexcept (
           std::declval<Range &> ().size ()))
-      : m_storage (detail::range_data (range),
+      : m_storage (LUMEX_SPAN_CHECKED (static_cast<size_type> (range.size ())
+                                           == Extent,
+                                       detail::range_data (range)),
                    static_cast<size_type> (range.size ()))
   {
   }
@@ -409,7 +424,8 @@ public:
             = 0>
   explicit LUMEX_CONSTEXPR_CTOR
   span (span<U, N> const &other) LUMEX_NOEXCEPT
-      : m_storage (other.data (), other.size ())
+      : m_storage (LUMEX_SPAN_CHECKED (other.size () == Extent, other.data ()),
+                   other.size ())
   {
   }
 
@@ -453,9 +469,11 @@ public:
                 long>::type
             = 0>
   explicit span (span<U, N> const &other) LUMEX_NOEXCEPT
-      : m_storage (reinterpret_cast<element_type *> ( // NOLINT
-                       other.data ()),
-                   other.size ())
+      : m_storage (
+            LUMEX_SPAN_CHECKED (other.size () == Extent,
+                                reinterpret_cast<element_type *> ( // NOLINT
+                                    other.data ())),
+            other.size ())
   {
   }
 #endif
@@ -495,9 +513,11 @@ public:
                 long>::type
             = 0>
   explicit span (std::span<U, N> const &other) LUMEX_NOEXCEPT
-      : m_storage (reinterpret_cast<element_type *> ( // NOLINT
-                       other.data ()),
-                   other.size ())
+      : m_storage (
+            LUMEX_SPAN_CHECKED (other.size () == Extent,
+                                reinterpret_cast<element_type *> ( // NOLINT
+                                    other.data ())),
+            other.size ())
   {
   }
 
@@ -541,7 +561,9 @@ public:
   LUMEX_CONSTEXPR span<element_type, Count> first () const LUMEX_NOEXCEPT
   {
     static_assert (Count <= Extent, "span::first<Count>: Count out of range");
-    return span<element_type, Count> (m_storage.data (), Count);
+    return LUMEX_SPAN_CHECKED (
+        Count <= size (),
+        span<element_type, Count> (m_storage.data (), Count));
   }
 
   /**
@@ -556,8 +578,10 @@ public:
   LUMEX_CONSTEXPR span<element_type, Count> last () const LUMEX_NOEXCEPT
   {
     static_assert (Count <= Extent, "span::last<Count>: Count out of range");
-    return span<element_type, Count> (
-        m_storage.data () + (m_storage.size () - Count), Count);
+    return LUMEX_SPAN_CHECKED (
+        Count <= size (),
+        span<element_type, Count> (
+            m_storage.data () + (m_storage.size () - Count), Count));
   }
 
   /**
@@ -585,10 +609,13 @@ public:
         Count == dynamic_extent
             || (Offset <= Extent && Count <= Extent - Offset),
         "span::subspan<Offset, Count>: Offset + Count out of range");
-    return span<element_type,
-                detail::subspan_extent<Extent, Offset, Count>::value> (
-        m_storage.data () + Offset,
-        Count == dynamic_extent ? m_storage.size () - Offset : Count);
+    return LUMEX_SPAN_CHECKED (
+        Offset <= size ()
+            && (Count == dynamic_extent || Count <= size () - Offset),
+        span<element_type,
+             detail::subspan_extent<Extent, Offset, Count>::value> (
+            m_storage.data () + Offset,
+            Count == dynamic_extent ? m_storage.size () - Offset : Count));
   }
 
   /**
@@ -601,7 +628,9 @@ public:
   LUMEX_CONSTEXPR span<element_type, dynamic_extent>
   first (size_type count) const LUMEX_NOEXCEPT
   {
-    return span<element_type, dynamic_extent> (m_storage.data (), count);
+    return LUMEX_SPAN_CHECKED (
+        count <= size (),
+        span<element_type, dynamic_extent> (m_storage.data (), count));
   }
 
   /**
@@ -614,8 +643,10 @@ public:
   LUMEX_CONSTEXPR span<element_type, dynamic_extent>
   last (size_type count) const LUMEX_NOEXCEPT
   {
-    return span<element_type, dynamic_extent> (
-        m_storage.data () + (m_storage.size () - count), count);
+    return LUMEX_SPAN_CHECKED (
+        count <= size (),
+        span<element_type, dynamic_extent> (
+            m_storage.data () + (m_storage.size () - count), count));
   }
 
   /**
@@ -631,9 +662,12 @@ public:
   subspan (size_type offset,
            size_type count = dynamic_extent) const LUMEX_NOEXCEPT
   {
-    return span<element_type, dynamic_extent> (
-        m_storage.data () + offset,
-        count == dynamic_extent ? m_storage.size () - offset : count);
+    return LUMEX_SPAN_CHECKED (
+        offset <= size ()
+            && (count == dynamic_extent || count <= size () - offset),
+        span<element_type, dynamic_extent> (
+            m_storage.data () + offset,
+            count == dynamic_extent ? m_storage.size () - offset : count));
   }
 
   // -- Observers --
@@ -678,7 +712,7 @@ public:
   LUMEX_CONSTEXPR reference
   operator[] (size_type index) const LUMEX_NOEXCEPT
   {
-    return m_storage.data ()[index];
+    return LUMEX_SPAN_CHECKED (index < size (), m_storage.data ()[index]);
   }
 
   /**
@@ -706,7 +740,7 @@ public:
   LUMEX_CONSTEXPR reference
   front () const LUMEX_NOEXCEPT
   {
-    return *m_storage.data ();
+    return LUMEX_SPAN_CHECKED (!empty (), *m_storage.data ());
   }
 
   /**
@@ -717,7 +751,8 @@ public:
   LUMEX_CONSTEXPR reference
   back () const LUMEX_NOEXCEPT
   {
-    return m_storage.data ()[m_storage.size () - 1];
+    return LUMEX_SPAN_CHECKED (!empty (),
+                               m_storage.data ()[m_storage.size () - 1]);
   }
 
   /**

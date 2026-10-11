@@ -199,9 +199,8 @@ TEST (LumexSpanTraitsTest,
                lumex_span_test::pointer_iterator<int const>>::value);
 }
 
-#if LUMEX_SPAN_HAS_CONCEPTS
 TEST (LumexSpanTraitsTest,
-      GivenStandardContiguousContainers_WhenConcepts_ThenTrue)
+      GivenStandardContiguousContainers_WhenAnyStandard_ThenTrue)
 {
   EXPECT_TRUE (is_contiguous_iterator<std::vector<int>::iterator>::value);
   EXPECT_TRUE (
@@ -209,11 +208,3 @@ TEST (LumexSpanTraitsTest,
   EXPECT_TRUE (is_contiguous_iterator<std::string::iterator>::value);
   EXPECT_FALSE (is_contiguous_iterator<std::string::reverse_iterator>::value);
 }
-#else
-TEST (LumexSpanTraitsTest,
-      GivenStandardIteratorClasses_WhenNoConcepts_ThenOptInOnly)
-{
-  EXPECT_FALSE (is_contiguous_iterator<std::vector<int>::iterator>::value);
-  EXPECT_FALSE (is_contiguous_iterator<std::string::iterator>::value);
-}
-#endif

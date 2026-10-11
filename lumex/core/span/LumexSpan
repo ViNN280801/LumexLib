@@ -43,7 +43,12 @@
  * @details Link <tt>%lumex::span</tt> (header-only). Works from C++11. The
  * umbrella includes `view/LumexSpan.hpp` (the class `span`, `as_bytes`,
  * `as_writable_bytes`, the deduction guides) and `view/LumexSpanTraits.hpp`
- * (`dynamic_extent`, `byte`, `is_contiguous_iterator`). The names are in
+ * (`dynamic_extent`, `byte`, `is_contiguous_iterator`, with the iterator
+ * classes of the standard libraries recognized below C++20 by
+ * `view/LumexSpanStdIterators.hpp`). The preconditions of the members are
+ * checked when the macro `LUMEX_SPAN_CHECKS` is 1 (the default without
+ * `NDEBUG`, `view/LumexSpanChecks.hpp`); a program that has the checks on
+ * needs nothing to link (the failure handler is inline). The names are in
  * `lumex::core::span::view` and are not injected into the global namespace.
  */
 #include "view/LumexSpanTraits.hpp"

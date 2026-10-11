@@ -4,8 +4,13 @@
 // installs whatever LUMEX_BUILD_UTILITY says. Exit code 0 on success, 1 when
 // a call returns an unexpected value.
 
+#include <cstddef>
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <fstream>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -33,8 +38,19 @@ check (bool condition, char const *what)
 } // namespace
 
 int
-main ()
+main (int argc, char **argv)
 {
+  // With --violate: a span with the checks on (the target defines
+  // LUMEX_SPAN_CHECKS=1) is indexed out of range and must abort with the
+  // message of the span module, with no utility library to link.
+  if (argc > 1 && std::strcmp (argv[1], "--violate") == 0)
+    {
+      int raw[4] = { 1, 2, 3, 4 };
+      lumex::core::span::view::span<int> const view (raw, 4);
+      volatile std::size_t const index = 4;
+      return view[index] == 0 ? 2 : 3; // not reached
+    }
+
   std::vector<int> const numbers = { 1, 2, 3 };
   lumex_string_view const text_view ("key=value");
   check (text_view.find ('=') == 3 && text_view.substr (4) == "value"
@@ -69,6 +85,20 @@ main ()
          "span: subspan");
   check (lumex::core::span::view::as_bytes (view).size () == 4 * sizeof (int),
          "span: as_bytes");
+
+  // The span checks are on and abort a violation.
+  if (argc > 0)
+    {
+      std::string const command = std::string ("\"") + argv[0]
+                                  + "\" --violate 2> span_violation.txt";
+      int const status = std::system (command.c_str ());
+      std::ifstream stream ("span_violation.txt");
+      std::ostringstream text;
+      text << stream.rdbuf ();
+      check (status != 0, "span: a violated check ends the program");
+      check (text.str ().find ("LUMEX_SPAN_CHECKS: index < size ()") == 0,
+             "span: the message of the failed check");
+    }
 
   std::printf ("header-only modules from the install prefix: %d failure(s)\n",
                failures);

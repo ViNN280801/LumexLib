@@ -3,6 +3,10 @@
 set(LUMEX_SPAN_NAME LumexCore_span)
 set(EXPORT_TO LumexCoreTargets)
 
+# Header-only, no dependency edge. The precondition checks (LUMEX_SPAN_CHECKS,
+# on by default without NDEBUG) call an inline failure handler of
+# view/LumexSpanChecks.hpp, so a program that links only this target builds
+# and aborts on a violation.
 add_library(${LUMEX_SPAN_NAME} INTERFACE)
 add_library(lumex::span ALIAS ${LUMEX_SPAN_NAME})
 
