@@ -108,7 +108,7 @@ target_link_libraries(install_header_only_without_utility_consumer PRIVATE ${_ta
 # The precondition checks of span are forced on (a build type without NDEBUG
 # would do the same): the span module has its own failure handler, so the
 # prefix without utility links and a violation aborts. main.cpp runs itself
-# with --violate to see it.
+# with --violate to see it (SIGABRT and the message).
 target_compile_definitions(install_header_only_without_utility_consumer
     PRIVATE LUMEX_SPAN_CHECKS=1)
 set_target_properties(install_header_only_without_utility_consumer PROPERTIES

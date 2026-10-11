@@ -6,6 +6,7 @@
 
 #include <gtest/gtest.h>
 
+#include "LumexSpanTestSupport.hpp"
 #include "lumex/core/span/LumexSpan"
 
 using lumex::core::span::view::byte;
@@ -31,8 +32,8 @@ TEST (LumexSpanChecksBytesDeathTest,
   span<std::byte> const four (raw, 4);
   span<std::byte> const three (raw, 3);
   EXPECT_EQ ((span<byte, 4> (four).size ()), 4u);
-  EXPECT_DEATH (lumex_discard (span<byte, 4> (three)),
-                "other.size \\(\\) == Extent.*LumexSpan\\.hpp");
+  LUMEX_SPAN_EXPECT_ABORT (lumex_discard (span<byte, 4> (three)),
+                           "other.size \\(\\) == Extent.*LumexSpan\\.hpp");
 }
 
 #else

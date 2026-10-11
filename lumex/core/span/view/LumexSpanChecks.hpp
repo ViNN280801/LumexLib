@@ -103,17 +103,29 @@ namespace detail
 /**
  * @brief The handler of a violated precondition: prints
  * `LUMEX_SPAN_CHECKS: <condition> failed at <file>:<line>` to standard error
- * and aborts. Not `constexpr`, so a violated check in a constant expression is
- * a compile error.
+ * and aborts. It returns `int` (never reached) so that the check can be
+ * `static_cast<void> (condition ? 0 : check_failed (...))`, a cast that is not
+ * a no-op on every compiler (`-Wuseless-cast`). Not `constexpr`, so a violated
+ * check in a constant expression is a compile error. On the MSVC debug runtime
+ * `std::abort` may show a modal dialog.
  * @param condition The text of the failed condition.
  * @param file The source file of the check.
  * @param line The line of the check.
  */
-LUMEX_ATTRIBUTE_NORETURN inline void
+LUMEX_ATTRIBUTE_NORETURN inline int
 check_failed (char const *condition, char const *file, int line) LUMEX_NOEXCEPT
 {
+#if defined(__clang__)
+#pragma clang diagnostic push
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#endif
   std::fprintf (stderr, "LUMEX_SPAN_CHECKS: %s failed at %s:%d\n", condition,
                 file, line);
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
   std::abort ();
 }
 } // namespace detail
@@ -138,7 +150,7 @@ check_failed (char const *condition, char const *file, int line) LUMEX_NOEXCEPT
 #if LUMEX_SPAN_CHECKS
 #define LUMEX_SPAN_CHECKED(condition, ...)                                    \
   (static_cast<void> ((condition)                                             \
-                          ? static_cast<void> (0)                             \
+                          ? 0                                                 \
                           : ::lumex::core::span::view::detail::check_failed ( \
                                 #condition, __FILE__, __LINE__)),             \
    __VA_ARGS__)

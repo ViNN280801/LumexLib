@@ -4,6 +4,7 @@
 // installs whatever LUMEX_BUILD_UTILITY says. Exit code 0 on success, 1 when
 // a call returns an unexpected value.
 
+#include <csignal>
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
@@ -13,6 +14,10 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
+#if !defined(_WIN32)
+#include <sys/wait.h>
+#endif
 
 #include "lumex/core/atomic/LumexAtomic"
 #include "lumex/core/generators/LumexGenerators"
@@ -95,8 +100,18 @@ main (int argc, char **argv)
       std::ifstream stream ("span_violation.txt");
       std::ostringstream text;
       text << stream.rdbuf ();
+#if defined(_WIN32)
       check (status != 0, "span: a violated check ends the program");
-      check (text.str ().find ("LUMEX_SPAN_CHECKS: index < size ()") == 0,
+#else
+      // The program must die of SIGABRT (std::system gives the wait status; a
+      // shell that ran the program as a child reports 128 + SIGABRT).
+      check (
+          (WIFSIGNALED (status) && WTERMSIG (status) == SIGABRT)
+              || (WIFEXITED (status) && WEXITSTATUS (status) == 128 + SIGABRT),
+          "span: a violated check aborts the program");
+#endif
+      check (text.str ().find ("LUMEX_SPAN_CHECKS: index < m_storage.size ()")
+                 == 0,
              "span: the message of the failed check");
     }
 

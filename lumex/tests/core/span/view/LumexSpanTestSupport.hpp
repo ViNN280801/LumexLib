@@ -50,12 +50,24 @@
 #ifndef LUMEX_TESTS_CORE_SPAN_VIEW_SPAN_TEST_SUPPORT_HPP
 #define LUMEX_TESTS_CORE_SPAN_VIEW_SPAN_TEST_SUPPORT_HPP
 
+#include <csignal>
 #include <cstddef>
 #include <iterator>
 #include <type_traits>
 #include <utility>
 
 #include "lumex/core/span/LumexSpan"
+
+/// A death test that requires the program to end with SIGABRT where signals
+/// exist (a handler that printed and called `exit (1)` would not pass), and
+/// any non-zero end on Windows, where `abort` ends with an exit code.
+#if defined(_WIN32)
+#define LUMEX_SPAN_EXPECT_ABORT(statement, pattern)                           \
+  EXPECT_DEATH (statement, pattern)
+#else
+#define LUMEX_SPAN_EXPECT_ABORT(statement, pattern)                           \
+  EXPECT_EXIT (statement, ::testing::KilledBySignal (SIGABRT), pattern)
+#endif
 
 namespace lumex_span_test
 {
