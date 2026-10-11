@@ -335,8 +335,13 @@ class span;
  * @details The constructors of `span` that take an iterator accept a type
  * only when this trait is true for it. Raw pointers always qualify. From C++20
  * the answer is `std::contiguous_iterator`. Before C++20 the language cannot
- * tell a `std::vector` iterator from a `std::deque` one, so any other iterator
- * type has to be named by a specialization:
+ * tell a `std::vector` iterator from a `std::deque` one: the iterators of
+ * `std::vector` (not of `std::vector<bool>`), `std::array`,
+ * `std::basic_string`, `std::basic_string_view`, `std::valarray` and
+ * `std::initializer_list` are recognized by name in libstdc++, libc++ and the
+ * standard library of MSVC (`LumexSpanStdIterators.hpp`), and any other
+ * iterator type, a user's own included, is not contiguous until it is named
+ * by a specialization:
  * @code
  * template <> struct lumex::core::span::view::is_contiguous_iterator<my_it>
  *     : std::true_type {};
@@ -821,5 +826,8 @@ iterator_address (Iterator iterator, std::size_t count) LUMEX_NOEXCEPT
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
+
+// The iterator classes of the standard libraries (below C++20).
+#include "lumex/core/span/view/LumexSpanStdIterators.hpp" // IWYU pragma: keep
 
 #endif // !LUMEX_CORE_SPAN_VIEW_SPAN_TRAITS_HPP

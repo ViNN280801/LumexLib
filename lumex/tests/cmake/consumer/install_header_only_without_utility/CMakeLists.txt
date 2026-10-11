@@ -105,6 +105,12 @@ endforeach()
 
 add_executable(install_header_only_without_utility_consumer main.cpp)
 target_link_libraries(install_header_only_without_utility_consumer PRIVATE ${_targets})
+# The precondition checks of span are forced on (a build type without NDEBUG
+# would do the same): the span module has its own failure handler, so the
+# prefix without utility links and a violation aborts. main.cpp runs itself
+# with --violate to see it.
+target_compile_definitions(install_header_only_without_utility_consumer
+    PRIVATE LUMEX_SPAN_CHECKS=1)
 set_target_properties(install_header_only_without_utility_consumer PROPERTIES
     CXX_STANDARD 11
     CXX_STANDARD_REQUIRED ON
@@ -114,6 +120,8 @@ set_target_properties(install_header_only_without_utility_consumer PROPERTIES
 if("cxx_std_20" IN_LIST CMAKE_CXX_COMPILE_FEATURES)
     add_executable(install_header_only_without_utility_cxx20 main.cpp)
     target_link_libraries(install_header_only_without_utility_cxx20 PRIVATE ${_targets})
+    target_compile_definitions(install_header_only_without_utility_cxx20
+        PRIVATE LUMEX_SPAN_CHECKS=1)
     set_target_properties(install_header_only_without_utility_cxx20 PROPERTIES
         CXX_STANDARD 20
         CXX_STANDARD_REQUIRED ON

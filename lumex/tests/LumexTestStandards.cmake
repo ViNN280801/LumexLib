@@ -433,6 +433,8 @@ lumex_test_standards_declare(xml 11 17 20)
 lumex_test_standards_declare(exceptions 11 17 20)
 lumex_test_standards_declare(math 11 17 20)
 lumex_test_standards_declare(span 11 17 20)
+lumex_test_standards_declare_variant(span checks_on 11 20)
+lumex_test_standards_declare_variant(span checks_off 11 20)
 lumex_test_standards_declare(smart_ptr 11 14 17 20)
 
 lumex_test_standards_declare(circular_buffer 11 20)

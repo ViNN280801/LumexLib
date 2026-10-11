@@ -31,6 +31,20 @@ count_bytes (span<byte const> bytes)
 {
   return bytes.size ();
 }
+
+// A function overloaded for both spans: a container converts to either, so
+// the call describe (values) is ambiguous and does not compile.
+int
+describe (std::span<std::int32_t const>)
+{
+  return 1;
+}
+
+int
+describe (span<std::int32_t const>)
+{
+  return 2;
+}
 } // namespace
 #endif
 
@@ -58,6 +72,11 @@ main ()
   std::span<std::int32_t> loose = fixed;
   std::span<std::int32_t, 6> exact (own);
   std::cout << "loose=" << loose.size () << " exact=" << exact.size () << '\n';
+
+  // Resolving the ambiguity: name the type the call means.
+  std::cout << "overloads="
+            << describe (std::span<std::int32_t const> (values))
+            << describe (span<std::int32_t const> (values)) << '\n';
 #else
   std::cout << "no std::span in this build (C++20 with <span> is needed)\n";
 #endif
