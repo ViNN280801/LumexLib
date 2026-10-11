@@ -9,6 +9,7 @@
 // compared where the standard library has them (C++23, __cpp_lib_optional
 // 202110L). The comments name the mutation of the pre-registered list each
 // comparison catches.
+#include <any>
 #include <cstddef>
 #include <functional>
 #include <optional>
@@ -210,6 +211,9 @@ script ()
     mark ("emplace empty", g);
     g = Opt ();
     mark ("assign nullopt", g);
+    g.emplace (6);
+    g = {};
+    mark ("assign braces", g);
 
     // swap, four combinations
     Opt s1 (typename Opt::value_type (1)), s2 (typename Opt::value_type (2));
@@ -449,6 +453,7 @@ TEST (LumexOptionalStdParityTest, GivenManyTypes_WhenTraits_ThenEqualToStd)
   expect_traits_equal<ThrowingSwap, false> ();
   expect_traits_equal<ExplicitFromInt> ();
   expect_traits_equal<lumex_opt<int>> ();
+  expect_traits_equal<std::any> ();
 }
 
 // M28: the noexcept of swap.

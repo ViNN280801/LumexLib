@@ -122,6 +122,20 @@ namespace optional
 {
 namespace opt
 {
+#if __cplusplus >= 201703L
+namespace detail
+{
+/// @brief Whether `T` is a specialization of `std::optional`.
+template <typename T> struct is_std_optional : std::false_type
+{
+};
+
+template <typename T> struct is_std_optional<std::optional<T>> : std::true_type
+{
+};
+} // namespace detail
+#endif
+
 /**
  * @brief A C++11 implementation of `std::optional` for type-safe nullable
  * values.
@@ -154,35 +168,70 @@ template <typename T> class optional
 
   template <typename U> friend class optional;
 
-  /// @brief The constraints of `optional (U &&)` that do not depend on the
-  /// implicit/explicit split ([optional.ctor]/22).
+  /// @brief Whether `T` is `bool` and `U` is an `optional` (also a
+  /// `std::optional` from C++17): then the value constructor is not used and
+  /// the state of `U` is not read through its `explicit operator bool`
+  /// ([optional.ctor]/22).
   template <typename U>
-  using enables_value_ctor = std::integral_constant<
-      bool,
-      std::is_constructible<T, U>::value
-          && !std::is_same<detail::remove_cvref_t<U>, in_place_t>::value
-          && !std::is_same<detail::remove_cvref_t<U>, optional>::value
-          && !(detail::is_cv_bool<T>::value
-               && detail::is_optional_specialization<
-                   detail::remove_cvref_t<U>>::value)
+  struct bool_takes_optional
+      : std::integral_constant<bool,
+                               detail::is_cv_bool<T>::value
+                                   && (detail::is_optional_specialization<
+                                           detail::remove_cvref_t<U>>::value
 #if __cplusplus >= 201703L
-          && !std::is_same<detail::remove_cvref_t<U>, std::optional<T>>::value
+                                       || detail::is_std_optional<
+                                           detail::remove_cvref_t<U>>::value
 #endif
-      >;
+                                       )>
+  {
+  };
+
+  /// @brief The constraints of `optional (U &&)` that do not depend on the
+  /// implicit/explicit split ([optional.ctor]/22), the cheap ones first.
+  template <typename U>
+  struct enables_value_ctor
+      : detail::conjunction<
+            detail::negation<
+                std::is_same<detail::remove_cvref_t<U>, optional>>,
+            detail::negation<
+                std::is_same<detail::remove_cvref_t<U>, in_place_t>>,
+            detail::negation<bool_takes_optional<U>>,
+#if __cplusplus >= 201703L
+            detail::negation<
+                std::is_same<detail::remove_cvref_t<U>, std::optional<T>>>,
+#endif
+            std::is_constructible<T, U>>
+  {
+  };
 
   /// @brief The constraints of the converting constructors from
   /// `optional<U>` once `T` is constructible from the value ([optional.ctor]).
   template <typename U>
-  using enables_from_optional = std::integral_constant<
-      bool, detail::is_cv_bool<T>::value
-                || !detail::converts_from_any_cvref<T, optional<U>>::value>;
+  struct enables_from_optional
+      : std::conditional<detail::is_cv_bool<T>::value, std::true_type,
+                         detail::negation<detail::converts_from_any_cvref<
+                             T, optional<U>>>>::type
+  {
+  };
 
   /// @brief The extra constraints of the converting assignments from
   /// `optional<U>` ([optional.assign]).
   template <typename U>
-  using enables_assign_from_optional = std::integral_constant<
-      bool, !detail::converts_from_any_cvref<T, optional<U>>::value
-                && !detail::assigns_from_any_cvref<T, optional<U>>::value>;
+  struct enables_assign_from_optional
+      : detail::conjunction<
+            detail::negation<detail::converts_from_any_cvref<T, optional<U>>>,
+            detail::negation<detail::assigns_from_any_cvref<T, optional<U>>>>
+  {
+  };
+
+  /// @brief The scalar rule of `operator= (U &&)` ([optional.assign]/12).
+  template <typename U>
+  struct is_scalar_same
+      : std::integral_constant<
+            bool, std::is_scalar<T>::value
+                      && std::is_same<T, typename std::decay<U>::type>::value>
+  {
+  };
 
   /// @brief Private constructor of `transform`: the value is built from the
   /// result of the call, never from a converting constructor, so an `optional`
@@ -280,9 +329,10 @@ public:
    * @param value The value to construct from.
    */
   template <typename U = T,
-            typename std::enable_if<enables_value_ctor<U &&>::value
-                                        && std::is_convertible<U &&, T>::value,
-                                    int>::type
+            typename std::enable_if<
+                detail::conjunction<enables_value_ctor<U &&>,
+                                    std::is_convertible<U &&, T>>::value,
+                int>::type
             = 0>
   LUMEX_CONSTEXPR_CTOR
   optional (U &&value)
@@ -293,11 +343,13 @@ public:
 
   /// @brief The same constructor, `explicit` when `U` does not convert to `T`
   /// implicitly.
-  template <typename U = T, typename std::enable_if<
-                                enables_value_ctor<U &&>::value
-                                    && !std::is_convertible<U &&, T>::value,
-                                int>::type
-                            = 0>
+  template <typename U = T,
+            typename std::enable_if<
+                detail::conjunction<
+                    enables_value_ctor<U &&>,
+                    detail::negation<std::is_convertible<U &&, T>>>::value,
+                int>::type
+            = 0>
   LUMEX_CONSTEXPR_CTOR explicit optional (U &&value)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U &&>::value)
       : m_p (in_place, detail::fwd<U> (value))
@@ -313,12 +365,14 @@ public:
    * @tparam U The value type of the source.
    * @param rhs The source; unchanged.
    */
-  template <typename U, typename std::enable_if<
-                            std::is_constructible<T, U const &>::value
-                                && enables_from_optional<U>::value
-                                && std::is_convertible<U const &, T>::value,
-                            int>::type
-                        = 0>
+  template <typename U,
+            typename std::enable_if<
+                detail::conjunction<detail::negation<std::is_same<T, U>>,
+                                    std::is_constructible<T, U const &>,
+                                    enables_from_optional<U>,
+                                    std::is_convertible<U const &, T>>::value,
+                int>::type
+            = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20
   optional (optional<U> const &rhs)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U const &>::value)
@@ -330,12 +384,15 @@ public:
 
   /// @brief The same constructor, `explicit` when `const U &` does not convert
   /// to `T` implicitly.
-  template <typename U, typename std::enable_if<
-                            std::is_constructible<T, U const &>::value
-                                && enables_from_optional<U>::value
-                                && !std::is_convertible<U const &, T>::value,
-                            int>::type
-                        = 0>
+  template <
+      typename U,
+      typename std::enable_if<
+          detail::conjunction<
+              detail::negation<std::is_same<T, U>>,
+              std::is_constructible<T, U const &>, enables_from_optional<U>,
+              detail::negation<std::is_convertible<U const &, T>>>::value,
+          int>::type
+      = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20 explicit optional (optional<U> const &rhs)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U const &>::value)
       : m_p ()
@@ -352,10 +409,12 @@ public:
    * @param rhs The source.
    */
   template <typename U,
-            typename std::enable_if<std::is_constructible<T, U>::value
-                                        && enables_from_optional<U>::value
-                                        && std::is_convertible<U, T>::value,
-                                    int>::type
+            typename std::enable_if<
+                detail::conjunction<detail::negation<std::is_same<T, U>>,
+                                    std::is_constructible<T, U>,
+                                    enables_from_optional<U>,
+                                    std::is_convertible<U, T>>::value,
+                int>::type
             = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20
   optional (optional<U> &&rhs)
@@ -369,10 +428,12 @@ public:
   /// @brief The same constructor, `explicit` when `U` does not convert to `T`
   /// implicitly.
   template <typename U,
-            typename std::enable_if<std::is_constructible<T, U>::value
-                                        && enables_from_optional<U>::value
-                                        && !std::is_convertible<U, T>::value,
-                                    int>::type
+            typename std::enable_if<
+                detail::conjunction<
+                    detail::negation<std::is_same<T, U>>,
+                    std::is_constructible<T, U>, enables_from_optional<U>,
+                    detail::negation<std::is_convertible<U, T>>>::value,
+                int>::type
             = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20 explicit optional (optional<U> &&rhs)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U>::value)
@@ -559,16 +620,15 @@ public:
    * @param value The value.
    * @return A reference to `*this`.
    */
-  template <
-      typename U = T,
-      typename std::enable_if<
-          !std::is_same<detail::remove_cvref_t<U>, optional>::value
-              && std::is_constructible<T, U>::value
-              && std::is_assignable<T &, U>::value
-              && !(std::is_scalar<T>::value
-                   && std::is_same<T, typename std::decay<U>::type>::value),
-          int>::type
-      = 0>
+  template <typename U = T,
+            typename std::enable_if<
+                detail::conjunction<
+                    detail::negation<
+                        std::is_same<detail::remove_cvref_t<U>, optional>>,
+                    std::is_constructible<T, U>, std::is_assignable<T &, U>,
+                    detail::negation<is_scalar_same<U>>>::value,
+                int>::type
+            = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20 optional &
   operator= (U &&value)
   {
@@ -587,13 +647,14 @@ public:
    * @param rhs The source; unchanged.
    * @return A reference to `*this`.
    */
-  template <typename U, typename std::enable_if<
-                            !std::is_same<T, U>::value
-                                && std::is_constructible<T, U const &>::value
-                                && std::is_assignable<T &, U const &>::value
-                                && enables_assign_from_optional<U>::value,
-                            int>::type
-                        = 0>
+  template <typename U,
+            typename std::enable_if<
+                detail::conjunction<detail::negation<std::is_same<T, U>>,
+                                    std::is_constructible<T, U const &>,
+                                    std::is_assignable<T &, U const &>,
+                                    enables_assign_from_optional<U>>::value,
+                int>::type
+            = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20 optional &
   operator= (optional<U> const &rhs)
   {
@@ -613,13 +674,14 @@ public:
    * @param rhs The source.
    * @return A reference to `*this`.
    */
-  template <typename U, typename std::enable_if<
-                            !std::is_same<T, U>::value
-                                && std::is_constructible<T, U>::value
-                                && std::is_assignable<T &, U>::value
-                                && enables_assign_from_optional<U>::value,
-                            int>::type
-                        = 0>
+  template <typename U,
+            typename std::enable_if<
+                detail::conjunction<detail::negation<std::is_same<T, U>>,
+                                    std::is_constructible<T, U>,
+                                    std::is_assignable<T &, U>,
+                                    enables_assign_from_optional<U>>::value,
+                int>::type
+            = 0>
   LUMEX_OPTIONAL_CONSTEXPR_CXX20 optional &
   operator= (optional<U> &&rhs)
   {

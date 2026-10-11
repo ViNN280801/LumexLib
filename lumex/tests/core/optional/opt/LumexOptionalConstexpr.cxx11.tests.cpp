@@ -195,6 +195,17 @@ converting_works ()
 }
 static_assert (converting_works () == 4,
                "constexpr converting constructor and assignment (C++20)");
+
+constexpr int
+emplace_const_works ()
+{
+  optional<const int> value;
+  value.emplace (3);
+  value.emplace (4);
+  return *value;
+}
+static_assert (emplace_const_works () == 4,
+               "F4: constexpr emplace of an optional<const int> (C++20)");
 #endif
 
 TEST (LumexOptionalConstexprTest,
