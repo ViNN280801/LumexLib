@@ -408,7 +408,7 @@ public:
   to_std () const &LUMEX_NOEXCEPT_IF (
       std::is_nothrow_copy_constructible<ErrorType>::value)
   {
-    return this->template operator S ();
+    return this->operator S ();
   }
 
   /// @brief As above for an rvalue: moves the error.
@@ -420,7 +420,7 @@ public:
       && LUMEX_NOEXCEPT_IF (
           std::is_nothrow_move_constructible<ErrorType>::value)
   {
-    return static_cast<expected &&> (*this).template operator S ();
+    return static_cast<expected &&> (*this).operator S ();
   }
 #endif // LUMEX_EXPECTED_HAS_STD_CONVERSION
 
