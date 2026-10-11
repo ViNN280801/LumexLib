@@ -58,6 +58,31 @@ TEST (LumexSplitCountFamilyAliasTest,
       << "the alias follows LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT";
 }
 
+#if !defined(LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT)
+TEST (LumexSplitCountFamilyAliasTest,
+      GivenNoPreference_WhenAliasesNamed_ThenBothAreLockBased)
+{
+  EXPECT_EQ (LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT, 0);
+  EXPECT_TRUE (
+      (std::is_same<sp::atomic_shared_ptr<Node>, lock_based_shared>::value));
+  EXPECT_TRUE (
+      (std::is_same<sp::atomic_weak_ptr<Node>, lock_based_weak>::value));
+}
+#elif LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT                                  \
+    && !defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)
+TEST (LumexSplitCountFamilyAliasTest,
+      GivenThePreference_WhenAliasesNamed_ThenBothAreSplitCount)
+{
+  EXPECT_EQ (LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT, 1);
+  EXPECT_TRUE ((std::is_same<
+                sp::atomic_shared_ptr<Node>,
+                asp::atomic_shared_ptr_lock_free_split_count<Node>>::value));
+  EXPECT_TRUE (
+      (std::is_same<sp::atomic_weak_ptr<Node>,
+                    asp::atomic_weak_ptr_lock_free_split_count<Node>>::value));
+}
+#endif
+
 #if defined(LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT)
 TEST (LumexSplitCountFamilyAliasTest,
       GivenTheNoSplitCountBuild_WhenAliasesNamed_ThenBothAreLockBased)

@@ -626,10 +626,10 @@ namespace smart_ptr
  * @brief The atomic `shared_ptr` of the module's own pointer family:
  * `std::atomic<std::shared_ptr<T>>` for `lumex::core::smart_ptr::shared_ptr`.
  * @details An alias template of
- * `lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_free_split_count<T>`
- * where the split-count engine exists (and
- * `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined), of
- * `atomic_shared_ptr_lock_based_lumex<T>` otherwise
+ * `lumex::core::atomic::smart_ptr::atomic_shared_ptr_lock_based_lumex<T>` by
+ * default, of `atomic_shared_ptr_lock_free_split_count<T>` where
+ * `LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT` is defined, the engine
+ * exists and `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined
  * (`LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` tells which). It is
  * declared by the atomic module (`lumex/core/atomic/LumexAtomic`), not by the
  * pointer module, which does not depend on it.

@@ -17,9 +17,9 @@
 
 namespace sp = lumex::core::smart_ptr;
 
-// The family alias: the split-count engine where
-// LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT is 1, the lock-based engine
-// over the same pointers otherwise.
+// The family alias: the lock-based engine over the same pointers by default,
+// the split-count engine where LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT is
+// 1 (opt in with LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT).
 using sp::atomic_shared_ptr;
 
 namespace

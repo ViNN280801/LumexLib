@@ -88,7 +88,7 @@ Detection is in one place, `LumexAtomicSmartPtrConfig.hpp`:
 | `LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE` | `HAS_LOCK_FREE` and `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined |
 | `LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY` | 1 when `LUMEX_ATOMIC_HAS_SMART_PTR` is defined (CMake: the target `lumex::smart_ptr` exists) |
 | `LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT` | 1 when the family is present, `LUMEX_ATOMIC_HAS_DWCAS` is 1 (x86-64) and `LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT` is not defined |
-| `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` | 1 when the family alias pair is the split-count engine: `HAS_SPLIT_COUNT` and `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined |
+| `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` | 1 when the family alias pair is the split-count engine: `LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT` is defined, `HAS_SPLIT_COUNT` is 1 and `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is not defined; 0 by default |
 
 The family pair `lumex::core::smart_ptr::atomic_shared_ptr` and `atomic_weak_ptr` has its own choice, shown by the last macro and described in "The split-count engine"; the table above is about the common names of this module only.
 
@@ -263,11 +263,11 @@ GCC sends every 16-byte `__atomic_*` operation to libatomic, with or without `-m
 
 | Name | Meaning |
 | --- | --- |
-| `lumex::core::smart_ptr::atomic_shared_ptr<T>`, `atomic_weak_ptr<T>` | The family alias pair, declared by `lumex/core/atomic/LumexAtomic`: the split-count engine where `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` is 1, the lock-based engine over the same pointers otherwise |
+| `lumex::core::smart_ptr::atomic_shared_ptr<T>`, `atomic_weak_ptr<T>` | The family alias pair, declared by `lumex/core/atomic/LumexAtomic`: the lock-based engine over the same pointers by default, the split-count engine where `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` is 1 (opt-in) |
 | `atomic_shared_ptr_lock_free_split_count<T>`, `atomic_weak_ptr_lock_free_split_count<T>` | The engine named explicitly, in `lumex::core::atomic::smart_ptr`; declared only where `LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT` is 1 |
 | `atomic_shared_ptr_lock_based_lumex<T>`, `atomic_weak_ptr_lock_based_lumex<T>` | The lock-based engine over the family pointers; declared where `LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY` is 1 |
 
-The family pair has the members of the table in "Interface". `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` makes the family pair the lock-based engine and leaves the common names as they are. The family pair exists only when the pointer module is linked (the soft CMake edge of `lumex::atomic`, `LUMEX_ATOMIC_HAS_SMART_PTR`). The alias pair lives in the atomic module, because the pointer module does not depend on the atomic one.
+The family pair has the members of the table in "Interface". The family pair is the lock-based engine until the split-count engine is measured against it and against `std::atomic<std::shared_ptr>`; define `LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT` before the first include to make it the split-count engine (x86-64 only, no effect elsewhere), or name `atomic_shared_ptr_lock_free_split_count` / `atomic_weak_ptr_lock_free_split_count` directly. `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` makes the family pair the lock-based engine in every case and leaves the common names as they are. The family pair exists only when the pointer module is linked (the soft CMake edge of `lumex::atomic`, `LUMEX_ATOMIC_HAS_SMART_PTR`). The alias pair lives in the atomic module, because the pointer module does not depend on the atomic one.
 
 ### The word
 

@@ -192,11 +192,18 @@
  * @brief 1 when `lumex::core::smart_ptr::atomic_shared_ptr` and
  * `atomic_weak_ptr` resolve to the split-count engine, 0 when they resolve to
  * the lock-based engine over the module's own pointers (or do not exist).
- * @details The split-count engine where it exists, unless
- * `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` is defined (the switch forces both
- * alias pairs).
+ * @details The lock-based engine is the default: the split-count engine has
+ * not been measured against it and against `std::atomic<std::shared_ptr>` yet,
+ * so the unqualified family names do not switch to it silently. Define
+ * `LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT` to make the pair the
+ * split-count engine where it exists; the explicit names
+ * `atomic_shared_ptr_lock_free_split_count` and
+ * `atomic_weak_ptr_lock_free_split_count` are always available there.
+ * `LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED` wins over the preference (the
+ * switch forces both alias pairs).
  */
-#if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT                                    \
+#if defined(LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT)                 \
+    && LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT                                 \
     && !defined(LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED)
 #define LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT 1
 #else
