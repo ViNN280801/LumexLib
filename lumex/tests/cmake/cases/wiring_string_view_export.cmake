@@ -1,14 +1,16 @@
-# Export of the string_view library on Windows. LUMEX_API is dllexport in every
-# DLL built with LUMEX_EXPORTS, so a module that includes the view headers
-# would export the view operators again (MinGW: six extra symbols in each of
-# base64, crc, exceptions and xml). The views use LUMEX_STRING_VIEW_API instead,
-# keyed on LumexCore_string_view_EXPORTS, like LUMEX_UTILITY_API; the six
-# comparison operators are plain inline functions.
+# Export of the string_view views on Windows. The module is header-only: its
+# classes are templates and every member is inline, so there is no library to
+# export from and no export macro (LUMEX_STRING_VIEW_API is gone, and with it
+# the six comparison operators that needed it). What a DLL of another module
+# must still not do is export the views: LUMEX_API is dllexport in every DLL
+# built with LUMEX_EXPORTS, and a header that used it would make base64, crc,
+# exceptions and xml export the view members again.
 #
-# Part 1 reads the sources. Part 2 compiles one translation unit of each of
-# those modules with a MinGW compiler (when one is installed) the way the DLL
-# is built and reads the export directives (.drectve) of the object file: there
-# must be none for string_view, and the string_view library itself must export.
+# Part 1 reads the sources: no export macro in the view headers or in
+# LumexExport.hpp. Part 2 compiles one translation unit of each of those
+# modules with a MinGW compiler (when one is installed) the way the DLL is
+# built and reads the export directives (.drectve) of the object file: there
+# must be none for string_view.
 
 function(_require_text path needle)
     file(READ "${LUMEX_SOURCE_DIR}/${path}" _txt)
@@ -27,24 +29,14 @@ function(_forbid_text path needle)
 endfunction()
 
 # --- part 1: the sources ---------------------------------------------------
-_require_text("lumex/LumexExport.hpp"
-    "#if defined(LumexCore_string_view_EXPORTS)\n#define LUMEX_STRING_VIEW_API __declspec (dllexport)\n#else\n#define LUMEX_STRING_VIEW_API __declspec (dllimport)")
-_require_text("lumex/LumexExport.hpp"
-    "#elif defined(LumexCore_string_view_EXPORTS)\n#define LUMEX_STRING_VIEW_API __attribute__ ((visibility (\"default\")))")
-foreach(_header LumexStringView.hpp LumexWStringView.hpp)
+_forbid_text("lumex/LumexExport.hpp" "LUMEX_STRING_VIEW_API")
+_forbid_text("lumex/LumexExport.hpp" "LumexCore_string_view_EXPORTS")
+foreach(_header LumexBasicStringView.hpp LumexStringView.hpp LumexWStringView.hpp)
     set(_path "lumex/core/string_view/view/${_header}")
-    string(REGEX REPLACE "\\.hpp$" "" _stem "${_header}")
-    string(REGEX REPLACE "^Lumex" "" _stem "${_stem}")
     _forbid_text("${_path}" "LUMEX_API")
-    _require_text("${_path}" "class LUMEX_STRING_VIEW_API lumex_")
-    _require_text("${_path}" "LUMEX_STRING_VIEW_API std::")
-    file(READ "${LUMEX_SOURCE_DIR}/${_path}" _txt)
-    # Six comparison operators, all plain inline functions.
-    string(REGEX MATCHALL "\ninline bool\noperator(==|!=|<|>|<=|>=) \\(lumex_w?string_view lhs, lumex_w?string_view rhs\\)" _ops "${_txt}")
-    list(LENGTH _ops _count)
-    if(NOT _count EQUAL 6)
-        message(FATAL_ERROR "${_path}: ${_count} plain inline comparison operators, expected 6")
-    endif()
+    _forbid_text("${_path}" "LUMEX_STRING_VIEW_API")
+    _forbid_text("${_path}" "LUMEX_PUBLIC_API")
+    _forbid_text("${_path}" "LumexExport.hpp")
 endforeach()
 
 # --- part 2: the object files of a MinGW build -----------------------------
@@ -92,44 +84,6 @@ function(_exports out_var source)
     set(${out_var} "${_all}" PARENT_SCOPE)
 endfunction()
 
-# The macro itself, preprocessed by the Windows compiler: imported in a DLL
-# built with LUMEX_EXPORTS that does not own the views (GCC exports nothing for
-# a dllexport class whose inline members are unused, so the object files below
-# cannot tell), exported only from the string_view library.
-set(_macro_source "${_work}/Macro.cpp")
-file(WRITE "${_macro_source}" [=[
-#include "lumex/LumexExport.hpp"
-view_api: LUMEX_STRING_VIEW_API
-generic_api: LUMEX_API
-]=])
-function(_expansion out_var)
-    execute_process(
-        COMMAND "${_mingw}" -E -P -x c++ "-I${LUMEX_SOURCE_DIR}" ${ARGN}
-            "${_macro_source}"
-        OUTPUT_VARIABLE _text RESULT_VARIABLE _rv)
-    if(NOT _rv EQUAL 0)
-        message(FATAL_ERROR "${_mingw} cannot preprocess ${_macro_source}")
-    endif()
-    set(${out_var} "${_text}" PARENT_SCOPE)
-endfunction()
-_expansion(_in_module_dll -DLUMEX_EXPORTS)
-if(NOT _in_module_dll MATCHES "view_api:[^\n]*dllimport"
-   OR NOT _in_module_dll MATCHES "generic_api:[^\n]*dllexport")
-    message(FATAL_ERROR
-        "in a DLL built with LUMEX_EXPORTS the views must be imported while "
-        "LUMEX_API is exported:\n${_in_module_dll}")
-endif()
-_expansion(_in_view_dll -DLUMEX_EXPORTS -DLumexCore_string_view_EXPORTS)
-if(NOT _in_view_dll MATCHES "view_api:[^\n]*dllexport")
-    message(FATAL_ERROR
-        "the string_view library must export its views:\n${_in_view_dll}")
-endif()
-_expansion(_in_consumer)
-if(NOT _in_consumer MATCHES "view_api:[^\n]*dllimport")
-    message(FATAL_ERROR
-        "a consumer must import the views:\n${_in_consumer}")
-endif()
-
 foreach(_source
         lumex/core/base64/encode/Encoder.cpp
         lumex/core/crc/catalog/LumexCrcCatalog.cpp
@@ -153,16 +107,3 @@ foreach(_source
         message(FATAL_ERROR "${_source}: no export directive at all, the check reads nothing")
     endif()
 endforeach()
-
-# The control: the string_view library exports its own class.
-_exports(_view_library lumex/core/string_view/view/LumexStringView.cpp
-         -DLumexCore_string_view_EXPORTS)
-set(_own_view 0)
-foreach(_directive IN LISTS _view_library)
-    if(_directive MATCHES "lumex_string_view")
-        math(EXPR _own_view "${_own_view} + 1")
-    endif()
-endforeach()
-if(_own_view EQUAL 0)
-    message(FATAL_ERROR "the string_view library exports nothing of lumex_string_view")
-endif()

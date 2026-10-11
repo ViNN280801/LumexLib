@@ -1,11 +1,11 @@
 # core/string_view wiring for the modules that take the lumex_string_view in
-# their string overloads below C++17 (base64, crc, exceptions, xml). The
-# members of lumex_string_view that a call converts through are compiled into
-# the string_view library (the constructors from char const * and
-# std::string), and the class is dllimport on Windows, so a module that has
-# the view in its API links the module: the configure-time edge, the link of
-# lumex::string_view, the Conan requirement and the order of the subdirectories
-# (the alias target must exist when the module links it).
+# their string overloads below C++17 (base64, crc, exceptions, xml). The module
+# is header-only (an INTERFACE target, no source file): a module that has the
+# view in its API links lumex::string_view for the include directory, so the
+# configure-time edge, the link of lumex::string_view, the Conan requirement
+# and the order of the subdirectories (the alias target must exist when the
+# module links it) are still checked. The module itself needs nothing else:
+# no edge to utility, no compiled file, no export macro.
 
 function(_require_text path needle)
     file(READ "${LUMEX_SOURCE_DIR}/${path}" _txt)
@@ -61,3 +61,24 @@ foreach(_component "core_base64" "core_crc" "core_exceptions" "xml\", \"xml")
             "conanfile.py: ${_component} does not require core_string_view")
     endif()
 endforeach()
+
+# Header-only: an INTERFACE library, no source files, no edge to utility.
+file(READ "${LUMEX_SOURCE_DIR}/lumex/core/string_view/CMakeLists.txt" _own)
+if(NOT _own MATCHES "add_library\\(\\$\\{LUMEX_STRING_VIEW_NAME\\} INTERFACE\\)")
+    message(FATAL_ERROR "core/string_view must be an INTERFACE library")
+endif()
+if(_own MATCHES "GLOB" OR _own MATCHES "lumex::utility")
+    message(FATAL_ERROR "core/string_view lists sources or links utility")
+endif()
+file(GLOB_RECURSE _compiled "${LUMEX_SOURCE_DIR}/lumex/core/string_view/*.cpp")
+if(_compiled)
+    message(FATAL_ERROR "core/string_view has a compiled part: ${_compiled}")
+endif()
+file(READ "${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake" _modules)
+if(_modules MATCHES "lumex_require_module\\(LUMEX_BUILD_STRING_VIEW ")
+    message(FATAL_ERROR "string_view must not require another module")
+endif()
+if(NOT _conan MATCHES "_component\\(\"core_string_view\", \"string_view\"\\)")
+    message(FATAL_ERROR
+        "conanfile.py: core_string_view must be a component without libs and requires")
+endif()
