@@ -562,7 +562,7 @@ public:
   {
     static_assert (Count <= Extent, "span::first<Count>: Count out of range");
     return LUMEX_SPAN_CHECKED (
-        Count <= size (),
+        Count <= m_storage.size (),
         span<element_type, Count> (m_storage.data (), Count));
   }
 
@@ -579,7 +579,7 @@ public:
   {
     static_assert (Count <= Extent, "span::last<Count>: Count out of range");
     return LUMEX_SPAN_CHECKED (
-        Count <= size (),
+        Count <= m_storage.size (),
         span<element_type, Count> (
             m_storage.data () + (m_storage.size () - Count), Count));
   }
@@ -610,8 +610,9 @@ public:
             || (Offset <= Extent && Count <= Extent - Offset),
         "span::subspan<Offset, Count>: Offset + Count out of range");
     return LUMEX_SPAN_CHECKED (
-        Offset <= size ()
-            && (Count == dynamic_extent || Count <= size () - Offset),
+        Offset <= m_storage.size ()
+            && (Count == dynamic_extent
+                || Count <= m_storage.size () - Offset),
         span<element_type,
              detail::subspan_extent<Extent, Offset, Count>::value> (
             m_storage.data () + Offset,
@@ -629,7 +630,7 @@ public:
   first (size_type count) const LUMEX_NOEXCEPT
   {
     return LUMEX_SPAN_CHECKED (
-        count <= size (),
+        count <= m_storage.size (),
         span<element_type, dynamic_extent> (m_storage.data (), count));
   }
 
@@ -644,7 +645,7 @@ public:
   last (size_type count) const LUMEX_NOEXCEPT
   {
     return LUMEX_SPAN_CHECKED (
-        count <= size (),
+        count <= m_storage.size (),
         span<element_type, dynamic_extent> (
             m_storage.data () + (m_storage.size () - count), count));
   }
@@ -663,8 +664,9 @@ public:
            size_type count = dynamic_extent) const LUMEX_NOEXCEPT
   {
     return LUMEX_SPAN_CHECKED (
-        offset <= size ()
-            && (count == dynamic_extent || count <= size () - offset),
+        offset <= m_storage.size ()
+            && (count == dynamic_extent
+                || count <= m_storage.size () - offset),
         span<element_type, dynamic_extent> (
             m_storage.data () + offset,
             count == dynamic_extent ? m_storage.size () - offset : count));
@@ -704,7 +706,7 @@ public:
   // -- Element access --
   /**
    * @brief The element at `index`.
-   * @pre `index < size ()`.
+   * @pre `index < m_storage.size ()`.
    * @param index The index.
    * @return A reference to the element.
    */
@@ -712,7 +714,8 @@ public:
   LUMEX_CONSTEXPR reference
   operator[] (size_type index) const LUMEX_NOEXCEPT
   {
-    return LUMEX_SPAN_CHECKED (index < size (), m_storage.data ()[index]);
+    return LUMEX_SPAN_CHECKED (index < m_storage.size (),
+                               m_storage.data ()[index]);
   }
 
   /**

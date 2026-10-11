@@ -78,6 +78,15 @@
 #include <iterator>
 #include <type_traits>
 
+// The iterator classes of the MSVC STL are declared in the header of their
+// container (`_Vector_iterator` in <vector>, `_String_iterator` in <xstring>
+// through <string>), not in <iterator>, so a translation unit that includes
+// the span before <vector> would not find the names. Never compiled here.
+#if defined(_MSVC_STL_VERSION)
+#include <string>
+#include <vector>
+#endif
+
 #if defined(_LIBCPP_VERSION) && defined(__has_include)
 #if __has_include(<__iterator/wrap_iter.h>)
 #include <__iterator/wrap_iter.h>

@@ -135,8 +135,11 @@ private:
 // are recognized by the library in every standard. The iterator class of a
 // program is not: before C++20 the language cannot tell a contiguous iterator
 // from a deque's, so the program names it. The line below is a promise that
-// *it and *(it + n) are n elements apart; from C++20 it is redundant, because
-// std::contiguous_iterator answers.
+// *it and *(it + n) are n elements apart. From C++20 the answer is
+// std::contiguous_iterator, so the line is redundant only for an iterator that
+// models it (one with iterator_concept = std::contiguous_iterator_tag and an
+// element_type); the class below declares neither, so it needs the line at
+// every standard.
 namespace lumex
 {
 namespace core

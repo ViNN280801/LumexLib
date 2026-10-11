@@ -22,6 +22,19 @@ constexpr span<int const> none (values + 1, 0);
 constexpr span<int const> three (values, 3);
 } // namespace
 
+// Subviews of a count that makes the check fold to a constant must not drop
+// the call of size () under -Werror=unused-result (GCC 8 warned about a
+// nodiscard call in a comparison that folds).
+unsigned long
+fold_checks (span<int> dynamic, span<int, 4> fixed)
+{
+  return dynamic.first<0> ().size () + dynamic.last<0> ().size ()
+         + dynamic.subspan<0> ().size () + dynamic.subspan<0, 0> ().size ()
+         + dynamic.subspan<1, 0> ().size () + dynamic.subspan<0, 2> ().size ()
+         + fixed.first<0> ().size () + fixed.last<0> ().size ()
+         + fixed.subspan<0> ().size () + fixed.subspan<4> ().size ();
+}
+
 #if defined(LUMEX_SPAN_GOOD_CASE)
 static_assert (four[3] == 13 && four.front () == 10 && four.back () == 13,
                "the borders");
@@ -72,5 +85,8 @@ constexpr span<int const, 4> result (three);
 int
 main ()
 {
-  return 0;
+  int storage[4] = { 1, 2, 3, 4 };
+  return fold_checks (span<int> (storage, 4), span<int, 4> (storage, 4)) == 0
+             ? 1
+             : 0;
 }

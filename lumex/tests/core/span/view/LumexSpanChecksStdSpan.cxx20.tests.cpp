@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 
+#include "LumexSpanTestSupport.hpp"
 #include "lumex/core/span/LumexSpan"
 
 #if LUMEX_SPAN_HAS_STD_SPAN
@@ -33,12 +34,12 @@ TEST (LumexSpanChecksStdSpanDeathTest, GivenStdSpan_WhenSizeDiffers_ThenAborts)
   std::span<std::byte> const four (raw, 4);
   std::span<std::byte> const three (raw, 3);
   EXPECT_EQ ((span<byte, 4> (four).size ()), 4u);
-  EXPECT_DEATH (lumex_discard (span<byte, 4> (three)),
-                "other.size \\(\\) == Extent.*LumexSpan\\.hpp");
+  LUMEX_SPAN_EXPECT_ABORT (lumex_discard (span<byte, 4> (three)),
+                           "other.size \\(\\) == Extent.*LumexSpan\\.hpp");
   int values[4] = {};
   std::span<int> const std_three (values, 3);
-  EXPECT_DEATH (lumex_discard (span<int, 4> (std_three)),
-                "range.size \\(\\)\\) == Extent.*LumexSpan\\.hpp");
+  LUMEX_SPAN_EXPECT_ABORT (lumex_discard (span<int, 4> (std_three)),
+                           "range.size \\(\\)\\) == Extent.*LumexSpan\\.hpp");
 }
 
 #else

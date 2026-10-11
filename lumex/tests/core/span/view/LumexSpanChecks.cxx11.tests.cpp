@@ -80,8 +80,8 @@ discard (T const &)
 }
 
 #define LUMEX_SPAN_TEST_ABORTS(statement, message)                            \
-  EXPECT_DEATH (discard (statement),                                          \
-                message ".* failed at .*LumexSpan\\.hpp:[0-9]+")
+  LUMEX_SPAN_EXPECT_ABORT (discard (statement),                               \
+                           message ".* failed at .*LumexSpan\\.hpp:[0-9]+")
 } // namespace
 
 class LumexSpanChecksDeathTest : public ::testing::Test
@@ -103,15 +103,15 @@ TEST_F (LumexSpanChecksDeathTest, GivenIndex_WhenAtOrAfterSize_ThenAborts)
   span<int> const view (values, 4);
   EXPECT_EQ (view[0], 10);
   EXPECT_EQ (view[3], 13);
-  LUMEX_SPAN_TEST_ABORTS (view[4], "index < size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS (view[7], "index < size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view[4], "index < m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view[7], "index < m_storage.size \\(\\)");
   LUMEX_SPAN_TEST_ABORTS (view[static_cast<std::size_t> (-1)],
-                          "index < size \\(\\)");
+                          "index < m_storage.size \\(\\)");
   span<int> const none;
-  LUMEX_SPAN_TEST_ABORTS (none[0], "index < size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (none[0], "index < m_storage.size \\(\\)");
   span<int, 4> const fixed (values, 4);
   EXPECT_EQ (fixed[3], 13);
-  LUMEX_SPAN_TEST_ABORTS (fixed[4], "index < size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (fixed[4], "index < m_storage.size \\(\\)");
 }
 
 TEST_F (LumexSpanChecksDeathTest, GivenFrontAndBack_WhenEmpty_ThenAbort)
@@ -135,10 +135,10 @@ TEST_F (LumexSpanChecksDeathTest,
   EXPECT_EQ (view.first (0).size (), 0u);
   EXPECT_EQ (view.last (4).size (), 4u);
   EXPECT_EQ (view.last (0).size (), 0u);
-  LUMEX_SPAN_TEST_ABORTS (view.first (5), "count <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS (view.last (5), "count <= size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.first (5), "count <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.last (5), "count <= m_storage.size \\(\\)");
   LUMEX_SPAN_TEST_ABORTS (view.first (static_cast<std::size_t> (-1)),
-                          "count <= size \\(\\)");
+                          "count <= m_storage.size \\(\\)");
 }
 
 TEST_F (LumexSpanChecksDeathTest, GivenSubspan_WhenOutOfRange_ThenAborts)
@@ -150,11 +150,15 @@ TEST_F (LumexSpanChecksDeathTest, GivenSubspan_WhenOutOfRange_ThenAborts)
   EXPECT_EQ (view.subspan (1, 3).size (), 3u);
   EXPECT_EQ (view.subspan (0, 4).size (), 4u);
   EXPECT_EQ (view.subspan (2, dynamic_extent).size (), 2u);
-  LUMEX_SPAN_TEST_ABORTS (view.subspan (5), "offset <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS (view.subspan (5, 0), "offset <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS (view.subspan (1, 4), "offset <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS (view.subspan (0, 5), "offset <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS (view.subspan (4, 1), "offset <= size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.subspan (5), "offset <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.subspan (5, 0),
+                          "offset <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.subspan (1, 4),
+                          "offset <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.subspan (0, 5),
+                          "offset <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.subspan (4, 1),
+                          "offset <= m_storage.size \\(\\)");
 }
 
 TEST_F (LumexSpanChecksDeathTest,
@@ -166,11 +170,14 @@ TEST_F (LumexSpanChecksDeathTest,
   EXPECT_EQ (view.subspan<4> ().size (), 0u);
   EXPECT_EQ ((view.subspan<4, 0> ().size ()), 0u);
   EXPECT_EQ ((view.subspan<2, 2> ().size ()), 2u);
-  LUMEX_SPAN_TEST_ABORTS (view.first<5> (), "Count <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS (view.last<5> (), "Count <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS (view.subspan<5> (), "Offset <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS ((view.subspan<2, 3> ()), "Offset <= size \\(\\)");
-  LUMEX_SPAN_TEST_ABORTS ((view.subspan<4, 1> ()), "Offset <= size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.first<5> (), "Count <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.last<5> (), "Count <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS (view.subspan<5> (),
+                          "Offset <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS ((view.subspan<2, 3> ()),
+                          "Offset <= m_storage.size \\(\\)");
+  LUMEX_SPAN_TEST_ABORTS ((view.subspan<4, 1> ()),
+                          "Offset <= m_storage.size \\(\\)");
 }
 
 TEST_F (LumexSpanChecksDeathTest,
@@ -210,14 +217,26 @@ TEST_F (LumexSpanChecksDeathTest,
         GivenViolation_WhenReported_ThenMessageHasTheFixedFormat)
 {
   span<int> const view (values, 4);
-  EXPECT_DEATH (discard (view[9]),
-                "^LUMEX_SPAN_CHECKS: index < size \\(\\) failed at "
-                ".*LumexSpan\\.hpp:[0-9]+\n");
+  LUMEX_SPAN_EXPECT_ABORT (
+      discard (view[9]),
+      "^LUMEX_SPAN_CHECKS: index < m_storage.size \\(\\) failed at "
+      ".*LumexSpan\\.hpp:[0-9]+\n");
 }
 
-#elif GTEST_HAS_DEATH_TEST
+#elif !LUMEX_SPAN_CHECKS
 
 // -- Checks off: the same calls do not abort --
+// Nothing here executes undefined behavior: every call below only makes a
+// span, a size or a pointer inside the buffer, or reads an element inside it.
+
+TEST (LumexSpanChecksOffTest, GivenCheckMacro_WhenChecksOff_ThenOnlyTheValue)
+{
+  // The condition of a check is not even evaluated.
+  int evaluations = 0;
+  int const value = LUMEX_SPAN_CHECKED (++evaluations < 0, 7);
+  EXPECT_EQ (value, 7);
+  EXPECT_EQ (evaluations, 0);
+}
 
 TEST (LumexSpanChecksOffTest,
       GivenViolatedPreconditions_WhenChecksOff_ThenNoAbort)
@@ -226,14 +245,12 @@ TEST (LumexSpanChecksOffTest,
   span<int> const view (values + 2, 4);
   EXPECT_EQ (view[5], 17);
   EXPECT_EQ (view.first (5).size (), 5u);
-  EXPECT_EQ (view.last (5).size (), 5u);
   EXPECT_EQ (view.subspan (5, 2).size (), 2u);
   EXPECT_EQ (view.subspan (4, 1).size (), 1u);
   EXPECT_EQ ((view.first<5> ().size ()), 5u);
   EXPECT_EQ ((view.subspan<2, 3> ().size ()), 3u);
   span<int> const empty (values + 2, 0);
   EXPECT_EQ (empty.front (), 12);
-  EXPECT_EQ (empty.back (), 11);
   EXPECT_EQ ((span<int, 4> (values, 5).size ()), 4u);
   EXPECT_EQ ((span<int, 4> (values, values + 5).size ()), 4u);
   EXPECT_EQ ((span<int, 4> (span<int> (values, 5)).size ()), 4u);
