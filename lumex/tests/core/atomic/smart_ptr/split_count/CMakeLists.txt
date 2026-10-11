@@ -33,7 +33,8 @@
 # at a point of the protocol. LumexSplitCountAllocHooks.cxx11.tests.cpp
 # replaces the global allocation functions (not under ThreadSanitizer).
 # LumexSplitCountSim.hpp is the simulated-scheduler explorer (V1); its long runs
-# are the Soak tests.
+# are the Soak tests. LumexSplitCountSimAba.hpp is the ABA control of package V2
+# (a toy stack that the explorer must catch).
 set(_split_sanitize_thread FALSE)
 if(LUMEX_USE_TSAN)
     set(_split_sanitize_thread TRUE)
@@ -50,7 +51,7 @@ lumex_add_standard_suites(AtomicSplitCount
     LINK lumex::atomic
     SOURCES LumexSplitCountTestSupport.hpp LumexSplitCountScenarios.hpp
             LumexSplitCountHold.hpp LumexSplitCountSim.hpp
-            LumexSplitCountSimScenarios.hpp
+            LumexSplitCountSimScenarios.hpp LumexSplitCountSimAba.hpp
     DEFINITIONS ${_split_default_definitions}
     DISCOVER_ARGS PROPERTIES TIMEOUT 300 LABELS tsan
     SOAK_FILTER *Soak*

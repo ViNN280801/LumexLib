@@ -1200,6 +1200,14 @@ public:
     return rec_[id].note_count;
   }
 
+  /// Whether the scheduled thread @p id has run to its end (a generation
+  /// gate of the scenario table waits for it).
+  bool
+  thread_done (int id) const
+  {
+    return rec_[id].finished;
+  }
+
   note_t const &
   note_at (int id, int index) const
   {
@@ -2396,9 +2404,20 @@ public:
   {
     if (point != pt_op_begin)
       return true;
-    op_t const &op = def_->threads[id].ops[rt_[id].op_index];
+    thread_def_t const &td = def_->threads[id];
+    // A thread of a later generation starts when the threads of the earlier
+    // one have ended (its first operation is the only one that waits).
+    if (rt_[id].op_index == 0 && td.after != 0u)
+      {
+        explorer_t const *const ex = current_explorer ();
+        for (int t = 0; t < def_->nthreads; ++t)
+          if (((td.after >> t) & 1u) != 0u && ex != nullptr
+              && !ex->thread_done (t))
+            return false;
+      }
+    op_t const &op = td.ops[rt_[id].op_index];
     if (op.kind == op_rc)
-      return !mem ().obj.is_live (op.b);
+      return !mem ().obj.is_live (rc_slot (op));
     return true;
   }
 
@@ -2784,7 +2803,15 @@ private:
         }
         break;
       case op_rc:
-        rt.held[op.a] = make_block (op.b);
+        {
+          strong_t block = make_block (rc_slot (op));
+          int const flavor = rc_flavor (op);
+          if (flavor == fl_plain)
+            rt.held[op.a] = std::move (block);
+          else
+            rt.held[op.a] = strong_t (
+                block, alias_of (block.get (), flavor, rc_alt (op)));
+        }
         break;
       case op_wld:
         cell_->wld (rt.weak[op.a]);
@@ -4535,7 +4562,7 @@ quick_budget (scenario_def_t const &def)
 {
   int const threads = def.nthreads;
   budget_t b;
-  b.dfs = threads < 5;
+  b.dfs = threads < 5 || def.quick_dfs;
   b.bound = def.quick_bound != 0 ? def.quick_bound : (threads <= 3 ? 2 : 1);
   b.cap = threads >= 5 ? 10000 : 0;
   b.bound1_first = false;
