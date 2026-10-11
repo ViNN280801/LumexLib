@@ -24,11 +24,14 @@ import os
 import sys
 from xml.sax.saxutils import escape
 
-VARIANT_ORDER = ["lumex_cxx11", "lumex_cxx20", "std_cxx20", "boost_cxx11",
+VARIANT_ORDER = ["lumex_cxx11", "lumex_cxx20", "lumex_checks_cxx11",
+                 "lumex_checks_cxx20", "std_cxx20", "boost_cxx11",
                  "boost_cxx20"]
 VARIANT_LABEL = {
     "lumex_cxx11": "lumex C++11",
     "lumex_cxx20": "lumex C++20",
+    "lumex_checks_cxx11": "lumex checks C++11",
+    "lumex_checks_cxx20": "lumex checks C++20",
     "std_cxx20": "std::span C++20",
     "boost_cxx11": "boost::span C++11",
     "boost_cxx20": "boost::span C++20",
@@ -38,6 +41,8 @@ VARIANT_LABEL = {
 VARIANT_COLOR = {
     "lumex_cxx11": "#1b6ca8",
     "lumex_cxx20": "#6fb1e0",
+    "lumex_checks_cxx11": "#8a5cc2",
+    "lumex_checks_cxx20": "#c7a9e8",
     "std_cxx20": "#d9822b",
     "boost_cxx11": "#3c9d4a",
     "boost_cxx20": "#8fd19a",
@@ -134,7 +139,9 @@ def pair_ratios(per_variant, numerator, denominator, order):
 
 # Pairs of variants of the same C++ standard, compared with each other.
 SAME_STANDARD = [("lumex_cxx20", "std_cxx20"), ("lumex_cxx20", "boost_cxx20"),
-                 ("lumex_cxx11", "boost_cxx11")]
+                 ("lumex_cxx11", "boost_cxx11"),
+                 ("lumex_checks_cxx11", "lumex_cxx11"),
+                 ("lumex_checks_cxx20", "lumex_cxx20")]
 
 
 def geometric_mean(values):

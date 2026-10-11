@@ -1,7 +1,8 @@
 // bench_span_impl.hpp
 // Selects the span under test: BENCH_SPAN_IMPL is 1 (the span of this
-// library), 2 (the std::span of the standard library in use) or 3
-// (boost::span of Boost.Core). The scenarios of bench_span.cpp and the
+// library with its precondition checks off), 2 (the std::span of the
+// standard library in use), 3 (boost::span of Boost.Core) or 4 (the span of
+// this library with the checks on, LUMEX_SPAN_CHECKS=1). The scenarios of bench_span.cpp and the
 // translation unit of the compile-time table are written once against the
 // names defined here, so every implementation runs the same source.
 #ifndef LUMEX_BENCHMARKS_SPAN_IMPL_HPP
@@ -12,13 +13,20 @@
 #define BENCH_SPAN_LUMEX 1
 #define BENCH_SPAN_STD 2
 #define BENCH_SPAN_BOOST 3
+#define BENCH_SPAN_LUMEX_CHECKS 4
 
 #ifndef BENCH_SPAN_IMPL
-#error "define BENCH_SPAN_IMPL to 1 (lumex), 2 (std) or 3 (boost)"
+#error "define BENCH_SPAN_IMPL to 1 (lumex), 2 (std), 3 (boost) or 4 (lumex checks)"
 #endif
 
-#if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX
+#if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX || BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX_CHECKS
 
+// The checks are fixed by the variant, whatever the build type says.
+#if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX_CHECKS
+#define LUMEX_SPAN_CHECKS 1
+#else
+#define LUMEX_SPAN_CHECKS 0
+#endif
 #include "lumex/core/span/LumexSpan"
 #if __cplusplus >= 202002L && defined(__has_include)
 #if __has_include(<span>)
@@ -38,7 +46,11 @@ using lumex::core::span::view::as_bytes;
 using lumex::core::span::view::byte;
 using lumex::core::span::view::span;
 constexpr std::size_t dynamic_extent = lumex::core::span::view::dynamic_extent;
+#if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX_CHECKS
+#define BENCH_SPAN_IMPL_NAME "lumex_checks"
+#else
 #define BENCH_SPAN_IMPL_NAME "lumex"
+#endif
 using byte_span = span<byte const>;
 #define BENCH_SPAN_HAS_AS_BYTES 1
 } // namespace bench
@@ -77,7 +89,7 @@ using byte = std::byte;
 } // namespace bench
 
 #else
-#error "BENCH_SPAN_IMPL must be 1, 2 or 3"
+#error "BENCH_SPAN_IMPL must be 1, 2, 3 or 4"
 #endif
 
 #ifndef BENCH_SPAN_HAS_STD_CONVERSION
