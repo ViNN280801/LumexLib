@@ -1044,7 +1044,7 @@ make_scenarios ()
   scenario_t const hashing[] = {
     BENCH_SCENARIO (
         "hash",
-        "hash one string (lumex: std::hash of the converted std::string_view)",
+        "hash one string (the hash of each library: std::hash, boost::hash)",
         k_count, run_hash),
   };
   list.insert (list.end (), hashing, hashing + 1);

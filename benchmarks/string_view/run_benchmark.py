@@ -3,9 +3,10 @@
 """Runs the string_view benchmark executables of one or more build trees and
 merges their results.
 
-Every build tree is one way to build the library (here: the compiled part of
-the view as a shared library and as a static one) and holds one executable per
-implementation and C++ standard, named LumexStringViewBench_<impl>_cxx<std>
+Every build tree is one way to build the benchmark (one compiler, one
+standard library; the view of the library is header-only, so there is no
+library to build two ways) and holds one executable per implementation and C++
+standard, named LumexStringViewBench_<impl>_cxx<std>
 (see CMakeLists.txt). This script
 
   1. finds those executables in <build-dir>/bin,
@@ -19,8 +20,8 @@ implementation and C++ standard, named LumexStringViewBench_<impl>_cxx<std>
      scenario (a scenario with different checksums is an error: the numbers
      would compare different work),
   5. asks every executable once for the layout and the traits of the view,
-  6. writes library.csv: the size and the exported symbols of the compiled
-     library of every build tree,
+  6. writes library.csv when a build tree has a compiled string_view library
+     (the view is header-only now, so normally none),
   7. optionally measures the compile time of one translation unit per variant
      (--compile-time), and
   8. writes string_view_benchmark.csv, string_view_traits.csv (and
@@ -38,8 +39,7 @@ disagree by more than 25 %.
 Standard library only.
 
 Usage:
-    python run_benchmark.py --build-dir shared=build-shared \\
-        --build-dir static=build-static --cpu 3
+    python run_benchmark.py --build-dir gcc=build-bench --cpu 3
     python run_benchmark.py --build-dir this=build-bench --quick
     python run_benchmark.py --compile-time-only \\
         --compiler "gcc=/opt/gcc-13.2.0/bin/g++" \\
@@ -65,7 +65,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 # Order of the variants in tables and charts.
-VARIANT_ORDER = ["lumex_cxx11", "lumex_cxx17", "lumex_unity_cxx17", "std_cxx17",
+VARIANT_ORDER = ["lumex_cxx11", "lumex_cxx17", "std_cxx17",
                  "std_cxx20",
                  "boost_cxx11", "boost_cxx17"]
 DEFAULT_BOOST = "/opt/boost-1.92.0/include"

@@ -31,31 +31,22 @@
 
 #include "lumex/core/string_view/LumexStringView"
 
-#if defined(BENCH_LUMEX_UNITY)
-// The compiled part of the view (what LumexCore_string_view contains) is built
-// into this translation unit: the same code, but without the call across the
-// library boundary and visible to the optimizer. It shows what the compiled
-// part costs; the executable does not link the library.
-#include "lumex/core/string_view/view/LumexStringView.cpp"
-#include "lumex/core/string_view/view/LumexWStringView.cpp"
-#endif
-
 namespace bench
 {
 typedef lumex_string_view view;
 typedef lumex_wstring_view wview;
 #define BENCH_STRING_VIEW_IMPL_NAME "lumex"
-// The view has no std::hash: from C++17 it is hashed by converting it.
-#if BENCH_HAS_STD_VIEW
+// The view has std::hash on every standard (a deterministic FNV-1a below
+// C++17, the hash of std::string_view from C++17).
 #define BENCH_HAS_HASH 1
-#define BENCH_HAS_STD_CONVERSION 1
 inline std::size_t
 hash_of (view const &v)
 {
-  return std::hash<std::string_view> () (static_cast<std::string_view> (v));
+  return std::hash<view> () (v);
 }
+#if BENCH_HAS_STD_VIEW
+#define BENCH_HAS_STD_CONVERSION 1
 #else
-#define BENCH_HAS_HASH 0
 #define BENCH_HAS_STD_CONVERSION 0
 #endif
 } // namespace bench
