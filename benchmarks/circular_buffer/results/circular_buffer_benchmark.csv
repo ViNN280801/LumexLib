@@ -7,6 +7,13 @@
 # variant gcc deque_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
 # variant gcc vector_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
 # variant gcc vector_mod_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant clang lumex_cxx11: compiler="Clang 23.1.0" library="libc++" cplusplus=201103
+# variant clang lumex_cxx17: compiler="Clang 23.1.0" library="libc++" cplusplus=201703
+# variant clang boost_cxx11: compiler="Clang 23.1.0" library="libc++" cplusplus=201103
+# variant clang boost_cxx17: compiler="Clang 23.1.0" library="libc++" cplusplus=201703
+# variant clang deque_cxx17: compiler="Clang 23.1.0" library="libc++" cplusplus=201703
+# variant clang vector_cxx17: compiler="Clang 23.1.0" library="libc++" cplusplus=201703
+# variant clang vector_mod_cxx17: compiler="Clang 23.1.0" library="libc++" cplusplus=201703
 toolchain,variant,scenario,description,size,median_ns,worst_median_ns,min_ns,max_ns,iterations,repetitions,checksum
 gcc,lumex_cxx11,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,0.7605,0.7766,0.7324,1.1073,33554432,15,1135
 gcc,lumex_cxx11,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,6.4898,6.6336,6.3927,7.5096,4194304,15,1921
@@ -211,3 +218,206 @@ gcc,vector_mod_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer o
 gcc,vector_mod_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,406.3310,465.2000,396.1010,640.2470,65536,15,77664
 gcc,vector_mod_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.3519,3.5591,3.3005,3.6184,8388608,15,4348
 gcc,vector_mod_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,2.9842,3.6259,2.8954,3.7144,8388608,15,898
+clang,lumex_cxx11,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,0.7410,1.0746,0.7233,1.1236,33554432,15,1135
+clang,lumex_cxx11,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,2.5039,2.6327,2.4157,3.5497,8388608,15,1921
+clang,lumex_cxx11,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,11.7150,12.6728,11.4015,16.6522,2097152,15,19737
+clang,lumex_cxx11,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.1676,1.2191,1.1264,1.6426,16777216,15,732
+clang,lumex_cxx11,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,3.1808,3.5099,3.0918,4.6047,8388608,15,4068
+clang,lumex_cxx11,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,11.7970,12.2249,11.4300,16.9898,2097152,15,75332
+clang,lumex_cxx11,fill_int,"clear, then push_back of `size` elements (never full)",1024,652.4940,667.8820,637.8310,1111.4900,32768,15,58336
+clang,lumex_cxx11,fill_str_short,"clear, then push_back of `size` elements (never full)",256,622.6010,637.1160,602.5850,852.3300,32768,15,5920
+clang,lumex_cxx11,fill_str_long,"clear, then push_back of `size` elements (never full)",256,3529.3100,3786.3400,3390.2100,5378.3600,8192,15,77184
+clang,lumex_cxx11,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,940.2490,977.3350,913.1380,1318.1000,32768,15,29356032
+clang,lumex_cxx11,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,774.7500,788.2360,743.2850,1122.5200,32768,15,1333584
+clang,lumex_cxx11,front_back_int,front () and back () of a wrapped buffer,1024,0.6643,0.6785,0.6326,0.9043,33554432,15,71672
+clang,lumex_cxx11,front_back_str_short,front () and back () of a wrapped buffer,1024,1.8614,1.9089,1.8028,2.3130,16777216,15,11320
+clang,lumex_cxx11,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,325.8800,335.4960,314.6650,453.0680,65536,15,20182016
+clang,lumex_cxx11,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,657.4650,678.1440,634.7610,975.6630,32768,15,4195872
+clang,lumex_cxx11,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,326.3780,334.4690,317.5200,432.1650,65536,15,20182016
+clang,lumex_cxx11,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,669.4170,685.7890,641.5220,1019.4800,32768,15,4195872
+clang,lumex_cxx11,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,17204.2000,18430.3000,16886.3000,21068.9000,2048,15,101415384
+clang,lumex_cxx11,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,26248.6000,26566.8000,25574.1000,34802.1000,1024,15,19724767
+clang,lumex_cxx11,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,25.6468,26.7752,23.7879,33.5778,1048576,15,8192
+clang,lumex_cxx11,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,16.7147,18.0236,16.0815,23.7251,2097152,15,8192
+clang,lumex_cxx11,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,63.8826,69.7328,60.2533,94.5452,524288,15,34784
+clang,lumex_cxx11,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,246.8770,253.1860,238.9810,346.2510,131072,15,7184
+clang,lumex_cxx11,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2113.9100,2193.6900,2020.4500,3208.4300,16384,15,77664
+clang,lumex_cxx11,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,58.8524,64.4533,56.7432,89.6285,524288,15,34784
+clang,lumex_cxx11,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,245.9550,256.9490,236.8890,353.4420,131072,15,7184
+clang,lumex_cxx11,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2227.8200,2308.9200,2152.5200,3014.1500,16384,15,77664
+clang,lumex_cxx11,move_pair_int,move construction and move assignment back of a buffer,1024,3.3103,3.3973,3.2048,3.6723,8388608,15,4348
+clang,lumex_cxx11,move_pair_str_short,move construction and move assignment back of a buffer,256,3.3146,3.3757,3.2455,3.4285,8388608,15,898
+clang,lumex_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,0.7494,0.8386,0.7200,1.0933,33554432,15,1135
+clang,lumex_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,2.4913,2.6272,2.4146,3.5767,8388608,15,1921
+clang,lumex_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,11.8009,11.9565,11.3540,17.3791,2097152,15,19737
+clang,lumex_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.1879,1.2450,1.1338,1.7443,33554432,15,732
+clang,lumex_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,3.2603,3.5055,3.1487,4.6814,8388608,15,4068
+clang,lumex_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,11.8189,12.4037,11.3642,17.6673,2097152,15,75332
+clang,lumex_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,656.0240,689.3340,638.3860,861.4090,32768,15,58336
+clang,lumex_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,626.5790,753.8590,601.4030,862.8100,32768,15,5920
+clang,lumex_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,3470.5600,3749.1900,3376.0100,5332.8300,8192,15,77184
+clang,lumex_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,947.7530,1035.4400,917.8460,1337.2400,32768,15,29356032
+clang,lumex_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,768.0950,820.5310,742.0920,995.0730,32768,15,1333584
+clang,lumex_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,0.6512,0.6706,0.6264,0.9397,33554432,15,71672
+clang,lumex_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,1.8592,1.9135,1.8032,2.8275,16777216,15,11320
+clang,lumex_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,327.8950,345.7810,318.7360,463.4420,65536,15,20182016
+clang,lumex_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,657.9670,687.8820,633.6170,980.3640,32768,15,4195872
+clang,lumex_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,327.8870,335.1620,315.9680,440.7160,65536,15,20182016
+clang,lumex_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,665.4670,723.3050,640.6590,1003.3600,32768,15,4195872
+clang,lumex_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,17242.4000,17575.5000,16819.6000,19132.9000,2048,15,101415384
+clang,lumex_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,26176.5000,27142.4000,25662.7000,35190.7000,1024,15,19724767
+clang,lumex_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,26.2183,36.1648,25.2446,38.3746,1048576,15,8192
+clang,lumex_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,16.6541,17.9626,16.2837,24.7863,2097152,15,8192
+clang,lumex_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,63.1028,66.0769,61.0682,92.5831,524288,15,34784
+clang,lumex_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,247.6780,262.0530,240.4870,346.8510,131072,15,7184
+clang,lumex_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2082.4000,2350.0800,2025.1300,3178.0000,8192,15,77664
+clang,lumex_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,59.2871,76.3021,56.5555,89.5842,524288,15,34784
+clang,lumex_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,244.1960,253.0070,237.7390,356.3880,131072,15,7184
+clang,lumex_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2214.4700,2282.2100,2151.7400,3043.8800,16384,15,77664
+clang,lumex_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.1370,3.3843,3.0390,3.4761,8388608,15,4348
+clang,lumex_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,3.0524,3.4026,2.9753,3.5052,8388608,15,898
+clang,boost_cxx11,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,0.9207,0.9892,0.8848,1.4585,33554432,15,1135
+clang,boost_cxx11,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,1.7453,1.8409,1.6846,2.3926,16777216,15,1921
+clang,boost_cxx11,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,6.0642,6.1762,5.9844,7.3530,4194304,15,19737
+clang,boost_cxx11,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.1805,1.2687,1.1285,1.7614,16777216,15,732
+clang,boost_cxx11,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,2.2364,2.3827,2.1875,3.2066,16777216,15,4068
+clang,boost_cxx11,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,12.2055,12.7731,11.8138,16.3235,2097152,15,75332
+clang,boost_cxx11,fill_int,"clear, then push_back of `size` elements (never full)",1024,565.8010,573.5770,552.3340,752.4830,65536,15,58336
+clang,boost_cxx11,fill_str_short,"clear, then push_back of `size` elements (never full)",256,445.5760,460.1630,432.6980,643.9430,65536,15,5920
+clang,boost_cxx11,fill_str_long,"clear, then push_back of `size` elements (never full)",256,4122.5900,4296.1200,3983.8800,5213.2400,8192,15,77184
+clang,boost_cxx11,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,1047.4400,1219.1700,1020.1200,1451.2600,32768,15,29356032
+clang,boost_cxx11,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,622.6910,638.9850,604.6330,842.0600,32768,15,1333584
+clang,boost_cxx11,front_back_int,front () and back () of a wrapped buffer,1024,0.4947,0.5151,0.4856,0.7004,67108864,15,71672
+clang,boost_cxx11,front_back_str_short,front () and back () of a wrapped buffer,1024,0.9095,1.0285,0.8941,1.4550,33554432,15,11320
+clang,boost_cxx11,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,306.1230,323.6160,296.8080,416.2210,65536,15,20182016
+clang,boost_cxx11,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,738.3330,797.6170,708.6370,1027.6600,32768,15,4195872
+clang,boost_cxx11,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,497.9890,503.3290,495.8320,529.6350,65536,15,20182016
+clang,boost_cxx11,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,673.5360,681.7610,664.5670,816.0290,32768,15,4195872
+clang,boost_cxx11,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,16694.8000,16996.1000,16305.9000,19841.3000,2048,15,101415384
+clang,boost_cxx11,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,26346.1000,26824.0000,25674.8000,34220.8000,1024,15,19724767
+clang,boost_cxx11,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,26.6119,28.9629,24.2440,38.6998,1048576,15,8192
+clang,boost_cxx11,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,17.4073,18.3470,16.9029,26.5792,2097152,15,8192
+clang,boost_cxx11,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,324.1520,339.0440,317.9390,429.1870,65536,15,34784
+clang,boost_cxx11,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,235.2200,246.3680,226.8270,294.8510,131072,15,7184
+clang,boost_cxx11,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2096.4100,2612.1300,1999.5100,3144.0000,16384,15,77664
+clang,boost_cxx11,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,328.6340,335.0740,321.7990,419.0240,65536,15,34784
+clang,boost_cxx11,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,245.9580,252.1830,240.6890,315.7180,131072,15,7184
+clang,boost_cxx11,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2223.3600,2316.5800,2128.6600,2600.8800,16384,15,77664
+clang,boost_cxx11,move_pair_int,move construction and move assignment back of a buffer,1024,9.5076,10.4676,9.3992,10.6090,2097152,15,4348
+clang,boost_cxx11,move_pair_str_short,move construction and move assignment back of a buffer,256,3.4763,3.4852,3.4364,3.5785,8388608,15,898
+clang,boost_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,0.9181,0.9724,0.8895,1.2590,33554432,15,1135
+clang,boost_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,1.7425,1.7888,1.6952,2.3277,16777216,15,1921
+clang,boost_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,6.1417,6.5308,5.9571,7.3074,4194304,15,19737
+clang,boost_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.2060,1.3246,1.1448,1.7045,16777216,15,732
+clang,boost_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,2.2291,2.5366,2.2028,3.1668,8388608,15,4068
+clang,boost_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,12.0795,12.3928,11.7854,16.9396,2097152,15,75332
+clang,boost_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,573.4190,587.6800,550.5030,762.5250,65536,15,58336
+clang,boost_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,447.9350,498.4710,435.6580,643.7200,65536,15,5920
+clang,boost_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,4137.3300,4556.6100,4083.6500,5350.6700,8192,15,77184
+clang,boost_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,1044.0600,1201.1900,1004.0600,1341.1900,32768,15,29356032
+clang,boost_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,625.3740,661.6140,606.5230,1125.7400,32768,15,1333584
+clang,boost_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,0.5039,0.5193,0.4815,0.6186,67108864,15,71672
+clang,boost_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,0.9286,1.0269,0.8929,1.4171,33554432,15,11320
+clang,boost_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,309.4880,317.3890,297.9040,427.8220,65536,15,20182016
+clang,boost_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,726.3080,738.2190,717.4410,908.2550,32768,15,4195872
+clang,boost_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,497.9080,512.4470,496.4640,529.3140,65536,15,20182016
+clang,boost_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,675.6650,688.6640,664.2170,767.5780,32768,15,4195872
+clang,boost_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,16595.6000,16838.7000,16267.8000,20604.9000,2048,15,101415384
+clang,boost_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,26088.2000,26888.5000,25439.2000,32297.6000,1024,15,19724767
+clang,boost_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,26.5142,28.0441,24.0492,36.8082,1048576,15,8192
+clang,boost_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,17.6538,19.4848,16.7841,25.8688,2097152,15,8192
+clang,boost_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,326.4170,333.9120,318.5820,443.8120,65536,15,34784
+clang,boost_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,234.1880,249.5410,226.3880,316.1540,131072,15,7184
+clang,boost_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2110.8300,2153.7500,2035.1700,3080.3700,16384,15,77664
+clang,boost_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,327.4350,345.2960,319.5750,447.1260,65536,15,34784
+clang,boost_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,248.1180,255.5350,241.0630,336.4780,131072,15,7184
+clang,boost_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2207.0800,2320.3400,2152.1000,2864.5300,16384,15,77664
+clang,boost_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,9.5725,10.5988,9.4696,11.2160,2097152,15,4348
+clang,boost_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,3.4674,3.4937,3.4283,3.6231,8388608,15,898
+clang,deque_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,2.0029,2.3775,1.9538,3.0263,16777216,15,1135
+clang,deque_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,3.4086,3.9184,3.2240,5.0603,8388608,15,1921
+clang,deque_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,12.9282,14.3595,12.3945,20.0410,2097152,15,19737
+clang,deque_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,8.5845,8.6705,8.4806,8.9368,4194304,15,732
+clang,deque_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,3.9145,4.1380,3.7577,5.8232,8388608,15,4068
+clang,deque_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,13.2946,13.8080,12.8714,18.3642,2097152,15,75332
+clang,deque_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,1882.0700,1987.6500,1830.9700,2357.9100,16384,15,58336
+clang,deque_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,785.3580,850.9500,759.4320,1120.7900,32768,15,5920
+clang,deque_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,3715.4500,3802.7000,3552.7200,5195.8900,8192,15,77184
+clang,deque_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,2388.8200,2500.3900,2312.2100,3515.4200,16384,15,29356032
+clang,deque_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,1026.2800,1091.8900,999.0970,1501.0000,32768,15,1333584
+clang,deque_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,0.8383,1.0140,0.8107,1.2232,33554432,15,71672
+clang,deque_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,2.4622,2.5841,2.3602,3.3028,4194304,15,11320
+clang,deque_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,297.3960,317.8120,284.8560,417.5900,65536,15,20182016
+clang,deque_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,870.7340,929.4370,847.4220,1310.0800,32768,15,4195872
+clang,deque_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,265.9180,273.7250,260.2820,372.4520,131072,15,20182016
+clang,deque_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,499.3890,525.3150,484.2960,641.2470,65536,15,4195872
+clang,deque_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,24654.2000,29287.4000,23970.9000,32641.6000,1024,15,101415384
+clang,deque_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,31109.1000,33139.0000,30056.4000,45119.3000,1024,15,19724767
+clang,deque_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,1.2443,1.2773,1.2132,1.7865,16777216,15,8192
+clang,deque_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,2.0142,2.0727,1.9245,2.6755,16777216,15,8192
+clang,deque_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,310.8560,317.4260,303.3440,518.4850,65536,15,34784
+clang,deque_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,329.5730,379.9320,322.1490,439.7970,65536,15,7184
+clang,deque_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2190.0500,2243.3700,2122.6500,3112.4700,8192,15,77664
+clang,deque_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,25.5130,28.2187,24.8998,34.1282,1048576,15,34784
+clang,deque_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,215.9120,239.5530,208.6970,296.2700,131072,15,7184
+clang,deque_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,346.9850,359.0500,333.4130,533.8230,65536,15,77664
+clang,deque_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,8.4670,9.4303,8.3498,10.6624,4194304,15,4348
+clang,deque_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,9.1839,9.8551,8.8910,10.9052,4194304,15,898
+clang,vector_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,1.0066,1.2208,0.9769,1.4727,33554432,15,1135
+clang,vector_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,2.0206,2.2832,1.9498,3.3779,16777216,15,1921
+clang,vector_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,6.1127,6.3217,6.0183,7.6490,4194304,15,19737
+clang,vector_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.2619,1.6014,1.2293,1.8249,16777216,15,732
+clang,vector_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,2.8084,3.1692,2.6703,4.2501,8388608,15,4068
+clang,vector_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,7.0327,7.2132,6.8765,7.8595,4194304,15,75332
+clang,vector_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,639.0140,786.6900,618.2380,887.3000,32768,15,58336
+clang,vector_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,443.5020,547.1300,422.1760,698.3130,65536,15,5920
+clang,vector_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,1559.8100,1643.6400,1531.4300,1933.6100,16384,15,77184
+clang,vector_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,1023.3400,1047.3400,1000.1800,1387.7300,32768,15,29356032
+clang,vector_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,792.7230,946.3680,771.4560,1034.7700,32768,15,1333584
+clang,vector_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,0.6455,0.7494,0.6238,0.9838,33554432,15,71672
+clang,vector_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,1.8855,1.9169,1.8190,2.7674,16777216,15,11320
+clang,vector_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,330.4170,368.5820,315.3410,466.6370,65536,15,20182016
+clang,vector_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,659.9230,819.5550,642.7550,1013.6400,32768,15,4195872
+clang,vector_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,325.5250,350.0330,315.4400,525.4510,65536,15,20182016
+clang,vector_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,660.0350,676.3620,636.5200,963.5550,32768,15,4195872
+clang,vector_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,17217.1000,17471.7000,16872.7000,21554.7000,2048,15,101415384
+clang,vector_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,28227.6000,29376.4000,27833.4000,32463.2000,1024,15,19724767
+clang,vector_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,47.1326,48.1128,45.3052,65.2049,524288,15,8192
+clang,vector_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,375.2440,411.2040,368.5500,468.8460,65536,15,8192
+clang,vector_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,64.5103,66.4917,62.5358,80.5604,524288,15,34784
+clang,vector_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,244.9070,247.9590,237.4660,324.0700,131072,15,7184
+clang,vector_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2809.3700,2904.1100,2707.7400,4345.6000,8192,15,77664
+clang,vector_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,26.4367,33.1965,25.8615,42.2214,1048576,15,34784
+clang,vector_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,248.1110,258.9180,240.3450,349.2350,131072,15,7184
+clang,vector_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,429.6570,458.2540,421.3820,693.8950,65536,15,77664
+clang,vector_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.2107,13.1033,3.0218,13.3494,8388608,15,4348
+clang,vector_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,3.1052,3.4966,3.0268,3.6528,8388608,15,898
+clang,vector_mod_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,5.1775,5.2151,5.1368,5.2876,4194304,15,1135
+clang,vector_mod_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,5.1979,5.3435,5.1761,5.4259,4194304,15,1921
+clang,vector_mod_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,6.4546,7.1930,6.1958,9.1050,4194304,15,19737
+clang,vector_mod_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,5.1800,5.2760,5.1620,5.4029,4194304,15,732
+clang,vector_mod_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,5.2400,5.3989,5.1876,5.6891,4194304,15,4068
+clang,vector_mod_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,7.3620,8.1129,7.2164,8.9983,4194304,15,75332
+clang,vector_mod_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,1446.2800,1547.5800,1440.9400,1609.1700,16384,15,58336
+clang,vector_mod_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,466.3970,644.9760,451.3320,738.4360,65536,15,5920
+clang,vector_mod_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,1587.4900,1760.0600,1526.9500,2075.7800,16384,15,77184
+clang,vector_mod_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,3749.6800,3783.8400,3721.7900,3949.8200,8192,15,29356032
+clang,vector_mod_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,1504.6900,1670.5900,1486.4500,1752.9700,16384,15,1333584
+clang,vector_mod_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,1.4423,1.4522,1.4184,1.7139,16777216,15,71672
+clang,vector_mod_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,2.3332,2.3893,2.2493,3.3567,16777216,15,11320
+clang,vector_mod_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,1085.6000,1089.8200,1081.1400,1116.7700,32768,15,20182016
+clang,vector_mod_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,1194.4500,1227.0000,1156.6200,1446.8200,32768,15,4195872
+clang,vector_mod_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,1085.9200,1094.9100,1081.3800,1122.1200,32768,15,20182016
+clang,vector_mod_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,1196.1600,1250.2100,1170.8000,1453.7900,32768,15,4195872
+clang,vector_mod_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,20363.7000,21085.6000,20115.4000,24542.0000,1024,15,101415384
+clang,vector_mod_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,30920.1000,33143.7000,30028.6000,38037.0000,1024,15,19724767
+clang,vector_mod_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,46.2028,48.8451,45.3563,65.6133,524288,15,8192
+clang,vector_mod_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,377.1390,395.8810,365.1800,466.8180,65536,15,8192
+clang,vector_mod_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,71.7551,78.4580,67.0958,100.0090,524288,15,34784
+clang,vector_mod_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,245.7510,251.3700,237.2530,317.4610,131072,15,7184
+clang,vector_mod_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2840.3700,3059.4300,2687.9600,4034.9200,8192,15,77664
+clang,vector_mod_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,26.4084,27.4169,25.5233,38.3685,1048576,15,34784
+clang,vector_mod_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,245.9530,256.4430,237.2090,327.6700,65536,15,7184
+clang,vector_mod_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,442.1120,463.7230,426.2860,681.5000,65536,15,77664
+clang,vector_mod_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.0127,3.7015,2.9498,3.7729,8388608,15,4348
+clang,vector_mod_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,3.1772,3.4126,2.9836,3.5704,8388608,15,898

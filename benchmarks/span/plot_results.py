@@ -14,6 +14,9 @@ Writes next to the CSV:
                                       variant and scenario at its time
                                       relative to lumex at C++11 (log scale)
     compile_time.svg                  the compile times, when given
+    header_cost.svg                   the cost of the headers the span needs
+                                      at C++20, when header_cost.csv is in the
+                                      directory of the CSV
 
 Standard library only.
 """
@@ -93,6 +96,37 @@ def read_compile(path):
         row["median_ms"] = float(row["median_ms"])
         row["min_ms"] = float(row["min_ms"])
     return comments, rows
+
+
+# The units of header_cost.csv: <array> and <vector> plus the named header.
+HEADER_LABEL = {
+    "none": "none (only <array>, <vector>)",
+    "memory": "<memory>",
+    "ranges": "<ranges>",
+    "both": "<memory> and <ranges>",
+    "span": "<span>",
+    "lumex": "span of this library",
+}
+HEADER_COLOR = {
+    "none": "#bbbbbb",
+    "memory": "#8a5cc2",
+    "ranges": "#c7a9e8",
+    "both": "#8c564b",
+    "span": "#d9822b",
+    "lumex": "#1b6ca8",
+}
+
+
+def read_header_cost(path):
+    comments = []
+    body = []
+    with open(path, newline="") as handle:
+        for line in handle:
+            if line.startswith("#"):
+                comments.append(line[1:].strip())
+            else:
+                body.append(line)
+    return comments, list(csv.DictReader(body))
 
 
 def scenario_label(scenario, size):
@@ -442,6 +476,53 @@ def svg_compile_chart(rows, comments):
     return "\n".join(out) + "\n"
 
 
+def svg_header_chart(rows, comments):
+    toolchains = []
+    for row in rows:
+        if row["toolchain"] not in toolchains:
+            toolchains.append(row["toolchain"])
+    headers = [h for h in HEADER_LABEL if any(r["header"] == h for r in rows)]
+    maximum = max(float(r["median_ms"]) for r in rows)
+    left, top, bar_h, gap, width = 220, 60, 14, 22, 900
+    plot_w = width - left - 150
+    height = top + len(toolchains) * (len(headers) * bar_h + gap) + 30
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" '
+           'viewBox="0 0 %d %d" font-family="Segoe UI, Arial, sans-serif" '
+           'font-size="11">' % (width, height, width, height),
+           '<rect width="100%" height="100%" fill="#ffffff"/>',
+           '<text x="20" y="24" font-size="15" font-weight="bold">Cost of '
+           'the headers of the span at C++20 (-fsyntax-only -O0), ms</text>',
+           '<text x="20" y="42" fill="#555">one unit per header: &lt;array&gt;'
+           ' and &lt;vector&gt; plus the header named; in brackets the '
+           'difference to the unit without it</text>']
+    y = top
+    for toolchain in toolchains:
+        out.append('<text x="20" y="%d" font-weight="bold">%s</text>'
+                   % (y + 12, escape(toolchain)))
+        base = [float(r["median_ms"]) for r in rows
+                if r["toolchain"] == toolchain and r["header"] == "none"]
+        for header in headers:
+            match = [r for r in rows if r["toolchain"] == toolchain
+                     and r["header"] == header]
+            if not match:
+                continue
+            value = float(match[0]["median_ms"])
+            w = value / maximum * plot_w
+            out.append('<text x="%d" y="%d" text-anchor="end">%s</text>'
+                       % (left - 6, y + 11, escape(HEADER_LABEL[header])))
+            out.append('<rect x="%d" y="%d" width="%.1f" height="%d" '
+                       'fill="%s"/>' % (left, y, w, bar_h - 2,
+                                        HEADER_COLOR[header]))
+            extra = (" (%+.0f)" % (value - base[0])
+                     if base and header != "none" else "")
+            out.append('<text x="%.1f" y="%d">%.0f%s</text>'
+                       % (left + w + 5, y + 11, value, extra))
+            y += bar_h
+        y += gap
+    out.append("</svg>")
+    return "\n".join(out) + "\n"
+
+
 def main():
     if len(sys.argv) < 2:
         sys.exit(__doc__)
@@ -476,6 +557,13 @@ def main():
         path = os.path.join(out_dir, "compile_time.svg")
         with open(path, "w") as handle:
             handle.write(svg_compile_chart(compile_rows, compile_comments))
+        print("wrote " + path)
+    header_path = os.path.join(out_dir, "header_cost.csv")
+    if os.path.exists(header_path):
+        header_comments, header_rows = read_header_cost(header_path)
+        path = os.path.join(out_dir, "header_cost.svg")
+        with open(path, "w") as handle:
+            handle.write(svg_header_chart(header_rows, header_comments))
         print("wrote " + path)
     print("wrote " + os.path.join(out_dir, "span_benchmark.md"))
 

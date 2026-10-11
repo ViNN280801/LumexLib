@@ -49,3 +49,25 @@ Scenarios:
 - `log_line`: "channel {:>3} flow {:8.3f} ml/min state {}"
 - `ten_args`: ten "{}" fields (ints and strings)
 - `append_to_buffer`: format_to into a reused std::string
+
+
+## Compile time
+
+- compiler gcc: g++ (GCC) 13.2.0
+- compiler clang: clang version 23.1.0
+
+Wall time of `-fsyntax-only -O0` of `compile_time.cpp`, median of the repeats, in milliseconds. `<string> only` is the same unit without a formatting facility: the cost of `<string>` and `<iterator>`. All variants are compiled at C++20 except `LumexFormat C++11`.
+
+Unit `include`: the header is included and one int is formatted.
+
+| toolchain | `<string> only` | LumexFormat C++11 | LumexFormat C++20 | std::format | ostringstream | snprintf |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| gcc | 192 | 293 | 550 | 426 | 258 | 194 |
+| clang | 215 | 405 | 607 | 512 | 352 | 215 |
+
+Unit `use`: what the scenarios format: an int, an int as padded hex, a double, a padded string, a line of three fields, and `format_to` into a `std::string`.
+
+| toolchain | `<string> only` | LumexFormat C++11 | LumexFormat C++20 | std::format | ostringstream | snprintf |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| gcc | 193 | 300 | 560 | 438 | 264 | 195 |
+| clang | 222 | 412 | 618 | 539 | 359 | 221 |

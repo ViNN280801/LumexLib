@@ -11,6 +11,10 @@ The span of this library (`lumex::core::span::view::span`) against `std::span` o
 
 ![Compile time](results/compile_time.svg)
 
+![Cost of the headers of the span at C++20](results/header_cost.svg)
+
+The last chart: wall time of `-fsyntax-only -O0 -std=c++20` of a unit that includes `<array>`, `<vector>` and one more header (`<memory>`, `<ranges>`, both, `<span>` or the span header of this library) next to the unit without it, median of 9 runs, GCC 13.2.0 and Clang 23.1.0 with libc++ ([results/header_cost.csv](results/header_cost.csv)).
+
 The numbers behind the charts: [results/span_benchmark.md](results/span_benchmark.md) (raw data: [results/span_benchmark.csv](results/span_benchmark.csv), compile times: [results/compile_time.csv](results/compile_time.csv)).
 
 ## Method

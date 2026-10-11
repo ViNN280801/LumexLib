@@ -11,3 +11,15 @@ gcc,boost_cxx11,string_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
 gcc,boost_cxx11,wstring_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
 gcc,boost_cxx17,string_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
 gcc,boost_cxx17,wstring_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
+clang,lumex_cxx11,string_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
+clang,lumex_cxx11,wstring_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
+clang,lumex_cxx17,string_view,16,8,1,1,0,1,1,1,1,1,1,0,1,1
+clang,lumex_cxx17,wstring_view,16,8,1,1,0,1,1,1,1,1,1,0,1,1
+clang,std_cxx17,string_view,16,8,1,1,0,1,1,1,1,1,1,0,1,1
+clang,std_cxx17,wstring_view,16,8,1,1,0,1,1,1,1,1,1,0,1,1
+clang,std_cxx20,string_view,16,8,1,1,0,1,1,1,1,1,1,0,1,1
+clang,std_cxx20,wstring_view,16,8,1,1,0,1,1,1,1,1,1,0,1,1
+clang,boost_cxx11,string_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
+clang,boost_cxx11,wstring_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
+clang,boost_cxx17,string_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0
+clang,boost_cxx17,wstring_view,16,8,1,1,0,1,1,1,1,1,1,0,0,0

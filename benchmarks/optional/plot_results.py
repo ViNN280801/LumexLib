@@ -17,6 +17,11 @@ Writes next to the CSV:
                                          variant and scenario at its time
                                          relative to std::optional C++17
                                          (log scale)
+    optional_traits.svg                  sizeof of optional<T> per type and
+                                         implementation next to sizeof (T),
+                                         and whether it is trivially
+                                         copyable (optional_traits_<toolchain>
+                                         .svg for every further toolchain)
     compile_time.svg                     the compile times, when given
 
 Standard library only.
@@ -251,47 +256,68 @@ def markdown(comments, grouped, order, compile_rows, compile_comments,
     if traits:
         lines.append("## Layout and traits of optional<T>")
         lines.append("")
+        toolchains = []
+        for row in traits:
+            if row["toolchain"] not in toolchains:
+                toolchains.append(row["toolchain"])
+
+        def values_of(toolchain):
+            return [{k: v for k, v in r.items() if k != "toolchain"}
+                    for r in traits if r["toolchain"] == toolchain]
+
+        # the same values in every toolchain: one table is enough
+        same = all(values_of(t) == values_of(toolchains[0])
+                   for t in toolchains)
         lines.append("`sizeof` and `alignof` of the optional and the "
                      "properties of the optional type (not of `T`). TC: "
-                     "trivially copyable, TD: trivially destructible, TCC: "
-                     "trivially copy constructible, SL: standard layout, "
-                     "NM: nothrow move constructible. Sizes in bytes; the "
-                     "values do not depend on the toolchain of this run "
-                     "(one 64-bit Linux x86-64 data model).")
+                     "trivially copyable, TD: trivially destructible, "
+                     "TCC: trivially copy constructible, SL: standard "
+                     "layout, NM: nothrow move constructible. Sizes in "
+                     "bytes; "
+                     + ("the values do not depend on the toolchain of this "
+                        "run (one 64-bit Linux x86-64 data model)."
+                        if same else
+                        "one table per toolchain (the values of the "
+                        "toolchains differ)."))
         lines.append("")
-        toolchain = traits[0]["toolchain"]
-        types = []
-        for row in traits:
-            if row["toolchain"] == toolchain and row["type"] not in types:
-                types.append(row["type"])
-        shown = [v for v in VARIANT_ORDER
-                 if any(r["variant"] == v and r["toolchain"] == toolchain
-                        for r in traits)]
-        header = ["T", "sizeof (T)"]
-        for variant in shown:
-            header.append("%s: size, TC/TD/TCC/SL/NM" % VARIANT_LABEL[variant])
-        lines.append("| " + " | ".join(header) + " |")
-        lines.append("|" + "|".join([" --- "] + [" ---: "]
-                                    + [" --- "] * len(shown)) + "|")
-        for type_name in types:
-            cells = ["`%s`" % type_name]
-            first = True
+        for toolchain in (toolchains[:1] if same else toolchains):
+            if not same:
+                lines.append("Toolchain %s:" % toolchain)
+                lines.append("")
+            types = []
+            for row in traits:
+                if row["toolchain"] == toolchain and row["type"] not in types:
+                    types.append(row["type"])
+            shown = [v for v in VARIANT_ORDER
+                     if any(r["variant"] == v and r["toolchain"] == toolchain
+                            for r in traits)]
+            header = ["T", "sizeof (T)"]
             for variant in shown:
-                match = [r for r in traits if r["toolchain"] == toolchain
-                         and r["variant"] == variant
-                         and r["type"] == type_name][0]
-                if first:
-                    cells.append(match["sizeof_t"])
-                    first = False
-                flags = "/".join("Y" if match[name] == "1" else "n" for name
-                                 in ("trivially_copyable",
-                                     "trivially_destructible",
-                                     "trivially_copy_constructible",
-                                     "standard_layout",
-                                     "nothrow_move_constructible"))
-                cells.append("%s, %s" % (match["sizeof_optional"], flags))
-            lines.append("| " + " | ".join(cells) + " |")
-        lines.append("")
+                header.append("%s: size, TC/TD/TCC/SL/NM"
+                              % VARIANT_LABEL[variant])
+            lines.append("| " + " | ".join(header) + " |")
+            lines.append("|" + "|".join([" --- "] + [" ---: "]
+                                        + [" --- "] * len(shown)) + "|")
+            for type_name in types:
+                cells = ["`%s`" % type_name]
+                first = True
+                for variant in shown:
+                    match = [r for r in traits if r["toolchain"] == toolchain
+                             and r["variant"] == variant
+                             and r["type"] == type_name][0]
+                    if first:
+                        cells.append(match["sizeof_t"])
+                        first = False
+                    flags = "/".join("Y" if match[name] == "1" else "n"
+                                     for name in (
+                                         "trivially_copyable",
+                                         "trivially_destructible",
+                                         "trivially_copy_constructible",
+                                         "standard_layout",
+                                         "nothrow_move_constructible"))
+                    cells.append("%s, %s" % (match["sizeof_optional"], flags))
+                lines.append("| " + " | ".join(cells) + " |")
+            lines.append("")
     if compile_rows:
         lines.append("## Compile time")
         lines.append("")
@@ -414,6 +440,111 @@ def svg_dot_chart(title, subtitle, per_variant, order):
     return "\n".join(out) + "\n"
 
 
+def traits_families(rows):
+    """The variants of one toolchain grouped by identical layout and traits.
+
+    Returns the signatures in order, {signature: [variants]} and the types.
+    """
+    seen = {}
+    columns = []
+    for variant in [v for v in VARIANT_ORDER
+                    if any(r["variant"] == v for r in rows)]:
+        sig = tuple((r["type"], r["sizeof_optional"], r["alignof_optional"],
+                     r["trivially_copyable"], r["trivially_destructible"],
+                     r["trivially_copy_constructible"], r["standard_layout"],
+                     r["nothrow_move_constructible"],
+                     r["nothrow_default_constructible"])
+                    for r in rows if r["variant"] == variant)
+        if sig in seen:
+            seen[sig].append(variant)
+        else:
+            seen[sig] = [variant]
+            columns.append(sig)
+    for names in seen.values():
+        # the variants of this library first: their color names the group
+        names.sort(key=lambda name: not name.startswith("lumex"))
+    types = []
+    for r in rows:
+        if r["type"] not in types:
+            types.append(r["type"])
+    return columns, seen, types
+
+
+def svg_traits_chart(rows, subtitle):
+    """sizeof of optional<T> per type: a bar per family of variants that have
+    the same layout and traits, next to the size of T itself."""
+    columns, seen, types = traits_families(rows)
+    size_of_t = {r["type"]: r["sizeof_t"] for r in rows}
+    bar_h, gap = 11, 14
+    left, top, width = 250, 70, 980
+    plot_w, limit = 540, 48
+    bars = len(columns) + 1
+    group_h = bars * bar_h + gap
+    height = top + group_h * len(types) + 30
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" '
+           'viewBox="0 0 %d %d" font-family="Segoe UI, Arial, sans-serif" '
+           'font-size="11">' % (width, height, width, height),
+           '<rect width="100%" height="100%" fill="#ffffff"/>',
+           '<text x="%d" y="22" font-size="15" font-weight="bold">optional'
+           '&lt;T&gt;, sizeof in bytes and trivial copyability</text>' % left,
+           '<text x="%d" y="40" fill="#555">%s</text>'
+           % (left, escape(subtitle))]
+    x = left
+    legend = [(VARIANT_COLOR[seen[sig][0]],
+               ", ".join(VARIANT_LABEL[n] for n in seen[sig]))
+              for sig in columns] + [("#bbbbbb", "T itself")]
+    for color, label in legend:
+        out.append('<rect x="%d" y="49" width="10" height="10" fill="%s"/>'
+                   % (x, color))
+        out.append('<text x="%d" y="58">%s</text>' % (x + 15, escape(label)))
+        x += 34 + 6.2 * len(label)
+    for index in range(0, len(types), 2):
+        out.append('<rect x="0" y="%.1f" width="%d" height="%d" '
+                   'fill="#f6f8fa"/>' % (top + index * group_h - gap / 2,
+                                         width, group_h))
+    for tick in range(0, limit + 1, 8):
+        gx = left + tick / limit * plot_w
+        out.append('<line x1="%.1f" y1="%d" x2="%.1f" y2="%d" '
+                   'stroke="#ddd"/>' % (gx, top - 6, gx,
+                                        top + group_h * len(types) - gap + 6))
+        out.append('<text x="%.1f" y="%d" text-anchor="middle" '
+                   'fill="#555">%d B</text>'
+                   % (gx, top + group_h * len(types) - gap + 20, tick))
+    for index, type_name in enumerate(types):
+        y0 = top + index * group_h
+        out.append('<text x="%d" y="%.1f" text-anchor="end">%s</text>'
+                   % (left - 8, y0 + bars * bar_h / 2 + 4,
+                      escape(type_name)))
+        for number, sig in enumerate(columns):
+            match = [c for c in sig if c[0] == type_name]
+            if not match:
+                continue
+            size = match[0][1]
+            copyable = match[0][3] == "1"
+            y = y0 + number * bar_h
+            w = int(size) / limit * plot_w
+            note = ("trivially copyable" if copyable
+                    else "not trivially copyable")
+            out.append('<rect x="%d" y="%.1f" width="%.1f" height="%d" '
+                       'fill="%s"><title>%s: %s B, %s</title></rect>'
+                       % (left, y, w, bar_h - 2,
+                          VARIANT_COLOR[seen[sig][0]], escape(
+                              ", ".join(VARIANT_LABEL[n] for n in seen[sig])),
+                          size, note))
+            out.append('<text x="%.1f" y="%.1f" fill="%s">%s B, %s</text>'
+                       % (left + w + 5, y + bar_h - 3,
+                          "#222" if copyable else "#a33", size, note))
+        y = y0 + len(columns) * bar_h
+        w = int(size_of_t[type_name]) / limit * plot_w
+        out.append('<rect x="%d" y="%.1f" width="%.1f" height="%d" '
+                   'fill="#bbbbbb"><title>T: %s B</title></rect>'
+                   % (left, y, w, bar_h - 2, size_of_t[type_name]))
+        out.append('<text x="%.1f" y="%.1f" fill="#555">%s B</text>'
+                   % (left + w + 5, y + bar_h - 3, size_of_t[type_name]))
+    out.append("</svg>")
+    return "\n".join(out) + "\n"
+
+
 def svg_compile_chart(rows, comments):
     toolchains = []
     for row in rows:
@@ -492,6 +623,25 @@ def main():
             handle.write(svg_dot_chart(
                 "optional, time relative to std::optional C++17 (%s)"
                 % toolchain, subtitle, per_variant, order))
+        print("wrote " + path)
+    toolchains = []
+    for row in traits:
+        if row["toolchain"] not in toolchains:
+            toolchains.append(row["toolchain"])
+    for number, toolchain in enumerate(toolchains):
+        compilers = sorted({c.split("compiler=")[1].split(" library=")[0]
+                            .strip('"') + " " + c.split("library=")[1]
+                            .split(" cplusplus")[0].strip('"')
+                            for c in comments
+                            if c.startswith("variant %s " % toolchain)})
+        subtitle = "%s; 64-bit Linux, x86-64" % ", ".join(compilers)
+        name = "optional_traits.svg" if number == 0 else (
+            "optional_traits_%s.svg" % toolchain)
+        path = os.path.join(out_dir, name)
+        with open(path, "w") as handle:
+            handle.write(svg_traits_chart(
+                [r for r in traits if r["toolchain"] == toolchain],
+                subtitle))
         print("wrote " + path)
     if compile_rows:
         path = os.path.join(out_dir, "compile_time.svg")

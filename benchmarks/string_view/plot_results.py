@@ -15,6 +15,11 @@ Reads string_view_traits.csv from the directory of the CSV when it exists. Write
                                          variant and scenario at its time
                                          relative to std::string_view C++17
                                          (log scale)
+    string_view_traits.svg               the layout and traits of the view
+                                         types as a matrix of variants and
+                                         properties (string_view_traits_
+                                         <tree>.svg for every further tree
+                                         whose values differ)
     compile_time.svg                     the compile times, when given
 
 starts_with and ends_with are C++20 in the standard library: for those
@@ -269,6 +274,18 @@ def markdown(comments, grouped, order, compile_rows, compile_comments,
     if traits:
         lines.append("## Layout and traits")
         lines.append("")
+        toolchains = []
+        for row in traits:
+            if row["toolchain"] not in toolchains:
+                toolchains.append(row["toolchain"])
+
+        def values_of(toolchain):
+            return [{k: v for k, v in r.items() if k != "toolchain"}
+                    for r in traits if r["toolchain"] == toolchain]
+
+        # the same values in every build tree: one table is enough
+        same = all(values_of(t) == values_of(toolchains[0])
+                   for t in toolchains)
         lines.append("`sizeof` in bytes and the properties of the view type. "
                      "TC: trivially copyable, TD: trivially destructible, "
                      "SL: standard layout, NC: nothrow copy constructible, "
@@ -278,32 +295,38 @@ def markdown(comments, grouped, order, compile_rows, compile_comments,
                      "implicit conversion to `std::string`, TO/FROM: "
                      "implicit conversion to/from `std::string_view` (the "
                      "C++17 builds; 'n' in the C++11 builds only says there is no "
-                     "standard view there). The values do not depend on the build "
-                     "tree.")
+                     "standard view there). "
+                     + ("The values do not depend on the build tree."
+                        if same else
+                        "One table per build tree (the values of the "
+                        "build trees differ)."))
         lines.append("")
-        toolchain = traits[0]["toolchain"]
-        lines.append("| view | variant | sizeof | TC | TD | SL | NC | S | C | "
-                     "STR | IMP | TO | FROM |")
-        lines.append("| --- | --- | ---: | --- | --- | --- | --- | --- | "
-                     "--- | --- | --- | --- | --- |")
-        for row in traits:
-            if row["toolchain"] != toolchain:
-                continue
-            lines.append("| `%s` | %s | %s | %s | %s | %s | %s | %s | %s | "
-                         "%s | %s | %s | %s |" % (
-                             row["type"], VARIANT_LABEL[row["variant"]],
-                             row["sizeof"],
-                             yes(row["trivially_copyable"]),
-                             yes(row["trivially_destructible"]),
-                             yes(row["standard_layout"]),
-                             yes(row["nothrow_copy_constructible"]),
-                             yes(row["from_std_string_implicit"]),
-                             yes(row["from_cstr_implicit"]),
-                             yes(row["to_std_string_constructible"]),
-                             yes(row["to_std_string_implicit"]),
-                             yes(row["to_std_string_view_implicit"]),
-                             yes(row["from_std_string_view_implicit"])))
-        lines.append("")
+        for toolchain in (toolchains[:1] if same else toolchains):
+            if not same:
+                lines.append("Build tree %s:" % toolchain)
+                lines.append("")
+            lines.append("| view | variant | sizeof | TC | TD | SL | NC | S | "
+                         "C | STR | IMP | TO | FROM |")
+            lines.append("| --- | --- | ---: | --- | --- | --- | --- | --- | "
+                         "--- | --- | --- | --- | --- |")
+            for row in traits:
+                if row["toolchain"] != toolchain:
+                    continue
+                lines.append("| `%s` | %s | %s | %s | %s | %s | %s | %s | %s "
+                             "| %s | %s | %s | %s |" % (
+                                 row["type"], VARIANT_LABEL[row["variant"]],
+                                 row["sizeof"],
+                                 yes(row["trivially_copyable"]),
+                                 yes(row["trivially_destructible"]),
+                                 yes(row["standard_layout"]),
+                                 yes(row["nothrow_copy_constructible"]),
+                                 yes(row["from_std_string_implicit"]),
+                                 yes(row["from_cstr_implicit"]),
+                                 yes(row["to_std_string_constructible"]),
+                                 yes(row["to_std_string_implicit"]),
+                                 yes(row["to_std_string_view_implicit"]),
+                                 yes(row["from_std_string_view_implicit"])))
+            lines.append("")
     if compile_rows:
         lines.append("## Compile time")
         lines.append("")
@@ -437,6 +460,97 @@ def svg_dot_chart(title, subtitle, per_variant, order):
     return "\n".join(out) + "\n"
 
 
+# The yes/no properties of string_view_traits.csv and what they say.
+TRAIT_ROWS = [
+    ("trivially_copyable", "trivially copyable"),
+    ("trivially_destructible", "trivially destructible"),
+    ("trivially_default_constructible", "trivially default constructible"),
+    ("standard_layout", "standard layout"),
+    ("nothrow_default_constructible", "nothrow default constructible"),
+    ("nothrow_copy_constructible", "nothrow copy constructible"),
+    ("from_std_string_implicit", "implicit from std::string const &"),
+    ("from_cstr_implicit", "implicit from char const *"),
+    ("to_std_string_constructible", "std::string (view) compiles"),
+    ("to_std_string_implicit", "implicit conversion to std::string"),
+    ("to_std_string_view_implicit", "implicit conversion to std::string_view"),
+    ("from_std_string_view_implicit",
+     "implicit conversion from std::string_view"),
+]
+
+
+def svg_traits_chart(rows, subtitle, view="string_view"):
+    """The layout and the traits of one view type as a matrix: a row per
+    property, a column per variant."""
+    variants = [v for v in VARIANT_ORDER
+                if any(r["variant"] == v for r in rows)]
+    by_variant = {r["variant"]: r for r in rows if r["type"] == view}
+    left, top, row_h, col_w, width = 290, 104, 22, 115, 1000
+    height = top + row_h * (len(TRAIT_ROWS) + 2) + 40
+    other = sorted({r["type"] for r in rows} - {view})
+    same = all(r[key] == by_variant[r["variant"]][key]
+               for r in rows if r["type"] in other
+               for key in r if key != "type")
+    note = ("%s has the same value in every cell" % ", ".join(other)
+            if other and same else
+            "%s differ from %s in some cells" % (", ".join(other), view)
+            if other else "")
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" '
+           'viewBox="0 0 %d %d" font-family="Segoe UI, Arial, sans-serif" '
+           'font-size="11">' % (width, height, width, height),
+           '<rect width="100%" height="100%" fill="#ffffff"/>',
+           '<text x="20" y="22" font-size="15" font-weight="bold">%s, layout '
+           'and traits of the view types</text>' % escape(view),
+           '<text x="20" y="40" fill="#555">%s</text>' % escape(subtitle),
+           '<text x="20" y="56" fill="#555">%s; a bold row is a row where '
+           'the variants differ</text>' % escape(note)]
+    for number, variant in enumerate(variants):
+        cx = left + number * col_w + col_w / 2
+        out.append('<rect x="%.1f" y="%d" width="%d" height="4" fill="%s"/>'
+                   % (cx - col_w / 2 + 6, top - 20, col_w - 12,
+                      VARIANT_COLOR[variant]))
+        out.append('<text x="%.1f" y="%d" text-anchor="middle" '
+                   'font-weight="bold">%s</text>'
+                   % (cx, top - 28, escape(VARIANT_LABEL[variant])))
+
+    def label_row(index, text, bold):
+        y = top + index * row_h
+        if index % 2 == 0:
+            out.append('<rect x="0" y="%d" width="%d" height="%d" '
+                       'fill="#f6f8fa"/>' % (y, width, row_h))
+        out.append('<text x="%d" y="%d" text-anchor="end"%s>%s</text>'
+                   % (left - 10, y + 15,
+                      ' font-weight="bold"' if bold else "", escape(text)))
+
+    for index, (key, text) in enumerate([("sizeof", "sizeof (bytes)"),
+                                         ("alignof", "alignof (bytes)")]):
+        label_row(index, text, len({by_variant[v][key]
+                                    for v in variants}) > 1)
+        for number, variant in enumerate(variants):
+            out.append('<text x="%.1f" y="%d" text-anchor="middle">%s</text>'
+                       % (left + number * col_w + col_w / 2,
+                          top + index * row_h + 15, by_variant[variant][key]))
+    for index, (key, text) in enumerate(TRAIT_ROWS, 2):
+        differs = len({by_variant[v][key] for v in variants}) > 1
+        label_row(index, text, differs)
+        for number, variant in enumerate(variants):
+            value = by_variant[variant][key] == "1"
+            x = left + number * col_w + 12
+            y = top + index * row_h + 3
+            out.append('<rect x="%d" y="%d" width="%d" height="%d" rx="3" '
+                       'fill="%s"><title>%s, %s: %s</title></rect>'
+                       % (x, y, col_w - 24, row_h - 6,
+                          "#cfe8d5" if value else "#f1d4d4",
+                          escape(VARIANT_LABEL[variant]), escape(text),
+                          "yes" if value else "no"))
+            out.append('<text x="%.1f" y="%d" text-anchor="middle" '
+                       'fill="%s">%s</text>'
+                       % (x + (col_w - 24) / 2, top + index * row_h + 15,
+                          "#1d5a33" if value else "#8a2b2b",
+                          "yes" if value else "no"))
+    out.append("</svg>")
+    return "\n".join(out) + "\n"
+
+
 def svg_compile_chart(rows):
     toolchains = []
     for row in rows:
@@ -515,6 +629,45 @@ def main():
             handle.write(svg_dot_chart(
                 "string_view, time relative to std::string_view C++17 "
                 "(library %s)" % toolchain, subtitle, per_variant, order))
+        print("wrote " + path)
+    toolchains = []
+    for row in traits:
+        if row["toolchain"] not in toolchains:
+            toolchains.append(row["toolchain"])
+    def values_of(toolchain):
+        return [{k: v for k, v in r.items() if k != "toolchain"}
+                for r in traits if r["toolchain"] == toolchain]
+
+    def compilers_of(names):
+        found = []
+        for name in names:
+            for c in comments:
+                if c.startswith("variant %s " % name):
+                    text = (c.split("compiler=")[1].split(" library=")[0]
+                            .strip('"') + " " + c.split("library=")[1]
+                            .split(" cplusplus")[0].strip('"'))
+                    if text not in found:
+                        found.append(text)
+        return found
+
+    # one chart for the toolchains that have the same cells as the first,
+    # one more for every toolchain whose cells differ
+    charts = []
+    for toolchain in toolchains:
+        for entry in charts:
+            if values_of(entry[0]) == values_of(toolchain):
+                entry.append(toolchain)
+                break
+        else:
+            charts.append([toolchain])
+    for number, names in enumerate(charts):
+        subtitle = "%s; 64-bit Linux, x86-64" % ", ".join(compilers_of(names))
+        name = "string_view_traits.svg" if number == 0 else (
+            "string_view_traits_%s.svg" % names[0])
+        path = os.path.join(out_dir, name)
+        with open(path, "w") as handle:
+            handle.write(svg_traits_chart(
+                [r for r in traits if r["toolchain"] == names[0]], subtitle))
         print("wrote " + path)
     if compile_rows:
         path = os.path.join(out_dir, "compile_time.svg")

@@ -119,7 +119,7 @@ A header of the library that returns the type includes `opt/LumexOptional.hpp` a
 
 ## Comparison with existing solutions
 
-Measured with [benchmarks/optional](../../../benchmarks/optional/README.md): GCC 13.2.0, libstdc++, Release (`-O2`, `-march=x86-64`), no sanitizers, Intel Core i7-12700K pinned to one core, idle machine under the build lock, 5 passes, Boost 1.92.0 headers. Clang, libc++, MSVC and other CPUs were not measured. The ratios are the time of the library divided by the time of `std::optional` at C++17 (above 1 is slower); each time is the best of 5 pass medians (the worst pass is in the results table, a dagger marks a spread above 25 %).
+Measured with [benchmarks/optional](../../../benchmarks/optional/README.md): GCC 13.2.0, libstdc++, Release (`-O2`, `-march=x86-64`), no sanitizers, Intel Core i7-12700K pinned to one core, idle machine under the build lock, 5 passes, Boost 1.92.0 headers. The numbers of the tables are the GCC run; Clang 23.1.0 with libc++ is below. MSVC and other CPUs were not measured. The ratios are the time of the library divided by the time of `std::optional` at C++17 (above 1 is slower); each time is the best of 5 pass medians (the worst pass is in the results table, a dagger marks a spread above 25 %).
 
 | | this library | `std::optional` (C++17) | `boost::optional` |
 | --- | --- | --- | --- |
@@ -149,6 +149,8 @@ Run-time results from the benchmark (46 scenarios):
 | compile time, `-fsyntax-only` of one unit, over the same unit without an optional | include: +12 ms (C++11), +47 ms (C++17) against +5 ms for `std::optional`; use of the whole API: +49 ms and +82 ms against +41 ms | the header is large (monadic operations, layers, `INVOKE`) and at C++17 includes `<optional>` and `<functional>` |
 
 `boost::optional` is within a few percent of this library in most scenarios (geometric mean of lumex against Boost at C++17: 1.14); it is much faster in the non-inlined return and pass of `optional<int>` and in `push_back` (it is not trivially copyable: 0.12x to 0.17x of the time of `std::optional`) and slower in the copy of `optional<int>` (1.8x to 2.4x) and of a vector of them (3.85x at C++11, 2.81x at C++17), where this library is as fast as `std::optional`.
+
+**Clang 23.1.0 with libc++** (the same machine, flags, 5 passes and 46 scenarios; the ratios are to the `std::optional` of libc++; the rows are in the `clang` sections of [benchmarks/optional/results/optional_benchmark.md](../../../benchmarks/optional/results/optional_benchmark.md)): the geometric mean of this library over `std::optional` is 0.99 at C++17 and 0.98 at C++11 (GCC: 1.00 and 1.02), and over `boost::optional` 0.95 at C++17 (GCC: 1.14). The rows more than 10 % apart at C++17 are `vector_grow_str` 1.52x and `vector_push_int` 1.23x (slower) and `assign_copy_int` 0.63x, `pass_int` 0.68x, `emplace_reset_int` 0.80x and `emplace_reset_pod32` 0.88x (faster); `value_or_sum` and `eq_opt_opt`, which GCC puts at 1.38x, are 1.00x with Clang, and `make_move_destroy_int` is 1.00x as with GCC (5.37 ns against 5.38 ns, `boost::optional` 0.76 ns and 0.54 ns). `sizeof (optional<std::string>)` is 32 with libc++ (its `std::string` is 24 bytes); the other sizes and every trait flag are as with GCC. Compile time of the `include` / `use` units: 210 / 249 ms (C++11) and 288 / 333 ms (C++17) for this library, 231 / 276 ms for `std::optional`, over a stub of 188 / 188 ms (C++11) and 234 / 236 ms (C++17).
 
 ## Strengths and weaknesses
 

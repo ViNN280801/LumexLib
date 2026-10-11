@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="452" viewBox="0 0 1000 452" font-family="Segoe UI, Arial, sans-serif" font-size="11">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20" y="22" font-size="15" font-weight="bold">string_view, layout and traits of the view types</text>
+<text x="20" y="40" fill="#555">GCC 13.2.0 libstdc++, Clang 23.1.0 libc++; 64-bit Linux, x86-64</text>
+<text x="20" y="56" fill="#555">wstring_view has the same value in every cell; a bold row is a row where the variants differ</text>
+<rect x="296.0" y="84" width="103" height="4" fill="#d9822b"/>
+<text x="347.5" y="76" text-anchor="middle" font-weight="bold">std C++17</text>
+<rect x="411.0" y="84" width="103" height="4" fill="#b0601a"/>
+<text x="462.5" y="76" text-anchor="middle" font-weight="bold">std C++20</text>
+<rect x="526.0" y="84" width="103" height="4" fill="#1b6ca8"/>
+<text x="577.5" y="76" text-anchor="middle" font-weight="bold">lumex C++11</text>
+<rect x="641.0" y="84" width="103" height="4" fill="#6fb1e0"/>
+<text x="692.5" y="76" text-anchor="middle" font-weight="bold">lumex C++17</text>
+<rect x="756.0" y="84" width="103" height="4" fill="#3c9d4a"/>
+<text x="807.5" y="76" text-anchor="middle" font-weight="bold">boost C++11</text>
+<rect x="871.0" y="84" width="103" height="4" fill="#8fd19a"/>
+<text x="922.5" y="76" text-anchor="middle" font-weight="bold">boost C++17</text>
+<rect x="0" y="104" width="1000" height="22" fill="#f6f8fa"/>
+<text x="280" y="119" text-anchor="end">sizeof (bytes)</text>
+<text x="347.5" y="119" text-anchor="middle">16</text>
+<text x="462.5" y="119" text-anchor="middle">16</text>
+<text x="577.5" y="119" text-anchor="middle">16</text>
+<text x="692.5" y="119" text-anchor="middle">16</text>
+<text x="807.5" y="119" text-anchor="middle">16</text>
+<text x="922.5" y="119" text-anchor="middle">16</text>
+<text x="280" y="141" text-anchor="end">alignof (bytes)</text>
+<text x="347.5" y="141" text-anchor="middle">8</text>
+<text x="462.5" y="141" text-anchor="middle">8</text>
+<text x="577.5" y="141" text-anchor="middle">8</text>
+<text x="692.5" y="141" text-anchor="middle">8</text>
+<text x="807.5" y="141" text-anchor="middle">8</text>
+<text x="922.5" y="141" text-anchor="middle">8</text>
+<rect x="0" y="148" width="1000" height="22" fill="#f6f8fa"/>
+<text x="280" y="163" text-anchor="end">trivially copyable</text>
+<rect x="302" y="151" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, trivially copyable: yes</title></rect>
+<text x="347.5" y="163" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="151" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, trivially copyable: yes</title></rect>
+<text x="462.5" y="163" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="151" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++11, trivially copyable: yes</title></rect>
+<text x="577.5" y="163" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="647" y="151" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, trivially copyable: yes</title></rect>
+<text x="692.5" y="163" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="151" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++11, trivially copyable: yes</title></rect>
+<text x="807.5" y="163" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="877" y="151" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++17, trivially copyable: yes</title></rect>
+<text x="922.5" y="163" text-anchor="middle" fill="#1d5a33">yes</text>
+<text x="280" y="185" text-anchor="end">trivially destructible</text>
+<rect x="302" y="173" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, trivially destructible: yes</title></rect>
+<text x="347.5" y="185" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="173" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, trivially destructible: yes</title></rect>
+<text x="462.5" y="185" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="173" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++11, trivially destructible: yes</title></rect>
+<text x="577.5" y="185" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="647" y="173" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, trivially destructible: yes</title></rect>
+<text x="692.5" y="185" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="173" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++11, trivially destructible: yes</title></rect>
+<text x="807.5" y="185" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="877" y="173" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++17, trivially destructible: yes</title></rect>
+<text x="922.5" y="185" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="0" y="192" width="1000" height="22" fill="#f6f8fa"/>
+<text x="280" y="207" text-anchor="end">trivially default constructible</text>
+<rect x="302" y="195" width="91" height="16" rx="3" fill="#f1d4d4"><title>std C++17, trivially default constructible: no</title></rect>
+<text x="347.5" y="207" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="417" y="195" width="91" height="16" rx="3" fill="#f1d4d4"><title>std C++20, trivially default constructible: no</title></rect>
+<text x="462.5" y="207" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="532" y="195" width="91" height="16" rx="3" fill="#f1d4d4"><title>lumex C++11, trivially default constructible: no</title></rect>
+<text x="577.5" y="207" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="647" y="195" width="91" height="16" rx="3" fill="#f1d4d4"><title>lumex C++17, trivially default constructible: no</title></rect>
+<text x="692.5" y="207" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="762" y="195" width="91" height="16" rx="3" fill="#f1d4d4"><title>boost C++11, trivially default constructible: no</title></rect>
+<text x="807.5" y="207" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="877" y="195" width="91" height="16" rx="3" fill="#f1d4d4"><title>boost C++17, trivially default constructible: no</title></rect>
+<text x="922.5" y="207" text-anchor="middle" fill="#8a2b2b">no</text>
+<text x="280" y="229" text-anchor="end">standard layout</text>
+<rect x="302" y="217" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, standard layout: yes</title></rect>
+<text x="347.5" y="229" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="217" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, standard layout: yes</title></rect>
+<text x="462.5" y="229" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="217" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++11, standard layout: yes</title></rect>
+<text x="577.5" y="229" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="647" y="217" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, standard layout: yes</title></rect>
+<text x="692.5" y="229" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="217" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++11, standard layout: yes</title></rect>
+<text x="807.5" y="229" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="877" y="217" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++17, standard layout: yes</title></rect>
+<text x="922.5" y="229" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="0" y="236" width="1000" height="22" fill="#f6f8fa"/>
+<text x="280" y="251" text-anchor="end">nothrow default constructible</text>
+<rect x="302" y="239" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, nothrow default constructible: yes</title></rect>
+<text x="347.5" y="251" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="239" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, nothrow default constructible: yes</title></rect>
+<text x="462.5" y="251" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="239" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++11, nothrow default constructible: yes</title></rect>
+<text x="577.5" y="251" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="647" y="239" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, nothrow default constructible: yes</title></rect>
+<text x="692.5" y="251" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="239" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++11, nothrow default constructible: yes</title></rect>
+<text x="807.5" y="251" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="877" y="239" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++17, nothrow default constructible: yes</title></rect>
+<text x="922.5" y="251" text-anchor="middle" fill="#1d5a33">yes</text>
+<text x="280" y="273" text-anchor="end">nothrow copy constructible</text>
+<rect x="302" y="261" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, nothrow copy constructible: yes</title></rect>
+<text x="347.5" y="273" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="261" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, nothrow copy constructible: yes</title></rect>
+<text x="462.5" y="273" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="261" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++11, nothrow copy constructible: yes</title></rect>
+<text x="577.5" y="273" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="647" y="261" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, nothrow copy constructible: yes</title></rect>
+<text x="692.5" y="273" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="261" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++11, nothrow copy constructible: yes</title></rect>
+<text x="807.5" y="273" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="877" y="261" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++17, nothrow copy constructible: yes</title></rect>
+<text x="922.5" y="273" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="0" y="280" width="1000" height="22" fill="#f6f8fa"/>
+<text x="280" y="295" text-anchor="end">implicit from std::string const &amp;</text>
+<rect x="302" y="283" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, implicit from std::string const &amp;: yes</title></rect>
+<text x="347.5" y="295" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="283" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, implicit from std::string const &amp;: yes</title></rect>
+<text x="462.5" y="295" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="283" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++11, implicit from std::string const &amp;: yes</title></rect>
+<text x="577.5" y="295" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="647" y="283" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, implicit from std::string const &amp;: yes</title></rect>
+<text x="692.5" y="295" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="283" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++11, implicit from std::string const &amp;: yes</title></rect>
+<text x="807.5" y="295" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="877" y="283" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++17, implicit from std::string const &amp;: yes</title></rect>
+<text x="922.5" y="295" text-anchor="middle" fill="#1d5a33">yes</text>
+<text x="280" y="317" text-anchor="end">implicit from char const *</text>
+<rect x="302" y="305" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, implicit from char const *: yes</title></rect>
+<text x="347.5" y="317" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="305" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, implicit from char const *: yes</title></rect>
+<text x="462.5" y="317" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="305" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++11, implicit from char const *: yes</title></rect>
+<text x="577.5" y="317" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="647" y="305" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, implicit from char const *: yes</title></rect>
+<text x="692.5" y="317" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="305" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++11, implicit from char const *: yes</title></rect>
+<text x="807.5" y="317" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="877" y="305" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++17, implicit from char const *: yes</title></rect>
+<text x="922.5" y="317" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="0" y="324" width="1000" height="22" fill="#f6f8fa"/>
+<text x="280" y="339" text-anchor="end">std::string (view) compiles</text>
+<rect x="302" y="327" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, std::string (view) compiles: yes</title></rect>
+<text x="347.5" y="339" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="327" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, std::string (view) compiles: yes</title></rect>
+<text x="462.5" y="339" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="327" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++11, std::string (view) compiles: yes</title></rect>
+<text x="577.5" y="339" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="647" y="327" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, std::string (view) compiles: yes</title></rect>
+<text x="692.5" y="339" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="327" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++11, std::string (view) compiles: yes</title></rect>
+<text x="807.5" y="339" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="877" y="327" width="91" height="16" rx="3" fill="#cfe8d5"><title>boost C++17, std::string (view) compiles: yes</title></rect>
+<text x="922.5" y="339" text-anchor="middle" fill="#1d5a33">yes</text>
+<text x="280" y="361" text-anchor="end">implicit conversion to std::string</text>
+<rect x="302" y="349" width="91" height="16" rx="3" fill="#f1d4d4"><title>std C++17, implicit conversion to std::string: no</title></rect>
+<text x="347.5" y="361" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="417" y="349" width="91" height="16" rx="3" fill="#f1d4d4"><title>std C++20, implicit conversion to std::string: no</title></rect>
+<text x="462.5" y="361" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="532" y="349" width="91" height="16" rx="3" fill="#f1d4d4"><title>lumex C++11, implicit conversion to std::string: no</title></rect>
+<text x="577.5" y="361" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="647" y="349" width="91" height="16" rx="3" fill="#f1d4d4"><title>lumex C++17, implicit conversion to std::string: no</title></rect>
+<text x="692.5" y="361" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="762" y="349" width="91" height="16" rx="3" fill="#f1d4d4"><title>boost C++11, implicit conversion to std::string: no</title></rect>
+<text x="807.5" y="361" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="877" y="349" width="91" height="16" rx="3" fill="#f1d4d4"><title>boost C++17, implicit conversion to std::string: no</title></rect>
+<text x="922.5" y="361" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="0" y="368" width="1000" height="22" fill="#f6f8fa"/>
+<text x="280" y="383" text-anchor="end" font-weight="bold">implicit conversion to std::string_view</text>
+<rect x="302" y="371" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, implicit conversion to std::string_view: yes</title></rect>
+<text x="347.5" y="383" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="371" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, implicit conversion to std::string_view: yes</title></rect>
+<text x="462.5" y="383" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="371" width="91" height="16" rx="3" fill="#f1d4d4"><title>lumex C++11, implicit conversion to std::string_view: no</title></rect>
+<text x="577.5" y="383" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="647" y="371" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, implicit conversion to std::string_view: yes</title></rect>
+<text x="692.5" y="383" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="371" width="91" height="16" rx="3" fill="#f1d4d4"><title>boost C++11, implicit conversion to std::string_view: no</title></rect>
+<text x="807.5" y="383" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="877" y="371" width="91" height="16" rx="3" fill="#f1d4d4"><title>boost C++17, implicit conversion to std::string_view: no</title></rect>
+<text x="922.5" y="383" text-anchor="middle" fill="#8a2b2b">no</text>
+<text x="280" y="405" text-anchor="end" font-weight="bold">implicit conversion from std::string_view</text>
+<rect x="302" y="393" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++17, implicit conversion from std::string_view: yes</title></rect>
+<text x="347.5" y="405" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="417" y="393" width="91" height="16" rx="3" fill="#cfe8d5"><title>std C++20, implicit conversion from std::string_view: yes</title></rect>
+<text x="462.5" y="405" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="532" y="393" width="91" height="16" rx="3" fill="#f1d4d4"><title>lumex C++11, implicit conversion from std::string_view: no</title></rect>
+<text x="577.5" y="405" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="647" y="393" width="91" height="16" rx="3" fill="#cfe8d5"><title>lumex C++17, implicit conversion from std::string_view: yes</title></rect>
+<text x="692.5" y="405" text-anchor="middle" fill="#1d5a33">yes</text>
+<rect x="762" y="393" width="91" height="16" rx="3" fill="#f1d4d4"><title>boost C++11, implicit conversion from std::string_view: no</title></rect>
+<text x="807.5" y="405" text-anchor="middle" fill="#8a2b2b">no</text>
+<rect x="877" y="393" width="91" height="16" rx="3" fill="#f1d4d4"><title>boost C++17, implicit conversion from std::string_view: no</title></rect>
+<text x="922.5" y="405" text-anchor="middle" fill="#8a2b2b">no</text>
+</svg>

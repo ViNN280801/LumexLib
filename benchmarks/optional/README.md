@@ -1,10 +1,16 @@
 # optional benchmarks
 
-The optional of this library (`lumex::core::optional::opt::optional`) against `std::optional` of the standard library in use and `boost::optional` of Boost.Optional, on the same scenarios and the same source. The optional of this library is measured at C++11 and at C++17 (it is its own class at both and never becomes `std::optional`); `std::optional` at C++17; `boost::optional` at C++11 and at C++17. Only one toolchain was measured: GCC 13.2.0 with libstdc++. Clang with libc++ was not measured (the build supports it: a second build tree with `--build-dir clang=...`), so nothing here says how Clang or MSVC compile the same code.
+The optional of this library (`lumex::core::optional::opt::optional`) against `std::optional` of the standard library in use and `boost::optional` of Boost.Optional, on the same scenarios and the same source. The optional of this library is measured at C++11 and at C++17 (it is its own class at both and never becomes `std::optional`); `std::optional` at C++17; `boost::optional` at C++11 and at C++17. Two toolchains were measured: GCC 13.2.0 with libstdc++ and Clang 23.1.0 with libc++ (a second build tree, `--build-dir clang=...`); nothing here says how MSVC compiles the same code.
 
 ![Time relative to std::optional C++17, GCC](results/optional_benchmark_gcc.svg)
 
+![Time relative to std::optional C++17, Clang](results/optional_benchmark_clang.svg)
+
 ![Compile time](results/compile_time.svg)
+
+![Size and trivial copyability of optional<T>, GCC](results/optional_traits.svg)
+
+The last chart: `sizeof` in bytes of `optional<T>` for 10 types, next to `sizeof (T)`; this library at C++11 and C++17 and `std::optional` C++17 have the same bytes and properties (one bar), and so have `boost::optional` at C++11 and C++17 (the second bar); a red label marks an optional that is not trivially copyable ([results/optional_traits.csv](results/optional_traits.csv)).
 
 The numbers behind the charts: [results/optional_benchmark.md](results/optional_benchmark.md) (raw data: [results/optional_benchmark.csv](results/optional_benchmark.csv), layout and traits: [results/optional_traits.csv](results/optional_traits.csv), compile times: [results/compile_time.csv](results/compile_time.csv)).
 
@@ -39,6 +45,8 @@ python benchmarks/optional/run_benchmark.py --build-dir gcc=build-bench-gcc \
        --boost-include /opt/boost-1.92.0/include --cpu 3 --compile-repeats 7
 ```
 
+The same in `build-bench-clang` with `-DCMAKE_CXX_COMPILER=clang++` (Clang takes libc++ by default). The Clang rows of the committed results come from `run_benchmark.py --build-dir clang=build-bench-clang --cpu 3` and were added to the GCC rows by `run_benchmark.py --merge gcc/optional_benchmark.csv clang/optional_benchmark.csv --out-dir results`. The Clang compile times were measured with `run_benchmark.py --compile-time-only --compiler "clang=clang++ -stdlib=libc++" --cpu 3 --compile-repeats 7 --out-dir clang`; `--merge` also combines the `compile_time.csv` files that lie next to the CSV files it is given.
+
 `run_benchmark.py` writes `results/optional_benchmark.csv`, `results/optional_traits.csv`, `results/compile_time.csv` and, through `plot_results.py` (Python standard library only), the Markdown table and the SVG charts. The target `LumexOptionalBenchmarkRun` runs the executables of one build tree and writes into that build tree, so it never overwrites the committed results.
 
 ## Reading the results
@@ -56,6 +64,21 @@ Measured on an Intel Core i7-12700K (Linux 6.1, pinned to one performance core),
 - **C++11 build against C++17 build of lumex:** geometric mean 1.015 (lumex C++11 over lumex C++17); the code is the same at both standards except for the conversions to and from `std::optional`, and the differences (`eq_opt_opt` 0.64x, `value_or_sum` 3.53x) are placement.
 - **Layout.** `sizeof (optional<T>)` is equal to `std::optional<T>` and `boost::optional<T>` for all ten types measured (`int` 8, `double` 16, 32-byte struct 40, `std::string` 40, `std::unique_ptr<int>` 16, `std::shared_ptr<int>` 24). The properties now equal `std::optional`'s: `optional<int>`, `optional<double>` and the 32-byte struct are trivially copyable, trivially destructible and standard layout, `optional<std::string>` and the other class types are not trivially copyable and not trivially destructible (they are standard layout). `boost::optional<int>` is trivially destructible but not trivially copyable.
 - **The compile time** is the price in some cases. Over the same unit with a stub instead of an optional (`-fsyntax-only -O0`): the `include` unit costs +5 ms for `std::optional` C++17, +12 ms for lumex C++11, +47 ms for lumex C++17 and +22 ms (C++11) and +51 ms (C++17) for `boost::optional`; the `use` unit costs +41 ms for `std::optional` C++17, +49 ms for lumex C++11, +82 ms for lumex C++17, +45 ms and +74 ms for Boost. At C++17 the header of this library includes `<optional>` (for the conversions) on top of `<functional>`, `<stdexcept>`, `<string>` and the rest, which is why it is slower than `std::optional` alone there. The header is larger than before (the monadic operations, the layers of special members, the own `INVOKE`): the `include` unit cost +7 ms (C++11) and +41 ms (C++17) and the `use` unit +32 ms and +66 ms with the previous class. The difference is 5 to 10 % from run to run and a few tens of milliseconds.
+
+## Clang 23.1.0 with libc++
+
+The same executables built with Clang 23.1.0 (`/opt/llvm-23.1.0`) and libc++, which the build picks by default (`LUMEX_CLANG_STDLIB` is `AUTO`; `std::optional` is the one of libc++), with the same flags of the Release profile, on the same machine, pinned to CPU 3, 5 passes, October 2026. The Clang rows are in the same CSV (`toolchain` `clang`), the tables in the `clang` section of [results/optional_benchmark.md](results/optional_benchmark.md).
+
+![Time relative to std::optional C++17, Clang](results/optional_benchmark_clang.svg)
+
+- **Overall the same speed here too.** The geometric mean of the time ratio over the 46 scenarios is 0.987 for lumex C++17 against `std::optional` C++17 and 0.977 for lumex C++11 (GCC: 1.000 and 1.015); lumex C++17 against `boost::optional` C++17 is 0.954 (GCC: 1.135).
+- **Rows more than 10 % apart from `std::optional`.** lumex C++17 is slower in `vector_grow_str` (256) 1.52x and `vector_push_int` (1 024) 1.23x and faster in `assign_copy_int` 0.63x, `pass_int` 0.68x, `emplace_reset_int` 0.80x and `emplace_reset_pod32` 0.88x. lumex C++11 is slower in `vector_grow_str` (256) 1.49x and faster in the same four rows (0.63x, 0.68x, 0.80x, 0.89x) and in `emplace_reset_str_long` 0.88x.
+- **Where Clang differs from GCC.** The rows that deviate are mostly not the same ones. `value_or_sum` and `eq_opt_opt` over 1 024 elements, which GCC puts at 1.38x for lumex C++17 (`value_or_sum` 4.89x for C++11), are 1.00x with Clang; `assign_copy_int`, `pass_int`, `vector_push_int` and `vector_grow_str`, which Clang puts apart, are 1.00x for lumex C++17 with GCC. The two rows both compilers agree on are `emplace_reset_int` and `emplace_reset_pod32` (0.83x and 0.83x with GCC, 0.80x and 0.88x with Clang, lumex C++17). `make_move_destroy_int` comes out as with GCC: 5.37 ns for lumex and 5.38 ns for `std::optional`, against 0.76 ns (C++11) and 0.54 ns (C++17) for `boost::optional`; the cause given above was examined with GCC only. `return_int` does not: 0.85 ns for lumex and `std::optional`, 1.64 ns for `boost::optional` (1.92x), where GCC has lumex 7.80 times slower than Boost.
+- **Layout.** With libc++ `sizeof (std::string)` is 24 and `optional<std::string>` 32 bytes in every variant (GCC: 32 and 40); every other size and every trivially-copyable, -destructible, standard-layout and nothrow-move flag is the same as with GCC for the ten types.
+
+- **Compile time with Clang** (`-fsyntax-only -O0`, median of 7, the same units; the stub is 188 ms at C++11 and 234 ms at C++17 for the `include` unit, 188 and 236 ms for `use`): the `include` unit takes 210 ms for lumex C++11 and 288 ms for lumex C++17, 231 ms for `std::optional` C++17 and 224 and 299 ms for `boost::optional` C++11 and C++17; the `use` unit 249 and 333 ms for lumex, 276 ms for `std::optional` and 248 and 324 ms for Boost (GCC: 135, 208, 166, 145, 212 ms and 170, 242, 201, 166, 234 ms). The stub itself costs more with Clang and libc++ than with GCC and libstdc++ (188 against 123 ms at C++11).
+
+![Size and trivial copyability of optional<T>, Clang](results/optional_traits_clang.svg)
 
 ## The previous class of this library
 
@@ -76,7 +99,7 @@ The first six rows are fixed. The row of `return_int` and the others is not a lo
 
 ## Caveats
 
-- The numbers are for this machine and this compiler, one toolchain (GCC 13.2.0, libstdc++). They are not a promise about Clang, MSVC, other CPUs or other versions: run the benchmark there (`Running`).
+- The numbers are for this machine and these two toolchains (GCC 13.2.0 with libstdc++, Clang 23.1.0 with libc++). They are not a promise about MSVC, other CPUs or other versions: run the benchmark there (`Running`).
 - The scenarios measure an optional in a loop with the optimizer held back by empty `asm` statements. They show the cost of the interface, not of a whole program.
 - `==`, `<` and `value_or` scenarios use a fixed pseudo-random pattern (two thirds engaged); branch behaviour depends on the data.
 - Boost 1.92.0 was built with the system GCC 8, but only its headers are used.

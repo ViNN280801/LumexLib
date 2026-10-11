@@ -1,0 +1,31 @@
+# compiler gcc: g++ (GCC) 13.2.0
+# compiler clang: clang version 23.1.0
+toolchain,variant,mode,median_ms,min_ms,repeats
+gcc,none_cxx11,include,82.1,81.7,7
+gcc,none_cxx11,use,82.6,81.9,7
+gcc,none_cxx17,include,92.6,91.4,7
+gcc,none_cxx17,use,91.2,90.5,7
+gcc,lumex_cxx11,include,152.2,150.8,7
+gcc,lumex_cxx11,use,153.4,152.2,7
+gcc,lumex_cxx17,include,183.2,182.6,7
+gcc,lumex_cxx17,use,182.1,180.6,7
+gcc,shared_mutex_cxx17,include,118.2,116.3,7
+gcc,shared_mutex_cxx17,use,118.0,117.1,7
+gcc,shared_ptr_cxx11,include,83.8,83.3,7
+gcc,shared_ptr_cxx11,use,84.8,83.9,7
+gcc,shared_ptr_cxx17,include,93.3,92.7,7
+gcc,shared_ptr_cxx17,use,94.6,93.9,7
+clang,none_cxx11,include,102.1,101.1,7
+clang,none_cxx11,use,101.9,100.1,7
+clang,none_cxx17,include,116.1,114.9,7
+clang,none_cxx17,use,116.6,115.3,7
+clang,lumex_cxx11,include,178.2,176.8,7
+clang,lumex_cxx11,use,179.5,177.5,7
+clang,lumex_cxx17,include,203.9,200.8,7
+clang,lumex_cxx17,use,204.9,202.4,7
+clang,shared_mutex_cxx17,include,125.5,123.9,7
+clang,shared_mutex_cxx17,use,124.2,123.6,7
+clang,shared_ptr_cxx11,include,103.8,101.5,7
+clang,shared_ptr_cxx11,use,103.3,102.4,7
+clang,shared_ptr_cxx17,include,116.4,115.9,7
+clang,shared_ptr_cxx17,use,117.5,116.1,7

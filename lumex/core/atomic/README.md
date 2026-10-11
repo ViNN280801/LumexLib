@@ -350,9 +350,13 @@ Contention benchmark with the author's libc++ method: every number is the time p
 
 ![load () under contention](../../../benchmarks/atomic/results/atomic_benchmark_load.svg)
 
+![Compile time of one translation unit](../../../benchmarks/atomic/results/atomic_compile_time.svg)
+
 - Under contention the lock-based implementation grows much more slowly than libstdc++ 13's `std::atomic<std::shared_ptr<T>>`: at 20 threads it costs 2.8-3.5 times less for `load ()`, 2.4-2.9 times less for `compare_exchange_strong ()`, 2.0-2.3 times less for `exchange ()` and 1.6-1.8 times less for `store ()`.
 - libstdc++ wins `store ()` with 2 to 6 threads.
 - Uncontended, `load ()`, `store ()` and `exchange ()` cost 17-22 ns in every implementation; the lock-based compare-exchange costs 44-47 ns against 57 ns.
 - The default selection at C++20 (a wrapper over libstdc++'s type with a conforming `wait`) measures the same as libstdc++ itself.
+
+The last chart is the compile time of one translation unit (`-fsyntax-only -O0`, median of 7, GCC 13.2 and Clang 23.1 with libc++) that includes the header and uses `load`, `store`, `exchange` and `compare_exchange_strong`: at C++20 the lock-based, the lock-free and the std-backed variants take 370 to 376 ms with GCC and 376 to 383 ms with Clang (the `include` unit), over a stub of 262 and 142 ms, against 388 ms and 425 ms for `boost::atomic_shared_ptr` and 263 ms for `std::atomic<std::shared_ptr>` with GCC; at C++11 the variants take 183 to 184 ms (GCC) and 219 to 220 ms (Clang) over 93 and 98 ms. The libc++ of Clang 23.1 has no `std::atomic<std::shared_ptr>`, so that variant and the std-backed wrapper are not in the Clang rows.
 
 The method, all series and charts, the machine, and the author's numbers for the two libc++ methods: `benchmarks/atomic/README.md` and `benchmarks/atomic/results/atomic_benchmark.md` in the repository. The same sweep against the MSVC STL (Intel Core i9-12900H, MSVC 19.51) is in `benchmarks/atomic/results/msvc/`.
