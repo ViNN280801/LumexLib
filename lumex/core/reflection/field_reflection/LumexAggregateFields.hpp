@@ -78,7 +78,11 @@
  *          once-only friend body + `operator U&() const&&` (plain
  *          `operator U()` redefines the friend for both the wrapper
  *          and the contained type -> C2084; locking the contained
- *          type first then fails the layout sizeof check).
+ *          type first then fails the layout sizeof check). For the same
+ *          reason a member whose class converts from any type (the
+ *          `optional` of this library, `std::optional`) is not supported
+ *          by the loophole: an aggregate with such a member needs a
+ *          registration at C++14, and the layout check is then skipped.
  */
 
 #ifndef LUMEX_CORE_REFLECTION_FIELD_REFLECTION_AGGREGATE_FIELDS_HPP
@@ -321,6 +325,66 @@ template <typename T> struct computed_sizeof<T, 0>
 };
 #endif
 
+// The argument of the probe. The associated namespaces of a class template
+// specialization include those of its template arguments, so the overload of
+// the registration in the namespace of Aggregate is found by ADL.
+template <typename Aggregate> struct registry_tag
+{
+};
+
+// Result of the probe for an aggregate without a registration.
+struct unregistered_t
+{
+};
+
+// Fallback of the probe: declared, never defined, named only inside decltype.
+// The overload of a registration is an exact match and beats the ellipsis.
+unregistered_t lumex_field_registry (...);
+
+// Forward declaration: the registration machinery follows the traits.
+template <typename Aggregate, typename... Members> struct registered_fields_t;
+
+// Derives from true_type when Aggregate has a registration visible at the
+// point of instantiation (declare the registration before the first use of
+// the aggregate with this module).
+template <typename Aggregate>
+struct registry_of
+    : std::integral_constant<bool,
+                             !std::is_same<decltype (lumex_field_registry (
+                                               registry_tag<Aggregate> ())),
+                                           unregistered_t>::value>
+{
+  typedef decltype (lumex_field_registry (
+      registry_tag<Aggregate> ())) fields_t;
+
+  static fields_t
+  fetch () LUMEX_NOEXCEPT
+  {
+    return lumex_field_registry (registry_tag<Aggregate> ());
+  }
+};
+
+#if __cplusplus >= 201402L && !LUMEX_AGGREGATE_FIELDS_USE_SB
+// Whether the field types injected by the loophole add up to sizeof (T). An
+// aggregate with a registration reads its members through the registered
+// pointers and never through the injected types, so the loophole is not run
+// for it: a field whose class converts from anything (an optional with a
+// converting constructor) would have the loophole record its contained type
+// instead of the field type, and the sum would not match.
+template <typename T, std::size_t Count, bool Registered>
+struct layout_matches : std::true_type
+{
+};
+
+template <typename T, std::size_t Count>
+struct layout_matches<T, Count, false>
+    : std::integral_constant<bool, (inject_fields<T, Count>::trigger > 0
+                                    && computed_sizeof<T, Count>::value
+                                           == sizeof (T))>
+{
+};
+#endif
+
 template <typename T> struct aggregate_traits
 {
   LUMEX_STATIC_ASSERT_MSG (std::is_class<T>::value && !std::is_union<T>::value,
@@ -342,14 +406,11 @@ template <typename T> struct aggregate_traits
       = count_fields_impl<T, 0, k_max_aggregate_fields>::value;
 
 #if __cplusplus >= 201402L && !LUMEX_AGGREGATE_FIELDS_USE_SB
-  typedef inject_fields<T, count> injected_t;
-  static const std::size_t injected = injected_t::trigger;
-
   LUMEX_STATIC_ASSERT_MSG (
-      count == 0
-          || (injected > 0 && computed_sizeof<T, count>::value == sizeof (T)),
+      count == 0 || layout_matches<T, count, registry_of<T>::value>::value,
       "field reflection layout mismatch (no bit-fields, no "
-      "reference members, no base classes)");
+      "reference members, no base classes; below C++17 a member that converts "
+      "from any type, such as an optional, needs LUMEX_DEFINE_FIELD_NAMES)");
 #endif
 };
 
@@ -371,22 +432,6 @@ template <typename T> struct aggregate_traits
 // Whether the names of an unregistered aggregate come from the compiler
 // (pointer NTTP pretty names). Below C++20 they do not.
 LUMEX_CONSTEXPR bool k_automatic_names = (__cplusplus >= 202002L);
-
-// The argument of the probe. The associated namespaces of a class template
-// specialization include those of its template arguments, so the overload of
-// the registration in the namespace of Aggregate is found by ADL.
-template <typename Aggregate> struct registry_tag
-{
-};
-
-// Result of the probe for an aggregate without a registration.
-struct unregistered_t
-{
-};
-
-// Fallback of the probe: declared, never defined, named only inside decltype.
-// The overload of a registration is an exact match and beats the ellipsis.
-unregistered_t lumex_field_registry (...);
 
 // A pointer to a member as a type (C++11 has no template<auto>).
 template <typename Pointer, Pointer Value> struct member_constant
@@ -438,26 +483,6 @@ template <typename Aggregate, typename... Members, std::size_t Index>
 struct fields_member<registered_fields_t<Aggregate, Members...>, Index>
     : nth_member<Index, Members...>
 {
-};
-
-// Derives from true_type when Aggregate has a registration visible at the
-// point of instantiation (declare the registration before the first use of
-// the aggregate with this module).
-template <typename Aggregate>
-struct registry_of
-    : std::integral_constant<bool,
-                             !std::is_same<decltype (lumex_field_registry (
-                                               registry_tag<Aggregate> ())),
-                                           unregistered_t>::value>
-{
-  typedef decltype (lumex_field_registry (
-      registry_tag<Aggregate> ())) fields_t;
-
-  static fields_t
-  fetch () LUMEX_NOEXCEPT
-  {
-    return lumex_field_registry (registry_tag<Aggregate> ());
-  }
 };
 
 template <typename Aggregate, std::size_t... I>
