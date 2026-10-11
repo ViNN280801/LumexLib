@@ -103,3 +103,24 @@ One thread on a private object: median ns per operation, the 25th-75th percentil
 | `compare_exchange_strong` | LumexLib lock-based, C++20 | 44.1 | 43.9-44.4 | 5.78 |
 | `compare_exchange_strong` | LumexLib default, C++20 (wraps std) | 57.0 | 56.7-57.4 | 7.47 |
 | `compare_exchange_strong` | std::atomic, libstdc++ 13 | 56.9 | 56.6-57.3 | 7.47 |
+
+## Compile time
+
+- compiler gcc: g++ (GCC) 13.2.0
+- compiler clang: clang version 23.1.0
+
+Wall time of `-fsyntax-only -O0` of `compile_time.cpp`, median of the repeats, in milliseconds. The stub is a `std::shared_ptr` behind a `std::mutex`: the cost of the headers every variant shares. An empty cell is a variant the compiler could not build (the standard library has no `std::atomic<std::shared_ptr>`).
+
+Unit `include`: the header is included and one object is declared.
+
+| toolchain | stub C++11 | stub C++20 | LumexLib common name, C++11 | LumexLib common name, C++20 | LumexLib lock-based, C++11 | LumexLib lock-based, C++20 | LumexLib lock-free, C++11 | LumexLib lock-free, C++20 | LumexLib std-backed, C++20 | std::atomic<std::shared_ptr>, C++20 | boost::atomic_shared_ptr, C++11 | boost::atomic_shared_ptr, C++20 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| gcc | 93 | 262 | 184 | 370 | 183 | 372 | 184 | 374 | 376 | 263 | 171 | 388 |
+| clang | 98 | 142 | 219 | 376 | 219 | 376 | 220 | 383 |  |  | 233 | 425 |
+
+Unit `use`: the operations the benchmark measures are used: `load`, `store`, `exchange`, `compare_exchange_strong` and `is_lock_free`.
+
+| toolchain | stub C++11 | stub C++20 | LumexLib common name, C++11 | LumexLib common name, C++20 | LumexLib lock-based, C++11 | LumexLib lock-based, C++20 | LumexLib lock-free, C++11 | LumexLib lock-free, C++20 | LumexLib std-backed, C++20 | std::atomic<std::shared_ptr>, C++20 | boost::atomic_shared_ptr, C++11 | boost::atomic_shared_ptr, C++20 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| gcc | 95 | 264 | 190 | 380 | 190 | 381 | 190 | 380 | 384 | 267 | 172 | 392 |
+| clang | 99 | 146 | 226 | 383 | 224 | 377 | 228 | 385 |  |  | 235 | 423 |

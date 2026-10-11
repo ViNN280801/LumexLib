@@ -81,6 +81,22 @@ What it shows:
 - **Boost.** `boost::atomic_shared_ptr` is a spinlock and, for this short critical section on this machine, it is the fastest series for `load ()` (0.9-1.1 times the baseline at 20 threads) and for the readers-heavy pattern; the lock-free engine is within two times of it for `load ()` and loses to it on every replacing operation. Neither is wait-free; a preempted lock holder is not a problem the benchmark can show.
 - **Readers with one writer.** No series crashes or hangs (the libc++ double-width method did); the lock-free engine's reader time at 8 to 20 threads, 2.1, is the same as without the writer.
 
+The charts of the reduced run, in the same form as the charts of the full sweep above, one per operation with the ratios to the uint64 compare-exchange of the same block (nine series: the lock-based and the lock-free engine at C++11 and at C++20, the lock-free engine with the deferred policy, the common name, the std-backed wrapper, libstdc++ 13 and Boost). The files carry the `lock_free_reduced_` prefix so the Doxygen image names stay unique: `python benchmarks/atomic/plot_results.py --prefix lock_free_reduced_ benchmarks/atomic/results/lock_free_reduced/atomic_benchmark.csv` writes them from the CSV, and the same Markdown table next to it.
+
+![Baseline of the reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_baseline.svg)
+
+![load () under contention, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_load.svg)
+
+![store () under contention, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_store.svg)
+
+![exchange () under contention, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_exchange.svg)
+
+![compare_exchange_strong () under contention, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_compare_exchange_strong.svg)
+
+![load () with one writer, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_load_one_writer.svg)
+
+![Uncontended, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_uncontended.svg)
+
 ## Machine and build of these results
 
 | | |
@@ -129,7 +145,7 @@ Uncontended, in nanoseconds (lock-free / lock-based): `load ()` 36.1 / 20.5, `st
 
 ## MSVC STL
 
-The same four series on Windows. The charts above stay the libstdc++ run; these are only the MSVC run. The files carry the `msvc_` prefix so the Doxygen image names stay unique.
+The same four series on Windows. The charts above stay the libstdc++ run; these are only the MSVC run. The files carry the `msvc_` prefix so the Doxygen image names stay unique (`plot_results.py --prefix msvc_ results/msvc/atomic_benchmark.csv` writes them under that name).
 
 ![Baseline](results/msvc/msvc_atomic_benchmark_baseline.svg)
 
@@ -212,6 +228,29 @@ python benchmarks\atomic\plot_results.py benchmarks\atomic\results\atomic_benchm
 ```
 
 On MSVC the C++11 unit of the benchmark builds at C++14 (MSVC's lowest mode), the default series wraps MSVC's `std::atomic<std::shared_ptr<T>>`, and the `std` series measures it directly.
+
+## Compile time
+
+What it costs to include one atomic shared pointer and use it, measured the way the other benchmarks of this directory tree measure it: `compile_time.cpp` is compiled with `-fsyntax-only -O0` (median of 7, CPU 3, under the build lock of the workstation) per compiler and variant by `run_benchmark.py --compile-time-only`, which writes `results/compile_time.csv` and calls `plot_results.py` for `results/atomic_compile_time.svg` and the table in `results/atomic_benchmark.md`. The `include` unit declares one object; the `use` unit calls `load`, `store`, `exchange`, `compare_exchange_strong` and `is_lock_free`. The variants are the common name, the lock-based and the lock-free engine (C++11 and C++20), the std-backed wrapper, `std::atomic<std::shared_ptr<int>>` and `boost::atomic_shared_ptr<int>`, against a stub (a `std::shared_ptr` behind a `std::mutex`), which is the cost of the headers every variant shares. The units of the LumexLib variants define `LUMEX_ATOMIC_HAS_HAZARD_POINTER=1`, as the CMake target `lumex::atomic` does when the hazard pointer library is built, so the common name is the lock-free engine; the benchmark executable's own reduced and full runs are not affected.
+
+```sh
+python benchmarks/atomic/run_benchmark.py --compile-time-only --cpu 3 --compile-repeats 7 \
+       --compiler "gcc=g++" --compiler "clang=clang++ -stdlib=libc++" \
+       --boost-include /opt/boost-1.92.0/include
+```
+
+![Compile time](results/atomic_compile_time.svg)
+
+Wall time in milliseconds (`include` unit / `use` unit; the table of every cell is in [results/atomic_benchmark.md](results/atomic_benchmark.md), the raw medians in [results/compile_time.csv](results/compile_time.csv)):
+
+| | stub | LumexLib common name | lock-based | lock-free | std-backed | `std::atomic<std::shared_ptr>` | `boost::atomic_shared_ptr` |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| GCC 13.2, C++11 | 93 / 95 | 184 / 190 | 183 / 190 | 184 / 190 | n/a | n/a | 171 / 172 |
+| GCC 13.2, C++20 | 262 / 264 | 370 / 380 | 372 / 381 | 374 / 380 | 376 / 384 | 263 / 267 | 388 / 392 |
+| Clang 23.1 (libc++), C++11 | 98 / 99 | 219 / 226 | 219 / 224 | 220 / 228 | n/a | n/a | 233 / 235 |
+| Clang 23.1 (libc++), C++20 | 142 / 146 | 376 / 383 | 376 / 377 | 383 / 385 | not built | not built | 425 / 423 |
+
+At C++11 the three LumexLib variants are within 1 ms of each other in the `include` unit with both compilers (183 to 184 ms with GCC, 219 to 220 ms with Clang), about 90 ms (GCC) and 121 ms (Clang) over the stub, and `boost::atomic_shared_ptr` costs 171 ms (GCC) and 233 ms (Clang). At C++20 they are within 4 ms with GCC (370 to 374 ms, the std-backed wrapper 376 ms) and within 7 ms with Clang (376 to 383 ms), 108 to 114 ms (GCC) and 234 to 241 ms (Clang) over the stub, and `boost::atomic_shared_ptr` costs 388 ms (GCC) and 425 ms (Clang). `std::atomic<std::shared_ptr>` costs 263 ms (GCC) over a stub of 262 ms. With the libc++ of Clang 23.1 there is no `std::atomic<std::shared_ptr>`, so the std-backed wrapper and the standard variant could not be built there (the compiler's message is printed by `run_benchmark.py`, and the variant is left out). The unit uses the interface the benchmark measures, not `wait` and `notify` or the weak pointer. An earlier full run of the same units, discarded because of this, gave every GCC cell 13 to 15 % higher (stub 106 and 300 ms, common name 210 and 426 ms at C++11 and C++20) and the Clang stub cells 14 to 17 % higher, while the other Clang cells were within 3 % of this run except the common name at C++11 (254 and 239 ms against 219 and 226 ms): the absolute times move by that much from run to run on this machine, and the differences between variants should be read within one run.
 
 ## 128-bit compare-and-swap (dwcas)
 

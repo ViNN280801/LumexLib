@@ -17,12 +17,22 @@ Usage:
     python run_benchmark.py --exe build-bench/bin/LumexHazardPointerBenchmark
     python run_benchmark.py --exe ... --quick --out-dir build-bench/hp-quick
     python run_benchmark.py --exe ... --repetitions 100 --settle-seconds 30
+    python run_benchmark.py --compile-time-only --cpu 3 \\
+        --compiler "gcc=/opt/gcc-13.2.0/bin/g++" \\
+        --compiler "clang=/opt/llvm-23.1.0/bin/clang++ -stdlib=libc++"
 
 Writes into --out-dir (default: results/ next to this script):
     hazard_pointer_benchmark.csv   medians and quartiles per series, mode,
                            thread count and operation, with the machine
                            and the build in # comment lines
 and, through plot_results.py, the Markdown table and the SVG charts.
+
+--compile-time-only measures, instead of running the benchmark, the wall time
+of -fsyntax-only -O0 of compile_time.cpp (including and using the hazard
+pointers of the module, or a std::shared_mutex, or std::atomic_load of a
+std::shared_ptr, against a stub) per compiler and variant, writes
+compile_time.csv next to the results and calls plot_results.py to draw
+hazard_pointer_compile_time.svg.
 """
 
 import argparse
@@ -30,6 +40,8 @@ import csv
 import datetime
 import os
 import platform
+import shlex
+import shutil
 import statistics
 import subprocess
 import sys
@@ -37,6 +49,15 @@ import tempfile
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
+# The variants of the compile-time unit: (name, BENCH_HP_IMPL, standard).
+# `none` is an unprotected std::atomic<T *>, the cost of the shared headers.
+COMPILE_VARIANTS = [("none_cxx11", 0, "11"), ("none_cxx17", 0, "17"),
+                    ("lumex_cxx11", 1, "11"), ("lumex_cxx17", 1, "17"),
+                    ("shared_mutex_cxx17", 2, "17"),
+                    ("shared_ptr_cxx11", 3, "11"),
+                    ("shared_ptr_cxx17", 3, "17")]
+COMPILE_MODES = [("include", 0), ("use", 1)]
 OPERATIONS = ("uint64_cas", "make_destroy", "protect_reset", "protect_kept",
               "make_protect_destroy", "retire", "new_delete", "read",
               "list_walk", "readers_writer", "retire_p50", "retire_p99",
@@ -196,10 +217,94 @@ def write_results(path, header, rows):
             writer.writerow(out)
 
 
+def compiler_version(command):
+    try:
+        out = subprocess.run(shlex.split(command) + ["--version"],
+                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                             universal_newlines=True).stdout
+        return out.splitlines()[0].strip()
+    except OSError:
+        return "unknown"
+
+
+def compile_times(compilers, repeats, cpu):
+    """Wall time (ms) of -fsyntax-only for compile_time.cpp per variant.
+
+    Two units per variant: `include` (the header is included and one object
+    is declared) and `use` (read under protection, replace, retire). The row
+    `none` is the same unit with an unprotected std::atomic<T *>: the cost
+    of the shared headers."""
+    rows = []
+    source = os.path.join(HERE, "compile_time.cpp")
+    for toolchain, command in compilers:
+        base = shlex.split(command)
+        for variant, impl_id, std in COMPILE_VARIANTS:
+            for mode_name, mode in COMPILE_MODES:
+                flags = ["-std=c++" + std, "-fsyntax-only", "-O0",
+                         "-DBENCH_HP_IMPL=%d" % impl_id,
+                         "-DBENCH_COMPILE_MODE=%d" % mode, "-I" + REPO]
+                command_line = base + flags + [source]
+                if cpu is not None and shutil.which("taskset"):
+                    command_line = ["taskset", "-c", str(cpu)] + command_line
+                samples = []
+                failed = False
+                for _ in range(repeats):
+                    start = time.perf_counter()
+                    result = subprocess.run(command_line,
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.STDOUT,
+                                            universal_newlines=True)
+                    elapsed = (time.perf_counter() - start) * 1000.0
+                    if result.returncode != 0:
+                        failed = True
+                        log("%s %s %s does not compile:\n%s"
+                            % (toolchain, variant, mode_name,
+                               result.stdout[-600:]))
+                        break
+                    samples.append(elapsed)
+                if failed:
+                    continue
+                rows.append({
+                    "toolchain": toolchain,
+                    "variant": variant,
+                    "mode": mode_name,
+                    "median_ms": "%.1f" % statistics.median(samples),
+                    "min_ms": "%.1f" % min(samples),
+                    "repeats": repeats,
+                })
+    return rows
+
+
+def measure_compile_time(args):
+    compilers = []
+    for item in args.compiler:
+        if "=" not in item:
+            die("--compiler needs NAME=COMMAND, got %r" % item)
+        compilers.append(tuple(item.split("=", 1)))
+    if not compilers:
+        die("--compile-time-only needs at least one --compiler NAME=COMMAND")
+    os.makedirs(args.out_dir, exist_ok=True)
+    rows = compile_times(compilers, args.compile_repeats, args.cpu)
+    path = os.path.join(args.out_dir, "compile_time.csv")
+    with open(path, "w", newline="", encoding="utf-8") as stream:
+        for name, command in compilers:
+            stream.write("# compiler %s: %s\n"
+                         % (name, compiler_version(command)))
+        writer = csv.DictWriter(stream, lineterminator="\n", fieldnames=[
+            "toolchain", "variant", "mode", "median_ms", "min_ms", "repeats"])
+        writer.writeheader()
+        writer.writerows(rows)
+    log("written %s" % path)
+    results = os.path.join(args.out_dir, "hazard_pointer_benchmark.csv")
+    if not args.no_plot and os.path.exists(results):
+        subprocess.run([sys.executable, os.path.join(HERE, "plot_results.py"),
+                        results], check=True)
+
+
 def parse_args(argv):
     parser = argparse.ArgumentParser(
         description="Runs LumexHazardPointerBenchmark and aggregates the runs.")
-    parser.add_argument("--exe", required=True,
+    parser.add_argument("--exe", default=None,
                         help="the LumexHazardPointerBenchmark executable")
     parser.add_argument("--out-dir", default=os.path.join(HERE, "results"),
                         help="where hazard_pointer_benchmark.csv and the charts go")
@@ -222,7 +327,20 @@ def parse_args(argv):
                              "smoke run, not results")
     parser.add_argument("--no-plot", action="store_true",
                         help="skip plot_results.py")
+    parser.add_argument("--compile-time-only", action="store_true",
+                        help="do not run the benchmark: measure the compile "
+                             "time of compile_time.cpp (needs --compiler)")
+    parser.add_argument("--compiler", action="append", default=[],
+                        metavar="NAME=COMMAND",
+                        help="a compiler for --compile-time-only, with its "
+                             "flags; repeatable")
+    parser.add_argument("--compile-repeats", type=int, default=5,
+                        help="compiles per cell (default 5)")
+    parser.add_argument("--cpu", type=int, default=None,
+                        help="pin the compiles to this CPU with taskset")
     args = parser.parse_args(argv)
+    if not args.compile_time_only and not args.exe:
+        parser.error("--exe is required unless --compile-time-only is given")
     if args.quick:
         args.repetitions = 3
         args.settle_seconds = 0.0
@@ -236,6 +354,9 @@ def parse_args(argv):
 
 def main(argv):
     args = parse_args(argv)
+    if args.compile_time_only:
+        measure_compile_time(args)
+        return 0
     exe = os.path.abspath(args.exe)
     if not os.path.isfile(exe):
         die("no executable %s" % exe)

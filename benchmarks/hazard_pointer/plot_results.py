@@ -20,7 +20,13 @@ Writes next to the first CSV:
                                        as ratios to the baseline, for the
                                        series that have it
     hazard_pointer_benchmark_uncontended.svg   one thread, nanoseconds
-    hazard_pointer_benchmark.md                the numbers as Markdown tables
+    hazard_pointer_compile_time.svg            the compile times of one
+                                       translation unit per way of reading,
+                                       when compile_time.csv (written by
+                                       run_benchmark.py --compile-time-only)
+                                       is next to the CSV
+    hazard_pointer_benchmark.md                the numbers as Markdown tables,
+                                       and the compile times when given
 """
 
 import csv
@@ -56,6 +62,21 @@ COLORS = {
     "memory": "#56B4E9",
 }
 FALLBACK_COLORS = ["#D55E00", "#CC79A7", "#999999", "#F0E442"]
+# The variants of compile_time.cpp (run_benchmark.py --compile-time-only):
+# (name, label, color), in the order of the chart.
+COMPILE_VARIANTS = [
+    ("none_cxx11", "stub C++11", "#707070"),
+    ("none_cxx17", "stub C++17", "#B0B0B0"),
+    ("lumex_cxx11", "LumexLib hazard_pointer, C++11", "#005A8C"),
+    ("lumex_cxx17", "LumexLib hazard_pointer, C++17", "#56B4E9"),
+    ("shared_mutex_cxx17", "std::shared_mutex, C++17", "#D55E00"),
+    ("shared_ptr_cxx11", "std::atomic_load of shared_ptr, C++11", "#B27300"),
+    ("shared_ptr_cxx17", "std::atomic_load of shared_ptr, C++17", "#E69F00"),
+]
+COMPILE_MODES = [("include", "the header is included and one object is "
+                  "declared"),
+                 ("use", "the read under protection, the replacement and "
+                  "the retirement of the old object are written out")]
 DASHES = ["", "7 4", "2 4", "", "9 3 2 3", "4 4"]
 FONT = ("system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', "
         "Arial, sans-serif")
@@ -358,6 +379,93 @@ def bar_chart(title, subtitle, axis_label, groups):
     return "\n".join(out) + "\n"
 
 
+class CompileSeries:
+    """What bar_chart needs of a series: a label, a color and no dash."""
+
+    def __init__(self, label, color):
+        self.label = label
+        self.color = color
+        self.dash = ""
+
+
+def read_compile(path):
+    """Returns (comment lines, rows) of compile_time.csv."""
+    comments = []
+    lines = []
+    with open(path, newline="", encoding="utf-8") as stream:
+        for line in stream:
+            if line.startswith("#"):
+                comments.append(line[1:].strip())
+            else:
+                lines.append(line)
+    rows = list(csv.DictReader(lines))
+    for row in rows:
+        row["median_ms"] = float(row["median_ms"])
+    return comments, rows
+
+
+def compile_chart(rows, comments):
+    """A group per compiler and unit, a bar per variant the compiler built."""
+    series = {name: CompileSeries(label, color)
+              for name, label, color in COMPILE_VARIANTS}
+    toolchains = []
+    for row in rows:
+        if row["toolchain"] not in toolchains:
+            toolchains.append(row["toolchain"])
+    groups = []
+    for toolchain in toolchains:
+        for mode, _ in COMPILE_MODES:
+            bars = []
+            for name, _, _ in COMPILE_VARIANTS:
+                for row in rows:
+                    if (row["toolchain"] == toolchain and row["mode"] == mode
+                            and row["variant"] == name):
+                        value = row["median_ms"]
+                        bars.append((series[name], value, value, value,
+                                     "%.0f ms" % value))
+            if bars:
+                groups.append(("%s: %s" % (toolchain, mode), bars))
+    return bar_chart(
+        "Compile time of one translation unit (-fsyntax-only -O0), ms",
+        ["; ".join(c.replace("compiler ", "") for c in comments),
+         "median of the repeats; the stub is an unprotected "
+         "std::atomic<T *>: the cost of the shared headers"],
+        "milliseconds per translation unit (lower is faster)", groups)
+
+
+def compile_markdown(rows, comments):
+    lines = ["", "## Compile time", ""]
+    for comment in comments:
+        lines.append("- " + comment)
+    lines.append("")
+    lines.append("Wall time of `-fsyntax-only -O0` of `compile_time.cpp`, "
+                 "median of the repeats, in milliseconds. The stub is an "
+                 "unprotected `std::atomic<T *>`: the cost of the headers "
+                 "every variant shares.")
+    lines.append("")
+    toolchains = []
+    for row in rows:
+        if row["toolchain"] not in toolchains:
+            toolchains.append(row["toolchain"])
+    shown = [v for v in COMPILE_VARIANTS
+             if any(r["variant"] == v[0] for r in rows)]
+    for mode, text_of_mode in COMPILE_MODES:
+        lines.append("Unit `%s`: %s." % (mode, text_of_mode))
+        lines.append("")
+        lines.append("| toolchain | " + " | ".join(label for _, label, _
+                                                  in shown) + " |")
+        lines.append("| --- |" + " ---: |" * len(shown))
+        for toolchain in toolchains:
+            cells = []
+            for name, _, _ in shown:
+                match = [r for r in rows if r["toolchain"] == toolchain
+                         and r["mode"] == mode and r["variant"] == name]
+                cells.append("%.0f" % match[0]["median_ms"] if match else "")
+            lines.append("| %s | %s |" % (toolchain, " | ".join(cells)))
+        lines.append("")
+    return lines
+
+
 def contended(rows, operation):
     return sorted((r for r in rows if r["mode"] == "contended"
                    and r["operation"] == operation),
@@ -525,8 +633,20 @@ def main(argv):
         [subtitle, "Median ns per operation, ratio to the uncontended "
                    "uint64 CAS in brackets; whiskers: 25th-75th percentile"],
         "nanoseconds per operation (lower is better)", groups))
+    text_of_md = markdown(metas, series, rows_of)
+    compile_path = os.path.join(os.path.dirname(os.path.abspath(paths[0])),
+                                "compile_time.csv")
+    if os.path.exists(compile_path):
+        compile_comments, compile_rows = read_compile(compile_path)
+        path = os.path.join(os.path.dirname(stem),
+                            "hazard_pointer_compile_time.svg")
+        with open(path, "w", encoding="utf-8", newline="\n") as stream:
+            stream.write(compile_chart(compile_rows, compile_comments))
+        written.append(path)
+        text_of_md = "\n".join([text_of_md.rstrip("\n")] + compile_markdown(
+            compile_rows, compile_comments))
     with open(stem + ".md", "w", encoding="utf-8", newline="\n") as stream:
-        stream.write(markdown(metas, series, rows_of))
+        stream.write(text_of_md)
     written.append(stem + ".md")
     print("written " + ", ".join(written))
     return 0

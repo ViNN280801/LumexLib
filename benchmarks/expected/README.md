@@ -1,12 +1,20 @@
 # expected benchmarks
 
-The `expected` of this library (`lumex::core::expected::result::expected`) against `std::expected` of the standard library in use (libstdc++ 13.2, C++23) and `boost::outcome_v2::result` of Boost.Outcome 1.92, on the same scenarios and the same source. The `expected` of this library is measured at C++11, C++14, C++17, C++20 and C++23 (the storage layers and the `constexpr` and `requires` branches differ between the standards, so the layers are compared with each other too); `std::expected` at C++23; Outcome at C++17. Only GCC 13.2 was measured: a second toolchain (Clang with libc++) was not run for this component.
+The `expected` of this library (`lumex::core::expected::result::expected`) against `std::expected` of the standard library in use (libstdc++ 13.2 or libc++ of Clang 23.1, C++23) and `boost::outcome_v2::result` of Boost.Outcome 1.92, on the same scenarios and the same source. The `expected` of this library is measured at C++11, C++14, C++17, C++20 and C++23 (the storage layers and the `constexpr` and `requires` branches differ between the standards, so the layers are compared with each other too); `std::expected` at C++23; Outcome at C++17. Two toolchains were measured, each with its own standard library: GCC 13.2 with libstdc++ and Clang 23.1.0 with libc++; nothing here says how MSVC compiles the same code.
 
 ![Time relative to std::expected C++23, GCC](results/expected_benchmark_gcc.svg)
 
+![Time relative to std::expected C++23, Clang](results/expected_benchmark_clang.svg)
+
 ![The layers of this library relative to C++11, GCC](results/expected_layers_gcc.svg)
 
+![The layers of this library relative to C++11, Clang](results/expected_layers_clang.svg)
+
 ![Compile time](results/compile_time.svg)
+
+![Size and trivial copyability of expected<T, E>, GCC](results/expected_sizes.svg)
+
+The last chart: `sizeof` in bytes of `expected<T, E>` for 16 pairs of types in `std::expected` C++23, in this library (the same bytes and properties at every standard from C++11 to C++23, so one bar) and in Outcome C++17; a red label marks a type that is not trivially copyable ([results/sizes.csv](results/sizes.csv)); [results/expected_sizes_clang.svg](results/expected_sizes_clang.svg) is the same for Clang with libc++, where the pairs with a `std::string` are smaller.
 
 The numbers behind the charts: [results/expected_benchmark.md](results/expected_benchmark.md) (raw data: [results/expected_benchmark.csv](results/expected_benchmark.csv), sizes and properties: [results/sizes.csv](results/sizes.csv), compile times: [results/compile_time.csv](results/compile_time.csv)).
 
@@ -14,7 +22,7 @@ The numbers behind the charts: [results/expected_benchmark.md](results/expected_
 
 | Alternative | Measured | Notes |
 | --- | --- | --- |
-| `std::expected` (libstdc++ 13.2.0) | yes, C++23, the baseline | the only standard facility; C++23 |
+| `std::expected` (libstdc++ 13.2.0 with GCC, libc++ with Clang 23.1) | yes, C++23, the baseline | the only standard facility; C++23 |
 | `boost::outcome_v2::result` (Boost.Outcome 1.92.0, headers only, `/opt/boost-1.92.0`) | yes, C++17 | `result<T, E, policy::terminate>`; no monadic members, no `value_or`, no `operator*` (`assume_value ()` stands for it); refuses a result whose value and error type are the same type, so the error of the "int" scenarios is `unsigned` and of the "string" scenarios a struct that holds a string, on every side; the default constructor of `result<void, E>` is deleted |
 | `tl::expected` | no | not installed on this machine (a search for `expected.hpp` found only libstdc++'s `<expected>`); nothing was vendored |
 | `boost::leaf`, `outcome::outcome` and the rest of Boost.Outcome | no | different designs (`leaf` is an error-handling framework, not a result type) |
@@ -42,6 +50,8 @@ python benchmarks/expected/run_benchmark.py --build-dir gcc=build-bench --passes
        --compile-time --compiler "gcc=g++" --boost-include /opt/boost-1.92.0/include
 ```
 
+The same in a second build tree with `-DCMAKE_CXX_COMPILER=clang++` (Clang takes libc++ by default). The Clang rows of the committed results come from `run_benchmark.py --build-dir clang=build-bench-clang --passes 5 --cpu 4` and were added to the GCC rows by `run_benchmark.py --merge gcc/expected_benchmark.csv clang/expected_benchmark.csv --out-dir results`. The Clang compile times were measured with `run_benchmark.py --compile-time-only --compiler "clang=clang++ -stdlib=libc++" --cpu 3 --compile-repeats 7 --out-dir clang`; `--merge` also combines the `compile_time.csv` files that lie next to the CSV files it is given.
+
 `run_benchmark.py` writes `results/expected_benchmark.csv`, `results/sizes.csv`, `results/compile_time.csv` and, through `plot_results.py` (Python standard library only), the Markdown tables and the SVG charts. The target `LumexExpectedBenchmarkRun` runs the executables of one build tree and writes into that build tree, so it never overwrites the committed results. Boost is optional: without `boost/outcome/result.hpp` the Outcome variant is skipped with a message. The runs took about 30 minutes with 5 passes.
 
 ## Results
@@ -58,9 +68,26 @@ Measured on an Intel Core i7-12700K (Linux 6.1, pinned to CPU 4, frequency gover
 - **Assignment.** Copy assignment, value over value `<int, unsigned>`, 0.76 times `std::expected` (0.73 against 0.96 ns), switching the alternative 0.61 (0.44 against 0.72 ns), a string value over a string value 1.13 at C++23, switching with strings 1.08 to 1.1.
 - **The compile time is the price.** The unit of `compile_time.cpp` costs, over the same unit without the header (`-fsyntax-only -O0`, GCC 13.2): at C++11 +226 ms for this library (376 against 149 ms), at C++23 +417 ms for this library (730 against 312 ms) and +57 ms for `std::expected` (369 ms); Outcome at C++17 takes 878 ms. With `-c -O2`: lumex C++11 523 ms (no header: 164), lumex C++23 947 ms (no header: 334), `std::expected` 574 ms, Outcome 1 779 ms. The cost of this library rises with the standard (C++11 376, C++14 404, C++17 534, C++20 682, C++23 730 ms `-fsyntax-only`); the conversions to and from `std::expected` and the `-fno-exceptions` branches added about 40 to 100 ms; the cause of the rest (the `requires` branches and the headers the newer standards pull in) was not measured separately.
 
+## Clang 23.1.0 with libc++
+
+The same executables built with Clang 23.1.0 (`/opt/llvm-23.1.0`) and libc++, which the build picks by default (`LUMEX_CLANG_STDLIB` is `AUTO`; `std::expected` is the one of libc++), with the same flags of the Release profile, on the same machine, pinned to CPU 4, 5 passes, October 2026. The Clang rows are in the same CSV (`toolchain` `clang`), the tables in the `clang` sections of [results/expected_benchmark.md](results/expected_benchmark.md).
+
+![Time relative to std::expected C++23, Clang](results/expected_benchmark_clang.svg)
+
+![The layers of this library relative to C++11, Clang](results/expected_layers_clang.svg)
+
+- **Overall on par, and the older standards are closer than with GCC.** The geometric mean of the time ratio over the 37 scenarios against `std::expected` C++23 is 1.009 for this library at C++23, 1.007 at C++20, 1.005 at C++17, 1.008 at C++14 and 1.066 at C++11 (GCC: 0.997, 0.995, 1.058, 1.041, 1.071); Outcome 1.151 over its 31 scenarios (GCC: 1.147). The scenarios more than 10 % slower than `std::expected`: 4 at C++23, 4 at C++20, 4 at C++17, 5 at C++14 and 6 at C++11 (GCC: 7, 7, 14, 12, 14); more than 10 % faster: 5, 6, 5, 6 and 5 (GCC: 6, 6, 6, 6, 5).
+- **Rows more than 10 % off `std::expected` at C++23 with Clang.** Slower: `error_int` 3.08x, `deref_int` 1.47x, `transform_str12` 1.22x and `or_else_int` 1.14x; faster: `assign_switch_int` 0.53x, `assign_same_int` 0.82x, `copy_value_int` 0.84x, `copy_error_int` 0.87x and `copy_error_str12` 0.89x. The slow rows at the other standards are the same four (C++14 adds `chain_int` 1.11x); at C++11 the slow rows are `error_int` 3.06x, `return_chain_str12` 2.69x, `return_chain_str64` 2.38x, `deref_int` 1.47x, `return_chain_int` 1.21x and `or_else_int` 1.13x.
+- **Where Clang differs from GCC.** `error_int` is 1.40x with GCC at C++23 and 3.08x with Clang, `deref_int` 1.06x and 1.47x; `value_int`, `branch_mixed` and `copy_error_int`, which GCC puts at 1.41x, 1.40x and 1.25x, are 1.00x, 1.01x and 0.87x with Clang. The string rows that cost 1.35x to 1.45x at C++11 to C++17 with GCC (`construct_value_str12`, `copy_value_str12`, `assign_same_str12`) are 0.99x, 1.02x and 0.83x at C++11 with Clang; instead `return_chain_str12` and `return_chain_str64` at C++11 are 2.69x and 2.38x with Clang, against 1.00x and 1.01x with GCC. Both compilers have `deref_int` at C++11 at 1.44x (GCC) and 1.47x (Clang), and both put `assign_switch_int` and `or_else_int` the same way (0.61x and 0.53x, 1.18x and 1.14x at C++23). No cause was investigated.
+- **The layers.** The geometric mean of C++14, C++17, C++20 and C++23 over C++11 is 0.945, 0.943, 0.945 and 0.946 with Clang (GCC: 0.972, 0.988, 0.929, 0.931), so with Clang the four newer layers are alike and about 5 % faster than C++11.
+- **Sizes.** With libc++ `sizeof (std::string)` is 24, so the five pairs that hold a `std::string` are smaller: 32 against 40 bytes for `<std::string, int>` in `std::expected`, in this library and in Outcome, and in Outcome 56 against 72 for `<std::string, text_error_t>` and 48 against 56 for `<std::string, std::error_code>` (`std::expected` and this library: 32 against 40 for both); every other `sizeof` and every property (trivially copyable, trivially destructible, standard layout, nothrow move) is the same as with GCC (`results/sizes.csv`).
+- **Compile time with Clang** (median of 7; the stub without the header takes 156 ms at C++11 and 265 ms at C++23 with `-fsyntax-only -O0`, and 162 and 281 ms with `-c -O2`): with `-fsyntax-only -O0` this library takes 312 ms at C++11, 336 at C++14, 394 at C++17, 471 at C++20 and 680 at C++23, `std::expected` 312 ms and Outcome 667 ms (GCC: 376, 404, 534, 682, 730, 369 and 878 ms); with `-c -O2` 384, 412, 463, 564 and 785 ms for this library, 392 ms for `std::expected` and 798 ms for Outcome (GCC: 523, 554, 684, 911, 947, 574 and 1 779 ms).
+
+![Size and trivial copyability of expected<T, E>, Clang](results/expected_sizes_clang.svg)
+
 ## Caveats
 
-- The numbers are for this machine and this compiler. They are not a promise about MSVC, Clang (libc++ or libstdc++), other CPUs or other versions: run the benchmark there (`Running`). `std::expected` is measured with libstdc++ 13.2 only; another standard library has another layout of the same type.
+- The numbers are for this machine and these two toolchains (GCC 13.2 with libstdc++, Clang 23.1.0 with libc++). They are not a promise about MSVC, Clang with libstdc++, other CPUs or other versions: run the benchmark there (`Running`). `std::expected` is that of libstdc++ 13.2 in the GCC rows and that of libc++ in the Clang rows; another standard library has another layout of the same type.
 - The scenarios measure the type in a loop with the optimizer held back by empty `asm` statements. They show the cost of the interface, not of a whole program, and a fraction of a nanosecond is one or two instructions or cycles.
 - Outcome is configured with `policy::terminate` (checked observers). Its default policy for an arbitrary error type would not check, which would make `value ()` cheaper and unsafe; and Outcome's `ok`/`err` in the scenarios use `in_place_type`.
 - Six scenarios are not run for Outcome (`value_or` and the five monadic ones): it has no such members and none was emulated.

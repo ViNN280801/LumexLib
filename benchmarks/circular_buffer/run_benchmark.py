@@ -19,8 +19,11 @@ LumexCircularBufferBench_<impl>_cxx<std> (see CMakeLists.txt). This script
      would compare different work),
   5. asks every executable once for the footprint of the buffer of a few T
      (sizeof, heap bytes and allocations, nothrow move, ...),
-  6. writes circular_buffer_benchmark.csv and circular_buffer_footprint.csv
-     and calls plot_results.py for the Markdown table and the SVG charts.
+  6. optionally measures the compile time of one translation unit per variant
+     (--compile-time), and
+  7. writes circular_buffer_benchmark.csv, circular_buffer_footprint.csv (and
+     compile_time.csv) and calls plot_results.py for the Markdown table and
+     the SVG charts.
 
 Why the best pass: the loops of the smallest scenarios (a fraction of a
 nanosecond, a few instructions) can run twice as fast or twice as slow in two
@@ -36,6 +39,12 @@ Usage:
     python run_benchmark.py --build-dir gcc=build-bench-gcc
     python run_benchmark.py --build-dir this=build-bench --quick
     python run_benchmark.py --build-dir gcc=build-bench-gcc --cpu 3
+    python run_benchmark.py --merge gcc/circular_buffer_benchmark.csv \\
+        clang/circular_buffer_benchmark.csv --out-dir results
+    python run_benchmark.py --compile-time-only --cpu 3 \\
+        --compiler "gcc=/opt/gcc-13.2.0/bin/g++" \\
+        --compiler "clang=/opt/llvm-23.1.0/bin/clang++ -stdlib=libc++" \\
+        --boost-include /opt/boost-1.92.0/include
 
 Writes into --out-dir (default: results/ next to this script).
 """
@@ -56,6 +65,9 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
+DEFAULT_BOOST = "/opt/boost-1.92.0/include"
+IMPL_IDS = {"none": 0, "lumex": 1, "boost": 2, "deque": 3, "vector": 4,
+            "vector_mod": 5}
 # Order of the variants in tables and charts.
 VARIANT_ORDER = ["lumex_cxx11", "lumex_cxx17", "boost_cxx11", "boost_cxx17",
                  "deque_cxx17", "vector_cxx17", "vector_mod_cxx17"]
@@ -210,6 +222,65 @@ def compiler_version(command):
         return "unknown"
 
 
+# Variants of the compile-time unit: (impl, standard). `none` has a stub
+# instead of a ring.
+COMPILE_VARIANTS = [("none", "11"), ("none", "17"), ("lumex", "11"),
+                    ("lumex", "17"), ("boost", "11"), ("boost", "17"),
+                    ("deque", "17"), ("vector", "17"), ("vector_mod", "17")]
+
+
+def compile_times(compilers, boost_include, repeats, cpu):
+    """Wall time (ms) of -fsyntax-only for compile_time.cpp per variant.
+
+    Two units per variant: `include` (the header is included and one object
+    is declared) and `use` (the members of the scenarios are used). The row
+    `none` is the same unit with a stub instead of a ring: the cost of the
+    shared headers."""
+    rows = []
+    source = os.path.join(HERE, "compile_time.cpp")
+    for toolchain, command in compilers:
+        base = shlex.split(command)
+        for impl, std in COMPILE_VARIANTS:
+            for mode_name, mode in (("include", 0), ("use", 1)):
+                flags = ["-std=c++" + std, "-fsyntax-only", "-O0",
+                         "-DBENCH_RING_IMPL=%d" % IMPL_IDS[impl],
+                         "-DBENCH_COMPILE_MODE=%d" % mode, "-I" + REPO]
+                if impl == "boost":
+                    if not os.path.exists(os.path.join(
+                            boost_include, "boost", "circular_buffer.hpp")):
+                        continue
+                    flags += ["-isystem", boost_include]
+                command_line = base + flags + [source]
+                if cpu is not None and shutil.which("taskset"):
+                    command_line = ["taskset", "-c", str(cpu)] + command_line
+                samples = []
+                failed = False
+                for _ in range(repeats):
+                    start = time.perf_counter()
+                    result = subprocess.run(command_line,
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.STDOUT,
+                                            universal_newlines=True)
+                    elapsed = (time.perf_counter() - start) * 1000.0
+                    if result.returncode != 0:
+                        failed = True
+                        sys.stderr.write(result.stdout)
+                        break
+                    samples.append(elapsed)
+                if failed:
+                    continue
+                rows.append({
+                    "toolchain": toolchain,
+                    "variant": "none_cxx" + std if impl == "none"
+                    else "%s_cxx%s" % (impl, std),
+                    "mode": mode_name,
+                    "median_ms": "%.1f" % statistics.median(samples),
+                    "min_ms": "%.1f" % min(samples),
+                    "repeats": repeats,
+                })
+    return rows
+
+
 def merge_csvs(paths, out_path):
     """Combines the CSV files of several runs (one per toolchain) into one."""
     comments = []
@@ -255,24 +326,45 @@ def main():
                         help="smoke run: one pass, few repetitions")
     parser.add_argument("--cpu", type=int, default=None,
                         help="pin to this CPU with taskset when available")
+    parser.add_argument("--compile-time", action="store_true",
+                        help="also measure the compile time of one "
+                             "translation unit per variant")
+    parser.add_argument("--compiler", action="append", default=[],
+                        metavar="NAME=COMMAND",
+                        help="a compiler for --compile-time, with its "
+                             "flags; repeatable")
+    parser.add_argument("--boost-include", default=DEFAULT_BOOST,
+                        help="directory with boost/circular_buffer.hpp "
+                             "(default %s)" % DEFAULT_BOOST)
+    parser.add_argument("--compile-repeats", type=int, default=5)
     parser.add_argument("--no-plot", action="store_true")
     parser.add_argument("--merge", nargs="+", metavar="CSV", default=[],
                         help="do not run anything: combine the CSV files of "
                              "earlier runs (one per toolchain) into "
                              "--out-dir/circular_buffer_benchmark.csv and plot")
+    parser.add_argument("--compile-time-only", action="store_true",
+                        help="only measure the compile time (needs "
+                             "--compiler) and plot with the existing "
+                             "circular_buffer_benchmark.csv of --out-dir")
     args = parser.parse_args()
 
     csv_path = os.path.join(args.out_dir, "circular_buffer_benchmark.csv")
+    compile_path = os.path.join(args.out_dir, "compile_time.csv")
     if args.merge:
         os.makedirs(args.out_dir, exist_ok=True)
         merge_csvs(args.merge, csv_path)
         log("wrote " + csv_path)
-        traits = [os.path.join(os.path.dirname(os.path.abspath(path)),
-                               "circular_buffer_footprint.csv") for path in args.merge]
-        if all(os.path.exists(path) for path in traits):
-            merge_csvs(traits, os.path.join(args.out_dir,
-                                            "circular_buffer_footprint.csv"))
-        finish(args, csv_path)
+        for name in ("circular_buffer_footprint.csv", "compile_time.csv"):
+            siblings = [os.path.join(os.path.dirname(os.path.abspath(path)),
+                                     name) for path in args.merge]
+            if all(os.path.exists(path) for path in siblings):
+                merge_csvs(siblings, os.path.join(args.out_dir, name))
+        finish(args, csv_path, compile_path)
+        return
+    if args.compile_time_only:
+        args.compile_time = True
+        measure_compile_time(args, compile_path)
+        finish(args, csv_path, compile_path)
         return
     if not args.build_dir:
         die("pass at least one --build-dir NAME=DIR")
@@ -335,7 +427,9 @@ def main():
     write_traits(executables, os.path.join(args.out_dir,
                                            "circular_buffer_footprint.csv"), args.cpu)
 
-    finish(args, csv_path)
+    if args.compile_time:
+        measure_compile_time(args, compile_path)
+    finish(args, csv_path, compile_path)
 
 
 def write_traits(executables, path, cpu):
@@ -363,11 +457,35 @@ def write_traits(executables, path, cpu):
     log("wrote " + path)
 
 
-def finish(args, csv_path):
+def measure_compile_time(args, compile_path):
+    compilers = []
+    for item in args.compiler:
+        if "=" not in item:
+            die("--compiler needs NAME=COMMAND, got %r" % item)
+        compilers.append(tuple(item.split("=", 1)))
+    if not compilers:
+        die("--compile-time needs at least one --compiler NAME=COMMAND")
+    os.makedirs(args.out_dir, exist_ok=True)
+    rows = compile_times(compilers, args.boost_include, args.compile_repeats,
+                         args.cpu)
+    with open(compile_path, "w", newline="") as handle:
+        for name, command in compilers:
+            handle.write("# compiler %s: %s\n"
+                         % (name, compiler_version(command)))
+        writer = csv.DictWriter(handle, lineterminator="\n", fieldnames=[
+            "toolchain", "variant", "mode", "median_ms", "min_ms", "repeats"])
+        writer.writeheader()
+        writer.writerows(rows)
+    log("wrote " + compile_path)
+
+
+def finish(args, csv_path, compile_path):
     if args.no_plot:
         return
     plot = os.path.join(HERE, "plot_results.py")
     command = [sys.executable, plot, csv_path]
+    if os.path.exists(compile_path):
+        command.append(compile_path)
     subprocess.check_call(command)
 
 

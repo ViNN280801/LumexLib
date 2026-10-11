@@ -18,6 +18,10 @@ Writes next to the CSV:
     expected_layers_<toolchain>.svg
                                  the same for the layers of this library at
                                  C++14, 17, 20 and 23 against C++11
+    expected_sizes.svg           sizeof of expected<T, E> per type and
+                                 implementation, and whether it is trivially
+                                 copyable (expected_sizes_<toolchain>.svg for
+                                 every further toolchain in sizes.csv)
     compile_time.svg             the compile times, when given
 
 Standard library only (Python 3.7 or later).
@@ -260,6 +264,48 @@ def markdown(comments, grouped, order, size_rows, compile_rows,
     return "\n".join(lines) + "\n"
 
 
+def size_toolchains(size_rows):
+    toolchains = []
+    for row in size_rows:
+        if row["toolchain"] not in toolchains:
+            toolchains.append(row["toolchain"])
+    return toolchains
+
+
+def size_families(rows):
+    """One size/property column set per distinct implementation family.
+
+    Returns the signatures in order, {signature: [variants]} and the types.
+    """
+    variants = [v for v in VARIANT_ORDER
+                if any(r["variant"] == v for r in rows)]
+    seen = {}
+    columns = []
+    for variant in variants:
+        sig = tuple((r["type"], r["sizeof"], r["trivially_copyable"],
+                     r["trivially_destructible"], r["standard_layout"],
+                     r["nothrow_move_constructible"])
+                    for r in rows if r["variant"] == variant)
+        if sig in seen:
+            seen[sig].append(variant)
+        else:
+            seen[sig] = [variant]
+            columns.append(sig)
+    types = []
+    for r in rows:
+        if r["type"] not in types:
+            types.append(r["type"])
+    return columns, seen, types
+
+
+def family_label(names):
+    if names[0].startswith("lumex") and len(names) > 1:
+        return ("lumex (all of C++11 to C++23)" if len(names) == 5 else
+                "lumex (" + ", ".join(VARIANT_LABEL[n].replace("lumex ", "")
+                                      for n in names) + ")")
+    return ", ".join(VARIANT_LABEL[n] for n in names)
+
+
 def size_tables(size_rows):
     lines = ["## Sizes and properties", ""]
     lines.append("`sizeof` in bytes, then the properties that decide how the "
@@ -271,42 +317,14 @@ def size_tables(size_rows):
                  "Outcome refuses a result whose value type and error type "
                  "are the same, so the pairs differ from `<T, T>`.")
     lines.append("")
-    toolchains = []
-    for row in size_rows:
-        if row["toolchain"] not in toolchains:
-            toolchains.append(row["toolchain"])
+    toolchains = size_toolchains(size_rows)
     for toolchain in toolchains:
         rows = [r for r in size_rows if r["toolchain"] == toolchain]
-        variants = [v for v in VARIANT_ORDER
-                    if any(r["variant"] == v for r in rows)]
-        # one size/property column set per distinct implementation family
-        seen = {}
-        columns = []
-        for variant in variants:
-            sig = tuple((r["type"], r["sizeof"], r["trivially_copyable"],
-                         r["trivially_destructible"], r["standard_layout"],
-                         r["nothrow_move_constructible"])
-                        for r in rows if r["variant"] == variant)
-            if sig in seen:
-                seen[sig].append(variant)
-            else:
-                seen[sig] = [variant]
-                columns.append(sig)
-        types = []
-        for r in rows:
-            if r["type"] not in types:
-                types.append(r["type"])
-        heads = []
-        for sig in columns:
-            names = seen[sig]
-            if names[0].startswith("lumex") and len(names) > 1:
-                heads.append("lumex (all of C++11 to C++23)"
-                             if len(names) == 5 else
-                             "lumex (" + ", ".join(
-                                 VARIANT_LABEL[n].replace("lumex ", "")
-                                 for n in names) + ")")
-            else:
-                heads.append(", ".join(VARIANT_LABEL[n] for n in names))
+        columns, seen, types = size_families(rows)
+        if len(toolchains) > 1:
+            lines.append("Toolchain %s:" % toolchain)
+            lines.append("")
+        heads = [family_label(seen[sig]) for sig in columns]
         lines.append("| `expected<T, E>` | " + " | ".join(heads) + " |")
         lines.append("| --- |" + " --- |" * len(columns))
         for type_name in types:
@@ -439,6 +457,70 @@ def svg_dot_chart(title, subtitle, per_variant, names, variants, base, low,
     return "\n".join(out) + "\n"
 
 
+def svg_sizes_chart(rows, subtitle):
+    """sizeof of expected<T, E> per type: a bar per implementation family."""
+    columns, seen, types = size_families(rows)
+    bar_h, gap = 11, 14
+    left, top, width = 250, 70, 980
+    plot_w, limit = 540, 72
+    group_h = len(columns) * bar_h + gap
+    height = top + group_h * len(types) + 30
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" '
+           'viewBox="0 0 %d %d" font-family="Segoe UI, Arial, sans-serif" '
+           'font-size="11">' % (width, height, width, height),
+           '<rect width="100%" height="100%" fill="#ffffff"/>',
+           '<text x="%d" y="22" font-size="15" font-weight="bold">expected '
+           '&lt;T, E&gt;, sizeof in bytes and trivial copyability</text>'
+           % left,
+           '<text x="%d" y="40" fill="#555">%s</text>'
+           % (left, escape(subtitle))]
+    x = left
+    for sig in columns:
+        names = seen[sig]
+        label = family_label(names)
+        out.append('<rect x="%d" y="49" width="10" height="10" fill="%s"/>'
+                   % (x, VARIANT_COLOR[names[0]]))
+        out.append('<text x="%d" y="58">%s</text>' % (x + 15, escape(label)))
+        x += 34 + 6.2 * len(label)
+    for index in range(0, len(types), 2):
+        out.append('<rect x="0" y="%.1f" width="%d" height="%d" '
+                   'fill="#f6f8fa"/>' % (top + index * group_h - gap / 2,
+                                         width, group_h))
+    for tick in range(0, limit + 1, 16):
+        gx = left + tick / limit * plot_w
+        out.append('<line x1="%.1f" y1="%d" x2="%.1f" y2="%d" '
+                   'stroke="#ddd"/>' % (gx, top - 6, gx,
+                                        top + group_h * len(types) - gap + 6))
+        out.append('<text x="%.1f" y="%d" text-anchor="middle" '
+                   'fill="#555">%d B</text>'
+                   % (gx, top + group_h * len(types) - gap + 20, tick))
+    for index, type_name in enumerate(types):
+        y0 = top + index * group_h
+        out.append('<text x="%d" y="%.1f" text-anchor="end">%s</text>'
+                   % (left - 8, y0 + len(columns) * bar_h / 2 + 4,
+                      escape(type_name)))
+        for number, sig in enumerate(columns):
+            match = [c for c in sig if c[0] == type_name]
+            if not match:
+                continue
+            size = match[0][1]
+            copyable = match[0][2] == "1"
+            y = y0 + number * bar_h
+            w = int(size) / limit * plot_w
+            note = ("trivially copyable" if copyable
+                    else "not trivially copyable")
+            out.append('<rect x="%d" y="%.1f" width="%.1f" height="%d" '
+                       'fill="%s"><title>%s: %s B, %s</title></rect>'
+                       % (left, y, w, bar_h - 2,
+                          VARIANT_COLOR[seen[sig][0]],
+                          escape(family_label(seen[sig])), size, note))
+            out.append('<text x="%.1f" y="%.1f" fill="%s">%s B, %s</text>'
+                       % (left + w + 5, y + bar_h - 3,
+                          "#222" if copyable else "#a33", size, note))
+    out.append("</svg>")
+    return "\n".join(out) + "\n"
+
+
 def svg_compile_chart(rows):
     toolchains = []
     variants = []
@@ -542,6 +624,21 @@ def main():
                     "time relative to lumex C++11 (log scale, clipped at "
                     "0.5x and 2x; left is faster)"))
             print("wrote " + path)
+    for number, toolchain in enumerate(size_toolchains(size_rows)):
+        compilers = sorted({c.split("compiler=")[1].split(" library=")[0]
+                            .strip('"') + " " + c.split("library=")[1]
+                            .split(" cplusplus")[0].strip('"')
+                            for c in comments
+                            if c.startswith("variant %s " % toolchain)})
+        subtitle = "%s; 64-bit Linux, x86-64" % ", ".join(compilers)
+        name = "expected_sizes.svg" if number == 0 else (
+            "expected_sizes_%s.svg" % toolchain)
+        path = os.path.join(out_dir, name)
+        with open(path, "w") as handle:
+            handle.write(svg_sizes_chart(
+                [r for r in size_rows if r["toolchain"] == toolchain],
+                subtitle))
+        print("wrote " + path)
     if compile_rows:
         path = os.path.join(out_dir, "compile_time.svg")
         with open(path, "w") as handle:

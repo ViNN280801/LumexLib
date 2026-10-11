@@ -67,3 +67,25 @@ cmake ... -DLUMEX_HAZARD_POINTER_BENCH_LIBCDS_DIR=<libcds checkout> -DLUMEX_HAZA
 One thread (ns per operation, median of 5): `make_destroy` 3.9, `protect_reset` 5.9 (the plain acquire load is 1.6, a `shared_mutex` read lock 14.8, `std::atomic_load` of a `shared_ptr` 24.7), a hand-over-hand step of the list 6.0 (plain 1.5), `new` + `retire` with the inline passes 45.2 against 8.9 for `new` + `delete`. The latency of one `retire ()` is 30 ns at the median, 51 ns at the 99th percentile and 11 microseconds at the 99.9th: the tail is the reclamation pass that the crossing `retire` runs inline (maximum 31 microseconds in the median run).
 
 Under contention the reader does not share any cache line with the others (each thread has its own slot), so the time per read stays flat while the baseline compare-exchange grows with the thread count: at 16 threads a read costs 0.03 of the baseline CAS, a `shared_mutex` read lock 4.1 and `std::atomic_load` of a `shared_ptr` 5.2. With one writer replacing the pointer at full speed the hazard pointer read is 0.08 of the baseline at 16 threads, `shared_mutex` 3.7 and `shared_ptr` 5.6 (at 2 threads the writer starves the `shared_mutex` readers: 42.7). The cost of the protocol over an unsafe load is the fence of the announcement: 5.9 ns against 1.6 ns on this machine; an asymmetric barrier (a later phase of the module) would take most of it away.
+
+## Compile time
+
+What it costs to include one way of reading a read-mostly pointer that another thread replaces, and to write the read, the replacement and the retirement out: `compile_time.cpp` is compiled with `-fsyntax-only -O0` (median of 7, CPU 3, under the build lock of the workstation) per compiler and variant by `run_benchmark.py --compile-time-only`, which writes `results/compile_time.csv` and calls `plot_results.py` for `results/hazard_pointer_compile_time.svg` and the table in `results/hazard_pointer_benchmark.md`. The `include` unit declares one object (a hazard pointer holder, a `std::shared_lock`, a `std::shared_ptr`); the `use` unit reads under protection, replaces and retires. The variants are the module at C++11 and C++17 (its reader side is header-only, the engine is a compiled library that a syntax-only run does not need), a `std::shared_mutex` read lock (C++17), `std::atomic_load` of a `std::shared_ptr` (C++11 and C++17), and a stub (an unprotected `std::atomic<T *>`), which is the cost of the headers every variant shares. The libcds and libc++-engine series of the run-time benchmark need sources that are not in this repository and are not in the compile-time table.
+
+```sh
+python benchmarks/hazard_pointer/run_benchmark.py --compile-time-only --cpu 3 --compile-repeats 7 \
+       --compiler "gcc=g++" --compiler "clang=clang++ -stdlib=libc++"
+```
+
+![Compile time](results/hazard_pointer_compile_time.svg)
+
+Wall time in milliseconds, `include` unit / `use` unit (the table is in [results/hazard_pointer_benchmark.md](results/hazard_pointer_benchmark.md), the raw medians in [results/compile_time.csv](results/compile_time.csv)):
+
+| | stub | LumexLib hazard_pointer | `std::shared_mutex` | `std::atomic_load` of `shared_ptr` |
+| --- | --- | --- | --- | --- |
+| GCC 13.2, C++11 | 82 / 83 | 152 / 153 | n/a | 84 / 85 |
+| GCC 13.2, C++17 | 93 / 91 | 183 / 182 | 118 / 118 | 93 / 95 |
+| Clang 23.1 (libc++), C++11 | 102 / 102 | 178 / 180 | n/a | 104 / 103 |
+| Clang 23.1 (libc++), C++17 | 116 / 117 | 204 / 205 | 126 / 124 | 116 / 118 |
+
+The module costs 70 ms (C++11) and 91 ms (C++17) over the stub with GCC and 76 ms and 88 ms with Clang in the `include` unit; a `std::shared_mutex` costs 26 ms (GCC) and 9 ms (Clang) and `std::atomic_load` of a `shared_ptr` 2 ms or less. The `use` unit costs the same as the `include` unit within 2 ms for every variant: the cost is in the headers, not in the instantiations of this unit. A measurement of this kind moves by 5 to 15 % from run to run on this machine.

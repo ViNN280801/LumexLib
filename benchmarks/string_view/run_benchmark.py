@@ -38,6 +38,8 @@ Standard library only.
 
 Usage:
     python run_benchmark.py --build-dir gcc=build-bench --cpu 3
+    python run_benchmark.py --merge gcc/string_view_benchmark.csv \\
+                            clang/string_view_benchmark.csv --out-dir results
     python run_benchmark.py --build-dir this=build-bench --quick
     python run_benchmark.py --compile-time-only \\
         --compiler "gcc=/opt/gcc-13.2.0/bin/g++" \\
@@ -362,6 +364,38 @@ def finish(args, csv_path, compile_path):
     subprocess.check_call(command)
 
 
+def merge_csvs(paths, out_path):
+    """Combines the CSV files of several runs (one per toolchain) into one."""
+    comments = []
+    rows = []
+    header = None
+    for path in paths:
+        with open(path, newline="") as handle:
+            lines = handle.readlines()
+        body = []
+        for line in lines:
+            if line.startswith("#"):
+                comments.append(line[1:].strip())
+            else:
+                body.append(line)
+        reader = csv.reader(body)
+        file_header = next(reader)
+        if header is None:
+            header = file_header
+        elif header != file_header:
+            die("%s has other columns than the first file" % path)
+        rows.extend(list(reader))
+    with open(out_path, "w", newline="") as handle:
+        seen = set()
+        for comment in comments:
+            if comment not in seen:
+                seen.add(comment)
+                handle.write("# %s\n" % comment)
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow(header)
+        writer.writerows(rows)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--build-dir", action="append", default=[],
@@ -387,6 +421,10 @@ def main():
                              "(default %s)" % DEFAULT_BOOST)
     parser.add_argument("--compile-repeats", type=int, default=5)
     parser.add_argument("--no-plot", action="store_true")
+    parser.add_argument("--merge", nargs="+", metavar="CSV", default=[],
+                        help="do not run anything: combine the CSV files of "
+                             "earlier runs (one per toolchain) into "
+                             "--out-dir/string_view_benchmark.csv and plot")
     parser.add_argument("--compile-time-only", action="store_true",
                         help="only measure the compile time (needs "
                              "--compiler) and plot with the existing "
@@ -395,6 +433,17 @@ def main():
 
     csv_path = os.path.join(args.out_dir, "string_view_benchmark.csv")
     compile_path = os.path.join(args.out_dir, "compile_time.csv")
+    if args.merge:
+        os.makedirs(args.out_dir, exist_ok=True)
+        merge_csvs(args.merge, csv_path)
+        log("wrote " + csv_path)
+        for name in ("string_view_traits.csv", "compile_time.csv"):
+            siblings = [os.path.join(os.path.dirname(os.path.abspath(path)),
+                                     name) for path in args.merge]
+            if all(os.path.exists(path) for path in siblings):
+                merge_csvs(siblings, os.path.join(args.out_dir, name))
+        finish(args, csv_path, compile_path)
+        return
     if args.compile_time_only:
         args.compile_time = True
         measure_compile_time(args, compile_path)

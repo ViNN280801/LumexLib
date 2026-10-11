@@ -347,11 +347,11 @@ def main():
         os.makedirs(args.out_dir, exist_ok=True)
         merge_csvs(args.merge, csv_path)
         log("wrote " + csv_path)
-        traits = [os.path.join(os.path.dirname(os.path.abspath(path)),
-                               "optional_traits.csv") for path in args.merge]
-        if all(os.path.exists(path) for path in traits):
-            merge_csvs(traits, os.path.join(args.out_dir,
-                                            "optional_traits.csv"))
+        for name in ("optional_traits.csv", "compile_time.csv"):
+            siblings = [os.path.join(os.path.dirname(os.path.abspath(path)),
+                                     name) for path in args.merge]
+            if all(os.path.exists(path) for path in siblings):
+                merge_csvs(siblings, os.path.join(args.out_dir, name))
         finish(args, csv_path, compile_path)
         return
     if args.compile_time_only:

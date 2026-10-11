@@ -7,6 +7,13 @@
 # variant gcc lumex_cxx14: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201402
 # variant gcc lumex_cxx11: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201103
 # variant gcc outcome_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant clang std_cxx23: compiler="Clang 23.1.0" library="libc++" cplusplus=202302
+# variant clang lumex_cxx23: compiler="Clang 23.1.0" library="libc++" cplusplus=202302
+# variant clang lumex_cxx20: compiler="Clang 23.1.0" library="libc++" cplusplus=202002
+# variant clang lumex_cxx17: compiler="Clang 23.1.0" library="libc++" cplusplus=201703
+# variant clang lumex_cxx14: compiler="Clang 23.1.0" library="libc++" cplusplus=201402
+# variant clang lumex_cxx11: compiler="Clang 23.1.0" library="libc++" cplusplus=201103
+# variant clang outcome_cxx17: compiler="Clang 23.1.0" library="libc++" cplusplus=201703
 toolchain,variant,scenario,group,description,median_ns,pass_min_ns,pass_max_ns,min_ns,max_ns,iterations,repetitions,checksum
 gcc,std_cxx23,construct_value_int,construct,"expected<int, unsigned> built from a value, then destroyed",0.5750,0.5664,0.5773,0.5325,0.6298,67108864,15,8
 gcc,std_cxx23,construct_error_int,construct,"expected<int, unsigned> built from an error, then destroyed",0.5732,0.5620,0.5857,0.5436,0.6260,67108864,15,16
@@ -261,3 +268,256 @@ gcc,outcome_cxx17,return_chain_int,return,"4 nested calls return expected<int, u
 gcc,outcome_cxx17,return_chain_str12,return,"4 nested calls return expected<string, unsigned> (12)",45.5478,45.0525,45.9533,41.9019,47.7372,524288,15,84
 gcc,outcome_cxx17,return_chain_str64,return,"4 nested calls return expected<string, unsigned> (64)",24.3117,24.0693,24.8134,22.7793,27.8770,1048576,15,448
 gcc,outcome_cxx17,return_chain_big,return,"4 nested calls return expected<array<int, 16>, unsigned>",17.0612,16.6859,17.1818,15.9731,17.6141,2097152,15,182
+clang,std_cxx23,construct_value_int,construct,"expected<int, unsigned> built from a value, then destroyed",0.6124,0.5428,0.6211,0.5087,0.6505,33554432,15,8
+clang,std_cxx23,construct_error_int,construct,"expected<int, unsigned> built from an error, then destroyed",0.5470,0.5315,0.6204,0.5104,0.6549,67108864,15,16
+clang,std_cxx23,construct_value_big,construct,"expected<array<int, 16>, unsigned> built from a value",1.2340,1.2168,1.2582,1.1652,1.4795,16777216,15,8
+clang,std_cxx23,construct_value_str12,construct,"expected<string, unsigned>, 12 characters (no allocation)",10.2433,10.2178,11.6571,9.8104,12.2190,2097152,15,8
+clang,std_cxx23,construct_value_str64,construct,"expected<string, unsigned>, 64 characters (allocation)",17.7354,17.5952,17.7520,16.8402,18.5656,2097152,15,8
+clang,std_cxx23,construct_error_str12,construct,"expected<int, string> from an error, 12 characters",10.4349,10.2090,11.7686,9.7967,12.6827,2097152,15,16
+clang,std_cxx23,copy_value_int,copy,"copy of an expected<int, unsigned> that holds a value",0.5279,0.5079,0.5599,0.4437,0.5860,67108864,15,8
+clang,std_cxx23,copy_error_int,copy,"copy of an expected<int, unsigned> that holds an error",0.5092,0.4736,0.5659,0.4371,0.6042,67108864,15,16
+clang,std_cxx23,copy_value_big,copy,"copy of an expected<array<int, 16>, unsigned> with a value",1.1178,1.1009,1.1216,1.0440,1.2186,33554432,15,8
+clang,std_cxx23,copy_value_str12,copy,"copy of an expected<string, unsigned>, 12 characters",0.9998,0.9751,1.0050,0.9380,1.1366,33554432,15,8
+clang,std_cxx23,copy_value_str64,copy,"copy of an expected<string, unsigned>, 64 characters",20.6068,20.3313,20.8522,18.7967,21.8243,1048576,15,8
+clang,std_cxx23,copy_error_str12,copy,"copy of an expected<int, string> with an error, 12 chars",1.1141,1.0860,1.1467,1.0240,1.2232,33554432,15,16
+clang,std_cxx23,move_value_int,move,"construct an expected<int, unsigned> and move it",0.5829,0.5483,0.6165,0.5114,0.6852,67108864,15,8
+clang,std_cxx23,move_value_str12,move,"construct an expected<string, unsigned> (12) and move it",10.2278,10.2139,10.4246,9.6894,11.0188,2097152,15,8
+clang,std_cxx23,move_value_str64,move,"construct an expected<string, unsigned> (64) and move it",18.4289,18.1067,18.5975,17.5758,19.5466,2097152,15,8
+clang,std_cxx23,move_error_str12,move,"construct an expected<int, string> (12) and move it",10.2318,10.1728,10.3343,9.5799,11.2089,2097152,15,16
+clang,std_cxx23,assign_same_int,assign,"copy assignment, value over value, expected<int, unsigned>",0.8160,0.8124,0.8221,0.7706,0.8587,33554432,15,8
+clang,std_cxx23,assign_same_str12,assign,"copy assignment, value over value, expected<string, unsigned>",2.2149,2.1837,2.2171,2.0597,2.4183,16777216,15,8
+clang,std_cxx23,assign_switch_int,assign,"copy assignment that changes the alternative, <int, unsigned>",0.7339,0.7296,0.7341,0.7015,0.8237,16777216,15,24
+clang,std_cxx23,assign_switch_str12,assign,"copy assignment that changes the alternative, <string, text_error_t>",2.0799,2.0688,2.0861,1.9278,2.5012,8388608,15,24
+clang,std_cxx23,value_int,access,"value () of an expected<int, unsigned> that holds a value",0.3807,0.3756,0.3853,0.3642,0.4210,65536,15,4190208
+clang,std_cxx23,deref_int,access,"operator* of an expected<int, unsigned> that holds a value",0.2565,0.2548,0.2587,0.2443,0.2834,131072,15,4190208
+clang,std_cxx23,error_int,access,"error () of an expected<int, unsigned> that holds an error",0.1239,0.1228,0.1249,0.1180,0.1423,262144,15,4190208
+clang,std_cxx23,value_str12,access,"value ().size () of an expected<string, unsigned>",0.6790,0.6760,0.6834,0.6472,0.7222,131072,15,24576
+clang,std_cxx23,has_value_ok,access,has_value () over values only (predictable branch),0.1831,0.1802,0.1845,0.1711,0.1997,131072,15,8192
+clang,std_cxx23,has_value_mixed,access,has_value () over 1/8 errors in a fixed random order,0.1840,0.1833,0.1862,0.1746,0.2103,131072,15,7168
+clang,std_cxx23,branch_mixed,access,"if (has_value ()) *x else x.error (), 1/8 errors",0.5593,0.5569,0.5679,0.5399,0.5939,65536,15,5234032
+clang,std_cxx23,value_or_mixed,access,"value_or (-1), 1/8 errors",0.3842,0.3794,0.3861,0.3667,0.3995,65536,15,3667272
+clang,std_cxx23,transform_int,monadic,"transform (v + 1) on <int, unsigned>, 1/8 errors",0.7529,0.7434,0.7609,0.6804,0.8920,32768,15,3676488
+clang,std_cxx23,and_then_int,monadic,"and_then (returns an expected) on <int, unsigned>, 1/8 errors",1.6303,1.6169,1.6479,1.5705,1.7884,16384,15,2947008
+clang,std_cxx23,or_else_int,monadic,"or_else (recovers the error) on <int, unsigned>, 1/8 errors",0.7436,0.7390,0.7464,0.6995,0.7908,32768,15,4712120
+clang,std_cxx23,chain_int,monadic,"transform, and_then, or_else in a row, <int, unsigned>",1.5537,1.5472,1.5710,1.4827,1.7005,16384,15,5456904
+clang,std_cxx23,transform_str12,monadic,"transform (s.size ()) on <string, unsigned>, const lvalue",1.5449,1.5376,1.5619,1.4683,1.9702,65536,15,21760
+clang,std_cxx23,return_chain_int,return,"4 nested calls return expected<int, unsigned> by value",5.8911,5.7713,5.9140,5.4860,6.5136,4194304,15,49
+clang,std_cxx23,return_chain_str12,return,"4 nested calls return expected<string, unsigned> (12)",16.9497,16.5510,17.9493,15.9261,18.6894,2097152,15,84
+clang,std_cxx23,return_chain_str64,return,"4 nested calls return expected<string, unsigned> (64)",23.5818,23.3878,23.9113,21.9364,25.4674,1048576,15,448
+clang,std_cxx23,return_chain_big,return,"4 nested calls return expected<array<int, 16>, unsigned>",28.7334,27.9223,37.2658,26.6075,38.0977,1048576,15,182
+clang,lumex_cxx23,construct_value_int,construct,"expected<int, unsigned> built from a value, then destroyed",0.5878,0.5840,0.5942,0.5589,0.6733,33554432,15,8
+clang,lumex_cxx23,construct_error_int,construct,"expected<int, unsigned> built from an error, then destroyed",0.4942,0.4932,0.4964,0.4611,0.5609,67108864,15,16
+clang,lumex_cxx23,construct_value_big,construct,"expected<array<int, 16>, unsigned> built from a value",1.2367,1.2208,1.2402,1.1172,1.3607,16777216,15,8
+clang,lumex_cxx23,construct_value_str12,construct,"expected<string, unsigned>, 12 characters (no allocation)",10.3679,10.2088,11.8007,9.5124,12.2119,2097152,15,8
+clang,lumex_cxx23,construct_value_str64,construct,"expected<string, unsigned>, 64 characters (allocation)",18.4002,18.3488,18.5147,17.6747,19.5580,2097152,15,8
+clang,lumex_cxx23,construct_error_str12,construct,"expected<int, string> from an error, 12 characters",10.2567,10.1085,11.7134,9.5445,12.5725,2097152,15,16
+clang,lumex_cxx23,copy_value_int,copy,"copy of an expected<int, unsigned> that holds a value",0.4434,0.4395,0.4470,0.4212,0.4844,67108864,15,8
+clang,lumex_cxx23,copy_error_int,copy,"copy of an expected<int, unsigned> that holds an error",0.4450,0.4409,0.4471,0.4270,0.4945,67108864,15,16
+clang,lumex_cxx23,copy_value_big,copy,"copy of an expected<array<int, 16>, unsigned> with a value",1.1003,1.0938,1.1136,1.0655,1.1554,33554432,15,8
+clang,lumex_cxx23,copy_value_str12,copy,"copy of an expected<string, unsigned>, 12 characters",1.0171,0.9922,1.0425,0.9520,1.1818,33554432,15,8
+clang,lumex_cxx23,copy_value_str64,copy,"copy of an expected<string, unsigned>, 64 characters",20.9954,20.8000,21.0703,19.7142,22.0716,1048576,15,8
+clang,lumex_cxx23,copy_error_str12,copy,"copy of an expected<int, string> with an error, 12 chars",0.9927,0.9875,1.0219,0.9598,1.1162,33554432,15,16
+clang,lumex_cxx23,move_value_int,move,"construct an expected<int, unsigned> and move it",0.5880,0.5813,0.5919,0.5671,0.6407,67108864,15,8
+clang,lumex_cxx23,move_value_str12,move,"construct an expected<string, unsigned> (12) and move it",10.1657,10.0945,10.2557,9.8011,10.9119,2097152,15,8
+clang,lumex_cxx23,move_value_str64,move,"construct an expected<string, unsigned> (64) and move it",17.1221,17.0720,17.3260,16.1299,18.7354,2097152,15,8
+clang,lumex_cxx23,move_error_str12,move,"construct an expected<int, string> (12) and move it",10.1331,10.0650,10.2676,9.4613,10.9748,2097152,15,16
+clang,lumex_cxx23,assign_same_int,assign,"copy assignment, value over value, expected<int, unsigned>",0.6673,0.6581,0.6812,0.6138,0.8184,33554432,15,8
+clang,lumex_cxx23,assign_same_str12,assign,"copy assignment, value over value, expected<string, unsigned>",2.0139,1.9820,2.0238,1.9500,2.1119,16777216,15,8
+clang,lumex_cxx23,assign_switch_int,assign,"copy assignment that changes the alternative, <int, unsigned>",0.3906,0.3897,0.3945,0.3709,0.4322,33554432,15,24
+clang,lumex_cxx23,assign_switch_str12,assign,"copy assignment that changes the alternative, <string, text_error_t>",2.0837,2.0514,2.1063,1.9669,2.3472,8388608,15,24
+clang,lumex_cxx23,value_int,access,"value () of an expected<int, unsigned> that holds a value",0.3790,0.3778,0.3828,0.3602,0.4105,65536,15,4190208
+clang,lumex_cxx23,deref_int,access,"operator* of an expected<int, unsigned> that holds a value",0.3782,0.3754,0.3871,0.3669,0.4205,65536,15,4190208
+clang,lumex_cxx23,error_int,access,"error () of an expected<int, unsigned> that holds an error",0.3812,0.3796,0.3851,0.3623,0.4186,65536,15,4190208
+clang,lumex_cxx23,value_str12,access,"value ().size () of an expected<string, unsigned>",0.6897,0.6810,0.7001,0.6578,0.7328,131072,15,24576
+clang,lumex_cxx23,has_value_ok,access,has_value () over values only (predictable branch),0.1854,0.1830,0.1861,0.1744,0.2037,131072,15,8192
+clang,lumex_cxx23,has_value_mixed,access,has_value () over 1/8 errors in a fixed random order,0.1831,0.1819,0.1876,0.1761,0.2042,131072,15,7168
+clang,lumex_cxx23,branch_mixed,access,"if (has_value ()) *x else x.error (), 1/8 errors",0.5669,0.5587,0.5696,0.5400,0.6376,65536,15,5234032
+clang,lumex_cxx23,value_or_mixed,access,"value_or (-1), 1/8 errors",0.3782,0.3736,0.3811,0.3514,0.4482,65536,15,3667272
+clang,lumex_cxx23,transform_int,monadic,"transform (v + 1) on <int, unsigned>, 1/8 errors",0.7825,0.7745,0.7864,0.7491,0.9715,32768,15,3676488
+clang,lumex_cxx23,and_then_int,monadic,"and_then (returns an expected) on <int, unsigned>, 1/8 errors",1.5557,1.5504,1.5837,1.4781,1.7632,16384,15,2947008
+clang,lumex_cxx23,or_else_int,monadic,"or_else (recovers the error) on <int, unsigned>, 1/8 errors",0.8486,0.8433,0.8633,0.7879,0.9868,32768,15,4712120
+clang,lumex_cxx23,chain_int,monadic,"transform, and_then, or_else in a row, <int, unsigned>",1.6949,1.6805,1.7438,1.6183,1.9142,16384,15,5456904
+clang,lumex_cxx23,transform_str12,monadic,"transform (s.size ()) on <string, unsigned>, const lvalue",1.8778,1.8624,1.8937,1.7802,1.9981,65536,15,21760
+clang,lumex_cxx23,return_chain_int,return,"4 nested calls return expected<int, unsigned> by value",5.4623,5.3503,5.5022,5.0531,5.8292,4194304,15,49
+clang,lumex_cxx23,return_chain_str12,return,"4 nested calls return expected<string, unsigned> (12)",17.2151,17.0314,17.3464,16.4894,18.3834,2097152,15,84
+clang,lumex_cxx23,return_chain_str64,return,"4 nested calls return expected<string, unsigned> (64)",23.1748,22.9941,23.3732,22.0742,25.5830,1048576,15,448
+clang,lumex_cxx23,return_chain_big,return,"4 nested calls return expected<array<int, 16>, unsigned>",28.5447,28.0548,36.9330,27.6198,37.6309,1048576,15,182
+clang,lumex_cxx20,construct_value_int,construct,"expected<int, unsigned> built from a value, then destroyed",0.5892,0.5811,0.5924,0.5624,0.6221,33554432,15,8
+clang,lumex_cxx20,construct_error_int,construct,"expected<int, unsigned> built from an error, then destroyed",0.4901,0.4879,0.4980,0.4609,0.5308,67108864,15,16
+clang,lumex_cxx20,construct_value_big,construct,"expected<array<int, 16>, unsigned> built from a value",1.2308,1.2203,1.2450,1.1534,1.4269,16777216,15,8
+clang,lumex_cxx20,construct_value_str12,construct,"expected<string, unsigned>, 12 characters (no allocation)",10.2311,10.1200,11.8058,9.7244,12.3552,2097152,15,8
+clang,lumex_cxx20,construct_value_str64,construct,"expected<string, unsigned>, 64 characters (allocation)",18.4751,17.9779,18.6435,17.5436,19.6838,2097152,15,8
+clang,lumex_cxx20,construct_error_str12,construct,"expected<int, string> from an error, 12 characters",10.2429,10.1599,11.6576,9.8340,12.1360,2097152,15,16
+clang,lumex_cxx20,copy_value_int,copy,"copy of an expected<int, unsigned> that holds a value",0.4452,0.4375,0.4495,0.4123,0.5133,67108864,15,8
+clang,lumex_cxx20,copy_error_int,copy,"copy of an expected<int, unsigned> that holds an error",0.4430,0.4402,0.4499,0.4246,0.4854,67108864,15,16
+clang,lumex_cxx20,copy_value_big,copy,"copy of an expected<array<int, 16>, unsigned> with a value",1.1106,1.1036,1.1151,1.0579,1.2266,33554432,15,8
+clang,lumex_cxx20,copy_value_str12,copy,"copy of an expected<string, unsigned>, 12 characters",1.0117,0.9995,1.0327,0.9600,1.1415,33554432,15,8
+clang,lumex_cxx20,copy_value_str64,copy,"copy of an expected<string, unsigned>, 64 characters",20.9686,20.7328,21.1173,19.7824,21.9893,1048576,15,8
+clang,lumex_cxx20,copy_error_str12,copy,"copy of an expected<int, string> with an error, 12 chars",0.9966,0.9870,1.0080,0.9464,1.0919,33554432,15,16
+clang,lumex_cxx20,move_value_int,move,"construct an expected<int, unsigned> and move it",0.5833,0.5812,0.5880,0.5621,0.6306,33554432,15,8
+clang,lumex_cxx20,move_value_str12,move,"construct an expected<string, unsigned> (12) and move it",10.1858,10.1576,10.2284,9.7625,10.6688,2097152,15,8
+clang,lumex_cxx20,move_value_str64,move,"construct an expected<string, unsigned> (64) and move it",17.0372,16.9216,17.3446,16.1687,19.3790,2097152,15,8
+clang,lumex_cxx20,move_error_str12,move,"construct an expected<int, string> (12) and move it",10.2889,10.1331,10.3043,9.7633,10.6827,2097152,15,16
+clang,lumex_cxx20,assign_same_int,assign,"copy assignment, value over value, expected<int, unsigned>",0.6647,0.6605,0.6777,0.6244,0.7525,33554432,15,8
+clang,lumex_cxx20,assign_same_str12,assign,"copy assignment, value over value, expected<string, unsigned>",2.0204,2.0052,2.0323,1.9105,2.1878,16777216,15,8
+clang,lumex_cxx20,assign_switch_int,assign,"copy assignment that changes the alternative, <int, unsigned>",0.3901,0.3894,0.3914,0.3729,0.4550,33554432,15,24
+clang,lumex_cxx20,assign_switch_str12,assign,"copy assignment that changes the alternative, <string, text_error_t>",2.0509,2.0443,2.0609,1.9642,2.6325,8388608,15,24
+clang,lumex_cxx20,value_int,access,"value () of an expected<int, unsigned> that holds a value",0.3785,0.3772,0.3814,0.3541,0.4073,65536,15,4190208
+clang,lumex_cxx20,deref_int,access,"operator* of an expected<int, unsigned> that holds a value",0.3787,0.3783,0.3863,0.3608,0.4214,65536,15,4190208
+clang,lumex_cxx20,error_int,access,"error () of an expected<int, unsigned> that holds an error",0.3781,0.3761,0.3803,0.3604,0.4050,65536,15,4190208
+clang,lumex_cxx20,value_str12,access,"value ().size () of an expected<string, unsigned>",0.6898,0.6844,0.7043,0.6584,0.7927,131072,15,24576
+clang,lumex_cxx20,has_value_ok,access,has_value () over values only (predictable branch),0.1843,0.1823,0.1855,0.1752,0.1995,131072,15,8192
+clang,lumex_cxx20,has_value_mixed,access,has_value () over 1/8 errors in a fixed random order,0.1834,0.1816,0.1852,0.1713,0.2016,131072,15,7168
+clang,lumex_cxx20,branch_mixed,access,"if (has_value ()) *x else x.error (), 1/8 errors",0.5661,0.5629,0.5712,0.5408,0.6258,65536,15,5234032
+clang,lumex_cxx20,value_or_mixed,access,"value_or (-1), 1/8 errors",0.3818,0.3753,0.3856,0.3622,0.4423,65536,15,3667272
+clang,lumex_cxx20,transform_int,monadic,"transform (v + 1) on <int, unsigned>, 1/8 errors",0.7779,0.7729,0.8019,0.7477,1.0038,32768,15,3676488
+clang,lumex_cxx20,and_then_int,monadic,"and_then (returns an expected) on <int, unsigned>, 1/8 errors",1.5630,1.5593,1.5670,1.4789,1.6708,16384,15,2947008
+clang,lumex_cxx20,or_else_int,monadic,"or_else (recovers the error) on <int, unsigned>, 1/8 errors",0.8448,0.8387,0.8541,0.7908,0.9788,32768,15,4712120
+clang,lumex_cxx20,chain_int,monadic,"transform, and_then, or_else in a row, <int, unsigned>",1.7014,1.6920,1.7409,1.5835,2.0281,16384,15,5456904
+clang,lumex_cxx20,transform_str12,monadic,"transform (s.size ()) on <string, unsigned>, const lvalue",1.8672,1.8561,1.8906,1.7825,1.9970,65536,15,21760
+clang,lumex_cxx20,return_chain_int,return,"4 nested calls return expected<int, unsigned> by value",5.3226,5.2704,5.4817,4.7938,5.8845,4194304,15,49
+clang,lumex_cxx20,return_chain_str12,return,"4 nested calls return expected<string, unsigned> (12)",17.2672,17.0360,17.8587,16.3974,18.3205,2097152,15,84
+clang,lumex_cxx20,return_chain_str64,return,"4 nested calls return expected<string, unsigned> (64)",23.2928,23.0358,23.7350,21.6596,24.6738,1048576,15,448
+clang,lumex_cxx20,return_chain_big,return,"4 nested calls return expected<array<int, 16>, unsigned>",28.4510,27.7939,30.8922,26.9753,31.7062,1048576,15,182
+clang,lumex_cxx17,construct_value_int,construct,"expected<int, unsigned> built from a value, then destroyed",0.5975,0.5840,0.5987,0.5595,0.6452,67108864,15,8
+clang,lumex_cxx17,construct_error_int,construct,"expected<int, unsigned> built from an error, then destroyed",0.4976,0.4935,0.5046,0.4672,0.5502,67108864,15,16
+clang,lumex_cxx17,construct_value_big,construct,"expected<array<int, 16>, unsigned> built from a value",1.2291,1.2225,1.2632,1.1369,1.4639,16777216,15,8
+clang,lumex_cxx17,construct_value_str12,construct,"expected<string, unsigned>, 12 characters (no allocation)",10.1520,10.0282,11.6903,9.6851,12.0639,2097152,15,8
+clang,lumex_cxx17,construct_value_str64,construct,"expected<string, unsigned>, 64 characters (allocation)",17.1868,17.0888,17.3575,16.6569,18.8545,2097152,15,8
+clang,lumex_cxx17,construct_error_str12,construct,"expected<int, string> from an error, 12 characters",10.4032,10.1749,11.5886,9.5722,12.2050,2097152,15,16
+clang,lumex_cxx17,copy_value_int,copy,"copy of an expected<int, unsigned> that holds a value",0.4916,0.4588,0.5544,0.4394,0.5784,67108864,15,8
+clang,lumex_cxx17,copy_error_int,copy,"copy of an expected<int, unsigned> that holds an error",0.4818,0.4537,0.4915,0.4319,0.5720,67108864,15,16
+clang,lumex_cxx17,copy_value_big,copy,"copy of an expected<array<int, 16>, unsigned> with a value",1.1068,1.1019,1.1187,1.0470,1.1943,33554432,15,8
+clang,lumex_cxx17,copy_value_str12,copy,"copy of an expected<string, unsigned>, 12 characters",1.0230,1.0192,1.0290,0.9751,1.1088,33554432,15,8
+clang,lumex_cxx17,copy_value_str64,copy,"copy of an expected<string, unsigned>, 64 characters",20.3028,20.1814,20.3260,19.2275,21.8271,1048576,15,8
+clang,lumex_cxx17,copy_error_str12,copy,"copy of an expected<int, string> with an error, 12 chars",0.9986,0.9943,1.0233,0.9380,1.1483,33554432,15,16
+clang,lumex_cxx17,move_value_int,move,"construct an expected<int, unsigned> and move it",0.5871,0.5809,0.5919,0.5630,0.6596,67108864,15,8
+clang,lumex_cxx17,move_value_str12,move,"construct an expected<string, unsigned> (12) and move it",10.2189,10.1276,10.2918,9.5910,11.1132,2097152,15,8
+clang,lumex_cxx17,move_value_str64,move,"construct an expected<string, unsigned> (64) and move it",17.9173,17.4730,18.0725,16.8274,18.5490,2097152,15,8
+clang,lumex_cxx17,move_error_str12,move,"construct an expected<int, string> (12) and move it",10.1558,10.1109,10.2478,9.7102,10.8820,2097152,15,16
+clang,lumex_cxx17,assign_same_int,assign,"copy assignment, value over value, expected<int, unsigned>",0.6698,0.6584,0.6776,0.6169,0.7339,33554432,15,8
+clang,lumex_cxx17,assign_same_str12,assign,"copy assignment, value over value, expected<string, unsigned>",1.8357,1.8267,1.8614,1.7825,2.1703,16777216,15,8
+clang,lumex_cxx17,assign_switch_int,assign,"copy assignment that changes the alternative, <int, unsigned>",0.3915,0.3864,0.3941,0.3692,0.4149,33554432,15,24
+clang,lumex_cxx17,assign_switch_str12,assign,"copy assignment that changes the alternative, <string, text_error_t>",2.0343,2.0222,2.0643,1.9503,2.1784,8388608,15,24
+clang,lumex_cxx17,value_int,access,"value () of an expected<int, unsigned> that holds a value",0.3794,0.3738,0.3888,0.3667,0.4086,65536,15,4190208
+clang,lumex_cxx17,deref_int,access,"operator* of an expected<int, unsigned> that holds a value",0.3799,0.3718,0.3862,0.3663,0.4453,65536,15,4190208
+clang,lumex_cxx17,error_int,access,"error () of an expected<int, unsigned> that holds an error",0.3770,0.3742,0.3830,0.3532,0.4225,65536,15,4190208
+clang,lumex_cxx17,value_str12,access,"value ().size () of an expected<string, unsigned>",0.6883,0.6811,0.7016,0.6486,0.7601,131072,15,24576
+clang,lumex_cxx17,has_value_ok,access,has_value () over values only (predictable branch),0.1824,0.1814,0.1880,0.1754,0.2061,131072,15,8192
+clang,lumex_cxx17,has_value_mixed,access,has_value () over 1/8 errors in a fixed random order,0.1835,0.1819,0.1845,0.1744,0.2056,131072,15,7168
+clang,lumex_cxx17,branch_mixed,access,"if (has_value ()) *x else x.error (), 1/8 errors",0.5656,0.5640,0.5671,0.5338,0.6020,65536,15,5234032
+clang,lumex_cxx17,value_or_mixed,access,"value_or (-1), 1/8 errors",0.3826,0.3801,0.3828,0.3615,0.4070,65536,15,3667272
+clang,lumex_cxx17,transform_int,monadic,"transform (v + 1) on <int, unsigned>, 1/8 errors",0.7717,0.7669,0.7772,0.7396,0.8305,32768,15,3676488
+clang,lumex_cxx17,and_then_int,monadic,"and_then (returns an expected) on <int, unsigned>, 1/8 errors",1.5535,1.5361,1.5647,1.4962,1.7720,16384,15,2947008
+clang,lumex_cxx17,or_else_int,monadic,"or_else (recovers the error) on <int, unsigned>, 1/8 errors",0.8400,0.8357,0.8599,0.8031,0.9149,32768,15,4712120
+clang,lumex_cxx17,chain_int,monadic,"transform, and_then, or_else in a row, <int, unsigned>",1.7013,1.6805,1.7227,1.6203,1.8093,16384,15,5456904
+clang,lumex_cxx17,transform_str12,monadic,"transform (s.size ()) on <string, unsigned>, const lvalue",1.8243,1.7937,1.8489,1.7080,2.0810,65536,15,21760
+clang,lumex_cxx17,return_chain_int,return,"4 nested calls return expected<int, unsigned> by value",4.9189,4.8990,4.9551,4.4561,5.2190,4194304,15,49
+clang,lumex_cxx17,return_chain_str12,return,"4 nested calls return expected<string, unsigned> (12)",16.7961,16.5039,17.9387,15.9842,18.8225,2097152,15,84
+clang,lumex_cxx17,return_chain_str64,return,"4 nested calls return expected<string, unsigned> (64)",23.1997,23.1278,23.9158,21.9653,27.3081,1048576,15,448
+clang,lumex_cxx17,return_chain_big,return,"4 nested calls return expected<array<int, 16>, unsigned>",28.7310,27.7342,31.0906,26.8982,32.2874,1048576,15,182
+clang,lumex_cxx14,construct_value_int,construct,"expected<int, unsigned> built from a value, then destroyed",0.5884,0.5827,0.5896,0.5561,0.6314,67108864,15,8
+clang,lumex_cxx14,construct_error_int,construct,"expected<int, unsigned> built from an error, then destroyed",0.4915,0.4884,0.4930,0.4712,0.6474,67108864,15,16
+clang,lumex_cxx14,construct_value_big,construct,"expected<array<int, 16>, unsigned> built from a value",1.2296,1.2172,1.2458,1.1416,1.5814,16777216,15,8
+clang,lumex_cxx14,construct_value_str12,construct,"expected<string, unsigned>, 12 characters (no allocation)",10.1770,10.0924,11.6519,9.7427,12.3446,2097152,15,8
+clang,lumex_cxx14,construct_value_str64,construct,"expected<string, unsigned>, 64 characters (allocation)",17.3345,17.1984,17.4287,16.5503,18.2255,2097152,15,8
+clang,lumex_cxx14,construct_error_str12,construct,"expected<int, string> from an error, 12 characters",10.2990,10.1746,11.7269,9.2331,12.2629,2097152,15,16
+clang,lumex_cxx14,copy_value_int,copy,"copy of an expected<int, unsigned> that holds a value",0.5075,0.4710,0.5555,0.4409,0.5875,67108864,15,8
+clang,lumex_cxx14,copy_error_int,copy,"copy of an expected<int, unsigned> that holds an error",0.5251,0.4735,0.5476,0.4422,0.6541,67108864,15,16
+clang,lumex_cxx14,copy_value_big,copy,"copy of an expected<array<int, 16>, unsigned> with a value",1.0996,1.0964,1.1171,1.0552,1.1761,33554432,15,8
+clang,lumex_cxx14,copy_value_str12,copy,"copy of an expected<string, unsigned>, 12 characters",1.0119,1.0094,1.0249,0.9814,1.1461,33554432,15,8
+clang,lumex_cxx14,copy_value_str64,copy,"copy of an expected<string, unsigned>, 64 characters",20.5746,20.4142,21.0248,18.9844,22.5169,1048576,15,8
+clang,lumex_cxx14,copy_error_str12,copy,"copy of an expected<int, string> with an error, 12 chars",0.9980,0.9899,1.0049,0.9703,1.0508,33554432,15,16
+clang,lumex_cxx14,move_value_int,move,"construct an expected<int, unsigned> and move it",0.5874,0.5861,0.5952,0.5631,0.6536,67108864,15,8
+clang,lumex_cxx14,move_value_str12,move,"construct an expected<string, unsigned> (12) and move it",10.1434,10.0589,10.2126,9.4824,11.0642,2097152,15,8
+clang,lumex_cxx14,move_value_str64,move,"construct an expected<string, unsigned> (64) and move it",17.6203,17.4170,18.0877,16.9821,18.4871,2097152,15,8
+clang,lumex_cxx14,move_error_str12,move,"construct an expected<int, string> (12) and move it",10.2401,10.1007,10.3831,9.6916,10.8208,2097152,15,16
+clang,lumex_cxx14,assign_same_int,assign,"copy assignment, value over value, expected<int, unsigned>",0.6648,0.6578,0.6797,0.6204,0.7277,33554432,15,8
+clang,lumex_cxx14,assign_same_str12,assign,"copy assignment, value over value, expected<string, unsigned>",1.8527,1.8221,1.8882,1.7691,2.1093,16777216,15,8
+clang,lumex_cxx14,assign_switch_int,assign,"copy assignment that changes the alternative, <int, unsigned>",0.3945,0.3863,0.3977,0.3635,0.4309,33554432,15,24
+clang,lumex_cxx14,assign_switch_str12,assign,"copy assignment that changes the alternative, <string, text_error_t>",2.0597,2.0101,2.0828,1.9576,2.3085,8388608,15,24
+clang,lumex_cxx14,value_int,access,"value () of an expected<int, unsigned> that holds a value",0.3784,0.3726,0.3800,0.3514,0.4031,65536,15,4190208
+clang,lumex_cxx14,deref_int,access,"operator* of an expected<int, unsigned> that holds a value",0.3789,0.3732,0.3929,0.3615,0.4517,65536,15,4190208
+clang,lumex_cxx14,error_int,access,"error () of an expected<int, unsigned> that holds an error",0.3787,0.3776,0.3850,0.3650,0.4150,65536,15,4190208
+clang,lumex_cxx14,value_str12,access,"value ().size () of an expected<string, unsigned>",0.6900,0.6842,0.6989,0.6477,0.7481,131072,15,24576
+clang,lumex_cxx14,has_value_ok,access,has_value () over values only (predictable branch),0.1833,0.1812,0.1848,0.1725,0.1981,131072,15,8192
+clang,lumex_cxx14,has_value_mixed,access,has_value () over 1/8 errors in a fixed random order,0.1834,0.1823,0.1858,0.1763,0.2028,131072,15,7168
+clang,lumex_cxx14,branch_mixed,access,"if (has_value ()) *x else x.error (), 1/8 errors",0.5595,0.5552,0.5628,0.5364,0.5957,65536,15,5234032
+clang,lumex_cxx14,value_or_mixed,access,"value_or (-1), 1/8 errors",0.3814,0.3760,0.3836,0.3618,0.4230,65536,15,3667272
+clang,lumex_cxx14,transform_int,monadic,"transform (v + 1) on <int, unsigned>, 1/8 errors",0.7761,0.7674,0.7789,0.7437,0.9085,32768,15,3676488
+clang,lumex_cxx14,and_then_int,monadic,"and_then (returns an expected) on <int, unsigned>, 1/8 errors",1.5649,1.5317,1.5723,1.4717,1.6659,16384,15,2947008
+clang,lumex_cxx14,or_else_int,monadic,"or_else (recovers the error) on <int, unsigned>, 1/8 errors",0.8419,0.8390,0.8503,0.7967,0.8859,32768,15,4712120
+clang,lumex_cxx14,chain_int,monadic,"transform, and_then, or_else in a row, <int, unsigned>",1.7183,1.6970,1.7333,1.6312,1.8422,16384,15,5456904
+clang,lumex_cxx14,transform_str12,monadic,"transform (s.size ()) on <string, unsigned>, const lvalue",1.7863,1.7454,1.7914,1.6750,1.9814,65536,15,21760
+clang,lumex_cxx14,return_chain_int,return,"4 nested calls return expected<int, unsigned> by value",4.9116,4.7923,4.9348,4.4501,5.2071,4194304,15,49
+clang,lumex_cxx14,return_chain_str12,return,"4 nested calls return expected<string, unsigned> (12)",16.8947,16.5897,17.6787,16.0646,18.5319,2097152,15,84
+clang,lumex_cxx14,return_chain_str64,return,"4 nested calls return expected<string, unsigned> (64)",23.3843,23.1949,23.6076,22.2923,27.0772,1048576,15,448
+clang,lumex_cxx14,return_chain_big,return,"4 nested calls return expected<array<int, 16>, unsigned>",28.1722,27.7366,31.0711,26.9531,31.6154,1048576,15,182
+clang,lumex_cxx11,construct_value_int,construct,"expected<int, unsigned> built from a value, then destroyed",0.5897,0.5807,0.5926,0.5581,0.6444,67108864,15,8
+clang,lumex_cxx11,construct_error_int,construct,"expected<int, unsigned> built from an error, then destroyed",0.4916,0.4897,0.4979,0.4613,0.5648,67108864,15,16
+clang,lumex_cxx11,construct_value_big,construct,"expected<array<int, 16>, unsigned> built from a value",1.2284,1.2216,1.2474,1.1426,1.5293,16777216,15,8
+clang,lumex_cxx11,construct_value_str12,construct,"expected<string, unsigned>, 12 characters (no allocation)",10.1330,10.0359,11.5703,9.4778,12.0841,2097152,15,8
+clang,lumex_cxx11,construct_value_str64,construct,"expected<string, unsigned>, 64 characters (allocation)",17.2501,17.1710,17.6747,16.5748,18.1770,2097152,15,8
+clang,lumex_cxx11,construct_error_str12,construct,"expected<int, string> from an error, 12 characters",10.2592,10.2366,11.7603,9.5297,12.0838,2097152,15,16
+clang,lumex_cxx11,copy_value_int,copy,"copy of an expected<int, unsigned> that holds a value",0.4656,0.4514,0.5702,0.4266,0.6077,67108864,15,8
+clang,lumex_cxx11,copy_error_int,copy,"copy of an expected<int, unsigned> that holds an error",0.5519,0.5438,0.5744,0.4926,0.5939,67108864,15,16
+clang,lumex_cxx11,copy_value_big,copy,"copy of an expected<array<int, 16>, unsigned> with a value",1.1011,1.0917,1.1093,1.0517,1.1732,16777216,15,8
+clang,lumex_cxx11,copy_value_str12,copy,"copy of an expected<string, unsigned>, 12 characters",1.0231,1.0084,1.0394,0.9839,1.1690,33554432,15,8
+clang,lumex_cxx11,copy_value_str64,copy,"copy of an expected<string, unsigned>, 64 characters",19.7711,19.6563,20.0324,18.5561,21.1088,1048576,15,8
+clang,lumex_cxx11,copy_error_str12,copy,"copy of an expected<int, string> with an error, 12 chars",1.0335,1.0189,1.0447,0.9656,1.1778,33554432,15,16
+clang,lumex_cxx11,move_value_int,move,"construct an expected<int, unsigned> and move it",0.5909,0.5869,0.5941,0.5684,0.6831,67108864,15,8
+clang,lumex_cxx11,move_value_str12,move,"construct an expected<string, unsigned> (12) and move it",10.5064,8.6560,10.5816,8.4998,11.3361,4194304,15,8
+clang,lumex_cxx11,move_value_str64,move,"construct an expected<string, unsigned> (64) and move it",17.5207,17.4478,17.6069,16.5257,18.7073,2097152,15,8
+clang,lumex_cxx11,move_error_str12,move,"construct an expected<int, string> (12) and move it",10.5523,8.6956,10.5828,8.4146,11.4298,4194304,15,16
+clang,lumex_cxx11,assign_same_int,assign,"copy assignment, value over value, expected<int, unsigned>",0.6667,0.6636,0.6919,0.6440,0.7668,33554432,15,8
+clang,lumex_cxx11,assign_same_str12,assign,"copy assignment, value over value, expected<string, unsigned>",1.8375,1.8219,1.8518,1.7469,1.9308,16777216,15,8
+clang,lumex_cxx11,assign_switch_int,assign,"copy assignment that changes the alternative, <int, unsigned>",0.3922,0.3873,0.3948,0.3728,0.4598,33554432,15,24
+clang,lumex_cxx11,assign_switch_str12,assign,"copy assignment that changes the alternative, <string, text_error_t>",2.0356,2.0184,2.0557,1.9478,2.1376,8388608,15,24
+clang,lumex_cxx11,value_int,access,"value () of an expected<int, unsigned> that holds a value",0.3799,0.3737,0.3817,0.3577,0.4047,65536,15,4190208
+clang,lumex_cxx11,deref_int,access,"operator* of an expected<int, unsigned> that holds a value",0.3777,0.3742,0.3875,0.3533,0.4393,65536,15,4190208
+clang,lumex_cxx11,error_int,access,"error () of an expected<int, unsigned> that holds an error",0.3790,0.3722,0.3806,0.3586,0.4097,65536,15,4190208
+clang,lumex_cxx11,value_str12,access,"value ().size () of an expected<string, unsigned>",0.6938,0.6880,0.7067,0.6605,0.7608,131072,15,24576
+clang,lumex_cxx11,has_value_ok,access,has_value () over values only (predictable branch),0.1828,0.1814,0.1858,0.1734,0.1928,131072,15,8192
+clang,lumex_cxx11,has_value_mixed,access,has_value () over 1/8 errors in a fixed random order,0.1832,0.1825,0.1850,0.1728,0.1942,131072,15,7168
+clang,lumex_cxx11,branch_mixed,access,"if (has_value ()) *x else x.error (), 1/8 errors",0.5633,0.5606,0.5684,0.5356,0.6462,65536,15,5234032
+clang,lumex_cxx11,value_or_mixed,access,"value_or (-1), 1/8 errors",0.3801,0.3730,0.3829,0.3611,0.4138,65536,15,3667272
+clang,lumex_cxx11,transform_int,monadic,"transform (v + 1) on <int, unsigned>, 1/8 errors",0.7799,0.7744,0.7923,0.7428,1.0971,32768,15,3676488
+clang,lumex_cxx11,and_then_int,monadic,"and_then (returns an expected) on <int, unsigned>, 1/8 errors",1.5646,1.5433,1.5677,1.4520,1.9406,16384,15,2947008
+clang,lumex_cxx11,or_else_int,monadic,"or_else (recovers the error) on <int, unsigned>, 1/8 errors",0.8427,0.8390,0.8464,0.7788,0.9306,32768,15,4712120
+clang,lumex_cxx11,chain_int,monadic,"transform, and_then, or_else in a row, <int, unsigned>",1.6934,1.6791,1.7402,1.6220,1.9931,16384,15,5456904
+clang,lumex_cxx11,transform_str12,monadic,"transform (s.size ()) on <string, unsigned>, const lvalue",1.5462,1.5300,1.5596,1.4423,1.7046,65536,15,21760
+clang,lumex_cxx11,return_chain_int,return,"4 nested calls return expected<int, unsigned> by value",7.1443,7.0532,7.2180,6.4520,7.5913,4194304,15,49
+clang,lumex_cxx11,return_chain_str12,return,"4 nested calls return expected<string, unsigned> (12)",45.6409,45.1450,46.0692,43.7089,48.0447,524288,15,84
+clang,lumex_cxx11,return_chain_str64,return,"4 nested calls return expected<string, unsigned> (64)",56.1461,55.8642,56.9795,53.7184,58.7464,524288,15,448
+clang,lumex_cxx11,return_chain_big,return,"4 nested calls return expected<array<int, 16>, unsigned>",28.0332,27.7739,30.6466,26.7215,32.0707,1048576,15,182
+clang,outcome_cxx17,construct_value_int,construct,"expected<int, unsigned> built from a value, then destroyed",0.6986,0.6931,0.7065,0.6619,0.7527,33554432,15,8
+clang,outcome_cxx17,construct_error_int,construct,"expected<int, unsigned> built from an error, then destroyed",0.8651,0.8480,0.8673,0.7928,0.9312,33554432,15,16
+clang,outcome_cxx17,construct_value_big,construct,"expected<array<int, 16>, unsigned> built from a value",1.3507,1.3350,1.3550,1.2468,1.5517,16777216,15,8
+clang,outcome_cxx17,construct_value_str12,construct,"expected<string, unsigned>, 12 characters (no allocation)",10.2231,10.1490,11.7020,9.7353,12.1569,2097152,15,8
+clang,outcome_cxx17,construct_value_str64,construct,"expected<string, unsigned>, 64 characters (allocation)",17.7095,17.4128,18.0025,16.7528,18.5001,2097152,15,8
+clang,outcome_cxx17,construct_error_str12,construct,"expected<int, string> from an error, 12 characters",10.1155,10.0727,10.1620,9.5606,10.7112,2097152,15,16
+clang,outcome_cxx17,copy_value_int,copy,"copy of an expected<int, unsigned> that holds a value",0.4875,0.4823,0.4898,0.4676,0.5272,67108864,15,8
+clang,outcome_cxx17,copy_error_int,copy,"copy of an expected<int, unsigned> that holds an error",0.4897,0.4808,0.4916,0.4670,0.5794,67108864,15,16
+clang,outcome_cxx17,copy_value_big,copy,"copy of an expected<array<int, 16>, unsigned> with a value",1.1011,1.0937,1.1239,1.0514,1.1849,33554432,15,8
+clang,outcome_cxx17,copy_value_str12,copy,"copy of an expected<string, unsigned>, 12 characters",1.2705,1.2482,1.2742,1.1644,1.4130,16777216,15,8
+clang,outcome_cxx17,copy_value_str64,copy,"copy of an expected<string, unsigned>, 64 characters",20.1693,19.8112,20.3745,18.7169,22.3632,1048576,15,8
+clang,outcome_cxx17,copy_error_str12,copy,"copy of an expected<int, string> with an error, 12 chars",1.3602,1.3541,1.3739,1.2708,1.5461,16777216,15,16
+clang,outcome_cxx17,move_value_int,move,"construct an expected<int, unsigned> and move it",0.7051,0.6891,0.7262,0.6612,0.8088,33554432,15,8
+clang,outcome_cxx17,move_value_str12,move,"construct an expected<string, unsigned> (12) and move it",10.2050,10.1074,10.4782,9.7750,11.0963,2097152,15,8
+clang,outcome_cxx17,move_value_str64,move,"construct an expected<string, unsigned> (64) and move it",17.6880,17.1539,17.7524,16.5380,19.0321,2097152,15,8
+clang,outcome_cxx17,move_error_str12,move,"construct an expected<int, string> (12) and move it",10.1189,10.0821,10.3039,9.5267,11.4344,2097152,15,16
+clang,outcome_cxx17,assign_same_int,assign,"copy assignment, value over value, expected<int, unsigned>",0.7362,0.7321,0.7417,0.6759,0.9358,33554432,15,8
+clang,outcome_cxx17,assign_same_str12,assign,"copy assignment, value over value, expected<string, unsigned>",2.9325,2.8987,2.9697,2.8161,3.1267,8388608,15,8
+clang,outcome_cxx17,assign_switch_int,assign,"copy assignment that changes the alternative, <int, unsigned>",0.4113,0.4075,0.4164,0.3934,0.4695,33554432,15,24
+clang,outcome_cxx17,assign_switch_str12,assign,"copy assignment that changes the alternative, <string, text_error_t>",2.4662,2.4113,2.4945,2.3170,2.6943,8388608,15,24
+clang,outcome_cxx17,value_int,access,"value () of an expected<int, unsigned> that holds a value",0.3811,0.3782,0.3849,0.3599,0.4134,65536,15,4190208
+clang,outcome_cxx17,deref_int,access,"operator* of an expected<int, unsigned> that holds a value",0.2573,0.2511,0.2579,0.2465,0.2778,131072,15,4190208
+clang,outcome_cxx17,error_int,access,"error () of an expected<int, unsigned> that holds an error",0.4912,0.4863,0.4971,0.4651,0.5768,65536,15,4190208
+clang,outcome_cxx17,value_str12,access,"value ().size () of an expected<string, unsigned>",0.6895,0.6783,0.6926,0.6551,0.7773,131072,15,24576
+clang,outcome_cxx17,has_value_ok,access,has_value () over values only (predictable branch),0.4153,0.4132,0.4193,0.3979,0.4351,65536,15,8192
+clang,outcome_cxx17,has_value_mixed,access,has_value () over 1/8 errors in a fixed random order,0.4159,0.4105,0.4211,0.3954,0.4414,65536,15,7168
+clang,outcome_cxx17,branch_mixed,access,"if (has_value ()) *x else x.error (), 1/8 errors",0.7124,0.7014,0.7160,0.6791,0.7636,32768,15,5234032
+clang,outcome_cxx17,return_chain_int,return,"4 nested calls return expected<int, unsigned> by value",6.0509,5.7889,6.1424,5.5024,6.4659,4194304,15,49
+clang,outcome_cxx17,return_chain_str12,return,"4 nested calls return expected<string, unsigned> (12)",20.3659,20.1395,20.5506,19.2944,21.5726,1048576,15,84
+clang,outcome_cxx17,return_chain_str64,return,"4 nested calls return expected<string, unsigned> (64)",23.5918,23.3881,23.8269,22.7628,25.1169,1048576,15,448
+clang,outcome_cxx17,return_chain_big,return,"4 nested calls return expected<array<int, 16>, unsigned>",29.6489,29.4998,37.4320,28.5620,38.1108,1048576,15,182

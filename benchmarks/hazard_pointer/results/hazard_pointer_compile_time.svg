@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 843" width="940" height="843" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>Compile time of one translation unit (-fsyntax-only -O0), ms</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">Compile time of one translation unit (-fsyntax-only -O0), ms</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">gcc: g++ (GCC) 13.2.0; clang: clang version 23.1.0</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">median of the repeats; the stub is an unprotected std::atomic&lt;T *&gt;: the cost of the shared headers</text>
+<line x1="20.0" y1="91.0" x2="44.0" y2="91.0" stroke="#707070" stroke-width="2.5"/>
+<circle cx="32.0" cy="91.0" r="3.5" fill="#707070"/>
+<text x="50.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">stub C++11</text>
+<line x1="138.0" y1="91.0" x2="162.0" y2="91.0" stroke="#B0B0B0" stroke-width="2.5"/>
+<circle cx="150.0" cy="91.0" r="3.5" fill="#B0B0B0"/>
+<text x="168.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">stub C++17</text>
+<line x1="256.0" y1="91.0" x2="280.0" y2="91.0" stroke="#005A8C" stroke-width="2.5"/>
+<circle cx="268.0" cy="91.0" r="3.5" fill="#005A8C"/>
+<text x="286.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib hazard_pointer, C++11</text>
+<line x1="506.0" y1="91.0" x2="530.0" y2="91.0" stroke="#56B4E9" stroke-width="2.5"/>
+<circle cx="518.0" cy="91.0" r="3.5" fill="#56B4E9"/>
+<text x="536.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib hazard_pointer, C++17</text>
+<line x1="20.0" y1="113.0" x2="44.0" y2="113.0" stroke="#D55E00" stroke-width="2.5"/>
+<circle cx="32.0" cy="113.0" r="3.5" fill="#D55E00"/>
+<text x="50.0" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::shared_mutex, C++17</text>
+<line x1="230.4" y1="113.0" x2="254.4" y2="113.0" stroke="#B27300" stroke-width="2.5"/>
+<circle cx="242.4" cy="113.0" r="3.5" fill="#B27300"/>
+<text x="260.4" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::atomic_load of shared_ptr, C++11</text>
+<line x1="526.6" y1="113.0" x2="550.6" y2="113.0" stroke="#E69F00" stroke-width="2.5"/>
+<circle cx="538.6" cy="113.0" r="3.5" fill="#E69F00"/>
+<text x="556.6" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::atomic_load of shared_ptr, C++17</text>
+<rect x="20" y="145.0" width="900" height="160.0" fill="#f7fafc"/>
+<text x="24.0" y="229.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">gcc: include</text>
+<text x="24.0" y="389.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">gcc: use</text>
+<rect x="20" y="465.0" width="900" height="160.0" fill="#f7fafc"/>
+<text x="24.0" y="549.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">clang: include</text>
+<text x="24.0" y="709.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">clang: use</text>
+<line x1="210.0" y1="145" x2="210.0" y2="785.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="210.0" y="803.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">0</text>
+<line x1="322.0" y1="145" x2="322.0" y2="785.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="322.0" y="803.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">50</text>
+<line x1="434.0" y1="145" x2="434.0" y2="785.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="434.0" y="803.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">100</text>
+<line x1="546.0" y1="145" x2="546.0" y2="785.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="546.0" y="803.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">150</text>
+<line x1="658.0" y1="145" x2="658.0" y2="785.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="658.0" y="803.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">200</text>
+<line x1="770.0" y1="145" x2="770.0" y2="785.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="770.0" y="803.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">250</text>
+<line x1="210.0" y1="145" x2="210.0" y2="785.0" stroke="#a0aec0" stroke-width="1"/>
+<text x="490.0" y="825.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#2d3748">milliseconds per translation unit (lower is faster)</text>
+<rect x="210.0" y="157.0" width="183.9" height="16" rx="2" fill="#707070"><title>stub C++11: 82 ms</title></rect>
+<path d="M393.9 165.0H393.9M393.9 161.0V169.0M393.9 161.0V169.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="399.9" y="169.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">82 ms</text>
+<rect x="210.0" y="177.0" width="207.4" height="16" rx="2" fill="#B0B0B0"><title>stub C++17: 93 ms</title></rect>
+<path d="M417.4 185.0H417.4M417.4 181.0V189.0M417.4 181.0V189.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="423.4" y="189.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">93 ms</text>
+<rect x="210.0" y="197.0" width="340.9" height="16" rx="2" fill="#005A8C"><title>LumexLib hazard_pointer, C++11: 152 ms</title></rect>
+<path d="M550.9 205.0H550.9M550.9 201.0V209.0M550.9 201.0V209.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="556.9" y="209.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">152 ms</text>
+<rect x="210.0" y="217.0" width="410.4" height="16" rx="2" fill="#56B4E9"><title>LumexLib hazard_pointer, C++17: 183 ms</title></rect>
+<path d="M620.4 225.0H620.4M620.4 221.0V229.0M620.4 221.0V229.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="626.4" y="229.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">183 ms</text>
+<rect x="210.0" y="237.0" width="264.8" height="16" rx="2" fill="#D55E00"><title>std::shared_mutex, C++17: 118 ms</title></rect>
+<path d="M474.8 245.0H474.8M474.8 241.0V249.0M474.8 241.0V249.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="480.8" y="249.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">118 ms</text>
+<rect x="210.0" y="257.0" width="187.7" height="16" rx="2" fill="#B27300"><title>std::atomic_load of shared_ptr, C++11: 84 ms</title></rect>
+<path d="M397.7 265.0H397.7M397.7 261.0V269.0M397.7 261.0V269.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="403.7" y="269.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">84 ms</text>
+<rect x="210.0" y="277.0" width="209.0" height="16" rx="2" fill="#E69F00"><title>std::atomic_load of shared_ptr, C++17: 93 ms</title></rect>
+<path d="M419.0 285.0H419.0M419.0 281.0V289.0M419.0 281.0V289.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="425.0" y="289.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">93 ms</text>
+<rect x="210.0" y="317.0" width="185.0" height="16" rx="2" fill="#707070"><title>stub C++11: 83 ms</title></rect>
+<path d="M395.0 325.0H395.0M395.0 321.0V329.0M395.0 321.0V329.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="401.0" y="329.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">83 ms</text>
+<rect x="210.0" y="337.0" width="204.3" height="16" rx="2" fill="#B0B0B0"><title>stub C++17: 91 ms</title></rect>
+<path d="M414.3 345.0H414.3M414.3 341.0V349.0M414.3 341.0V349.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="420.3" y="349.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">91 ms</text>
+<rect x="210.0" y="357.0" width="343.6" height="16" rx="2" fill="#005A8C"><title>LumexLib hazard_pointer, C++11: 153 ms</title></rect>
+<path d="M553.6 365.0H553.6M553.6 361.0V369.0M553.6 361.0V369.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="559.6" y="369.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">153 ms</text>
+<rect x="210.0" y="377.0" width="407.9" height="16" rx="2" fill="#56B4E9"><title>LumexLib hazard_pointer, C++17: 182 ms</title></rect>
+<path d="M617.9 385.0H617.9M617.9 381.0V389.0M617.9 381.0V389.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="623.9" y="389.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">182 ms</text>
+<rect x="210.0" y="397.0" width="264.3" height="16" rx="2" fill="#D55E00"><title>std::shared_mutex, C++17: 118 ms</title></rect>
+<path d="M474.3 405.0H474.3M474.3 401.0V409.0M474.3 401.0V409.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="480.3" y="409.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">118 ms</text>
+<rect x="210.0" y="417.0" width="190.0" height="16" rx="2" fill="#B27300"><title>std::atomic_load of shared_ptr, C++11: 85 ms</title></rect>
+<path d="M400.0 425.0H400.0M400.0 421.0V429.0M400.0 421.0V429.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="406.0" y="429.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">85 ms</text>
+<rect x="210.0" y="437.0" width="211.9" height="16" rx="2" fill="#E69F00"><title>std::atomic_load of shared_ptr, C++17: 95 ms</title></rect>
+<path d="M421.9 445.0H421.9M421.9 441.0V449.0M421.9 441.0V449.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="427.9" y="449.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">95 ms</text>
+<rect x="210.0" y="477.0" width="228.7" height="16" rx="2" fill="#707070"><title>stub C++11: 102 ms</title></rect>
+<path d="M438.7 485.0H438.7M438.7 481.0V489.0M438.7 481.0V489.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="444.7" y="489.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">102 ms</text>
+<rect x="210.0" y="497.0" width="260.1" height="16" rx="2" fill="#B0B0B0"><title>stub C++17: 116 ms</title></rect>
+<path d="M470.1 505.0H470.1M470.1 501.0V509.0M470.1 501.0V509.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="476.1" y="509.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">116 ms</text>
+<rect x="210.0" y="517.0" width="399.2" height="16" rx="2" fill="#005A8C"><title>LumexLib hazard_pointer, C++11: 178 ms</title></rect>
+<path d="M609.2 525.0H609.2M609.2 521.0V529.0M609.2 521.0V529.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="615.2" y="529.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">178 ms</text>
+<rect x="210.0" y="537.0" width="456.7" height="16" rx="2" fill="#56B4E9"><title>LumexLib hazard_pointer, C++17: 204 ms</title></rect>
+<path d="M666.7 545.0H666.7M666.7 541.0V549.0M666.7 541.0V549.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="672.7" y="549.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">204 ms</text>
+<rect x="210.0" y="557.0" width="281.1" height="16" rx="2" fill="#D55E00"><title>std::shared_mutex, C++17: 126 ms</title></rect>
+<path d="M491.1 565.0H491.1M491.1 561.0V569.0M491.1 561.0V569.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="497.1" y="569.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">126 ms</text>
+<rect x="210.0" y="577.0" width="232.5" height="16" rx="2" fill="#B27300"><title>std::atomic_load of shared_ptr, C++11: 104 ms</title></rect>
+<path d="M442.5 585.0H442.5M442.5 581.0V589.0M442.5 581.0V589.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="448.5" y="589.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">104 ms</text>
+<rect x="210.0" y="597.0" width="260.7" height="16" rx="2" fill="#E69F00"><title>std::atomic_load of shared_ptr, C++17: 116 ms</title></rect>
+<path d="M470.7 605.0H470.7M470.7 601.0V609.0M470.7 601.0V609.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="476.7" y="609.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">116 ms</text>
+<rect x="210.0" y="637.0" width="228.3" height="16" rx="2" fill="#707070"><title>stub C++11: 102 ms</title></rect>
+<path d="M438.3 645.0H438.3M438.3 641.0V649.0M438.3 641.0V649.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="444.3" y="649.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">102 ms</text>
+<rect x="210.0" y="657.0" width="261.2" height="16" rx="2" fill="#B0B0B0"><title>stub C++17: 117 ms</title></rect>
+<path d="M471.2 665.0H471.2M471.2 661.0V669.0M471.2 661.0V669.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="477.2" y="669.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">117 ms</text>
+<rect x="210.0" y="677.0" width="402.1" height="16" rx="2" fill="#005A8C"><title>LumexLib hazard_pointer, C++11: 180 ms</title></rect>
+<path d="M612.1 685.0H612.1M612.1 681.0V689.0M612.1 681.0V689.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="618.1" y="689.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">180 ms</text>
+<rect x="210.0" y="697.0" width="459.0" height="16" rx="2" fill="#56B4E9"><title>LumexLib hazard_pointer, C++17: 205 ms</title></rect>
+<path d="M669.0 705.0H669.0M669.0 701.0V709.0M669.0 701.0V709.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="675.0" y="709.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">205 ms</text>
+<rect x="210.0" y="717.0" width="278.2" height="16" rx="2" fill="#D55E00"><title>std::shared_mutex, C++17: 124 ms</title></rect>
+<path d="M488.2 725.0H488.2M488.2 721.0V729.0M488.2 721.0V729.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="494.2" y="729.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">124 ms</text>
+<rect x="210.0" y="737.0" width="231.4" height="16" rx="2" fill="#B27300"><title>std::atomic_load of shared_ptr, C++11: 103 ms</title></rect>
+<path d="M441.4 745.0H441.4M441.4 741.0V749.0M441.4 741.0V749.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="447.4" y="749.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">103 ms</text>
+<rect x="210.0" y="757.0" width="263.2" height="16" rx="2" fill="#E69F00"><title>std::atomic_load of shared_ptr, C++17: 118 ms</title></rect>
+<path d="M473.2 765.0H473.2M473.2 761.0V769.0M473.2 761.0V769.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="479.2" y="769.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">118 ms</text>
+</svg>

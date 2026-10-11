@@ -125,3 +125,24 @@ One thread on a private object: median ns per operation, the 25th-75th percentil
 | `retire_p99` | LumexLib hazard_pointer | 51.0 | 51.0-52.0 | 6.50 |
 | `retire_p999` | LumexLib hazard_pointer | 10957.0 | 6811.0-12865.0 | 1396.00 |
 | `retire_max` | LumexLib hazard_pointer | 31198.0 | 26722.0-119613.0 | 3818.85 |
+
+## Compile time
+
+- compiler gcc: g++ (GCC) 13.2.0
+- compiler clang: clang version 23.1.0
+
+Wall time of `-fsyntax-only -O0` of `compile_time.cpp`, median of the repeats, in milliseconds. The stub is an unprotected `std::atomic<T *>`: the cost of the headers every variant shares.
+
+Unit `include`: the header is included and one object is declared.
+
+| toolchain | stub C++11 | stub C++17 | LumexLib hazard_pointer, C++11 | LumexLib hazard_pointer, C++17 | std::shared_mutex, C++17 | std::atomic_load of shared_ptr, C++11 | std::atomic_load of shared_ptr, C++17 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| gcc | 82 | 93 | 152 | 183 | 118 | 84 | 93 |
+| clang | 102 | 116 | 178 | 204 | 126 | 104 | 116 |
+
+Unit `use`: the read under protection, the replacement and the retirement of the old object are written out.
+
+| toolchain | stub C++11 | stub C++17 | LumexLib hazard_pointer, C++11 | LumexLib hazard_pointer, C++17 | std::shared_mutex, C++17 | std::atomic_load of shared_ptr, C++11 | std::atomic_load of shared_ptr, C++17 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| gcc | 83 | 91 | 153 | 182 | 118 | 85 | 95 |
+| clang | 102 | 117 | 180 | 205 | 124 | 103 | 118 |
