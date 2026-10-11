@@ -107,25 +107,43 @@
 #endif
 
 /**
+ * @def LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
+ * @brief 1 when the compiler compiles `try`, `catch` and `throw` (GCC and
+ * Clang: `__cpp_exceptions` or `__EXCEPTIONS`; MSVC: `_CPPUNWIND`), otherwise
+ * 0. Internal: the paths that restore the old contents of an `expected` when a
+ * constructor throws are compiled by this macro, which a program cannot
+ * override (a program that sets `LUMEX_EXPECTED_HAS_EXCEPTIONS` to 0 with
+ * exceptions on must still get the strong guarantee, or a throwing
+ * constructor would leave a destroyed object behind).
+ */
+#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#define LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS 1
+#else
+#define LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS 0
+#endif
+
+/**
  * @def LUMEX_EXPECTED_HAS_EXCEPTIONS
- * @brief 1 when `expected` may throw, 0 when exceptions are off.
- * @details The default follows the compiler: 0 when `-fno-exceptions` (GCC and
- * Clang: `__cpp_exceptions` and `__EXCEPTIONS` are not defined) or MSVC
- * without `/EHsc` (`_CPPUNWIND` is not defined) is in effect, 1 otherwise. A
- * program may define the macro to 0 before the first include of the library
- * to get the 0 behavior with exceptions on; every translation unit of one
- * program has to see the same value (the functions are inline).
- * With 0, `value ()` of an object that holds an error calls `std::terminate`
- * instead of throwing `bad_expected_access`, and the operations that restore
- * the old contents when a constructor throws (`emplace`, assignment, `swap`)
- * do not wrap the construction in a `try` block: nothing can throw there. The
- * rest of `expected` behaves as with exceptions.
+ * @brief 1 when `value ()` of an `expected` that holds an error throws
+ * `bad_expected_access`, 0 when it calls `std::terminate`.
+ * @details The default follows the compiler (see
+ * `LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS`): 0 with `-fno-exceptions` (or MSVC
+ * without `/EHsc`), 1 otherwise. A program may define the macro as 0 before
+ * the first include of the library to get the terminating `value ()` with
+ * exceptions on; nothing else changes (`emplace`, assignment and `swap` keep
+ * their strong guarantee). Every translation unit of one program must see the
+ * same value (the functions are `inline`; MSVC reports a mismatch at link
+ * time through `detect_mismatch`, GCC and Clang do not detect it).
  */
 #ifndef LUMEX_EXPECTED_HAS_EXCEPTIONS
-#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#define LUMEX_EXPECTED_HAS_EXCEPTIONS 1
+#define LUMEX_EXPECTED_HAS_EXCEPTIONS LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS
+#endif
+
+#if defined(_MSC_VER)
+#if LUMEX_EXPECTED_HAS_EXCEPTIONS
+#pragma detect_mismatch("LUMEX_EXPECTED_HAS_EXCEPTIONS", "1")
 #else
-#define LUMEX_EXPECTED_HAS_EXCEPTIONS 0
+#pragma detect_mismatch("LUMEX_EXPECTED_HAS_EXCEPTIONS", "0")
 #endif
 #endif
 

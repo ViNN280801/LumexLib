@@ -393,6 +393,35 @@ public:
                        : S (std::unexpect,
                             static_cast<ErrorType &&> (m_storage.m_error));
   }
+
+  /**
+   * @brief The `std::expected<void, ErrorType>` with the state of this object
+   * (an lvalue or a const object: copies the error); see `to_std ()` of
+   * `expected<T, E>` for why it exists.
+   * @tparam S `std::expected<void, ErrorType>` (the default).
+   * @note Same constraints and `noexcept` as the conversion operator.
+   */
+  template <typename S = std::expected<void, ErrorType>,
+            bool Ok = std::is_copy_constructible<ErrorType>::value,
+            typename std::enable_if<Ok, int>::type = 0>
+  LUMEX_EXPECTED_CONSTEXPR_CXX20 S
+  to_std () const &LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_copy_constructible<ErrorType>::value)
+  {
+    return this->template operator S ();
+  }
+
+  /// @brief As above for an rvalue: moves the error.
+  template <typename S = std::expected<void, ErrorType>,
+            bool Ok = std::is_move_constructible<ErrorType>::value,
+            typename std::enable_if<Ok, int>::type = 0>
+      LUMEX_EXPECTED_CONSTEXPR_CXX20 S
+      to_std ()
+      && LUMEX_NOEXCEPT_IF (
+          std::is_nothrow_move_constructible<ErrorType>::value)
+  {
+    return static_cast<expected &&> (*this).template operator S ();
+  }
 #endif // LUMEX_EXPECTED_HAS_STD_CONVERSION
 
   /**

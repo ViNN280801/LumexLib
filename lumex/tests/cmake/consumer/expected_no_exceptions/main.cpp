@@ -161,6 +161,151 @@ check_swap ()
   CHECK (g.value () == 2 && h.value () == 1);
 }
 
+// Lifetime counting runs in every mode; the types throw only where the
+// compiler has exceptions (the macro mode), and the checks of the strong
+// guarantee run only when something was thrown.
+#if defined(EXPECTED_NO_EXCEPTIONS_MACRO)
+#define NOEXC_THROW() throw boom ()
+#else
+#define NOEXC_THROW() static_cast<void> (0)
+#endif
+// Exceptions may be on and only `value ()` terminates: the operations that
+// keep the old contents when a constructor throws must still do it. The types
+// below really throw and count their lifetimes.
+struct boom
+{
+};
+
+bool g_throw = false;
+
+template <int Tag, bool NothrowMove> struct counted
+{
+  static int live;
+  int id;
+  explicit counted (int v) noexcept : id (v) { ++live; }
+  counted (counted const &o) : id (o.id)
+  {
+    if (g_throw)
+      NOEXC_THROW ();
+    ++live;
+  }
+  counted (counted &&o) noexcept (NothrowMove) : id (o.id)
+  {
+    if (g_throw && !NothrowMove)
+      NOEXC_THROW ();
+    o.id = -1;
+    ++live;
+  }
+  counted &
+  operator= (counted const &o)
+  {
+    if (g_throw)
+      NOEXC_THROW ();
+    id = o.id;
+    return *this;
+  }
+  counted &
+  operator= (counted &&o) noexcept (NothrowMove)
+  {
+    if (g_throw && !NothrowMove)
+      NOEXC_THROW ();
+    id = o.id;
+    o.id = -1;
+    return *this;
+  }
+  ~counted () { --live; }
+};
+template <int Tag, bool NothrowMove> int counted<Tag, NothrowMove>::live = 0;
+
+using val_t = counted<0, true>;  // copy may throw, move does not
+using err_t = counted<1, false>; // copy and move may throw
+using ex_t = expected<val_t, err_t>;
+
+int
+live_total ()
+{
+  return val_t::live + err_t::live;
+}
+
+template <typename Op>
+void
+check_throwing (ex_t &x, ex_t &y, Op op, int line)
+{
+  int const before = live_total ();
+  bool const x_value = x.has_value ();
+  bool const y_value = y.has_value ();
+  int const x_id = x_value ? x.value ().id : x.error ().id;
+  int const y_id = y_value ? y.value ().id : y.error ().id;
+  bool thrown = false;
+  g_throw = true;
+#if defined(EXPECTED_NO_EXCEPTIONS_MACRO)
+  try
+    {
+      op (x, y);
+    }
+  catch (boom const &)
+    {
+      thrown = true;
+    }
+#else
+  op (x, y);
+#endif
+  g_throw = false;
+  if (thrown)
+    {
+      // Strong guarantee: nothing changed, nothing leaked or destroyed twice.
+      CHECK (x.has_value () == x_value);
+      CHECK (y.has_value () == y_value);
+      CHECK ((x_value ? x.value ().id : x.error ().id) == x_id);
+      CHECK ((y_value ? y.value ().id : y.error ().id) == y_id);
+    }
+  CHECK (live_total () == before);
+  if (live_total () != before)
+    std::fprintf (stderr, "line %d: live %d, before %d\n", line, live_total (),
+                  before);
+}
+
+void
+check_lifetimes ()
+{
+  for (int xs = 0; xs < 2; ++xs)
+    for (int ys = 0; ys < 2; ++ys)
+      {
+        {
+          ex_t x
+              = xs ? ex_t (val_t (1)) : ex_t (lx::result::unexpect, err_t (2));
+          ex_t y
+              = ys ? ex_t (val_t (3)) : ex_t (lx::result::unexpect, err_t (4));
+          check_throwing (x, y, [] (ex_t &a, ex_t &b) { a = b; }, __LINE__);
+        }
+        {
+          ex_t x
+              = xs ? ex_t (val_t (1)) : ex_t (lx::result::unexpect, err_t (2));
+          ex_t y
+              = ys ? ex_t (val_t (3)) : ex_t (lx::result::unexpect, err_t (4));
+          check_throwing (
+              x, y, [] (ex_t &a, ex_t &b) { a = std::move (b); }, __LINE__);
+        }
+        {
+          ex_t x
+              = xs ? ex_t (val_t (1)) : ex_t (lx::result::unexpect, err_t (2));
+          ex_t y
+              = ys ? ex_t (val_t (3)) : ex_t (lx::result::unexpect, err_t (4));
+          check_throwing (
+              x, y, [] (ex_t &a, ex_t &b) { a.swap (b); }, __LINE__);
+        }
+        {
+          ex_t x
+              = xs ? ex_t (val_t (1)) : ex_t (lx::result::unexpect, err_t (2));
+          ex_t y
+              = ys ? ex_t (val_t (3)) : ex_t (lx::result::unexpect, err_t (4));
+          check_throwing (
+              x, y, [] (ex_t &a, ex_t &) { a.emplace (6); }, __LINE__);
+        }
+      }
+  CHECK (live_total () == 0);
+}
+
 // The calls that must terminate. Each one is run in a child process.
 enum terminating_case
 {
@@ -249,6 +394,7 @@ main ()
   check_observers ();
   check_assign_and_emplace ();
   check_swap ();
+  check_lifetimes ();
 #if NOEXC_HAS_FORK
   for (int which = 0; which < terminating_case_count; ++which)
     check_terminates (which);

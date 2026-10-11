@@ -601,6 +601,129 @@ TEST (ExpectedStdConversionTest, StdAlgorithms_TakeTheConvertedObject)
   EXPECT_TRUE (!back[1].has_value () && back[1].error () == 2);
 }
 
+// ---------------------------------------------------------------------
+// What the conversions cannot do (they are pinned so that a change shows)
+// ---------------------------------------------------------------------
+
+namespace
+{
+int
+ambiguous_overload (sex<int, int> const &)
+{
+  return 1;
+}
+
+int
+ambiguous_overload (lex<long, int> const &)
+{
+  return 2;
+}
+
+template <typename X, typename = void>
+struct overload_callable : std::false_type
+{
+};
+
+template <typename X>
+struct overload_callable<
+    X, lumex::core::utility::traits::meta::void_t<
+           decltype (ambiguous_overload (std::declval<X> ()))>>
+    : std::true_type
+{
+};
+
+// An lvalue of a move-only E converts from nowhere by copy.
+using move_only_error_lumex = lex<int, std::unique_ptr<int>>;
+using move_only_error_std = sex<int, std::unique_ptr<int>>;
+static_assert (
+    std::is_convertible<move_only_error_std, move_only_error_lumex>::value,
+    "move-only E: std rvalue to lumex");
+static_assert (
+    std::is_convertible<move_only_error_lumex, move_only_error_std>::value,
+    "move-only E: lumex rvalue to std");
+static_assert (
+    !std::is_convertible<move_only_error_lumex &, move_only_error_std>::value,
+    "move-only E: no copy from a lumex lvalue");
+static_assert (!std::is_convertible<move_only_error_lumex const &,
+                                    move_only_error_std>::value,
+               "move-only E: no copy from a lumex const lvalue");
+static_assert (
+    !std::is_convertible<move_only_error_std &, move_only_error_lumex>::value,
+    "move-only E: no copy from a std lvalue");
+
+// Two user-defined conversions are needed to reach an overload of another
+// type, so the call is ambiguous (or not viable): the exact overloads work.
+static_assert (!overload_callable<lex<int, int>>::value,
+               "lumex<int, int> reaches both overloads by a conversion");
+static_assert (overload_callable<sex<int, int>>::value, "exact");
+static_assert (overload_callable<lex<long, int>>::value, "exact");
+} // namespace
+
+TEST (ExpectedStdConversionTest,
+      BoolInTheErrorState_ConstructionLosesTheErrorCopyInitDoesNot)
+{
+  // `std::expected<bool, E> theirs (mine)` picks the constructor of
+  // std::expected that takes a value, through the explicit operator bool of
+  // the lumex object: the error becomes the value `false`. The library cannot
+  // prevent it; copy initialization and to_std () convert the state.
+  lex<bool, int> const mine (lx::result::unexpect, 3);
+  sex<bool, int> const direct (mine);
+  sex<bool, int> const braced{ mine };
+  auto const casted = static_cast<sex<bool, int>> (mine);
+  EXPECT_TRUE (direct.has_value ());
+  EXPECT_TRUE (braced.has_value ());
+  EXPECT_TRUE (casted.has_value ());
+
+  sex<bool, int> const copied = mine;
+  ASSERT_FALSE (copied.has_value ());
+  EXPECT_EQ (3, copied.error ());
+  auto const helper = mine.to_std ();
+  ASSERT_FALSE (helper.has_value ());
+  EXPECT_EQ (3, helper.error ());
+  auto const moved = lex<bool, int> (lx::result::unexpect, 4).to_std ();
+  ASSERT_FALSE (moved.has_value ());
+  EXPECT_EQ (4, moved.error ());
+}
+
+TEST (ExpectedStdConversionTest, ToStd_ConvertsTheStateOfEveryKind)
+{
+  lex<int, std::string> const value (lx::result::in_place, 5);
+  lex<int, std::string> const error (lx::result::unexpect, "e");
+  EXPECT_EQ (5, value.to_std ().value ());
+  EXPECT_EQ ("e", error.to_std ().error ());
+  lex<void, int> const ok;
+  lex<void, int> const bad (lx::result::unexpect, 2);
+  EXPECT_TRUE (ok.to_std ().has_value ());
+  EXPECT_EQ (2, bad.to_std ().error ());
+  lex<std::unique_ptr<int>, int> movable (lx::result::in_place,
+                                          std::make_unique<int> (7));
+  EXPECT_EQ (7, *std::move (movable).to_std ().value ());
+  static_assert (noexcept (std::declval<lex<int, int> const &> ().to_std ()),
+                 "noexcept like the conversion");
+  static_assert (
+      !noexcept (std::declval<lex<int, std::string> const &> ().to_std ()),
+      "copying a string is not");
+  static_assert (
+      std::is_same<decltype (value.to_std ()), sex<int, std::string>>::value,
+      "the type");
+}
+
+TEST (ExpectedStdConversionTest,
+      EqualityAcrossTheTwo_ComparesTheValueNotTheState)
+{
+  // std's operator== (expected, T2) accepts the lumex object as a T2: two
+  // equal values compare equal, anything else (also two equal errors) does
+  // not. Convert one side to compare the states.
+  sex<int, int> const std_value (std::in_place, 1);
+  sex<int, int> const std_error (std::unexpect, 1);
+  lex<int, int> const lumex_value (lx::result::in_place, 1);
+  lex<int, int> const lumex_error (lx::result::unexpect, 1);
+  EXPECT_TRUE ((std_value == lumex_value));
+  EXPECT_FALSE ((std_error == lumex_error));
+  EXPECT_FALSE ((std_value == lumex_error));
+  EXPECT_TRUE ((std_error == lumex_error.to_std ()));
+}
+
 #else
 
 TEST (ExpectedStdConversionTest, StdExpected_IsNotAvailable)
