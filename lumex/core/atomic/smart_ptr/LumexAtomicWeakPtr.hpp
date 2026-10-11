@@ -537,9 +537,9 @@ namespace smart_ptr
 {
 /**
  * @brief The atomic `weak_ptr` of the module's own pointer family.
- * @details `atomic_weak_ptr_lock_free_split_count<T>` where
- * `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` is 1,
- * `atomic_weak_ptr_lock_based_lumex<T>` otherwise (see
+ * @details `atomic_weak_ptr_lock_based_lumex<T>` by default,
+ * `atomic_weak_ptr_lock_free_split_count<T>` where
+ * `LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT` is 1 (opt-in, see
  * `lumex::core::smart_ptr::atomic_shared_ptr`).
  */
 #if LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT
