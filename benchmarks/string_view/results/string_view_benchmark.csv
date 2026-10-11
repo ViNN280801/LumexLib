@@ -7,250 +7,250 @@
 # variant gcc boost_cxx11: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201103
 # variant gcc boost_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
 toolchain,variant,scenario,description,size,median_ns,worst_median_ns,min_ns,max_ns,iterations,repetitions,checksum
-gcc,lumex_cxx11,ctor_literal,construct from a string literal (length known to the compiler),256,0.5893,0.6030,0.5581,0.7035,131072,15,5849088
-gcc,lumex_cxx11,ctor_cstr,construct from a char const * (length by strlen),256,2.8813,3.1804,2.7773,3.5077,32768,15,9035008
-gcc,lumex_cxx11,ctor_string,construct from a std::string,256,0.8403,0.8818,0.8268,0.9768,131072,15,9035008
-gcc,lumex_cxx11,ctor_ptr_size,construct from pointer and size,256,0.7618,0.8272,0.7357,1.0698,131072,15,9035008
-gcc,lumex_cxx11,copy,copy construct a view,256,0.6251,0.7757,0.6169,0.9392,131072,15,9035008
-gcc,lumex_cxx11,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.9933,10.7032,9.7967,13.4907,8192,15,6278840
-gcc,lumex_cxx11,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,10.2615,10.5722,9.8666,15.1494,8192,15,6278840
-gcc,lumex_cxx11,find_char,"find('/') in one string, hit at position 7",256,1.7221,2.4775,1.6539,2.7506,65536,15,14336
-gcc,lumex_cxx11,find_char_late,"find('.') in one string, hit near the end",256,2.7200,2.7793,2.6500,3.0398,32768,15,59136
-gcc,lumex_cxx11,find_char_miss,"find('#') in one string, no hit",256,3.0354,3.2072,2.9588,3.6535,32768,15,18446744073709549568
-gcc,lumex_cxx11,rfind_char,rfind('/') in one string,256,7.7412,8.4061,7.3652,10.6678,16384,15,20480
-gcc,lumex_cxx11,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.3411,5.5449,5.2072,6.7432,16384,15,40704
-gcc,lumex_cxx11,find_str_miss,"find an 8-character view in one string, no hit",256,7.4568,7.8418,7.3153,8.9503,16384,15,18446744073709549568
-gcc,lumex_cxx11,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1335.4000,1395.2800,1310.4300,1628.6200,16384,15,18446744073709551608
-gcc,lumex_cxx11,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,30.2594,30.7135,29.8080,32.8665,1048576,15,18446744073709551608
-gcc,lumex_cxx11,rfind_str,rfind a 9-character view in one string,256,14.5631,14.9174,14.3265,16.4321,8192,15,40704
-gcc,lumex_cxx11,find_first_of,find_first_of a set of 3 characters in one string,256,21.9507,23.2522,20.8940,24.9702,4096,15,14336
-gcc,lumex_cxx11,find_last_of,find_last_of a set of 3 characters in one string,256,5.2649,5.8031,5.0312,9.9870,16384,15,59136
-gcc,lumex_cxx11,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,21.1215,21.7723,20.7449,25.0921,4096,15,18432
-gcc,lumex_cxx11,substr,"substr(8, 12) of one string",256,1.0176,1.0461,0.9726,1.2204,131072,15,3416464
-gcc,lumex_cxx11,substr_tail,substr(size - 4) of one string,256,0.8398,0.8718,0.8088,1.0620,131072,15,1288192
-gcc,lumex_cxx11,compare_equal,compare two equal strings in different buffers,256,2.5544,2.6815,2.4983,3.4548,32768,15,2048
-gcc,lumex_cxx11,compare_early,compare two strings that differ in the first character,256,1.8648,1.9926,1.8310,2.6480,65536,15,0
-gcc,lumex_cxx11,compare_late,compare two strings that differ in the last character,256,3.2080,3.2896,3.1467,3.5136,32768,15,0
-gcc,lumex_cxx11,eq_equal,operator== of two equal strings in different buffers,256,2.0584,2.1168,2.0059,2.6229,65536,15,2048
-gcc,lumex_cxx11,eq_size,operator== of two strings of different sizes,256,0.2812,0.2874,0.2726,0.3842,524288,15,0
-gcc,lumex_cxx11,eq_late,operator== of two strings of one size that differ in the last character,256,3.0275,3.1130,2.9223,3.7580,32768,15,0
-gcc,lumex_cxx11,less,operator< of two strings that differ in the last character,256,2.0803,2.1527,2.0344,2.4385,65536,15,1752
-gcc,lumex_cxx11,eq_literal,operator== of a view and a string literal,256,0.2866,0.2919,0.2780,0.3497,524288,15,8
-gcc,lumex_cxx11,pass_by_value,call a noinline function that takes the view by value,256,0.6985,0.7263,0.6792,0.8900,131072,15,290560
-gcc,lumex_cxx11,return_value,call a noinline function that returns a view built from pointer and size,256,0.8852,0.9636,0.8502,1.1441,131072,15,9035008
-gcc,lumex_cxx11,sort,std::sort of 256 views (per element),256,27.4679,28.5068,26.7310,37.3940,4096,15,103488
-gcc,lumex_cxx11,map_lookup,find in a std::map of 256 views by an equal view,256,29.1223,29.8389,28.5003,34.1878,4096,15,263168
-gcc,lumex_cxx11,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2191.2300,2252.2400,2127.5900,2327.4200,16384,15,4140720
-gcc,lumex_cxx11,starts_with,starts_with a view in one string,256,2.0221,2.0604,1.9489,2.5040,65536,15,2048
-gcc,lumex_cxx11,ends_with,ends_with a view in one string,256,1.7785,1.8560,1.7329,2.2297,65536,15,2048
-gcc,lumex_cxx11,starts_with_lit,starts_with a string literal,256,0.4732,0.5043,0.4516,0.6203,262144,15,2048
-gcc,lumex_cxx11,ends_with_lit,ends_with a string literal,256,0.5696,0.6223,0.5509,0.8524,262144,15,2048
-gcc,lumex_cxx11,starts_with_chr,starts_with a character,256,0.4740,0.4851,0.4503,0.6303,262144,15,2048
-gcc,lumex_cxx11,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,15.0706,16.1504,14.6064,20.0755,8192,15,2048
-gcc,lumex_cxx17,ctor_literal,construct from a string literal (length known to the compiler),256,0.5814,0.6091,0.5666,0.7190,262144,15,5849088
-gcc,lumex_cxx17,ctor_cstr,construct from a char const * (length by strlen),256,2.9903,3.1455,2.9426,3.5085,32768,15,9035008
-gcc,lumex_cxx17,ctor_string,construct from a std::string,256,0.8613,0.8878,0.8370,1.0249,131072,15,9035008
-gcc,lumex_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7642,0.7995,0.7372,1.0547,131072,15,9035008
-gcc,lumex_cxx17,copy,copy construct a view,256,0.6348,0.6477,0.6048,0.7728,131072,15,9035008
-gcc,lumex_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.9200,10.1434,9.5476,12.8778,8192,15,6278840
-gcc,lumex_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.6963,10.6548,9.3077,14.7643,8192,15,6278840
-gcc,lumex_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.7472,1.7768,1.6515,2.5217,65536,15,14336
-gcc,lumex_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.7364,2.8216,2.6254,3.2717,32768,15,59136
-gcc,lumex_cxx17,find_char_miss,"find('#') in one string, no hit",256,3.1143,3.2211,3.0664,3.6977,32768,15,18446744073709549568
-gcc,lumex_cxx17,rfind_char,rfind('/') in one string,256,7.9703,8.0681,7.4730,11.2457,16384,15,20480
-gcc,lumex_cxx17,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.3308,5.6645,5.2300,6.8712,16384,15,40704
-gcc,lumex_cxx17,find_str_miss,"find an 8-character view in one string, no hit",256,8.1570,8.4082,8.0378,11.0375,16384,15,18446744073709549568
-gcc,lumex_cxx17,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1331.7400,1386.1200,1313.5400,1687.7200,16384,15,18446744073709551608
-gcc,lumex_cxx17,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,29.0840,32.1411,28.4210,34.2712,1048576,15,18446744073709551608
-gcc,lumex_cxx17,rfind_str,rfind a 9-character view in one string,256,14.6651,15.0646,13.9283,17.4218,8192,15,40704
-gcc,lumex_cxx17,find_first_of,find_first_of a set of 3 characters in one string,256,19.5711,20.7090,18.9725,23.7446,4096,15,14336
-gcc,lumex_cxx17,find_last_of,find_last_of a set of 3 characters in one string,256,6.2338,6.4171,5.8285,10.0722,16384,15,59136
-gcc,lumex_cxx17,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,23.5467,23.9789,22.8345,27.3626,4096,15,18432
-gcc,lumex_cxx17,substr,"substr(8, 12) of one string",256,0.9986,1.0543,0.9747,1.4397,131072,15,3416464
-gcc,lumex_cxx17,substr_tail,substr(size - 4) of one string,256,0.8401,0.8630,0.8153,1.2276,131072,15,1288192
-gcc,lumex_cxx17,compare_equal,compare two equal strings in different buffers,256,2.5457,2.6513,2.5036,3.1404,32768,15,2048
-gcc,lumex_cxx17,compare_early,compare two strings that differ in the first character,256,1.8674,2.0082,1.8008,2.6891,65536,15,0
-gcc,lumex_cxx17,compare_late,compare two strings that differ in the last character,256,3.2456,3.3243,3.1970,3.7733,32768,15,0
-gcc,lumex_cxx17,eq_equal,operator== of two equal strings in different buffers,256,2.0861,2.1220,2.0002,2.3226,65536,15,2048
-gcc,lumex_cxx17,eq_size,operator== of two strings of different sizes,256,0.2777,0.3467,0.2718,0.3751,524288,15,0
-gcc,lumex_cxx17,eq_late,operator== of two strings of one size that differ in the last character,256,3.0227,3.1186,2.9283,3.7341,32768,15,0
-gcc,lumex_cxx17,less,operator< of two strings that differ in the last character,256,2.1173,2.1576,2.0157,2.6936,65536,15,1752
-gcc,lumex_cxx17,eq_literal,operator== of a view and a string literal,256,0.2863,0.2931,0.2782,0.3484,524288,15,8
-gcc,lumex_cxx17,pass_by_value,call a noinline function that takes the view by value,256,0.7066,0.7259,0.6763,0.8371,131072,15,290560
-gcc,lumex_cxx17,return_value,call a noinline function that returns a view built from pointer and size,256,0.8657,0.8955,0.8444,1.5852,131072,15,9035008
-gcc,lumex_cxx17,sort,std::sort of 256 views (per element),256,28.4166,29.5757,27.5058,35.6578,4096,15,103488
-gcc,lumex_cxx17,map_lookup,find in a std::map of 256 views by an equal view,256,28.9949,30.5548,28.0932,38.0240,4096,15,263168
-gcc,lumex_cxx17,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2242.3600,2251.6200,2235.6400,2315.8800,16384,15,4140720
-gcc,lumex_cxx17,starts_with,starts_with a view in one string,256,2.0067,2.1218,1.9556,2.5760,65536,15,2048
-gcc,lumex_cxx17,ends_with,ends_with a view in one string,256,1.7796,1.8188,1.7039,2.2700,65536,15,2048
-gcc,lumex_cxx17,starts_with_lit,starts_with a string literal,256,0.4590,0.4732,0.4457,0.5945,262144,15,2048
-gcc,lumex_cxx17,ends_with_lit,ends_with a string literal,256,0.5658,0.5755,0.5424,0.7790,262144,15,2048
-gcc,lumex_cxx17,starts_with_chr,starts_with a character,256,0.4497,0.4760,0.4410,0.6022,262144,15,2048
-gcc,lumex_cxx17,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,4.6589,5.0482,4.4025,7.8510,16384,15,2048
-gcc,lumex_cxx17,to_std,construct a std::string_view from the view (the conversion),256,0.6976,0.7111,0.6787,0.9443,131072,15,9035008
-gcc,lumex_cxx17,from_std,construct the view from a std::string_view (the conversion),256,0.8659,0.8832,0.8402,1.1724,131072,15,9035008
-gcc,lumex_cxx17,eq_std,operator== of the view and a std::string_view,256,1.8402,1.8798,1.7819,2.3190,65536,15,2048
-gcc,lumex_cxx17,less_std,operator< of the view and a std::string_view,256,2.0034,2.1466,1.9157,2.6483,65536,15,1752
-gcc,std_cxx17,ctor_literal,construct from a string literal (length known to the compiler),256,0.5667,0.5987,0.5554,1.1987,262144,15,5849088
-gcc,std_cxx17,ctor_cstr,construct from a char const * (length by strlen),256,2.8010,2.9388,2.7353,3.3140,32768,15,9035008
-gcc,std_cxx17,ctor_string,construct from a std::string,256,0.8422,0.8965,0.8184,1.1082,131072,15,9035008
-gcc,std_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7651,0.7944,0.7435,0.9897,131072,15,9035008
-gcc,std_cxx17,copy,copy construct a view,256,0.6380,0.6588,0.6187,0.9195,131072,15,9035008
-gcc,std_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.1779,9.5862,8.7695,14.8826,16384,15,6278840
-gcc,std_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.2735,9.5236,8.7880,12.9387,8192,15,6278840
-gcc,std_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.7174,2.3784,1.6069,3.1657,65536,15,14336
-gcc,std_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.8019,2.8635,2.7616,3.1379,32768,15,59136
-gcc,std_cxx17,find_char_miss,"find('#') in one string, no hit",256,3.2085,3.4236,3.0513,3.9213,32768,15,18446744073709549568
-gcc,std_cxx17,rfind_char,rfind('/') in one string,256,7.8236,8.1548,7.4104,10.5173,16384,15,20480
-gcc,std_cxx17,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.0895,5.2276,4.9132,6.3047,16384,15,40704
-gcc,std_cxx17,find_str_miss,"find an 8-character view in one string, no hit",256,8.2806,8.4413,8.0448,9.2665,16384,15,18446744073709549568
-gcc,std_cxx17,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1481.8600,1529.0300,1416.4000,1628.5800,16384,15,18446744073709551608
-gcc,std_cxx17,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,29.0151,29.2475,28.2762,31.8800,1048576,15,18446744073709551608
-gcc,std_cxx17,rfind_str,rfind a 9-character view in one string,256,13.9120,14.4199,13.7192,16.8886,8192,15,40704
-gcc,std_cxx17,find_first_of,find_first_of a set of 3 characters in one string,256,19.7201,20.1408,18.5575,23.0015,4096,15,14336
-gcc,std_cxx17,find_last_of,find_last_of a set of 3 characters in one string,256,5.6011,5.8919,5.3487,9.8955,16384,15,59136
-gcc,std_cxx17,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,20.6429,21.6024,20.2976,24.7641,4096,15,18432
-gcc,std_cxx17,substr,"substr(8, 12) of one string",256,1.0166,1.0464,0.9680,1.3616,131072,15,3416464
-gcc,std_cxx17,substr_tail,substr(size - 4) of one string,256,0.8296,0.9402,0.8132,1.2267,131072,15,1288192
-gcc,std_cxx17,compare_equal,compare two equal strings in different buffers,256,2.7969,2.9422,2.6882,3.4997,32768,15,2048
-gcc,std_cxx17,compare_early,compare two strings that differ in the first character,256,1.8599,1.9180,1.8043,2.5627,65536,15,0
-gcc,std_cxx17,compare_late,compare two strings that differ in the last character,256,3.1573,3.2811,3.0907,3.9196,32768,15,0
-gcc,std_cxx17,eq_equal,operator== of two equal strings in different buffers,256,2.0448,2.1258,1.9556,2.5451,65536,15,2048
-gcc,std_cxx17,eq_size,operator== of two strings of different sizes,256,0.2814,0.2917,0.2707,0.3475,524288,15,0
-gcc,std_cxx17,eq_late,operator== of two strings of one size that differ in the last character,256,3.0196,3.1142,2.9368,3.5621,32768,15,0
-gcc,std_cxx17,less,operator< of two strings that differ in the last character,256,2.1052,2.1877,2.0274,3.0175,65536,15,1752
-gcc,std_cxx17,eq_literal,operator== of a view and a string literal,256,0.2859,0.2984,0.2739,0.3790,524288,15,8
-gcc,std_cxx17,pass_by_value,call a noinline function that takes the view by value,256,0.7165,0.7675,0.6914,1.0246,131072,15,290560
-gcc,std_cxx17,return_value,call a noinline function that returns a view built from pointer and size,256,0.8646,0.9021,0.8273,1.2096,131072,15,9035008
-gcc,std_cxx17,sort,std::sort of 256 views (per element),256,29.5222,30.3741,28.6298,35.2943,4096,15,103488
-gcc,std_cxx17,map_lookup,find in a std::map of 256 views by an equal view,256,26.1613,27.1272,25.4318,30.8411,4096,15,263168
-gcc,std_cxx17,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2153.1000,2244.3400,2113.3600,2784.1300,16384,15,4140720
-gcc,std_cxx17,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,4.6601,4.8830,4.5005,6.6291,32768,15,2048
-gcc,std_cxx17,to_std,construct a std::string_view from the view (the conversion),256,0.6372,0.6475,0.6177,0.8062,131072,15,9035008
-gcc,std_cxx17,from_std,construct the view from a std::string_view (the conversion),256,0.7397,0.7997,0.7131,1.0861,131072,15,9035008
-gcc,std_cxx17,eq_std,operator== of the view and a std::string_view,256,1.7903,1.8601,1.7492,2.4439,65536,15,2048
-gcc,std_cxx17,less_std,operator< of the view and a std::string_view,256,2.0308,2.1637,1.9608,2.4281,65536,15,1752
-gcc,std_cxx20,ctor_literal,construct from a string literal (length known to the compiler),256,0.6233,0.6477,0.5998,0.8262,131072,15,5849088
-gcc,std_cxx20,ctor_cstr,construct from a char const * (length by strlen),256,2.8300,3.1180,2.7527,3.9644,32768,15,9035008
-gcc,std_cxx20,ctor_string,construct from a std::string,256,0.8576,0.8970,0.8257,1.0513,131072,15,9035008
-gcc,std_cxx20,ctor_ptr_size,construct from pointer and size,256,0.7673,0.7763,0.7303,1.0505,131072,15,9035008
-gcc,std_cxx20,copy,copy construct a view,256,0.6278,0.6451,0.6026,0.8541,131072,15,9035008
-gcc,std_cxx20,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.8910,10.2508,9.3308,14.8399,8192,15,6278840
-gcc,std_cxx20,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.6329,10.2805,9.2532,17.9106,8192,15,6278840
-gcc,std_cxx20,find_char,"find('/') in one string, hit at position 7",256,1.7005,2.0686,1.6516,2.5030,65536,15,14336
-gcc,std_cxx20,find_char_late,"find('.') in one string, hit near the end",256,2.7662,2.7938,2.6777,3.1867,32768,15,59136
-gcc,std_cxx20,find_char_miss,"find('#') in one string, no hit",256,3.0592,3.1263,2.9261,3.5541,32768,15,18446744073709549568
-gcc,std_cxx20,rfind_char,rfind('/') in one string,256,7.8194,8.0713,7.5687,10.4308,16384,15,20480
-gcc,std_cxx20,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.9105,6.8902,5.6614,7.2130,16384,15,40704
-gcc,std_cxx20,find_str_miss,"find an 8-character view in one string, no hit",256,8.3384,8.7454,8.0718,9.8158,16384,15,18446744073709549568
-gcc,std_cxx20,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1483.6500,1542.1300,1441.3100,1706.2600,16384,15,18446744073709551608
-gcc,std_cxx20,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,28.9285,29.3888,28.3070,32.4465,1048576,15,18446744073709551608
-gcc,std_cxx20,rfind_str,rfind a 9-character view in one string,256,14.1540,15.4209,13.8746,17.2703,8192,15,40704
-gcc,std_cxx20,find_first_of,find_first_of a set of 3 characters in one string,256,18.2835,18.4453,17.8854,20.8076,8192,15,14336
-gcc,std_cxx20,find_last_of,find_last_of a set of 3 characters in one string,256,5.5434,5.9875,5.2712,7.5886,16384,15,59136
-gcc,std_cxx20,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,21.1674,21.3707,20.5117,24.5728,4096,15,18432
-gcc,std_cxx20,substr,"substr(8, 12) of one string",256,0.9723,1.0046,0.9429,1.7615,131072,15,3416464
-gcc,std_cxx20,substr_tail,substr(size - 4) of one string,256,0.8449,0.9358,0.8062,1.1871,131072,15,1288192
-gcc,std_cxx20,compare_equal,compare two equal strings in different buffers,256,2.6597,2.7696,2.5868,3.3503,32768,15,2048
-gcc,std_cxx20,compare_early,compare two strings that differ in the first character,256,1.8512,1.9206,1.8008,2.7151,65536,15,0
-gcc,std_cxx20,compare_late,compare two strings that differ in the last character,256,3.2045,3.3692,3.1413,3.9268,32768,15,0
-gcc,std_cxx20,eq_equal,operator== of two equal strings in different buffers,256,2.0808,2.1398,2.0173,2.3180,65536,15,2048
-gcc,std_cxx20,eq_size,operator== of two strings of different sizes,256,0.2805,0.2926,0.2722,0.3594,524288,15,0
-gcc,std_cxx20,eq_late,operator== of two strings of one size that differ in the last character,256,3.0172,3.1192,2.9530,3.6185,32768,15,0
-gcc,std_cxx20,less,operator< of two strings that differ in the last character,256,2.1109,2.1397,2.0221,2.6204,65536,15,1752
-gcc,std_cxx20,eq_literal,operator== of a view and a string literal,256,0.2857,0.3034,0.2789,0.4937,524288,15,8
-gcc,std_cxx20,pass_by_value,call a noinline function that takes the view by value,256,0.7184,0.7281,0.6872,0.9938,131072,15,290560
-gcc,std_cxx20,return_value,call a noinline function that returns a view built from pointer and size,256,0.8713,0.8946,0.8488,1.1233,131072,15,9035008
-gcc,std_cxx20,sort,std::sort of 256 views (per element),256,27.0184,28.1381,26.3448,32.2961,4096,15,103488
-gcc,std_cxx20,map_lookup,find in a std::map of 256 views by an equal view,256,29.8149,32.3248,28.9093,35.7175,4096,15,263168
-gcc,std_cxx20,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2198.3000,2240.6100,2155.3300,2331.4100,16384,15,4140720
-gcc,std_cxx20,starts_with,starts_with a view in one string,256,2.2976,2.3531,2.2372,2.7725,65536,15,2048
-gcc,std_cxx20,ends_with,ends_with a view in one string,256,1.7982,1.8656,1.7287,2.4807,65536,15,2048
-gcc,std_cxx20,starts_with_lit,starts_with a string literal,256,0.4620,0.4850,0.4409,0.7864,262144,15,2048
-gcc,std_cxx20,ends_with_lit,ends_with a string literal,256,0.5743,0.6084,0.5368,0.7798,131072,15,2048
-gcc,std_cxx20,starts_with_chr,starts_with a character,256,0.4592,0.4762,0.4506,0.5931,262144,15,2048
-gcc,std_cxx20,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,4.7053,4.8276,4.4866,6.2693,16384,15,2048
-gcc,std_cxx20,to_std,construct a std::string_view from the view (the conversion),256,0.6327,0.6457,0.6115,0.7545,131072,15,9035008
-gcc,std_cxx20,from_std,construct the view from a std::string_view (the conversion),256,0.7376,0.7729,0.7166,1.1143,131072,15,9035008
-gcc,std_cxx20,eq_std,operator== of the view and a std::string_view,256,1.8379,1.8661,1.7336,2.4327,65536,15,2048
-gcc,std_cxx20,less_std,operator< of the view and a std::string_view,256,2.0107,2.0517,1.9469,2.3707,65536,15,1752
-gcc,boost_cxx11,ctor_literal,construct from a string literal (length known to the compiler),256,0.6195,0.6426,0.5928,0.8366,131072,15,5849088
-gcc,boost_cxx11,ctor_cstr,construct from a char const * (length by strlen),256,2.7925,2.9866,2.6841,3.6599,32768,15,9035008
-gcc,boost_cxx11,ctor_string,construct from a std::string,256,0.8633,0.9060,0.8268,1.2318,131072,15,9035008
-gcc,boost_cxx11,ctor_ptr_size,construct from pointer and size,256,0.7581,0.7937,0.7412,0.9578,131072,15,9035008
-gcc,boost_cxx11,copy,copy construct a view,256,0.6491,0.6690,0.6196,0.9209,131072,15,9035008
-gcc,boost_cxx11,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.8523,10.7567,9.2214,14.9708,8192,15,6278840
-gcc,boost_cxx11,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.7574,10.2875,9.1449,12.3792,8192,15,6278840
-gcc,boost_cxx11,find_char,"find('/') in one string, hit at position 7",256,1.6989,1.7608,1.6301,2.4264,65536,15,14336
-gcc,boost_cxx11,find_char_late,"find('.') in one string, hit near the end",256,2.7396,2.9608,2.6561,3.3034,32768,15,59136
-gcc,boost_cxx11,find_char_miss,"find('#') in one string, no hit",256,3.0541,3.1690,2.9671,3.6226,32768,15,18446744073709549568
-gcc,boost_cxx11,rfind_char,rfind('/') in one string,256,11.0703,12.1851,10.6714,14.1402,8192,15,20480
-gcc,boost_cxx11,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.4044,5.7290,5.3167,6.4298,16384,15,40704
-gcc,boost_cxx11,find_str_miss,"find an 8-character view in one string, no hit",256,8.0036,8.1774,7.8381,9.5802,16384,15,18446744073709549568
-gcc,boost_cxx11,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1398.2200,1434.8300,1366.5800,1514.3500,16384,15,18446744073709551608
-gcc,boost_cxx11,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,31.7117,32.0256,31.1457,35.6881,1048576,15,18446744073709551608
-gcc,boost_cxx11,rfind_str,rfind a 9-character view in one string,256,13.5867,14.8833,13.2834,16.5028,8192,15,40704
-gcc,boost_cxx11,find_first_of,find_first_of a set of 3 characters in one string,256,16.9582,17.1772,16.4269,19.5936,8192,15,14336
-gcc,boost_cxx11,find_last_of,find_last_of a set of 3 characters in one string,256,4.5212,4.6523,4.1771,6.6696,32768,15,59136
-gcc,boost_cxx11,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,23.6338,24.5160,22.9008,28.1275,4096,15,18432
-gcc,boost_cxx11,substr,"substr(8, 12) of one string",256,0.9982,1.1456,0.9660,1.8578,131072,15,3416464
-gcc,boost_cxx11,substr_tail,substr(size - 4) of one string,256,0.8426,0.8773,0.8108,1.2115,131072,15,1288192
-gcc,boost_cxx11,compare_equal,compare two equal strings in different buffers,256,2.1642,2.2423,2.1312,2.8880,65536,15,2048
-gcc,boost_cxx11,compare_early,compare two strings that differ in the first character,256,1.7717,1.8387,1.7028,2.3546,65536,15,0
-gcc,boost_cxx11,compare_late,compare two strings that differ in the last character,256,3.1737,3.2844,3.0967,3.8393,32768,15,0
-gcc,boost_cxx11,eq_equal,operator== of two equal strings in different buffers,256,2.0699,2.1592,2.0020,2.3551,65536,15,2048
-gcc,boost_cxx11,eq_size,operator== of two strings of different sizes,256,0.2952,0.3030,0.2872,0.3656,524288,15,0
-gcc,boost_cxx11,eq_late,operator== of two strings of one size that differ in the last character,256,3.2221,3.2863,3.1263,3.7795,32768,15,0
-gcc,boost_cxx11,less,operator< of two strings that differ in the last character,256,2.8306,3.0864,2.7520,3.5867,32768,15,1752
-gcc,boost_cxx11,eq_literal,operator== of a view and a string literal,256,0.2912,0.3029,0.2855,0.3688,524288,15,8
-gcc,boost_cxx11,pass_by_value,call a noinline function that takes the view by value,256,0.7144,0.7447,0.6864,0.8715,131072,15,290560
-gcc,boost_cxx11,return_value,call a noinline function that returns a view built from pointer and size,256,0.8620,0.9006,0.8385,1.1010,131072,15,9035008
-gcc,boost_cxx11,sort,std::sort of 256 views (per element),256,30.0825,30.5555,29.2859,36.3789,4096,15,103488
-gcc,boost_cxx11,map_lookup,find in a std::map of 256 views by an equal view,256,28.7123,30.6744,27.9988,33.0143,4096,15,263168
-gcc,boost_cxx11,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2156.7500,2294.9300,2122.9000,2430.2800,8192,15,4140720
-gcc,boost_cxx11,starts_with,starts_with a view in one string,256,2.0162,2.0442,1.9506,2.4843,65536,15,2048
-gcc,boost_cxx11,ends_with,ends_with a view in one string,256,1.8084,1.8449,1.7299,2.4809,65536,15,2048
-gcc,boost_cxx11,starts_with_lit,starts_with a string literal,256,0.4528,0.4572,0.4377,0.5636,262144,15,2048
-gcc,boost_cxx11,ends_with_lit,ends_with a string literal,256,0.5592,0.5744,0.5345,0.7759,262144,15,2048
-gcc,boost_cxx11,starts_with_chr,starts_with a character,256,0.4621,0.4668,0.4493,0.5333,262144,15,2048
-gcc,boost_cxx11,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,5.5095,5.8525,5.2954,7.3988,16384,15,2048
-gcc,boost_cxx17,ctor_literal,construct from a string literal (length known to the compiler),256,0.5845,0.6014,0.5575,0.7806,262144,15,5849088
-gcc,boost_cxx17,ctor_cstr,construct from a char const * (length by strlen),256,2.9017,2.9613,2.8400,3.3305,32768,15,9035008
-gcc,boost_cxx17,ctor_string,construct from a std::string,256,0.8532,0.8811,0.8301,1.1307,131072,15,9035008
-gcc,boost_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7638,0.9763,0.7476,1.0689,131072,15,9035008
-gcc,boost_cxx17,copy,copy construct a view,256,0.6326,0.6605,0.6085,0.9159,131072,15,9035008
-gcc,boost_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,10.0202,10.3697,9.5662,13.2945,8192,15,6278840
-gcc,boost_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.8446,10.7011,9.4517,12.7255,8192,15,6278840
-gcc,boost_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.6755,1.7220,1.6083,2.2523,65536,15,14336
-gcc,boost_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.7693,2.8317,2.7165,3.2480,32768,15,59136
-gcc,boost_cxx17,find_char_miss,"find('#') in one string, no hit",256,2.9277,2.9918,2.8724,3.5926,32768,15,18446744073709549568
-gcc,boost_cxx17,rfind_char,rfind('/') in one string,256,7.1370,7.4282,6.8326,9.6082,16384,15,20480
-gcc,boost_cxx17,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.3777,5.5446,5.2332,6.6334,16384,15,40704
-gcc,boost_cxx17,find_str_miss,"find an 8-character view in one string, no hit",256,8.4623,8.8567,8.3694,9.3907,16384,15,18446744073709549568
-gcc,boost_cxx17,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1484.1700,1501.7300,1459.3700,1701.9300,16384,15,18446744073709551608
-gcc,boost_cxx17,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,31.5986,32.8867,31.2689,37.6714,1048576,15,18446744073709551608
-gcc,boost_cxx17,rfind_str,rfind a 9-character view in one string,256,13.7568,14.1406,13.4497,15.9589,8192,15,40704
-gcc,boost_cxx17,find_first_of,find_first_of a set of 3 characters in one string,256,18.9200,19.6710,18.4774,23.2265,4096,15,14336
-gcc,boost_cxx17,find_last_of,find_last_of a set of 3 characters in one string,256,7.4913,7.8919,6.6542,9.9808,16384,15,59136
-gcc,boost_cxx17,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,20.8594,21.5058,20.6005,24.7108,4096,15,18432
-gcc,boost_cxx17,substr,"substr(8, 12) of one string",256,1.0027,1.0410,0.9707,1.4375,131072,15,3416464
-gcc,boost_cxx17,substr_tail,substr(size - 4) of one string,256,0.8708,0.9295,0.8170,1.1051,131072,15,1288192
-gcc,boost_cxx17,compare_equal,compare two equal strings in different buffers,256,2.1837,2.2578,2.0710,2.6720,65536,15,2048
-gcc,boost_cxx17,compare_early,compare two strings that differ in the first character,256,1.7828,1.8113,1.6686,2.2071,65536,15,0
-gcc,boost_cxx17,compare_late,compare two strings that differ in the last character,256,3.2045,3.2643,3.1281,3.6021,32768,15,0
-gcc,boost_cxx17,eq_equal,operator== of two equal strings in different buffers,256,2.0905,2.1366,2.0141,2.3785,65536,15,2048
-gcc,boost_cxx17,eq_size,operator== of two strings of different sizes,256,0.3133,0.3202,0.3067,0.3941,262144,15,0
-gcc,boost_cxx17,eq_late,operator== of two strings of one size that differ in the last character,256,3.2500,3.3879,3.1862,3.7821,32768,15,0
-gcc,boost_cxx17,less,operator< of two strings that differ in the last character,256,2.9749,3.0842,2.9231,3.8407,32768,15,1752
-gcc,boost_cxx17,eq_literal,operator== of a view and a string literal,256,0.2855,0.2927,0.2787,0.3797,524288,15,8
-gcc,boost_cxx17,pass_by_value,call a noinline function that takes the view by value,256,0.7181,0.8198,0.6835,0.9892,131072,15,290560
-gcc,boost_cxx17,return_value,call a noinline function that returns a view built from pointer and size,256,0.8718,0.8800,0.8279,1.2277,131072,15,9035008
-gcc,boost_cxx17,sort,std::sort of 256 views (per element),256,31.7199,32.5514,30.6510,40.7000,4096,15,103488
-gcc,boost_cxx17,map_lookup,find in a std::map of 256 views by an equal view,256,29.1923,30.8527,28.6991,34.1157,4096,15,263168
-gcc,boost_cxx17,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2177.4100,2397.4800,2143.4500,2627.7200,8192,15,4140720
-gcc,boost_cxx17,starts_with,starts_with a view in one string,256,1.9849,2.0464,1.9522,2.2815,65536,15,2048
-gcc,boost_cxx17,ends_with,ends_with a view in one string,256,1.7961,1.9789,1.7110,2.4500,65536,15,2048
-gcc,boost_cxx17,starts_with_lit,starts_with a string literal,256,0.4619,0.4776,0.4436,0.5418,262144,15,2048
-gcc,boost_cxx17,ends_with_lit,ends_with a string literal,256,0.5686,0.5737,0.5428,0.8017,262144,15,2048
-gcc,boost_cxx17,starts_with_chr,starts_with a character,256,0.4653,0.4704,0.4522,0.5907,262144,15,2048
-gcc,boost_cxx17,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,5.5251,5.9666,5.2313,7.4583,16384,15,2048
+gcc,lumex_cxx11,ctor_literal,construct from a string literal (length known to the compiler),256,0.5580,0.5725,0.5526,0.7898,131072,15,5849088
+gcc,lumex_cxx11,ctor_cstr,construct from a char const * (length by strlen),256,2.6911,2.8100,2.6685,3.4537,32768,15,9035008
+gcc,lumex_cxx11,ctor_string,construct from a std::string,256,0.8069,0.8167,0.8049,1.0076,131072,15,9035008
+gcc,lumex_cxx11,ctor_ptr_size,construct from pointer and size,256,0.7289,0.7407,0.7260,1.1318,131072,15,9035008
+gcc,lumex_cxx11,copy,copy construct a view,256,0.5947,0.6095,0.5883,0.7953,262144,15,9035008
+gcc,lumex_cxx11,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.0772,9.3251,8.9630,10.0982,16384,15,6278840
+gcc,lumex_cxx11,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.0322,9.1574,8.9640,13.6139,16384,15,6278840
+gcc,lumex_cxx11,find_char,"find('/') in one string, hit at position 7",256,1.5752,1.6235,1.5504,2.3027,65536,15,14336
+gcc,lumex_cxx11,find_char_late,"find('.') in one string, hit near the end",256,2.5490,2.5983,2.5081,3.2945,32768,15,59136
+gcc,lumex_cxx11,find_char_miss,"find('#') in one string, no hit",256,2.8235,3.1902,2.7929,3.5965,32768,15,18446744073709549568
+gcc,lumex_cxx11,rfind_char,rfind('/') in one string,256,7.5403,8.6096,7.4220,9.1216,16384,15,20480
+gcc,lumex_cxx11,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.1025,5.1352,5.0320,5.3718,16384,15,40704
+gcc,lumex_cxx11,find_str_miss,"find an 8-character view in one string, no hit",256,7.1496,7.1901,6.9986,7.8421,16384,15,18446744073709549568
+gcc,lumex_cxx11,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1279.0500,1285.9000,1265.3500,1554.9200,16384,15,18446744073709551608
+gcc,lumex_cxx11,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,29.3414,29.8203,29.2802,32.8713,1048576,15,18446744073709551608
+gcc,lumex_cxx11,rfind_str,rfind a 9-character view in one string,256,14.1192,14.4354,14.0590,15.7918,8192,15,40704
+gcc,lumex_cxx11,find_first_of,find_first_of a set of 3 characters in one string,256,21.7081,23.5160,19.7009,25.6537,4096,15,14336
+gcc,lumex_cxx11,find_last_of,find_last_of a set of 3 characters in one string,256,4.7208,5.3107,4.6926,6.5206,32768,15,59136
+gcc,lumex_cxx11,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,20.4528,20.6142,20.3553,25.7180,4096,15,18432
+gcc,lumex_cxx11,substr,"substr(8, 12) of one string",256,0.9597,0.9715,0.9529,1.2039,131072,15,3416464
+gcc,lumex_cxx11,substr_tail,substr(size - 4) of one string,256,0.7818,0.8268,0.7768,1.0694,131072,15,1288192
+gcc,lumex_cxx11,compare_equal,compare two equal strings in different buffers,256,2.4263,2.4801,2.4179,3.1888,32768,15,2048
+gcc,lumex_cxx11,compare_early,compare two strings that differ in the first character,256,1.7469,1.8957,1.7413,2.8802,65536,15,0
+gcc,lumex_cxx11,compare_late,compare two strings that differ in the last character,256,3.0955,3.1156,3.0716,3.9527,32768,15,0
+gcc,lumex_cxx11,eq_equal,operator== of two equal strings in different buffers,256,1.9416,1.9786,1.9157,2.6956,65536,15,2048
+gcc,lumex_cxx11,eq_size,operator== of two strings of different sizes,256,0.2670,0.2705,0.2548,0.3035,524288,15,0
+gcc,lumex_cxx11,eq_late,operator== of two strings of one size that differ in the last character,256,2.8925,3.0225,2.8662,4.2316,32768,15,0
+gcc,lumex_cxx11,less,operator< of two strings that differ in the last character,256,1.9523,2.0677,1.9431,2.1623,65536,15,1752
+gcc,lumex_cxx11,eq_literal,operator== of a view and a string literal,256,0.2744,0.2762,0.2735,0.3400,524288,15,8
+gcc,lumex_cxx11,pass_by_value,call a noinline function that takes the view by value,256,0.6782,0.6820,0.6701,0.7595,131072,15,290560
+gcc,lumex_cxx11,return_value,call a noinline function that returns a view built from pointer and size,256,0.8213,0.8338,0.8185,1.2194,131072,15,9035008
+gcc,lumex_cxx11,sort,std::sort of 256 views (per element),256,25.7953,26.5590,25.6248,34.7108,4096,15,103488
+gcc,lumex_cxx11,map_lookup,find in a std::map of 256 views by an equal view,256,28.1847,28.4223,27.7457,35.0347,4096,15,263168
+gcc,lumex_cxx11,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2222.8000,2233.0900,2220.0300,2257.2900,16384,15,4140720
+gcc,lumex_cxx11,starts_with,starts_with a view in one string,256,1.9480,1.9636,1.9423,2.2685,65536,15,2048
+gcc,lumex_cxx11,ends_with,ends_with a view in one string,256,1.6990,1.7408,1.6917,2.4135,65536,15,2048
+gcc,lumex_cxx11,starts_with_lit,starts_with a string literal,256,0.4278,0.5004,0.4249,0.5774,262144,15,2048
+gcc,lumex_cxx11,ends_with_lit,ends_with a string literal,256,0.5434,0.5720,0.5335,0.7085,262144,15,2048
+gcc,lumex_cxx11,starts_with_chr,starts_with a character,256,0.4312,0.4344,0.4292,0.5646,262144,15,2048
+gcc,lumex_cxx11,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,5.7709,5.9547,5.6087,7.9281,16384,15,2048
+gcc,lumex_cxx17,ctor_literal,construct from a string literal (length known to the compiler),256,0.5503,0.5596,0.5458,0.9252,262144,15,5849088
+gcc,lumex_cxx17,ctor_cstr,construct from a char const * (length by strlen),256,3.0120,3.0413,3.0075,3.3271,32768,15,9035008
+gcc,lumex_cxx17,ctor_string,construct from a std::string,256,0.8095,0.8292,0.8081,1.2822,131072,15,9035008
+gcc,lumex_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7280,0.7674,0.7270,1.0311,131072,15,9035008
+gcc,lumex_cxx17,copy,copy construct a view,256,0.5931,0.5981,0.5884,0.9722,262144,15,9035008
+gcc,lumex_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.6223,9.8357,9.4951,11.5873,8192,15,6278840
+gcc,lumex_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.6762,9.7582,9.4612,12.5300,8192,15,6278840
+gcc,lumex_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.6108,1.6251,1.5518,2.1297,65536,15,14336
+gcc,lumex_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.5438,2.6065,2.5103,3.1088,32768,15,59136
+gcc,lumex_cxx17,find_char_miss,"find('#') in one string, no hit",256,2.9739,3.0065,2.9035,3.6631,32768,15,18446744073709549568
+gcc,lumex_cxx17,rfind_char,rfind('/') in one string,256,7.5384,7.7267,7.4946,9.3193,16384,15,20480
+gcc,lumex_cxx17,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.2688,5.6319,5.2115,6.7537,16384,15,40704
+gcc,lumex_cxx17,find_str_miss,"find an 8-character view in one string, no hit",256,7.7908,7.9309,7.6069,9.8238,16384,15,18446744073709549568
+gcc,lumex_cxx17,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1362.8700,1373.1400,1315.9100,1463.2800,16384,15,18446744073709551608
+gcc,lumex_cxx17,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,27.9914,28.2567,27.9377,30.2502,1048576,15,18446744073709551608
+gcc,lumex_cxx17,rfind_str,rfind a 9-character view in one string,256,14.0907,14.1631,14.0683,14.4194,8192,15,40704
+gcc,lumex_cxx17,find_first_of,find_first_of a set of 3 characters in one string,256,18.8013,19.1020,18.5770,29.1673,8192,15,14336
+gcc,lumex_cxx17,find_last_of,find_last_of a set of 3 characters in one string,256,5.6549,5.6918,5.6367,5.8662,16384,15,59136
+gcc,lumex_cxx17,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,22.3503,22.7567,22.2439,23.7739,4096,15,18432
+gcc,lumex_cxx17,substr,"substr(8, 12) of one string",256,0.9566,0.9744,0.9475,1.3505,131072,15,3416464
+gcc,lumex_cxx17,substr_tail,substr(size - 4) of one string,256,0.7780,0.7986,0.7732,1.1651,131072,15,1288192
+gcc,lumex_cxx17,compare_equal,compare two equal strings in different buffers,256,2.4265,2.4611,2.4136,3.0722,32768,15,2048
+gcc,lumex_cxx17,compare_early,compare two strings that differ in the first character,256,1.7562,1.7890,1.7417,2.3834,65536,15,0
+gcc,lumex_cxx17,compare_late,compare two strings that differ in the last character,256,3.0714,3.1568,3.0612,3.7895,32768,15,0
+gcc,lumex_cxx17,eq_equal,operator== of two equal strings in different buffers,256,1.9449,1.9744,1.9016,2.2525,65536,15,2048
+gcc,lumex_cxx17,eq_size,operator== of two strings of different sizes,256,0.2675,0.2695,0.2663,0.3842,524288,15,0
+gcc,lumex_cxx17,eq_late,operator== of two strings of one size that differ in the last character,256,2.8963,3.0577,2.8685,3.9662,32768,15,0
+gcc,lumex_cxx17,less,operator< of two strings that differ in the last character,256,1.9567,2.0769,1.9407,2.4458,65536,15,1752
+gcc,lumex_cxx17,eq_literal,operator== of a view and a string literal,256,0.2752,0.2874,0.2745,0.3512,524288,15,8
+gcc,lumex_cxx17,pass_by_value,call a noinline function that takes the view by value,256,0.6794,0.7171,0.6758,0.9355,131072,15,290560
+gcc,lumex_cxx17,return_value,call a noinline function that returns a view built from pointer and size,256,0.8247,0.8485,0.8198,1.3496,131072,15,9035008
+gcc,lumex_cxx17,sort,std::sort of 256 views (per element),256,26.3878,27.2272,26.1988,30.9808,4096,15,103488
+gcc,lumex_cxx17,map_lookup,find in a std::map of 256 views by an equal view,256,27.8281,28.4103,27.5409,29.1686,4096,15,263168
+gcc,lumex_cxx17,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2226.7900,2256.3700,2220.8300,2333.9600,16384,15,4140720
+gcc,lumex_cxx17,starts_with,starts_with a view in one string,256,1.9500,1.9871,1.9445,2.4311,65536,15,2048
+gcc,lumex_cxx17,ends_with,ends_with a view in one string,256,1.6987,1.7485,1.6919,2.5327,65536,15,2048
+gcc,lumex_cxx17,starts_with_lit,starts_with a string literal,256,0.4383,0.4552,0.4369,0.5241,262144,15,2048
+gcc,lumex_cxx17,ends_with_lit,ends_with a string literal,256,0.5360,0.5489,0.5317,0.8299,262144,15,2048
+gcc,lumex_cxx17,starts_with_chr,starts_with a character,256,0.4404,0.4462,0.4380,0.5163,262144,15,2048
+gcc,lumex_cxx17,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,5.7865,6.0977,5.6341,7.8806,16384,15,2048
+gcc,lumex_cxx17,to_std,construct a std::string_view from the view (the conversion),256,0.6532,0.6942,0.6341,1.1134,131072,15,9035008
+gcc,lumex_cxx17,from_std,construct the view from a std::string_view (the conversion),256,0.8061,0.8409,0.8034,1.0363,131072,15,9035008
+gcc,lumex_cxx17,eq_std,operator== of the view and a std::string_view,256,1.7405,1.7597,1.7294,2.2370,65536,15,2048
+gcc,lumex_cxx17,less_std,operator< of the view and a std::string_view,256,1.8746,1.9109,1.8623,2.1478,65536,15,1752
+gcc,std_cxx17,ctor_literal,construct from a string literal (length known to the compiler),256,0.5475,0.5631,0.5451,0.6006,262144,15,5849088
+gcc,std_cxx17,ctor_cstr,construct from a char const * (length by strlen),256,2.6103,2.7598,2.5792,2.9893,32768,15,9035008
+gcc,std_cxx17,ctor_string,construct from a std::string,256,0.8077,0.8147,0.8032,1.2551,131072,15,9035008
+gcc,std_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7279,0.7688,0.7269,0.7861,131072,15,9035008
+gcc,std_cxx17,copy,copy construct a view,256,0.5984,0.6173,0.5861,1.1358,131072,15,9035008
+gcc,std_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,8.6872,9.3393,8.4977,10.8636,8192,15,6278840
+gcc,std_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,8.6612,8.7782,8.4708,12.3240,16384,15,6278840
+gcc,std_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.5594,1.5796,1.5515,1.7796,65536,15,14336
+gcc,std_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.7097,2.7366,2.6675,2.8068,32768,15,59136
+gcc,std_cxx17,find_char_miss,"find('#') in one string, no hit",256,3.0008,3.1134,2.9526,4.0001,32768,15,18446744073709549568
+gcc,std_cxx17,rfind_char,rfind('/') in one string,256,7.3680,7.6377,7.3396,8.8340,16384,15,20480
+gcc,std_cxx17,find_str_hit,"find a 9-character view in one string, hit at 17",256,4.8488,4.8904,4.7291,6.5095,16384,15,40704
+gcc,std_cxx17,find_str_miss,"find an 8-character view in one string, no hit",256,7.8751,7.9841,7.7885,9.8170,16384,15,18446744073709549568
+gcc,std_cxx17,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1433.2700,1457.5500,1429.7100,1695.0200,16384,15,18446744073709551608
+gcc,std_cxx17,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,27.9197,34.8807,27.8411,43.0469,1048576,15,18446744073709551608
+gcc,std_cxx17,rfind_str,rfind a 9-character view in one string,256,13.6300,13.8314,13.4215,14.2880,8192,15,40704
+gcc,std_cxx17,find_first_of,find_first_of a set of 3 characters in one string,256,17.8296,19.6963,17.5663,20.3373,8192,15,14336
+gcc,std_cxx17,find_last_of,find_last_of a set of 3 characters in one string,256,5.0595,5.0845,5.0288,6.3724,16384,15,59136
+gcc,std_cxx17,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,19.9836,20.0942,19.9284,24.3888,4096,15,18432
+gcc,std_cxx17,substr,"substr(8, 12) of one string",256,0.9299,0.9354,0.9263,0.9774,131072,15,3416464
+gcc,std_cxx17,substr_tail,substr(size - 4) of one string,256,0.7761,0.7946,0.7709,0.8371,131072,15,1288192
+gcc,std_cxx17,compare_equal,compare two equal strings in different buffers,256,2.6006,2.6209,2.5891,2.8043,32768,15,2048
+gcc,std_cxx17,compare_early,compare two strings that differ in the first character,256,1.7445,1.7756,1.7371,1.8120,65536,15,0
+gcc,std_cxx17,compare_late,compare two strings that differ in the last character,256,3.0039,3.0714,2.9694,3.5934,32768,15,0
+gcc,std_cxx17,eq_equal,operator== of two equal strings in different buffers,256,1.9379,2.2845,1.9164,2.5607,65536,15,2048
+gcc,std_cxx17,eq_size,operator== of two strings of different sizes,256,0.2680,0.2705,0.2674,0.2856,524288,15,0
+gcc,std_cxx17,eq_late,operator== of two strings of one size that differ in the last character,256,2.8680,2.9424,2.8456,3.0725,32768,15,0
+gcc,std_cxx17,less,operator< of two strings that differ in the last character,256,1.9501,2.0037,1.9412,2.1282,65536,15,1752
+gcc,std_cxx17,eq_literal,operator== of a view and a string literal,256,0.2735,0.2768,0.2732,0.3099,524288,15,8
+gcc,std_cxx17,pass_by_value,call a noinline function that takes the view by value,256,0.6747,0.7143,0.6730,0.8366,131072,15,290560
+gcc,std_cxx17,return_value,call a noinline function that returns a view built from pointer and size,256,0.8186,0.8735,0.8161,1.1984,131072,15,9035008
+gcc,std_cxx17,sort,std::sort of 256 views (per element),256,27.7138,28.1618,27.4378,30.0805,4096,15,103488
+gcc,std_cxx17,map_lookup,find in a std::map of 256 views by an equal view,256,25.0085,25.6776,24.9649,31.3388,4096,15,263168
+gcc,std_cxx17,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2189.7300,2218.4800,2186.7600,2252.7500,16384,15,4140720
+gcc,std_cxx17,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,4.2742,4.5281,4.2019,5.7639,32768,15,2048
+gcc,std_cxx17,to_std,construct a std::string_view from the view (the conversion),256,0.5954,0.6115,0.5859,0.8968,262144,15,9035008
+gcc,std_cxx17,from_std,construct the view from a std::string_view (the conversion),256,0.6947,0.7096,0.6902,0.8094,131072,15,9035008
+gcc,std_cxx17,eq_std,operator== of the view and a std::string_view,256,1.7213,1.7396,1.6994,1.8366,65536,15,2048
+gcc,std_cxx17,less_std,operator< of the view and a std::string_view,256,1.9270,1.9586,1.8662,2.0737,65536,15,1752
+gcc,std_cxx20,ctor_literal,construct from a string literal (length known to the compiler),256,0.5861,0.5950,0.5839,0.6788,131072,15,5849088
+gcc,std_cxx20,ctor_cstr,construct from a char const * (length by strlen),256,2.6759,2.7050,2.6712,2.8766,32768,15,9035008
+gcc,std_cxx20,ctor_string,construct from a std::string,256,0.8082,0.8188,0.7898,1.2687,131072,15,9035008
+gcc,std_cxx20,ctor_ptr_size,construct from pointer and size,256,0.7295,0.7630,0.7250,0.9485,131072,15,9035008
+gcc,std_cxx20,copy,copy construct a view,256,0.5883,0.6062,0.5763,0.9788,131072,15,9035008
+gcc,std_cxx20,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.0831,9.9414,8.9642,11.2468,16384,15,6278840
+gcc,std_cxx20,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.0929,9.8443,8.8726,16.2642,16384,15,6278840
+gcc,std_cxx20,find_char,"find('/') in one string, hit at position 7",256,1.5721,1.6234,1.5572,2.2657,65536,15,14336
+gcc,std_cxx20,find_char_late,"find('.') in one string, hit near the end",256,2.6009,2.6714,2.5393,3.3890,32768,15,59136
+gcc,std_cxx20,find_char_miss,"find('#') in one string, no hit",256,2.8232,2.9660,2.7542,3.7635,32768,15,18446744073709549568
+gcc,std_cxx20,rfind_char,rfind('/') in one string,256,7.4143,7.5480,7.2714,8.1511,16384,15,20480
+gcc,std_cxx20,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.5200,5.5747,5.4183,6.0096,16384,15,40704
+gcc,std_cxx20,find_str_miss,"find an 8-character view in one string, no hit",256,8.0552,8.2236,8.0216,9.7412,16384,15,18446744073709549568
+gcc,std_cxx20,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1427.2900,1455.1300,1411.1400,1519.5100,16384,15,18446744073709551608
+gcc,std_cxx20,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,27.9440,34.7783,27.5284,36.2135,1048576,15,18446744073709551608
+gcc,std_cxx20,rfind_str,rfind a 9-character view in one string,256,13.6227,14.9729,13.4221,15.8333,8192,15,40704
+gcc,std_cxx20,find_first_of,find_first_of a set of 3 characters in one string,256,17.6709,17.8646,17.4605,20.0274,8192,15,14336
+gcc,std_cxx20,find_last_of,find_last_of a set of 3 characters in one string,256,5.0687,5.7706,5.0444,6.4935,16384,15,59136
+gcc,std_cxx20,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,20.2313,21.1148,20.1614,23.8485,4096,15,18432
+gcc,std_cxx20,substr,"substr(8, 12) of one string",256,0.9337,1.0099,0.9290,1.1584,131072,15,3416464
+gcc,std_cxx20,substr_tail,substr(size - 4) of one string,256,0.7855,0.8006,0.7812,1.0855,131072,15,1288192
+gcc,std_cxx20,compare_equal,compare two equal strings in different buffers,256,2.5102,2.5960,2.5014,2.7260,32768,15,2048
+gcc,std_cxx20,compare_early,compare two strings that differ in the first character,256,1.7326,1.7529,1.7275,1.9717,65536,15,0
+gcc,std_cxx20,compare_late,compare two strings that differ in the last character,256,3.0673,3.2671,3.0303,3.8773,32768,15,0
+gcc,std_cxx20,eq_equal,operator== of two equal strings in different buffers,256,1.9359,2.2777,1.9107,2.7364,65536,15,2048
+gcc,std_cxx20,eq_size,operator== of two strings of different sizes,256,0.2677,0.2738,0.2614,0.3502,524288,15,0
+gcc,std_cxx20,eq_late,operator== of two strings of one size that differ in the last character,256,2.8883,2.9444,2.8621,3.1417,32768,15,0
+gcc,std_cxx20,less,operator< of two strings that differ in the last character,256,1.9510,2.0290,1.9337,2.4924,65536,15,1752
+gcc,std_cxx20,eq_literal,operator== of a view and a string literal,256,0.2748,0.2809,0.2733,0.3672,524288,15,8
+gcc,std_cxx20,pass_by_value,call a noinline function that takes the view by value,256,0.6802,0.6854,0.6601,1.0671,131072,15,290560
+gcc,std_cxx20,return_value,call a noinline function that returns a view built from pointer and size,256,0.8215,0.8498,0.8176,1.3709,131072,15,9035008
+gcc,std_cxx20,sort,std::sort of 256 views (per element),256,25.4516,26.1653,25.1936,28.5014,4096,15,103488
+gcc,std_cxx20,map_lookup,find in a std::map of 256 views by an equal view,256,28.6308,28.7495,28.2325,35.9213,4096,15,263168
+gcc,std_cxx20,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2194.3100,2219.7800,2186.3300,2373.9800,16384,15,4140720
+gcc,std_cxx20,starts_with,starts_with a view in one string,256,2.2428,2.2881,2.2390,2.4113,65536,15,2048
+gcc,std_cxx20,ends_with,ends_with a view in one string,256,1.7034,1.7649,1.6978,2.3504,65536,15,2048
+gcc,std_cxx20,starts_with_lit,starts_with a string literal,256,0.4285,0.4324,0.4260,0.4985,262144,15,2048
+gcc,std_cxx20,ends_with_lit,ends_with a string literal,256,0.5359,0.5405,0.5339,0.7659,262144,15,2048
+gcc,std_cxx20,starts_with_chr,starts_with a character,256,0.4400,0.4429,0.4380,0.5058,262144,15,2048
+gcc,std_cxx20,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,4.3084,4.4154,4.2620,6.1121,32768,15,2048
+gcc,std_cxx20,to_std,construct a std::string_view from the view (the conversion),256,0.5923,0.6031,0.5873,0.7814,262144,15,9035008
+gcc,std_cxx20,from_std,construct the view from a std::string_view (the conversion),256,0.6926,0.7124,0.6882,1.1005,131072,15,9035008
+gcc,std_cxx20,eq_std,operator== of the view and a std::string_view,256,1.7329,1.7812,1.7145,2.3539,65536,15,2048
+gcc,std_cxx20,less_std,operator< of the view and a std::string_view,256,1.8747,1.8910,1.8590,2.3146,65536,15,1752
+gcc,boost_cxx11,ctor_literal,construct from a string literal (length known to the compiler),256,0.5843,0.5936,0.5821,0.8422,262144,15,5849088
+gcc,boost_cxx11,ctor_cstr,construct from a char const * (length by strlen),256,2.6797,2.7506,2.6681,3.5705,32768,15,9035008
+gcc,boost_cxx11,ctor_string,construct from a std::string,256,0.8036,0.8086,0.8022,1.2694,131072,15,9035008
+gcc,boost_cxx11,ctor_ptr_size,construct from pointer and size,256,0.7277,0.7373,0.7254,1.0149,131072,15,9035008
+gcc,boost_cxx11,copy,copy construct a view,256,0.5961,0.6088,0.5851,0.6457,262144,15,9035008
+gcc,boost_cxx11,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.0241,9.1672,8.8819,11.4174,16384,15,6278840
+gcc,boost_cxx11,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.0733,9.2253,8.8384,13.0321,16384,15,6278840
+gcc,boost_cxx11,find_char,"find('/') in one string, hit at position 7",256,1.5460,1.6453,1.5399,2.5542,65536,15,14336
+gcc,boost_cxx11,find_char_late,"find('.') in one string, hit near the end",256,2.5772,2.6284,2.5250,2.7376,32768,15,59136
+gcc,boost_cxx11,find_char_miss,"find('#') in one string, no hit",256,2.8187,2.9552,2.7299,3.3812,32768,15,18446744073709549568
+gcc,boost_cxx11,rfind_char,rfind('/') in one string,256,11.0617,11.6135,10.5795,15.7466,8192,15,20480
+gcc,boost_cxx11,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.1920,5.3081,5.1217,7.0479,16384,15,40704
+gcc,boost_cxx11,find_str_miss,"find an 8-character view in one string, no hit",256,7.6617,7.7009,7.5912,10.5320,16384,15,18446744073709549568
+gcc,boost_cxx11,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1370.7500,1376.8500,1368.1400,1418.2100,16384,15,18446744073709551608
+gcc,boost_cxx11,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,30.8391,35.3399,30.8014,43.5416,1048576,15,18446744073709551608
+gcc,boost_cxx11,rfind_str,rfind a 9-character view in one string,256,12.9545,13.0703,12.8892,14.0956,8192,15,40704
+gcc,boost_cxx11,find_first_of,find_first_of a set of 3 characters in one string,256,16.5158,16.6786,16.4852,17.6315,8192,15,14336
+gcc,boost_cxx11,find_last_of,find_last_of a set of 3 characters in one string,256,4.0181,4.1244,3.9893,6.7330,32768,15,59136
+gcc,boost_cxx11,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,23.0190,23.2343,22.9380,24.0215,4096,15,18432
+gcc,boost_cxx11,substr,"substr(8, 12) of one string",256,0.9406,0.9462,0.9324,1.0145,131072,15,3416464
+gcc,boost_cxx11,substr_tail,substr(size - 4) of one string,256,0.7764,0.8001,0.7721,1.3290,131072,15,1288192
+gcc,boost_cxx11,compare_equal,compare two equal strings in different buffers,256,2.0149,2.4428,1.9935,2.4682,65536,15,2048
+gcc,boost_cxx11,compare_early,compare two strings that differ in the first character,256,1.6595,1.6982,1.6488,2.4716,65536,15,0
+gcc,boost_cxx11,compare_late,compare two strings that differ in the last character,256,3.0451,3.1292,3.0224,3.1614,32768,15,0
+gcc,boost_cxx11,eq_equal,operator== of two equal strings in different buffers,256,1.9581,2.2954,1.9203,2.3442,65536,15,2048
+gcc,boost_cxx11,eq_size,operator== of two strings of different sizes,256,0.2856,0.2888,0.2847,0.3706,524288,15,0
+gcc,boost_cxx11,eq_late,operator== of two strings of one size that differ in the last character,256,3.0599,3.1215,3.0261,3.2767,32768,15,0
+gcc,boost_cxx11,less,operator< of two strings that differ in the last character,256,2.6932,2.8343,2.6814,2.8806,32768,15,1752
+gcc,boost_cxx11,eq_literal,operator== of a view and a string literal,256,0.2792,0.2807,0.2764,0.3600,524288,15,8
+gcc,boost_cxx11,pass_by_value,call a noinline function that takes the view by value,256,0.6774,0.6967,0.6740,0.9779,131072,15,290560
+gcc,boost_cxx11,return_value,call a noinline function that returns a view built from pointer and size,256,0.8092,0.8210,0.8056,0.8935,131072,15,9035008
+gcc,boost_cxx11,sort,std::sort of 256 views (per element),256,28.5802,28.8603,28.2806,35.1773,4096,15,103488
+gcc,boost_cxx11,map_lookup,find in a std::map of 256 views by an equal view,256,27.3353,27.7581,27.2672,31.2462,4096,15,263168
+gcc,boost_cxx11,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2160.7200,2169.4300,2156.1500,2215.8000,16384,15,4140720
+gcc,boost_cxx11,starts_with,starts_with a view in one string,256,1.9446,2.0360,1.9407,2.2652,65536,15,2048
+gcc,boost_cxx11,ends_with,ends_with a view in one string,256,1.7102,1.7182,1.6746,2.1089,65536,15,2048
+gcc,boost_cxx11,starts_with_lit,starts_with a string literal,256,0.4267,0.4349,0.4233,0.4858,262144,15,2048
+gcc,boost_cxx11,ends_with_lit,ends_with a string literal,256,0.5300,0.5440,0.5275,0.6907,262144,15,2048
+gcc,boost_cxx11,starts_with_chr,starts_with a character,256,0.4412,0.4502,0.4386,0.4714,262144,15,2048
+gcc,boost_cxx11,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,5.0317,5.2539,4.9858,5.3770,16384,15,2048
+gcc,boost_cxx17,ctor_literal,construct from a string literal (length known to the compiler),256,0.5475,0.5574,0.5459,0.7331,262144,15,5849088
+gcc,boost_cxx17,ctor_cstr,construct from a char const * (length by strlen),256,2.7230,2.7543,2.7037,3.5530,32768,15,9035008
+gcc,boost_cxx17,ctor_string,construct from a std::string,256,0.8084,0.8190,0.8046,1.0574,131072,15,9035008
+gcc,boost_cxx17,ctor_ptr_size,construct from pointer and size,256,0.7278,0.7418,0.7262,0.8476,131072,15,9035008
+gcc,boost_cxx17,copy,copy construct a view,256,0.5963,0.6210,0.5910,0.7903,262144,15,9035008
+gcc,boost_cxx17,index_sum,"sum of the characters of one string of 30 to 33, by operator[]",256,9.3127,10.4513,9.0170,14.4489,8192,15,6278840
+gcc,boost_cxx17,range_sum,"sum of the characters of one string of 30 to 33, by range-for",256,9.1130,9.5374,8.9624,10.7834,16384,15,6278840
+gcc,boost_cxx17,find_char,"find('/') in one string, hit at position 7",256,1.5435,1.5694,1.5330,2.2539,65536,15,14336
+gcc,boost_cxx17,find_char_late,"find('.') in one string, hit near the end",256,2.5994,2.6274,2.5689,2.8129,32768,15,59136
+gcc,boost_cxx17,find_char_miss,"find('#') in one string, no hit",256,2.7755,2.8147,2.7296,2.8737,32768,15,18446744073709549568
+gcc,boost_cxx17,rfind_char,rfind('/') in one string,256,6.7637,6.8491,6.7077,7.6910,16384,15,20480
+gcc,boost_cxx17,find_str_hit,"find a 9-character view in one string, hit at 17",256,5.0499,5.1274,5.0066,5.2448,16384,15,40704
+gcc,boost_cxx17,find_str_miss,"find an 8-character view in one string, no hit",256,8.3594,8.4666,8.2578,9.3657,16384,15,18446744073709549568
+gcc,boost_cxx17,find_str_text,"find an 8-character view in a text of 4096 characters, no hit; its first letter occurs at every 16th position",1,1437.1500,1450.6700,1432.3200,1520.7700,16384,15,18446744073709551608
+gcc,boost_cxx17,find_str_absent,"find an 8-character view in a text of 4096 characters, no hit; its first letter does not occur",1,30.8233,31.4112,30.7832,34.3577,1048576,15,18446744073709551608
+gcc,boost_cxx17,rfind_str,rfind a 9-character view in one string,256,13.1350,13.2645,13.1197,15.0292,8192,15,40704
+gcc,boost_cxx17,find_first_of,find_first_of a set of 3 characters in one string,256,18.4097,19.6055,18.3755,23.0024,8192,15,14336
+gcc,boost_cxx17,find_last_of,find_last_of a set of 3 characters in one string,256,6.9115,7.6296,5.8465,8.8117,16384,15,59136
+gcc,boost_cxx17,find_first_not_of,find_first_not_of a set of 10 characters in one string,256,20.0693,21.0394,19.9182,21.5245,4096,15,18432
+gcc,boost_cxx17,substr,"substr(8, 12) of one string",256,0.9546,1.0085,0.9514,1.3932,131072,15,3416464
+gcc,boost_cxx17,substr_tail,substr(size - 4) of one string,256,0.8091,0.8783,0.8066,1.2731,65536,15,1288192
+gcc,boost_cxx17,compare_equal,compare two equal strings in different buffers,256,2.0230,2.1971,2.0057,2.5002,65536,15,2048
+gcc,boost_cxx17,compare_early,compare two strings that differ in the first character,256,1.6636,1.7971,1.6516,2.6244,65536,15,0
+gcc,boost_cxx17,compare_late,compare two strings that differ in the last character,256,3.0346,3.2234,3.0088,3.7652,32768,15,0
+gcc,boost_cxx17,eq_equal,operator== of two equal strings in different buffers,256,1.9594,2.0702,1.9463,2.3783,65536,15,2048
+gcc,boost_cxx17,eq_size,operator== of two strings of different sizes,256,0.3012,0.3146,0.3004,0.3305,262144,15,0
+gcc,boost_cxx17,eq_late,operator== of two strings of one size that differ in the last character,256,3.1329,3.3136,3.1089,3.5588,32768,15,0
+gcc,boost_cxx17,less,operator< of two strings that differ in the last character,256,2.8552,3.0366,2.8421,3.2479,32768,15,1752
+gcc,boost_cxx17,eq_literal,operator== of a view and a string literal,256,0.2791,0.2940,0.2777,0.3341,524288,15,8
+gcc,boost_cxx17,pass_by_value,call a noinline function that takes the view by value,256,0.6799,0.7251,0.6761,0.8296,131072,15,290560
+gcc,boost_cxx17,return_value,call a noinline function that returns a view built from pointer and size,256,0.8218,0.8775,0.8186,1.2279,131072,15,9035008
+gcc,boost_cxx17,sort,std::sort of 256 views (per element),256,29.6496,31.7841,29.3387,37.0872,4096,15,103488
+gcc,boost_cxx17,map_lookup,find in a std::map of 256 views by an equal view,256,28.3170,29.7982,28.0219,34.7245,4096,15,263168
+gcc,boost_cxx17,split,"split a text of 4096 characters at ',' into views (about 450 fields; one split)",1,2162.0800,2189.3900,2154.3000,2474.8400,16384,15,4140720
+gcc,boost_cxx17,starts_with,starts_with a view in one string,256,1.9569,2.0453,1.9481,2.5003,65536,15,2048
+gcc,boost_cxx17,ends_with,ends_with a view in one string,256,1.7041,1.8400,1.6553,2.8433,65536,15,2048
+gcc,boost_cxx17,starts_with_lit,starts_with a string literal,256,0.4426,0.4675,0.4400,0.5215,262144,15,2048
+gcc,boost_cxx17,ends_with_lit,ends_with a string literal,256,0.5328,0.5731,0.5281,0.6308,262144,15,2048
+gcc,boost_cxx17,starts_with_chr,starts_with a character,256,0.4414,0.4757,0.4384,0.5147,262144,15,2048
+gcc,boost_cxx17,hash,"hash one string (the hash of each library: std::hash, boost::hash)",256,5.0650,5.5414,4.9640,5.8373,16384,15,2048
