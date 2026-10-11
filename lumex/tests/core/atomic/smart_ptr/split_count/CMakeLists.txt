@@ -32,6 +32,8 @@
 # (semantics table, stress shapes) and LumexSplitCountHold.hpp the threads held
 # at a point of the protocol. LumexSplitCountAllocHooks.cxx11.tests.cpp
 # replaces the global allocation functions (not under ThreadSanitizer).
+# LumexSplitCountSim.hpp is the simulated-scheduler explorer (V1); its long runs
+# are the Soak tests.
 set(_split_sanitize_thread FALSE)
 if(LUMEX_USE_TSAN)
     set(_split_sanitize_thread TRUE)
@@ -47,7 +49,8 @@ lumex_add_standard_suites(AtomicSplitCount
     MODULE atomic.smart_ptr.split_count
     LINK lumex::atomic
     SOURCES LumexSplitCountTestSupport.hpp LumexSplitCountScenarios.hpp
-            LumexSplitCountHold.hpp
+            LumexSplitCountHold.hpp LumexSplitCountSim.hpp
+            LumexSplitCountSimScenarios.hpp
     DEFINITIONS ${_split_default_definitions}
     DISCOVER_ARGS PROPERTIES TIMEOUT 300 LABELS tsan
     SOAK_FILTER *Soak*

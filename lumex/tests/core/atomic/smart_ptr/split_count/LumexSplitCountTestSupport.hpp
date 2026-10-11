@@ -543,6 +543,25 @@ expect_allocations (unsigned long mark, unsigned long want,
   EXPECT_EQ (new_calls () - mark, want) << what;
 }
 
+/// The redirect of the simulated-scheduler explorer
+/// (LumexSplitCountSim.hpp): while a simulation runs, the global allocation
+/// replacement first offers it every allocation (`allocate`: a block, or null
+/// to use the heap) and every release (`release`: true when the block was
+/// its own). Both are null when no simulation runs, and then the replacement
+/// behaves as it always did.
+struct sim_alloc_redirect_t
+{
+  void *(*allocate) (std::size_t size);
+  bool (*release) (void *block);
+};
+
+inline sim_alloc_redirect_t &
+sim_alloc_redirect ()
+{
+  static sim_alloc_redirect_t redirect = { nullptr, nullptr };
+  return redirect;
+}
+
 /// Allocations not yet freed, all threads (live blocks of `operator new`).
 inline std::atomic<long> &
 live_allocations ()
