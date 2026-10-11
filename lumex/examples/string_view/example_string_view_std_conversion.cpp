@@ -14,9 +14,12 @@ main ()
   std::string_view back = own;        // implicit
   bool const same = (own == standard) // compares like two views
                     && !(own != back) && (own < lumex_string_view ("z"));
-  // The hash of the view is the hash of the standard view of the same text.
+  // The hash of a view is the same in every standard (it is not the hash of
+  // std::string_view, which depends on the standard library).
   std::size_t const hash = std::hash<lumex_string_view> () (own);
   std::string const copy = own.to_string (); // an owning copy is explicit
-  std::cout << same << ' ' << (hash == std::hash<std::string_view> () (back))
+  std::cout << same << ' '
+            << (hash
+                == std::hash<lumex_string_view> () (lumex_string_view (back)))
             << ' ' << copy.size () << '\n';
 }

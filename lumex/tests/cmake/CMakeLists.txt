@@ -333,6 +333,10 @@ lumex_add_consumer_test(consumer_standard_mismatch_lib11_consumer20
     standard_mismatch -DLIB_STD=11 -DCONSUMER_STD=20)
 lumex_add_consumer_test(consumer_standard_mismatch_lib20_consumer11
     standard_mismatch -DLIB_STD=20 -DCONSUMER_STD=11)
+# std::hash of the string views is one value in every standard: a set filled
+# by a C++11 unit is searched by a C++17 (and C++20) program.
+lumex_add_consumer_test(consumer_string_view_hash_standard_mismatch
+    string_view_hash_standard_mismatch)
 # Before C++20 the lock-based atomic smart pointers sleep on a table in a
 # function-local static; two shared libraries built with hidden visibility
 # must share it (skipped on Windows, where DLLs cannot).
@@ -360,7 +364,7 @@ foreach(_semantic IN ITEMS ignore observe enforce quick_enforce p2900)
         contracts_build_semantic -DSEMANTIC=${_semantic})
 endforeach()
 lumex_add_consumer_test(consumer_contracts_two_modules contracts_two_modules)
-# The header-only modules (string, math, generators, optional, atomic, span) compile
+# The header-only modules (string, string_view, math, generators, optional, atomic, span) compile
 # from an install prefix built with LUMEX_BUILD_UTILITY OFF: the core/utility
 # headers they include are installed whatever that option says.
 lumex_add_consumer_test(install_header_only_without_utility

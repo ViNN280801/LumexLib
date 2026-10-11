@@ -1,4 +1,4 @@
-// cmake.install_header_only_without_utility: the six header-only
+// cmake.install_header_only_without_utility: the seven header-only
 // modules compile and work from an install prefix that has no core/utility
 // module. Their umbrellas include core/utility headers, which LumexLib
 // installs whatever LUMEX_BUILD_UTILITY says. Exit code 0 on success, 1 when
@@ -15,6 +15,7 @@
 #include "lumex/core/optional/LumexOptional"
 #include "lumex/core/span/LumexSpan"
 #include "lumex/core/string/LumexString"
+#include "lumex/core/string_view/LumexStringView"
 
 namespace
 {
@@ -35,6 +36,10 @@ int
 main ()
 {
   std::vector<int> const numbers = { 1, 2, 3 };
+  lumex_string_view const text_view ("key=value");
+  check (text_view.find ('=') == 3 && text_view.substr (4) == "value"
+             && text_view.contains ("y=v"),
+         "string_view: find, substr, contains");
   check (lumex::core::string::utility::stringify ("n=", 2) == "n=2",
          "string: stringify");
   check (lumex::core::string::text::join (numbers, ",") == "1,2,3",

@@ -28,6 +28,22 @@ using lumex::core::string_view::view::lumex_u16string_view;
 using lumex::core::string_view::view::lumex_u32string_view;
 } // namespace
 
+// Keep these first: the trait behind the range constructor is instantiated
+// once per range type, and the first question asked about a range type decides
+// what a program that makes the constructor implicit would see.
+static_assert (
+    !std::is_convertible<std::vector<char>, lumex_string_view>::value,
+    "a vector does not convert implicitly (rvalue)");
+static_assert (
+    !std::is_convertible<std::vector<char> &, lumex_string_view>::value,
+    "a vector does not convert implicitly (lvalue)");
+static_assert (
+    std::is_constructible<lumex_string_view, std::vector<char> &>::value,
+    "a non-const vector constructs a view explicitly");
+static_assert (
+    std::is_constructible<lumex_string_view, std::vector<char>>::value,
+    "a vector rvalue constructs a view explicitly");
+
 static_assert (std::is_same<lumex_string_view::traits_type,
                             std::char_traits<char>>::value,
                "traits_type");
@@ -443,4 +459,32 @@ TEST (LumexStringViewApiTest, GivenAtOutOfRange_WhenAt_ThenOutOfRange)
   EXPECT_EQ (view.front (), 'a');
   EXPECT_EQ (view.back (), 'c');
   EXPECT_EQ (view[1], 'b');
+}
+
+namespace
+{
+std::size_t
+size_of_view (lumex_string_view view)
+{
+  return view.size ();
+}
+} // namespace
+
+TEST (LumexStringViewApiTest,
+      GivenNonConstRanges_WhenConstruct_ThenViewOfTheRange)
+{
+  std::vector<char> vec;
+  vec.push_back ('a');
+  vec.push_back ('b');
+  lumex_string_view const from_vector (vec);
+  EXPECT_EQ (from_vector.size (), 2U);
+  EXPECT_EQ (from_vector.data (), vec.data ());
+  std::array<char, 3> arr = { { 'x', 'y', 'z' } };
+  lumex_string_view const from_array (arr);
+  EXPECT_EQ (from_array.size (), 3U);
+  EXPECT_EQ (size_of_view (lumex_string_view (vec)), 2U);
+  EXPECT_EQ (size_of_view ("abc"), 3U);
+  std::wstring wide = L"wide";
+  lumex_wstring_view const from_wide_string (wide);
+  EXPECT_EQ (from_wide_string.size (), 4U);
 }

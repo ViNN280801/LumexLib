@@ -2,12 +2,12 @@
 #
 # While configuring, installs LumexLib into a prefix under this build tree
 # with LUMEX_BUILD_UTILITY OFF, every module that requires utility OFF and the
-# six header-only modules (string, math, generators, optional, atomic, span) ON.
+# seven header-only modules (string, string_view, math, generators, optional, atomic, span) ON.
 # Then finds that prefix with find_package(LumexLib) and builds main.cpp
 # against the installed targets only: at C++11 (the executable that runs) and,
 # when the compiler has it, at C++20.
 #
-# The six modules are INTERFACE targets, so the nested LumexLib tree is
+# The seven modules are INTERFACE targets, so the nested LumexLib tree is
 # configured and installed without a build: building it would also run its
 # ALL targets that write into the LumexLib checkout (publish_distr,
 # lumex_copy_compile_commands).
@@ -20,12 +20,13 @@ if(NOT LUMEX_SOURCE_DIR)
 endif()
 
 set(_header_only_modules ATOMIC GENERATORS MATH OPTIONAL SPAN STRING)
+list(APPEND _header_only_modules STRING_VIEW)
 # Every other core module: UTILITY itself, and the modules that require it
 # directly or through another module (cmake/LumexModules.cmake). The applied
 # and XML groups are switched off as a whole.
 set(_other_core_modules
     BASE64 CIRCULAR_BUFFER CONTRACTS CRC ENVIRONMENT EXCEPTIONS EXPECTED FILESYSTEM FMT
-    HAZARD_POINTER REFLECTION SMART_PTR STRING_VIEW TEMPORARY TIME UNICODE UTILITY)
+    HAZARD_POINTER REFLECTION SMART_PTR TEMPORARY TIME UNICODE UTILITY)
 
 set(_lumex_build "${CMAKE_BINARY_DIR}/lumexlib-build")
 set(_lumex_prefix "${CMAKE_BINARY_DIR}/lumexlib-prefix")
@@ -95,7 +96,7 @@ endif()
 
 set(_targets
     lumex::atomic lumex::math lumex::number_generator lumex::optional
-    lumex::span lumex::string)
+    lumex::span lumex::string lumex::string_view)
 foreach(_target IN LISTS _targets)
     if(NOT TARGET ${_target})
         message(FATAL_ERROR "find_package(LumexLib) did not provide ${_target}")
