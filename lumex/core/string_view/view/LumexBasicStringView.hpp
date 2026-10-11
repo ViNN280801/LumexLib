@@ -54,8 +54,16 @@
  * `constexpr` as well (a single `return` statement, loops replaced by a
  * recursion that splits the range in halves, so its depth is the logarithm of
  * the length), the modifiers are not, and `rbegin`/`rend` become `constexpr`
- * in C++17 (`std::reverse_iterator`). The run-time path never recurses: it is
- * a loop over `std::char_traits` (`memchr`, `memcmp` and their wide twins).
+ * in C++17 (`std::reverse_iterator`). The run-time path of the searches and
+ * of `compare` is a loop over `std::char_traits` (`memchr`, `memcmp` and
+ * their wide twins); only a compiler that has neither
+ * `__builtin_is_constant_evaluated` nor `__builtin_constant_p` (Clang before
+ * 9) takes the recursion at run time too.
+ *
+ * Without exceptions (`-fno-exceptions`) the header still compiles: a call
+ * that would throw `std::out_of_range` (`at`, `substr`, `copy`, the
+ * `compare` overloads with a position) calls `std::terminate`, and
+ * `operator<<` sets the badbit without catching anything.
  *
  * @note The view does not manage the lifetime of the characters it refers to.
  * Using a view whose characters have been destroyed is undefined behavior.
@@ -93,6 +101,7 @@
 #include <cstddef>     // std::size_t, std::ptrdiff_t
 #include <cstdint>     // std::uint64_t
 #include <cstring>     // std::memcpy
+#include <exception>   // std::terminate
 #include <functional>  // std::hash
 #include <ios>         // std::ios_base, std::streamsize
 #include <iterator>    // std::reverse_iterator
@@ -112,6 +121,17 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+/**
+ * @def LUMEX_STRING_VIEW_HAS_EXCEPTIONS
+ * @brief 1 when the compiler compiles `try`, `catch` and `throw` (GCC and
+ * Clang: `__cpp_exceptions` or `__EXCEPTIONS`; MSVC: `_CPPUNWIND`), else 0.
+ */
+#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#define LUMEX_STRING_VIEW_HAS_EXCEPTIONS 1
+#else
+#define LUMEX_STRING_VIEW_HAS_EXCEPTIONS 0
+#endif
 
 /**
  * @def LUMEX_STRING_VIEW_HAS_STD_VIEW
@@ -255,7 +275,12 @@ LUMEX_CONSTEXPR std::size_t const no_pos = static_cast<std::size_t> (-1);
 LUMEX_ATTRIBUTE_NORETURN inline void
 throw_out_of_range (char const *what)
 {
+#if LUMEX_STRING_VIEW_HAS_EXCEPTIONS
   throw std::out_of_range (what);
+#else
+  (void)what;
+  std::terminate ();
+#endif
 }
 
 LUMEX_CONSTEXPR inline std::size_t
@@ -309,6 +334,22 @@ template <class Traits> struct diff_at
   }
 };
 
+// The helpers below have a body that depends on the language tier: the loops
+// of C++14, the recursion of C++11, the constexpr char_traits of C++17. They
+// live in an inline namespace named after the tier, so that translation units
+// of different standards never share a symbol with different bodies (the weak
+// symbols of the linker would otherwise let one body replace the other). The
+// class itself is deliberately not versioned: its mangled name is part of the
+// ABI of the modules that take a view (see the README, "Known issues").
+#if LUMEX_SV_CONSTEXPR_TRAITS
+#define LUMEX_SV_TIER tier_traits
+#elif __cplusplus >= 201402L
+#define LUMEX_SV_TIER tier_loops
+#else
+#define LUMEX_SV_TIER tier_recursion
+#endif
+inline namespace LUMEX_SV_TIER
+{
 // The scans: the first (last) index of [lo, hi) that satisfies pred, else
 // no_pos. From C++14 they are loops. In C++11 a constexpr function is a
 // single return statement, so constant evaluation uses a recursion over
@@ -464,6 +505,26 @@ template <class Traits> struct chars
   {
     return count == 0 ? nullptr : Traits::find (str, count, chr);
   }
+
+  static LUMEX_CONSTEXPR char_type *
+  copy_ct (char_type *dest, char_type const *src,
+           std::size_t count) LUMEX_NOEXCEPT
+  {
+    for (std::size_t i = 0; i < count; ++i)
+      dest[i] = src[i];
+    return dest;
+  }
+
+  /** @brief `Traits::copy` at run time, a loop in a constant expression. */
+  static LUMEX_CONSTEXPR char_type *
+  copy (char_type *dest, char_type const *src,
+        std::size_t count) LUMEX_NOEXCEPT
+  {
+    return count == 0 ? dest
+                      : (LUMEX_SV_CONSTANT_P (count)
+                             ? copy_ct (dest, src, count)
+                             : Traits::copy (dest, src, count));
+  }
 #elif __cplusplus >= 201402L
   // C++14: loops are allowed, so the constant-evaluation code is a loop. The
   // choice between it and char_traits is a conditional expression, not an
@@ -526,6 +587,26 @@ template <class Traits> struct chars
                              ? find_ct (str, count, chr)
                              : Traits::find (str, count, chr));
   }
+
+  static LUMEX_CONSTEXPR char_type *
+  copy_ct (char_type *dest, char_type const *src,
+           std::size_t count) LUMEX_NOEXCEPT
+  {
+    for (std::size_t i = 0; i < count; ++i)
+      dest[i] = src[i];
+    return dest;
+  }
+
+  /** @brief `Traits::copy` at run time, a loop in a constant expression. */
+  static LUMEX_CONSTEXPR char_type *
+  copy (char_type *dest, char_type const *src,
+        std::size_t count) LUMEX_NOEXCEPT
+  {
+    return count == 0 ? dest
+                      : (LUMEX_SV_CONSTANT_P (count)
+                             ? copy_ct (dest, src, count)
+                             : Traits::copy (dest, src, count));
+  }
 #else
   // The length in steps of 4 characters: the recursion depth is length / 4.
   static LUMEX_CONSTEXPR std::size_t
@@ -586,6 +667,13 @@ template <class Traits> struct chars
                             str,
                             scan_fwd_rec (eq_at<Traits>{ str, chr }, 0, count))
                       : Traits::find (str, count, chr));
+  }
+
+  static char_type *
+  copy (char_type *dest, char_type const *src,
+        std::size_t count) LUMEX_NOEXCEPT
+  {
+    return count == 0 ? dest : Traits::copy (dest, src, count);
   }
 #endif
 
@@ -710,6 +798,8 @@ template <class Traits> struct search
   }
 };
 
+} // inline namespace LUMEX_SV_TIER
+
 /**
  * @brief The hash of the characters of a view: the same value in every C++
  * standard, with every compiler and standard library.
@@ -724,11 +814,12 @@ template <class Traits> struct search
  * eight at a time as little-endian integers (so a big-endian machine gives the
  * same value, through a byte swap); for wider characters (`wchar_t`,
  * `char16_t`, `char32_t`) the code unit values, each zero-extended to 32 bits
- * and two of them packed into one block (so a `wchar_t` string and a
- * `char32_t` string of the same code points hash alike, and `wchar_t` of 2
- * bytes (Windows) and 4 bytes give the same value for the same code units;
- * a unit above 2^32 is reduced modulo 2^32). The value is a 64-bit one;
- * on a 32-bit platform `size_t` takes its low 32 bits.
+ * and two of them packed into one block (so strings of equal code UNIT
+ * sequences hash alike: `wchar_t` of 2 bytes (Windows) and of 4 bytes, and
+ * `char16_t` and `char32_t` for text inside the Basic Multilingual Plane; a
+ * character outside it is two units in UTF-16 and one in UTF-32 and hashes
+ * differently; a unit above 2^32 is reduced modulo 2^32). The value is a
+ * 64-bit one; on a 32-bit platform `size_t` takes its low 32 bits.
  */
 inline std::uint64_t
 hash_round (std::uint64_t acc, std::uint64_t block) LUMEX_NOEXCEPT
@@ -900,6 +991,31 @@ put_fill (std::basic_streambuf<CharT, Traits> *buf, CharT fill,
     if (Traits::eq_int_type (buf->sputc (fill), Traits::eof ()))
       return false;
   return true;
+}
+
+/** @brief The field of an inserted view: padding, the characters, the width.
+ */
+template <class CharT, class Traits>
+void
+write_field (std::basic_ostream<CharT, Traits> &ostr, CharT const *data,
+             std::size_t length)
+{
+  std::streamsize const size = static_cast<std::streamsize> (length);
+  std::streamsize const width = ostr.width ();
+  std::streamsize const pad = width > size ? width - size : 0;
+  bool const left
+      = (ostr.flags () & std::ios_base::adjustfield) == std::ios_base::left;
+  std::basic_streambuf<CharT, Traits> *const buf = ostr.rdbuf ();
+  bool good = true;
+  if (!left)
+    good = put_fill (buf, ostr.fill (), pad);
+  if (good && size > 0)
+    good = buf->sputn (data, size) == size;
+  if (good && left)
+    good = put_fill (buf, ostr.fill (), pad);
+  ostr.width (0);
+  if (!good)
+    ostr.setstate (std::ios_base::badbit);
 }
 } // namespace detail
 
@@ -1075,9 +1191,10 @@ public:
    * C++11).
    * @details Accepts a type with `data()` and `size()` whose elements are
    * `CharT`, such as `std::vector<char>`, `std::array<char, N>` or a span of
-   * characters. A type that converts to the view, to a pointer to characters
-   * or to a `std::basic_string`, and one whose `traits_type` differs, is not
-   * accepted. The view refers to the range: it must outlive the view.
+   * characters. A type that converts implicitly to the view or to a pointer to
+   * characters, and one whose `traits_type` differs, is not accepted; a type
+   * that converts only to a `std::basic_string` is accepted (as in C++23). The
+   * view refers to the range: it must outlive the view.
    */
   template <class Range,
             typename std::enable_if<
@@ -1292,9 +1409,7 @@ public:
     if (pos > m_size)
       detail::throw_out_of_range ("lumex_basic_string_view::copy");
     size_type const rlen = detail::min_size (count, m_size - pos);
-    for (size_type i = 0; i < rlen; ++i)
-      dest[i] = m_data
-          [pos + i]; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    chars_t::copy (dest, m_data + pos, rlen);
     return rlen;
   }
 
@@ -1900,25 +2015,10 @@ operator<< (std::basic_ostream<CharT, Traits> &ostr,
   typename std::basic_ostream<CharT, Traits>::sentry const guard (ostr);
   if (guard)
     {
+#if LUMEX_STRING_VIEW_HAS_EXCEPTIONS
       try
         {
-          std::streamsize const size
-              = static_cast<std::streamsize> (sview.size ());
-          std::streamsize const width = ostr.width ();
-          std::streamsize const pad = width > size ? width - size : 0;
-          bool const left = (ostr.flags () & std::ios_base::adjustfield)
-                            == std::ios_base::left;
-          std::basic_streambuf<CharT, Traits> *const buf = ostr.rdbuf ();
-          bool good = true;
-          if (!left)
-            good = detail::put_fill (buf, ostr.fill (), pad);
-          if (good && size > 0)
-            good = buf->sputn (sview.data (), size) == size;
-          if (good && left)
-            good = detail::put_fill (buf, ostr.fill (), pad);
-          ostr.width (0);
-          if (!good)
-            ostr.setstate (std::ios_base::badbit);
+          detail::write_field (ostr, sview.data (), sview.size ());
         }
 #if defined(__GLIBCXX__)
       catch (abi::__forced_unwind &)
@@ -1951,6 +2051,10 @@ operator<< (std::basic_ostream<CharT, Traits> &ostr,
           if (rethrow)
             throw;
         }
+#else
+      // No exceptions: nothing to catch; a failing buffer sets the badbit.
+      detail::write_field (ostr, sview.data (), sview.size ());
+#endif
     }
   return ostr;
 }
@@ -2025,32 +2129,48 @@ operator""_sv (char8_t const *str, std::size_t len) LUMEX_NOEXCEPT
 namespace std
 {
 /**
- * @brief `std::hash` of a view: `detail::hash_chars`, one value on every
- * standard, compiler and standard library (not the value of
- * `std::hash<std::basic_string_view>`, which depends on the standard library).
+ * @brief The hash of a view, as the standard has it only for
+ * `std::char_traits` views: the specializations exist for the views of `char`,
+ * `wchar_t`, `char16_t`, `char32_t` (and `char8_t`) with
+ * `std::char_traits`. A view with other traits has no `std::hash`: it
+ * compares through its traits (a case-insensitive order, say), and a hash of
+ * the raw characters would give equal views different hashes.
  */
-template <class CharT, class Traits>
-struct hash<
-    ::lumex::core::string_view::view::lumex_basic_string_view<CharT, Traits>>
-{
+#define LUMEX_SV_DEFINE_HASH(CHAR)                                            \
+  template <>                                                                 \
+  struct hash<::lumex::core::string_view::view::lumex_basic_string_view<      \
+      CHAR, std::char_traits<CHAR>>>                                          \
+  {                                                                           \
+    LUMEX_SV_HASH_TYPEDEFS (CHAR)                                             \
+    std::size_t                                                               \
+    operator() (::lumex::core::string_view::view::lumex_basic_string_view<    \
+                CHAR, std::char_traits<CHAR>> const &sview) const             \
+        LUMEX_NOEXCEPT                                                        \
+    {                                                                         \
+      return ::lumex::core::string_view::view::detail::hash_chars (           \
+          sview.data (), sview.size ());                                      \
+    }                                                                         \
+  };
+
 #if __cplusplus < 201703L
-  /** @brief The type that is hashed. */
-  typedef ::lumex::core::string_view::view::lumex_basic_string_view<CharT,
-                                                                    Traits>
-      argument_type;
-  /** @brief The type of the result. */
+#define LUMEX_SV_HASH_TYPEDEFS(CHAR)                                          \
+  typedef ::lumex::core::string_view::view::lumex_basic_string_view<          \
+      CHAR, std::char_traits<CHAR>>                                           \
+      argument_type;                                                          \
   typedef std::size_t result_type;
+#else
+#define LUMEX_SV_HASH_TYPEDEFS(CHAR)
 #endif
 
-  /** @brief The hash of the characters of `sview`. */
-  std::size_t
-  operator() (::lumex::core::string_view::view::lumex_basic_string_view<
-              CharT, Traits> const &sview) const LUMEX_NOEXCEPT
-  {
-    return ::lumex::core::string_view::view::detail::hash_chars (
-        sview.data (), sview.size ());
-  }
-};
+LUMEX_SV_DEFINE_HASH (char)
+LUMEX_SV_DEFINE_HASH (wchar_t)
+LUMEX_SV_DEFINE_HASH (char16_t)
+LUMEX_SV_DEFINE_HASH (char32_t)
+#if LUMEX_HAS_CHAR8_T
+LUMEX_SV_DEFINE_HASH (char8_t)
+#endif
+#undef LUMEX_SV_DEFINE_HASH
+#undef LUMEX_SV_HASH_TYPEDEFS
 
 #if LUMEX_STRING_VIEW_HAS_RANGES
 namespace ranges
@@ -2071,6 +2191,7 @@ LUMEX_INLINE_VARIABLE LUMEX_CONSTEXPR bool enable_view<
 } // namespace std
 
 #undef LUMEX_SV_NODISCARD
+#undef LUMEX_SV_TIER
 #undef LUMEX_SV_NO_UBSAN
 #undef LUMEX_SV_CONSTEXPR_CXX17
 #undef LUMEX_SV_CONSTEXPR_TRAITS

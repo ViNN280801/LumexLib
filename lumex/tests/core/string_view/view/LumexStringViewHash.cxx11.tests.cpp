@@ -3,6 +3,7 @@
 #include <functional>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -216,4 +217,38 @@ TEST (LumexStringViewHashTest,
   wide.insert (lumex_wstring_view (L"a"));
   wide.insert (lumex_wstring_view (L"a"));
   EXPECT_EQ (wide.size (), 1U);
+}
+
+namespace
+{
+template <class T, class = void> struct has_std_hash : std::false_type
+{
+};
+template <class T>
+struct has_std_hash<T, typename std::enable_if<std::is_default_constructible<
+                           std::hash<T>>::value>::type> : std::true_type
+{
+};
+} // namespace
+
+static_assert (has_std_hash<lumex_string_view>::value,
+               "char views are hashable");
+static_assert (has_std_hash<lumex_wstring_view>::value,
+               "wide views are hashable");
+static_assert (has_std_hash<lumex_u16string_view>::value, "");
+static_assert (has_std_hash<lumex_u32string_view>::value, "");
+static_assert (!has_std_hash<lumex_sv_test::caseless_view>::value,
+               "a view with other traits has no std::hash: it compares through"
+               " its traits, a hash of the raw characters would disagree");
+static_assert (
+    !has_std_hash<lumex::core::string_view::view::lumex_basic_string_view<
+        char, lumex_sv_test::counting_traits>>::value,
+    "no std::hash for any traits but std::char_traits");
+
+TEST (LumexStringViewHashTest,
+      GivenCaselessTraits_WhenEqualViews_ThenTheyAreEqualButNotHashable)
+{
+  lumex_sv_test::caseless_view const upper ("HELLO");
+  lumex_sv_test::caseless_view const lower ("hello");
+  EXPECT_TRUE (upper == lower);
 }

@@ -17,6 +17,7 @@ endif()
 
 add_library(hash_producer STATIC producer.cpp)
 target_include_directories(hash_producer PUBLIC "${LUMEX_SOURCE_DIR}")
+target_compile_options(hash_producer PRIVATE "$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-O2>")
 set_target_properties(hash_producer PROPERTIES
     CXX_STANDARD 11 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF
     POSITION_INDEPENDENT_CODE ON)
@@ -26,11 +27,13 @@ set_target_properties(hash_producer PROPERTIES
 # the standard of the program beyond C++11 vs later, which this pair covers.
 add_executable(string_view_hash_standard_mismatch_consumer main.cpp)
 target_link_libraries(string_view_hash_standard_mismatch_consumer PRIVATE hash_producer)
+target_compile_options(string_view_hash_standard_mismatch_consumer PRIVATE "$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-O2>")
 set_target_properties(string_view_hash_standard_mismatch_consumer PROPERTIES
     CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
 if("cxx_std_20" IN_LIST CMAKE_CXX_COMPILE_FEATURES)
     add_executable(string_view_hash_standard_mismatch_cxx20 main.cpp)
     target_link_libraries(string_view_hash_standard_mismatch_cxx20 PRIVATE hash_producer)
+    target_compile_options(string_view_hash_standard_mismatch_cxx20 PRIVATE "$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-O2>")
     set_target_properties(string_view_hash_standard_mismatch_cxx20 PROPERTIES
         CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
 endif()
