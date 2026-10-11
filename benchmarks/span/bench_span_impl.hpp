@@ -22,10 +22,12 @@
 #if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX || BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX_CHECKS
 
 // The checks are fixed by the variant, whatever the build type says.
+#ifndef LUMEX_SPAN_CHECKS
 #if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX_CHECKS
 #define LUMEX_SPAN_CHECKS 1
 #else
 #define LUMEX_SPAN_CHECKS 0
+#endif
 #endif
 #include "lumex/core/span/LumexSpan"
 #if __cplusplus >= 202002L && defined(__has_include)
