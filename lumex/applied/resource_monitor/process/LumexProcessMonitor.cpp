@@ -36,11 +36,11 @@
 #ifndef PSAPI_VERSION
 #define PSAPI_VERSION 2
 #endif
-#include <windows.h>
+#include <Windows.h>
 
 // MinGW's psapi.h and tlhelp32.h need the types of windows.h declared first.
-#include <psapi.h>
-#include <tlhelp32.h>
+#include <Psapi.h>
+#include <TlHelp32.h>
 #elif defined(__linux__)
 #include <cerrno>
 
@@ -123,7 +123,6 @@ logical_processors ()
 struct handle_t
 {
   HANDLE value{ nullptr };
-  handle_t () = default;
   explicit handle_t (HANDLE h) : value (h) {}
   handle_t (handle_t const &) = delete;
   handle_t &operator= (handle_t const &) = delete;
@@ -590,6 +589,10 @@ LumexProcessMonitor::sample_tree (process_id_t pid,
                                   std::vector<process_id_t> const &below,
                                   bool breakdown)
 {
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
   result_t top = sample_one (pid);
   if (!top.has_value () || below.empty ())
     return top;
@@ -610,6 +613,9 @@ LumexProcessMonitor::sample_tree (process_id_t pid,
     for (process_usage_t const &usage : usages)
       sum.members.push_back (member_of (usage));
   return sum;
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 }
 
 LUMEX_PUBLIC_API LumexProcessMonitor::result_t

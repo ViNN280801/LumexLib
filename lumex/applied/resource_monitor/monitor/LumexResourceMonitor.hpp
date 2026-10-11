@@ -105,6 +105,8 @@ LUMEX_CONST_STR KMODULE_NAME = "ResourceMonitor";
  * @note All methods are static and thread-safe.
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * // Host application decides whether to enable it and at what interval - the
  * library does not. if (hostConfig.resourceLoggingEnabled)

@@ -58,11 +58,12 @@
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
-// Not noreturn under MSVC (and clang-cl): it would make the code after
+// Not noreturn under cl.exe: it would make the code after
 // `LUMEX_ASSERT (false && ...)` unreachable, which /W4 reports (C4702) at many
 // sites, and the layout effect the attribute is there for was seen with GCC
-// only.
-#if defined(_MSC_VER)
+// only. clang-cl reports -Wmissing-noreturn for the aborting definition, so it
+// gets the attribute.
+#if defined(_MSC_VER) && !defined(__clang__)
 #define LUMEX_ASSERT_HANDLER_NORETURN
 #else
 #define LUMEX_ASSERT_HANDLER_NORETURN LUMEX_ATTRIBUTE_NORETURN
@@ -90,8 +91,8 @@ LUMEX_EXTERN_C_BEGIN
  * @param[in] line The line number within the `file` where the assertion
  * failed.
  * @note This function does not return to the caller: it is declared
- * `noreturn` except under MSVC (the implementation in `lumex::utility` calls
- * `std::abort()`; a handler that returns is undefined behavior).
+ * `noreturn` except under cl.exe (the implementation in `lumex::utility`
+ * calls `std::abort()`; a handler that returns is undefined behavior).
  * The declaration lets the compiler treat the failing branch of
  * `LUMEX_ASSERT` as cold, so a precondition check does not change how it
  * lays out the code around it (`expected` is returned from a chain of calls

@@ -1190,7 +1190,7 @@ public:
    * @brief Constructs a `directory_entry` from a `path`.
    * @param path_arg The path object representing the directory entry.
    */
-  explicit directory_entry (fs::path const &);
+  explicit directory_entry (fs::path const &path_arg);
 
   /**
    * @brief Retrieves the path of this directory entry.
@@ -1487,54 +1487,54 @@ public:
    * @param path_arg The `path_arg` object representing the file or directory.
    * @return True if the file or directory exists, false otherwise.
    */
-  static bool exists (path const &);
+  static bool exists (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a regular file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg exists and refers to a regular file, false
    * otherwise.
    */
-  static bool is_regular_file (path const &);
+  static bool is_regular_file (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a directory.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg exists and refers to a directory, false
    * otherwise.
    */
-  static bool is_directory (path const &);
+  static bool is_directory (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a symbolic link.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a symbolic link, false otherwise.
    */
-  static bool is_symlink (path const &);
+  static bool is_symlink (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a block device file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a block device file, false
    * otherwise.
    */
-  static bool is_block_file (path const &);
+  static bool is_block_file (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a character device file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a character device file, false
    * otherwise.
    */
-  static bool is_character_file (path const &);
+  static bool is_character_file (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a FIFO (named pipe)
    * file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a FIFO file, false otherwise.
    */
-  static bool is_fifo (path const &);
+  static bool is_fifo (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a socket file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a socket file, false otherwise.
    */
-  static bool is_socket (path const &);
+  static bool is_socket (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a file type other than
    * regular file or directory.
@@ -1542,14 +1542,14 @@ public:
    * @return True if the path_arg exists and is neither a regular file nor a
    * directory, false otherwise.
    */
-  static bool is_other (path const &);
+  static bool is_other (path const &path_arg);
   /**
    * @brief Checks if a file is empty or a directory is empty.
    * @param path_arg The `path_arg` object representing the file or directory.
    * @return True if the path_arg exists and refers to an empty file (size 0)
    * or an empty directory, false otherwise.
    */
-  static bool is_empty (path const &);
+  static bool is_empty (path const &path_arg);
 
   // =================== File operations ===================
   /**
@@ -1561,7 +1561,7 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> copy (path const &, path const &);
+  static filesystem_result<void> copy (path const &from, path const &to_);
 
   /**
    * @brief Copies a single file from one location to another.
@@ -1570,7 +1570,7 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> copy_file (path const &, path const &);
+  static filesystem_result<void> copy_file (path const &from, path const &to_);
 
   /**
    * @brief Creates a new symbolic link `to_` that points to `from`.
@@ -1581,7 +1581,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> copy_symlink (path const &, path const &);
+  static filesystem_result<void> copy_symlink (path const &from,
+                                               path const &to_);
 
   /**
    * @brief Creates a new directory at the specified path.
@@ -1590,7 +1591,7 @@ public:
    * @return A `filesystem_result<bool>`: `ok(true)` if created, `ok(false)` if
    * already exists, `err` on failure.
    */
-  static filesystem_result<bool> create_directory (path const &);
+  static filesystem_result<bool> create_directory (path const &path_arg);
 
   /**
    * @brief Creates all directories in the specified path_arg, including any
@@ -1600,7 +1601,7 @@ public:
    * @return A `filesystem_result<bool>`: `ok(true)` if created, `ok(false)` if
    * all existed, `err` on failure.
    */
-  static filesystem_result<bool> create_directories (path const &);
+  static filesystem_result<bool> create_directories (path const &path_arg);
 
   /**
    * @brief Creates a new symbolic link `link` that points to `target`.
@@ -1611,7 +1612,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> create_symlink (path const &, path const &);
+  static filesystem_result<void> create_symlink (path const &target,
+                                                 path const &link);
 
   /**
    * @brief Creates a new symbolic link `link` that points to a directory
@@ -1623,8 +1625,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> create_directory_symlink (path const &,
-                                                           path const &);
+  static filesystem_result<void> create_directory_symlink (path const &target,
+                                                           path const &link);
 
   /**
    * @brief Retrieves the current working directory.
@@ -1640,7 +1642,7 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> current_path (path const &);
+  static filesystem_result<void> current_path (path const &path_arg);
 
   /**
    * @brief Checks if two paths refer to the same file system entity.
@@ -1656,7 +1658,7 @@ public:
    * @return A `filesystem_result<std::uintmax_t>`: `ok(size)` on success,
    * `err` on failure.
    */
-  static filesystem_result<std::uintmax_t> file_size (path const &);
+  static filesystem_result<std::uintmax_t> file_size (path const &path_arg);
 
   /**
    * @brief Retrieves the last write time of a file or directory.
@@ -1664,7 +1666,7 @@ public:
    * @return A `filesystem_result<std::time_t>`: `ok(time)` on success, `err`
    * on failure.
    */
-  static filesystem_result<std::time_t> last_write_time (path const &);
+  static filesystem_result<std::time_t> last_write_time (path const &path_arg);
 
   /**
    * @brief Sets the last write time of a file or directory.
@@ -1673,7 +1675,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> last_write_time (path const &, std::time_t);
+  static filesystem_result<void> last_write_time (path const &path_arg,
+                                                  std::time_t new_time);
 
   /**
    * @brief Sets the permissions of a file or directory.
@@ -1683,7 +1686,8 @@ public:
    * on failure.
    */
 
-  static filesystem_result<void> permissions (path const &, perms);
+  static filesystem_result<void> permissions (path const &path_arg,
+                                              perms prms);
   /**
    * @brief Reads the target of a symbolic link.
    * @param path_arg The `path_arg` object representing the symbolic link.
@@ -1691,7 +1695,7 @@ public:
    * on failure.
    */
 
-  static filesystem_result<path> read_symlink (path const &);
+  static filesystem_result<path> read_symlink (path const &path_arg);
 
   /**
    * @brief Removes a file or an empty directory at the specified path_arg.
@@ -1700,7 +1704,7 @@ public:
    * @return A `filesystem_result<bool>`: `ok(true)` if removed, `ok(false)` if
    * not found, `err` on failure.
    */
-  static filesystem_result<bool> remove (path const &);
+  static filesystem_result<bool> remove (path const &path_arg);
 
   /**
    * @brief Recursively removes a file or a directory and all its contents.
@@ -1709,7 +1713,7 @@ public:
    * @return A `filesystem_result<std::uintmax_t>`: `ok(count)` of removed
    * items, `err` on failure.
    */
-  static filesystem_result<std::uintmax_t> remove_all (path const &);
+  static filesystem_result<std::uintmax_t> remove_all (path const &path_arg);
 
   /**
    * @brief Renames or moves a file or directory.
@@ -1719,7 +1723,7 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> rename (path const &, path const &);
+  static filesystem_result<void> rename (path const &from, path const &to_);
 
   /**
    * @brief Replaces the content of a file without ever leaving it truncated.
@@ -1754,7 +1758,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> resize_file (path const &, std::uintmax_t);
+  static filesystem_result<void> resize_file (path const &path_arg,
+                                              std::uintmax_t new_size);
 
   /**
    * @brief Moves a file from one location to another.
@@ -1786,7 +1791,7 @@ public:
    * @return A `filesystem_result<space_info>`: `ok(space_info)` on success,
    * `err` on failure.
    */
-  static filesystem_result<space_info> space (path const &);
+  static filesystem_result<space_info> space (path const &path_arg);
 
   /**
    * @brief Returns the status of the file or directory at the specified
@@ -1794,7 +1799,7 @@ public:
    * @param path_arg The `path_arg` object of the file or directory.
    * @return A `filesystem_result<file_status>` containing the file status.
    */
-  static filesystem_result<file_status> status (path const &);
+  static filesystem_result<file_status> status (path const &path_arg);
 
   /**
    * @brief Returns the status of the file or directory at the specified
@@ -1802,7 +1807,7 @@ public:
    * @param path_arg The `path_arg` object of the file or directory.
    * @return A `filesystem_result<file_status>` containing the file status.
    */
-  static filesystem_result<file_status> symlink_status (path const &);
+  static filesystem_result<file_status> symlink_status (path const &path_arg);
 
   /**
    * @brief Retrieves the path_arg to the system's temporary directory.
@@ -1821,7 +1826,7 @@ public:
    * @param str The `std::string` to convert.
    * @return A `std::wstring` representation.
    */
-  static std::wstring to_wide_string (std::string const &);
+  static std::wstring to_wide_string (std::string const &str);
 
   /**
    * @brief Converts a `std::wstring` to a `std::string` (UTF-8 encoded).
@@ -1833,7 +1838,7 @@ public:
    * @param wstr The `std::wstring` to convert.
    * @return A `std::string` representation.
    */
-  static std::string from_wide_string (std::wstring const &);
+  static std::string from_wide_string (std::wstring const &wstr);
 
   // =================== path operations ===================
   /**
@@ -1841,21 +1846,21 @@ public:
    * @param path_arg The `path_arg` object to convert.
    * @return An absolute `path_arg` object.
    */
-  static path absolute (path const &);
+  static path absolute (path const &path_arg);
 
   /**
    * @brief Returns the canonical (absolute, resolved) form of a path_arg.
    * @param path_arg The `path_arg` object to canonicalize.
    * @return A canonical `path_arg` object.
    */
-  static path canonical (path const &);
+  static path canonical (path const &path_arg);
 
   /**
    * @brief Returns the weakly canonical form of a path_arg.
    * @param path_arg The `path_arg` object to process.
    * @return A weakly canonical `path_arg` object.
    */
-  static path weakly_canonical (path const &);
+  static path weakly_canonical (path const &path_arg);
 
   /**
    * @brief Constructs a relative path_arg from `path_arg` to `base`.
@@ -1863,7 +1868,7 @@ public:
    * @param base The `path_arg` object to make `path_arg` relative to.
    * @return A `path_arg` object representing the relative path_arg.
    */
-  static path relative (path const &, path const &);
+  static path relative (path const &path_arg, path const &base);
 
   /**
    * @brief Constructs a proximate path_arg from `path_arg` to `base`.
@@ -1871,7 +1876,7 @@ public:
    * @param base The `path_arg` object to make `path_arg` proximate to.
    * @return A `path_arg` object representing the proximate path_arg.
    */
-  static path proximate (path const &, path const &);
+  static path proximate (path const &path_arg, path const &base);
 
   // =================== Convenience directory iteration ===================
   /**
@@ -1880,7 +1885,8 @@ public:
    * @param path_arg The `path_arg` object representing the directory.
    * @return A `std::vector` of `directory_entry` objects.
    */
-  static std::vector<directory_entry> directory_contents (path const &);
+  static std::vector<directory_entry>
+  directory_contents (path const &path_arg);
 
   /**
    * @brief Retrieves a vector of all `path_arg` objects within the specified
@@ -1889,7 +1895,8 @@ public:
    * @return A `filesystem_result<std::vector<path>>` containing paths of all
    * entries, or an error.
    */
-  static filesystem_result<std::vector<path>> directory_paths (path const &);
+  static filesystem_result<std::vector<path>>
+  directory_paths (path const &path_arg);
 
   // =================== Custom own methods (not from standard)
   // ===================

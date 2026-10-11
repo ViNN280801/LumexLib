@@ -110,6 +110,8 @@ namespace stacktrace
  *          if debug symbols are not available or if the address is invalid.
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * lumex_stacktrace_entry entry(reinterpret_cast<void*>(0x12345678));
  * std::cout << "Function: " << entry.description() << std::endl;

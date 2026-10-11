@@ -1923,6 +1923,8 @@ using three_way_comparison_result_t =
  * - Lock-free operations for atomic versions
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * // Thread-safe version for multithreading
  * safe_comparator<int, true> atomic_counter(0);
@@ -1977,7 +1979,8 @@ private:
    * @brief SFINAE dispatcher for a plain store
    * @tparam A SFINAE parameter (equals Atomic)
    * @param[in] value Value to store
-   * @param[in] order Memory order (ignored for non-atomic operations)
+   * The unused `order` argument exists for interface parity with the
+   * atomic overload.
    * @note Specialization for Atomic=false: direct assignment for maximum
    * performance
    */
@@ -2008,14 +2011,15 @@ private:
   /**
    * @brief SFINAE dispatcher for a plain load
    * @tparam A SFINAE parameter (equals Atomic)
-   * @param[in] order Memory order (ignored for non-atomic operations)
+   * The unused `order` argument exists for interface parity with the
+   * atomic overload.
    * @return Current value
    * @note Specialization for Atomic=false: direct read for maximum performance
    */
   template <bool A = Atomic>
   typename std::enable_if<!A, clean_T>::type
-  atomic_load (LUMEX_ATTRIBUTE_MAYBE_UNUSED std::memory_order order
-               = std::memory_order_seq_cst) const LUMEX_NOEXCEPT
+  atomic_load (std::memory_order /* unused */ = std::memory_order_seq_cst)
+      const LUMEX_NOEXCEPT
   {
     return m_value;
   }
@@ -2331,7 +2335,7 @@ private:
    * @brief SFINAE compare-and-set for atomic types
    * @param[in] expected_value Expected value (may be updated)
    * @param[in] desired_value Desired value
-   * @param[in] atomic_tag SFINAE tag (std::true_type)
+   * The `std::true_type` tag that selects this overload.
    * @return true if the value was changed
    * @details Uses std::atomic::compare_exchange_strong with memory ordering.
    *          expected_value is updated to the current value on a failed
@@ -2380,7 +2384,7 @@ private:
    * @brief SFINAE compare-and-set for non-atomic types
    * @param[in] expected_value Expected value
    * @param[in] desired_value Desired value
-   * @param[in] non_atomic_tag SFINAE tag (std::false_type)
+   * The `std::false_type` tag that selects this overload.
    * @return true if the value was changed
    * @details Performs a plain check-and-set for maximum performance.
    *          Does not change expected_value on a failed compare.
@@ -2675,6 +2679,8 @@ is_not_equal (Ordering const &ordering) LUMEX_NOEXCEPT
  * @note Thread-safe, no-throw
  * @warning T and U must be safely comparable (checked at compile-time)
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * unsigned char size = 200;
  * int limit = 300;
@@ -2703,6 +2709,8 @@ safe_compare (T value1, U value2) LUMEX_NOEXCEPT
  *          Performs the same safe range check.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * float f = 3.14f;
  * int i = 3;
@@ -2731,6 +2739,8 @@ safe_greater_equal (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int i = 3;
  * float f = 3.14f;
@@ -2759,6 +2769,8 @@ safe_less_equal (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * unsigned char size = 200;
  * int limit = 300;
@@ -2787,6 +2799,8 @@ safe_less (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int threshold = 100;
  * unsigned char count = 150;
@@ -2815,6 +2829,8 @@ safe_greater (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int expected = 42;
  * float actual = 42.0f;
@@ -2843,6 +2859,8 @@ safe_equal (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int threshold = 100;
  * unsigned char count = 150;
@@ -2876,6 +2894,8 @@ safe_not_equal (T value1, U value2) LUMEX_NOEXCEPT
  * @note Thread-safe, no-throw
  * @since C++11
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int a = 42;
  * float b = 42.0f;
@@ -2905,6 +2925,8 @@ safe_three_way_compare (T value1, U value2) LUMEX_NOEXCEPT
  * rejects NaN and infinities.
  * @note No-throw; compile-time type check
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * if (fits_in_type<unsigned char>(300)) {
  *   // 300 does not fit in unsigned char (0-255)

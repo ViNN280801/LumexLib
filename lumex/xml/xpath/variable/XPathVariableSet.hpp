@@ -260,9 +260,9 @@ private:
   /**
    * @brief Internal helper to assign variables from another set.
    * @details Performs a deep copy of variables from `rhs` into this set. Used
-   * by copy constructor and copy assignment operator.
+   * by copy constructor and copy assignment operator; returns early if
+   * allocation fails.
    * @param rhs The `XPathVariableSet` to assign from.
-   * @return `void` (returns early if allocation fails).
    */
   void _assign (XPathVariableSet const &rhs);
   /**

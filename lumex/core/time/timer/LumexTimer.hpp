@@ -99,6 +99,8 @@ default_measure_time_env_name () LUMEX_NOEXCEPT
  * synchronized.
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * lumex_timer timer;
  * timer.start_timer();
@@ -164,6 +166,8 @@ private:
  * identifier-like prefix).
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * extract_function_name("obj->DoSomething(1, 2)"); // -> "DoSomething"
  * extract_function_name("obj.Method()");            // -> "Method"

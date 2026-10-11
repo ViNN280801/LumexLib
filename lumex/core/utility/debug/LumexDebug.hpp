@@ -122,9 +122,9 @@
 // Platform headers are gated on compiler macros so they can precede the
 // project headers (the code below still branches on LUMEX_OS_*).
 #if defined(_WIN32)
-#include <windows.h>
+#include <Windows.h>
 
-#include <dbghelp.h>
+#include <DbgHelp.h>
 #else
 #include <unistd.h>
 #if defined(__linux__) && __has_include(<link.h>)
@@ -493,6 +493,8 @@ format_frame (int index, void *address)
  * - Inline functions may be missing in trace at aggressive optimization
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * void resetConfig() {
  *   std::string trace = lumex::core::utility::debug::capture_stack_trace(1,

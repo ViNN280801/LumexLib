@@ -88,7 +88,7 @@
 #include <string>
 
 #if defined(_WIN32) || defined(WIN32)
-#include <windows.h>
+#include <Windows.h>
 #elif defined(__linux__) || defined(__unix__)
 #include <sys/auxv.h>
 #include <unistd.h>
@@ -142,6 +142,8 @@ namespace caps
  * @see CPUVectorizationDetector class for detection methods
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * auto caps = CPUVectorizationDetector::detect();
  * if (caps.supports_avx2) {
@@ -394,7 +396,7 @@ struct LUMEX_CPU_VECTORIZATION_INFO_ALIGNED LUMEX_API cpu_vectorization_info_t
    * helps determine the optimal vectorization strategy and buffer alignment
    * requirements.
    *
-   * @unit Bits (e.g., 128, 256, 512)
+   * @note Unit: bits (e.g., 128, 256, 512)
    * @note For x86/x64: 128 (SSE), 256 (AVX), or 512 (AVX-512)
    * @note For ARM: 128 (NEON) or variable (SVE)
    * @note Used for memory alignment and buffer size calculations
@@ -453,6 +455,8 @@ struct LUMEX_CPU_VECTORIZATION_INFO_ALIGNED LUMEX_API cpu_vectorization_info_t
  * @see cpu_vectorization_info_t for detailed capability structure
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * // Detect CPU vectorization capabilities
  * auto caps = CPUVectorizationDetector::detect();
@@ -507,6 +511,8 @@ public:
    * @see cpu_vectorization_info_t for detailed structure documentation
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * auto caps = CPUVectorizationDetector::detect();
    * std::cout << "AVX2: " << (caps.supports_avx2 ? "Yes" : "No") <<
@@ -533,6 +539,8 @@ public:
    * AVX-512)
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * auto caps = CPUVectorizationDetector::detect();
    * std::string summary = CPUVectorizationDetector::get_summary(caps);

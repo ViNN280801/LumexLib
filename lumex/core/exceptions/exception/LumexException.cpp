@@ -90,9 +90,16 @@ lumex_base_exception::to_crash_report () const
 {
   // Single initialization: creating a folder, a file and locking the directory
   static std::once_flag initFlag;
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
   static std::string s_reportFile;
   static std::mutex s_fileMutex;
   static lumex::path s_crashDir;
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
   std::call_once (
       initFlag,

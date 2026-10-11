@@ -87,7 +87,7 @@
 #include <utility>
 
 #if defined(_WIN32)
-#include <windows.h> // GetEnvironmentVariableA/W
+#include <Windows.h> // GetEnvironmentVariableA/W
 #endif
 
 #include "lumex/core/utility/LumexUtility"
@@ -125,6 +125,8 @@ namespace env
  * on Windows).
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * // Basic usage:
  * lumex_environment::EnvResult path_result = lumex_environment::get("PATH");
@@ -176,6 +178,8 @@ public:
    *          exceptions.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * lumex_environment::EnvResult result =
    * lumex_environment::get("NON_EXISTENT_VAR"); if (!result) { // Implicit
@@ -272,6 +276,12 @@ private:
      * @note Adheres to the Rule of Zero/Five for polymorphic base classes.
      */
     virtual ~environment_strategy () = default;
+
+    /// @brief A default-constructible polymorphic base.
+    environment_strategy () = default;
+    // A polymorphic strategy base is not copyable.
+    environment_strategy (environment_strategy const &) = delete;
+    environment_strategy &operator= (environment_strategy const &) = delete;
     /**
      * @brief Pure virtual method to retrieve the value of an environment
      * variable.
@@ -473,6 +483,8 @@ public:
    * method.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * lumex_environment& env_instance = lumex_environment::instance();
    * // Now use env_instance to call non-static methods if preferred
@@ -535,6 +547,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * lumex_environment::EnvResult user_result =
    * lumex_environment::instance().get_environment_variable("USER"); if
@@ -585,6 +599,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * if (lumex_environment::instance().set_environment_variable("LOG_LEVEL",
    * "DEBUG")) { std::cout << "LOG_LEVEL set to DEBUG." << std::endl; } else {
@@ -637,6 +653,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * if (lumex_environment::instance().unset_environment_variable("TEMP_VAR"))
    * { std::cout << "TEMP_VAR unset successfully." << std::endl; } else {
@@ -662,6 +680,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * std::string editor =
    * lumex_environment::instance().get_environment_variable_or("EDITOR",
@@ -687,6 +707,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * if
    * (lumex_environment::instance().has_environment_variable("PROGRAMFILES"))
@@ -710,6 +732,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * if
    * (lumex_environment::instance().is_environment_variable_truthy("FEATURE_X"))
@@ -733,6 +757,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * auto locale_result = lumex_environment::get("LANG");
    * if (locale_result) {
@@ -758,6 +784,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * std::string temp_path = lumex_environment::get_or("TMP", "/tmp");
    * std::cout << "Temporary path: " << temp_path << std::endl;
@@ -782,6 +810,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * if (lumex_environment::set("APP_MODE", "PRODUCTION")) {
    *     std::cout << "App mode set to PRODUCTION." << std::endl;
@@ -803,6 +833,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * if (lumex_environment::has("HOME")) {
    *     std::cout << "HOME variable is defined." << std::endl;
@@ -823,6 +855,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * if (lumex_environment::is_truthy("FEATURE_X")) {
    *     std::cout << "Feature X is enabled." << std::endl;

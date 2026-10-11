@@ -86,7 +86,7 @@
 #if !defined(NOMINMAX)
 #define NOMINMAX
 #endif
-#include <windows.h>
+#include <Windows.h>
 #else
 #include <pthread.h>
 #endif
@@ -161,6 +161,12 @@ static LUMEX_CONSTEXPR std::memory_order kSlotRead = std::memory_order_acquire;
 static LUMEX_CONSTEXPR std::memory_order kSlotRead = std::memory_order_relaxed;
 #endif
 
+#if defined(_MSC_VER)
+// C4324: the alignment of the per-thread slots is the point of these
+// cache-line sized records, so the padding it reports is intentional.
+#pragma warning(push)
+#pragma warning(disable : 4324)
+#endif
 struct alignas (kLine) record_t : slot_t
 {
   record_t *next_free;
@@ -208,6 +214,9 @@ struct domain_t
   std::atomic<int> hook_state;
   shard_t shards[kShards];
 };
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
 // Constant-initialized (all members are trivially constructible and zero
 // before any code runs) and trivially destructible.
