@@ -218,8 +218,9 @@ TEST_F (LumexOptionalTest, MoveConstruction)
 
   ASSERT_TRUE (moved.has_value ());
   ASSERT_EQ (*moved, "test");
-  // "Dirty" check: original should be left in a disengaged state
-  ASSERT_FALSE (original.has_value ());
+  // As std::optional: the source keeps its (moved-from) value
+  ASSERT_TRUE (original.has_value ());
+  ASSERT_TRUE (original->empty ());
 }
 
 TEST_F (LumexOptionalLifetimeTest, MoveConstructionWithTracker)
@@ -230,7 +231,7 @@ TEST_F (LumexOptionalLifetimeTest, MoveConstructionWithTracker)
 
   optional<LifetimeTracker> moved (std::move (original));
   ASSERT_TRUE (moved.has_value ());
-  ASSERT_FALSE (original.has_value ());
+  ASSERT_TRUE (original.has_value ()) << "a moved-from optional stays engaged";
   ASSERT_EQ (LifetimeTracker::creations, 2);
   ASSERT_EQ (LifetimeTracker::moves, 1);
 }
@@ -325,7 +326,7 @@ TEST_F (LumexOptionalTest, MoveAssignment)
   target = std::move (source);
   ASSERT_TRUE (target.has_value ());
   ASSERT_EQ (*target, "source");
-  ASSERT_FALSE (source.has_value ());
+  ASSERT_TRUE (source.has_value ()) << "a moved-from optional stays engaged";
 
   optional<std::string> empty_source;
   optional<std::string> target2 ("target2");
@@ -366,13 +367,9 @@ TEST_F (LumexOptionalLifetimeTest, Dirty_AssignmentFromThrowingCopyAssign)
   optional<ThrowsOnCopy> target (in_place);
 
   ASSERT_THROW (target = source, std::runtime_error);
-  // After a failed assignment, the target should still hold its original
-  // value. Our implementation might destroy and fail to reconstruct. Let's
-  // test it. A robust implementation would leave `target` unchanged. The
-  // current implementation will destroy and then throw on copy construction,
-  // leaving `target` empty. This is acceptable, but not ideal.
-  // Let's verify the state is at least valid (disengaged).
-  ASSERT_FALSE (target.has_value ());
+  // Both are engaged, so the value is assigned (as std::optional does), not
+  // rebuilt: the throwing copy assignment of T leaves the target engaged.
+  ASSERT_TRUE (target.has_value ());
 }
 
 // --- Observers ---

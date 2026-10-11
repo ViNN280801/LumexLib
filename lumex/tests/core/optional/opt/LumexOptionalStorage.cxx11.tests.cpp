@@ -1,10 +1,11 @@
 // LumexOptionalStorage.cxx11.tests.cpp
-// The value buffer of the optional: an alignas (T) array of unsigned char
-// that replaced std::aligned_storage (deprecated in C++23). The size and the
-// alignment of optional<T> are those of the former member: the buffer comes
-// first and the engaged flag follows it. The checks are static_asserts (the
-// layout is a compile-time fact) plus run-time checks that the contained
-// object really sits at an address aligned for its type.
+// The storage of the optional: a union { dummy, value } followed by the
+// engaged flag (it replaced an alignas (T) byte buffer, and before that
+// std::aligned_storage, deprecated in C++23). The size and the alignment of
+// optional<T> are those of the former layout: the value comes first and the
+// engaged flag follows it. The checks are static_asserts (the layout is a
+// compile-time fact) plus run-time checks that the contained object really
+// sits at an address aligned for its type.
 #include <array>
 #include <cstddef>
 #include <cstdint>
@@ -66,7 +67,8 @@ template <typename T> struct max_alignment
 };
 
 #if __cplusplus <= 202002L
-// What the optional held before: the aligned_storage member, then the flag.
+// What the optional held before the union: the aligned_storage member, then
+// the flag.
 // Not used from C++23 (a value above 202002L: GCC reports 202100L), where
 // std::aligned_storage is deprecated.
 template <typename T> struct FormerLayout
