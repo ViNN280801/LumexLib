@@ -41,8 +41,8 @@
  * @file LumexExport.hpp
  * @brief Export and linkage macros of LumexLib: `LUMEX_API`,
  * `LUMEX_PUBLIC_API`, `LUMEX_PUBLIC_C_API`, `LUMEX_UTILITY_API`,
- * `LUMEX_STRING_VIEW_API`, `LUMEX_HAZARD_POINTER_API`, `LUMEX_CONTRACTS_API`,
- * `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END`.
+ * `LUMEX_HAZARD_POINTER_API`, `LUMEX_CONTRACTS_API`, `LUMEX_EXTERN_C_BEGIN`
+ * and `LUMEX_EXTERN_C_END`.
  * @details `LUMEX_API` marks a class or function of a shared library: on
  * Windows it is `dllexport` while `LUMEX_EXPORTS` is defined and `dllimport`
  * otherwise, elsewhere it gives default visibility while `LUMEX_EXPORTS` is
@@ -52,12 +52,11 @@
  * everywhere else. `LUMEX_UTILITY_API` exports only from the utility library
  * itself (`LumexCore_utility_EXPORTS` defined), so classes with out-of-line
  * static data members are not exported again by every library that includes
- * their header. `LUMEX_STRING_VIEW_API` does the same for the string_view
- * library (`LumexCore_string_view_EXPORTS`): its two view classes and stream
- * inserters are exported only from there. `LUMEX_HAZARD_POINTER_API` marks the
- * free functions of the hazard pointer library
- * (`LumexCore_hazard_pointer_EXPORTS`) the same way, and `LUMEX_CONTRACTS_API`
- * the free functions of the contracts library (`LumexCore_contracts_EXPORTS`).
+ * their header. `LUMEX_HAZARD_POINTER_API` marks the free functions of the
+ * hazard pointer library (`LumexCore_hazard_pointer_EXPORTS`) the same way,
+ * and `LUMEX_CONTRACTS_API` the free functions of the contracts library
+ * (`LumexCore_contracts_EXPORTS`). The string views are header-only and have
+ * no export macro.
  * `LUMEX_EXTERN_C_BEGIN` and `LUMEX_EXTERN_C_END` open and close an `extern
  * "C"` block when compiled as C++.
  */
@@ -118,24 +117,7 @@
 #define LUMEX_UTILITY_API
 #endif
 
-// Per-module export for LumexCore_string_view, like LUMEX_UTILITY_API: the
-// string_view library exports its two view classes and their stream inserters,
-// every other DLL that includes the headers imports them. With the generic
-// LUMEX_API (dllexport in every DLL built with LUMEX_EXPORTS) each of those
-// DLLs would export the inline members and operators of the view again.
-#if defined(_WIN32) || defined(__CYGWIN__)
-#if defined(LumexCore_string_view_EXPORTS)
-#define LUMEX_STRING_VIEW_API __declspec (dllexport)
-#else
-#define LUMEX_STRING_VIEW_API __declspec (dllimport)
-#endif
-#elif defined(LumexCore_string_view_EXPORTS)
-#define LUMEX_STRING_VIEW_API __attribute__ ((visibility ("default")))
-#else
-#define LUMEX_STRING_VIEW_API
-#endif
-
-// Per-module export for LumexCore_hazard_pointer, like LUMEX_STRING_VIEW_API:
+// Per-module export for LumexCore_hazard_pointer, like LUMEX_UTILITY_API:
 // the library exports its engine functions (free functions only), every other
 // DLL that includes the headers imports them. One engine per process is a
 // safety property of hazard pointers: a reader in one DLL and a reclaimer in
