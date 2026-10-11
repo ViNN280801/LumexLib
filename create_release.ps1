@@ -22,6 +22,7 @@ param(
     [string[]] $Arch      = @('x64'),
     [string[]] $Formats   = @('zip'),
     [string[]] $Std     = @(),
+    [switch] $NoWerror,
     [string] $OutputDir = '',
     [string] $Version   = '',
     [string] $Tag       = '',
@@ -79,6 +80,10 @@ Options:
                      pass -Std 17 for a compiler without C++20, for example
                      the v141 toolset. The standard ends the name of the
                      package (..._cxx17.zip; cxx20 when -Std is not given).
+  -NoWerror          Build without -Werror. By default the script passes
+                     -DLUMEX_WERROR=ON, so a warning fails the build. A -Tag
+                     older than 2.0.0.0 has no such option and builds as it
+                     was released.
   -OutputDir DIR     Where the packages go (default: <repo>/release).
   -Version V         Override the version read from project(LumexLib
                      VERSION); it changes the artifact names only, the
@@ -671,7 +676,7 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
     }
 }
 
-Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')"
+Write-Host "LumexLib $EffectiveVersion, formats: $($FormatList -join ', ')$(if (-not $NoWerror) { ', -Werror' })"
 if ($DryRun) {
     Write-Colored 'Dry run: the commands are shown, nothing is built, installed or written.' 'Yellow'
 }
@@ -734,16 +739,25 @@ foreach ($build in $Builds) {
     else {
         $compileArgs += @('--compiler-c', $job.Compiler, '--compiler-cpp', $job.Compiler, '--use-ninja')
     }
+    $extraCmakeArgs = @()
+    if (-not $NoWerror) {
+        # A new warning fails the build; -NoWerror builds without it, like
+        # --no-werror in create_release.sh.
+        $extraCmakeArgs += '-DLUMEX_WERROR=ON'
+    }
     if ($FormatList -contains 'exe') {
         # CPack builds the NSIS installer from the same build; the compiler
         # suffix keeps installs of several compilers side by side, like
         # /opt/LumexLib/<version>_<compiler> on Linux.
         $compileArgs += '-i'
-        $compileArgs += (
-            '--cmake-args=-DCPACK_PACKAGE_INSTALL_DIRECTORY=LumexLib/' + $EffectiveVersion + '_' + $job.Label +
+        $extraCmakeArgs += (
+            '-DCPACK_PACKAGE_INSTALL_DIRECTORY=LumexLib/' + $EffectiveVersion + '_' + $job.Label +
             ';-DCPACK_PACKAGE_INSTALL_REGISTRY_KEY=LumexLib_' + $EffectiveVersion + '_' + $job.Label +
             ';-DCPACK_NSIS_DISPLAY_NAME=LumexLib ' + $EffectiveVersion + ' (' + $job.Label + ')'
         )
+    }
+    if ($extraCmakeArgs.Count -gt 0) {
+        $compileArgs += ('--cmake-args=' + ($extraCmakeArgs -join ';'))
     }
     if ($stdItem -ne 0) {
         $compileArgs += @('--stdcxx', $stdItem)
