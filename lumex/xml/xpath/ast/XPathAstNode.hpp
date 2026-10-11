@@ -796,7 +796,8 @@ private:
    * @param alloc The `XPathAllocator` for node allocations.
    * @param once If `true`, stops filling after the first matching node is
    * found.
-   * @param val An unused placeholder argument to deduce the axis type `T`.
+   * The trailing `T` argument is unused: it exists to deduce the axis
+   * type.
    * @note This function is a core part of XPath step evaluation.
    * @throws `LUMEX_ASSERT` if an unimplemented axis is encountered.
    */
@@ -1025,7 +1026,8 @@ private:
    * @param alloc The `XPathAllocator` for node allocations.
    * @param once If `true`, stops filling after the first matching node is
    * found.
-   * @param val An unused placeholder argument to deduce the axis type `T`.
+   * The trailing `T` argument is unused: it exists to deduce the axis
+   * type.
    * @note This function handles special considerations for attributes, e.g.,
    *       `preceding::` axis does not include attribute nodes themselves.
    * @throws `LUMEX_ASSERT` if an unimplemented axis is encountered.
@@ -1145,7 +1147,8 @@ private:
    * @param alloc The `XPathAllocator` for node allocations.
    * @param once If `true`, stops filling after the first matching node is
    * found.
-   * @param val An unused placeholder argument to deduce the axis type `T`.
+   * The trailing `T` argument is unused: it exists to deduce the axis
+   * type.
    */
   template <class T>
   void
@@ -1179,7 +1182,8 @@ private:
    * @param ctx The XPath context for evaluation.
    * @param stack The XPath stack for memory allocation.
    * @param eval The evaluation mode for the node set.
-   * @param val An unused placeholder argument to deduce the axis type `T`.
+   * The trailing `T` argument is unused: it exists to deduce the axis
+   * type.
    * @return An `XPathNodeSetRaw` containing the results of this step.
    */
   template <class T>

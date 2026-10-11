@@ -120,6 +120,12 @@ using namespace lumex::xml::constants::Constants;
  * @see IXmlWriter
  * @see xml_parse_result_t
  */
+#if defined(_MSC_VER)
+// C4275: `XmlNode` exports its out-of-line members only, so it is not a
+// dll-interface class; deriving an exported class from it is intentional.
+#pragma warning(push)
+#pragma warning(disable : 4275)
+#endif
 class LUMEX_API XmlDocument : public XmlNode
 {
 public:
@@ -579,6 +585,9 @@ private:
    */
   void _move (XmlDocument &rhs) LUMEX_NOEXCEPT;
 };
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 }
 }
 }

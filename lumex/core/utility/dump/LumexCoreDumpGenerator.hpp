@@ -124,6 +124,7 @@
 // nothing at global scope (LumexOptional is the umbrella with the global
 // aliases).
 #include "lumex/core/optional/opt/LumexOptional.hpp"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
@@ -148,15 +149,15 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#include <windows.h>
+#include <Windows.h>
 
-#include <aclapi.h>
-#include <dbghelp.h>
+#include <AclAPI.h>
+#include <DbgHelp.h>
+#include <Shlwapi.h>
 #include <direct.h>
 #include <io.h>
 #include <process.h>
 #include <sddl.h>
-#include <shlwapi.h>
 #include <tchar.h>
 #include <wincrypt.h>
 
@@ -186,6 +187,34 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#endif
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
 
 // MinGW (GCC) warns for every member that is defined outside the class after
@@ -437,7 +466,7 @@ concept DumpGenerator = requires (T generator) {
  * @invariant m_directory must be a valid, accessible path
  * @invariant m_filename must be a valid filename (no path separators)
  *
- * @thread_safety This class is thread-safe for read-only operations.
+ * @note Thread safety: This class is thread-safe for read-only operations.
  * Modifications should be synchronized externally.
  *
  * @since Version 1.0
@@ -903,7 +932,7 @@ dump_configuration::operator!= (dump_configuration const &other) const noexcept
  * @note This class is stateless and thread-safe. All methods are
  * static and can be called concurrently from multiple threads.
  *
- * @thread_safety All public methods are thread-safe and can be called
+ * @note Thread safety: All public methods are thread-safe and can be called
  * concurrently without external synchronization.
  *
  * @since Version 1.0
@@ -1018,10 +1047,10 @@ private:
  * @invariant All input paths are validated for security vulnerabilities
  * @invariant Platform-specific handlers are properly initialized
  *
- * @thread_safety This class is thread-safe. Multiple threads can call
+ * @note Thread safety: This class is thread-safe. Multiple threads can call
  * public methods concurrently without external synchronization.
  *
- * @exception_safety All public methods provide strong exception safety
+ * @note Exception safety: All public methods provide strong exception safety
  * guarantee unless otherwise specified. Methods marked noexcept provide
  * no-throw guarantee.
  *
@@ -1096,11 +1125,12 @@ public:
    * @throws std::system_error if filesystem operations fail
    * @throws std::invalid_argument if configuration is invalid
    *
-   * @complexity O(1) for basic initialization, O(n) where n is directory depth
-   * for recursive creation
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety Strong guarantee: if an exception is thrown, the object
-   * remains in a valid state
+   * @note Complexity: O(1) for basic initialization, O(n) where n is directory
+   * depth for recursive creation
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: Strong guarantee: if an exception is thrown, the
+   * object remains in a valid state
    * @note A successful call also fills the instance: its directory, its
    * configuration and its initialized flag are those of the static state, so
    * `instance ().get_instance_dump_directory ()` equals `get_dump_directory
@@ -1145,11 +1175,12 @@ public:
    * @throws std::system_error if filesystem operations fail
    * @throws std::invalid_argument if dump type is not supported
    *
-   * @complexity O(1) for basic operations, O(n) where n is memory size for
-   * full dumps
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety Basic guarantee: if an exception is thrown, the system
-   * remains in a valid state
+   * @note Complexity: O(1) for basic operations, O(n) where n is memory size
+   * for full dumps
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: Basic guarantee: if an exception is thrown, the
+   * system remains in a valid state
    */
   static bool generate_dump (std::string const &reason = "Manual dump",
                              DumpType dumpType = DumpType::DEFAULT_AUTO);
@@ -1166,10 +1197,11 @@ public:
    * @param errorCode Error code to be set on failure
    * @return true if dump was generated successfully, false otherwise
    *
-   * @complexity O(1) for basic operations, O(n) where n is memory size for
-   * full dumps
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety No-throw guarantee
+   * @note Complexity: O(1) for basic operations, O(n) where n is memory size
+   * for full dumps
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: No-throw guarantee
    */
   static bool generate_dump (std::string const &reason, DumpType dumpType,
                              std::error_code &errorCode) noexcept;
@@ -1260,9 +1292,10 @@ public:
    * @note This method is thread-safe and can be called concurrently
    * @note Returns false if privilege checking fails for security reasons
    *
-   * @complexity O(1) - constant time operation
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety No-throw guarantee
+   * @note Complexity: O(1) - constant time operation
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: No-throw guarantee
    *
    * @since Version 1.0
    * @see _is_elevated_process() for a simpler elevation check
@@ -1298,9 +1331,10 @@ public:
    * @note Only works on UNIX systems (Windows uses console handlers instead)
    * @note Handler should be async-signal-safe
    *
-   * @complexity O(1) - constant time operation
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety No-throw guarantee
+   * @note Complexity: O(1) - constant time operation
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: No-throw guarantee
    *
    * @since Version 1.1
    */
@@ -1321,9 +1355,10 @@ public:
    * @note Only works on Windows systems
    * @note Handler should be async-signal-safe
    *
-   * @complexity O(1) - constant time operation
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety No-throw guarantee
+   * @note Complexity: O(1) - constant time operation
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: No-throw guarantee
    *
    * @since Version 1.1
    */
@@ -1587,7 +1622,7 @@ private:
 
   // Exception handling
   static void _setup_exception_handling ();
-  static void _unhandled_exception_handler ();
+  LUMEX_ATTRIBUTE_NORETURN static void _unhandled_exception_handler ();
 
 #if LUMEX_OS_IS_WINDOWS()
   /**
@@ -2931,7 +2966,7 @@ core_dump_generator::_windows_exception_handler (
         }
 
       hFile = CreateFileW (filename.c_str (), GENERIC_WRITE, 0, &sa,
-                           CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                           CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
       if (hFile == INVALID_HANDLE_VALUE)
         {
           DWORD error = GetLastError ();
@@ -2962,7 +2997,7 @@ core_dump_generator::_windows_exception_handler (
 
       BOOL success
           = MiniDumpWriteDump (GetCurrentProcess (), GetCurrentProcessId (),
-                               hFile, dumpType, &eInfo, NULL, NULL);
+                               hFile, dumpType, &eInfo, nullptr, nullptr);
 
       // Get file size BEFORE closing the handle
       LARGE_INTEGER fileSize = { { 0, 0 } };
@@ -3132,8 +3167,9 @@ core_dump_generator::_create_windows_dump (std::string const &filename,
         }
 
       // Open file for writing dump with proper error handling
-      HANDLE hFile = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, &sa,
-                                  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+      HANDLE hFile
+          = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, &sa,
+                         CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
       if (hFile == INVALID_HANDLE_VALUE)
         {
           DWORD error = GetLastError ();
@@ -3164,9 +3200,9 @@ core_dump_generator::_create_windows_dump (std::string const &filename,
       // Configure symbol information if enabled
       MINIDUMP_USER_STREAM_INFORMATION userStreamInfo = { 0, nullptr };
 
-      BOOL success
-          = MiniDumpWriteDump (GetCurrentProcess (), GetCurrentProcessId (),
-                               hFile, dumpType, &eInfo, &userStreamInfo, NULL);
+      BOOL success = MiniDumpWriteDump (
+          GetCurrentProcess (), GetCurrentProcessId (), hFile, dumpType,
+          &eInfo, &userStreamInfo, nullptr);
       CloseHandle (hFile);
 
       if (success == FALSE)
@@ -4046,8 +4082,9 @@ core_dump_generator::_create_file_atomically (
 #if LUMEX_OS_IS_WINDOWS()
       // On Windows, use CreateFileW with CREATE_NEW to ensure atomic creation
       std::wstring wfilename (filename.begin (), filename.end ());
-      HANDLE hFile = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, NULL,
-                                  CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+      HANDLE hFile
+          = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, nullptr,
+                         CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
       if (hFile == INVALID_HANDLE_VALUE)
         {
           DWORD error = GetLastError ();
@@ -4062,7 +4099,7 @@ core_dump_generator::_create_file_atomically (
       DWORD bytesWritten;
       if (!WriteFile (hFile, content.c_str (),
                       static_cast<DWORD> (content.length ()), &bytesWritten,
-                      NULL))
+                      nullptr))
         {
           CloseHandle (hFile);
           DeleteFileW (wfilename.c_str ()); // Clean up on failure
@@ -4114,7 +4151,7 @@ core_dump_generator::_create_directory_atomically (
 #if LUMEX_OS_IS_WINDOWS()
       // On Windows, use CreateDirectoryW
       std::wstring wpath (path.begin (), path.end ());
-      if (CreateDirectoryW (wpath.c_str (), NULL))
+      if (CreateDirectoryW (wpath.c_str (), nullptr))
         return true;
 
       DWORD error = GetLastError ();
@@ -5446,5 +5483,9 @@ core_dump_generator::_create_directory_recursive (
 } // namespace utility
 } // namespace core
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !LUMEX_CORE_UTILITY_DUMP_HPP

@@ -62,6 +62,33 @@
 #include "XmlDocument.hpp"
 #include "XmlDocumentBase.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
 using namespace lumex::xml;
 using namespace lumex::xml::utility;
 using namespace lumex::xml::document;
@@ -578,7 +605,7 @@ get_file_size (FILE *file, std::size_t &out_result)
 #elif defined(_MSC_VER)
   // there are 64-bit versions of fseek/ftell, let's use them
   _fseeki64 (file, 0, SEEK_END);
-  __int64 length = _ftelli64 (file);
+  long long length = _ftelli64 (file);
   _fseeki64 (file, 0, SEEK_SET);
 
   xml_parse_status status = convert_file_size (length, out_result);
@@ -920,3 +947,7 @@ XmlDocument::document_element () const
 
   return {};
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

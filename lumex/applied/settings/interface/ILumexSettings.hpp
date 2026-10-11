@@ -115,6 +115,12 @@ public:
   /// @brief Defaulted virtual destructor for polymorphic behavior.
   virtual ~ILumexSettings () = default;
 
+  /// @brief A default-constructible polymorphic interface.
+  ILumexSettings () = default;
+  // A polymorphic settings interface is not copyable.
+  ILumexSettings (ILumexSettings const &) = delete;
+  ILumexSettings &operator= (ILumexSettings const &) = delete;
+
   /**
    * @brief Load settings from a configuration file.
    * @details "Load" means that the settings have been successfully read from

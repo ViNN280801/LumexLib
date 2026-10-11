@@ -47,7 +47,7 @@
 #include <vector>
 
 #if defined(_WIN32)
-#include <windows.h>
+#include <Windows.h>
 #else
 #include <dirent.h>
 #include <fcntl.h>
@@ -60,6 +60,36 @@
 #endif
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#if __has_warning("-Wcast-function-type-strict")
+#pragma clang diagnostic ignored "-Wcast-function-type-strict"
+#endif
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 
 #if defined(LUMEX_OS_WINDOWS)
 #ifndef NT_SUCCESS
@@ -77,14 +107,14 @@ typedef NTSTATUS (NTAPI *NtQueryObject_t) (HANDLE, ULONG, PVOID, ULONG,
 #define SystemHandleInformation 16
 #define ObjectNameInformation 1
 
-typedef struct _UNICODE_STRING_NT
+typedef struct
 {
   USHORT Length;
   USHORT MaximumLength;
   PWSTR Buffer;
 } UNICODE_STRING_NT;
 
-typedef struct _SYSTEM_HANDLE_ENTRY
+typedef struct
 {
   ULONG ProcessId;
   BYTE ObjectTypeNumber;
@@ -94,7 +124,7 @@ typedef struct _SYSTEM_HANDLE_ENTRY
   ACCESS_MASK GrantedAccess;
 } SYSTEM_HANDLE_ENTRY;
 
-typedef struct _SYSTEM_HANDLE_INFORMATION
+typedef struct
 {
   ULONG HandleCount;
   SYSTEM_HANDLE_ENTRY Handles[1];
@@ -115,11 +145,11 @@ namespace
 /**
  * @brief The address of a function exported by a module, as a pointer to its
  * real type.
- * @details GetProcAddress returns a generic FARPROC. Casting that straight to
- * a pointer to another function type makes GCC warn
- * (-Wcast-function-type); void (*) () is the type GCC treats as compatible
- * with every function type, so the cast through it states that the new type
- * is meant.
+ * @details GetProcAddress returns a generic FARPROC. GCC treats
+ * `void (*) ()` as compatible with every function type, so the cast goes
+ * through it there (-Wcast-function-type); clang reports a cast between
+ * incompatible function types either way
+ * (-Wcast-function-type-strict), which this file ignores.
  */
 template <typename Function>
 Function
@@ -567,3 +597,7 @@ port_process_resolver::get_process_holding_port (
 } // namespace serial
 } // namespace applied
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

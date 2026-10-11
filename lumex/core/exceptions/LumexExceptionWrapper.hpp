@@ -267,6 +267,8 @@ report_exception (std::string const &prefix,
  *       Callable-Named-Requirement check below.
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * // Simple usage with default, source-location-based messages.
  * int result = LUMEX_SAFE_CALL(someFunction(42));
@@ -382,6 +384,8 @@ exception_wrapper (
  * @param unknExcMessage Message reported for any other exception.
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * LUMEX_SAFE_CALL_LAMBDA_MSG(
  *     [&]() {

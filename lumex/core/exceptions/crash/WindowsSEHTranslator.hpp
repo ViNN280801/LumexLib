@@ -57,8 +57,8 @@
 #include "lumex/LumexExport.hpp"
 
 #if defined(_WIN32)
+#include <Windows.h>
 #include <eh.h>
-#include <windows.h>
 #endif
 
 #include "lumex/core/utility/LumexUtility"

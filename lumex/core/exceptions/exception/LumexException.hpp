@@ -177,6 +177,8 @@ public:
    * to avoid names like "NSt6vectorIiSaIiEEE" -> "std::vector<int,
    * std::allocator<int>>"
    * @par Example
+   * The snippet below shows the intended use.
+
    * @code
    * [LumexException] -> Failed to open file
    * @endcode
