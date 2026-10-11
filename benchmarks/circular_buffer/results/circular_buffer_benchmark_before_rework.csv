@@ -1,0 +1,243 @@
+# machine="12th Gen Intel(R) Core(TM) i7-12700K" os="Linux 6.1.170-1-generic" logical_cpus=20 python=3.7.3
+# passes=5 cpu=3
+# variant gcc lumex_cxx11: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201103
+# variant gcc lumex_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant gcc boost_cxx11: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201103
+# variant gcc boost_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant gcc deque_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant gcc vector_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant gcc vector_mod_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703
+# variant gcc lumex_wrap_cxx17: compiler="GCC 13.2.0" library="libstdc++" cplusplus=201703   (measured in a separate 5-pass run after the others)
+toolchain,variant,scenario,description,size,median_ns,worst_median_ns,min_ns,max_ns,iterations,repetitions,checksum
+gcc,lumex_cxx11,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,5.6665,5.6901,5.6340,5.8018,4194304,15,1135
+gcc,lumex_cxx11,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,8.9918,9.2288,8.9656,9.3072,4194304,15,1921
+gcc,lumex_cxx11,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,13.5188,13.8333,13.1106,18.5576,2097152,15,19737
+gcc,lumex_cxx11,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,8.9546,8.9776,8.9296,9.1223,4194304,15,732
+gcc,lumex_cxx11,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,9.0352,9.2102,8.9863,9.5351,4194304,15,4068
+gcc,lumex_cxx11,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,18.3768,19.4666,17.9385,20.3639,1048576,15,75332
+gcc,lumex_cxx11,fill_int,"clear, then push_back of `size` elements (never full)",1024,2418.3600,2422.7500,2406.0600,2439.0100,8192,15,58336
+gcc,lumex_cxx11,fill_str_short,"clear, then push_back of `size` elements (never full)",256,1471.1700,1551.6200,1433.0600,1997.6800,16384,15,5920
+gcc,lumex_cxx11,fill_str_long,"clear, then push_back of `size` elements (never full)",256,4066.8500,4359.0600,3907.2600,4740.1400,8192,15,77184
+gcc,lumex_cxx11,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,9137.1900,9177.8800,9109.4600,9316.6000,4096,15,29356032
+gcc,lumex_cxx11,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,2555.8900,2608.0000,2515.5000,2746.2000,8192,15,1333584
+gcc,lumex_cxx11,front_back_int,front () and back () of a wrapped buffer,1024,4.7134,4.7198,4.6933,4.7633,8388608,15,71672
+gcc,lumex_cxx11,front_back_str_short,front () and back () of a wrapped buffer,1024,4.7221,4.7395,4.7031,4.8030,8388608,15,11320
+gcc,lumex_cxx11,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,1809.2300,1811.6400,1801.2100,1824.7500,16384,15,20182016
+gcc,lumex_cxx11,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,1826.1400,1834.4800,1818.5500,1901.2900,16384,15,4195872
+gcc,lumex_cxx11,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,1808.8500,1812.7800,1801.3100,1834.7400,16384,15,20182016
+gcc,lumex_cxx11,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,1821.5200,1833.8800,1814.0700,1861.5200,16384,15,4195872
+gcc,lumex_cxx11,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,37961.8000,37995.3000,37871.5000,38157.1000,1024,15,101415384
+gcc,lumex_cxx11,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,47936.3000,48733.9000,47334.6000,51898.0000,512,15,19724767
+gcc,lumex_cxx11,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,19.8823,20.2058,19.2823,23.2648,1048576,15,8192
+gcc,lumex_cxx11,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,20.3811,23.8479,19.6379,27.0640,1048576,15,8192
+gcc,lumex_cxx11,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,3642.3800,3649.0200,3619.7700,3714.5800,8192,15,34784
+gcc,lumex_cxx11,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,1430.5500,1542.6200,1393.9400,1568.3100,16384,15,7184
+gcc,lumex_cxx11,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2300.0500,2390.0000,2220.7000,2897.9900,16384,15,77664
+gcc,lumex_cxx11,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,3638.4100,3651.9000,3620.5800,3697.9300,8192,15,34784
+gcc,lumex_cxx11,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,1408.5000,1455.6000,1393.9300,1616.6800,16384,15,7184
+gcc,lumex_cxx11,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2362.3400,2461.9600,2291.8100,2780.5000,8192,15,77664
+gcc,lumex_cxx11,move_pair_int,move construction and move assignment back of a buffer,1024,3.4051,3.4378,3.3154,3.5053,8388608,15,4348
+gcc,lumex_cxx11,move_pair_str_short,move construction and move assignment back of a buffer,256,3.4000,3.4552,3.3592,3.4978,8388608,15,898
+gcc,lumex_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,5.6671,5.7031,5.6450,5.7724,4194304,15,1135
+gcc,lumex_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,8.9768,9.2811,8.9544,9.3332,4194304,15,1921
+gcc,lumex_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,13.3449,14.0041,12.9181,16.1825,2097152,15,19737
+gcc,lumex_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,8.9595,8.9789,8.9321,9.0559,4194304,15,732
+gcc,lumex_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,9.0206,9.3152,9.0030,9.5789,4194304,15,4068
+gcc,lumex_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,13.9578,14.2708,13.1780,18.4688,2097152,15,75332
+gcc,lumex_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,2415.3200,2431.7000,2406.2300,2475.8400,16384,15,58336
+gcc,lumex_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,1467.4200,1519.9200,1441.6600,1695.8400,16384,15,5920
+gcc,lumex_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,4125.1800,4177.7500,3969.3400,4712.2100,8192,15,77184
+gcc,lumex_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,9142.0900,9166.4700,9106.1500,9229.2000,4096,15,29356032
+gcc,lumex_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,2579.6400,2606.8500,2533.8500,2959.8700,8192,15,1333584
+gcc,lumex_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,4.7130,4.7402,4.6992,4.7811,8388608,15,71672
+gcc,lumex_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,4.7239,4.7444,4.6937,5.0008,8388608,15,11320
+gcc,lumex_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,1808.6100,1811.6900,1803.4600,1840.2800,16384,15,20182016
+gcc,lumex_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,1828.1200,1838.9300,1815.8300,1904.2800,16384,15,4195872
+gcc,lumex_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,1806.5900,1810.6200,1801.8000,1836.8500,16384,15,20182016
+gcc,lumex_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,1820.8400,1831.2200,1813.6000,1872.2200,16384,15,4195872
+gcc,lumex_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,37972.0000,38052.0000,37891.8000,38233.6000,1024,15,101415384
+gcc,lumex_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,48673.4000,49378.4000,46812.9000,58275.1000,512,15,19724767
+gcc,lumex_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,19.4789,20.5143,19.0427,28.9986,1048576,15,8192
+gcc,lumex_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,20.3922,21.4133,19.4032,30.4473,1048576,15,8192
+gcc,lumex_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,3638.3000,3645.0300,3623.2000,3691.3700,8192,15,34784
+gcc,lumex_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,1416.4200,1444.2200,1396.3200,1640.2400,16384,15,7184
+gcc,lumex_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2324.7700,2372.8400,2252.5600,2867.6900,8192,15,77664
+gcc,lumex_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,3636.2900,3650.8100,3614.4300,3690.1000,8192,15,34784
+gcc,lumex_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,1403.0700,1460.4300,1385.0200,1566.0700,16384,15,7184
+gcc,lumex_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2364.1300,2456.6800,2291.9500,2930.0000,8192,15,77664
+gcc,lumex_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.3831,3.4322,3.3442,3.5490,8388608,15,4348
+gcc,lumex_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,3.4292,3.4586,3.3683,3.5510,8388608,15,898
+gcc,boost_cxx11,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,2.1608,2.1776,2.1333,2.3362,16777216,15,1135
+gcc,boost_cxx11,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,3.4560,3.5146,3.3089,4.3247,8388608,15,1921
+gcc,boost_cxx11,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,6.2067,6.3815,6.0770,6.9498,4194304,15,19737
+gcc,boost_cxx11,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.1848,1.2149,1.1445,1.4329,33554432,15,732
+gcc,boost_cxx11,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,3.8785,4.0001,3.7931,4.5963,8388608,15,4068
+gcc,boost_cxx11,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,13.2929,13.6948,12.9283,16.6919,2097152,15,75332
+gcc,boost_cxx11,fill_int,"clear, then push_back of `size` elements (never full)",1024,702.6650,771.3140,682.8750,821.8590,32768,15,58336
+gcc,boost_cxx11,fill_str_short,"clear, then push_back of `size` elements (never full)",256,882.3920,912.1210,851.8920,1050.2500,32768,15,5920
+gcc,boost_cxx11,fill_str_long,"clear, then push_back of `size` elements (never full)",256,3824.2400,3967.0100,3744.1400,4385.4100,8192,15,77184
+gcc,boost_cxx11,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,1221.3200,1276.9400,1192.6400,1356.7200,16384,15,29356032
+gcc,boost_cxx11,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,996.8380,1027.9300,961.9700,1146.0700,32768,15,1333584
+gcc,boost_cxx11,front_back_int,front () and back () of a wrapped buffer,1024,0.4530,0.4634,0.4368,0.5024,67108864,15,71672
+gcc,boost_cxx11,front_back_str_short,front () and back () of a wrapped buffer,1024,0.8397,0.8559,0.8123,1.0835,33554432,15,11320
+gcc,boost_cxx11,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,263.9270,271.8800,258.3130,354.9210,131072,15,20182016
+gcc,boost_cxx11,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,584.5140,596.2890,569.3440,883.9610,65536,15,4195872
+gcc,boost_cxx11,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,207.1410,209.4540,202.3840,229.5390,131072,15,20182016
+gcc,boost_cxx11,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,395.9670,410.0130,385.8910,500.6080,65536,15,4195872
+gcc,boost_cxx11,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,18030.6000,18288.3000,17663.6000,20236.0000,2048,15,101415384
+gcc,boost_cxx11,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,35912.1000,36106.2000,35199.9000,41539.2000,1024,15,19724767
+gcc,boost_cxx11,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,23.1063,24.1964,22.2184,28.5881,1048576,15,8192
+gcc,boost_cxx11,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,20.8843,21.4363,19.9673,25.6079,1048576,15,8192
+gcc,boost_cxx11,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,230.7980,238.6510,226.5540,294.4440,131072,15,34784
+gcc,boost_cxx11,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,465.7630,473.4810,454.0240,538.4900,65536,15,7184
+gcc,boost_cxx11,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2376.2800,2492.5100,2312.8100,2668.2300,8192,15,77664
+gcc,boost_cxx11,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,238.8670,242.9320,233.3870,271.7550,131072,15,34784
+gcc,boost_cxx11,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,464.8960,479.3170,454.5100,526.1030,65536,15,7184
+gcc,boost_cxx11,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2266.4000,2326.4500,2196.9600,3173.7500,8192,15,77664
+gcc,boost_cxx11,move_pair_int,move construction and move assignment back of a buffer,1024,3.3280,3.4189,3.2860,3.4887,8388608,15,4348
+gcc,boost_cxx11,move_pair_str_short,move construction and move assignment back of a buffer,256,3.5818,3.6285,3.5369,3.9307,8388608,15,898
+gcc,boost_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,2.1583,2.1824,2.1332,2.2477,16777216,15,1135
+gcc,boost_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,3.4229,3.4733,3.2762,3.9648,8388608,15,1921
+gcc,boost_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,6.2124,6.2914,6.0956,7.0573,4194304,15,19737
+gcc,boost_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.1929,1.2219,1.1590,1.3778,16777216,15,732
+gcc,boost_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,3.8719,4.0881,3.7795,4.7539,8388608,15,4068
+gcc,boost_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,13.6323,14.1617,13.2312,16.7562,2097152,15,75332
+gcc,boost_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,690.5330,718.4310,674.9700,1036.9000,32768,15,58336
+gcc,boost_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,942.1930,974.4960,912.1890,1171.8300,32768,15,5920
+gcc,boost_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,3842.0600,3947.2700,3701.5800,4291.5700,8192,15,77184
+gcc,boost_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,1211.7400,1282.6400,1187.6300,1441.5300,16384,15,29356032
+gcc,boost_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,1004.9800,1030.3900,959.1310,1221.5900,32768,15,1333584
+gcc,boost_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,0.4529,0.4585,0.4393,0.5580,67108864,15,71672
+gcc,boost_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,0.8384,0.8645,0.8072,0.9738,33554432,15,11320
+gcc,boost_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,280.0470,288.7920,270.5700,335.7410,131072,15,20182016
+gcc,boost_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,586.0350,600.5710,563.6810,730.7530,32768,15,4195872
+gcc,boost_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,208.0570,213.3040,203.6400,249.4690,131072,15,20182016
+gcc,boost_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,394.5150,407.4240,387.2610,473.7040,65536,15,4195872
+gcc,boost_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,18335.4000,18631.9000,18078.2000,21131.4000,1024,15,101415384
+gcc,boost_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,38015.1000,39324.1000,37463.7000,42143.9000,1024,15,19724767
+gcc,boost_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,23.3621,24.0464,22.3017,32.8945,1048576,15,8192
+gcc,boost_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,20.8912,21.6827,20.0859,27.1925,1048576,15,8192
+gcc,boost_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,229.5670,232.2920,223.5520,293.7110,131072,15,34784
+gcc,boost_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,461.8610,490.0700,457.0080,570.0870,65536,15,7184
+gcc,boost_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2398.6700,2485.3000,2339.6800,2769.4100,16384,15,77664
+gcc,boost_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,237.3310,246.5320,232.6070,288.6630,131072,15,34784
+gcc,boost_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,447.6940,466.1310,435.0780,599.0710,65536,15,7184
+gcc,boost_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2304.5500,2363.2100,2243.2700,2785.4600,16384,15,77664
+gcc,boost_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.3181,3.3788,3.2346,3.6291,8388608,15,4348
+gcc,boost_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,3.6211,3.6286,3.5733,3.6689,8388608,15,898
+gcc,deque_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,1.6069,1.6395,1.5665,1.9131,16777216,15,1135
+gcc,deque_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,5.3627,5.7826,5.1910,6.8139,4194304,15,1921
+gcc,deque_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,15.1718,16.2440,14.7719,17.7258,2097152,15,19737
+gcc,deque_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.8626,1.9301,1.8263,2.4887,16777216,15,732
+gcc,deque_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,5.5105,5.9278,5.3745,7.9626,4194304,15,4068
+gcc,deque_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,15.0315,15.4718,14.5026,17.1461,2097152,15,75332
+gcc,deque_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,1597.5700,1658.2000,1557.1900,1928.4200,16384,15,58336
+gcc,deque_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,1514.7400,1567.0500,1471.0600,1809.8400,16384,15,5920
+gcc,deque_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,4699.3200,5033.7400,4500.0100,5554.9600,8192,15,77184
+gcc,deque_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,2561.4600,2669.4400,2466.4000,3163.9500,8192,15,29356032
+gcc,deque_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,1845.3600,1890.1800,1756.8400,2350.7900,16384,15,1333584
+gcc,deque_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,0.6063,0.6179,0.5821,0.7770,33554432,15,71672
+gcc,deque_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,1.0117,1.0505,0.9818,1.2204,33554432,15,11320
+gcc,deque_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,547.8120,556.4370,527.7170,658.6580,65536,15,20182016
+gcc,deque_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,833.8340,860.7240,805.2060,1056.0600,32768,15,4195872
+gcc,deque_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,263.0650,268.1760,243.8820,313.3050,131072,15,20182016
+gcc,deque_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,402.3440,409.0550,390.8140,536.0680,65536,15,4195872
+gcc,deque_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,25270.9000,26341.6000,24499.9000,37353.3000,1024,15,101415384
+gcc,deque_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,46945.1000,49228.7000,45960.1000,56130.3000,512,15,19724767
+gcc,deque_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,16.9230,17.6105,16.5311,25.0693,2097152,15,8192
+gcc,deque_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,19.0956,19.7994,18.4690,23.0181,1048576,15,8192
+gcc,deque_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,150.4080,158.0130,146.7320,175.3320,262144,15,34784
+gcc,deque_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,917.7290,981.7620,886.0550,1273.8000,32768,15,7184
+gcc,deque_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,1693.3600,1735.0400,1653.7500,2026.8900,16384,15,77664
+gcc,deque_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,93.5764,95.1778,87.8498,111.7180,262144,15,34784
+gcc,deque_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,702.3680,727.7120,685.5450,826.0120,32768,15,7184
+gcc,deque_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,404.0890,427.8630,387.3130,511.1570,65536,15,77664
+gcc,deque_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,24.8788,25.4357,24.3266,27.3447,1048576,15,4348
+gcc,deque_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,25.4100,26.2904,24.9469,30.9678,1048576,15,898
+gcc,vector_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,0.9990,1.0162,0.9721,1.1910,33554432,15,1135
+gcc,vector_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,3.6896,3.7508,3.5688,4.8640,8388608,15,1921
+gcc,vector_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,5.9527,6.1586,5.8636,6.8216,4194304,15,19737
+gcc,vector_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.1057,1.1361,1.0778,1.2708,16777216,15,732
+gcc,vector_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,4.1518,4.3233,4.0154,5.5764,8388608,15,4068
+gcc,vector_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,6.8034,6.8674,6.6825,7.5194,4194304,15,75332
+gcc,vector_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,699.8640,717.7890,683.8910,955.9840,32768,15,58336
+gcc,vector_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,894.2610,938.6560,851.4160,1080.4700,32768,15,5920
+gcc,vector_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,1607.6400,1639.6200,1579.3200,1793.1400,16384,15,77184
+gcc,vector_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,1286.3700,1303.4000,1257.0900,1423.1900,16384,15,29356032
+gcc,vector_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,1120.6300,1154.1100,1091.9500,1334.5600,32768,15,1333584
+gcc,vector_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,0.6439,0.6617,0.6220,0.7978,33554432,15,71672
+gcc,vector_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,1.2882,1.3263,1.2539,1.6804,16777216,15,11320
+gcc,vector_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,260.8310,265.0370,254.6960,336.9710,131072,15,20182016
+gcc,vector_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,582.4370,597.5840,567.6810,685.7210,65536,15,4195872
+gcc,vector_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,262.6250,269.8970,255.2080,382.0890,65536,15,20182016
+gcc,vector_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,586.6010,593.7480,568.9540,991.2750,65536,15,4195872
+gcc,vector_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,19385.4000,19790.2000,18796.2000,22193.2000,1024,15,101415384
+gcc,vector_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,38502.0000,39187.7000,37450.9000,43011.0000,512,15,19724767
+gcc,vector_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,43.3235,44.7262,42.3277,58.9576,524288,15,8192
+gcc,vector_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,683.8380,721.0790,666.4990,889.3350,32768,15,8192
+gcc,vector_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,49.6252,50.6862,48.5248,58.0425,524288,15,34784
+gcc,vector_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,550.7020,560.0670,531.6130,655.4100,65536,15,7184
+gcc,vector_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2779.2000,2932.3600,2715.2900,3732.0000,8192,15,77664
+gcc,vector_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,28.2556,28.6679,27.6297,31.4482,1048576,15,34784
+gcc,vector_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,650.4120,673.5020,636.8590,807.2900,32768,15,7184
+gcc,vector_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,405.0820,433.1320,389.4270,480.9550,65536,15,77664
+gcc,vector_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.4574,3.5718,3.3746,3.6458,8388608,15,4348
+gcc,vector_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,2.9813,3.6939,2.9103,3.9350,8388608,15,898
+gcc,vector_mod_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,5.7459,5.8515,5.6826,6.1500,4194304,15,1135
+gcc,vector_mod_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,5.8631,6.1506,5.7741,6.6801,4194304,15,1921
+gcc,vector_mod_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,6.3823,6.9194,6.2731,7.4650,4194304,15,19737
+gcc,vector_mod_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,5.6602,5.6840,5.6398,5.8171,4194304,15,732
+gcc,vector_mod_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,6.0853,6.3534,5.9358,7.0387,4194304,15,4068
+gcc,vector_mod_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,7.2776,7.7802,7.2318,8.4664,4194304,15,75332
+gcc,vector_mod_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,2415.4700,2422.9800,2409.8900,2459.6300,16384,15,58336
+gcc,vector_mod_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,935.2930,975.1330,906.6170,1205.9800,32768,15,5920
+gcc,vector_mod_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,1627.2500,1680.0300,1599.8700,1745.6700,16384,15,77184
+gcc,vector_mod_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,6719.1200,6740.7300,6694.5200,6837.7000,4096,15,29356032
+gcc,vector_mod_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,2048.1000,2071.1200,1996.8500,2392.9000,16384,15,1333584
+gcc,vector_mod_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,2.3565,2.3646,2.3492,2.4015,16777216,15,71672
+gcc,vector_mod_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,2.4563,2.4900,2.4325,2.8559,8388608,15,11320
+gcc,vector_mod_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,1808.9600,1817.3600,1803.3600,1828.6500,16384,15,20182016
+gcc,vector_mod_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,1826.6600,1830.3400,1815.0900,1868.3100,16384,15,4195872
+gcc,vector_mod_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,1808.7300,1814.7100,1799.9500,1837.7200,16384,15,20182016
+gcc,vector_mod_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,1823.6600,1828.2500,1813.6400,1858.7700,16384,15,4195872
+gcc,vector_mod_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,30922.5000,31084.5000,30771.4000,31517.9000,1024,15,101415384
+gcc,vector_mod_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,40582.0000,42279.3000,39742.6000,46275.8000,512,15,19724767
+gcc,vector_mod_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,43.9223,44.8111,42.4915,64.1972,524288,15,8192
+gcc,vector_mod_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,688.8440,705.1330,665.4230,866.5390,32768,15,8192
+gcc,vector_mod_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,49.9967,51.9168,48.6259,61.1936,524288,15,34784
+gcc,vector_mod_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,508.7080,523.0440,488.8540,621.0270,65536,15,7184
+gcc,vector_mod_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2839.9600,3029.1700,2748.6600,4614.3900,8192,15,77664
+gcc,vector_mod_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,28.4548,28.8680,27.4539,32.1247,1048576,15,34784
+gcc,vector_mod_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,649.7860,661.4630,635.6450,825.4530,32768,15,7184
+gcc,vector_mod_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,406.1600,436.3700,395.3640,615.6660,65536,15,77664
+gcc,vector_mod_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.4899,3.5819,3.4421,3.7500,8388608,15,4348
+gcc,vector_mod_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,3.0090,3.7389,2.9216,3.8716,8388608,15,898
+gcc,lumex_wrap_cxx17,push_overwrite_int,one push_back into a full buffer (overwrite the oldest),1024,1.1678,1.2221,1.1268,1.3700,33554432,15,1135
+gcc,lumex_wrap_cxx17,push_overwrite_str_short,one push_back into a full buffer (overwrite the oldest),1024,3.9210,4.0604,3.7975,4.6484,8388608,15,1921
+gcc,lumex_wrap_cxx17,push_overwrite_str_long,one push_back into a full buffer (overwrite the oldest),1024,13.5599,14.0454,13.3147,17.6754,2097152,15,19737
+gcc,lumex_wrap_cxx17,push_pop_steady_int,"push_back, read front, pop_front on a half-full buffer",1024,1.3761,1.4100,1.3177,2.3041,16777216,15,732
+gcc,lumex_wrap_cxx17,push_pop_steady_str_short,"push_back, read front, pop_front on a half-full buffer",1024,4.4798,4.5473,4.2636,5.4276,8388608,15,4068
+gcc,lumex_wrap_cxx17,push_pop_steady_str_long,"push_back, read front, pop_front on a half-full buffer",1024,13.5692,14.0435,13.0954,15.5493,2097152,15,75332
+gcc,lumex_wrap_cxx17,fill_int,"clear, then push_back of `size` elements (never full)",1024,626.2360,652.1780,607.6420,1127.7700,32768,15,58336
+gcc,lumex_wrap_cxx17,fill_str_short,"clear, then push_back of `size` elements (never full)",256,995.4090,1028.1600,945.8640,1219.0100,32768,15,5920
+gcc,lumex_wrap_cxx17,fill_str_long,"clear, then push_back of `size` elements (never full)",256,3989.6500,4199.4400,3833.0300,5545.9300,8192,15,77184
+gcc,lumex_wrap_cxx17,fill_drain_int,"fill with `size` elements, then front and pop_front until empty",1024,1388.5100,1485.0800,1348.8000,2297.0600,16384,15,29356032
+gcc,lumex_wrap_cxx17,fill_drain_str_short,"fill with `size` elements, then front and pop_front until empty",256,1146.2000,1184.2900,1119.7100,1316.7000,32768,15,1333584
+gcc,lumex_wrap_cxx17,front_back_int,front () and back () of a wrapped buffer,1024,0.8246,0.8557,0.7933,1.0406,33554432,15,71672
+gcc,lumex_wrap_cxx17,front_back_str_short,front () and back () of a wrapped buffer,1024,1.4261,1.4880,1.3910,2.1659,16777216,15,11320
+gcc,lumex_wrap_cxx17,index_sum_int,sum of the 768 elements of a wrapped buffer by operator[],1024,259.8420,265.4600,254.6890,361.7020,131072,15,20182016
+gcc,lumex_wrap_cxx17,index_sum_str_short,sum of the 768 elements of a wrapped buffer by operator[],1024,567.3100,589.3490,556.7400,703.5960,65536,15,4195872
+gcc,lumex_wrap_cxx17,iterate_sum_int,sum of the 768 elements of a wrapped buffer by iterators,1024,261.8570,264.8240,251.2300,315.8190,131072,15,20182016
+gcc,lumex_wrap_cxx17,iterate_sum_str_short,sum of the 768 elements of a wrapped buffer by iterators,1024,581.9230,598.5180,552.2030,656.1970,65536,15,4195872
+gcc,lumex_wrap_cxx17,producer_consumer_int,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,18328.5000,18573.4000,17855.9000,20735.8000,2048,15,101415384
+gcc,lumex_wrap_cxx17,producer_consumer_str_short,"producer and consumer on one thread, 1 024 steps, capacity 256",1024,37517.5000,38404.3000,36663.2000,40924.7000,1024,15,19724767
+gcc,lumex_wrap_cxx17,ctor_dtor_int,construct an empty buffer of capacity `size` and destroy it,1024,20.1910,20.8542,19.6203,24.6148,1048576,15,8192
+gcc,lumex_wrap_cxx17,ctor_dtor_str_short,construct an empty buffer of capacity `size` and destroy it,1024,20.7498,22.8056,19.8891,26.7792,1048576,15,8192
+gcc,lumex_wrap_cxx17,copy_ctor_int,copy construction of a wrapped buffer of 3/4 `size` elements,1024,558.2540,617.2290,526.2430,749.1360,32768,15,34784
+gcc,lumex_wrap_cxx17,copy_ctor_str_short,copy construction of a wrapped buffer of 3/4 `size` elements,256,751.4150,775.4230,719.0430,883.8420,32768,15,7184
+gcc,lumex_wrap_cxx17,copy_ctor_str_long,copy construction of a wrapped buffer of 3/4 `size` elements,128,2257.8000,2332.0000,2183.2000,2619.2500,16384,15,77664
+gcc,lumex_wrap_cxx17,copy_assign_int,copy assignment of a wrapped buffer of 3/4 `size` elements,1024,559.9620,576.8560,544.2240,685.4320,65536,15,34784
+gcc,lumex_wrap_cxx17,copy_assign_str_short,copy assignment of a wrapped buffer of 3/4 `size` elements,256,684.1070,707.2680,653.2110,788.0960,32768,15,7184
+gcc,lumex_wrap_cxx17,copy_assign_str_long,copy assignment of a wrapped buffer of 3/4 `size` elements,128,2345.9000,2367.2700,2228.7700,2777.6000,8192,15,77664
+gcc,lumex_wrap_cxx17,move_pair_int,move construction and move assignment back of a buffer,1024,3.2512,3.2911,3.1395,3.3883,8388608,15,4348
+gcc,lumex_wrap_cxx17,move_pair_str_short,move construction and move assignment back of a buffer,256,3.3604,3.4265,3.2805,3.4733,8388608,15,898

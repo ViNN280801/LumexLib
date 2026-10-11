@@ -58,8 +58,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 # Order of the variants in tables and charts.
 VARIANT_ORDER = ["lumex_cxx11", "lumex_cxx17", "boost_cxx11", "boost_cxx17",
-                 "deque_cxx17", "vector_cxx17", "vector_mod_cxx17",
-                 "lumex_wrap_cxx17"]
+                 "deque_cxx17", "vector_cxx17", "vector_mod_cxx17"]
 
 
 def log(message):
