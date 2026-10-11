@@ -18,7 +18,6 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_ENVIRONMENT LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_TIME LUMEX_BUILD_ENVIRONMENT)"
         "lumex_require_module(LUMEX_BUILD_FILESYSTEM LUMEX_BUILD_UTILITY)"
-        "lumex_require_module(LUMEX_BUILD_STRING_VIEW LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_FMT LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_REFLECTION LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_SERIAL LUMEX_BUILD_UTILITY)"

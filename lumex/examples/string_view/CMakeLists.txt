@@ -25,6 +25,13 @@ lumex_example_executable(
   CXX_STANDARD 11
 )
 lumex_example_executable(
+  NAME LumexStringViewExampleLiteralsHash
+  SOURCE example_string_view_literals_hash.cpp
+  LINK lumex::string_view
+  REQUIRE_TARGET lumex::string_view
+  CXX_STANDARD 11
+)
+lumex_example_executable(
   NAME LumexStringViewExampleStdConversion
   SOURCE example_string_view_std_conversion.cpp
   LINK lumex::string_view

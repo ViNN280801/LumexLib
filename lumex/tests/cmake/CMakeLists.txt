@@ -188,8 +188,6 @@ lumex_add_cmake_fail_test(require_fail_filesystem_without_utility
     "LUMEX_BUILD_FILESYSTEM is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_fmt_without_utility
     "LUMEX_BUILD_FMT is enabled but requires LUMEX_BUILD_UTILITY")
-lumex_add_cmake_fail_test(require_fail_string_view_without_utility
-    "LUMEX_BUILD_STRING_VIEW is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_reflection_without_utility
     "LUMEX_BUILD_REFLECTION is enabled but requires LUMEX_BUILD_UTILITY")
 lumex_add_cmake_fail_test(require_fail_utility_without_math
