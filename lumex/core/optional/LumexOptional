@@ -39,11 +39,13 @@
 
 /**
  * @file LumexOptional
- * @brief Optional module: a C++11 implementation of the C++17 `std::optional`.
+ * @brief Optional module: a C++11 implementation of the C++17 `std::optional`
+ * with the C++23 monadic operations.
  * @details Link <tt>%lumex::optional</tt> (header-only). Works from C++11. The
  * umbrella includes `opt/LumexOptional.hpp` (the types in
- * `lumex::core::optional::opt`) and `opt/LumexOptionalGlobals.hpp` (the global
- * names `optional`, `nullopt`, `make_optional` and
+ * `lumex::core::optional::opt`, with `opt/LumexOptionalTags.hpp` and
+ * `opt/LumexOptionalDetail.hpp` behind it) and `opt/LumexOptionalGlobals.hpp`
+ * (the global names `optional`, `nullopt`, `make_optional` and
  * `lumex_bad_optional_access`).
  */
 #include "opt/LumexOptionalGlobals.hpp"
