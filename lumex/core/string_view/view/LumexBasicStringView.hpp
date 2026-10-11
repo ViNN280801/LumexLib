@@ -91,6 +91,8 @@
 #endif
 
 #include <cstddef>     // std::size_t, std::ptrdiff_t
+#include <cstdint>     // std::uint64_t
+#include <cstring>     // std::memcpy
 #include <functional>  // std::hash
 #include <ios>         // std::ios_base, std::streamsize
 #include <iterator>    // std::reverse_iterator
@@ -102,6 +104,9 @@
 #include <type_traits> // std::enable_if, std::is_same
 #if __cplusplus >= 201703L
 #include <string_view>
+#endif
+#if defined(__GLIBCXX__)
+#include <cxxabi.h> // abi::__forced_unwind
 #endif
 
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
@@ -204,6 +209,17 @@
 #define LUMEX_SV_CONSTEXPR_TRAITS 1
 #else
 #define LUMEX_SV_CONSTEXPR_TRAITS 0
+#endif
+
+// Binding the reference of catch (abi::__forced_unwind &) is reported by
+// UndefinedBehaviorSanitizer as a reference to null (the exception object of a
+// thread cancellation); libstdc++'s own inserters are not instrumented.
+#if defined(__GLIBCXX__) && defined(__clang__)
+#define LUMEX_SV_NO_UBSAN __attribute__ ((no_sanitize ("undefined")))
+#elif defined(__GLIBCXX__) && defined(__GNUC__)
+#define LUMEX_SV_NO_UBSAN __attribute__ ((no_sanitize_undefined))
+#else
+#define LUMEX_SV_NO_UBSAN
 #endif
 
 #define LUMEX_SV_NODISCARD                                                    \
@@ -695,27 +711,119 @@ template <class Traits> struct search
 };
 
 /**
- * @brief Deterministic hash of code units (FNV-1a over `size_t`), used where
- * `std::hash<std::basic_string_view>` does not exist (before C++17) or does
- * not cover the traits.
+ * @brief The hash of the characters of a view: the same value in every C++
+ * standard, with every compiler and standard library.
+ * @details A 64-bit block hash (the rounds of xxHash64 over 8-byte blocks and
+ * the finalizer of MurmurHash3), the length is mixed in, so a string and the
+ * same string followed by NULs differ. It is not the hash of
+ * `std::hash<std::basic_string_view>` (whose value is the choice of the
+ * standard library and changes with it): a library built at C++11 and a
+ * program built at C++17 must hash a key alike.
+ *
+ * What is hashed: for one-byte characters (`char`, `char8_t`) the bytes, read
+ * eight at a time as little-endian integers (so a big-endian machine gives the
+ * same value, through a byte swap); for wider characters (`wchar_t`,
+ * `char16_t`, `char32_t`) the code unit values, each zero-extended to 32 bits
+ * and two of them packed into one block (so a `wchar_t` string and a
+ * `char32_t` string of the same code points hash alike, and `wchar_t` of 2
+ * bytes (Windows) and 4 bytes give the same value for the same code units;
+ * a unit above 2^32 is reduced modulo 2^32). The value is a 64-bit one;
+ * on a 32-bit platform `size_t` takes its low 32 bits.
+ */
+inline std::uint64_t
+hash_round (std::uint64_t acc, std::uint64_t block) LUMEX_NOEXCEPT
+{
+  block *= 0xC2B2AE3D27D4EB4FULL;
+  block = (block << 31) | (block >> 33);
+  block *= 0x9E3779B185EBCA87ULL;
+  acc ^= block;
+  acc = ((acc << 27) | (acc >> 37)) * 0x9E3779B185EBCA87ULL
+        + 0x85EBCA77C2B2AE63ULL;
+  return acc;
+}
+
+inline std::uint64_t
+hash_final (std::uint64_t acc) LUMEX_NOEXCEPT
+{
+  acc ^= acc >> 33;
+  acc *= 0xFF51AFD7ED558CCDULL;
+  acc ^= acc >> 33;
+  acc *= 0xC4CEB9FE1A85EC53ULL;
+  acc ^= acc >> 33;
+  return acc;
+}
+
+/** @brief Eight bytes as a little-endian integer, on any byte order. */
+inline std::uint64_t
+load_le64 (unsigned char const *bytes) LUMEX_NOEXCEPT
+{
+  std::uint64_t value;
+  std::memcpy (&value, bytes, sizeof value);
+#if defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__)                  \
+    && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+  value = ((value & 0x00000000000000FFULL) << 56)
+          | ((value & 0x000000000000FF00ULL) << 40)
+          | ((value & 0x0000000000FF0000ULL) << 24)
+          | ((value & 0x00000000FF000000ULL) << 8)
+          | ((value & 0x000000FF00000000ULL) >> 8)
+          | ((value & 0x0000FF0000000000ULL) >> 24)
+          | ((value & 0x00FF000000000000ULL) >> 40)
+          | ((value & 0xFF00000000000000ULL) >> 56);
+#endif
+  return value;
+}
+
+template <class CharT>
+std::uint64_t
+block_hash (CharT const *data, std::size_t size, std::true_type) LUMEX_NOEXCEPT
+{
+  // One-byte characters: the bytes, eight per round.
+  unsigned char const *bytes = reinterpret_cast<unsigned char const *> (data);
+  std::uint64_t acc = 0x27D4EB2F165667C5ULL ^ (size * 0x9E3779B97F4A7C15ULL);
+  std::size_t at = 0;
+  for (; at + 8 <= size; at += 8)
+    acc = hash_round (acc, load_le64 (bytes + at));
+  if (at < size)
+    {
+      std::uint64_t tail = 0;
+      for (std::size_t i = 0; at + i < size; ++i)
+        tail |= static_cast<std::uint64_t> (bytes[at + i]) << (8 * i);
+      acc = hash_round (acc, tail);
+    }
+  return hash_final (acc);
+}
+
+template <class CharT>
+std::uint64_t
+block_hash (CharT const *data, std::size_t size,
+            std::false_type) LUMEX_NOEXCEPT
+{
+  // Wider characters: the code unit values, two per round.
+  typedef typename std::make_unsigned<CharT>::type unit_t;
+  std::uint64_t acc = 0x27D4EB2F165667C5ULL ^ (size * 0x9E3779B97F4A7C15ULL);
+  std::size_t at = 0;
+  for (; at + 2 <= size; at += 2)
+    {
+      std::uint64_t const low
+          = static_cast<std::uint32_t> (static_cast<unit_t> (data[at]));
+      std::uint64_t const high
+          = static_cast<std::uint32_t> (static_cast<unit_t> (data[at + 1]));
+      acc = hash_round (acc, low | (high << 32));
+    }
+  if (at < size)
+    acc = hash_round (
+        acc, static_cast<std::uint32_t> (static_cast<unit_t> (data[at])));
+  return hash_final (acc);
+}
+
+/** @brief The hash of `size` characters at `data` (may be null if size is 0).
  */
 template <class CharT>
-LUMEX_CONSTEXPR_CXX14 std::size_t
-fnv1a (CharT const *data, std::size_t size) LUMEX_NOEXCEPT
+std::size_t
+hash_chars (CharT const *data, std::size_t size) LUMEX_NOEXCEPT
 {
-  typedef typename std::make_unsigned<CharT>::type unit_t;
-  std::size_t hash = sizeof (std::size_t) >= 8
-                         ? static_cast<std::size_t> (14695981039346656037ULL)
-                         : static_cast<std::size_t> (2166136261UL);
-  std::size_t const prime = sizeof (std::size_t) >= 8
-                                ? static_cast<std::size_t> (1099511628211ULL)
-                                : static_cast<std::size_t> (16777619UL);
-  for (std::size_t i = 0; i < size; ++i)
-    {
-      hash ^= static_cast<std::size_t> (static_cast<unit_t> (data[i]));
-      hash *= prime;
-    }
-  return hash;
+  return static_cast<std::size_t> (block_hash (
+      data, size, std::integral_constant<bool, sizeof (CharT) == 1> ()));
 }
 
 // Which types a view accepts in its range constructor (C++23 in the standard,
@@ -769,7 +877,9 @@ struct is_char_range<
 #if LUMEX_STRING_VIEW_HAS_THREE_WAY
 template <class Traits, class = void> struct comparison_category
 {
-  typedef std::strong_ordering type;
+  // [string.view.comparison]: traits::comparison_category if it names a type,
+  // else weak_ordering (std::char_traits names strong_ordering).
+  typedef std::weak_ordering type;
 };
 
 template <class Traits>
@@ -1783,7 +1893,7 @@ operator<=> (std::basic_string_view<CharT, Traits> lhs,
  * and an exception of the buffer is handled as the standard says.
  */
 template <class CharT, class Traits>
-std::basic_ostream<CharT, Traits> &
+LUMEX_SV_NO_UBSAN std::basic_ostream<CharT, Traits> &
 operator<< (std::basic_ostream<CharT, Traits> &ostr,
             lumex_basic_string_view<CharT, Traits> sview)
 {
@@ -1810,6 +1920,21 @@ operator<< (std::basic_ostream<CharT, Traits> &ostr,
           if (!good)
             ostr.setstate (std::ios_base::badbit);
         }
+#if defined(__GLIBCXX__)
+      catch (abi::__forced_unwind &)
+        {
+          // The unwind of a cancelled thread must go on, as libstdc++'s own
+          // inserters do: set the badbit (without throwing) and rethrow.
+          try
+            {
+              ostr.setstate (std::ios_base::badbit);
+            }
+          catch (...)
+            {
+            }
+          throw;
+        }
+#endif
       catch (...)
         {
           bool const rethrow
@@ -1900,12 +2025,9 @@ operator""_sv (char8_t const *str, std::size_t len) LUMEX_NOEXCEPT
 namespace std
 {
 /**
- * @brief `std::hash` of a view.
- * @details From C++17 the value of `std::hash<std::basic_string_view>` of the
- * same characters (and so of `std::hash<std::basic_string>`), whatever the
- * standard library computes. Below C++17 (and for traits other than
- * `std::char_traits`) a deterministic FNV-1a over the code units, which does
- * not equal the hash of `std::string`.
+ * @brief `std::hash` of a view: `detail::hash_chars`, one value on every
+ * standard, compiler and standard library (not the value of
+ * `std::hash<std::basic_string_view>`, which depends on the standard library).
  */
 template <class CharT, class Traits>
 struct hash<
@@ -1925,36 +2047,9 @@ struct hash<
   operator() (::lumex::core::string_view::view::lumex_basic_string_view<
               CharT, Traits> const &sview) const LUMEX_NOEXCEPT
   {
-#if LUMEX_STRING_VIEW_HAS_STD_VIEW
-    return hash_of (sview,
-                    std::is_default_constructible<
-                        std::hash<std::basic_string_view<CharT, Traits>>> ());
-#else
-    return ::lumex::core::string_view::view::detail::fnv1a (sview.data (),
-                                                            sview.size ());
-#endif
+    return ::lumex::core::string_view::view::detail::hash_chars (
+        sview.data (), sview.size ());
   }
-
-private:
-#if LUMEX_STRING_VIEW_HAS_STD_VIEW
-  static std::size_t
-  hash_of (::lumex::core::string_view::view::lumex_basic_string_view<
-               CharT, Traits> const &sview,
-           std::true_type) LUMEX_NOEXCEPT
-  {
-    return std::hash<std::basic_string_view<CharT, Traits>> () (
-        std::basic_string_view<CharT, Traits> (sview.data (), sview.size ()));
-  }
-
-  static std::size_t
-  hash_of (::lumex::core::string_view::view::lumex_basic_string_view<
-               CharT, Traits> const &sview,
-           std::false_type) LUMEX_NOEXCEPT
-  {
-    return ::lumex::core::string_view::view::detail::fnv1a (sview.data (),
-                                                            sview.size ());
-  }
-#endif
 };
 
 #if LUMEX_STRING_VIEW_HAS_RANGES
@@ -1976,6 +2071,7 @@ LUMEX_INLINE_VARIABLE LUMEX_CONSTEXPR bool enable_view<
 } // namespace std
 
 #undef LUMEX_SV_NODISCARD
+#undef LUMEX_SV_NO_UBSAN
 #undef LUMEX_SV_CONSTEXPR_CXX17
 #undef LUMEX_SV_CONSTEXPR_TRAITS
 #undef LUMEX_SV_CONSTANT_P

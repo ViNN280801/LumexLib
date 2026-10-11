@@ -30,6 +30,8 @@ constexpr lumex_string_view long_view = long_text;
 constexpr lumex_wstring_view wide_hello = L"hello world";
 constexpr lumex_wstring_view long_wide_view = long_wide;
 constexpr std::size_t npos = lumex_string_view::npos;
+using lumex::core::string_view::view::lumex_u16string_view;
+using lumex::core::string_view::view::lumex_u32string_view;
 } // namespace
 
 // -- construction and observers --
@@ -179,6 +181,81 @@ static_assert (wide_hello.find (L"wor") == 6 && wide_hello.rfind (L'o') == 7
                    && wide_hello.compare (L"hello") > 0
                    && wide_hello.substr (6) == L"world",
                "the wide view");
+
+// The length of a wide C string in a constant expression (C++11: four
+// characters per step): every remainder of a division by 4.
+static_assert (lumex_wstring_view (L"").size () == 0,
+               "lumex_wstring_view length 0");
+static_assert (lumex_wstring_view (L"a").size () == 1,
+               "lumex_wstring_view length 1");
+static_assert (lumex_wstring_view (L"ab").size () == 2,
+               "lumex_wstring_view length 2");
+static_assert (lumex_wstring_view (L"abc").size () == 3,
+               "lumex_wstring_view length 3");
+static_assert (lumex_wstring_view (L"abcd").size () == 4,
+               "lumex_wstring_view length 4");
+static_assert (lumex_wstring_view (L"abcde").size () == 5,
+               "lumex_wstring_view length 5");
+static_assert (lumex_wstring_view (L"abcdef").size () == 6,
+               "lumex_wstring_view length 6");
+static_assert (lumex_wstring_view (L"abcdefg").size () == 7,
+               "lumex_wstring_view length 7");
+static_assert (lumex_wstring_view (L"abcdefgh").size () == 8,
+               "lumex_wstring_view length 8");
+static_assert (lumex_wstring_view (L"abcdefghi").size () == 9,
+               "lumex_wstring_view length 9");
+static_assert (lumex_wstring_view (L"abcdefghij").size () == 10,
+               "lumex_wstring_view length 10");
+static_assert (lumex_wstring_view (L"abcdefghijk").size () == 11,
+               "lumex_wstring_view length 11");
+static_assert (lumex_u16string_view (u"").size () == 0,
+               "lumex_u16string_view length 0");
+static_assert (lumex_u16string_view (u"a").size () == 1,
+               "lumex_u16string_view length 1");
+static_assert (lumex_u16string_view (u"ab").size () == 2,
+               "lumex_u16string_view length 2");
+static_assert (lumex_u16string_view (u"abc").size () == 3,
+               "lumex_u16string_view length 3");
+static_assert (lumex_u16string_view (u"abcd").size () == 4,
+               "lumex_u16string_view length 4");
+static_assert (lumex_u16string_view (u"abcde").size () == 5,
+               "lumex_u16string_view length 5");
+static_assert (lumex_u16string_view (u"abcdef").size () == 6,
+               "lumex_u16string_view length 6");
+static_assert (lumex_u16string_view (u"abcdefg").size () == 7,
+               "lumex_u16string_view length 7");
+static_assert (lumex_u16string_view (u"abcdefgh").size () == 8,
+               "lumex_u16string_view length 8");
+static_assert (lumex_u16string_view (u"abcdefghi").size () == 9,
+               "lumex_u16string_view length 9");
+static_assert (lumex_u16string_view (u"abcdefghij").size () == 10,
+               "lumex_u16string_view length 10");
+static_assert (lumex_u16string_view (u"abcdefghijk").size () == 11,
+               "lumex_u16string_view length 11");
+static_assert (lumex_u32string_view (U"").size () == 0,
+               "lumex_u32string_view length 0");
+static_assert (lumex_u32string_view (U"a").size () == 1,
+               "lumex_u32string_view length 1");
+static_assert (lumex_u32string_view (U"ab").size () == 2,
+               "lumex_u32string_view length 2");
+static_assert (lumex_u32string_view (U"abc").size () == 3,
+               "lumex_u32string_view length 3");
+static_assert (lumex_u32string_view (U"abcd").size () == 4,
+               "lumex_u32string_view length 4");
+static_assert (lumex_u32string_view (U"abcde").size () == 5,
+               "lumex_u32string_view length 5");
+static_assert (lumex_u32string_view (U"abcdef").size () == 6,
+               "lumex_u32string_view length 6");
+static_assert (lumex_u32string_view (U"abcdefg").size () == 7,
+               "lumex_u32string_view length 7");
+static_assert (lumex_u32string_view (U"abcdefgh").size () == 8,
+               "lumex_u32string_view length 8");
+static_assert (lumex_u32string_view (U"abcdefghi").size () == 9,
+               "lumex_u32string_view length 9");
+static_assert (lumex_u32string_view (U"abcdefghij").size () == 10,
+               "lumex_u32string_view length 10");
+static_assert (lumex_u32string_view (U"abcdefghijk").size () == 11,
+               "lumex_u32string_view length 11");
 
 TEST (LumexStringViewConstexprTest,
       GivenConstantExpressions_WhenRunAtRunTime_ThenSameResults)

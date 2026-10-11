@@ -1,3 +1,4 @@
+#include <atomic>
 #include <cstddef>
 #include <iomanip>
 #include <ios>
@@ -6,6 +7,11 @@
 #include <stdexcept>
 #include <streambuf>
 #include <string>
+
+#if defined(__linux__) && defined(__GLIBCXX__)
+#include <pthread.h>
+#include <unistd.h>
+#endif
 
 #include <gtest/gtest.h>
 
@@ -299,3 +305,58 @@ TEST (LumexStringViewStreamTest,
   out.exceptions (std::ios_base::badbit);
   EXPECT_THROW (out << lumex_string_view ("abc"), std::ios_base::failure);
 }
+
+#if defined(__linux__) && defined(__GLIBCXX__)
+// pthread_cancel unwinds the cancelled thread with an exception that must not
+// be swallowed (abi::__forced_unwind): an inserter that catches everything and
+// does not rethrow makes glibc abort the thread's exit.
+namespace
+{
+std::atomic<bool> g_in_buffer (false);
+std::atomic<bool> g_unwound (false);
+std::atomic<bool> g_continued (false);
+
+class blocking_buf : public std::streambuf
+{
+protected:
+  std::streamsize
+  xsputn (char const *, std::streamsize) override
+  {
+    g_in_buffer = true;
+    for (;;)
+      ::sleep (1); // a cancellation point
+  }
+};
+
+struct unwind_probe
+{
+  ~unwind_probe () { g_unwound = true; }
+};
+
+void *
+insert_and_block (void *)
+{
+  unwind_probe probe;
+  blocking_buf buffer;
+  std::ostream out (&buffer);
+  out << lumex_string_view ("abc");
+  g_continued = true;
+  return nullptr;
+}
+} // namespace
+
+TEST (LumexStringViewStreamTest,
+      GivenCancelledThread_WhenInsert_ThenTheUnwindIsNotSwallowed)
+{
+  pthread_t thread;
+  ASSERT_EQ (pthread_create (&thread, nullptr, &insert_and_block, nullptr), 0);
+  while (!g_in_buffer)
+    ::usleep (1000);
+  ASSERT_EQ (pthread_cancel (thread), 0);
+  void *result = nullptr;
+  ASSERT_EQ (pthread_join (thread, &result), 0);
+  EXPECT_EQ (result, PTHREAD_CANCELED);
+  EXPECT_TRUE (g_unwound) << "the stack was unwound";
+  EXPECT_FALSE (g_continued) << "the insertion did not return normally";
+}
+#endif
