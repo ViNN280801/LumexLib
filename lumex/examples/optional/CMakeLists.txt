@@ -17,6 +17,18 @@ lumex_example_executable(
   LINK lumex::optional
   REQUIRE_TARGET lumex::optional
 )
+lumex_example_executable(
+  NAME LumexOptionalExampleMonadic
+  SOURCE example_optional_monadic.cpp
+  LINK lumex::optional
+  REQUIRE_TARGET lumex::optional
+)
+lumex_example_executable(
+  NAME LumexOptionalExampleLiteral
+  SOURCE example_optional_literal.cpp
+  LINK lumex::optional
+  REQUIRE_TARGET lumex::optional
+)
 # The conversions to and from std::optional exist from C++17.
 lumex_example_executable(
   NAME LumexOptionalExampleStdConversion
