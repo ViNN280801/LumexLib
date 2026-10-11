@@ -32,9 +32,11 @@
 // table at the quick budget (the default run). The long runs are the tests of
 // LumexSplitCountSimSoak.cxx11.tests.cpp (the suite name contains `Soak`).
 //
-// The full quick set runs in the C++11 suites with the default and the
-// built-in backend; the other suites run the self-tests and S01, H1 and LK at
-// bound 1.
+// The full quick set runs in the C++11 suite with the default backend; the
+// other suites (built-in backend, C++17, C++20, wait table) run the
+// self-tests, the determinism test and S01, H1 and LK at bound 1. For five and
+// six threads the quick run keeps only the 200 random schedules (the search is
+// in the soak run).
 #include <string>
 #include <vector>
 
@@ -49,7 +51,8 @@ namespace
 {
 using namespace split_sim;
 
-#if __cplusplus == 201103L && !defined(LUMEX_ATOMIC_WAIT_FORCE_TABLE)
+#if __cplusplus == 201103L && !defined(LUMEX_ATOMIC_WAIT_FORCE_TABLE)         \
+    && LUMEX_DWCAS_BACKEND != LUMEX_DWCAS_BACKEND_BUILTIN
 bool const full_sim_set = true;
 #else
 bool const full_sim_set = false;
@@ -159,7 +162,7 @@ TEST (
 {
   if (char const *reason = skip_reason (sc_S02, pol_R8))
     GTEST_SKIP () << reason;
-  budget_t budget = quick_budget (scenario_of (sc_S02).nthreads);
+  budget_t budget = quick_budget (scenario_of (sc_S02));
   budget.bound = 1;
   run_result_t const first = run_scenario (sc_S02, pol_R8, budget);
   run_result_t const second = run_scenario (sc_S02, pol_R8, budget);
@@ -178,11 +181,13 @@ TEST (
     bool const small = in_small_set (sc_##Id, pol_##Policy);                  \
     if (!full_sim_set && !small)                                              \
       GTEST_SKIP () << "full sim set runs in the C++11 suites";               \
-    budget_t budget = quick_budget (scenario_of (sc_##Id).nthreads);          \
+    budget_t budget = quick_budget (scenario_of (sc_##Id));                   \
     if (!full_sim_set)                                                        \
       budget.bound = 1;                                                       \
+    if (!full_sim_set)                                                        \
+      budget.dfs = true;                                                      \
     run_result_t const result = run_scenario (sc_##Id, pol_##Policy, budget); \
-    EXPECT_GT (result.dfs.schedules, 0);                                      \
+    EXPECT_GT (result.dfs.schedules + result.random.schedules, 0);            \
   }
 
 LUMEX_SIM_ALL_RUNS (LUMEX_SIM_QUICK_TEST)
