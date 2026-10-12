@@ -57,6 +57,13 @@ foreach(_std IN LISTS _standards)
     endif()
 
     foreach(_case RANGE 1 ${_last_case})
+        # Cases 11-13 discard a [[nodiscard]] result, which only a compiler
+        # with the attribute warns about: MSVC has it from C++17 alone
+        # (LUMEX_NODISCARD is empty there at C++14), so at C++14 the check
+        # cannot reject them.
+        if(MSVC AND _std LESS 17 AND _case GREATER 10 AND _case LESS 14)
+            continue()
+        endif()
         _lumex_hp_try(_ok bad_${_case}_${_tag} ${_std}
                       -DLUMEX_HP_BAD_CASE=${_case})
         if(_ok)

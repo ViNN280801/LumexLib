@@ -22,8 +22,6 @@
 #include <thread>
 #include <vector>
 
-#include <unistd.h>
-
 void atomic_test_point (int id);
 
 #define LUMEX_ATOMIC_SMART_PTR_TEST_HOOKS
@@ -311,7 +309,9 @@ on_terminate ()
   std::printf ("atomic_lock_free_hooks: all checks passed; the allocation "
                "failure ended in std::terminate\n");
   std::fflush (stdout);
-  _exit (g_failures != 0 ? 1 : 0);
+  // std::_Exit and not the POSIX _exit: <cstdlib> is there in every standard
+  // and the fixture must compile without <unistd.h> (MSVC has none).
+  std::_Exit (g_failures != 0 ? 1 : 0);
 }
 
 // The box is 32 bytes: a failing allocation of that size inside a noexcept
