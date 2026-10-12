@@ -42,6 +42,10 @@
 #include <cstdlib>
 #include <new>
 
+#if defined(_WIN32)
+#include <malloc.h> // _aligned_malloc / _aligned_free
+#endif
+
 #include "lumex/tests/core/atomic/smart_ptr/split_count/LumexSplitCountTestSupport.hpp"
 
 #if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT && !LUMEX_TEST_HAS_TSAN
@@ -93,6 +97,22 @@ split_release (void *block) noexcept
   std::free (block);
 }
 
+// The aligned family releases what the aligned allocation of the platform
+// returned: an _aligned_malloc block on Windows (free () must not see it) and
+// a posix_memalign block elsewhere (free () is its release).
+void
+split_release_aligned (void *block) noexcept
+{
+  if (block == nullptr)
+    return;
+  split_test::live_allocations ().fetch_sub (1, std::memory_order_relaxed);
+#if defined(_WIN32)
+  _aligned_free (block);
+#else
+  std::free (block);
+#endif
+}
+
 #if defined(__cpp_aligned_new)
 void *
 split_allocate_aligned (std::size_t size, std::size_t alignment,
@@ -109,12 +129,24 @@ split_allocate_aligned (std::size_t size, std::size_t alignment,
   void *block = nullptr;
   if (alignment < sizeof (void *))
     alignment = sizeof (void *);
+#if defined(_WIN32)
+  // Windows has no posix_memalign; _aligned_malloc needs _aligned_free (see
+  // split_release_aligned below - free () must not see those blocks).
+  block = _aligned_malloc (size == 0 ? 1 : size, alignment);
+  if (block == nullptr)
+    {
+      if (may_throw)
+        throw std::bad_alloc ();
+      return nullptr;
+    }
+#else
   if (posix_memalign (&block, alignment, size == 0 ? 1 : size) != 0)
     {
       if (may_throw)
         throw std::bad_alloc ();
       return nullptr;
     }
+#endif
   split_test::live_allocations ().fetch_add (1, std::memory_order_relaxed);
   return block;
 }
@@ -215,39 +247,39 @@ operator new[] (std::size_t size, std::align_val_t alignment,
 void
 operator delete (void *block, std::align_val_t) noexcept
 {
-  split_release (block);
+  split_release_aligned (block);
 }
 
 void
 operator delete[] (void *block, std::align_val_t) noexcept
 {
-  split_release (block);
+  split_release_aligned (block);
 }
 
 void
 operator delete (void *block, std::size_t, std::align_val_t) noexcept
 {
-  split_release (block);
+  split_release_aligned (block);
 }
 
 void
 operator delete[] (void *block, std::size_t, std::align_val_t) noexcept
 {
-  split_release (block);
+  split_release_aligned (block);
 }
 
 void
 operator delete (void *block, std::align_val_t,
                  std::nothrow_t const &) noexcept
 {
-  split_release (block);
+  split_release_aligned (block);
 }
 
 void
 operator delete[] (void *block, std::align_val_t,
                    std::nothrow_t const &) noexcept
 {
-  split_release (block);
+  split_release_aligned (block);
 }
 #endif
 

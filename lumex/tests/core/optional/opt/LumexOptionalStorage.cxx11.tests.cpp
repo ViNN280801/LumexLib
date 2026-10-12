@@ -67,13 +67,17 @@ template <typename T> struct max_alignment
 };
 
 #if __cplusplus <= 202002L
-// What the optional held before the union: the aligned_storage member, then
-// the flag.
+// What the optional held before the union: the buffer of T, then the flag.
+// The buffer spells out what std::aligned_storage<sizeof (T), alignof (T)>
+// used to be (alignas (T) unsigned char[sizeof (T)]): the trait itself refuses
+// an extended alignment on MSVC ("You've instantiated std::aligned_storage ...
+// with an extended alignment"), so the equivalent member keeps the comparison
+// meaningful there too.
 // Not used from C++23 (a value above 202002L: GCC reports 202100L), where
 // std::aligned_storage is deprecated.
 template <typename T> struct FormerLayout
 {
-  typename std::aligned_storage<sizeof (T), alignof (T)>::type storage;
+  alignas (T) unsigned char storage[sizeof (T)];
   bool engaged;
 };
 #endif

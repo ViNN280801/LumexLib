@@ -108,9 +108,17 @@ TEST_F (ContractsAssertDeath, QuickEnforceTrapsWithoutTheHandler)
   // The handler would end the child with k_handler_ran; a trap is a signal
   // (SIGILL or SIGTRAP, by compiler and target).
   EXPECT_EQ (result.end, ChildEnd::signaled) << describe_child (result);
+#if defined(SIGTRAP)
   EXPECT_TRUE (result.code == SIGILL || result.code == SIGTRAP
                || result.code == SIGABRT || result.code == SIGSEGV)
       << result.code;
+#else
+  // Windows has no SIGTRAP in <csignal> (and no fork (), so the fixture skips
+  // there); the check itself is the same.
+  EXPECT_TRUE (result.code == SIGILL || result.code == SIGABRT
+               || result.code == SIGSEGV)
+      << result.code;
+#endif
 }
 
 TEST_F (ContractsAssertDeath, TrueAssertionsDoNotEndTheProcess)

@@ -88,7 +88,10 @@
 #include <utility>
 #include <vector>
 
-#include <unistd.h>
+// No POSIX header here: the crash line of the simulator is printed through
+// <cstdio> and the handlers through <csignal>, so the header compiles on
+// Windows as well (MSVC has signal/raise but no sigaction; the guard below
+// has both branches).
 
 #include "lumex/tests/core/atomic/smart_ptr/split_count/LumexSplitCountSimScenarios.hpp"
 #include "lumex/tests/core/atomic/smart_ptr/split_count/LumexSplitCountTestSupport.hpp"
@@ -953,9 +956,8 @@ sim_crash_signal (int signal_number)
   crash_line_t &line = crash_line ();
   if (line.length > 0)
     {
-      ssize_t const written = ::write (2, line.buffer, line.length);
-      static_cast<void> (written);
-      static_cast<void> (::write (2, "\n", 1));
+      static_cast<void> (std::fwrite (line.buffer, 1, line.length, stderr));
+      static_cast<void> (std::fputc ('\n', stderr));
     }
   ::signal (signal_number, SIG_DFL);
   ::raise (signal_number);
@@ -968,8 +970,8 @@ sim_crash_death_callback ()
   crash_line_t &line = crash_line ();
   if (line.length > 0)
     {
-      static_cast<void> (::write (2, line.buffer, line.length));
-      static_cast<void> (::write (2, "\n", 1));
+      static_cast<void> (std::fwrite (line.buffer, 1, line.length, stderr));
+      static_cast<void> (std::fputc ('\n', stderr));
     }
 }
 #endif
@@ -980,6 +982,7 @@ class crash_guard_t
 public:
   crash_guard_t ()
   {
+#if defined(__unix__) || defined(__APPLE__)
     struct sigaction action;
     std::memset (&action, 0, sizeof (action));
     action.sa_handler = &sim_crash_signal;
@@ -987,6 +990,12 @@ public:
     action.sa_flags = static_cast<int> (SA_RESETHAND);
     ::sigaction (SIGABRT, &action, &old_abort_);
     ::sigaction (SIGSEGV, &action, &old_segv_);
+#else
+    // Windows has signal/raise but no sigaction; the handler prints the same
+    // line, then the default action ends the process.
+    old_abort_ = std::signal (SIGABRT, &sim_crash_signal);
+    old_segv_ = std::signal (SIGSEGV, &sim_crash_signal);
+#endif
 #if LUMEX_TEST_HAS_ASAN
     __sanitizer_set_death_callback (&sim_crash_death_callback);
 #endif
@@ -994,16 +1003,26 @@ public:
 
   ~crash_guard_t ()
   {
+#if defined(__unix__) || defined(__APPLE__)
     ::sigaction (SIGABRT, &old_abort_, nullptr);
     ::sigaction (SIGSEGV, &old_segv_, nullptr);
+#else
+    std::signal (SIGABRT, old_abort_);
+    std::signal (SIGSEGV, old_segv_);
+#endif
   }
 
   crash_guard_t (crash_guard_t const &) = delete;
   crash_guard_t &operator= (crash_guard_t const &) = delete;
 
 private:
+#if defined(__unix__) || defined(__APPLE__)
   struct sigaction old_abort_;
   struct sigaction old_segv_;
+#else
+  void (*old_abort_) (int);
+  void (*old_segv_) (int);
+#endif
 };
 
 /// What the explorer runs: the setup, the bodies of the threads, the
