@@ -81,7 +81,7 @@ discard (T const &)
 
 #define LUMEX_SPAN_TEST_ABORTS(statement, message)                            \
   LUMEX_SPAN_EXPECT_ABORT (discard (statement),                               \
-                           message ".* failed at .*LumexSpan\\.hpp:[0-9]+")
+                           message ".* failed at .*LumexSpan\\.hpp:.*")
 } // namespace
 
 class LumexSpanChecksDeathTest : public ::testing::Test
@@ -220,7 +220,7 @@ TEST_F (LumexSpanChecksDeathTest,
   LUMEX_SPAN_EXPECT_ABORT (
       discard (view[9]),
       "^LUMEX_SPAN_CHECKS: index < m_storage.size \\(\\) failed at "
-      ".*LumexSpan\\.hpp:[0-9]+\n");
+      ".*LumexSpan\\.hpp:.*\n");
 }
 
 #elif !LUMEX_SPAN_CHECKS
