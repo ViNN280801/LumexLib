@@ -429,9 +429,28 @@ template <typename T> struct aggregate_traits
 // namespace that encloses the template).
 // ---------------------------------------------------------------------------
 
+// Whether the automatic names of an unregistered aggregate are available:
+// they need the pointer-to-subobject non-type template parameter of C++20.
+// The feature-test macro is the gate, with one exception: Clang and clang-cl
+// report 201411L (the C++17 value) for __cpp_nontype_template_args even at
+// C++20 although they compile the pointer, so the Clang family counts as
+// having the feature from C++20 on. clang-cl presents itself as MSVC, hence
+// the test on __clang__ and not on the compiler macros of this library.
+#if !defined(LUMEX_FIELD_REFLECTION_HAS_NAMES)
+#if (defined(__cpp_nontype_template_args)                                     \
+     && __cpp_nontype_template_args >= 201911L)                               \
+    || (defined(__clang__) && __cplusplus >= 202002L)
+#define LUMEX_FIELD_REFLECTION_HAS_NAMES 1
+#else
+#define LUMEX_FIELD_REFLECTION_HAS_NAMES 0
+#endif
+#endif
+
 // Whether the names of an unregistered aggregate come from the compiler
-// (pointer NTTP pretty names). Below C++20 they do not.
-LUMEX_CONSTEXPR bool k_automatic_names = (__cplusplus >= 202002L);
+// (pointer NTTP pretty names); without the feature they come from the
+// registry above.
+LUMEX_CONSTEXPR bool k_automatic_names
+    = (LUMEX_FIELD_REFLECTION_HAS_NAMES != 0);
 
 // A pointer to a member as a type (C++11 has no template<auto>).
 template <typename Pointer, Pointer Value> struct member_constant
@@ -709,7 +728,7 @@ LUMEX_AF_TIE (32, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13,
 #undef LUMEX_AF_TIE
 #endif
 
-#if __cplusplus >= 202002L
+#if LUMEX_FIELD_REFLECTION_HAS_NAMES
 // Phantom storage for name extraction only. Taking the address of a member is
 // enough for a pointer NTTP; constructing a real `inline T fake{}` fails on
 // MSVC (C2672) because a local reference into that object is not a constant
@@ -829,7 +848,7 @@ names_of (std::integral_constant<int, 0>) LUMEX_NOEXCEPT
       typename make_index_sequence<aggregate_traits<Agg>::count>::type ());
 }
 
-#if __cplusplus >= 202002L
+#if LUMEX_FIELD_REFLECTION_HAS_NAMES
 template <typename Agg>
 std::array<char const *, aggregate_traits<Agg>::count>
 names_of (std::integral_constant<int, 1>) LUMEX_NOEXCEPT
