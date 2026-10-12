@@ -19,7 +19,6 @@ using lumex::core::expected::result::expected;
 using lumex::core::expected::result::make_unexpected;
 
 constexpr int kError = 7;
-} // namespace
 
 TEST (MakeUnexpectedTest, ScalarErrorType_IsNotAmbiguous)
 {
@@ -82,3 +81,5 @@ TEST (MakeUnexpectedTest, ReturnedFromAFunction)
   ASSERT_FALSE (result.has_value ());
   EXPECT_EQ (result.error (), "bad");
 }
+
+} // namespace

@@ -51,7 +51,6 @@ protected:
 
 constexpr int kOld = 1;
 constexpr int kNew = 2;
-} // namespace
 
 // === the copy assignment, [expected.object.assign]/2 ======================
 
@@ -533,3 +532,5 @@ TEST_F (ExpectedReinitTest, Destructor_DestroysOnlyTheActiveAlternative)
 
   EXPECT_EQ (taken (), "E:dtor(2) V:dtor(1)");
 }
+
+} // namespace

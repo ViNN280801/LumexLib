@@ -92,45 +92,84 @@ struct is_unexpected<unexpected<ErrorType>> : std::true_type
 
 namespace swap_adl
 {
-using std::swap;
-
+// No `using std::swap` here: these traits probe the swap a type brings with
+// itself (found by argument-dependent lookup), exactly as std::is_swappable
+// does at C++17, where std::swap is constrained and cannot make a `const` type
+// look swappable.
 template <typename T, typename = void>
-struct is_swappable_impl : std::false_type
+struct adl_swappable_impl : std::false_type
 {
 };
 
 template <typename T>
-struct is_swappable_impl<
+struct adl_swappable_impl<
     T, lumex::core::utility::traits::meta::void_t<decltype (swap (
            std::declval<T &> (), std::declval<T &> ()))>> : std::true_type
 {
 };
 
-template <typename T, bool Swappable = is_swappable_impl<T>::value>
+template <typename T, bool Swappable = adl_swappable_impl<T>::value>
+struct adl_nothrow_impl : std::false_type
+{
+};
+
+template <typename T>
+struct adl_nothrow_impl<T, true>
+    : std::integral_constant<bool,
+                             LUMEX_NOEXCEPT_IF (swap (std::declval<T &> (),
+                                                      std::declval<T &> ()))>
+{
+};
+
+/// @brief The `std::swap` fallback and its Constraints: the type is
+/// MoveConstructible and MoveAssignable (the C++17 signature of `std::swap`).
+/// Spelled out because below C++17 MSVC's `std::swap` carries no constraints,
+/// so the swap expression alone would report a `const` type, or one with a
+/// deleted assignment, as swappable.
+template <typename T>
+struct std_swap_fallback
+    : std::integral_constant<bool, std::is_move_constructible<T>::value
+                                       && std::is_move_assignable<T>::value>
+{
+};
+} // namespace swap_adl
+
+/// @brief `T` has a swap of its own (found by argument-dependent lookup), or
+/// the `std::swap` fallback applies (`std::is_swappable`, C++17). Below C++17
+/// the standard libraries differ for the fallback, so its Constraints are
+/// spelled out here.
+template <typename T>
+struct is_swappable
+    : std::integral_constant<bool,
+                             swap_adl::adl_swappable_impl<T>::value
+                                 || swap_adl::std_swap_fallback<T>::value>
+{
+};
+
+/// @brief Such a `swap` is `noexcept` (`std::is_nothrow_swappable`, C++17).
+/// For the fallback this is `std::swap`'s own `noexcept`: nothrow move
+/// construction and nothrow move assignment.
+template <typename T, bool = is_swappable<T>::value>
 struct is_nothrow_swappable_impl : std::false_type
 {
 };
 
 template <typename T>
 struct is_nothrow_swappable_impl<T, true>
-    : std::integral_constant<bool,
-                             LUMEX_NOEXCEPT_IF (swap (std::declval<T &> (),
-                                                      std::declval<T &> ()))>
-{
-};
-} // namespace swap_adl
-
-/// @brief `swap (a, b)` found by argument-dependent lookup (or `std::swap`)
-/// is well-formed for two `T` lvalues (`std::is_swappable`, C++17).
-template <typename T> struct is_swappable : swap_adl::is_swappable_impl<T>
+    : std::integral_constant<
+          bool, swap_adl::adl_nothrow_impl<T>::value
+                    || (swap_adl::std_swap_fallback<T>::value
+                        && std::is_nothrow_move_constructible<T>::value
+                        && std::is_nothrow_move_assignable<T>::value)>
 {
 };
 
 /// @brief Such a `swap` is `noexcept` (`std::is_nothrow_swappable`, C++17).
 template <typename T>
-struct is_nothrow_swappable : swap_adl::is_nothrow_swappable_impl<T>
+struct is_nothrow_swappable : is_nothrow_swappable_impl<T>
 {
 };
+
 } // namespace detail
 
 /**

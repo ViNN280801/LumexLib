@@ -182,6 +182,15 @@ struct is_contiguous_iterator<std::_String_const_iterator<String>>
 {
 };
 
+#if _HAS_CXX17
+// `std::string_view` (and so its iterator) exists from C++17.
+template <typename Traits>
+struct is_contiguous_iterator<std::_String_view_iterator<Traits>>
+    : std::true_type
+{
+};
+#endif // _HAS_CXX17
+
 template <typename Element, std::size_t Size>
 struct is_contiguous_iterator<std::_Array_iterator<Element, Size>>
     : std::true_type

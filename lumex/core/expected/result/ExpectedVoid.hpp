@@ -402,25 +402,34 @@ public:
    * @note Same constraints and `noexcept` as the conversion operator.
    */
   template <typename S = std::expected<void, ErrorType>,
-            bool Ok = std::is_copy_constructible<ErrorType>::value,
+            bool Ok = detail::is_std_expected_of<S, void, ErrorType>::value
+                      && std::is_copy_constructible<ErrorType>::value,
             typename std::enable_if<Ok, int>::type = 0>
   LUMEX_EXPECTED_CONSTEXPR_CXX20 S
   to_std () const &LUMEX_NOEXCEPT_IF (
       std::is_nothrow_copy_constructible<ErrorType>::value)
   {
-    return this->operator S ();
+    // The construction of the conversion operator, written out here; see
+    // `to_std ()` of `expected<T, E>`.
+    return m_has_value
+               ? S ()
+               : S (std::unexpect,
+                    static_cast<ErrorType const &> (m_storage.m_error));
   }
 
   /// @brief As above for an rvalue: moves the error.
   template <typename S = std::expected<void, ErrorType>,
-            bool Ok = std::is_move_constructible<ErrorType>::value,
+            bool Ok = detail::is_std_expected_of<S, void, ErrorType>::value
+                      && std::is_move_constructible<ErrorType>::value,
             typename std::enable_if<Ok, int>::type = 0>
       LUMEX_EXPECTED_CONSTEXPR_CXX20 S
       to_std ()
       && LUMEX_NOEXCEPT_IF (
           std::is_nothrow_move_constructible<ErrorType>::value)
   {
-    return static_cast<expected &&> (*this).operator S ();
+    return m_has_value ? S ()
+                       : S (std::unexpect,
+                            static_cast<ErrorType &&> (m_storage.m_error));
   }
 #endif // LUMEX_EXPECTED_HAS_STD_CONVERSION
 

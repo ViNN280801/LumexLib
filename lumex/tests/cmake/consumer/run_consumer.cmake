@@ -85,8 +85,19 @@ if(CONFIGURE_ONLY)
     return()
 endif()
 
+# What the embedded build produces: everything by default, or the single
+# target a fixture names. A deep build tree can push the longest object path
+# of the library past the MAX_PATH limit of cl.exe, which then fails with
+# C1083 for an empty file name; the consumer target still pulls in what it
+# links, so naming it builds exactly the same libraries.
+set(_build_args "")
+if(NOT "${BUILD_TARGET}" STREQUAL "")
+    list(APPEND _build_args --target "${BUILD_TARGET}")
+endif()
+
 execute_process(
     COMMAND "${CMAKE_COMMAND}" --build "${_binary}" --config "${BUILD_TYPE}"
+            ${_build_args}
     RESULT_VARIABLE _rc
     OUTPUT_VARIABLE _out
     ERROR_VARIABLE _out

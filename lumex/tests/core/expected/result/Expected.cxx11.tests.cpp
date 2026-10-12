@@ -43,6 +43,15 @@
 #if defined(__clang__)
 #endif
 
+// `unexpected` has no global alias in the module on purpose, and the
+// platform declares its own global `unexpected()`: MSVC `eh.h` while
+// `_HAS_CXX23` is 0, MinGW always. Unqualified use in the global namespace
+// is therefore ambiguous there, so the using-declaration brings the name
+// into this namespace, where it is the only candidate, and the directives
+// stay with the code they serve.
+namespace
+{
+using lumex::core::expected::error::unexpected;
 using namespace lumex::core::expected::result;
 using namespace lumex::core::expected::error;
 
@@ -1460,3 +1469,5 @@ TEST (ExpectedDeathTest, Arrow_WhenErrorPresent_AbortsWithMessage)
   GTEST_SKIP () << "death tests are not supported on this platform";
 #endif
 }
+
+} // namespace

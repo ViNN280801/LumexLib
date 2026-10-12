@@ -178,6 +178,28 @@ struct boom
 
 bool g_throw = false;
 
+// The `NothrowMove` instantiation of the move members must not even name the
+// throw: cl.exe warns C4297 ("function assumed not to throw an exception but
+// does") for a call that may throw inside a `noexcept` function, even when a
+// runtime condition makes it unreachable.
+template <bool NothrowMove> struct move_may_throw
+{
+  static void
+  maybe_throw ()
+  {
+    if (g_throw)
+      NOEXC_THROW ();
+  }
+};
+
+template <> struct move_may_throw<true>
+{
+  static void
+  maybe_throw () noexcept
+  {
+  }
+};
+
 template <int Tag, bool NothrowMove> struct counted
 {
   static int live;
@@ -191,8 +213,7 @@ template <int Tag, bool NothrowMove> struct counted
   }
   counted (counted &&o) noexcept (NothrowMove) : id (o.id)
   {
-    if (g_throw && !NothrowMove)
-      NOEXC_THROW ();
+    move_may_throw<NothrowMove>::maybe_throw ();
     o.id = -1;
     ++live;
   }
@@ -207,8 +228,7 @@ template <int Tag, bool NothrowMove> struct counted
   counted &
   operator= (counted &&o) noexcept (NothrowMove)
   {
-    if (g_throw && !NothrowMove)
-      NOEXC_THROW ();
+    move_may_throw<NothrowMove>::maybe_throw ();
     id = o.id;
     o.id = -1;
     return *this;

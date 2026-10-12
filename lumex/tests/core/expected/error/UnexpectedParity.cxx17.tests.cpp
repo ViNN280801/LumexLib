@@ -9,6 +9,15 @@
 
 #include "lumex/core/expected/Expected"
 
+// `unexpected` has no global alias in the module on purpose, and the
+// platform declares its own global `unexpected()`: MSVC `eh.h` while
+// `_HAS_CXX23` is 0, MinGW always. Unqualified use in the global namespace
+// is therefore ambiguous there, so the using-declaration brings the name
+// into this namespace, where it is the only candidate, and the directive
+// stays with the code it serves.
+namespace
+{
+using lumex::core::expected::error::unexpected;
 using namespace lumex::core::expected::error;
 
 namespace
@@ -35,3 +44,5 @@ TEST (UnexpectedParityTest, DeductionGuide_Unexpected_DeducesTheErrorType)
   EXPECT_EQ (from_int.error (), kError);
   EXPECT_EQ (from_string.error (), "text");
 }
+
+} // namespace

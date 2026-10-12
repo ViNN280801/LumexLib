@@ -319,13 +319,16 @@ lumex_add_consumer_test(consumer_cplusplus_macro cplusplus_macro)
 # (every compiler).
 lumex_add_consumer_test(consumer_expected_no_exceptions_cxx11
     expected_no_exceptions
-    -DEXPECTED_NO_EXCEPTIONS_MODE=compiler -DEXPECTED_NO_EXCEPTIONS_STD=11)
+    -DEXPECTED_NO_EXCEPTIONS_MODE=compiler -DEXPECTED_NO_EXCEPTIONS_STD=11
+    -DBUILD_TARGET=expected_no_exceptions_consumer)
 lumex_add_consumer_test(consumer_expected_no_exceptions_cxx20
     expected_no_exceptions
-    -DEXPECTED_NO_EXCEPTIONS_MODE=compiler -DEXPECTED_NO_EXCEPTIONS_STD=20)
+    -DEXPECTED_NO_EXCEPTIONS_MODE=compiler -DEXPECTED_NO_EXCEPTIONS_STD=20
+    -DBUILD_TARGET=expected_no_exceptions_consumer)
 lumex_add_consumer_test(consumer_expected_no_exceptions_macro_cxx17
     expected_no_exceptions
-    -DEXPECTED_NO_EXCEPTIONS_MODE=macro -DEXPECTED_NO_EXCEPTIONS_STD=17)
+    -DEXPECTED_NO_EXCEPTIONS_MODE=macro -DEXPECTED_NO_EXCEPTIONS_STD=17
+    -DBUILD_TARGET=expected_no_exceptions_consumer)
 # Exported functions do not depend on the C++ standard: the library at one
 # standard and the consumer at another link, both ways (base64, XML and
 # exceptions, through their inline wrappers).
