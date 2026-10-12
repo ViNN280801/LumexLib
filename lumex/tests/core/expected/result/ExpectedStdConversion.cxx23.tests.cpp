@@ -122,11 +122,14 @@ static_assert (
 static_assert (std::is_nothrow_constructible<lex<int, unsigned>,
                                              sex<int, unsigned>>::value,
                "std to lumex, trivial types");
-static_assert (noexcept (std::declval<lex<std::string, int> &&> ()
-                             .operator sex<std::string, int> ()),
+// The conversions below are asked for with `static_cast`: cl.exe cannot name
+// a specialization of a conversion function template as
+// `.operator sex<...> ()`.
+static_assert (noexcept (static_cast<sex<std::string, int>> (
+                   std::declval<lex<std::string, int> &&> ())),
                "moving a string out is noexcept");
-static_assert (!noexcept (std::declval<lex<std::string, int> const &> ()
-                              .operator sex<std::string, int> ()),
+static_assert (!noexcept (static_cast<sex<std::string, int>> (
+                   std::declval<lex<std::string, int> const &> ())),
                "copying a string is not");
 static_assert (noexcept (lex<std::string, int> (
                    std::declval<sex<std::string, int> &&> ())),
@@ -134,11 +137,11 @@ static_assert (noexcept (lex<std::string, int> (
 static_assert (!noexcept (lex<std::string, int> (
                    std::declval<sex<std::string, int> const &> ())),
                "copying a string in is not");
-static_assert (noexcept (std::declval<lex<void, int> const &> ()
-                             .operator sex<void, int> ()),
+static_assert (noexcept (static_cast<sex<void, int>> (
+                   std::declval<lex<void, int> const &> ())),
                "void with a trivial error: noexcept");
-static_assert (!noexcept (std::declval<lex<void, std::string> const &> ()
-                              .operator sex<void, std::string> ()),
+static_assert (!noexcept (static_cast<sex<void, std::string>> (
+                   std::declval<lex<void, std::string> const &> ())),
                "void with a string error: copying is not");
 
 // Constant expressions (C++23).

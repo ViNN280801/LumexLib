@@ -1237,26 +1237,41 @@ comparison_answers ()
   using ES = typename W::template ex<std::string, int>;
   using VI = typename W::template ex<void, int>;
   using UI = typename W::template un<int>;
-  using US = typename W::template un<std::string>;
   using UN = typename W::template un<std::unique_ptr<int>>;
   using EU = typename W::template ex<int, std::unique_ptr<int>>;
   answers_t result;
   note (
       result, "ex<int,int> == ex<int,int>",
       requires (EI const &a) { a == a; });
+  // MSVC's <expected> does not constrain `operator==` on the values it
+  // compares, so the operator is a candidate for a mismatched pair and Clang
+  // instantiates its noexcept-specifier, where comparing the value with the
+  // other type is ill-formed - a hard error outside the immediate context of
+  // the requirement. The three questions below cannot be asked there then;
+  // the `known` entries that explain them stay unused. libstdc++ 13 has the
+  // same missing Constraints and answers the questions with `true`.
+#if !(defined(__clang__) && defined(_MSC_VER))
   note (
       result, "ex<int,int> == ex<string,int>",
       requires (EI const &a, ES const &b) { a == b; });
+#endif
+  // The `expected`-versus-`expected` questions of a pair whose value types
+  // cannot be compared: MSVC's operator of a value against any type is not
+  // constrained either, so these too are hard errors under Clang.
+#if !(defined(__clang__) && defined(_MSC_VER))
   note (
       result, "ex<int,int> == ex<void,int>",
       requires (EI const &a, VI const &b) { a == b; });
   note (
       result, "ex<void,int> == ex<int,int>",
       requires (VI const &a, EI const &b) { a == b; });
+#endif
   note (result, "ex<int,int> == int", requires (EI const &a) { a == 1; });
+#if !(defined(__clang__) && defined(_MSC_VER))
   note (
       result, "ex<int,int> == string",
       requires (EI const &a, std::string const &b) { a == b; });
+#endif
   note (
       result, "ex<string,int> == const char*",
       requires (ES const &a) { a == "x"; });
@@ -1264,9 +1279,13 @@ comparison_answers ()
   note (
       result, "ex<int,int> == unexpected<int>",
       requires (EI const &a, UI const &b) { a == b; });
+#if !(defined(__clang__) && defined(_MSC_VER))
   note (
       result, "ex<int,int> == unexpected<string>",
-      requires (EI const &a, US const &b) { a == b; });
+      requires (EI const &a, typename W::template un<std::string> const &b) {
+        a == b;
+      });
+#endif
   note (
       result, "ex<void,int> == unexpected<int>",
       requires (VI const &a, UI const &b) { a == b; });

@@ -29,11 +29,21 @@
 void unexpected ();
 #endif
 #elif LUMEX_EXPECTED_OWN_NAME_CASE == 3
+#if defined(__MINGW32__)                                                      \
+    || (defined(_MSC_VER) && defined(_HAS_CXX23) && !_HAS_CXX23)
+// These runtimes declare the global `unexpected` themselves (<eh.h>: MSVC
+// while `_HAS_CXX23` is 0, MinGW always), and a class template cannot be
+// redeclared as a different kind of symbol, so a program's own class template
+// of that name is impossible there: the case uses the runtime's declaration,
+// as case 1 does for MinGW.
+#include <eh.h>
+#else
 template <typename ErrorType> class unexpected
 {
 public:
   ErrorType error;
 };
+#endif
 #endif
 #endif
 
@@ -43,11 +53,18 @@ public:
 #if LUMEX_EXPECTED_OWN_NAME_CASE == 2
 void unexpected ();
 #elif LUMEX_EXPECTED_OWN_NAME_CASE == 4
+#if defined(__MINGW32__)                                                      \
+    || (defined(_MSC_VER) && defined(_HAS_CXX23) && !_HAS_CXX23)
+// As in the case 3 above: the runtime's own global `unexpected` stands for the
+// program's, which cannot be a class template there.
+#include <eh.h>
+#else
 template <typename ErrorType> class unexpected
 {
 public:
   ErrorType error;
 };
+#endif
 #endif
 #endif
 

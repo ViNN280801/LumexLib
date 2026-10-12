@@ -467,21 +467,35 @@ public:
    * @note Same constraints and `noexcept` as the conversion operator.
    */
   template <typename S = std::expected<SuccessType, ErrorType>,
-            bool Ok = std::is_copy_constructible<SuccessType>::value
-                      && std::is_copy_constructible<ErrorType>::value,
+            bool Ok
+            = detail::is_std_expected_of<S, SuccessType, ErrorType>::value
+              && std::is_copy_constructible<SuccessType>::value
+              && std::is_copy_constructible<ErrorType>::value,
             typename std::enable_if<Ok, int>::type = 0>
   LUMEX_EXPECTED_CONSTEXPR_CXX20 S
   to_std () const &LUMEX_NOEXCEPT_IF (
       std::is_nothrow_copy_constructible<SuccessType>::value
           &&std::is_nothrow_copy_constructible<ErrorType>::value)
   {
-    return this->operator S ();
+    // The construction of the conversion operator, written out here: cl.exe
+    // cannot name the conversion function template of a const lvalue through
+    // `this` (it resolves the name to the rvalue operator), and a
+    // `static_cast` would let the constructors of `std::expected` take the
+    // object instead of the operator, which loses the error for
+    // `std::expected<bool, E>` (see the note above).
+    return m_has_value
+               ? S (std::in_place,
+                    static_cast<SuccessType const &> (m_storage.m_value))
+               : S (std::unexpect,
+                    static_cast<ErrorType const &> (m_storage.m_error));
   }
 
   /// @brief As above for an rvalue: moves the value or the error.
   template <typename S = std::expected<SuccessType, ErrorType>,
-            bool Ok = std::is_move_constructible<SuccessType>::value
-                      && std::is_move_constructible<ErrorType>::value,
+            bool Ok
+            = detail::is_std_expected_of<S, SuccessType, ErrorType>::value
+              && std::is_move_constructible<SuccessType>::value
+              && std::is_move_constructible<ErrorType>::value,
             typename std::enable_if<Ok, int>::type = 0>
       LUMEX_EXPECTED_CONSTEXPR_CXX20 S
       to_std ()
@@ -489,7 +503,10 @@ public:
           std::is_nothrow_move_constructible<SuccessType>::value
               &&std::is_nothrow_move_constructible<ErrorType>::value)
   {
-    return static_cast<expected &&> (*this).operator S ();
+    return m_has_value ? S (std::in_place,
+                            static_cast<SuccessType &&> (m_storage.m_value))
+                       : S (std::unexpect,
+                            static_cast<ErrorType &&> (m_storage.m_error));
   }
 #endif // LUMEX_EXPECTED_HAS_STD_CONVERSION
 
@@ -975,19 +992,24 @@ public:
    */
   LUMEX_ATTRIBUTE_NODISCARD (
       "Return value is the contained value; should always be used.")
-  LUMEX_CONSTEXPR_FUNCTION SuccessType const &&
+  LUMEX_CONSTEXPR_CXX14 SuccessType const &&
   value () const &&
   {
     LUMEX_STATIC_ASSERT_MSG (
         std::is_copy_constructible<ErrorType>::value
             && std::is_constructible<ErrorType, ErrorType const &&>::value,
         "value (): ErrorType must be copy and move constructible");
-    return m_has_value
-               ? static_cast<SuccessType const &&> (m_storage.m_value)
-               : (detail::throw_bad_expected_access<ErrorType> (
-                      static_cast<ErrorType const &&> (
-                          m_storage.m_error)), // A const error is copied
-                  static_cast<SuccessType const &&> (m_storage.m_value));
+    // The error branch is a statement and not the other half of a conditional
+    // expression as in `value () const &`: cl.exe materializes the result of a
+    // conditional whose branch is a comma expression (C4172 for the returned
+    // reference, and a moved-from-looking copy at run time). The observer is
+    // therefore `constexpr` from C++14; a C++11 constant expression asks the
+    // const lvalue form.
+    if (!m_has_value)
+      detail::throw_bad_expected_access<ErrorType> (
+          static_cast<ErrorType const &> (
+              m_storage.m_error)); // A const error is copied
+    return static_cast<SuccessType const &&> (m_storage.m_value);
   }
 
   /**

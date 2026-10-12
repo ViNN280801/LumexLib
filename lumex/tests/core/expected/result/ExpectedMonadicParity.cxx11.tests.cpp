@@ -442,6 +442,15 @@ TEST (ExpectedMonadicParityTest, TransformError_ConstResult_DropsTheConst)
 
 // === a result is built in place ==========================================
 
+// Before C++17 the elision of the value a function returns is optional
+// ([class.copy.elision]): cl.exe builds it once in the C++11 and the C++14
+// modes, and only guarantees the copy-free result from C++17.
+#if defined(_MSC_VER) && __cplusplus < 201703L
+constexpr int kMovesWhenBuiltInPlace = 1;
+#else
+constexpr int kMovesWhenBuiltInPlace = 0;
+#endif
+
 TEST (ExpectedMonadicParityTest, Transform_Result_IsBuiltInPlace)
 {
   expected<int, int> const uut (kValue);
@@ -450,7 +459,8 @@ TEST (ExpectedMonadicParityTest, Transform_Result_IsBuiltInPlace)
 
   EXPECT_EQ (result.value ().id, kValue);
   EXPECT_EQ (result.value ().copies, 0) << "the result is never copied";
-  EXPECT_EQ (result.value ().moves, 0) << "the result is built in place";
+  EXPECT_LE (result.value ().moves, kMovesWhenBuiltInPlace)
+      << "the result is built in place";
 }
 
 TEST (ExpectedMonadicParityTest, TransformError_Result_IsBuiltInPlace)
@@ -462,5 +472,6 @@ TEST (ExpectedMonadicParityTest, TransformError_Result_IsBuiltInPlace)
 
   EXPECT_EQ (result.error ().id, kError);
   EXPECT_EQ (result.error ().copies, 0) << "the result is never copied";
-  EXPECT_EQ (result.error ().moves, 0) << "the result is built in place";
+  EXPECT_LE (result.error ().moves, kMovesWhenBuiltInPlace)
+      << "the result is built in place";
 }

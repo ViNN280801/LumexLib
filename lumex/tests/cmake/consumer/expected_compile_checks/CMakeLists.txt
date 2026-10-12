@@ -59,9 +59,39 @@ function(_lumex_expected_try result_var tag standard)
     set(${result_var}_OUTPUT "${_output}" PARENT_SCOPE)
 endfunction()
 
+# Compiles a probe of the fixture the same way the cases are compiled: the
+# answer of a question about the runtime must not depend on flags the cases do
+# not use either.
+function(_lumex_expected_probe result_var tag standard source)
+    try_compile(_ok "${CMAKE_BINARY_DIR}/try_${tag}"
+        SOURCES "${source}"
+        CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${LUMEX_SOURCE_DIR}"
+        COMPILE_DEFINITIONS ${_werror}
+        CXX_STANDARD ${standard}
+        CXX_STANDARD_REQUIRED ON
+        CXX_EXTENSIONS OFF
+        OUTPUT_VARIABLE _output)
+    set(${result_var} ${_ok} PARENT_SCOPE)
+    set(${result_var}_OUTPUT "${_output}" PARENT_SCOPE)
+endfunction()
+
 set(_checked 0)
 foreach(_std IN LISTS _standards)
     set(_tag "cxx${_std}")
+
+    # The runtime itself may declare a global `unexpected` (<eh.h>: MSVC while
+    # `_HAS_CXX23` is 0, MinGW always). Then `using ::unexpected;`, the
+    # declaration of the BAD case 3, is valid and names that function: the case
+    # cannot see that the umbrella has no global name there, and it is skipped.
+    _lumex_expected_probe(
+        _runtime_unexpected runtime_unexpected_${_tag} ${_std}
+        "${CMAKE_CURRENT_SOURCE_DIR}/runtime_unexpected.cpp")
+    if(_runtime_unexpected)
+        message(STATUS
+            "the runtime declares a global `unexpected` (${_tag}): "
+            "LUMEX_EXPECTED_BAD_CASE=3 is skipped")
+    endif()
+
     _lumex_expected_try(_ok good_${_tag} ${_std} -DLUMEX_EXPECTED_GOOD_CASE)
     if(NOT _ok)
         message(FATAL_ERROR
@@ -83,6 +113,9 @@ foreach(_std IN LISTS _standards)
     set(_case 0)
     foreach(_name IN LISTS _bad_names)
         math(EXPR _case "${_case} + 1")
+        if(_case EQUAL 3 AND _runtime_unexpected)
+            continue()
+        endif()
         _lumex_expected_try(_ok bad_${_case}_${_tag} ${_std}
                             -DLUMEX_EXPECTED_BAD_CASE=${_case})
         if(_ok)
@@ -93,12 +126,17 @@ foreach(_std IN LISTS _standards)
         # A case must fail for its own reason, not because check.cpp has a
         # typo: the error must be the one for the missing name (GCC, Clang
         # and MSVC spell it differently), not the #error of an unknown case.
+        # C7568 is cl.exe's spelling where the runtime declares an
+        # `unexpected` function and the class name is used as a template
+        # ("argument list missing after assumed function template"); Clang
+        # says "'unexpected' does not name a template but is followed by
+        # template arguments" for the same program.
         if(_ok_OUTPUT MATCHES "is not one of the cases")
             message(FATAL_ERROR
                 "LUMEX_EXPECTED_BAD_CASE=${_case} is not defined in check.cpp")
         endif()
         if(NOT _ok_OUTPUT MATCHES
-           "'(::)?${_name}' (has not been declared|was not declared)|(no template named|no member named|undeclared identifier) '${_name}'|C2065|C2039|C2653")
+           "'(::)?${_name}' (has not been declared|was not declared|does not name a template)|(no template named|no member named|undeclared identifier) '${_name}'|C2065|C2039|C2653|C7568")
             message(FATAL_ERROR
                 "LUMEX_EXPECTED_BAD_CASE=${_case} (${_tag}) fails, but not "
                 "on the missing name ${_name}\n${_ok_OUTPUT}")

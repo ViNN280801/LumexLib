@@ -352,22 +352,54 @@ destructor_trivial ()
 }
 
 // ---------------------------------------------------------------------
-// swap: found by argument-dependent lookup, as the standard writes
-// `using std::swap; swap (a, b)`
+// swap: a swap the type brings with itself (argument-dependent lookup), or
+// the `std::swap` fallback under its C++17 Constraints (MoveConstructible
+// and MoveAssignable) - `std::is_swappable`, C++17, spelled out because
+// below C++17 MSVC's `std::swap` is unconstrained and the expression alone
+// would report a `const` type, or one with a deleted assignment, as
+// swappable.
 // ---------------------------------------------------------------------
 
 namespace swap_probe
 {
-using std::swap;
-
-template <typename X, typename = void> struct swappable : std::false_type
+template <typename X, typename = void> struct adl_swappable : std::false_type
 {
 };
 
 template <typename X>
-struct swappable<X, lumex::core::utility::traits::meta::void_t<decltype (swap (
-                        std::declval<X &> (), std::declval<X &> ()))>>
-    : std::true_type
+struct adl_swappable<
+    X, lumex::core::utility::traits::meta::void_t<decltype (swap (
+           std::declval<X &> (), std::declval<X &> ()))>> : std::true_type
+{
+};
+
+template <typename X, bool = adl_swappable<X>::value>
+struct adl_nothrow : std::false_type
+{
+};
+
+template <typename X>
+struct adl_nothrow<X, true>
+    : std::integral_constant<bool, noexcept (swap (std::declval<X &> (),
+                                                   std::declval<X &> ()))>
+{
+};
+
+/// The `std::swap` fallback and its Constraints.
+template <typename X>
+struct std_swap_fallback
+    : std::integral_constant<bool, std::is_move_constructible<X>::value
+                                       && std::is_move_assignable<X>::value>
+{
+};
+
+template <typename X,
+          bool = adl_swappable<X>::value || std_swap_fallback<X>::value>
+struct swappable : std::false_type
+{
+};
+
+template <typename X> struct swappable<X, true> : std::true_type
 {
 };
 
@@ -378,8 +410,11 @@ struct nothrow_swappable : std::false_type
 
 template <typename X>
 struct nothrow_swappable<X, true>
-    : std::integral_constant<bool, noexcept (swap (std::declval<X &> (),
-                                                   std::declval<X &> ()))>
+    : std::integral_constant<
+          bool, adl_nothrow<X>::value
+                    || (std_swap_fallback<X>::value
+                        && std::is_nothrow_move_constructible<X>::value
+                        && std::is_nothrow_move_assignable<X>::value)>
 {
 };
 } // namespace swap_probe
