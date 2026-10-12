@@ -97,9 +97,9 @@
 // Gated on compiler macros so they can precede the project headers (the
 // code below still branches on LUMEX_OS_*).
 #if defined(_WIN32)
-#include <Windows.h> // This include should be 1st
+#include <windows.h> // This include should be 1st
 
-#include <DbgHelp.h> // This include should be 2nd, because it uses types from windows.h
+#include <dbghelp.h> // This include should be 2nd, because it uses types from windows.h
 #else
 #include <cxxabi.h>   // abi::__cxa_demangle
 #include <dlfcn.h>    // dladdr, Dl_info

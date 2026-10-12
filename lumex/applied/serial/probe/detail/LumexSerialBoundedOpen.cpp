@@ -32,7 +32,7 @@
 #include <thread>
 
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 #if defined(__MINGW32__)
 #include <pthread.h>
 #endif
