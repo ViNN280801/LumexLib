@@ -3271,3 +3271,17 @@ Digits: текст раскрытого макроса (`#x` через два �
 - `lumex_add_standard_suites` отказывается работать, если таблица модуля в `LumexTestStandards.cmake` объявляет вариант, которого нет среди `VARIANT` вызова (проверка в `cmake/LumexGoogleTest.cmake`). Условная регистрация только в CMakeLists ломала конфигурацию MSVC: `lumex_add_standard_suites(Dwcas): the table declares variant 'builtin' of 'atomic.dwcas'; pass VARIANT builtin`.
 - Вариант объявлен в таблице под тем же условием (компилятор не MSVC). Проверено: конфигурация MSVC проходит и в графе нет ни одной цели `Builtin`; дерево clang-cl сохраняет 6 целей `Builtin` (200 тестов dwcas + 521 split_count), `LumexDwcasBuiltinCxx11Tests` линкуется.
 
+##### Полная сборка дерева cl.exe: фантом рефлексии, препроцессор, пути консьюмеров
+
+**Файлы:**
+
+- `lumex/core/reflection/field_reflection/LumexAggregateFields.hpp`
+- `cmake/LumexGoogleTest.cmake`
+- `lumex/tests/cmake/consumer/run_consumer.cmake`
+- `lumex/tests/cmake/CMakeLists.txt`
+
+- Рефлексия: `LumexFieldNamesLive` падала с `C7631` - фантомное `extern fake_object_wrapper_t<T> const fake_object_storage` при аргументе без линковки (локальный класс, тип из безымянного пространства) получает внутреннюю линковку, и MSVC требует определение (Clang лишь предупреждает `-Wundefined-internal`). На MSVC хранилище теперь определено, а его тип - `union` с незначащим членом с default member initializer: `storage{}` инициализирует его и `T` не конструируется. Обычный `T const value` из `{}` не инициализируется (`C3852`), а `= default` деструктор union был бы удален для `T` с нетривиальным деструктором (`C2280`), поэтому деструктор пустой и пользовательский. Ветка не-MSVC сохраняет прежнюю форму, поэтому закрепленные строки `__PRETTY_FUNCTION__` не меняются.
+- Препроцессор: три сюиты вызывают макрос с пустым списком аргументов и стрингизируют пустое раскрытие - для традиционного препроцессора cl.exe это `C2059`. `lumex_test_use_gtest` добавляет `/Zc:preprocessor` для MSVC (по compiler id, а не по переменной `MSVC`: она истинна и для clang-cl, который флага не знает).
+- Консьюмеры: `cmake.consumer_reflection_umbrella_field_reflection_{off,on}` падали на MSVC с `C1083` для пустого имени файла - самый глубокий путь объекта вложенной сборки библиотеки выходил за MAX_PATH. Раннер собирает в `${WORK_DIR}/b`, а консьюмер-тесты - в `${CMAKE_BINARY_DIR}/c/<name>`.
+- Проверено: `NINJA_EXITCODE=0` на MSVC для 12 целей; рефлексия, attr, string.utility и traits дают 0 ошибок сборки, оба консьюмерных кейса проходят на MSVC и на clang-cl; на clang-cl 803 теста рефлексии без изменений.
+
