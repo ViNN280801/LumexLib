@@ -415,10 +415,20 @@ lumex_test_standards_declare(atomic 11 17 20)
 lumex_test_standards_declare_variant(atomic lock_based 11 20)
 lumex_test_standards_declare_variant(atomic wait_table 20)
 lumex_test_standards_declare(atomic.dwcas 11 14 17 20)
-lumex_test_standards_declare_variant(atomic.dwcas builtin 11 14 17 20)
-lumex_test_standards_declare_variant(atomic.dwcas msvc_wrapper 11 14 17 20)
 lumex_test_standards_declare(atomic.smart_ptr.split_count 11 17 20)
-lumex_test_standards_declare_variant(atomic.smart_ptr.split_count builtin 11 20)
+
+# The built-in backend (LUMEX_DWCAS_BACKEND=3: __atomic_* on unsigned
+# __int128) exists for ThreadSanitizer and is GCC and Clang only - MSVC has
+# neither the type nor the builtins, so the variant is not declared there.
+# The tests' CMakeLists.txt of the two modules guard their VARIANT the same
+# way: lumex_add_standard_suites fails unless the table and the call name the
+# same variants.
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  lumex_test_standards_declare_variant(atomic.dwcas builtin 11 14 17 20)
+  lumex_test_standards_declare_variant(atomic.smart_ptr.split_count builtin 11 20)
+endif()
+
+lumex_test_standards_declare_variant(atomic.dwcas msvc_wrapper 11 14 17 20)
 lumex_test_standards_declare_variant(atomic.smart_ptr.split_count wait_table 20)
 lumex_test_standards_declare_variant(atomic.smart_ptr.split_count no_split_count 11 20)
 lumex_test_standards_declare_variant(atomic.smart_ptr.split_count prefer_split_count 11 20)

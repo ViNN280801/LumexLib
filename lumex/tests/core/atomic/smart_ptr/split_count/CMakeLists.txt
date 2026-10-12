@@ -49,7 +49,9 @@ endif()
 # The built-in backend needs __atomic_* on unsigned __int128 (GCC and Clang)
 # and exists for ThreadSanitizer; MSVC has neither the type nor the builtins,
 # so a tree that registered the variant would stop at the #error of
-# LumexDwcasConfig.hpp, the same way the dwcas suites did.
+# LumexDwcasConfig.hpp, the same way the dwcas suites did. The table of
+# lumex/tests/LumexTestStandards.cmake declares the variant under the same
+# condition - lumex_add_standard_suites fails when the two disagree.
 set(_split_builtin_variant "")
 if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(_split_builtin_variant VARIANT builtin DEFINITIONS LUMEX_DWCAS_BACKEND=3)

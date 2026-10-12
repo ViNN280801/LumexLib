@@ -3260,3 +3260,14 @@ Digits: текст раскрытого макроса (`#x` через два �
 - Полная сборка дерева cl.exe показала ту же ошибку в `LumexAtomicSplitCountBuiltinCxx<std>Tests` (вариант задает `LUMEX_DWCAS_BACKEND=3`): движок split-count работает поверх 128-битного слова, а builtins на `unsigned __int128` у MSVC нет.
 - Вариант регистрируется по тому же условию; на дереве clang-cl сохранены 521 `builtin` из 2155 тестов `atomic.smart_ptr.split_count`, цель `LumexAtomicSplitCountBuiltinCxx11Tests` собирается.
 
+##### Вариант builtin: таблица вариантов и вызовы должны совпадать
+
+**Файлы:**
+
+- `lumex/tests/LumexTestStandards.cmake`
+- `lumex/tests/core/atomic/dwcas/CMakeLists.txt`
+- `lumex/tests/core/atomic/smart_ptr/split_count/CMakeLists.txt`
+
+- `lumex_add_standard_suites` отказывается работать, если таблица модуля в `LumexTestStandards.cmake` объявляет вариант, которого нет среди `VARIANT` вызова (проверка в `cmake/LumexGoogleTest.cmake`). Условная регистрация только в CMakeLists ломала конфигурацию MSVC: `lumex_add_standard_suites(Dwcas): the table declares variant 'builtin' of 'atomic.dwcas'; pass VARIANT builtin`.
+- Вариант объявлен в таблице под тем же условием (компилятор не MSVC). Проверено: конфигурация MSVC проходит и в графе нет ни одной цели `Builtin`; дерево clang-cl сохраняет 6 целей `Builtin` (200 тестов dwcas + 521 split_count), `LumexDwcasBuiltinCxx11Tests` линкуется.
+
