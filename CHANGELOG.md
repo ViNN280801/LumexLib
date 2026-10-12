@@ -3295,3 +3295,13 @@ Digits: текст раскрытого макроса (`#x` через два �
 - В этой ветке успех сообщался через `SUCCEED ()` - условный алиас gtest (в 1.12.1 под `#if !GTEST_DONT_DEFINE_SUCCEED`, в 1.18.0 под `#if !(defined(...) && ...)`); cl.exe на этом TU давал `error C3861: 'SUCCEED': identifier not found`, и точно так же на написание `GTEST_SUCCEED ()`. Проверять в ветке нечего, сообщение убрано.
 - Проверено: `LumexTimeClockCxx11/14/17/20Tests` собираются, `time.clock` на MSVC - 26/26, `CTEST_EXITCODE=0`.
 
+##### wiring_standard_suites: вариант, переданный через переменную
+
+**Файлы:**
+
+- `lumex/tests/cmake/cases/wiring_standard_suites.cmake`
+
+- Кейс разбирает список аргументов `lumex_add_standard_suites` и сверяет имена `VARIANT` с таблицей модуля. Бэкенд `builtin` теперь передается через переменную (`set(_dwcas_builtin_variant ...)`), поэтому таблица его объявляет, а вызов в тексте не называет: `variants 'msvc_wrapper', the table declares 'builtin;msvc_wrapper'` на обоих деревьях.
+- Объявленный вариант, который файл называет рядом с `VARIANT`, считается переданным; обратная проверка осталась строгой (вариант вызова, которого нет в таблице, - ошибка при любом написании).
+- Проверено: `cmake.wiring_standard_suites` проходит на дереве MSVC и на дереве clang-cl.
+
