@@ -123,9 +123,9 @@ XmlText::get () const
 {
   XmlNodeBase *data = _data ();
   if (data == nullptr)
-    return LUMEX_XML_TEXT ("");
+    return "";
   char_t const *value = data->value;
-  return (value != nullptr) ? value : LUMEX_XML_TEXT ("");
+  return (value != nullptr) ? value : "";
 }
 
 LUMEX_PUBLIC_API

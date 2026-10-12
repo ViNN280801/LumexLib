@@ -1,0 +1,27 @@
+# compiler gcc: g++ (GCC) 13.2.0
+# compiler clang: clang version 23.1.0
+toolchain,variant,mode,median_ms,min_ms,repeats
+gcc,none_cxx20,include,192.0,187.8,7
+gcc,none_cxx20,use,193.3,190.4,7
+gcc,lumex_cxx11,include,292.7,289.5,7
+gcc,lumex_cxx11,use,299.7,289.8,7
+gcc,lumex_cxx20,include,550.0,543.3,7
+gcc,lumex_cxx20,use,560.5,552.9,7
+gcc,std_cxx20,include,425.7,417.9,7
+gcc,std_cxx20,use,438.1,434.1,7
+gcc,ostringstream_cxx20,include,257.9,252.0,7
+gcc,ostringstream_cxx20,use,264.4,253.3,7
+gcc,snprintf_cxx20,include,194.2,190.7,7
+gcc,snprintf_cxx20,use,194.6,189.9,7
+clang,none_cxx20,include,215.2,212.8,7
+clang,none_cxx20,use,221.5,217.7,7
+clang,lumex_cxx11,include,404.6,399.7,7
+clang,lumex_cxx11,use,412.3,404.7,7
+clang,lumex_cxx20,include,606.7,599.8,7
+clang,lumex_cxx20,use,617.6,614.6,7
+clang,std_cxx20,include,512.2,506.3,7
+clang,std_cxx20,use,538.7,535.3,7
+clang,ostringstream_cxx20,include,351.8,345.4,7
+clang,ostringstream_cxx20,use,359.3,354.8,7
+clang,snprintf_cxx20,include,215.0,212.6,7
+clang,snprintf_cxx20,use,220.6,215.2,7

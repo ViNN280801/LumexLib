@@ -37,8 +37,9 @@
  * SOFTWARE.
  */
 
-#include "lumex/LumexExport.hpp"
 #define LUMEX_IMPLEMENTATION
+
+#include "lumex/LumexExport.hpp"
 
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 
@@ -46,6 +47,33 @@
 #include "lumex/xml/xpath/node/XPathNode.hpp"
 
 #include "XPathString.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 
 using namespace lumex::xml::utility;
 using namespace lumex::xml::xpath::node;
@@ -85,7 +113,7 @@ XPathString::from_heap (char_t const *begin, char_t const *end,
 
 LUMEX_PUBLIC_API
 XPathString::XPathString ()
-    : m_buffer (LUMEX_XML_TEXT ("")), m_uses_heap (false), m_length_heap (0)
+    : m_buffer (""), m_uses_heap (false), m_length_heap (0)
 {
 }
 
@@ -368,3 +396,7 @@ lumex::xml::xpath::string::convert_number_to_string (
 
   return XPathString::from_heap_preallocated (result, str);
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

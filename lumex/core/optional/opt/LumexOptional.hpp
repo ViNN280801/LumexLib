@@ -36,27 +36,39 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 /**
  * @file LumexOptional.hpp
- * @brief C++11 implementation of `std::optional` (C++17 feature) providing a
- * type-safe nullable value container.
- * @details This header provides a comprehensive, cross-platform implementation
- * of an `optional` type, mirroring the functionality of `std::optional` from
- * C++17. It allows for safe encapsulation of a value that may or may not be
- * present, thereby preventing common pitfalls associated with `nullptr` or
- * sentinel values. The implementation adheres strictly to C++11 standards,
- * utilizing advanced template metaprogramming (SFINAE, `std::aligned_storage`,
- * `std::type_traits`) and move semantics for efficiency. It is designed to be
- * exception-safe, providing a custom exception type
- * `lumex_bad_optional_access` for invalid access attempts. The class supports
- * various constructors (default, copy, move, in-place, value-based),
- * assignment operators, observers (`has_value`, `value`, `value_or`,
- * `operator*`, `operator->`), and modifiers (`swap`, `reset`, `emplace`).
- * Non-member comparison operators and `std::hash` specialization are also
- * provided for full compatibility and usability. This header declares
- * everything in `lumex::core::optional::opt` and puts no name at global scope;
- * the global aliases (`optional`, `nullopt`, `make_optional`,
+ * @brief C++11 implementation of `std::optional` (C++17) and of its C++23
+ * monadic operations: a type-safe nullable value container.
+ * @details `optional<T>` holds a `T` or nothing. The class is the module's own
+ * on every standard and is never an alias of `std::optional`: from C++17 it
+ * converts implicitly to and from `std::optional<T>` (the same `T`) and
+ * compares with it. The storage is a union `{ dummy, value }` followed by the
+ * engaged flag, so `sizeof` equals that of `std::optional`, and a chain of
+ * class templates (see `LumexOptionalDetail.hpp`), whose last member is the
+ * only data member of `optional`, gives it the special member functions of the
+ * standard: trivially copy/move constructible, trivially copy/move assignable
+ * and trivially destructible when `T` is, and a copy or move that is deleted
+ * (or ignored, for a move) when `T` cannot do it. Constructors, the observers
+ * and the trivial operations are `constexpr` from C++11; the operations that
+ * change the active member of the union
+ * (`emplace`, assignment, non-trivial `reset` and `swap`) are `constexpr`
+ * from C++20 (`LUMEX_OPTIONAL_CONSTEXPR_CXX20`).
+ *
+ * As `std::optional`, a moved-from `optional` keeps its (moved-from) value,
+ * the assignment between two engaged optionals assigns the value, and a
+ * throwing `T` leaves the engaged state as the standard describes
+ * ([optional.assign]). The converting constructors and assignments, the
+ * explicit rules and the monadic operations `and_then`, `transform`,
+ * `or_else` follow [optional.ctor], [optional.assign] and [optional.monadic];
+ * the monadic operations are SFINAE-constrained (C++11 has no `requires`): a
+ * call whose function is not invocable, whose `and_then` result is not an
+ * `optional` or whose `transform` result cannot be held, is not viable
+ * instead of failing a `static_assert`. `lumex_bad_optional_access` derives
+ * from `std::logic_error`; `std::bad_optional_access` exists only from C++17
+ * (see `LumexOptionalTags.hpp`). This header declares everything in
+ * `lumex::core::optional::opt` and puts no name at global scope; the global
+ * aliases (`optional`, `nullopt`, `make_optional`,
  * `lumex_bad_optional_access`) are in `LumexOptionalGlobals.hpp`, which the
  * umbrella `LumexOptional` includes.
  */
@@ -92,10 +104,14 @@
 
 #include <functional>       // For std::hash
 #include <initializer_list> // For std::initializer_list
-#include <stdexcept>        // For std::logic_error
-#include <type_traits>      // For std::aligned_storage, std::is_*, std::decay
+#include <type_traits>      // For std::is_*, std::decay
 #include <utility>          // For std::forward, std::move, std::swap
+#if __cplusplus >= 201703L
+#include <optional> // For std::optional, the twin the class converts to/from
+#endif
 
+#include "lumex/core/optional/opt/LumexOptionalDetail.hpp"
+#include "lumex/core/optional/opt/LumexOptionalTags.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -106,820 +122,977 @@ namespace optional
 {
 namespace opt
 {
-/**
- * @brief A tag type used to indicate the absence of a value in
- * `optional`.
- * @details This structure serves a similar purpose to `std::nullopt_t` in
- * C++17. It is an empty type whose sole purpose is to provide a distinct type
- *          for the `nullopt` constant, enabling clear and unambiguous
- *          initialization and assignment of an empty `optional`.
- */
-struct nullopt_t
+#if __cplusplus >= 201703L
+namespace detail
 {
-  /**
-   * @brief Internal tag for explicit construction.
-   * @details This nested struct is used to enforce explicit construction of
-   * `nullopt_t`, preventing accidental implicit conversions.
-   */
-  struct init_tag
-  {
-  };
-  /**
-   * @brief Explicit constructor for `nullopt_t`.
-   */
-  explicit LUMEX_CONSTEXPR
-  nullopt_t (init_tag /*unused*/)
-  {
-  }
+/// @brief Whether `T` is a specialization of `std::optional`.
+template <typename T> struct is_std_optional : std::false_type
+{
 };
-/**
- * @brief A constant of type `nullopt_t` used to represent an empty
- * `optional`.
- * @details This global constant is the canonical way to initialize or assign
- *          an empty state to a `optional` object.
- * @code
- * optional<int> opt1 = lumex::nullopt;
- * optional<std::string> opt2; // Also initializes as empty
- * opt2 = lumex::nullopt;
- * @endcode
- */
-LUMEX_CONSTEXPR nullopt_t nullopt{ nullopt_t::init_tag{} };
 
-/**
- * @brief A tag type used to indicate in-place construction of the contained
- * value.
- * @details This structure mirrors `std::in_place_t` from C++17. It is used
- *          in `optional` constructors and `emplace` methods to signify
- *          that the contained object should be constructed directly inside
- *          the optional's storage using the provided arguments, rather than
- *          copying or moving an existing object. This avoids unnecessary
- *          temporary objects and can improve performance.
- */
-struct in_place_t
+template <typename T> struct is_std_optional<std::optional<T>> : std::true_type
 {
-  /**
-   * @brief Internal tag for explicit construction.
-   * @details Similar to `nullopt_t::init_tag`, this enforces explicit
-   * construction.
-   */
-  struct init_tag
-  {
-  };
-  /**
-   * @brief Explicit constructor for `in_place_t`.
-   */
-  explicit LUMEX_CONSTEXPR
-  in_place_t (init_tag /*unused*/)
-  {
-  }
 };
-/**
- * @brief A constant of type `in_place_t` used for in-place construction.
- * @details This constant is used as the first argument in `optional`
- * constructors when direct construction of the contained value is desired.
- * It has no global alias: write `lumex::core::optional::opt::in_place`.
- * @code
- * using lumex::core::optional::opt::in_place;
- * // Constructs MyClass (arg1, arg2) in the optional's storage.
- * optional<MyClass> opt1 (in_place, arg1, arg2);
- * // Constructs std::vector<int> ({1, 2, 3}).
- * optional<std::vector<int>> opt2 (in_place, { 1, 2, 3 });
- * @endcode
- */
-LUMEX_CONSTEXPR in_place_t in_place{ in_place_t::init_tag{} };
-
-/**
- * @brief Exception thrown when attempting to access the value of an empty
- * `optional`.
- * @details This exception class is derived from `std::logic_error` and is
- * thrown by the `value()` method of `optional` if `has_value()` is false.
- *          It indicates a programming error where an attempt was made to
- * dereference an optional object that does not currently hold a value.
- * @note This exception is consistent with `std::bad_optional_access` in C++17.
- */
-class lumex_bad_optional_access : public std::logic_error
-{
-public:
-  /**
-   * @brief Constructs a `lumex_bad_optional_access` exception with a default
-   * message.
-   */
-  lumex_bad_optional_access ()
-      : std::logic_error ("LumexBadOptionalAccess: Bad optional access")
-  {
-  }
-  /**
-   * @brief Constructs a `lumex_bad_optional_access` exception with a custom
-   * C-style string message.
-   * @param what_arg A C-style string describing the error.
-   */
-  explicit lumex_bad_optional_access (char const *what_arg)
-      : std::logic_error (what_arg)
-  {
-  }
-  /**
-   * @brief Constructs a `lumex_bad_optional_access` exception with a custom
-   * `std::string` message.
-   * @param what_arg A `std::string` describing the error.
-   */
-  explicit lumex_bad_optional_access (std::string const &what_arg)
-      : std::logic_error (what_arg)
-  {
-  }
-};
+} // namespace detail
+#endif
 
 /**
  * @brief A C++11 implementation of `std::optional` for type-safe nullable
  * values.
- * @details The `optional` template class provides a mechanism to
- * encapsulate an optional value of type `T`. An instance of `optional`
- * can either contain a value or be empty. This design avoids the pitfalls of
- * `nullptr` and clearly expresses intent in function signatures and data
- * structures.
+ * @details An `optional` either holds a `T` or is empty. The value lives in a
+ * union member next to a `bool`, so there is no allocation and `sizeof` is
+ * that of `std::optional<T>`. The special member functions are those of
+ * [optional.ctor], [optional.dtor] and [optional.assign]: trivial when the
+ * ones of `T` are, deleted when `T` cannot be copied (or, for the moves,
+ * ignored by overload resolution when `T` cannot be moved), and written out
+ * otherwise. After a move the source still holds its moved-from value.
  *
- *          It manages its internal storage using `std::aligned_storage` to
- *          construct `T` in-place, ensuring proper alignment and avoiding
- * dynamic memory allocations for the contained value itself.
- *
- * @tparam T The type of the value to be held. `T` must be a non-reference,
- * non-array, non-void type. Its constructor/destructor requirements are
- * managed internally, leveraging `std::is_nothrow_copy_constructible` etc.
- *
- * @note This class adheres to the Rule of Five: it explicitly defines
- *       copy constructor, move constructor, copy assignment operator,
- *       move assignment operator, and destructor. Copy operations are
- *       deleted to ensure correct resource management and behavior.
+ * @tparam T The type of the value to be held: an object type that is not an
+ * array, `in_place_t` or `nullopt_t`.
  */
 template <typename T> class optional
 {
+  static_assert (std::is_object<T>::value && !std::is_array<T>::value
+                     && !detail::is_tag_type<T>::value,
+                 "optional<T>: T must be an object type that is not an "
+                 "array, in_place_t or nullopt_t");
+
+  using base_type = detail::opt_move_assign_base<T>;
+
+  /// @brief The value, the flag and the special member functions. A member,
+  /// not a base class: the compiler copies a member as one object of
+  /// `sizeof (base_type)` bytes (one 8-byte move for `optional<int>`), where
+  /// it copies a base class subobject without its tail padding (a 4-byte and
+  /// a 1-byte move).
+  base_type m_p;
+
+  template <typename U> friend class optional;
+
+  /// @brief Whether `T` is `bool` and `U` is an `optional` (also a
+  /// `std::optional` from C++17): then the value constructor is not used and
+  /// the state of `U` is not read through its `explicit operator bool`
+  /// ([optional.ctor]/22).
+  template <typename U>
+  struct bool_takes_optional
+      : std::integral_constant<bool,
+                               detail::is_cv_bool<T>::value
+                                   && (detail::is_optional_specialization<
+                                           detail::remove_cvref_t<U>>::value
+#if __cplusplus >= 201703L
+                                       || detail::is_std_optional<
+                                           detail::remove_cvref_t<U>>::value
+#endif
+                                       )>
+  {
+  };
+
+  /// @brief The constraints of `optional (U &&)` that do not depend on the
+  /// implicit/explicit split ([optional.ctor]/22), the cheap ones first.
+  template <typename U>
+  struct enables_value_ctor
+      : detail::conjunction<
+            detail::negation<
+                std::is_same<detail::remove_cvref_t<U>, optional>>,
+            detail::negation<
+                std::is_same<detail::remove_cvref_t<U>, in_place_t>>,
+            detail::negation<bool_takes_optional<U>>,
+#if __cplusplus >= 201703L
+            detail::negation<
+                std::is_same<detail::remove_cvref_t<U>, std::optional<T>>>,
+#endif
+            std::is_constructible<T, U>>
+  {
+  };
+
+  /// @brief The constraints of the converting constructors from
+  /// `optional<U>` once `T` is constructible from the value ([optional.ctor]).
+  template <typename U>
+  struct enables_from_optional
+      : std::conditional<detail::is_cv_bool<T>::value, std::true_type,
+                         detail::negation<detail::converts_from_any_cvref<
+                             T, optional<U>>>>::type
+  {
+  };
+
+  /// @brief The extra constraints of the converting assignments from
+  /// `optional<U>` ([optional.assign]).
+  template <typename U>
+  struct enables_assign_from_optional
+      : detail::conjunction<
+            detail::negation<detail::converts_from_any_cvref<T, optional<U>>>,
+            detail::negation<detail::assigns_from_any_cvref<T, optional<U>>>>
+  {
+  };
+
+  /// @brief The scalar rule of `operator= (U &&)` ([optional.assign]/12).
+  template <typename U>
+  struct is_scalar_same
+      : std::integral_constant<
+            bool, std::is_scalar<T>::value
+                      && std::is_same<T, typename std::decay<U>::type>::value>
+  {
+  };
+
+  /// @brief Private constructor of `transform`: the value is built from the
+  /// result of the call, never from a converting constructor, so an `optional`
+  /// result is held, not flattened.
+  template <typename Fn, typename... Args>
+  LUMEX_CONSTEXPR_CTOR
+  optional (detail::invoke_tag tag, Fn &&fn, Args &&...args)
+      : m_p (tag, detail::fwd<Fn> (fn), detail::fwd<Args> (args)...)
+  {
+  }
+
 public:
   /**
    * @brief Type alias for the contained value type.
    */
   using value_type = T;
 
-private:
-  /**
-   * @brief Aligned storage for the optional value.
-   * @details Uses `std::aligned_storage` to reserve raw memory that is
-   * correctly aligned and sized for `T`, allowing for in-place construction
-   *          and destruction of the `T` object without dynamic allocations.
-   */
-  typename std::aligned_storage<sizeof (T), alignof (T)>::type m_storage;
-  /**
-   * @brief Flag indicating whether the optional currently holds a value.
-   * @details `true` if a value is present, `false` otherwise. This flag is
-   *          essential for managing the lifecycle of the contained object.
-   */
-  bool m_has_value;
-
-  /**
-   * @brief Internal helper to get a pointer to the contained object.
-   * @details Reinterprets the `m_storage` as a pointer to `T`.
-   * @return A non-const pointer to the contained object.
-   */
-  T *
-  get_ptr () LUMEX_NOEXCEPT
-  {
-    return reinterpret_cast<
-        T *> ( // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-        std::addressof (m_storage));
-  }
-
-  /**
-   * @brief Internal helper to get a const pointer to the contained object.
-   * @details Reinterprets the `m_storage` as a const pointer to `T`.
-   * @return A const pointer to the contained object.
-   */
-  T const *
-  get_ptr () const LUMEX_NOEXCEPT
-  {
-    return reinterpret_cast<
-        T const *> ( // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-        std::addressof (m_storage));
-  }
-
-// — Internal construction/destruction —
-// suppress MSVC "unreachable code" in construct()
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4702)
-#endif
-  /**
-   * @brief Constructs the contained object in-place.
-   * @details Uses placement new to construct an object of type `T` directly
-   *          within `m_storage` using the provided arguments. Sets
-   * `m_has_value` to `true`.
-   * @tparam Args Variadic template arguments for the constructor of `T`.
-   * @param args Arguments to forward to the constructor of `T`.
-   */
-  template <typename... Args>
-  void
-  construct (Args &&...args)
-  {
-    new (get_ptr ()) T (std::forward<Args> (args)...);
-    m_has_value = true;
-  }
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-
-  /**
-   * @brief Destroys the contained object if present.
-   * @details Calls the destructor of the contained `T` object and sets
-   * `m_has_value` to `false`. This method is safe to call even if no value is
-   * present.
-   */
-  void
-  destroy () LUMEX_NOEXCEPT
-  {
-    if (m_has_value)
-      {
-        get_ptr ()->~T ();
-        m_has_value = false;
-      }
-  }
-
-public:
-  // — Constructors —
+  // - Constructors -
 
   /**
    * @brief Default constructor. Creates an empty `optional`.
-   * @details Initializes `m_has_value` to `false`, indicating no value is
-   * present. This constructor is `constexpr` for C++11 compatibility.
+   * @details `constexpr` and `noexcept` from C++11; with a trivially
+   * destructible `T` the object is a literal type.
    */
   LUMEX_CONSTEXPR_CTOR
-  optional () LUMEX_NOEXCEPT : m_has_value (false) {}
+  optional () LUMEX_NOEXCEPT : m_p () {}
 
   /**
    * @brief Constructs an empty `optional` from `nullopt`.
-   * @details Allows explicit construction of an empty optional using the
-   * `nullopt` constant.
    */
   LUMEX_CONSTEXPR_CTOR
-  optional (nullopt_t /*unused*/) LUMEX_NOEXCEPT : m_has_value (false) {}
+  optional (nullopt_t /*unused*/) LUMEX_NOEXCEPT : m_p () {}
 
   /**
-   * @brief Copy constructor. Constructs a `optional` by copying another.
-   * @details If `other` contains a value, a copy of that value is constructed
-   *          in-place. If `other` is empty, this optional will also be empty.
-   * @param other The `optional` object to copy from.
-   * @note The `noexcept` specification depends on the copy constructibility of
-   * `T`.
+   * @brief Copy constructor.
+   * @details Trivial when `T` is trivially copy constructible; deleted when
+   * `T` is not copy constructible (so `std::is_copy_constructible` is false
+   * for `optional<std::unique_ptr<int>>`); copies the value otherwise. The
+   * `noexcept` specification follows `T`.
    */
-  optional (optional const &other)
-      LUMEX_NOEXCEPT_IF (std::is_nothrow_copy_constructible<T>::value)
-      : m_has_value (false)
-  {
-    if (other.m_has_value)
-      construct (*other.get_ptr ());
-  }
+  optional (optional const &) = default;
 
   /**
-   * @brief Move constructor. Constructs a `optional` by moving from
-   * another.
-   * @details If `other` contains a value, that value is moved into this
-   * optional, and `other` is left in a valid but unspecified (usually empty)
-   * state. If `other` is empty, this optional will also be empty.
-   * @param other The `optional` object to move from.
-   * @note The `noexcept` specification depends on the move constructibility of
-   * `T`.
+   * @brief Move constructor.
+   * @details Trivial when `T` is trivially move constructible; not
+   * available (an rvalue is copied) when `T` is not move constructible;
+   * moves the value otherwise. The source keeps its (moved-from) value, as
+   * `std::optional`'s. `noexcept` when `T`'s move constructor is.
    */
-  optional (optional &&other)
-      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value)
-      : m_has_value (false)
-  {
-    if (other.m_has_value)
-      {
-        construct (std::move (*other.get_ptr ()));
-        other.destroy (); // Destroys the value in the source optional
-      }
-  }
-
-  /**
-   * @brief Value copy constructor. Constructs a `optional` with a copied
-   * value.
-   * @details Creates a `optional` containing a copy of the provided
-   * `value`.
-   * @param value The value of type `T` to copy.
-   * @note The `noexcept` specification depends on the copy constructibility of
-   * `T`.
-   */
-  optional (T const &value)
-      LUMEX_NOEXCEPT_IF (std::is_nothrow_copy_constructible<T>::value)
-      : m_has_value (false)
-  {
-    construct (value);
-  }
-
-  /**
-   * @brief Value move constructor. Constructs a `optional` with a moved
-   * value.
-   * @details Creates a `optional` containing a value moved from the
-   * provided `value`.
-   * @param value The value of type `T` to move.
-   * @note The `noexcept` specification depends on the move constructibility of
-   * `T`.
-   */
-  optional (T &&value)
-      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value)
-      : m_has_value (false)
-  {
-    construct (std::move (value));
-  }
+  optional (optional &&) = default;
 
   /**
    * @brief In-place constructor. Constructs the contained value directly.
-   * @details Allows constructing the contained object `T` directly within the
-   *          optional's storage using the provided arguments, bypassing
-   *          intermediate copy/move operations.
-   * @tparam Args Variadic template arguments for the constructor of `T`.
+   * @tparam Args Types of the arguments of the constructor of `T`.
+   * @param tag `in_place`.
    * @param args Arguments to forward to the constructor of `T`.
    */
-  template <typename... Args>
-  explicit optional (in_place_t /*unused*/, Args &&...args)
-      : m_has_value (false)
+  template <typename... Args,
+            typename std::enable_if<std::is_constructible<T, Args...>::value,
+                                    int>::type
+            = 0>
+  LUMEX_CONSTEXPR_CTOR explicit optional (in_place_t tag, Args &&...args)
+      : m_p (tag, detail::fwd<Args> (args)...)
   {
-    construct (std::forward<Args> (args)...);
   }
 
   /**
-   * @brief In-place constructor with `std::initializer_list`.
-   * @details Constructs the contained object `T` in-place, passing an
-   * `initializer_list` and additional arguments to its constructor.
+   * @brief In-place constructor with an `std::initializer_list`.
    * @tparam U The type of elements in the `initializer_list`.
-   * @tparam Args Variadic template arguments for the constructor of `T`.
-   * @param ilist An `std::initializer_list` to pass to the constructor of `T`.
+   * @tparam Args Types of the further arguments.
+   * @param tag `in_place`.
+   * @param ilist An `std::initializer_list` for the constructor of `T`.
    * @param args Additional arguments to forward to the constructor of `T`.
    */
-  template <typename U, typename... Args>
-  explicit optional (in_place_t /*unused*/, std::initializer_list<U> ilist,
-                     Args &&...args)
-      : m_has_value (false)
+  template <
+      typename U, typename... Args,
+      typename std::enable_if<
+          std::is_constructible<T, std::initializer_list<U> &, Args...>::value,
+          int>::type
+      = 0>
+  LUMEX_CONSTEXPR_CTOR explicit optional (in_place_t tag,
+                                          std::initializer_list<U> ilist,
+                                          Args &&...args)
+      : m_p (tag, ilist, detail::fwd<Args> (args)...)
   {
-    construct (ilist, std::forward<Args> (args)...);
   }
+
+  /**
+   * @brief Constructs the value from `value` (implicit when `U` converts to
+   * `T` implicitly).
+   * @details [optional.ctor]/22: viable when `T` is constructible from `U`,
+   * `U` is neither `in_place_t` nor `optional`, and `T` is not `bool` with an
+   * `optional` argument. `optional<std::string> s = "abc";` compiles.
+   * @tparam U Type of the argument; `T` when it is a braced list.
+   * @param value The value to construct from.
+   */
+  template <typename U = T,
+            typename std::enable_if<
+                detail::conjunction<enables_value_ctor<U &&>,
+                                    std::is_convertible<U &&, T>>::value,
+                int>::type
+            = 0>
+  LUMEX_CONSTEXPR_CTOR
+  optional (U &&value)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U &&>::value)
+      : m_p (in_place, detail::fwd<U> (value))
+  {
+  }
+
+  /// @brief The same constructor, `explicit` when `U` does not convert to `T`
+  /// implicitly.
+  template <typename U = T,
+            typename std::enable_if<
+                detail::conjunction<
+                    enables_value_ctor<U &&>,
+                    detail::negation<std::is_convertible<U &&, T>>>::value,
+                int>::type
+            = 0>
+  LUMEX_CONSTEXPR_CTOR explicit optional (U &&value)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U &&>::value)
+      : m_p (in_place, detail::fwd<U> (value))
+  {
+  }
+
+  /**
+   * @brief Converting copy constructor from `optional<U>` (implicit when
+   * `const U &` converts to `T` implicitly).
+   * @details [optional.ctor]/27. Constexpr from C++20 only: a constant
+   * expression cannot choose the active member of the union by the state of
+   * another object before.
+   * @tparam U The value type of the source.
+   * @param rhs The source; unchanged.
+   */
+  template <typename U,
+            typename std::enable_if<
+                detail::conjunction<detail::negation<std::is_same<T, U>>,
+                                    std::is_constructible<T, U const &>,
+                                    enables_from_optional<U>,
+                                    std::is_convertible<U const &, T>>::value,
+                int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20
+  optional (optional<U> const &rhs)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U const &>::value)
+      : m_p ()
+  {
+    if (rhs.has_value ())
+      m_p.construct (*rhs);
+  }
+
+  /// @brief The same constructor, `explicit` when `const U &` does not convert
+  /// to `T` implicitly.
+  template <
+      typename U,
+      typename std::enable_if<
+          detail::conjunction<
+              detail::negation<std::is_same<T, U>>,
+              std::is_constructible<T, U const &>, enables_from_optional<U>,
+              detail::negation<std::is_convertible<U const &, T>>>::value,
+          int>::type
+      = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20 explicit optional (optional<U> const &rhs)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U const &>::value)
+      : m_p ()
+  {
+    if (rhs.has_value ())
+      m_p.construct (*rhs);
+  }
+
+  /**
+   * @brief Converting move constructor from `optional<U>` (implicit when `U`
+   * converts to `T` implicitly).
+   * @details The value of an engaged `rhs` is moved; `rhs` stays engaged.
+   * @tparam U The value type of the source.
+   * @param rhs The source.
+   */
+  template <typename U,
+            typename std::enable_if<
+                detail::conjunction<detail::negation<std::is_same<T, U>>,
+                                    std::is_constructible<T, U>,
+                                    enables_from_optional<U>,
+                                    std::is_convertible<U, T>>::value,
+                int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20
+  optional (optional<U> &&rhs)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U>::value)
+      : m_p ()
+  {
+    if (rhs.has_value ())
+      m_p.construct (detail::mv (*rhs));
+  }
+
+  /// @brief The same constructor, `explicit` when `U` does not convert to `T`
+  /// implicitly.
+  template <typename U,
+            typename std::enable_if<
+                detail::conjunction<
+                    detail::negation<std::is_same<T, U>>,
+                    std::is_constructible<T, U>, enables_from_optional<U>,
+                    detail::negation<std::is_convertible<U, T>>>::value,
+                int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20 explicit optional (optional<U> &&rhs)
+      LUMEX_NOEXCEPT_IF (std::is_nothrow_constructible<T, U>::value)
+      : m_p ()
+  {
+    if (rhs.has_value ())
+      m_p.construct (detail::mv (*rhs));
+  }
+
+#if __cplusplus >= 201703L
+  /**
+   * @brief Implicit conversion from `std::optional<T>` (C++17), copying.
+   * @details A constructor template that accepts exactly `std::optional<T>`.
+   * `constexpr` for a trivially copyable `T` (delegating to the trivial copy
+   * of `optional`) and from C++20 for any `T`.
+   * @tparam StdOptional Deduced from the argument; only `std::optional<T>`.
+   * @param other The `std::optional<T>` to copy.
+   */
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_copy_constructible<T>::value
+                    && std::is_trivially_copy_constructible<T>::value
+                    && std::is_trivially_move_constructible<T>::value,
+                int>::type
+            = 0>
+  constexpr optional (StdOptional const &other) noexcept (
+      std::is_nothrow_copy_constructible<T>::value)
+      : optional (other.has_value () ? optional (in_place, *other)
+                                     : optional ())
+  {
+  }
+
+  /// @brief The same for a `T` that is not trivially copyable.
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_copy_constructible<T>::value
+                    && !(std::is_trivially_copy_constructible<T>::value
+                         && std::is_trivially_move_constructible<T>::value),
+                int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20
+  optional (StdOptional const &other) noexcept (
+      std::is_nothrow_copy_constructible<T>::value)
+      : m_p ()
+  {
+    if (other.has_value ())
+      m_p.construct (*other);
+  }
+
+  /**
+   * @brief Implicit conversion from `std::optional<T>` (C++17), moving.
+   * @details The value of an rvalue `std::optional<T>` is moved; the source
+   * keeps its (moved-from) value. `constexpr` as the copying form.
+   * @tparam StdOptional Deduced from the argument; only an rvalue
+   * `std::optional<T>` is accepted.
+   * @param other The `std::optional<T>` to move from.
+   */
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_move_constructible<T>::value
+                    && std::is_trivially_move_constructible<T>::value,
+                int>::type
+            = 0>
+  constexpr optional (StdOptional &&other) noexcept (
+      std::is_nothrow_move_constructible<T>::value)
+      : optional (other.has_value () ? optional (in_place, std::move (*other))
+                                     : optional ())
+  {
+  }
+
+  /// @brief The same for a `T` that is not trivially move constructible.
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_move_constructible<T>::value
+                    && !std::is_trivially_move_constructible<T>::value,
+                int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20
+  optional (StdOptional &&other) noexcept (
+      std::is_nothrow_move_constructible<T>::value)
+      : m_p ()
+  {
+    if (other.has_value ())
+      m_p.construct (std::move (*other));
+  }
+
+  /**
+   * @brief Implicit conversion to `std::optional<T>` (C++17), copying.
+   * @details A conversion function template that accepts exactly
+   * `std::optional<T>` as the target; `constexpr` for a `T` the standard type
+   * can hold in a constant expression.
+   * @tparam StdOptional Deduced from the target; only `std::optional<T>`.
+   * @return A `std::optional<T>` with a copy of the value, or empty.
+   */
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_copy_constructible<T>::value,
+                int>::type
+            = 0>
+  constexpr
+  operator StdOptional () const & noexcept (
+      std::is_nothrow_copy_constructible<T>::value)
+  {
+    return m_p.m_engaged ? std::optional<T> (m_p.m_u.value)
+                         : std::optional<T> ();
+  }
+
+  /**
+   * @brief Implicit conversion to `std::optional<T>` (C++17), moving.
+   * @details Used for an rvalue `optional`: the value is moved out and the
+   * source keeps its (moved-from) value.
+   * @tparam StdOptional Deduced from the target; only `std::optional<T>`.
+   * @return A `std::optional<T>` with the moved value, or empty.
+   */
+  template <typename StdOptional,
+            typename std::enable_if<
+                std::is_same<StdOptional, std::optional<T>>::value
+                    && std::is_move_constructible<T>::value,
+                int>::type
+            = 0>
+  constexpr
+  operator StdOptional () && noexcept (
+      std::is_nothrow_move_constructible<T>::value)
+  {
+    return m_p.m_engaged ? std::optional<T> (static_cast<T &&> (m_p.m_u.value))
+                         : std::optional<T> ();
+  }
+#endif
 
   // ============ Destructor ============
   /**
-   * @brief Destructor. Destroys the contained value if present.
-   * @details Calls `destroy()` to safely destruct the contained object (if
-   * any) and reset the `m_has_value` flag.
+   * @brief Destructor: trivial when `T` is trivially destructible, destroys
+   * the value otherwise.
    */
-  ~optional () { destroy (); }
+  ~optional () = default;
 
   // ============ Assignment operators ============
 
   /**
    * @brief Assigns `nullopt` to the `optional`, making it empty.
-   * @details If the optional currently holds a value, its destructor is
-   * called, and then `m_has_value` is set to `false`.
    * @return A reference to `*this`.
    */
-  optional &
+  LUMEX_CONSTEXPR_CXX14 optional &
   operator= (nullopt_t /*unused*/) LUMEX_NOEXCEPT
   {
-    destroy ();
+    m_p.reset_value ();
     return *this;
   }
 
   /**
-   * @brief Copy assignment operator. Assigns the value of another
-   * `optional`.
-   * @details This operator handles various scenarios:
-   *          - If `other` has a value: If `*this` also has a value, the old
-   * value is destroyed, and a new one is copy-constructed from `other`. If
-   * `*this` is empty, a new value is copy-constructed from `other`.
-   *          - If `other` is empty: If `*this` has a value, its value is
-   * destroyed. If `*this` is already empty, nothing happens.
-   * @param other The `optional` object to copy from.
+   * @brief Copy assignment.
+   * @details Trivial when `T` is trivially copy constructible, copy
+   * assignable and destructible; deleted unless `T` is copy constructible and
+   * copy assignable. Otherwise: both engaged, the value is assigned (a
+   * throwing assignment of `T` leaves both engaged); only `other` engaged,
+   * the value is copy constructed (a throwing constructor leaves `*this`
+   * empty); only `*this` engaged, it is destroyed. `other` is unchanged.
    * @return A reference to `*this`.
-   * @note The `noexcept` specification depends on the copy constructibility
-   * and copy assignability of `T`. Self-assignment is handled.
    */
-  optional &
-  operator= (optional const &other)
-      LUMEX_NOEXCEPT_IF (std::is_nothrow_copy_constructible<T>::value
-                             &&std::is_nothrow_copy_assignable<T>::value)
-  {
-    if (this != &other) // Handle self-assignment
-      {
-        if (other.m_has_value) // 'other' has a value
-          {
-            if (m_has_value) // '*this' also has a value: assign or destroy
-                             // old, construct new
-              {
-                // If T is trivially copy assignable, we could assign directly.
-                // For general case, destroy and reconstruct is safer for
-                // non-trivial types. This implementation chooses safety over
-                // potential micro-optimizations.
-                destroy ();
-                construct (*other.get_ptr ());
-              }
-            else // '*this' is empty, 'other' has value: construct new
-              {
-                construct (*other.get_ptr ());
-              }
-          }
-        else // 'other' is empty
-          {
-            if (m_has_value) // '*this' has a value, 'other' is empty: destroy
-                             // '*this' value
-              destroy ();
-            // else: Both are empty, nothing to do.
-          }
-      }
-    return *this;
-  }
+  optional &operator= (optional const &) = default;
 
   /**
-   * @brief Move assignment operator. Assigns the value of another
-   * `optional` by moving.
-   * @details This operator handles various scenarios similar to copy
-   * assignment, but performs move operations for efficiency:
-   *          - If `other` has a value: If `*this` also has a value, the old
-   * value is destroyed, and a new one is move-constructed from `other`. If
-   * `*this` is empty, a new value is move-constructed from `other`. `other` is
-   * then destroyed (left in an empty state).
-   *          - If `other` is empty: If `*this` has a value, its value is
-   * destroyed. If `*this` is already empty, nothing happens.
-   * @param other The `optional` object to move from.
+   * @brief Move assignment.
+   * @details Trivial when `T` is trivially move constructible, move
+   * assignable and destructible; not available (a copy is made) unless `T` is
+   * move constructible and move assignable. Otherwise as the copy assignment,
+   * with moves; `other` keeps its (moved-from) value.
    * @return A reference to `*this`.
-   * @note The `noexcept` specification depends on the move constructibility
-   * and move assignability of `T`. Self-assignment is handled.
    */
-  optional &
-  operator= (optional &&other)
-      LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value
-                             &&std::is_nothrow_move_assignable<T>::value)
-  {
-    if (this != &other) // Handle self-assignment
-      {
-        if (other.m_has_value)
-          {
-            if (m_has_value)
-              // If T is move assignable, we could assign directly: *get_ptr()
-              // = std::move(*other.get_ptr()); For general case, destroy and
-              // reconstruct is safer for non-trivial types. This
-              // implementation chooses safety over potential
-              // micro-optimizations.
-              {
-                destroy ();
-                construct (std::move (*other.get_ptr ()));
-              }
-            else
-              construct (std::move (*other.get_ptr ()));
-            other.destroy (); // Ensure the source optional is empty after move
-          }
-        else
-          {
-            destroy ();
-          } // If other is empty, ensure *this* is empty
-      }
-    return *this;
-  }
+  optional &operator= (optional &&) = default;
 
-  // ============ Value copy assignment ============
   /**
-   * @brief Value assignment operator. Assigns a new value to the
-   * `optional`.
-   * @details Assigns the provided `value` to the optional. If the optional
-   *          already contains a value, that value is assigned to. If it's
-   * empty, a new value is constructed in-place. This operator uses perfect
-   *          forwarding to accept both lvalues (copy) and rvalues (move) for
-   * `value`.
-   * @tparam U A type convertible to `T`. `std::enable_if` is used to restrict
-   *           this overload to cases where `U` (after decay) is the same type
-   * as `T`.
-   * @param value The value to assign. It can be an lvalue (copied) or an
-   * rvalue (moved).
+   * @brief Assigns a value: assigns it to the contained value when there is
+   * one, constructs it otherwise.
+   * @details [optional.assign]/12. Not viable when `T` is a scalar and `U` is
+   * `T` (the assignment then goes through the converting constructor and the
+   * trivial move assignment).
+   * @tparam U Type of the value.
+   * @param value The value.
    * @return A reference to `*this`.
    */
-  template <typename U = T, typename = typename std::enable_if<std::is_same<
-                                typename std::decay<U>::type, T>::value>::type>
-  optional &
+  template <typename U = T,
+            typename std::enable_if<
+                detail::conjunction<
+                    detail::negation<
+                        std::is_same<detail::remove_cvref_t<U>, optional>>,
+                    std::is_constructible<T, U>, std::is_assignable<T &, U>,
+                    detail::negation<is_scalar_same<U>>>::value,
+                int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20 optional &
   operator= (U &&value)
   {
-    if (m_has_value)
-      *get_ptr () = std::forward<U> (value); // Use placement assignment
+    if (m_p.m_engaged)
+      m_p.m_u.value = detail::fwd<U> (value);
     else
-      construct (std::forward<U> (value)); // Construct new value
+      m_p.construct (detail::fwd<U> (value));
+    return *this;
+  }
+
+  /**
+   * @brief Converting copy assignment from `optional<U>`.
+   * @details [optional.assign]/17: assigns, constructs or destroys by the
+   * state of the two objects as the copy assignment does.
+   * @tparam U The value type of the source.
+   * @param rhs The source; unchanged.
+   * @return A reference to `*this`.
+   */
+  template <typename U,
+            typename std::enable_if<
+                detail::conjunction<detail::negation<std::is_same<T, U>>,
+                                    std::is_constructible<T, U const &>,
+                                    std::is_assignable<T &, U const &>,
+                                    enables_assign_from_optional<U>>::value,
+                int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20 optional &
+  operator= (optional<U> const &rhs)
+  {
+    if (m_p.m_engaged && rhs.has_value ())
+      m_p.m_u.value = *rhs;
+    else if (rhs.has_value ())
+      m_p.construct (*rhs);
+    else
+      m_p.reset_value ();
+    return *this;
+  }
+
+  /**
+   * @brief Converting move assignment from `optional<U>`; `rhs` stays
+   * engaged.
+   * @tparam U The value type of the source.
+   * @param rhs The source.
+   * @return A reference to `*this`.
+   */
+  template <typename U,
+            typename std::enable_if<
+                detail::conjunction<detail::negation<std::is_same<T, U>>,
+                                    std::is_constructible<T, U>,
+                                    std::is_assignable<T &, U>,
+                                    enables_assign_from_optional<U>>::value,
+                int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20 optional &
+  operator= (optional<U> &&rhs)
+  {
+    if (m_p.m_engaged && rhs.has_value ())
+      m_p.m_u.value = detail::mv (*rhs);
+    else if (rhs.has_value ())
+      m_p.construct (detail::mv (*rhs));
+    else
+      m_p.reset_value ();
     return *this;
   }
 
   // ============ Observers ============
 
   /**
-   * @brief Dereferences the `optional` to access the contained value.
-   * @details Provides access to the contained value as a const pointer.
-   *          No bounds checking is performed; behavior is undefined if
-   * `has_value()` is false.
-   * @return A const pointer to the contained object of type `T`.
+   * @brief Pointer to the contained value; undefined behavior when empty.
    */
-  T const *
+  LUMEX_CONSTEXPR T const *
   operator->() const LUMEX_NOEXCEPT
   {
-    return get_ptr ();
+    return detail::address_of (m_p.m_u.value);
   }
 
-  /**
-   * @brief Dereferences the `optional` to access the contained value.
-   * @details Provides access to the contained value as a non-const pointer.
-   *          No bounds checking is performed; behavior is undefined if
-   * `has_value()` is false.
-   * @return A non-const pointer to the contained object of type `T`.
-   */
-  T *
+  /// @copydoc operator->() const
+  LUMEX_CONSTEXPR_CXX14 T *
   operator->() LUMEX_NOEXCEPT
   {
-    return get_ptr ();
+    return detail::address_of (m_p.m_u.value);
   }
 
   /**
-   * @brief Dereferences the `optional` to access the contained value as a
-   * const lvalue reference.
-   * @details Provides access to the contained value as a const lvalue
-   * reference. No bounds checking is performed; behavior is undefined if
-   * `has_value()` is false.
-   * @return A const lvalue reference to the contained object of type `T`.
+   * @brief The contained value as a const lvalue; undefined behavior when
+   * empty.
    */
-  T const &
+  LUMEX_CONSTEXPR T const &
   operator* () const &LUMEX_NOEXCEPT
   {
-    return *get_ptr ();
+    return m_p.m_u.value;
   }
 
-  /**
-   * @brief Dereferences the `optional` to access the contained value as a
-   * non-const lvalue reference.
-   * @details Provides access to the contained value as a non-const lvalue
-   * reference. No bounds checking is performed; behavior is undefined if
-   * `has_value()` is false.
-   * @return A non-const lvalue reference to the contained object of type `T`.
-   */
-  T &
+  /// @brief The contained value as an lvalue; undefined behavior when empty.
+  LUMEX_CONSTEXPR_CXX14 T &
       operator* ()
       & LUMEX_NOEXCEPT
   {
-    return *get_ptr ();
+    return m_p.m_u.value;
   }
 
-  /**
-   * @brief Dereferences the `optional` to access the contained value as a
-   * const rvalue reference.
-   * @details Provides access to the contained value as a const rvalue
-   * reference, enabling move semantics for the contained value when the
-   * optional itself is an rvalue. No bounds checking is performed; behavior is
-   * undefined if `has_value()` is false.
-   * @return A const rvalue reference to the contained object of type `T`.
-   */
-  T const &&
+  /// @brief The contained value as a const rvalue; undefined behavior when
+  /// empty.
+  LUMEX_CONSTEXPR T const &&
   operator* () const &&LUMEX_NOEXCEPT
   {
-    return std::move (*get_ptr ());
+    return static_cast<T const &&> (m_p.m_u.value);
   }
 
-  /**
-   * @brief Dereferences the `optional` to access the contained value as a
-   * non-const rvalue reference.
-   * @details Provides access to the contained value as a non-const rvalue
-   * reference, enabling move semantics for the contained value when the
-   * optional itself is an rvalue. No bounds checking is performed; behavior is
-   * undefined if `has_value()` is false.
-   * @return A non-const rvalue reference to the contained object of type `T`.
-   */
-  T &&
+  /// @brief The contained value as an rvalue; undefined behavior when empty.
+  LUMEX_CONSTEXPR_CXX14 T &&
       operator* ()
       && LUMEX_NOEXCEPT
   {
-    return std::move (*get_ptr ());
+    return static_cast<T &&> (m_p.m_u.value);
   }
 
   /**
-   * @brief Explicit conversion to `bool`.
-   * @details Allows `optional` to be used in boolean contexts (e.g., `if
-   * (opt)`).
-   * @return `true` if the optional contains a value, `false` otherwise.
+   * @brief Explicit conversion to `bool`: whether a value is held.
    */
-  explicit
+  LUMEX_CONSTEXPR explicit
   operator bool () const LUMEX_NOEXCEPT
   {
-    return m_has_value;
+    return m_p.m_engaged;
   }
 
   /**
-   * @brief Checks if the `optional` contains a value.
-   * @return `true` if a value is present, `false` otherwise.
-   * @see `operator bool()`
+   * @brief Whether the `optional` contains a value.
    */
-  bool
+  LUMEX_CONSTEXPR bool
   has_value () const LUMEX_NOEXCEPT
   {
-    return m_has_value;
+    return m_p.m_engaged;
   }
 
   /**
-   * @brief Returns a non-const lvalue reference to the contained value.
-   * @details If `has_value()` is `false`, throws `lumex_bad_optional_access`.
-   *          Otherwise, returns a reference to the contained value.
-   * @return A non-const lvalue reference to the contained object of type `T`.
+   * @brief The contained value as an lvalue.
    * @throws lumex_bad_optional_access If the optional does not contain a
    * value.
    */
-  T &
+  LUMEX_CONSTEXPR_CXX14 T &
   value () &
   {
-    if (!m_has_value)
-      throw lumex_bad_optional_access ();
-    return *get_ptr ();
+    return m_p.m_engaged
+               ? m_p.m_u.value
+               : (detail::throw_bad_optional_access (), m_p.m_u.value);
   }
 
-  /**
-   * @brief Returns a const lvalue reference to the contained value.
-   * @details If `has_value()` is `false`, throws `lumex_bad_optional_access`.
-   *          Otherwise, returns a const reference to the contained value.
-   * @return A const lvalue reference to the contained object of type `T`.
-   * @throws lumex_bad_optional_access If the optional does not contain a
-   * value.
-   */
-  T const &
+  /// @brief The contained value as a const lvalue.
+  /// @throws lumex_bad_optional_access If empty.
+  LUMEX_CONSTEXPR T const &
   value () const &
   {
-    if (!m_has_value)
-      throw lumex_bad_optional_access ();
-    return *get_ptr ();
+    return m_p.m_engaged
+               ? m_p.m_u.value
+               : (detail::throw_bad_optional_access (), m_p.m_u.value);
   }
 
-  /**
-   * @brief Returns a non-const rvalue reference to the contained value.
-   * @details If `has_value()` is `false`, throws `lumex_bad_optional_access`.
-   *          Otherwise, returns an rvalue reference to the contained value,
-   *          enabling moving out the value.
-   * @return A non-const rvalue reference to the contained object of type `T`.
-   * @throws lumex_bad_optional_access If the optional does not contain a
-   * value.
-   */
-  T &&
+  /// @brief The contained value as an rvalue.
+  /// @throws lumex_bad_optional_access If empty.
+  LUMEX_CONSTEXPR_CXX14 T &&
   value () &&
   {
-    if (!m_has_value)
-      throw lumex_bad_optional_access ();
-    return std::move (*get_ptr ());
+    return m_p.m_engaged ? static_cast<T &&> (m_p.m_u.value)
+                         : (detail::throw_bad_optional_access (),
+                            static_cast<T &&> (m_p.m_u.value));
   }
 
-  /**
-   * @brief Returns a const rvalue reference to the contained value.
-   * @details If `has_value()` is `false`, throws `lumex_bad_optional_access`.
-   *          Otherwise, returns a const rvalue reference to the contained
-   * value.
-   * @return A const rvalue reference to the contained object of type `T`.
-   * @throws lumex_bad_optional_access If the optional does not contain a
-   * value.
-   */
-  T const &&
+  /// @brief The contained value as a const rvalue.
+  /// @throws lumex_bad_optional_access If empty.
+  LUMEX_CONSTEXPR T const &&
   value () const &&
   {
-    if (!m_has_value)
-      throw lumex_bad_optional_access ();
-    return std::move (*get_ptr ());
+    return m_p.m_engaged ? static_cast<T const &&> (m_p.m_u.value)
+                         : (detail::throw_bad_optional_access (),
+                            static_cast<T const &&> (m_p.m_u.value));
   }
 
   /**
-   * @brief Returns the contained value or a specified default value.
-   * @details If `has_value()` is `true`, returns a copy of the contained
-   * value. Otherwise, returns a copy of `default_value`. This overload is for
-   * const lvalue `optional`.
+   * @brief The contained value (copied) or `default_value` converted to `T`.
    * @tparam U A type convertible to `T`.
    * @param default_value The value to return if the optional is empty.
-   * @return The contained value or `default_value`.
    */
   template <typename U>
-  T
+  LUMEX_CONSTEXPR T
   value_or (U &&default_value) const &
   {
-    return m_has_value ? **this
-                       : static_cast<T> (std::forward<U> (default_value));
+    static_assert (std::is_copy_constructible<T>::value
+                       && std::is_convertible<U &&, T>::value,
+                   "value_or: T must be copy constructible and U convertible "
+                   "to T");
+    return m_p.m_engaged ? m_p.m_u.value
+                         : static_cast<T> (detail::fwd<U> (default_value));
+  }
+
+  /// @brief The contained value (moved) or `default_value` converted to `T`.
+  template <typename U>
+  LUMEX_CONSTEXPR_CXX14 T
+  value_or (U &&default_value) &&
+  {
+    static_assert (std::is_move_constructible<T>::value
+                       && std::is_convertible<U &&, T>::value,
+                   "value_or: T must be move constructible and U convertible "
+                   "to T");
+    return m_p.m_engaged ? static_cast<T &&> (m_p.m_u.value)
+                         : static_cast<T> (detail::fwd<U> (default_value));
+  }
+
+  // - Monadic operations (C++23) -
+
+  /**
+   * @brief If a value is held, calls `fn` with it and returns the result,
+   * which is an `optional`; otherwise an empty one of that type.
+   * @details Four forms for the value category of `*this`; the result type
+   * is `remove_cvref_t` of the call result. Not viable when `fn` cannot be
+   * called with the value or its result is not an `optional`.
+   * @tparam Fn Type of the function.
+   * @param fn The function.
+   */
+  template <typename Fn>
+  LUMEX_CONSTEXPR_CXX14 auto
+  and_then (Fn &&fn) & -> typename detail::and_then_result<void, Fn, T &>::type
+  {
+    using result_type = typename detail::and_then_result<void, Fn, T &>::type;
+    return m_p.m_engaged ? result_type (detail::invoke (detail::fwd<Fn> (fn),
+                                                        m_p.m_u.value))
+                         : result_type ();
+  }
+
+  /// @copydoc and_then
+  template <typename Fn>
+  LUMEX_CONSTEXPR auto
+  and_then (Fn &&fn) const & ->
+      typename detail::and_then_result<void, Fn, T const &>::type
+  {
+    using result_type =
+        typename detail::and_then_result<void, Fn, T const &>::type;
+    return m_p.m_engaged ? result_type (detail::invoke (detail::fwd<Fn> (fn),
+                                                        m_p.m_u.value))
+                         : result_type ();
+  }
+
+  /// @copydoc and_then
+  template <typename Fn>
+  LUMEX_CONSTEXPR_CXX14 auto
+  and_then (Fn &&fn) && -> typename detail::and_then_result<void, Fn, T>::type
+  {
+    using result_type = typename detail::and_then_result<void, Fn, T>::type;
+    return m_p.m_engaged
+               ? result_type (detail::invoke (
+                     detail::fwd<Fn> (fn), static_cast<T &&> (m_p.m_u.value)))
+               : result_type ();
+  }
+
+  /// @copydoc and_then
+  template <typename Fn>
+  LUMEX_CONSTEXPR auto
+  and_then (Fn &&fn) const && ->
+      typename detail::and_then_result<void, Fn, T const>::type
+  {
+    using result_type =
+        typename detail::and_then_result<void, Fn, T const>::type;
+    return m_p.m_engaged ? result_type (detail::invoke (
+                               detail::fwd<Fn> (fn),
+                               static_cast<T const &&> (m_p.m_u.value)))
+                         : result_type ();
   }
 
   /**
-   * @brief Returns the contained value or a specified default value.
-   * @details If `has_value()` is `true`, returns the contained value by moving
-   * it. Otherwise, returns a copy of `default_value`. This overload is for
-   * rvalue `optional`, enabling move semantics.
-   * @tparam U A type convertible to `T`.
-   * @param default_value The value to return if the optional is empty.
-   * @return The contained value (moved) or `default_value`.
+   * @brief If a value is held, calls `fn` with it and returns an `optional`
+   * that holds the result; otherwise an empty `optional` of that type.
+   * @details The result type is `optional<remove_cv_t<call result>>`; a call
+   * result that is itself an `optional` is held, not flattened. Not viable
+   * when `fn` cannot be called with the value or the result cannot be held.
+   * @tparam Fn Type of the function.
+   * @param fn The function.
    */
-  template <typename U>
-  T
-  value_or (U &&default_value) &&
+  template <typename Fn>
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform (Fn &&fn) & ->
+      typename detail::transform_result<void, Fn, T &>::type
   {
-    return m_has_value ? std::move (**this)
-                       : static_cast<T> (std::forward<U> (default_value));
+    using result_type = typename detail::transform_result<void, Fn, T &>::type;
+    return m_p.m_engaged ? result_type (detail::invoke_tag (),
+                                        detail::fwd<Fn> (fn), m_p.m_u.value)
+                         : result_type ();
   }
 
-  // — Modifiers —
+  /// @copydoc transform
+  template <typename Fn>
+  LUMEX_CONSTEXPR auto
+  transform (Fn &&fn) const & ->
+      typename detail::transform_result<void, Fn, T const &>::type
+  {
+    using result_type =
+        typename detail::transform_result<void, Fn, T const &>::type;
+    return m_p.m_engaged ? result_type (detail::invoke_tag (),
+                                        detail::fwd<Fn> (fn), m_p.m_u.value)
+                         : result_type ();
+  }
+
+  /// @copydoc transform
+  template <typename Fn>
+  LUMEX_CONSTEXPR_CXX14 auto
+  transform (Fn &&fn) && ->
+      typename detail::transform_result<void, Fn, T>::type
+  {
+    using result_type = typename detail::transform_result<void, Fn, T>::type;
+    return m_p.m_engaged
+               ? result_type (detail::invoke_tag (), detail::fwd<Fn> (fn),
+                              static_cast<T &&> (m_p.m_u.value))
+               : result_type ();
+  }
+
+  /// @copydoc transform
+  template <typename Fn>
+  LUMEX_CONSTEXPR auto
+  transform (Fn &&fn) const && ->
+      typename detail::transform_result<void, Fn, T const>::type
+  {
+    using result_type =
+        typename detail::transform_result<void, Fn, T const>::type;
+    return m_p.m_engaged
+               ? result_type (detail::invoke_tag (), detail::fwd<Fn> (fn),
+                              static_cast<T const &&> (m_p.m_u.value))
+               : result_type ();
+  }
+
+  /**
+   * @brief Returns `*this` (copied) if a value is held, otherwise the result
+   * of `fn ()`, which must be an `optional<T>`.
+   * @details Not viable when `T` is not copy constructible, `fn` cannot be
+   * called without arguments or its result is not `optional<T>` (cv and
+   * reference ignored).
+   * @tparam Fn Type of the function.
+   * @param fn The function.
+   */
+  template <typename Fn,
+            typename std::enable_if<
+                detail::or_else_enabled<
+                    Fn, optional, std::is_copy_constructible<T>::value>::value,
+                int>::type
+            = 0>
+  LUMEX_CONSTEXPR optional
+  or_else (Fn &&fn) const &
+  {
+    // Both arms are prvalues of the result type: with the lvalue `*this` as
+    // one arm, MSVC materializes it into a temporary and copies the temporary
+    // into the result (two payload copies instead of the one a copy of the
+    // optional costs - the probe of the suite pins the count).
+    return m_p.m_engaged
+               ? optional (*this)
+               : optional (detail::invoke (detail::fwd<Fn> (fn)));
+  }
+
+  /// @brief Returns `*this` (moved) if a value is held, otherwise the result
+  /// of `fn ()`. Needs a move constructible `T`.
+  template <typename Fn,
+            typename std::enable_if<
+                detail::or_else_enabled<
+                    Fn, optional, std::is_move_constructible<T>::value>::value,
+                int>::type
+            = 0>
+  LUMEX_CONSTEXPR_CXX14 optional
+  or_else (Fn &&fn) &&
+  {
+    return m_p.m_engaged ? static_cast<optional &&> (*this)
+                         : optional (detail::invoke (detail::fwd<Fn> (fn)));
+  }
+
+  // - Modifiers -
 
   /**
    * @brief Swaps the contents of this `optional` with another.
-   * @details This method provides an efficient, exception-safe swap operation.
-   *          It handles all combinations of filled and empty optionals:
-   *          - Both have values: swaps the contained values using `std::swap`.
-   *          - One has a value, the other is empty: moves the value to the
-   * empty optional, leaving the source empty.
-   *          - Both are empty: does nothing.
+   * @details Both engaged: the values are swapped. One engaged: its value is
+   * moved to the empty one and the source becomes empty. Both empty: nothing.
+   * `noexcept` when `T` is nothrow move constructible and nothrow swappable.
    * @param other The `optional` object to swap with.
-   * @note The `noexcept` specification depends on the move constructibility
-   *       and move assignability of `T`.
    */
-  void
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20 void
   swap (optional &other)
       LUMEX_NOEXCEPT_IF (std::is_nothrow_move_constructible<T>::value
-                             &&std::is_nothrow_move_assignable<T>::value)
+                             &&detail::is_nothrow_swappable<T>::value)
   {
-    if (m_has_value && other.m_has_value)
+    static_assert (std::is_move_constructible<T>::value
+                       && detail::is_swappable<T>::value,
+                   "swap: T must be move constructible and swappable");
+    if (m_p.m_engaged && other.m_p.m_engaged)
       {
         using std::swap;
-        swap (**this, *other); // Swap contained values
+        swap (m_p.m_u.value, other.m_p.m_u.value);
       }
-    else if (m_has_value)
+    else if (m_p.m_engaged)
       {
-        // This has value, other is empty. Move this's value to other.
-        other.construct (std::move (**this));
-        destroy ();
+        other.m_p.construct (static_cast<T &&> (m_p.m_u.value));
+        m_p.reset_value ();
       }
-    else if (other.m_has_value)
+    else if (other.m_p.m_engaged)
       {
-        // Other has value, this is empty. Move other's value to this.
-        construct (std::move (*other));
-        other.destroy ();
+        m_p.construct (static_cast<T &&> (other.m_p.m_u.value));
+        other.m_p.reset_value ();
       }
-    // else: Both are empty, nothing to do.
   }
 
   /**
-   * @brief Resets the `optional` to an empty state.
-   * @details If the optional contains a value, its destructor is called,
-   *          and `m_has_value` is set to `false`. If it's already empty,
-   *          this method does nothing.
+   * @brief Resets the `optional` to an empty state, destroying a held value.
+   * @details `constexpr` from C++14 for a trivially destructible `T`, from
+   * C++20 for any `T`.
    */
-  void
+  LUMEX_CONSTEXPR_CXX14 void
   reset () LUMEX_NOEXCEPT
   {
-    destroy ();
+    m_p.reset_value ();
   }
 
-// emplace
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4702)
-#endif
   /**
    * @brief Constructs a new value in-place, destroying any existing value.
-   * @details This method first destroys the currently contained value (if
-   * any), then constructs a new object of type `T` directly within the
-   *          optional's storage using the provided arguments.
-   * @tparam Args Variadic template arguments for the constructor of `T`.
+   * @details A throwing constructor of `T` leaves the `optional` empty.
+   * @tparam Args Types of the arguments of the constructor of `T`.
    * @param args Arguments to forward to the constructor of `T`.
-   * @return A non-const reference to the newly constructed contained object.
+   * @return A reference to the new value.
    */
-  template <typename... Args>
-  T &
+  template <typename... Args,
+            typename std::enable_if<std::is_constructible<T, Args...>::value,
+                                    int>::type
+            = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20 T &
   emplace (Args &&...args)
   {
-    destroy ();
-    construct (std::forward<Args> (args)...);
-    return **this;
+    m_p.reset_value ();
+    m_p.construct (detail::fwd<Args> (args)...);
+    return m_p.m_u.value;
   }
 
-  // suppress MSVC "unreachable code" in emplace(initializer_list<>)
   /**
-   * @brief Constructs a new value in-place using an `initializer_list`,
+   * @brief Constructs a new value in-place from an `initializer_list`,
    * destroying any existing value.
-   * @details This method first destroys the currently contained value (if
-   * any), then constructs a new object of type `T` directly within the
-   *          optional's storage, passing an `initializer_list` and additional
-   *          arguments to its constructor.
    * @tparam U The type of elements in the `initializer_list`.
-   * @tparam Args Variadic template arguments for the constructor of `T`.
-   * @param ilist An `std::initializer_list` to pass to the constructor of `T`.
+   * @tparam Args Types of the further arguments.
+   * @param ilist An `std::initializer_list` for the constructor of `T`.
    * @param args Additional arguments to forward to the constructor of `T`.
-   * @return A non-const reference to the newly constructed contained object.
+   * @return A reference to the new value.
    */
-  template <typename U, typename... Args>
-  T &
+  template <
+      typename U, typename... Args,
+      typename std::enable_if<
+          std::is_constructible<T, std::initializer_list<U> &, Args...>::value,
+          int>::type
+      = 0>
+  LUMEX_OPTIONAL_CONSTEXPR_CXX20 T &
   emplace (std::initializer_list<U> ilist, Args &&...args)
   {
-    destroy ();
-    construct (ilist, std::forward<Args> (args)...);
-    return **this;
+    m_p.reset_value ();
+    m_p.construct (ilist, detail::fwd<Args> (args)...);
+    return m_p.m_u.value;
   }
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 };
 
-// — Non-member comparison operators —
+#if __cplusplus >= 201703L
+/// @brief Deduction guide: `optional (value)` is `optional<decay_t<value>>`.
+template <typename T> optional (T) -> optional<T>;
+#endif
+
+// - Non-member comparison operators -
 
 /**
  * @brief Equality comparison operator for two `optional` objects.
@@ -933,18 +1106,14 @@ public:
  * @param lhs The left-hand side `optional` object.
  * @param rhs The right-hand side `optional` object.
  * @return `true` if the optionals are equal, `false` otherwise.
- * @note This function is not `constexpr` due to C++14 extension limitations on
- * `if` statements.
  */
 template <typename T, typename U>
-bool
+LUMEX_CONSTEXPR bool
 operator== (optional<T> const &lhs, optional<U> const &rhs)
 {
-  if (lhs.has_value () != rhs.has_value ())
-    return false;
-  if (!lhs.has_value ())
-    return true; // both are empty
-  return *lhs == *rhs;
+  return lhs.has_value () != rhs.has_value ()
+             ? false
+             : (!lhs.has_value () || *lhs == *rhs);
 }
 
 /**
@@ -974,18 +1143,12 @@ operator!= (optional<T> const &lhs, optional<U> const &rhs)
  * @param lhs The left-hand side `optional` object.
  * @param rhs The right-hand side `optional` object.
  * @return `true` if `lhs` is less than `rhs`, `false` otherwise.
- * @note This function is not `constexpr` due to C++14 extension limitations on
- * `if` statements.
  */
 template <typename T, typename U>
-bool
+LUMEX_CONSTEXPR bool
 operator< (optional<T> const &lhs, optional<U> const &rhs)
 {
-  if (!rhs.has_value ())
-    return false; // nothing is less than empty
-  if (!lhs.has_value ())
-    return true; // empty is less than any value
-  return *lhs < *rhs;
+  return !rhs.has_value () ? false : (!lhs.has_value () || *lhs < *rhs);
 }
 
 /**
@@ -1418,7 +1581,7 @@ operator>= (T const &value, optional<U> const &opt)
   return opt.has_value () ? value >= *opt : true;
 }
 
-// — Specialized algorithms —
+// - Specialized algorithms -
 
 /**
  * @brief Swaps the contents of two `optional` objects.
@@ -1430,9 +1593,11 @@ operator>= (T const &value, optional<U> const &opt)
  * @note The `noexcept` specification depends on the member `swap` function.
  */
 template <typename T>
-void
-swap (optional<T> &lhs, optional<T> &rhs)
-    LUMEX_NOEXCEPT_IF (noexcept (lhs.swap (rhs)))
+LUMEX_OPTIONAL_CONSTEXPR_CXX20
+    typename std::enable_if<std::is_move_constructible<T>::value
+                            && detail::is_swappable<T>::value>::type
+    swap (optional<T> &lhs, optional<T> &rhs)
+        LUMEX_NOEXCEPT_IF (noexcept (lhs.swap (rhs)))
 {
   lhs.swap (rhs);
 }
@@ -1490,6 +1655,168 @@ make_optional (std::initializer_list<U> ilist, Args &&...args)
 {
   return optional<T> (in_place, ilist, std::forward<Args> (args)...);
 }
+
+#if __cplusplus >= 201703L
+// Comparisons of an `optional` with a `std::optional` (C++17). Without them
+// `lumex_opt == std_opt` would pick the comparison with a value above and
+// compare `T` with the whole `std::optional`, which is false for two empty
+// optionals. Both operand types are named, so these are the most specialized
+// candidates in both orders and no conversion is needed. The result follows
+// the optional against optional rules of the standard.
+
+/**
+ * @brief `==` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Equal: both empty, or both hold equal values.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator== (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return lhs.has_value () != rhs.has_value ()
+             ? false
+             : (!lhs.has_value () || *lhs == *rhs);
+}
+
+/**
+ * @brief `==` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Equal: both empty, or both hold equal values.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator== (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return lhs.has_value () != rhs.has_value ()
+             ? false
+             : (!lhs.has_value () || *lhs == *rhs);
+}
+
+/**
+ * @brief `!=` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Not equal.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator!= (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return lhs.has_value () != rhs.has_value ()
+             ? true
+             : (lhs.has_value () && *lhs != *rhs);
+}
+
+/**
+ * @brief `!=` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Not equal.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator!= (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return lhs.has_value () != rhs.has_value ()
+             ? true
+             : (lhs.has_value () && *lhs != *rhs);
+}
+
+/**
+ * @brief `<` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Less: empty is less than any value.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator< (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return rhs.has_value () && (!lhs.has_value () || *lhs < *rhs);
+}
+
+/**
+ * @brief `<` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Less: empty is less than any value.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator< (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return rhs.has_value () && (!lhs.has_value () || *lhs < *rhs);
+}
+
+/**
+ * @brief `<=` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Less or equal.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator<= (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return !lhs.has_value () || (rhs.has_value () && *lhs <= *rhs);
+}
+
+/**
+ * @brief `<=` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Less or equal.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator<= (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return !lhs.has_value () || (rhs.has_value () && *lhs <= *rhs);
+}
+
+/**
+ * @brief `>` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Greater.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator> (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return lhs.has_value () && (!rhs.has_value () || *lhs > *rhs);
+}
+
+/**
+ * @brief `>` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Greater.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator> (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return lhs.has_value () && (!rhs.has_value () || *lhs > *rhs);
+}
+
+/**
+ * @brief `>=` between an `optional` (left) and a `std::optional` (right),
+ * C++17.
+ * @return Greater or equal.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator>= (optional<T> const &lhs, std::optional<U> const &rhs)
+{
+  return !rhs.has_value () || (lhs.has_value () && *lhs >= *rhs);
+}
+
+/**
+ * @brief `>=` between a `std::optional` (left) and an `optional` (right),
+ * C++17.
+ * @return Greater or equal.
+ */
+template <typename T, typename U>
+LUMEX_CONSTEXPR bool
+operator>= (std::optional<T> const &lhs, optional<U> const &rhs)
+{
+  return !rhs.has_value () || (lhs.has_value () && *lhs >= *rhs);
+}
+
+#endif
 
 } // namespace opt
 } // namespace optional

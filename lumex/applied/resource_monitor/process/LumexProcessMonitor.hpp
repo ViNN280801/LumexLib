@@ -50,6 +50,33 @@
 #include "lumex/core/optional/LumexOptional"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace applied
@@ -188,6 +215,8 @@ LUMEX_API process_usage_t total (std::vector<process_usage_t> const &usages);
  * moved-from monitor may only be destroyed or assigned to.
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * using namespace lumex::applied::resource_monitor::process;
  * LumexProcessMonitor monitor;
@@ -292,5 +321,9 @@ private:
 } // namespace resource_monitor
 } // namespace applied
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !LUMEX_APPLIED_RESOURCE_MONITOR_PROCESS_HPP

@@ -62,6 +62,33 @@
 #include "XmlDocument.hpp"
 #include "XmlDocumentBase.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
 using namespace lumex::xml;
 using namespace lumex::xml::utility;
 using namespace lumex::xml::document;
@@ -244,24 +271,11 @@ load_stream_data_noseek (std::basic_istream<T> &stream, void **out_buffer,
 inline std::size_t
 zero_terminate_buffer (void *buffer, std::size_t size, xml_encoding encoding)
 {
-#ifdef LUMEX_XML_WCHAR_MODE
-  xml_encoding wchar_encoding = get_wchar_encoding ();
-
-  if (encoding == wchar_encoding
-      || utility::need_endian_swap_utf (encoding, wchar_encoding))
-    {
-      std::size_t length = size / sizeof (char_t);
-
-      static_cast<char_t *> (buffer)[length] = 0;
-      return (length + 1) * sizeof (char_t);
-    }
-#else
   if (encoding == encoding_utf8)
     {
       static_cast<char *> (buffer)[size] = 0;
       return size + 1;
     }
-#endif
 
   return size;
 }
@@ -539,11 +553,7 @@ xml_parse_result_t
 XmlDocument::load_string (char_t const *contents, unsigned int options)
 {
   // Force native encoding (skip autodetection)
-#ifdef LUMEX_XML_WCHAR_MODE
-  xml_encoding encoding = encoding_wchar;
-#else
   xml_encoding encoding = encoding_utf8;
-#endif
 
   return load_buffer (contents,
                       utility::strlength (contents) * sizeof (char_t), options,
@@ -592,10 +602,10 @@ get_file_size (FILE *file, std::size_t &out_result)
     return status_io_error;
 
   xml_parse_status status = convert_file_size (st.st_size, out_result);
-#elif defined(LUMEX_XML_MSVC_CRT_VERSION) && LUMEX_XML_MSVC_CRT_VERSION >= 1400
+#elif defined(_MSC_VER)
   // there are 64-bit versions of fseek/ftell, let's use them
   _fseeki64 (file, 0, SEEK_END);
-  __int64 length = _ftelli64 (file);
+  long long length = _ftelli64 (file);
   _fseeki64 (file, 0, SEEK_SET);
 
   xml_parse_status status = convert_file_size (length, out_result);
@@ -726,7 +736,7 @@ open_file_wide (
 inline FILE *
 open_file (const char *path, const char *mode)
 {
-#if defined(LUMEX_XML_MSVC_CRT_VERSION) && LUMEX_XML_MSVC_CRT_VERSION >= 1400
+#if defined(_MSC_VER)
   FILE *file = nullptr;
   return fopen_s (&file, path, mode) == 0 ? file : nullptr;
 #else
@@ -854,21 +864,15 @@ XmlDocument::save (IXmlWriter &writer, char_t const *indent,
     {
       // BOM always represents the codepoint U+FEFF, so just write it in native
       // encoding
-#ifdef LUMEX_XML_WCHAR_MODE
-      unsigned int bom = 0xfeff;
-      buffered_writer.write (static_cast<wchar_t> (bom));
-#else
       buffered_writer.write ('\xef', '\xbb', '\xbf');
-#endif
     }
 
   if (((flags & Constants::kformat_no_declaration) == 0)
       && !has_declaration (m_root))
     {
-      buffered_writer.write_string (LUMEX_XML_TEXT ("<?xml version=\"1.0\""));
+      buffered_writer.write_string ("<?xml version=\"1.0\"");
       if (buffered_writer.encoding == encoding_latin1)
-        buffered_writer.write_string (
-            LUMEX_XML_TEXT (" encoding=\"ISO-8859-1\""));
+        buffered_writer.write_string (" encoding=\"ISO-8859-1\"");
       buffered_writer.write ('?', '>');
       if ((flags & Constants::kformat_raw) == 0)
         buffered_writer.write ('\n');
@@ -943,3 +947,7 @@ XmlDocument::document_element () const
 
   return {};
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

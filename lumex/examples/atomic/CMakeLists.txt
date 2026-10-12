@@ -20,3 +20,13 @@ lumex_example_executable(
   LINK lumex::atomic Threads::Threads
   REQUIRE_TARGET lumex::atomic
 )
+# The family alias needs the pointer module (soft edge of lumex::atomic).
+if(TARGET lumex::smart_ptr)
+  lumex_example_executable(
+    NAME LumexAtomicExampleSplitCount
+    SOURCE example_atomic_split_count.cpp
+    LINK lumex::atomic lumex::smart_ptr Threads::Threads
+    REQUIRE_TARGET lumex::smart_ptr
+    CXX_STANDARD 11
+  )
+endif()

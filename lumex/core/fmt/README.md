@@ -109,6 +109,8 @@ the benchmark checks before timing.
 
 ![Time relative to LumexFormat](../../../benchmarks/fmt/results/format_benchmark_relative.svg)
 
+![Compile time of one translation unit](../../../benchmarks/fmt/results/format_compile_time.svg)
+
 - 2 to 6 times faster than `std::ostringstream` in every scenario it
   takes part in.
 - Faster than MSVC's `std::format` for hexadecimal numbers and padded
@@ -118,6 +120,15 @@ the benchmark checks before timing.
   `std::to_string` beats it, on a plain decimal `int`), without type safety
   or compile-time checks; for `{:.3f}` of a `double` it is 1.4 times slower
   than LumexFormat.
+
+The last chart is the compile time of one translation unit per way of
+formatting (`-fsyntax-only -O0`, median of 7, GCC 13.2 and Clang 23.1 on
+Linux, not the MSVC of the run-time results): LumexFormat at C++20 takes 550
+(`include`) and 560 ms (`use`) with GCC and 607 and 618 ms with Clang,
+`std::format` 426 and 438 ms and 512 and 539 ms, `std::ostringstream` 258 and
+264 ms and 352 and 359 ms, `std::snprintf` 194 and 195 ms and 215 and 221 ms,
+over a stub of 192 and 193 ms and 215 and 222 ms; LumexFormat at C++11 takes
+293 and 300 ms with GCC and 405 and 412 ms with Clang.
 
 The numbers, the method and how to regenerate the charts:
 `benchmarks/fmt/README.md` and `benchmarks/fmt/results/format_benchmark.md`

@@ -53,6 +53,29 @@
  * checks the configuration for a dump type and reports which types the
  * platform supports.
  *
+ * Every public member works from C++11. The template overloads that take a
+ * string-like argument (`dump_configuration::set_filename`, `set_directory`
+ * and `add_memory_filter`, and `core_dump_generator::generate_instance_dump`)
+ * take every type that converts implicitly to `std::string`, and from C++17 to
+ * `std::string_view`, in every standard (the constraint is SFINAE on
+ * `traits::string::is_string_convertible`, the C++11 form of the concept
+ * `StringLike`). `core_dump_generator::get_memory_filters_range` returns the
+ * `ranges::iterator_range` of this library in every standard
+ * (`core_dump_generator::memory_filters_range_t`).
+ * `core_dump_generator::get_optional_dump_directory` returns the optional of
+ * this library, `lumex::core::optional::opt::optional<std::string>`, in every
+ * standard (`core_dump_generator::optional_dump_directory_t`; it converts
+ * implicitly to and from `std::optional<std::string>` from C++17);
+ * `get_dump_directory_if_set` is the same on every standard.
+ *
+ * `core_dump_generator::instance ()` returns the singleton after `initialize
+ * ()`; the instance carries its own copy of the dump directory and of the
+ * configuration (`get_instance_dump_directory`, `get_instance_configuration`,
+ * `is_instance_initialized`, `generate_instance_dump`). `initialize ()` and
+ * `set_dump_type ()` write the static state and keep the instance in step with
+ * it, so the instance API and the static API report the same directory and
+ * configuration.
+ *
  * Most of the implementation is inline in this header; the static data members
  * are defined in `LumexCoreDumpGenerator.cpp`. Windows and Unix-like systems
  * including Android are supported; on any other platform the header stops with
@@ -85,9 +108,6 @@
 #include <condition_variable>
 #include <mutex>
 #include <thread>
-#if __cplusplus >= 201703L
-#include <optional>
-#endif
 #if __cplusplus > 201703L && defined(__has_include)
 #if __has_include(<concepts>)
 #include <concepts>
@@ -99,9 +119,16 @@
 #endif
 #endif
 
+// The optional of this library is the result of
+// `get_optional_dump_directory` in every standard; its types header declares
+// nothing at global scope (LumexOptional is the umbrella with the global
+// aliases).
+#include "lumex/core/optional/opt/LumexOptional.hpp"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 #include "lumex/core/utility/os/LumexCheckOS.hpp"
+#include "lumex/core/utility/ranges/LumexIteratorRange.hpp"
 #include "lumex/core/utility/traits/LumexTypeTraits.hpp"
 
 // Forward declarations
@@ -122,15 +149,15 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#include <windows.h>
+#include <Windows.h>
 
-#include <aclapi.h>
-#include <dbghelp.h>
+#include <AclAPI.h>
+#include <DbgHelp.h>
+#include <Shlwapi.h>
 #include <direct.h>
 #include <io.h>
 #include <process.h>
 #include <sddl.h>
-#include <shlwapi.h>
 #include <tchar.h>
 #include <wincrypt.h>
 
@@ -160,6 +187,34 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#endif
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
 
 // MinGW (GCC) warns for every member that is defined outside the class after
@@ -411,7 +466,7 @@ concept DumpGenerator = requires (T generator) {
  * @invariant m_directory must be a valid, accessible path
  * @invariant m_filename must be a valid filename (no path separators)
  *
- * @thread_safety This class is thread-safe for read-only operations.
+ * @note Thread safety: This class is thread-safe for read-only operations.
  * Modifications should be synchronized externally.
  *
  * @since Version 1.0
@@ -504,30 +559,43 @@ public:
   bool set_filename (std::string const &filename) noexcept;
   bool set_directory (std::string const &directory) noexcept;
 
-#if LUMEX_HAS_STD_CONCEPTS
-  // Template setters with concepts for type safety
-  template <traits::string::StringLike T>
+  // Template setters for any type that converts implicitly to `std::string`
+  // (from C++17 also to `std::string_view`; see
+  // `traits::string::is_string_convertible`, the C++11 form of the concept
+  // `StringLike`): a string literal, `char const *`, a type with its own
+  // conversion. The constraint is SFINAE in every standard, so the overload
+  // set is the same from C++11 to C++26; `std::string` itself takes the
+  // non-template overload above.
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   set_filename (T const &filename) noexcept
   {
     return set_filename (std::string{ filename });
   }
 
-  template <traits::string::StringLike T>
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   set_directory (T const &directory) noexcept
   {
     return set_directory (std::string{ directory });
   }
 
-  template <traits::string::StringLike T>
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   add_memory_filter (T const &filter) noexcept
   {
     return add_memory_filter (std::string{
         filter }); // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
   }
-#endif
   void
   set_compress (bool compress) noexcept
   {
@@ -864,7 +932,7 @@ dump_configuration::operator!= (dump_configuration const &other) const noexcept
  * @note This class is stateless and thread-safe. All methods are
  * static and can be called concurrently from multiple threads.
  *
- * @thread_safety All public methods are thread-safe and can be called
+ * @note Thread safety: All public methods are thread-safe and can be called
  * concurrently without external synchronization.
  *
  * @since Version 1.0
@@ -979,10 +1047,10 @@ private:
  * @invariant All input paths are validated for security vulnerabilities
  * @invariant Platform-specific handlers are properly initialized
  *
- * @thread_safety This class is thread-safe. Multiple threads can call
+ * @note Thread safety: This class is thread-safe. Multiple threads can call
  * public methods concurrently without external synchronization.
  *
- * @exception_safety All public methods provide strong exception safety
+ * @note Exception safety: All public methods provide strong exception safety
  * guarantee unless otherwise specified. Methods marked noexcept provide
  * no-throw guarantee.
  *
@@ -1057,11 +1125,17 @@ public:
    * @throws std::system_error if filesystem operations fail
    * @throws std::invalid_argument if configuration is invalid
    *
-   * @complexity O(1) for basic initialization, O(n) where n is directory depth
-   * for recursive creation
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety Strong guarantee: if an exception is thrown, the object
-   * remains in a valid state
+   * @note Complexity: O(1) for basic initialization, O(n) where n is directory
+   * depth for recursive creation
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: Strong guarantee: if an exception is thrown, the
+   * object remains in a valid state
+   * @note A successful call also fills the instance: its directory, its
+   * configuration and its initialized flag are those of the static state, so
+   * `instance ().get_instance_dump_directory ()` equals `get_dump_directory
+   * ()` and `instance ().is_instance_initialized ()` is `true` (the instance
+   * object itself is created by the first `instance ()` call).
    */
   static void initialize (std::string const &dumpDirectory = "",
                           DumpType dumpType = DumpType::DEFAULT_AUTO,
@@ -1078,6 +1152,7 @@ public:
    * (default: true)
    * @throws std::runtime_error if initialization fails
    * @throws std::system_error if filesystem operations fail
+   * @note A successful call also fills the instance, see the other overload.
    */
   static void initialize (dump_configuration const &config,
                           bool handleExceptions = true);
@@ -1100,11 +1175,12 @@ public:
    * @throws std::system_error if filesystem operations fail
    * @throws std::invalid_argument if dump type is not supported
    *
-   * @complexity O(1) for basic operations, O(n) where n is memory size for
-   * full dumps
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety Basic guarantee: if an exception is thrown, the system
-   * remains in a valid state
+   * @note Complexity: O(1) for basic operations, O(n) where n is memory size
+   * for full dumps
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: Basic guarantee: if an exception is thrown, the
+   * system remains in a valid state
    */
   static bool generate_dump (std::string const &reason = "Manual dump",
                              DumpType dumpType = DumpType::DEFAULT_AUTO);
@@ -1121,10 +1197,11 @@ public:
    * @param errorCode Error code to be set on failure
    * @return true if dump was generated successfully, false otherwise
    *
-   * @complexity O(1) for basic operations, O(n) where n is memory size for
-   * full dumps
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety No-throw guarantee
+   * @note Complexity: O(1) for basic operations, O(n) where n is memory size
+   * for full dumps
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: No-throw guarantee
    */
   static bool generate_dump (std::string const &reason, DumpType dumpType,
                              std::error_code &errorCode) noexcept;
@@ -1143,6 +1220,12 @@ public:
   /**
    * @brief Get the singleton instance
    *
+   * @details The first call creates the instance and fills it from the static
+   * state that `initialize ()` set: the dump directory, the configuration and
+   * the initialized flag, so the instance API (`get_instance_dump_directory`,
+   * `get_instance_configuration`, `is_instance_initialized`,
+   * `get_optional_dump_directory`, `generate_instance_dump`) works at once.
+   * `set_dump_type ()` refreshes the configuration of an existing instance.
    * @return Reference to the singleton instance
    * @note This method is thread-safe
    * @throws std::runtime_error if not initialized
@@ -1166,6 +1249,10 @@ public:
   /**
    * @brief Set the dump type for future dumps
    *
+   * @details Replaces the configuration by the default one of `dumpType` (the
+   * dump directory is kept) and refreshes the configuration of the instance,
+   * if it exists. The memory filters of the previous configuration are gone,
+   * so a view from `get_memory_filters_range ()` taken before is invalid.
    * @param dumpType New dump type to use
    * @return true if successfully set, false if not supported
    * @throws std::runtime_error if not initialized
@@ -1205,9 +1292,10 @@ public:
    * @note This method is thread-safe and can be called concurrently
    * @note Returns false if privilege checking fails for security reasons
    *
-   * @complexity O(1) - constant time operation
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety No-throw guarantee
+   * @note Complexity: O(1) - constant time operation
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: No-throw guarantee
    *
    * @since Version 1.0
    * @see _is_elevated_process() for a simpler elevation check
@@ -1243,9 +1331,10 @@ public:
    * @note Only works on UNIX systems (Windows uses console handlers instead)
    * @note Handler should be async-signal-safe
    *
-   * @complexity O(1) - constant time operation
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety No-throw guarantee
+   * @note Complexity: O(1) - constant time operation
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: No-throw guarantee
    *
    * @since Version 1.1
    */
@@ -1266,9 +1355,10 @@ public:
    * @note Only works on Windows systems
    * @note Handler should be async-signal-safe
    *
-   * @complexity O(1) - constant time operation
-   * @thread_safety This function is thread-safe and may be called concurrently
-   * @exception_safety No-throw guarantee
+   * @note Complexity: O(1) - constant time operation
+   * @note Thread safety: This function is thread-safe and may be called
+   * concurrently
+   * @note Exception safety: No-throw guarantee
    *
    * @since Version 1.1
    */
@@ -1288,21 +1378,25 @@ public:
   // Instance methods for better encapsulation
   /**
    * @brief Get the dump directory for this instance
-   * @return Current dump directory path
+   * @return The dump directory that `initialize ()` set (the instance holds a
+   * copy of it)
    * @note This method is thread-safe
    */
   std::string const &get_instance_dump_directory () const noexcept;
 
   /**
    * @brief Get the current configuration for this instance
-   * @return Current dump configuration
+   * @return The configuration of the static state, as `initialize ()` set it
+   * and `set_dump_type ()` last replaced it (the instance holds a copy of it)
    * @note This method is thread-safe
    */
   dump_configuration const &get_instance_configuration () const noexcept;
 
   /**
    * @brief Check if this instance is initialized
-   * @return true if initialized, false otherwise
+   * @return true once the instance is filled from the static state, which
+   * `instance ()` does when it creates the object (so `true` for every
+   * instance that `instance ()` returns), false otherwise
    * @note This method is thread-safe
    */
   bool is_instance_initialized () const noexcept;
@@ -1325,51 +1419,89 @@ public:
   bool generate_instance_dump (std::string const &reason,
                                std::error_code &errorCode) noexcept;
 
-#if LUMEX_HAS_STD_CONCEPTS
-  // Template methods with concepts for type safety
-  template <traits::string::StringLike T>
+  // Template overloads for any type that converts implicitly to `std::string`
+  // (from C++17 also to `std::string_view`); the same SFINAE constraint as
+  // the setters of `dump_configuration`, in every standard.
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   generate_instance_dump (T const &reason)
   {
     return generate_instance_dump (std::string{ reason });
   }
 
-  template <traits::string::StringLike T>
+  template <typename T,
+            typename std::enable_if<
+                traits::string::is_string_convertible<T>::value, int>::type
+            = 0>
   bool
   generate_instance_dump (T const &reason, std::error_code &errorCode) noexcept
   {
     return generate_instance_dump (std::string{ reason }, errorCode);
   }
-#endif
 
-// Modern C++ features
-#if LUMEX_HAS_STD_RANGES
+  /**
+   * @brief The type of `get_memory_filters_range`: the `iterator_range` of
+   * this library over the constant iterators of the filter list, in every
+   * standard.
+   * @details A lightweight view that does not own the filters and has
+   * `begin ()`, `end ()`, `empty ()` and `size ()` (`size ()` for the
+   * random-access iterators of the filter list). It is never
+   * `std::ranges::ref_view`.
+   */
+  using memory_filters_range_t
+      = ranges::iterator_range<std::vector<std::string>::const_iterator>;
+
   /**
    * @brief Get all memory filters as a range
-   * @return Range of memory filters
+   * @details The view is formed while `s_mutex` is held, the mutex that
+   * `initialize ()` and `set_dump_type ()` hold while they replace the
+   * configuration, so it is made from a complete configuration and never from
+   * a half-assigned one. The mutex does not extend over the walk: the view
+   * does not own the filters.
+   * @return Range of memory filters, `memory_filters_range_t`; it has
+   * `begin ()`, `end ()`, `empty ()` and `size ()` in every standard
    * @note This method is thread-safe
+   * @note The range views the filter list of the current configuration and
+   * is valid until that configuration is replaced: `set_dump_type ()` drops
+   * the filters, so do not keep the range across a call of it, and do not
+   * walk it while another thread calls it.
    */
-  static auto
+  static memory_filters_range_t
   get_memory_filters_range () noexcept
   {
-    return s_currentConfig.get_memory_filters () | std::views::all;
+    std::lock_guard<std::mutex> lock (s_mutex);
+    std::vector<std::string> const &filters
+        = s_currentConfig.get_memory_filters ();
+    return memory_filters_range_t (filters.begin (), filters.end ());
   }
-#endif
 
-#if LUMEX_HAS_STD_OPTIONAL
+  /**
+   * @brief The type of `get_optional_dump_directory`: the optional of this
+   * library (`lumex::core::optional::opt::optional<std::string>`) in every
+   * standard; from C++17 it converts implicitly to and from
+   * `std::optional<std::string>`.
+   */
+  using optional_dump_directory_t
+      = lumex::core::optional::opt::optional<std::string>;
+
   /**
    * @brief Get optional dump directory
    * @return Optional containing directory if set, empty if not
+   * (`optional_dump_directory_t`)
    * @note This method is thread-safe
    */
-  std::optional<std::string>
+  optional_dump_directory_t
   get_optional_dump_directory () const noexcept
   {
     std::lock_guard<std::mutex> lock (m_instanceMutex);
-    return m_dumpDirectory.empty () ? std::nullopt
-                                    : std::make_optional (m_dumpDirectory);
+    return m_dumpDirectory.empty ()
+               ? optional_dump_directory_t ()
+               : optional_dump_directory_t (m_dumpDirectory);
   }
-#else
+
   /**
    * @brief Get dump directory with validity check
    * @param directory Output parameter for directory
@@ -1385,19 +1517,42 @@ public:
     directory = m_dumpDirectory;
     return true;
   }
-#endif
 
 private:
-  // Private constructor for singleton pattern
+  // Private constructor for singleton pattern: an instance that is not filled
+  // yet (nothing in the library constructs one: instance () goes through
+  // _create_instance ()).
   core_dump_generator () = default;
 
-  // Private constructor with initialization
+  // Private constructor with initialization: an instance that holds a copy of
+  // the directory and the configuration and is marked initialized.
   explicit core_dump_generator (std::string const &dumpDirectory,
                                 dump_configuration const &config)
       : m_dumpDirectory (dumpDirectory), m_currentConfig (config),
         m_isInitialized (true)
   {
   }
+
+  /**
+   * @brief Creates the instance from the static state and stores it in
+   * `s_instance`.
+   * @details The directory (`s_dumpDirectory`) and the configuration
+   * (`s_currentConfig`) are copied under `s_mutex`, and the instance is marked
+   * initialized. `instance ()` calls it once; it installs no handler and
+   * touches no system file.
+   */
+  static void _create_instance ();
+
+  /**
+   * @brief Copies the static state into the existing instance, if there is
+   * one.
+   * @details Called by `initialize ()` and `set_dump_type ()` after they wrote
+   * `s_dumpDirectory` and `s_currentConfig`, with `s_mutex` held (the caller's
+   * lock; the function takes only the mutex of the instance, so the lock order
+   * is always `s_mutex`, then the instance mutex). Does nothing before
+   * `instance ()` created the object, which then copies the state itself.
+   */
+  static void _refresh_instance ();
 
   // Member variables
   LUMEX_DUMP_DATA_API static std::unique_ptr<core_dump_generator> s_instance;
@@ -1467,7 +1622,7 @@ private:
 
   // Exception handling
   static void _setup_exception_handling ();
-  static void _unhandled_exception_handler ();
+  LUMEX_ATTRIBUTE_NORETURN static void _unhandled_exception_handler ();
 
 #if LUMEX_OS_IS_WINDOWS()
   /**
@@ -1958,6 +2113,9 @@ core_dump_generator::initialize (dump_configuration const &config,
 #else
       s_initialized = true;
 #endif
+      // The instance holds a copy of the directory and the configuration: put
+      // the state that was just written into it (s_mutex is held).
+      _refresh_instance ();
       _log_message ("CoreDumpGenerator initialized successfully", false);
     }
   catch (std::exception const &exc)
@@ -1993,8 +2151,9 @@ core_dump_generator::instance ()
           if (!s_initialized.load (std::memory_order_acquire))
             throw std::runtime_error (
                 "CoreDumpGenerator not initialized. Call initialize() first.");
-          s_instance = std::unique_ptr<core_dump_generator> (
-              new core_dump_generator ());
+          // The instance is built from the state initialize () wrote, so its
+          // directory, configuration and initialized flag are set.
+          _create_instance ();
         });
 #else
   // C++98/03 fallback - not thread-safe
@@ -2216,7 +2375,30 @@ core_dump_generator::set_dump_type (DumpType dumpType)
   s_currentConfig = dump_factory::create_configuration (dumpType);
   s_currentConfig.set_directory (
       s_dumpDirectory); // Preserve current directory
+  _refresh_instance ();
   return true;
+}
+
+inline void
+core_dump_generator::_create_instance ()
+{
+  // One critical section for the copy and the assignment, so that a
+  // set_dump_type () that runs meanwhile cannot leave the new instance with
+  // the configuration it replaced.
+  std::lock_guard<std::mutex> lock (s_mutex);
+  s_instance.reset (
+      new core_dump_generator (s_dumpDirectory, s_currentConfig));
+}
+
+inline void
+core_dump_generator::_refresh_instance ()
+{
+  if (!s_instance)
+    return;
+  std::lock_guard<std::mutex> lock (s_instance->m_instanceMutex);
+  s_instance->m_dumpDirectory = s_dumpDirectory;
+  s_instance->m_currentConfig = s_currentConfig;
+  s_instance->m_isInitialized = true;
 }
 
 inline DumpType
@@ -2784,7 +2966,7 @@ core_dump_generator::_windows_exception_handler (
         }
 
       hFile = CreateFileW (filename.c_str (), GENERIC_WRITE, 0, &sa,
-                           CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                           CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
       if (hFile == INVALID_HANDLE_VALUE)
         {
           DWORD error = GetLastError ();
@@ -2815,7 +2997,7 @@ core_dump_generator::_windows_exception_handler (
 
       BOOL success
           = MiniDumpWriteDump (GetCurrentProcess (), GetCurrentProcessId (),
-                               hFile, dumpType, &eInfo, NULL, NULL);
+                               hFile, dumpType, &eInfo, nullptr, nullptr);
 
       // Get file size BEFORE closing the handle
       LARGE_INTEGER fileSize = { { 0, 0 } };
@@ -2985,8 +3167,9 @@ core_dump_generator::_create_windows_dump (std::string const &filename,
         }
 
       // Open file for writing dump with proper error handling
-      HANDLE hFile = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, &sa,
-                                  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+      HANDLE hFile
+          = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, &sa,
+                         CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
       if (hFile == INVALID_HANDLE_VALUE)
         {
           DWORD error = GetLastError ();
@@ -3017,9 +3200,9 @@ core_dump_generator::_create_windows_dump (std::string const &filename,
       // Configure symbol information if enabled
       MINIDUMP_USER_STREAM_INFORMATION userStreamInfo = { 0, nullptr };
 
-      BOOL success
-          = MiniDumpWriteDump (GetCurrentProcess (), GetCurrentProcessId (),
-                               hFile, dumpType, &eInfo, &userStreamInfo, NULL);
+      BOOL success = MiniDumpWriteDump (
+          GetCurrentProcess (), GetCurrentProcessId (), hFile, dumpType,
+          &eInfo, &userStreamInfo, nullptr);
       CloseHandle (hFile);
 
       if (success == FALSE)
@@ -3831,6 +4014,11 @@ core_dump_generator::_generate_core_dump ()
 
 // Helper functions to reduce code duplication
 #if LUMEX_OS_IS_WINDOWS()
+// The one hand-written wide to UTF-8 conversion that stays: the module
+// core/unicode (`to_utf8`) requires this module (its assert and byte swap
+// headers), so a header of this module cannot include it without a cycle in
+// the module graph. An unpaired surrogate becomes U+FFFD here, whereas
+// `unicode::convert::to_utf8` skips it; the text is a dump file name.
 inline std::string
 core_dump_generator::_convert_wide_string_to_narrow (
     std::wstring const &wideStr) noexcept
@@ -3894,8 +4082,9 @@ core_dump_generator::_create_file_atomically (
 #if LUMEX_OS_IS_WINDOWS()
       // On Windows, use CreateFileW with CREATE_NEW to ensure atomic creation
       std::wstring wfilename (filename.begin (), filename.end ());
-      HANDLE hFile = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, NULL,
-                                  CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+      HANDLE hFile
+          = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, nullptr,
+                         CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
       if (hFile == INVALID_HANDLE_VALUE)
         {
           DWORD error = GetLastError ();
@@ -3910,7 +4099,7 @@ core_dump_generator::_create_file_atomically (
       DWORD bytesWritten;
       if (!WriteFile (hFile, content.c_str (),
                       static_cast<DWORD> (content.length ()), &bytesWritten,
-                      NULL))
+                      nullptr))
         {
           CloseHandle (hFile);
           DeleteFileW (wfilename.c_str ()); // Clean up on failure
@@ -3962,7 +4151,7 @@ core_dump_generator::_create_directory_atomically (
 #if LUMEX_OS_IS_WINDOWS()
       // On Windows, use CreateDirectoryW
       std::wstring wpath (path.begin (), path.end ());
-      if (CreateDirectoryW (wpath.c_str (), NULL))
+      if (CreateDirectoryW (wpath.c_str (), nullptr))
         return true;
 
       DWORD error = GetLastError ();
@@ -5294,5 +5483,9 @@ core_dump_generator::_create_directory_recursive (
 } // namespace utility
 } // namespace core
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !LUMEX_CORE_UTILITY_DUMP_HPP

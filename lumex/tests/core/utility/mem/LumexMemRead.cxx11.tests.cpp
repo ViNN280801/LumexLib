@@ -1,11 +1,11 @@
 // LumexMemRead.cxx11.tests.cpp
 //
 // as<T> over a pointer and a size and over an object with get_data () and
-// get_data_size (), from C++11. The result is std::optional<T> from C++17 and
-// the optional of this library before it; these tests use only what both
-// have (has_value and operator*), LumexMemReadResultType tests which one it
-// is. The span overloads are in LumexMemReadSpan (library span, every
-// standard) and LumexMemReadStdSpan (std::span, C++20).
+// get_data_size (), from C++11. The result is the optional of this library in
+// every standard; LumexMemReadResultType tests the type and
+// LumexMemRead.cxx17 its conversions to std::optional. The span overloads are
+// in LumexMemReadSpan (library span, every standard) and LumexMemReadStdSpan
+// (std::span, C++20).
 #include <array>
 #include <cstdint>
 #include <cstring>

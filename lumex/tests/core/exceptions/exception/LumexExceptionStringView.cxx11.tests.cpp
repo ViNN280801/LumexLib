@@ -1,12 +1,13 @@
 //
 // lumex_base_exception tests of the string view constructor (every standard):
-// it takes a std::string_view from C++17 and the lumex_string_view of
-// lumex::string_view below it, as an inline wrapper over the exported
-// std::string one. The C++17 and C++20 suites compile this file too, so the
-// constructor set stays unambiguous next to the char const * and std::string
-// constructors (LumexException.cxx17.tests.cpp holds the tests that name
-// std::string_view).
+// it takes the lumex_string_view of lumex::string_view in every standard
+// (never std::string_view; a std::string_view converts to it, see the C++17
+// file), as an inline wrapper over the exported std::string one. The C++17 and
+// C++20 suites compile this file too, so the constructor set stays unambiguous
+// next to the char const * and std::string constructors
+// (LumexException.cxx17.tests.cpp holds the tests that name std::string_view).
 
+#include <cstddef>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -17,6 +18,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/exceptions/LumexException"
+#include "lumex/core/string_view/view/LumexWStringView.hpp"
 
 #include "lumex/tests/core/exceptions/exception/LumexExceptionTestFixtures.hpp"
 
@@ -25,10 +27,24 @@ using lumex::core::exceptions::exception::lumex_base_exception;
 namespace
 {
 // The type the string view constructor takes.
-#if __cplusplus >= 201703L
-using message_view_t = std::string_view;
-#else
 using message_view_t = lumex::core::string_view::view::lumex_string_view;
+
+// Converts to lumex_string_view and to nothing else (in particular not to
+// std::string_view). A constructor that took std::string_view would not accept
+// it at C++17 and later (that would need two user-defined conversions), so
+// the probe tells the parameter type apart from the std one in every
+// standard.
+struct only_lumex_view_t
+{
+  operator lumex_string_view () const; // NOLINT(google-explicit-constructor)
+};
+// The mirror image: converts to the standard view only, where there is one.
+// The constructor does not take it (two user-defined conversions).
+#if __cplusplus >= 201703L
+struct only_std_view_t
+{
+  operator std::string_view () const; // NOLINT(google-explicit-constructor)
+};
 #endif
 } // namespace
 
@@ -48,10 +64,33 @@ static_assert (std::is_constructible<lumex_base_exception, std::string>::value,
                "a temporary std::string is accepted");
 static_assert (!std::is_constructible<lumex_base_exception, int>::value,
                "a number is not a message");
-#if __cplusplus < 201703L
 static_assert (
     std::is_constructible<lumex_base_exception, lumex_string_view>::value,
-    "the view of the library is accepted below C++17");
+    "the view of the library is accepted in every standard");
+static_assert (std::is_constructible<lumex_base_exception,
+                                     lumex_string_view const &>::value,
+               "a const lvalue view is accepted");
+static_assert (
+    std::is_constructible<lumex_base_exception, only_lumex_view_t>::value,
+    "the parameter is lumex_string_view in every standard");
+static_assert (std::is_constructible<lumex_base_exception, char *>::value,
+               "a char * is accepted");
+static_assert (
+    std::is_constructible<lumex_base_exception, std::nullptr_t>::value,
+    "nullptr is accepted by the existing constructors");
+static_assert (
+    !std::is_constructible<lumex_base_exception, wchar_t const *>::value,
+    "a wide text is not a message");
+static_assert (
+    !std::is_constructible<lumex_base_exception, lumex_wstring_view>::value,
+    "a wide view is not a message");
+static_assert (
+    !std::is_constructible<lumex_base_exception, std::wstring>::value,
+    "a wide string is not a message");
+#if __cplusplus >= 201703L
+static_assert (
+    !std::is_constructible<lumex_base_exception, only_std_view_t>::value,
+    "the parameter is not std::string_view");
 #endif
 
 TEST_F (LumexExceptionTest, LumexBaseException_MessageViewCtor_CopiesTheView)

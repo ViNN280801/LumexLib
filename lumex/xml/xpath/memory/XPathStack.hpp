@@ -53,7 +53,36 @@
 
 #include "lumex/LumexExport.hpp"
 
+#include <array>
+
 #include "XPathAllocator.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -132,10 +161,19 @@ struct LUMEX_API XPathStackData
    * allocators, ensuring proper cleanup of all allocated XPath data.
    */
   ~XPathStackData ();
+
+  // Owns the two allocators of an evaluation; copying would duplicate the
+  // ownership of their blocks.
+  XPathStackData (XPathStackData const &) = delete;
+  XPathStackData &operator= (XPathStackData const &) = delete;
 };
 } // namespace memory
 } // namespace xpath
 } // namespace xml
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !LUMEX_XML_XPATH_MEMORY_XPATH_STACK_HPP

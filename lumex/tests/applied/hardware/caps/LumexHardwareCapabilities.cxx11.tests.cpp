@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 
 #if defined(_WIN32)
-#include <windows.h> // For GetEnvironmentVariable
+#include <Windows.h> // For GetEnvironmentVariable
 #endif
 
 #include "lumex/applied/hardware/LumexHardware"

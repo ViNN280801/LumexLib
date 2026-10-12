@@ -39,11 +39,22 @@
 
 /**
  * @file LumexStringView
- * @brief String view module: C++11 implementations of the C++17
- * `std::string_view` and `std::wstring_view`.
- * @details Link <tt>%lumex::string_view</tt> (compiled library). Works from
- * C++11. The umbrella includes `view/LumexStringView.hpp` and
+ * @brief String view module: the C++11 implementation of `std::string_view`
+ * and its relatives, header-only.
+ * @details Link <tt>%lumex::string_view</tt> (an interface target: the include
+ * directory, no library). Works from C++11. The class template
+ * `lumex_basic_string_view` and its aliases `lumex_string_view`,
+ * `lumex_wstring_view`, `lumex_u16string_view`, `lumex_u32string_view` (and
+ * `lumex_u8string_view` with `char8_t`) have the API of `std::basic_string_view`
+ * of the newest standard, `std::hash`, the `_sv` literals and the ranges
+ * opt-ins. From C++17 each view converts implicitly to and from the standard
+ * one. These views are the string view types of the whole library in every C++
+ * standard: a module with a string overload takes `lumex_string_view` (or
+ * `lumex_wstring_view`) by value, and a `std::string_view` argument converts to
+ * it, so the overload set does not change with the standard. The umbrella
+ * includes `view/LumexBasicStringView.hpp`, `view/LumexStringView.hpp` and
  * `view/LumexWStringView.hpp`.
  */
+#include "view/LumexBasicStringView.hpp"
 #include "view/LumexStringView.hpp"
 #include "view/LumexWStringView.hpp"

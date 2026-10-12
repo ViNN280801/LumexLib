@@ -62,8 +62,9 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
                  "implicit conversion to shared_ptr");
   static_assert (
       std::is_same<
-          A, lumex::core::atomic::smart_ptr::atomic_shared_ptr<T>>::value,
-      "the short name is the namespace class");
+          A, lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_SHARED_ENGINE<
+                 T LUMEX_ATOMIC_TEST_ENGINE_ARGS>>::value,
+      "the short name is the class of the engine under test");
   SUCCEED ();
 }
 
@@ -165,14 +166,19 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenIsAlwaysLockFree_WhenBoundToAReference_ThenAConstantBool)
 {
   typedef atomic_shared_ptr<TypeParam> A;
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD
-  static_assert (
-      A::is_always_lock_free
-          == std::atomic<std::shared_ptr<TypeParam>>::is_always_lock_free,
-      "same as the standard type");
-#else
-  static_assert (!A::is_always_lock_free, "the lock-based form is not");
+  // The lock-free engine always is; the lock-based one never; the wrapper
+  // has the standard type's value.
+  if (EngineFacts::std_backed ())
+    {
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+      EXPECT_EQ (A::is_always_lock_free,
+                 std::atomic<std::shared_ptr<TypeParam>>::is_always_lock_free);
 #endif
+    }
+  else
+    {
+      EXPECT_EQ (A::is_always_lock_free, EngineFacts::lock_free ());
+    }
   // Binding to a reference odr-uses the member, which needs its out-of-line
   // definition before C++17.
   bool const &bound = A::is_always_lock_free;
@@ -190,12 +196,15 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
   bool const lock_free = a.is_lock_free ();
   if (A::is_always_lock_free)
     EXPECT_TRUE (lock_free);
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD
-  std::atomic<std::shared_ptr<TypeParam>> const standard;
-  EXPECT_EQ (lock_free, standard.is_lock_free ());
-#else
-  EXPECT_FALSE (lock_free);
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+  if (EngineFacts::std_backed ())
+    {
+      std::atomic<std::shared_ptr<TypeParam>> const standard;
+      EXPECT_EQ (lock_free, standard.is_lock_free ());
+    }
+  else
 #endif
+    EXPECT_EQ (lock_free, EngineFacts::lock_free ());
   EXPECT_EQ (a.is_lock_free (), lock_free) << "stable across calls";
 }
 
@@ -242,6 +251,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenEveryStoreOrder_WhenStoring_ThenReplacesAndReleases)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   atomic_shared_ptr<T> a;
   std::shared_ptr<T> const p = state_a<T> ();
@@ -290,6 +300,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenTheHeldValue_WhenStoredAgain_ThenCountsAreUnchanged)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p = state_a<T> ();
   atomic_shared_ptr<T> a (p);
@@ -305,6 +316,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenValuesAndNullptr_WhenAssigned_ThenStoredWithVoidResult)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   atomic_shared_ptr<T> a;
   std::shared_ptr<T> const p = state_a<T> ();
@@ -354,6 +366,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenEveryOrder_WhenExchanging_ThenReturnsThePreviousOwner)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p1 = state_a<T> ();
   std::shared_ptr<T> const p2 = state_b<T> ();
@@ -391,6 +404,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenTheHeldValue_WhenExchangedWithItself_ThenCountsAreUnchanged)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p = state_a<T> ();
   atomic_shared_ptr<T> a (p);
@@ -409,6 +423,7 @@ TYPED_TEST (
     LumexAtomicSharedPtrTest,
     GivenEquivalentExpected_WhenCompareExchangeStrong_ThenStoresDesired)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p1 = state_a<T> ();
   std::shared_ptr<T> const p2 = state_b<T> ();
@@ -510,6 +525,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenEquivalentExpected_WhenCompareExchangeWeakLoops_ThenStores)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p1 = state_a<T> ();
   std::shared_ptr<T> const p2 = state_b<T> ();
@@ -606,6 +622,7 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
 TYPED_TEST (LumexAtomicSharedPtrTest,
             GivenExpectedThatIsAlsoDesired_WhenCompareExchange_ThenBalanced)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   typedef TypeParam T;
   std::shared_ptr<T> const p = state_a<T> ();
   atomic_shared_ptr<T> a (p);

@@ -194,6 +194,11 @@ struct LUMEX_API name_null_sentry
    * constructed.
    */
   ~name_null_sentry () { node->name = name; }
+
+  // A scoped guard restores the state it owns on destruction; copying it
+  // would restore the same name twice.
+  name_null_sentry (name_null_sentry const &) = delete;
+  name_null_sentry &operator= (name_null_sentry const &) = delete;
 };
 
 /**

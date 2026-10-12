@@ -93,6 +93,10 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
         stop.store (true, std::memory_order_relaxed);
         join_all (reader_threads);
         EXPECT_EQ (bad.load (), 0L) << "threads=" << counts[c];
+        // A replaced value that a reader was copying when it was replaced is
+        // destroyed by a later pass of a lock-free engine: settle it before
+        // the exact count.
+        EngineUnderTest::quiesce ();
         long total = 0;
         for (int i = 0; i < candidate_count; ++i)
           total += pool[static_cast<std::size_t> (i)].use_count ();
@@ -157,6 +161,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenSeededMixedOperations_WhenRunConcurrently_ThenEveryCountBalances)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenSeededMixedOperations_WhenRunConcurrently");
   std::uint32_t const seed = stress_seed ();
   std::vector<int> const counts = stress_thread_counts ();
@@ -266,6 +271,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenLedgerObjects_WhenReplacedConcurrently_ThenEachIsDeletedOnce)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenLedgerObjects_WhenReplacedConcurrently");
   std::uint32_t const seed = stress_seed ();
   std::vector<int> const counts = stress_thread_counts ();
@@ -317,6 +323,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenEveryThreadLoadingThenComparing_WhenContended_ThenProgressIsMade)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   // The contended compare-exchange pattern of the libc++ benchmarks: every
   // thread loads, then swaps between two owners with a strong
   // compare-exchange. It made the lock-free libc++ variant livelock (a
@@ -406,6 +413,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
         join_all (swapper_threads);
         stop.store (true);
         join_all (loader_threads);
+        EngineUnderTest::quiesce (); // see the test above
         EXPECT_EQ (keep_a.use_count () + keep_b.use_count (), 3L)
             << "two locals plus the one stored owner";
       }
@@ -419,6 +427,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenOneWriterAlternatingOwnersUnderReaders_WhenDone_ThenAllAreReleased)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   // The readers-heavy pattern in which the lock-free libc++ variant leaked
   // one reference per control block. Nothing outside the atomic keeps the
   // objects at the end, so every object and every control block must be gone
@@ -496,6 +505,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenThreadsCyclingThreeOwners_WhenComparingWithStaleValues_ThenBalanced)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenThreadsCyclingThreeOwners");
   std::uint32_t const seed = stress_seed ();
   std::vector<int> const counts = stress_thread_counts ();
@@ -543,6 +553,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenObjectsDyingWhileLocked_WhenLoadingWeakly_ThenLocksAreIntactOrEmpty)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   // The last owner dies at a seeded moment while readers keep locking the
   // weak pointer: every lock is either empty or an intact live object.
   Watchdog const dog ("GivenObjectsDyingWhileLocked");
@@ -595,6 +606,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 TEST (LumexAtomicSmartPtrConcurrencyTest,
       GivenExpiringTargets_WhenWeakCompareExchangeRuns_ThenBlocksAreFreed)
 {
+  LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION ();
   Watchdog const dog ("GivenExpiringTargets_WhenWeakCompareExchangeRuns");
   std::vector<int> const counts = stress_thread_counts ();
   for (std::size_t c = 0; c < counts.size (); ++c)

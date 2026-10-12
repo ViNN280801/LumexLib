@@ -29,6 +29,45 @@
 #                               LumexJsonSchemaNormalizer discard a nodiscard
 #                               result on purpose; the reflected enums of the
 #                               JSON headers pass no empty `...` argument).
+#   float_equal_comparator.cpp  the safe comparator (safe_equal, safe_not_equal,
+#                               the other comparisons, safe_three_way_compare,
+#                               compare_and_set of a plain comparator) for
+#                               float, double and long double with -Wall
+#                               -Wextra -Wfloat-equal -Werror: the header
+#                               spells its floating-point equality through
+#                               lumex::core::math::ops::exactly_equal, so a
+#                               consumer's -Werror build is not broken (GCC has
+#                               no pragma that silences the warning for a
+#                               header outside the system directories). A raw
+#                               `==` of the unit itself must be rejected under
+#                               the same flags, so that the check proves
+#                               something (MSVC has no such warning: the unit
+#                               is only compiled there).
+#
+#   bit_warnings.cpp            the bit header (count_leading_zeros for every
+#                               width, byte_swap, is_little_endian) with -Wall
+#                               -Wextra -Wpedantic -Wconversion
+#                               -Wsign-conversion -Wshadow -Wold-style-cast
+#                               -Werror (the result of the 32-bit intrinsic
+#                               was narrowed to std::uint8_t implicitly).
+#   optional_aligned_storage.cpp the optional header with -Wall -Wextra
+#                               -Wpedantic -Wdeprecated-declarations -Werror,
+#                               also at C++23 when the compiler has it: the
+#                               value lives in an alignas byte buffer because
+#                               C++23 deprecates std::aligned_storage.
+#                               aligned_storage_baseline.cpp (the deprecated
+#                               class itself) must be rejected as deprecated
+#                               at C++23, so that the check proves something;
+#                               a toolchain whose library does not deprecate
+#                               it skips the C++23 check with a message.
+#   fmt_pedantic.cpp            each fmt header (LumexFormat.hpp,
+#                               LumexFormatChrono.hpp, LumexFormatRanges.hpp
+#                               and the LumexFormat umbrella) with -Wall
+#                               -Wextra -Wpedantic -Werror, 128-bit integers
+#                               formatted (GCC reports "ISO C++ does not
+#                               support '__int128'" at every plain spelling);
+#                               on GCC the plain spelling must be rejected, so
+#                               that the check proves something.
 #
 # A check that fails reports the compiler output.
 
@@ -52,11 +91,18 @@ if(MSVC)
     # The strict warning sets are GCC and Clang options.
     set(_strict "")
     set(_pedantic "")
+    set(_strictest "")
+    set(_deprecated "")
+    set(_float_equal "")
 else()
     set(_flags -Werror)
     set(_standards 11 14 17 20)
     set(_strict -Wall -Wextra)
     set(_pedantic -Wall -Wextra -Wpedantic)
+    set(_strictest -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion
+        -Wshadow -Wold-style-cast)
+    set(_deprecated -Wdeprecated-declarations)
+    set(_float_equal -Wall -Wextra -Wfloat-equal)
 endif()
 
 # One translation unit of this directory at one standard; the result and the
@@ -131,7 +177,62 @@ foreach(_std IN LISTS _standards)
     _lumex_hygiene_expect_ok("the JSON umbrella"
         json_umbrella.cpp ${_std} ${_pedantic})
     math(EXPR _compiled "${_compiled} + 3")
+
+    _lumex_hygiene_expect_ok("the bit header under the strictest flags"
+        bit_warnings.cpp ${_std} ${_strictest})
+    _lumex_hygiene_expect_ok("the optional header under -Wdeprecated-declarations"
+        optional_aligned_storage.cpp ${_std} ${_pedantic} ${_deprecated})
+    math(EXPR _compiled "${_compiled} + 2")
+
+    foreach(_header IN ITEMS CORE CHRONO RANGES UMBRELLA)
+        _lumex_hygiene_expect_ok("the fmt ${_header} header under -Wpedantic"
+            fmt_pedantic.cpp ${_std} ${_pedantic}
+            -DLUMEX_HYGIENE_FMT_${_header})
+        math(EXPR _compiled "${_compiled} + 1")
+    endforeach()
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        # Clang accepts __int128 silently, MSVC has none.
+        _lumex_hygiene_expect_rejected("a plain __int128 under -Wpedantic"
+            "__int128" fmt_pedantic.cpp ${_std} ${_pedantic}
+            -DLUMEX_HYGIENE_FMT_RAW_INT128)
+        math(EXPR _rejected "${_rejected} + 1")
+    endif()
+
+    _lumex_hygiene_expect_ok("the safe comparator under -Wfloat-equal"
+        float_equal_comparator.cpp ${_std} ${_float_equal})
+    math(EXPR _compiled "${_compiled} + 1")
+    if(NOT MSVC)
+        _lumex_hygiene_expect_rejected("a raw float == under -Wfloat-equal"
+            "comparing floating.point with" float_equal_comparator.cpp
+            ${_std} ${_float_equal} -DLUMEX_HYGIENE_RAW_FLOAT_EQUAL)
+        math(EXPR _rejected "${_rejected} + 1")
+    endif()
 endforeach()
+
+# C++23 deprecates std::aligned_storage. The deprecated class itself is the
+# baseline: where the toolchain rejects it as deprecated the optional header
+# is compiled the same way and must pass; where it does not (C++23 without a
+# library that deprecates it, or no C++23 at all) there is nothing to prove.
+if("cxx_std_23" IN_LIST CMAKE_CXX_COMPILE_FEATURES)
+    _lumex_hygiene_try(_baseline aligned_storage_baseline
+        aligned_storage_baseline.cpp 23 ${_pedantic} ${_deprecated})
+    if(_baseline)
+        message(STATUS "hygiene compile checks: this C++23 library does not "
+                       "deprecate std::aligned_storage, the optional check at "
+                       "C++23 is skipped")
+    else()
+        if(NOT _baseline_OUTPUT MATCHES "deprecated|C4996")
+            message(FATAL_ERROR
+                "std::aligned_storage (C++23) failed, but not as deprecated\n"
+                "${_baseline_OUTPUT}")
+        endif()
+        math(EXPR _rejected "${_rejected} + 1")
+        _lumex_hygiene_expect_ok(
+            "the optional header under -Wdeprecated-declarations"
+            optional_aligned_storage.cpp 23 ${_pedantic} ${_deprecated})
+        math(EXPR _compiled "${_compiled} + 1")
+    endif()
+endif()
 
 message(STATUS "hygiene compile checks: ${_compiled} translation units "
                "compile, ${_rejected} are rejected as expected")

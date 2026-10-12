@@ -14,7 +14,7 @@
 #endif
 
 #if defined(_WIN32)
-#include <windows.h>
+#include <Windows.h>
 #if defined(_MSC_VER)
 #pragma comment(lib, "z.lib")
 #endif

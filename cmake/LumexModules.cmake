@@ -16,6 +16,7 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_ATOMIC
     LUMEX_BUILD_BASE64
     LUMEX_BUILD_CIRCULAR_BUFFER
+    LUMEX_BUILD_CONTRACTS
     LUMEX_BUILD_CRC
     LUMEX_BUILD_ENVIRONMENT
     LUMEX_BUILD_EXCEPTIONS
@@ -23,9 +24,11 @@ set(LUMEX_CORE_MODULE_OPTIONS
     LUMEX_BUILD_FILESYSTEM
     LUMEX_BUILD_FMT
     LUMEX_BUILD_GENERATORS
+    LUMEX_BUILD_HAZARD_POINTER
     LUMEX_BUILD_MATH
     LUMEX_BUILD_OPTIONAL
     LUMEX_BUILD_REFLECTION
+    LUMEX_BUILD_SMART_PTR
     LUMEX_BUILD_SPAN
     LUMEX_BUILD_STRING
     LUMEX_BUILD_STRING_VIEW
@@ -112,7 +115,6 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_ENVIRONMENT LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_TIME LUMEX_BUILD_ENVIRONMENT)
     lumex_require_module(LUMEX_BUILD_FILESYSTEM LUMEX_BUILD_UTILITY)
-    lumex_require_module(LUMEX_BUILD_STRING_VIEW LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_FMT LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_REFLECTION LUMEX_BUILD_UTILITY)
     lumex_require_module(LUMEX_BUILD_SERIAL LUMEX_BUILD_UTILITY)
@@ -121,6 +123,15 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_UNICODE)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_MATH)
     lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_STRING_VIEW)
+
+    # filesystem, serial, hardware and resource_monitor link unicode PRIVATE
+    # (their sources convert wchar_t text with to_utf8 / to_wide). Checked
+    # after xml, in this order, so that each fail case switches the modules
+    # checked before it off (cmake.require_fail_*_without_unicode).
+    lumex_require_module(LUMEX_BUILD_HARDWARE LUMEX_BUILD_UNICODE)
+    lumex_require_module(LUMEX_BUILD_RESOURCE_MONITOR LUMEX_BUILD_UNICODE)
+    lumex_require_module(LUMEX_BUILD_SERIAL LUMEX_BUILD_UNICODE)
+    lumex_require_module(LUMEX_BUILD_FILESYSTEM LUMEX_BUILD_UNICODE)
 
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_ENVIRONMENT)
     lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_FILESYSTEM)
@@ -154,6 +165,24 @@ function(lumex_check_module_dependencies)
     lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_REFLECTION)
     lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_STRING_VIEW)
     lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_UTILITY)
+
+    lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_UTILITY)
+    lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_SPAN)
+
+    lumex_require_module(LUMEX_BUILD_CONTRACTS LUMEX_BUILD_UTILITY)
+
+    string(TOUPPER "${LUMEX_CONTRACTS_SEMANTIC}" _contracts_semantic)
+    set(_contracts_semantics IGNORE OBSERVE ENFORCE QUICK_ENFORCE P2900)
+    if(NOT _contracts_semantic IN_LIST _contracts_semantics)
+        message(FATAL_ERROR
+            "Invalid LUMEX_CONTRACTS_SEMANTIC='${LUMEX_CONTRACTS_SEMANTIC}'. "
+            "Expected one of: IGNORE, OBSERVE, ENFORCE, QUICK_ENFORCE, P2900")
+    endif()
+    string(TOLOWER "${_contracts_semantic}" _contracts_semantic_word)
+    set(LUMEX_CONTRACTS_SEMANTIC_NORMALIZED
+        "${_contracts_semantic_word}" PARENT_SCOPE)
+
+    lumex_require_module(LUMEX_BUILD_SMART_PTR LUMEX_BUILD_UTILITY)
 
     string(TOUPPER "${LUMEX_LOGGER_CONFIG_FORMAT}" _logger_config_format)
     set(_logger_config_formats PLAIN_TEXT INI JSON YAML XML)
@@ -209,16 +238,19 @@ set(LUMEX_SHARED_LIBRARY_CANDIDATES
     LumexCore_atomic
     LumexCore_base64
     LumexCore_circular_buffer
+    LumexCore_contracts
     LumexCore_crc
     LumexCore_environment
     LumexCore_exceptions
     LumexCore_expected
     LumexCore_filesystem
     LumexCore_fmt
+    LumexCore_hazard_pointer
     LumexCore_number_generator
     LumexCore_math
     LumexCore_optional
     LumexCore_reflection
+    LumexCore_smart_ptr
     LumexCore_span
     LumexCore_string
     LumexCore_string_view

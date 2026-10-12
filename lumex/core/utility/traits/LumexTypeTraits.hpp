@@ -40,7 +40,6 @@
 #ifndef LUMEX_CORE_UTILITY_TRAITS_HPP
 #define LUMEX_CORE_UTILITY_TRAITS_HPP
 
-#include <array>
 #include <cstddef>
 #include <functional>
 #include <iterator>
@@ -243,16 +242,21 @@ using indirection_of_t = typename indirection_of<T>::type;
 
 /**
  * @brief `T` is a value that can be copied out of raw bytes: trivially
- * copyable, standard layout, neither a pointer nor a reference (the C++11
- * form of the concept `Extractible`).
- * @details Derived from `std::integral_constant` like the standard traits.
+ * copyable, standard layout, neither a pointer nor a reference, and neither
+ * `const` nor `volatile` (the C++11 form of the concept `Extractible`).
+ * @details Derived from `std::integral_constant` like the standard traits. A
+ * `const` or `volatile` type is trivially copyable, but the bytes cannot be
+ * copied into an object of it (`std::memcpy` takes a `void *`), so a reader
+ * such as `mem::as<T>` that needs a writable object of `T` must not accept it.
  */
 template <typename T>
 struct is_extractible
     : std::integral_constant<bool, std::is_trivially_copyable<T>::value
                                        && std::is_standard_layout<T>::value
                                        && !std::is_pointer<T>::value
-                                       && !std::is_reference<T>::value>
+                                       && !std::is_reference<T>::value
+                                       && !std::is_const<T>::value
+                                       && !std::is_volatile<T>::value>
 {
 };
 
@@ -391,12 +395,14 @@ concept PreserveCV
 
 /**
  * @brief A value that can be copied out of raw bytes: trivially copyable,
- * standard layout, neither a pointer nor a reference.
+ * standard layout, neither a pointer nor a reference, neither `const` nor
+ * `volatile`.
  */
 template <typename T>
 concept Extractible
     = std::is_trivially_copyable_v<T> && std::is_standard_layout_v<T>
-      && !std::is_pointer_v<T> && !std::is_reference_v<T>;
+      && !std::is_pointer_v<T> && !std::is_reference_v<T>
+      && !std::is_const_v<T> && !std::is_volatile_v<T>;
 
 /** @brief `std::byte`, `char` or `unsigned char`. */
 template <typename T>
@@ -643,7 +649,34 @@ LUMEX_CONSTEXPR bool all_ostreamable_v = all_ostreamable<Args...>::value;
  * std::declval<T>()` is well-formed (or, below C++20, `T` is a
  * `std::unique_ptr` / `std::shared_ptr`), otherwise `std::false_type`.
  * @details One primary template decides through `detail` helpers, so no two
- * partial specializations can compete for the same `T`.
+ * partial specializations can compete for the same `T`. The answer is the
+ * standard library's, not a fixed list, and from C++20 it is the answer of the
+ * concept `Streamable` for every type but the two smart pointers.
+ *
+ * The character types other than `char` are the case where the answer changes
+ * with the standard. A narrow stream takes `wchar_t`, `char16_t`, `char32_t`
+ * (and `char8_t` where the compiler has it as a type before C++20) by
+ * integral promotion and writes the number, and the pointers to them as the
+ * address of `void const *`, up to C++17. From C++20 the library deletes
+ * those inserters (P1423R3; [ostream.syn] in the standard: the deleted
+ * `operator<<` of `basic_ostream<char, traits>` for `wchar_t`, `char8_t`,
+ * `char16_t` and `char32_t`, and the same for their pointers), so a stream of
+ * `char` rejects them. Measured, per type:
+ * - `wchar_t`, `char16_t`, `char32_t`, `char8_t` (C++20, or `-fchar8_t`):
+ *   true up to C++17 (the number is written), false from C++20.
+ * - `wchar_t *`, `wchar_t const *`, `char16_t const *`, `char32_t const *`,
+ *   `char8_t const *`: true up to C++17 (the address is written), false from
+ *   C++20.
+ * - `std::wstring`, `std::u16string`, `std::u32string`: false in every
+ *   standard.
+ * - `std::nullptr_t`: false up to C++14; from C++17 true where the library
+ *   has `operator<<(nullptr_t)` (libstdc++ 12 and libc++; libstdc++ 8 has
+ *   not).
+ *
+ * The C++20 answer holds for libstdc++ 13 and libc++ 23; libstdc++ 8 with
+ * `-std=c++2a` has no deleted inserters and still says true. The explicit
+ * specializations below are therefore only for the types every library
+ * accepts in every standard.
  * @tparam T The type to check (not decayed; see `is_streamable_v`).
  * @tparam Enable Kept for SFINAE-style use; leave it defaulted.
  */
@@ -657,7 +690,9 @@ struct is_streamable
 
 /// @cond DO_NOT_DOCUMENT
 // Fundamental types, spelled out for C++11 compilers whose expression SFINAE
-// is weak.
+// is weak. Only the types every standard library accepts in every standard:
+// `wchar_t` and the other character types are not here, a narrow stream
+// stops taking them in C++20 (see above), so the expression decides.
 template <> struct is_streamable<bool> : std::true_type
 {
 };
@@ -668,9 +703,6 @@ template <> struct is_streamable<signed char> : std::true_type
 {
 };
 template <> struct is_streamable<unsigned char> : std::true_type
-{
-};
-template <> struct is_streamable<wchar_t> : std::true_type
 {
 };
 template <> struct is_streamable<short> : std::true_type
@@ -1165,36 +1197,5 @@ concept SafeComparable = ArithmeticType<T> && ArithmeticType<U>;
 } // namespace utility
 } // namespace core
 } // namespace lumex
-
-/**
- * @brief Primary template for reflected enum metadata generated by
- * LUMEX_DEFINE_ENUM_TRAITS.
- * @note Explicit specializations are generated by LUMEX_DEFINE_ENUM_TRAITS
- *       ([temp.expl.spec]/4 requires this declaration to be reachable).
- * @note This is a lightweight values/first/last/size reflection helper (no
- * to_string()). A richer X-macro-based reflection system with to_string()
- * support lives in `core/reflection` - do not confuse the two;
- * LUMEX_DEFINE_ENUM_TRAITS intentionally does not reuse that name.
- */
-template <typename Enum> struct lumex_enum_traits_t;
-
-// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define LUMEX_DEFINE_ENUM_TRAITS(EnumName, UnderlyingType, ...)               \
-  enum class EnumName : UnderlyingType                                        \
-  {                                                                           \
-    __VA_ARGS__                                                               \
-  };                                                                          \
-                                                                              \
-  template <> struct lumex_enum_traits_t<EnumName>                            \
-  {                                                                           \
-    static LUMEX_CONSTEXPR auto values = []                                   \
-      {                                                                       \
-        using enum EnumName;                                                  \
-        return std::array{ __VA_ARGS__ };                                     \
-      }();                                                                    \
-    static LUMEX_CONSTEXPR EnumName first = values.front ();                  \
-    static LUMEX_CONSTEXPR std::size_t size = values.size ();                 \
-    static LUMEX_CONSTEXPR EnumName last = values.back ();                    \
-  }
 
 #endif // !LUMEX_CORE_UTILITY_TRAITS_HPP

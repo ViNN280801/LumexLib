@@ -86,9 +86,25 @@ if(_gated EQUAL -1 OR _added EQUAL -1 OR _added LESS _gated)
 endif()
 file(READ "${LUMEX_SOURCE_DIR}/lumex/examples/reflection/CMakeLists.txt"
     _examples)
-string(FIND "${_examples}" "nlohmann" _examples_nlohmann)
+# Only the field reflection example may link nlohmann, behind the option (or,
+# standalone, behind a successful find_package): the other reflection examples
+# must build from lumex::reflection alone, so every mention of nlohmann stands
+# after the first mention of LUMEX_WITH_FIELD_REFLECTION, and the two plain
+# examples are declared before it.
+string(REGEX REPLACE "(^|\n)[ \t]*#[^\n]*" "\\1" _examples_code "${_examples}")
+string(FIND "${_examples_code}" "nlohmann" _examples_nlohmann)
+string(FIND "${_examples_code}" "LUMEX_WITH_FIELD_REFLECTION" _examples_gate)
+string(FIND "${_examples_code}" "LumexReflectionExampleWorkflow" _examples_plain)
 if(NOT _examples_nlohmann EQUAL -1)
-    message(FATAL_ERROR
-        "reflection examples link nlohmann; they must build from "
-        "lumex::reflection alone")
+    if(_examples_gate EQUAL -1 OR _examples_nlohmann LESS _examples_gate)
+        message(FATAL_ERROR
+            "reflection examples link nlohmann outside the field reflection "
+            "example; the other examples must build from lumex::reflection "
+            "alone")
+    endif()
+    if(_examples_plain EQUAL -1 OR _examples_plain GREATER _examples_gate)
+        message(FATAL_ERROR
+            "the plain reflection examples must be declared before the "
+            "gate of the field reflection example")
+    endif()
 endif()

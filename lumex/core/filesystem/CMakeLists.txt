@@ -18,6 +18,12 @@ target_include_directories(${LUMEX_FILESYSTEM_NAME} PUBLIC
 
 target_link_libraries(${LUMEX_FILESYSTEM_NAME} PUBLIC lumex::utility)
 
+# The path conversions to and from wchar_t (to_wide_string, from_wide_string)
+# are lumex::core::unicode::convert::to_wide / to_utf8, used by the sources
+# only; unicode is header-only (an INTERFACE target for the include path and
+# the configure-time edge).
+target_link_libraries(${LUMEX_FILESYSTEM_NAME} PRIVATE lumex::unicode)
+
 if(WIN32)
     target_link_libraries(${LUMEX_FILESYSTEM_NAME} PRIVATE shlwapi)
 endif()

@@ -48,9 +48,9 @@
  *
  * @note Philosophy difference from
  * `lumex/core/string/utility/LumexStringify.hpp`'s `stringify()`:
- * `stringify()` uses a hard `static_assert` to reject any non-streamable type
- * at compile time - the absence of `operator<<` is treated as a caller bug
- * that should fail the build. `format_value` below instead degrades gracefully
+ * `stringify()` has no overload for a non-streamable type (it is constrained
+ * with SFINAE) - the absence of `operator<<` is treated as a caller bug that
+ * should fail the build. `format_value` below instead degrades gracefully
  * to a `"<no operator<<>"` placeholder for a non-streamable type, because
  * `LUMEX_VARINFO`/`var_info` is a debug-printing tool meant to be dropped onto
  * *any* expression while investigating something - failing to compile because

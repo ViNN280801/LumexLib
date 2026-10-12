@@ -241,10 +241,6 @@ include(GNUInstallDirs)
 add_subdirectory(lumex)
 
 if(LUMEX_BUILD_XML)
-    if(LUMEX_XML_WCHAR_MODE)
-        add_compile_definitions(LUMEX_XML_WCHAR_MODE)
-        message(STATUS "Building with Xml wchar_t mode enabled")
-    endif()
     message(STATUS "Building with Xml enabled")
 endif()
 
@@ -257,16 +253,19 @@ if(LUMEX_INSTALL)
         LumexCore_atomic
         LumexCore_base64
         LumexCore_circular_buffer
+        LumexCore_contracts
         LumexCore_crc
         LumexCore_environment
         LumexCore_exceptions
         LumexCore_expected
         LumexCore_filesystem
         LumexCore_fmt
+        LumexCore_hazard_pointer
         LumexCore_number_generator
         LumexCore_math
         LumexCore_optional
         LumexCore_reflection
+        LumexCore_smart_ptr
         LumexCore_span
         LumexCore_string
         LumexCore_string_view
@@ -460,6 +459,31 @@ endif()
 if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_SPAN)
     message(STATUS "Building benchmarks (benchmarks/span)")
     add_subdirectory(benchmarks/span)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_HAZARD_POINTER)
+    message(STATUS "Building benchmarks (benchmarks/hazard_pointer)")
+    add_subdirectory(benchmarks/hazard_pointer)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_EXPECTED)
+    message(STATUS "Building benchmarks (benchmarks/expected)")
+    add_subdirectory(benchmarks/expected)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_OPTIONAL)
+    message(STATUS "Building benchmarks (benchmarks/optional)")
+    add_subdirectory(benchmarks/optional)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_STRING_VIEW)
+    message(STATUS "Building benchmarks (benchmarks/string_view)")
+    add_subdirectory(benchmarks/string_view)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_CIRCULAR_BUFFER)
+    message(STATUS "Building benchmarks (benchmarks/circular_buffer)")
+    add_subdirectory(benchmarks/circular_buffer)
 endif()
 
 # Shared libs (not test/example binaries) -> <platform>/Distr<Config>.

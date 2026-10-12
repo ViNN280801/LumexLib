@@ -16,6 +16,8 @@
 lumex_add_standard_suites(Span
     MODULE span
     LINK lumex::span
+    VARIANT checks_on DEFINITIONS LUMEX_SPAN_CHECKS=1 LUMEX_TEST_SPAN_EXPECT_CHECKS=1
+    VARIANT checks_off DEFINITIONS LUMEX_SPAN_CHECKS=0 LUMEX_TEST_SPAN_EXPECT_CHECKS=0
 )
 
 add_subdirectory(view)

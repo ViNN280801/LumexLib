@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="682" viewBox="0 0 900 682" font-family="Segoe UI, Arial, sans-serif" font-size="11">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20" y="24" font-size="15" font-weight="bold">Compile time of one translation unit, ms</text>
+<text x="20" y="42" fill="#555">the unit includes the header and uses the common API; "no header" is the same unit without it</text>
+<text x="20" y="72" font-weight="bold">gcc, -fsyntax-only -O0</text>
+<text x="134" y="71" text-anchor="end">no header C++11</text>
+<rect x="140" y="60" width="57.0" height="12" fill="#888888"/>
+<text x="202.0" y="71">149</text>
+<text x="134" y="85" text-anchor="end">no header C++23</text>
+<rect x="140" y="74" width="119.4" height="12" fill="#bbbbbb"/>
+<text x="264.4" y="85">312</text>
+<text x="134" y="99" text-anchor="end">std::expected C++23</text>
+<rect x="140" y="88" width="141.1" height="12" fill="#d9822b"/>
+<text x="286.1" y="99">369</text>
+<text x="134" y="113" text-anchor="end">lumex C++23</text>
+<rect x="140" y="102" width="278.9" height="12" fill="#0b4f8a"/>
+<text x="423.9" y="113">730</text>
+<text x="134" y="127" text-anchor="end">lumex C++20</text>
+<rect x="140" y="116" width="260.8" height="12" fill="#2f7fc1"/>
+<text x="405.8" y="127">682</text>
+<text x="134" y="141" text-anchor="end">lumex C++17</text>
+<rect x="140" y="130" width="204.2" height="12" fill="#6fb1e0"/>
+<text x="349.2" y="141">534</text>
+<text x="134" y="155" text-anchor="end">lumex C++14</text>
+<rect x="140" y="144" width="154.6" height="12" fill="#a9d1ee"/>
+<text x="299.6" y="155">404</text>
+<text x="134" y="169" text-anchor="end">lumex C++11</text>
+<rect x="140" y="158" width="143.5" height="12" fill="#1b9e77"/>
+<text x="288.5" y="169">376</text>
+<text x="134" y="183" text-anchor="end">Outcome C++17</text>
+<rect x="140" y="172" width="335.5" height="12" fill="#8c564b"/>
+<text x="480.5" y="183">878</text>
+<text x="20" y="220" font-weight="bold">gcc, -c -O2</text>
+<text x="134" y="219" text-anchor="end">no header C++11</text>
+<rect x="140" y="208" width="62.6" height="12" fill="#888888"/>
+<text x="207.6" y="219">164</text>
+<text x="134" y="233" text-anchor="end">no header C++23</text>
+<rect x="140" y="222" width="127.8" height="12" fill="#bbbbbb"/>
+<text x="272.8" y="233">334</text>
+<text x="134" y="247" text-anchor="end">std::expected C++23</text>
+<rect x="140" y="236" width="219.4" height="12" fill="#d9822b"/>
+<text x="364.4" y="247">574</text>
+<text x="134" y="261" text-anchor="end">lumex C++23</text>
+<rect x="140" y="250" width="362.2" height="12" fill="#0b4f8a"/>
+<text x="507.2" y="261">947</text>
+<text x="134" y="275" text-anchor="end">lumex C++20</text>
+<rect x="140" y="264" width="348.4" height="12" fill="#2f7fc1"/>
+<text x="493.4" y="275">911</text>
+<text x="134" y="289" text-anchor="end">lumex C++17</text>
+<rect x="140" y="278" width="261.4" height="12" fill="#6fb1e0"/>
+<text x="406.4" y="289">684</text>
+<text x="134" y="303" text-anchor="end">lumex C++14</text>
+<rect x="140" y="292" width="211.7" height="12" fill="#a9d1ee"/>
+<text x="356.7" y="303">554</text>
+<text x="134" y="317" text-anchor="end">lumex C++11</text>
+<rect x="140" y="306" width="200.0" height="12" fill="#1b9e77"/>
+<text x="345.0" y="317">523</text>
+<text x="134" y="331" text-anchor="end">Outcome C++17</text>
+<rect x="140" y="320" width="680.0" height="12" fill="#8c564b"/>
+<text x="825.0" y="331">1779</text>
+<text x="20" y="368" font-weight="bold">clang, -fsyntax-only -O0</text>
+<text x="134" y="367" text-anchor="end">no header C++11</text>
+<rect x="140" y="356" width="59.7" height="12" fill="#888888"/>
+<text x="204.7" y="367">156</text>
+<text x="134" y="381" text-anchor="end">no header C++23</text>
+<rect x="140" y="370" width="101.3" height="12" fill="#bbbbbb"/>
+<text x="246.3" y="381">265</text>
+<text x="134" y="395" text-anchor="end">std::expected C++23</text>
+<rect x="140" y="384" width="119.2" height="12" fill="#d9822b"/>
+<text x="264.2" y="395">312</text>
+<text x="134" y="409" text-anchor="end">lumex C++23</text>
+<rect x="140" y="398" width="260.0" height="12" fill="#0b4f8a"/>
+<text x="405.0" y="409">680</text>
+<text x="134" y="423" text-anchor="end">lumex C++20</text>
+<rect x="140" y="412" width="180.1" height="12" fill="#2f7fc1"/>
+<text x="325.1" y="423">471</text>
+<text x="134" y="437" text-anchor="end">lumex C++17</text>
+<rect x="140" y="426" width="150.5" height="12" fill="#6fb1e0"/>
+<text x="295.5" y="437">394</text>
+<text x="134" y="451" text-anchor="end">lumex C++14</text>
+<rect x="140" y="440" width="128.3" height="12" fill="#a9d1ee"/>
+<text x="273.3" y="451">336</text>
+<text x="134" y="465" text-anchor="end">lumex C++11</text>
+<rect x="140" y="454" width="119.4" height="12" fill="#1b9e77"/>
+<text x="264.4" y="465">312</text>
+<text x="134" y="479" text-anchor="end">Outcome C++17</text>
+<rect x="140" y="468" width="255.1" height="12" fill="#8c564b"/>
+<text x="400.1" y="479">667</text>
+<text x="20" y="516" font-weight="bold">clang, -c -O2</text>
+<text x="134" y="515" text-anchor="end">no header C++11</text>
+<rect x="140" y="504" width="61.9" height="12" fill="#888888"/>
+<text x="206.9" y="515">162</text>
+<text x="134" y="529" text-anchor="end">no header C++23</text>
+<rect x="140" y="518" width="107.3" height="12" fill="#bbbbbb"/>
+<text x="252.3" y="529">281</text>
+<text x="134" y="543" text-anchor="end">std::expected C++23</text>
+<rect x="140" y="532" width="149.9" height="12" fill="#d9822b"/>
+<text x="294.9" y="543">392</text>
+<text x="134" y="557" text-anchor="end">lumex C++23</text>
+<rect x="140" y="546" width="300.1" height="12" fill="#0b4f8a"/>
+<text x="445.1" y="557">785</text>
+<text x="134" y="571" text-anchor="end">lumex C++20</text>
+<rect x="140" y="560" width="215.8" height="12" fill="#2f7fc1"/>
+<text x="360.8" y="571">564</text>
+<text x="134" y="585" text-anchor="end">lumex C++17</text>
+<rect x="140" y="574" width="177.0" height="12" fill="#6fb1e0"/>
+<text x="322.0" y="585">463</text>
+<text x="134" y="599" text-anchor="end">lumex C++14</text>
+<rect x="140" y="588" width="157.4" height="12" fill="#a9d1ee"/>
+<text x="302.4" y="599">412</text>
+<text x="134" y="613" text-anchor="end">lumex C++11</text>
+<rect x="140" y="602" width="146.6" height="12" fill="#1b9e77"/>
+<text x="291.6" y="613">384</text>
+<text x="134" y="627" text-anchor="end">Outcome C++17</text>
+<rect x="140" y="616" width="304.9" height="12" fill="#8c564b"/>
+<text x="449.9" y="627">798</text>
+</svg>

@@ -9,7 +9,7 @@
 #include <vector>
 
 #if defined(_WIN32)
-#include <windows.h>
+#include <Windows.h>
 #elif defined(__linux__)
 #include <sys/types.h>
 #include <sys/wait.h>

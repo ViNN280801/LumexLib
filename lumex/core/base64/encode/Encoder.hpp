@@ -30,8 +30,9 @@
  * characters. The pointer and size overload and the `std::vector` overload are
  * compiled into the library and have the same signature in every C++ standard;
  * the overload for `lumex::core::span::view::span` (every standard; a
- * `std::span` converts to it) and the string overload (`std::string_view` from
- * C++17, `lumex_string_view` below) are inline wrappers over the pointer one.
+ * `std::span` converts to it) and the string overload (`lumex_string_view` in
+ * every standard; a `std::string_view` converts to it) are inline wrappers
+ * over the pointer one.
  * Like the other Base64 headers, it brings the names of the codec's `Types`
  * namespace (`byte_type`, `string_type_t`) into the global namespace with a
  * using-directive.
@@ -97,7 +98,7 @@ using namespace lumex::core::base64::codec::Types;
  * `encode (std::vector<byte_type> const &)` are exported and have the same
  * signature in every C++ standard, so a consumer built at another standard
  * than the library links. The `span` overload and the string overload
- * (`string_type_t`: `std::string_view` from C++17, `lumex_string_view` below)
+ * (`string_type_t`, that is `lumex_string_view` in every standard)
  * are inline wrappers over the pointer and size one, in every standard.
  * The class itself is not exported: a dllimport class makes clang-cl emit
  * an import for an inline member it does not inline, and the library does
@@ -141,11 +142,11 @@ public:
    * @brief Encodes the characters of a string view into a Base64 string.
    *
    * This overload provides an efficient way to encode string data without
-   * copying. `string_type_t` is `std::string_view` from C++17 and the
-   * `lumex_string_view` of `lumex::string_view` below it; a string literal, a
-   * `char const *` and a `std::string` convert to either. The view is sized: a
-   * NUL character inside it is a byte of the input. Available in every C++
-   * standard.
+   * copying. `string_type_t` is the `lumex_string_view` of
+   * `lumex::string_view` in every standard; a string literal, a `char const
+   * *`, a `std::string` and, from C++17, a `std::string_view` convert to it.
+   * The view is sized: a NUL character inside it is a byte of the input.
+   * Available in every C++ standard.
    *
    * @param[in] data A string view of the binary data to be encoded.
    * @return A `std::string` containing the Base64-encoded representation of

@@ -28,16 +28,20 @@
 
 // lumex/tests/xml/LumexXml.cxx17.tests.cpp
 //
-// XML tests of the std::string_view overloads (C++17): inline wrappers over
-// the sized (pointer and length) functions the library exports. The C++17
+// XML tests of std::string_view arguments (C++17): they convert to the
+// string_view_t (lumex_string_view) the inline wrappers take, and the wrappers
+// call the sized (pointer and length) functions the library exports. The C++17
 // and C++20 suites compile this file together with LumexXml.cxx11.tests.cpp
 // and LumexXmlGlobalNames.cxx11.tests.cpp.
 
 #include <string>
 #include <string_view>
+#include <type_traits>
+#include <utility>
 
 #include <gtest/gtest.h>
 
+#include "lumex/core/string_view/LumexStringView"
 #include "lumex/xml/LumexXml"
 
 #include "lumex/tests/xml/LumexXmlTestFixtures.hpp"
@@ -46,8 +50,33 @@ using lumex::xml::attribute::XmlAttribute;
 using lumex::xml::constants::Constants::kparse_default;
 using lumex::xml::node::XmlNode;
 using lumex::xml::text::XmlText;
+using lumex::xml::types::Types::string_view_t;
 using lumex::xml::types::Types::xml_node_type;
 using lumex::xml::types::Types::xml_parse_status;
+
+static_assert (std::is_convertible<std::string_view, string_view_t>::value,
+               "std::string_view converts to string_view_t");
+static_assert (
+    std::is_convertible<std::string_view const &, string_view_t>::value,
+    "a const lvalue std::string_view converts to string_view_t");
+static_assert (std::is_same<decltype (std::declval<XmlNode &> ().child (
+                                std::declval<std::string_view> ())),
+                            XmlNode>::value,
+               "child (std::string_view) is unambiguous");
+static_assert (
+    std::is_same<decltype (std::declval<XmlNode &> ().append_attribute (
+                     std::declval<std::string_view const &> ())),
+                 XmlAttribute>::value,
+    "append_attribute (std::string_view const &) is unambiguous");
+static_assert (
+    std::is_same<decltype (std::declval<XmlAttribute &> ().set_value (
+                     std::declval<std::string_view> ())),
+                 bool>::value,
+    "set_value (std::string_view) is unambiguous");
+static_assert (std::is_same<decltype (std::declval<XmlText &> ().set (
+                                std::declval<std::string_view> ())),
+                            bool>::value,
+               "set (std::string_view) is unambiguous");
 
 namespace
 {
@@ -127,3 +156,36 @@ TEST_F (XmlFixture, GivenDefaultConstructedStringView_WhenLookup_ThenUnfound)
   EXPECT_FALSE (r.child ("x").next_sibling (empty));
 }
 } // namespace
+
+TEST_F (XmlFixture,
+        GivenLumexStringView_WhenLookupAndEdit_ThenConvertsToStdView)
+{
+  // The view of the library converts to std::string_view, which is what the
+  // string_view_t overloads take from C++17.
+  ASSERT_EQ (doc.load_string ("<r a='1'><x/><xy/></r>", kparse_default).status,
+             xml_parse_status::status_ok);
+  XmlNode r = doc.document_element ();
+  lumex_string_view const names ("xyab");
+  EXPECT_STREQ (r.child (names.substr (0, 2)).name (), "xy");
+  EXPECT_STREQ (r.attribute (names.substr (2, 1)).value (), "1");
+  EXPECT_FALSE (r.child (names.substr (0, 3)));
+  XmlAttribute hint;
+  EXPECT_STREQ (r.attribute (names.substr (2, 1), hint).value (), "1");
+  XmlNode added = r.append_child (lumex_string_view ("zz").substr (0, 1));
+  EXPECT_STREQ (added.name (), "z");
+  EXPECT_TRUE (added.set_name (lumex_string_view ("renamed!").substr (0, 7)));
+  EXPECT_STREQ (added.name (), "renamed");
+  XmlAttribute attr = added.append_attribute (lumex_string_view ("key"));
+  attr = lumex_string_view ("other;").substr (0, 5);
+  EXPECT_STREQ (attr.value (), "other");
+  XmlText text = added.text ();
+  EXPECT_TRUE (text.set (lumex_string_view ("body!").substr (0, 4)));
+  EXPECT_STREQ (added.text ().get (), "body");
+  EXPECT_TRUE (r.remove_child (lumex_string_view ("renamed")));
+  EXPECT_FALSE (r.child ("renamed"));
+  EXPECT_TRUE (
+      lumex::xml::utility::stringview_equal (lumex_string_view ("ab"), "ab"));
+  // The pointer, std::string and C string forms keep their calls.
+  EXPECT_STREQ (r.child ("x").name (), "x");
+  EXPECT_STREQ (r.child (std::string ("xy")).name (), "xy");
+}

@@ -20,8 +20,8 @@ class LumexLibConan(ConanFile):
     author = "Vladislav Semykin <vladislav.semykin@gmail.com>"
     url = "https://github.com/ViNN280801/LumexCore"
     description = (
-        "Modular C++ utility library (C++11 floor; to_json and "
-        "std::format-style compile-time checks need C++20): formatting, "
+        "Modular C++ utility library (C++11 floor; the std::format-style "
+        "compile-time check needs C++20): formatting, "
         "strings, logging, settings, JSON, XML, filesystem, time, "
         "diagnostics"
     )
@@ -139,7 +139,19 @@ class LumexLibConan(ConanFile):
         self._component("core_math", "math")
         self._component("core_optional", "optional")
         self._component("core_span", "span")
-        atomic = self._component("core_atomic", "atomic")
+        self._component("core_smart_ptr", "smart_ptr", requires=["core_utility"])
+        # The lock-free engine is built on core/hazard_pointer. The package
+        # always builds it, so the soft edge of the CMake target (it links
+        # lumex::hazard_pointer and defines LUMEX_ATOMIC_HAS_HAZARD_POINTER
+        # only when that target exists) is a plain requirement here.
+        # The split-count engine is built on core/smart_ptr (soft edge in
+        # CMake, plain requirement here).
+        atomic = self._component(
+            "core_atomic", "atomic",
+            requires=["core_hazard_pointer", "core_smart_ptr"],
+        )
+        atomic.defines.append("LUMEX_ATOMIC_HAS_HAZARD_POINTER=1")
+        atomic.defines.append("LUMEX_ATOMIC_HAS_SMART_PTR=1")
         if not windows:
             # As CMake's Threads::Threads: the lock-based implementation uses
             # std::mutex and std::condition_variable before C++20.
@@ -159,6 +171,8 @@ class LumexLibConan(ConanFile):
             utility.system_libs.append("dl")
         self._component("core_circular_buffer", "circular_buffer",
                         requires=["core_utility"])
+        self._component("core_contracts", "contracts",
+                        ["LumexCore_contracts"], ["core_utility"])
         self._component("core_expected", "expected", requires=["core_utility"])
         self._component("core_unicode", "unicode", requires=["core_utility"])
         self._component("core_fmt", "fmt", requires=["core_utility"])
@@ -171,20 +185,24 @@ class LumexLibConan(ConanFile):
         )
         self._component("core_crc", "crc", ["LumexCore_crc"],
                         ["core_utility", "core_span", "core_string_view"])
+        hazard_pointer = self._component(
+            "core_hazard_pointer", "hazard_pointer",
+            ["LumexCore_hazard_pointer"], ["core_utility", "core_span"],
+        )
+        if not windows:
+            # The slot cache is released by a pthread key destructor.
+            hazard_pointer.system_libs.append("pthread")
         self._component(
             "core_environment", "environment", ["LumexCore_environment"],
             ["core_utility"],
         )
         filesystem = self._component(
             "core_filesystem", "filesystem", ["LumexCore_filesystem"],
-            ["core_utility"],
+            ["core_unicode", "core_utility"],
         )
         if windows:
             filesystem.system_libs.append("shlwapi")
-        self._component(
-            "core_string_view", "string_view", ["LumexCore_string_view"],
-            ["core_utility"],
-        )
+        self._component("core_string_view", "string_view")
         self._component(
             "core_time", "time", ["LumexCore_time"], ["core_environment"]
         )
@@ -219,17 +237,17 @@ class LumexLibConan(ConanFile):
         )
         self._component(
             "applied_hardware", "hardware", ["LumexApplied_hardware"],
-            ["applied_logging", "core_utility"],
+            ["applied_logging", "core_unicode", "core_utility"],
         )
         self._component(
             "applied_resource_monitor", "resource_monitor",
             ["LumexApplied_resource_monitor"],
             ["core_expected", "core_filesystem", "applied_logging",
-             "core_optional", "core_string_view", "core_time"],
+             "core_optional", "core_string_view", "core_time", "core_unicode"],
         )
         serial = self._component(
             "applied_serial", "serial", ["LumexApplied_serial"],
-            ["core_utility"],
+            ["core_unicode", "core_utility"],
         )
         if windows:
             serial.system_libs.extend(["setupapi", "advapi32"])

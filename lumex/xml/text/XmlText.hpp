@@ -47,11 +47,12 @@
  * no text. Setting a value creates a PCDATA child when there is none. The
  * handle does not own the text and is valid as long as the document.
  *
- * The `string_view_t` overloads (`std::basic_string_view<char_t>` from C++17,
- * the `lumex_string_view` of `lumex::string_view` below) exist in every C++
- * standard. They are inline wrappers and are not `dllimport`, because the
- * class itself is not exported. The file also declares the logical AND and OR
- * operators with a `bool`. Consumers include it through `lumex/xml/LumexXml`.
+ * The `string_view_t` overloads (`string_view_t` is the `lumex_string_view` of
+ * `lumex::string_view` in every C++ standard; a `std::string_view` converts to
+ * it) exist in every C++ standard. They are inline wrappers and are not
+ * `dllimport`, because the class itself is not exported. The file also
+ * declares the logical AND and OR operators with a `bool`. Consumers include
+ * it through `lumex/xml/LumexXml`.
  */
 #ifndef LUMEX_XML_TEXT_XML_TEXT_HPP
 #define LUMEX_XML_TEXT_XML_TEXT_HPP
@@ -165,7 +166,7 @@ public:
   /**
    * @brief Retrieves the text content as a C-style string.
    * @return A null-terminated C-style string representing the text content, or
-   * `LUMEX_XML_TEXT("")` if the object is empty.
+   * `""` if the object is empty.
    * @note The returned pointer points to internal memory and should not be
    * deallocated or modified. Its lifetime is tied to the XML document.
    */
@@ -178,12 +179,11 @@ public:
    * @brief Retrieves the text content as a C-style string, or a default value
    * if empty.
    * @param[in] def The default C-style string to return if the text object is
-   * empty. Defaults to `LUMEX_XML_TEXT("")`.
+   * empty. Defaults to `""`.
    * @return A null-terminated C-style string representing the text content, or
    * `def` if the object is empty.
    */
-  LUMEX_API char_t const *as_string (char_t const *def
-                                     = LUMEX_XML_TEXT ("")) const;
+  LUMEX_API char_t const *as_string (char_t const *def = "") const;
 
   /**
    * @brief Converts the text object's value to an `int`.
@@ -220,10 +220,9 @@ public:
 
   /**
    * @brief Converts the text object's value to a `double`.
-   * @details Converts the value as `strtod` does (`wcstod` in wide-character
-   * mode); a value that is not a number gives `0`. `def` is returned only when
-   * the object is empty or its text has no value, not for a value that is not
-   * a number.
+   * @details Converts the value as `strtod` does; a value that is not a number
+   * gives `0`. `def` is returned only when the object is empty or its text has
+   * no value, not for a value that is not a number.
    * @param[in] def The value returned when the object is empty or its text has
    * no value. Defaults to `0.0`.
    * @return The converted value, or `def`.
@@ -235,10 +234,10 @@ public:
 
   /**
    * @brief Converts the text object's value to a `float`.
-   * @details Converts the value as `strtod` does (`wcstod` in wide-character
-   * mode), then narrows it to `float`; a value that is not a number gives `0`.
-   * `def` is returned only when the object is empty or its text has no value,
-   * not for a value that is not a number.
+   * @details Converts the value as `strtod` does, then narrows it to `float`;
+   * a value that is not a number gives `0`. `def` is returned only when the
+   * object is empty or its text has no value, not for a value that is not a
+   * number.
    * @param[in] def The value returned when the object is empty or its text has
    * no value. Defaults to `0.0f`.
    * @return The converted value, or `def`.

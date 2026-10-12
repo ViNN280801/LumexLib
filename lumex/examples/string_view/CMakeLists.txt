@@ -17,3 +17,31 @@ lumex_example_executable(
   LINK lumex::string_view
   REQUIRE_TARGET lumex::string_view
 )
+lumex_example_executable(
+  NAME LumexStringViewExampleTextApi
+  SOURCE example_string_view_text_api.cpp
+  LINK lumex::string_view
+  REQUIRE_TARGET lumex::string_view
+  CXX_STANDARD 11
+)
+lumex_example_executable(
+  NAME LumexStringViewExampleLiteralsHash
+  SOURCE example_string_view_literals_hash.cpp
+  LINK lumex::string_view
+  REQUIRE_TARGET lumex::string_view
+  CXX_STANDARD 11
+)
+lumex_example_executable(
+  NAME LumexStringViewExampleStdConversion
+  SOURCE example_string_view_std_conversion.cpp
+  LINK lumex::string_view
+  REQUIRE_TARGET lumex::string_view
+  CXX_STANDARD 17
+)
+lumex_example_executable(
+  NAME LumexWStringViewExample
+  SOURCE example_wstring_view.cpp
+  LINK lumex::string_view
+  REQUIRE_TARGET lumex::string_view
+  CXX_STANDARD 11
+)

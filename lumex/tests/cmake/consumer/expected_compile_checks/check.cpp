@@ -11,6 +11,7 @@
 // `in_place_tag`) are used by the good case, so a typo in a bad case cannot
 // pass for the check it stands for.
 
+#include <cstdlib>
 #include <string>
 #include <type_traits>
 
@@ -28,11 +29,21 @@
 void unexpected ();
 #endif
 #elif LUMEX_EXPECTED_OWN_NAME_CASE == 3
+#if defined(__MINGW32__)                                                      \
+    || (defined(_MSC_VER) && defined(_HAS_CXX23) && !_HAS_CXX23)
+// These runtimes declare the global `unexpected` themselves (<eh.h>: MSVC
+// while `_HAS_CXX23` is 0, MinGW always), and a class template cannot be
+// redeclared as a different kind of symbol, so a program's own class template
+// of that name is impossible there: the case uses the runtime's declaration,
+// as case 1 does for MinGW.
+#include <eh.h>
+#else
 template <typename ErrorType> class unexpected
 {
 public:
   ErrorType error;
 };
+#endif
 #endif
 #endif
 
@@ -42,6 +53,12 @@ public:
 #if LUMEX_EXPECTED_OWN_NAME_CASE == 2
 void unexpected ();
 #elif LUMEX_EXPECTED_OWN_NAME_CASE == 4
+#if defined(__MINGW32__)                                                      \
+    || (defined(_MSC_VER) && defined(_HAS_CXX23) && !_HAS_CXX23)
+// As in the case 3 above: the runtime's own global `unexpected` stands for the
+// program's, which cannot be a class template there.
+#include <eh.h>
+#else
 template <typename ErrorType> class unexpected
 {
 public:
@@ -49,12 +66,34 @@ public:
 };
 #endif
 #endif
+#endif
 
 namespace
 {
 using library_expected_t
     = lumex::core::expected::result::expected<int, std::string>;
+
+#if defined(LUMEX_EXPECTED_GOOD_CASE) && !defined(_WIN32)
+// lumex_assert_handler is declared noreturn, so the failing branch of the
+// precondition checks of expected is cold and does not change the code around
+// them. A handler that may return makes this function fall off its end, which
+// the compiler reports as an error under -Werror (-Wreturn-type is on by
+// default in C++). The fixture links no library, so it defines the handler.
+int
+assert_handler_does_not_return ()
+{
+  lumex_assert_handler ("condition", "file", 1);
+}
+#endif
 } // namespace
+
+#if defined(LUMEX_EXPECTED_GOOD_CASE) && !defined(_WIN32)
+extern "C" void
+lumex_assert_handler (char const *, char const *, int) LUMEX_NOEXCEPT
+{
+  std::abort ();
+}
+#endif
 
 int
 main ()
@@ -93,6 +132,9 @@ main ()
   library_expected_t const refused = unexpected<std::string> ("no");
   used += failed.has_value () ? 1 : 0;
   used += refused.has_value () ? 1 : 0;
+#if !defined(_WIN32)
+  used += used == 12345 ? assert_handler_does_not_return () : 0;
+#endif
 #elif defined(LUMEX_EXPECTED_OWN_NAME_CASE)
   // Next to the program's own `unexpected` the class is reached by its full
   // name.
