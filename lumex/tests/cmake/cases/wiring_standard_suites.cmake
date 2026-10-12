@@ -358,10 +358,35 @@ foreach(_dir IN LISTS _dirs)
     set(_declared ${LUMEX_TEST_STANDARD_VARIANTS_${_key}})
     list(SORT _variants)
     list(SORT _declared)
-    if(NOT "${_variants}" STREQUAL "${_declared}")
+    # A variant can be passed through a variable - the built-in dwcas backend
+    # is, so that its guard (a compiler that cannot implement it) can drop it -
+    # and then the argument list of the call does not name it while the table
+    # still does. Accept a declared variant that the file names next to
+    # VARIANT somewhere; a variant neither passed nor named stays an error.
+    set(_missing "")
+    foreach(_variant IN LISTS _declared)
+        if(NOT _variant IN_LIST _variants)
+            file(READ "${_dir}/CMakeLists.txt" _cmake_lists)
+            string(REGEX MATCH
+                "VARIANT[ \t\r\n]+${_variant}[ \t\r\n;)]" _named "${_cmake_lists}")
+            if(_named STREQUAL "")
+                list(APPEND _missing "${_variant}")
+            endif()
+        endif()
+    endforeach()
+    # The other direction stays strict: a variant of the call that the table
+    # does not declare is an error whatever the call looks like.
+    set(_extra "")
+    foreach(_variant IN LISTS _variants)
+        if(NOT _variant IN_LIST _declared)
+            list(APPEND _extra "${_variant}")
+        endif()
+    endforeach()
+    if(_missing OR _extra)
         string(APPEND _errors
             "  lumex/tests/${_rel}/CMakeLists.txt: variants '${_variants}', "
-            "the table declares '${_declared}'\n")
+            "the table declares '${_declared}' (not passed and not named next "
+            "to VARIANT: '${_missing}'; not declared: '${_extra}')\n")
     endif()
 
     # STANDARDS: the list the directory names, a proper ascending subset of
