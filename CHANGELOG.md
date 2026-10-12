@@ -3305,3 +3305,21 @@ Digits: текст раскрытого макроса (`#x` через два �
 - Объявленный вариант, который файл называет рядом с `VARIANT`, считается переданным; обратная проверка осталась строгой (вариант вызова, которого нет в таблице, - ошибка при любом написании).
 - Проверено: `cmake.wiring_standard_suites` проходит на дереве MSVC и на дереве clang-cl.
 
+##### Остаток первых MSVC-находок: кросс-стандартные фикстуры, nodiscard-кейсы, parity
+
+**Файлы:**
+
+- `lumex/tests/cmake/consumer/standard_mismatch/CMakeLists.txt`
+- `lumex/tests/cmake/consumer/string_view_hash_standard_mismatch/CMakeLists.txt`
+- `lumex/tests/cmake/consumer/string_view_hash_standard_mismatch/main.cpp`
+- `lumex/tests/cmake/consumer/atomic_lock_free_hooks/main.cpp`
+- `lumex/tests/cmake/consumer/span_compile_checks/CMakeLists.txt`
+- `lumex/tests/cmake/consumer/hazard_pointer_compile_checks/CMakeLists.txt`
+- `lumex/tests/core/optional/opt/LumexOptionalStdParity.cxx17.tests.cpp`
+
+- `standard_mismatch` требует сборку библиотеки на C++11, которой у MSVC нет (`/std:c++14` - минимальный режим), поэтому фикстур объявляет себя пропущенным (как `atomic_cross_module` на Windows). Находка, которую он успел дать, записана в `pitfalls.md`: у консьюмера другого стандарта `LNK2019` на vftable `lumex_base_exception`.
+- `string_view_hash_standard_mismatch`: продюсеру и обоим консьюмерам добавлен `/Zc:__cplusplus` (фикстур читает `__cplusplus`, без флага MSVC сообщает 199711L), а проверка «продюсер собран как C++11» заменена на «продюсер собран как более старый стандарт» - на MSVC это C++14, и ловимое различие (юнит без `std::string_view` против юнита с ним) не меняется.
+- `atomic_lock_free_hooks`: POSIX-инклюд `<unistd.h>` и `_exit` заменены на `std::_Exit` из `<cstdlib>`.
+- `span_compile_checks` (кейсы 1-4) и `hazard_pointer_compile_checks` (кейсы 11-13): это отброшенный `[[nodiscard]]`-результат, а MSVC знает атрибут только с C++17, поэтому на C++14 (его минимальный стандарт) проверка не может их отвергнуть и кейсы пропускаются.
+- Parity-сюита: на MSVC наш бэкпорт делает на один move больше в `g = Opt (value).value ()` (проба: `move-ctor/move-ctor/dtor` против `move-ctor/move-assign` у `std::optional`); лишняя пара вычищается перед сравнением, состояния не трогаются.
+

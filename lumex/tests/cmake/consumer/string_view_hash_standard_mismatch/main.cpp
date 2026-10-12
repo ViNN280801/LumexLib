@@ -41,10 +41,15 @@ check (bool ok, char const *what)
 int
 main ()
 {
-  check (producer_cplusplus () == 201103L,
-         "the producer is compiled as C++11");
-  check (static_cast<long> (__cplusplus) > 201103L,
-         "this unit is compiled as a later standard");
+  // The producer is compiled as an older standard than this unit: C++11 on
+  // GCC, Clang and the MSVC of the past, C++14 on MSVC today (it has no C++11
+  // mode - /std:c++14 is the lowest it accepts). What the fixture needs is
+  // the difference, not the number: the hash of a view must be the same
+  // whether or not the unit has std::string_view.
+  check (producer_cplusplus () < static_cast<long> (__cplusplus),
+         "the producer is compiled as an older standard");
+  check (static_cast<long> (__cplusplus) >= 201703L,
+         "this unit is compiled as C++17 or later");
 
   std::size_t count = 0;
   char const *const *keys = producer_keys (count);

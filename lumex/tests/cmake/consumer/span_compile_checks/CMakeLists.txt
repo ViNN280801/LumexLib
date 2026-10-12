@@ -65,6 +65,13 @@ foreach(_std IN LISTS _standards)
     endif()
 
     foreach(_case RANGE 1 ${_last_case})
+        # Cases 1-4 discard a [[nodiscard]] result. Only a compiler with the
+        # attribute warns about that, and MSVC has it from C++17 alone
+        # (LUMEX_NODISCARD is empty there at C++14), so at C++14 the check
+        # cannot reject them: the case is not one MSVC can fail.
+        if(MSVC AND _std LESS 17 AND _case LESS 5)
+            continue()
+        endif()
         _lumex_span_try(_ok bad_${_case}_${_tag} ${_std}
                         -DLUMEX_SPAN_BAD_CASE=${_case})
         if(_ok)
