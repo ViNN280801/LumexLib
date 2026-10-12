@@ -48,7 +48,9 @@ endif()
 # and exists for ThreadSanitizer; MSVC has neither the type nor the builtins,
 # so a tree that registered the variant would stop at the #error of
 # LumexDwcasConfig.hpp. The wrapper variant is the MSVC backend itself, so
-# nothing is lost there.
+# nothing is lost there. The table of lumex/tests/LumexTestStandards.cmake
+# declares the variant under the same condition - lumex_add_standard_suites
+# fails when the table and this call disagree.
 set(_dwcas_builtin_variant "")
 if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(_dwcas_builtin_variant
