@@ -395,10 +395,24 @@ TEST (LumexCastBehaviorTest,
       // Reference form names the type of the reference (typeid of a
       // polymorphic lvalue is its dynamic type) and keeps what dynamic_cast
       // reported as the details.
+      // The details belong to the runtime, and a *thrown* std::bad_cast need
+      // not say what a fresh one says (MSVC's thrown one is
+      // "Bad dynamic_cast!" where its default constructed one is "bad cast"),
+      // so the test asks the runtime itself through the same failing cast.
+      std::string reason;
+      try
+        {
+          LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (
+              dynamic_cast<dog &> (*static_cast<animal *> (&sparrow)));
+          FAIL () << "the runtime must refuse the cast";
+        }
+      catch (std::bad_cast const &caught)
+        {
+          reason = caught.what ();
+        }
       EXPECT_EQ (text, std::string ("downcast failed: dynamic type '")
                            + typeid (bird).name () + "' is not a '"
-                           + typeid (dog).name ()
-                           + "'. Details: " + std::bad_cast ().what ());
+                           + typeid (dog).name () + "'. Details: " + reason);
     }
 }
 

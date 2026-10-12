@@ -247,7 +247,10 @@ TEST (
               hp::hazard_pointer holder = hp::make_hazard_pointer ();
               gate.wait ();
               long local_reads = 0;
-              while (writers_done.load () < writers)
+              // At least one read: the writers may be done before this thread
+              // is scheduled, and the counters below are what the test reads
+              // (the loop is otherwise the same).
+              do
                 {
                   poisoned_node *node = holder.protect (shared);
                   if (!node->intact ())
@@ -262,6 +265,7 @@ TEST (
                   holder.reset_protection ();
                   ++local_reads;
                 }
+              while (writers_done.load () < writers);
               reads.fetch_add (local_reads);
             });
     }
@@ -346,10 +350,13 @@ TEST (
   hp::clean_up ();
   hazard_stack stack;
   unsigned const threads = lumex_hp_test::stress_threads ();
-  long const per_thread
-      = static_cast<long> (lumex_hp_test::stress_scale (30000));
-  std::atomic<long> popped_count (0);
-  std::atomic<long> popped_sum (0);
+  // 64-bit counters: at this scale the sum of the values does not fit a
+  // 32-bit long (Windows is LLP64), and the closed form below would then
+  // differ from the accumulated one.
+  std::int64_t const per_thread
+      = static_cast<std::int64_t> (lumex_hp_test::stress_scale (30000));
+  std::atomic<std::int64_t> popped_count (0);
+  std::atomic<std::int64_t> popped_sum (0);
   std::atomic<long> bad_values (0);
   start_gate gate;
   std::vector<std::thread> workers;
@@ -360,7 +367,8 @@ TEST (
             {
               hp::hazard_pointer holder = hp::make_hazard_pointer ();
               gate.wait ();
-              long const base = static_cast<long> (t) * per_thread;
+              std::int64_t const base
+                  = static_cast<std::int64_t> (t) * per_thread;
               for (long i = 0; i < per_thread; ++i)
                 {
                   stack.push (base + i + 1);
@@ -392,7 +400,7 @@ TEST (
     }
   holder.reset_protection ();
   hp::clean_up ();
-  long const total = static_cast<long> (threads) * per_thread;
+  std::int64_t const total = static_cast<std::int64_t> (threads) * per_thread;
   EXPECT_EQ (bad_values.load (), 0) << "a popped node was already deleted";
   EXPECT_EQ (popped_count.load (), total);
   EXPECT_EQ (popped_sum.load (), total * (total + 1) / 2);

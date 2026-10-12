@@ -136,30 +136,34 @@ widen_window (Structure &structure, std::uint64_t seed)
 
 struct stack_outcome
 {
-  long popped;
-  long sum;
+  // The counters are deliberately 64-bit: a 32-bit long (Windows is LLP64)
+  // overflows the sum of the values of a stress run, and once it wraps the
+  // closed form below and the accumulated sum differ.
+  std::int64_t popped;
+  std::int64_t sum;
   bool duplicate;
-  long expected_count;
-  long expected_sum;
+  std::int64_t expected_count;
+  std::int64_t expected_sum;
 };
 
 // Producers push distinct values and consumers pop; every value must come out
 // exactly once. `producers` and `consumers` are thread counts.
 template <class Policy>
 stack_outcome
-run_stack_stress (unsigned producers, unsigned consumers, long per_producer,
-                  std::uint64_t seed)
+run_stack_stress (unsigned producers, unsigned consumers,
+                  std::int64_t per_producer, std::uint64_t seed)
 {
   treiber_stack_t<Policy> stack;
   widen_window (stack, seed);
-  long const total = static_cast<long> (producers) * per_producer;
+  std::int64_t const total
+      = static_cast<std::int64_t> (producers) * per_producer;
   std::vector<std::atomic<int>> seen (static_cast<std::size_t> (total + 1));
   for (std::size_t i = 0; i < seen.size (); ++i)
     {
       seen[i].store (0);
     }
-  std::atomic<long> popped (0);
-  std::atomic<long> sum (0);
+  std::atomic<std::int64_t> popped (0);
+  std::atomic<std::int64_t> sum (0);
   std::atomic<bool> duplicate (false);
   std::atomic<bool> producing (true);
   std::atomic<unsigned> producers_left (producers);

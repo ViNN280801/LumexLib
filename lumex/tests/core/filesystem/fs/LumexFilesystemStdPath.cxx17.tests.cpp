@@ -229,22 +229,27 @@ TEST (LumexFilesystemStdPathTest,
   static_assert (
       std::is_same<decltype (std_base / lumex_tail), stdfs::path>::value,
       "std / lumex is a standard path");
-  EXPECT_EQ ((lumex_base / std_tail).string (), "base/tail");
+  // The separator of a joined path is the platform's
+  // (stdfs::path::preferred_separator: '\' on Windows), so the expectations
+  // are built with it instead of a fixed text.
+  std::string const sep (1, stdfs::path::preferred_separator);
+  EXPECT_EQ ((lumex_base / std_tail).string (), "base" + sep + "tail");
   EXPECT_EQ ((std_base / lumex_tail).generic_string (), "base/tail");
   // The other operands keep their calls.
-  EXPECT_EQ ((lumex_base / "x").string (), "base/x");
-  EXPECT_EQ (("x" / lumex_base).string (), "x/base");
-  EXPECT_EQ ((lumex_base / std::string ("x")).string (), "base/x");
-  EXPECT_EQ ((lumex_base / lumex_tail).string (), "base/tail");
+  EXPECT_EQ ((lumex_base / "x").string (), "base" + sep + "x");
+  EXPECT_EQ (("x" / lumex_base).string (), "x" + sep + "base");
+  EXPECT_EQ ((lumex_base / std::string ("x")).string (), "base" + sep + "x");
+  EXPECT_EQ ((lumex_base / lumex_tail).string (), "base" + sep + "tail");
   EXPECT_EQ ((std_base / std_tail).generic_string (), "base/tail");
   path appended ("p");
   appended /= std_tail;
-  EXPECT_EQ (appended.string (), "p/tail");
+  EXPECT_EQ (appended.string (), "p" + sep + "tail");
   appended += std_tail;
-  EXPECT_EQ (appended.string (), "p/tailtail");
+  EXPECT_EQ (appended.string (), "p" + sep + "tailtail");
   appended /= "z";
   appended /= std::string ("w");
-  EXPECT_EQ (appended.string (), "p/tailtail/z/w");
+  EXPECT_EQ (appended.string (),
+             "p" + sep + "tailtail" + sep + "z" + sep + "w");
 }
 
 TEST (LumexFilesystemStdPathTest,

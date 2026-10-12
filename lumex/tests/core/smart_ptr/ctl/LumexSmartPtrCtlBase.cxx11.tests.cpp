@@ -78,11 +78,21 @@ TEST (LumexCtlBaseTest,
   if (sizeof (void *) != 8)
     GTEST_SKIP () << "the sizes are checked on a 64-bit target";
   typedef sp::detail::block_allocator<void> default_alloc;
+  // A block that carries two empty bases - the empty deleter and the empty
+  // allocator - is eight bytes larger with MSVC: it elides one empty base but
+  // not two. The blocks with one empty base or a stateful deleter below are
+  // the same on every compiler, and the header itself is pinned at 32 bytes by
+  // the test above.
+#if defined(_MSC_VER)
+  std::size_t const empty_base_penalty = 8;
+#else
+  std::size_t const empty_base_penalty = 0;
+#endif
   // Pointer block with an empty deleter: header + pointer.
   EXPECT_EQ (
       (sizeof (sp::detail::ctl_ptr<int *, sp::detail::default_deleter<int>,
                                    default_alloc>)),
-      40u);
+      40u + empty_base_penalty);
   // Pointer block with a state-less lambda-like deleter and a pointer deleter.
   EXPECT_EQ (
       (sizeof (
