@@ -36,11 +36,11 @@
 #ifndef PSAPI_VERSION
 #define PSAPI_VERSION 2
 #endif
-#include <Windows.h>
+#include <windows.h>
 
 // MinGW's psapi.h and tlhelp32.h need the types of windows.h declared first.
-#include <Psapi.h>
-#include <TlHelp32.h>
+#include <psapi.h>
+#include <tlhelp32.h>
 #elif defined(__linux__)
 #include <cerrno>
 

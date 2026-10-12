@@ -88,7 +88,7 @@
 #include <string>
 
 #if defined(_WIN32) || defined(WIN32)
-#include <Windows.h>
+#include <windows.h>
 #elif defined(__linux__) || defined(__unix__)
 #include <sys/auxv.h>
 #include <unistd.h>

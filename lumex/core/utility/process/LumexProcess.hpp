@@ -59,7 +59,7 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
-#include <Windows.h>
+#include <windows.h>
 #else
 #include <unistd.h>
 #endif

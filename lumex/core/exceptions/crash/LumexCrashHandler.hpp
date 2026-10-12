@@ -67,10 +67,10 @@
 #include <string>
 
 #if defined(_WIN32)
-#include <Windows.h> // This library must be included before DbgHelp.h
-                     // because DbgHelp.h uses types from Windows.h
+#include <windows.h> // This library must be included before dbghelp.h
+                     // because dbghelp.h uses types from windows.h
 
-#include <DbgHelp.h>
+#include <dbghelp.h>
 #include <tchar.h>
 #else
 #include <fcntl.h>
