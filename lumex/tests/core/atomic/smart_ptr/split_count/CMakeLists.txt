@@ -46,6 +46,15 @@ else()
     set(_split_default_definitions "")
 endif()
 
+# The built-in backend needs __atomic_* on unsigned __int128 (GCC and Clang)
+# and exists for ThreadSanitizer; MSVC has neither the type nor the builtins,
+# so a tree that registered the variant would stop at the #error of
+# LumexDwcasConfig.hpp, the same way the dwcas suites did.
+set(_split_builtin_variant "")
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(_split_builtin_variant VARIANT builtin DEFINITIONS LUMEX_DWCAS_BACKEND=3)
+endif()
+
 lumex_add_standard_suites(AtomicSplitCount
     MODULE atomic.smart_ptr.split_count
     LINK lumex::atomic
@@ -56,7 +65,7 @@ lumex_add_standard_suites(AtomicSplitCount
     DISCOVER_ARGS PROPERTIES TIMEOUT 300 LABELS tsan
     SOAK_FILTER *Soak*
     TARGETS_VAR _split_targets
-    VARIANT builtin DEFINITIONS LUMEX_DWCAS_BACKEND=3
+    ${_split_builtin_variant}
     VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE
     VARIANT no_split_count DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT
     VARIANT prefer_split_count DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT
