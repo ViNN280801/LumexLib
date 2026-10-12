@@ -3285,3 +3285,13 @@ Digits: текст раскрытого макроса (`#x` через два �
 - Консьюмеры: `cmake.consumer_reflection_umbrella_field_reflection_{off,on}` падали на MSVC с `C1083` для пустого имени файла - самый глубокий путь объекта вложенной сборки библиотеки выходил за MAX_PATH. Раннер собирает в `${WORK_DIR}/b`, а консьюмер-тесты - в `${CMAKE_BINARY_DIR}/c/<name>`.
 - Проверено: `NINJA_EXITCODE=0` на MSVC для 12 целей; рефлексия, attr, string.utility и traits дают 0 ошибок сборки, оба консьюмерных кейса проходят на MSVC и на clang-cl; на clang-cl 803 теста рефлексии без изменений.
 
+##### time: ветка Windows в LumexTime и макрос gtest
+
+**Файлы:**
+
+- `lumex/tests/core/time/clock/LumexTime.cxx11.tests.cpp`
+
+- `LUMEX_OS_IS_UNIX` в `LumexCheckOS.hpp` - функциональный макрос, а тест использовал его без скобок: `#if LUMEX_OS_IS_UNIX` оставляет неопределенный идентификатор, то есть всегда 0, и ветка Windows (`#else`) оказывалась единственной на всех платформах. Теперь `#if LUMEX_OS_IS_UNIX ()`, как в остальном дереве.
+- В этой ветке успех сообщался через `SUCCEED ()` - условный алиас gtest (в 1.12.1 под `#if !GTEST_DONT_DEFINE_SUCCEED`, в 1.18.0 под `#if !(defined(...) && ...)`); cl.exe на этом TU давал `error C3861: 'SUCCEED': identifier not found`, и точно так же на написание `GTEST_SUCCEED ()`. Проверять в ветке нечего, сообщение убрано.
+- Проверено: `LumexTimeClockCxx11/14/17/20Tests` собираются, `time.clock` на MSVC - 26/26, `CTEST_EXITCODE=0`.
+
