@@ -44,7 +44,7 @@
 #include <sstream>
 
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 #include <process.h>
 #elif defined(__unix__) || defined(__APPLE__)
 #include <sys/types.h>

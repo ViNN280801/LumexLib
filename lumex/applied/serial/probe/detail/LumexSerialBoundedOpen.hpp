@@ -65,7 +65,7 @@ namespace detail
 {
 #if defined(LUMEX_OS_WINDOWS)
 /**
- * @brief Native handle type; `HANDLE` without including `Windows.h`.
+ * @brief Native handle type; `HANDLE` without including `windows.h`.
  */
 using native_serial_handle_t = void *;
 #else

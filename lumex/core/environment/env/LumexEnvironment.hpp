@@ -87,7 +87,7 @@
 #include <utility>
 
 #if defined(_WIN32)
-#include <Windows.h> // GetEnvironmentVariableA/W
+#include <windows.h> // GetEnvironmentVariableA/W
 #endif
 
 #include "lumex/core/utility/LumexUtility"
