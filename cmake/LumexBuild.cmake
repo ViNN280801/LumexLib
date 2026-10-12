@@ -296,6 +296,22 @@ function(lumex_configure_target target_name)
         target_compile_options("${target_name}" PRIVATE -Werror)
       endif()
     endif()
+
+    # Clang on Windows only. The tree spells every Windows header in all-lowercase
+    # form (<windows.h>, <dbghelp.h>, <aclapi.h>, <shlwapi.h>, ...) because the
+    # MinGW-w64 cross leg builds on a case-sensitive host, where that is the only
+    # spelling on disk. The MSVC SDK spells them Windows.h / DbgHelp.h / AclAPI.h,
+    # and clang compares the spelling in the directive with the name of the file it
+    # opens. WARNINGS HIGH gives clang-cl both /W4 /WX and the GNU -Wall group, and
+    # -Wall is -Weverything in the clang-cl driver, so
+    # -Wnonportable-system-include-path fires and /WX turns it into an error. The
+    # explicit -Wno- outranks the group in clang whatever the flag order is. cl.exe
+    # has no such diagnostic and GCC never receives the flag (compiler-id guard);
+    # on MinGW the spelling matches the disk, so nothing fires there either.
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+      target_compile_options("${target_name}" PRIVATE
+        -Wno-nonportable-system-include-path)
+    endif()
   endif()
 
   # TOOLCHAIN_RUNTIME_RPATH ON: a toolchain outside the system paths (GCC or
