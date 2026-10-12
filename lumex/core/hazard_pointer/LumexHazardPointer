@@ -1,0 +1,67 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file LumexHazardPointer
+ * @brief Hazard pointer module: `hazard_pointer`, `hazard_pointer_obj_base`
+ * and `make_hazard_pointer`, the interface of the C++26 `<hazard_pointer>`
+ * from C++11 on.
+ * @details Link <tt>%lumex::hazard_pointer</tt> (a compiled library; the
+ * reader side is header-only). Works from C++11. A hazard pointer protects one
+ * object that is read from an atomic pointer; a thread that removes the
+ * object from the structure calls `retire` on it, and the object is deleted
+ * only once no hazard pointer protects it. The classes follow [saferecl.hp]
+ * of the C++26 draft (P2530R3) with the batch functions of P3428R4
+ * (`make_hazard_pointer_batch`, `clear_hazard_pointer_batch`). The extension
+ * `clean_up ()` runs a reclamation pass at once. One domain serves the whole
+ * process; there are no custom domains, cohorts or executors, as in the
+ * standard.
+ *
+ * The names are in `lumex::core::hazard_pointer`. The classes are the
+ * module's own on every standard and toolchain (they are not aliases of the
+ * C++26 standard ones, which no library ships yet); the API shape is the
+ * standard's. The umbrella includes `base/LumexHazardPointerObjBase.hpp`,
+ * `holder/LumexHazardPointerHolder.hpp` and
+ * `holder/LumexHazardPointerBatch.hpp`; the engine (slots, retired lists,
+ * reclamation) is in `engine/LumexHazardPointerEngine.hpp`.
+ * @see The `README.md` page next to this umbrella (part of the documentation).
+ */
+#include "base/LumexHazardPointerObjBase.hpp"
+#include "holder/LumexHazardPointerBatch.hpp"
+#include "holder/LumexHazardPointerHolder.hpp"

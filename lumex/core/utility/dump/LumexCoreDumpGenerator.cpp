@@ -1,0 +1,243 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#define LUMEX_IMPLEMENTATION
+#include "lumex/core/utility/dump/LumexCoreDumpGenerator.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+
+namespace lumex
+{
+namespace core
+{
+namespace utility
+{
+namespace dump
+{
+
+// The single definition of every static data member. The header declares
+// them without `inline`, so these definitions must not be `inline` either:
+// a C++17 inline variable defined in one translation unit only is emitted
+// there only when that unit odr-uses it, and ELF shared libraries then
+// export no symbol for the constant-initialized members.
+std::unique_ptr<core_dump_generator> core_dump_generator::s_instance = nullptr;
+std::size_t const core_dump_generator::KB_32;
+std::size_t const core_dump_generator::KB_64;
+std::size_t const core_dump_generator::KB_128;
+std::size_t const core_dump_generator::KB_256;
+std::size_t const core_dump_generator::KB_512;
+std::size_t const core_dump_generator::MB_1;
+std::mutex core_dump_generator::s_mutex;
+std::condition_variable core_dump_generator::s_operationCondition;
+std::mutex core_dump_generator::s_operationMutex;
+std::atomic<std::size_t> core_dump_generator::s_activeOperations{};
+#if __cplusplus >= 201103L
+std::once_flag core_dump_generator::s_initFlag;
+#endif
+std::string core_dump_generator::s_dumpDirectory = "DumpCreatorCrashDump";
+#if __cplusplus >= 201103L
+std::atomic_bool core_dump_generator::s_initialized{};
+#else
+bool core_dump_generator::s_initialized = false;
+#endif
+std::string core_dump_generator::s_originalCorePattern;
+dump_configuration core_dump_generator::s_currentConfig;
+
+std::map<int, void (*) (int)> core_dump_generator::s_customSignalHandlers;
+std::mutex core_dump_generator::s_customHandlersMutex;
+
+#if (LUMEX_OS_IS_UNIX() || LUMEX_OS_IS_ANDROID())
+std::atomic_bool core_dump_generator::s_monitorThreadShouldStop{ false };
+std::thread core_dump_generator::s_monitorThread;
+pid_t core_dump_generator::s_applicationPid = getpid ();
+std::string core_dump_generator::s_adminGroupName;
+void (*core_dump_generator::s_unixConsoleHandler) () = nullptr;
+std::atomic_bool core_dump_generator::s_posixSigThreadStarted{};
+#endif
+#if LUMEX_OS_IS_WINDOWS()
+BOOL (WINAPI *core_dump_generator::s_customConsoleHandler) (DWORD) = nullptr;
+#endif
+
+std::map<DumpType, std::string> const dump_factory::s_descriptions = {
+  { DumpType::MINI_DUMP_NORMAL, "Basic mini-dump (64KB)" },
+  { DumpType::MINI_DUMP_WITH_DATA_SEGS, "Mini-dump with data segments" },
+  { DumpType::MINI_DUMP_WITH_FULL_MEMORY, "Full memory mini-dump (largest)" },
+  { DumpType::MINI_DUMP_WITH_HANDLE_DATA, "Mini-dump with handle data" },
+  { DumpType::MINI_DUMP_FILTER_MEMORY, "Filtered memory mini-dump" },
+  { DumpType::MINI_DUMP_SCAN_MEMORY, "Scanned memory mini-dump" },
+  { DumpType::MINI_DUMP_WITH_UNLOADED_MODULES,
+    "Mini-dump with unloaded modules" },
+  { DumpType::MINI_DUMP_WITH_INDIRECTLY_REFERENCED_MEMORY,
+    "Mini-dump with indirectly referenced memory" },
+  { DumpType::MINI_DUMP_FILTER_MODULE_PATHS,
+    "Mini-dump with filtered module paths" },
+  { DumpType::MINI_DUMP_WITH_PROCESS_THREAD_DATA,
+    "Mini-dump with process/thread data" },
+  { DumpType::MINI_DUMP_WITH_PRIVATE_READ_WRITE_MEMORY,
+    "Mini-dump with private read/write memory" },
+  { DumpType::MINI_DUMP_WITHOUT_OPTIONAL_DATA,
+    "Mini-dump without optional data" },
+  { DumpType::MINI_DUMP_WITH_FULL_MEMORY_INFO,
+    "Mini-dump with full memory info" },
+  { DumpType::MINI_DUMP_WITH_THREAD_INFO, "Mini-dump with thread info" },
+  { DumpType::MINI_DUMP_WITH_CODE_SEGMENTS, "Mini-dump with code segments" },
+  { DumpType::MINI_DUMP_WITHOUT_AUXILIARY_STATE,
+    "Mini-dump without auxiliary state" },
+  { DumpType::MINI_DUMP_WITH_FULL_AUXILIARY_STATE,
+    "Mini-dump with full auxiliary state" },
+  { DumpType::MINI_DUMP_WITH_PRIVATE_WRITE_COPY_MEMORY,
+    "Mini-dump with private write-copy memory" },
+  { DumpType::MINI_DUMP_IGNORE_INACCESSIBLE_MEMORY,
+    "Mini-dump ignoring inaccessible memory" },
+  { DumpType::MINI_DUMP_WITH_TOKEN_INFORMATION,
+    "Mini-dump with token information" },
+  { DumpType::KERNEL_FULL_DUMP, "Full kernel dump - largest kernel dump" },
+  { DumpType::KERNEL_KERNEL_DUMP, "Kernel memory dump - kernel memory only" },
+  { DumpType::KERNEL_SMALL_DUMP, "Small kernel dump - 64KB" },
+  { DumpType::KERNEL_AUTOMATIC_DUMP, "Automatic kernel dump - flexible size" },
+  { DumpType::KERNEL_ACTIVE_DUMP,
+    "Active kernel dump - similar to full but smaller" },
+  { DumpType::CORE_DUMP_FULL, "Full core dump with all memory" },
+  { DumpType::DEFAULT_WINDOWS, "Default Windows dump type" },
+  { DumpType::DEFAULT_UNIX, "Default UNIX dump type" },
+  { DumpType::DEFAULT_AUTO, "Auto-detect based on platform" }
+};
+
+std::map<DumpType, bool> const dump_factory::s_platformSupport = {
+  { DumpType::MINI_DUMP_NORMAL, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_DATA_SEGS, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_FULL_MEMORY, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_HANDLE_DATA, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_FILTER_MEMORY, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_SCAN_MEMORY, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_UNLOADED_MODULES, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_INDIRECTLY_REFERENCED_MEMORY,
+    LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_FILTER_MODULE_PATHS, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_PROCESS_THREAD_DATA, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_PRIVATE_READ_WRITE_MEMORY,
+    LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITHOUT_OPTIONAL_DATA, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_FULL_MEMORY_INFO, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_THREAD_INFO, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_CODE_SEGMENTS, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITHOUT_AUXILIARY_STATE, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_FULL_AUXILIARY_STATE, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_PRIVATE_WRITE_COPY_MEMORY,
+    LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_IGNORE_INACCESSIBLE_MEMORY, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::MINI_DUMP_WITH_TOKEN_INFORMATION, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::KERNEL_FULL_DUMP, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::KERNEL_KERNEL_DUMP, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::KERNEL_SMALL_DUMP, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::KERNEL_AUTOMATIC_DUMP, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::KERNEL_ACTIVE_DUMP, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::CORE_DUMP_FULL, !LUMEX_OS_IS_WINDOWS () },
+  { DumpType::DEFAULT_WINDOWS, LUMEX_OS_IS_WINDOWS () },
+  { DumpType::DEFAULT_UNIX, !LUMEX_OS_IS_WINDOWS () },
+  { DumpType::DEFAULT_AUTO, true }
+};
+
+std::map<DumpType, std::size_t> const dump_factory::s_estimatedSizes = {
+  { DumpType::MINI_DUMP_NORMAL, core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_WITH_DATA_SEGS, core_dump_generator::KB_128 },
+  { DumpType::MINI_DUMP_WITH_FULL_MEMORY, 0 },
+  { DumpType::MINI_DUMP_WITH_HANDLE_DATA, core_dump_generator::KB_256 },
+  { DumpType::MINI_DUMP_FILTER_MEMORY, core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_SCAN_MEMORY, core_dump_generator::KB_128 },
+  { DumpType::MINI_DUMP_WITH_UNLOADED_MODULES, core_dump_generator::KB_512 },
+  { DumpType::MINI_DUMP_WITH_INDIRECTLY_REFERENCED_MEMORY, 0 },
+  { DumpType::MINI_DUMP_FILTER_MODULE_PATHS, core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_WITH_PROCESS_THREAD_DATA, core_dump_generator::MB_1 },
+  { DumpType::MINI_DUMP_WITH_PRIVATE_READ_WRITE_MEMORY, 0 },
+  { DumpType::MINI_DUMP_WITHOUT_OPTIONAL_DATA, core_dump_generator::KB_32 },
+  { DumpType::MINI_DUMP_WITH_FULL_MEMORY_INFO, 0 },
+  { DumpType::MINI_DUMP_WITH_THREAD_INFO, core_dump_generator::KB_256 },
+  { DumpType::MINI_DUMP_WITH_CODE_SEGMENTS, core_dump_generator::KB_512 },
+  { DumpType::MINI_DUMP_WITHOUT_AUXILIARY_STATE, core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_WITH_FULL_AUXILIARY_STATE, core_dump_generator::MB_1 },
+  { DumpType::MINI_DUMP_WITH_PRIVATE_WRITE_COPY_MEMORY, 0 },
+  { DumpType::MINI_DUMP_IGNORE_INACCESSIBLE_MEMORY,
+    core_dump_generator::KB_64 },
+  { DumpType::MINI_DUMP_WITH_TOKEN_INFORMATION, core_dump_generator::KB_128 },
+  { DumpType::KERNEL_FULL_DUMP, 0 },
+  { DumpType::KERNEL_KERNEL_DUMP, 0 },
+  { DumpType::KERNEL_SMALL_DUMP, core_dump_generator::KB_64 },
+  { DumpType::KERNEL_AUTOMATIC_DUMP, 0 },
+  { DumpType::KERNEL_ACTIVE_DUMP, 0 },
+  { DumpType::CORE_DUMP_FULL, 0 },
+  { DumpType::DEFAULT_WINDOWS, 0 },
+  { DumpType::DEFAULT_UNIX, 0 },
+  { DumpType::DEFAULT_AUTO, 0 }
+};
+
+} // namespace dump
+} // namespace utility
+} // namespace core
+} // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

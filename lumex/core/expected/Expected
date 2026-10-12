@@ -1,0 +1,67 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file Expected
+ * @brief Expected module: `expected<T, E>`, a value or an error after the
+ * C++23 `std::expected`, with its `void` specialization, `unexpected`,
+ * `bad_expected_access` and the `success` / `failure` markers.
+ * @details Link <tt>%lumex::expected</tt> (header-only; it brings
+ * <tt>%lumex::utility</tt> for `LUMEX_ASSERT`). Works from C++11. The umbrella
+ * includes the error types (`error/`) and the result types (`result/`);
+ * `result/ExpectedDetail.hpp` and `result/ExpectedStorage.hpp` are internal.
+ * The surface follows `std::expected` ([expected.expected] of the working
+ * draft): the special member functions are deleted, left out and trivial as
+ * the standard says, the members are `constexpr` as far as the language of the
+ * standard in use allows, and the differences that remain are listed at the
+ * class `expected`.
+ *
+ * Global names: `expected`, `bad_expected_access`, `make_unexpected`,
+ * `unexpect`, `unexpect_t` and `in_place_tag` are also visible at global scope.
+ * `unexpected` and `in_place` are not (the MinGW runtime declares a global
+ * function `unexpected`, and `optional` has its own `in_place`): write
+ * `lumex::core::expected::error::unexpected` and
+ * `lumex::core::expected::result::in_place`.
+ */
+#include "error/BadExpectedAccess.hpp"
+#include "error/Unexpected.hpp"
+#include "result/Expected.hpp"
+#include "result/ExpectedTypes.hpp"
+#include "result/ExpectedVoid.hpp"
+#include "result/SuccessFailure.hpp"

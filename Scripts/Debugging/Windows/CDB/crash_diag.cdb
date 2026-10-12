@@ -1,0 +1,65 @@
+$$ crash_diag.cdb - CDB batch state-dump for crash, hang, and dump analysis.
+$$ Sourced via $$<crash_diag.cdb from crash_diag.ps1.
+$$ All sections run unconditionally. Individual commands may produce errors on
+$$ minimal dumps - those errors are non-fatal and the script continues.
+
+.echo ===== cdb version =====
+version
+
+.echo ===== target OS / machine =====
+vertarget
+
+.echo ===== process info =====
+|
+
+.echo ===== process times =====
+.time
+
+.echo ===== loaded modules =====
+lmv
+
+.echo ===== threads =====
+~
+
+.echo ===== exception filters =====
+sx
+
+.echo ===== last event =====
+.lastevent
+
+.echo ===== exception record =====
+.exr -1
+
+.echo ===== exception context =====
+.ecxr
+
+.echo ===== current thread registers =====
+r
+
+.echo ===== call stack at exception (with source + params) =====
+kPn 40
+
+.echo ===== automated crash analysis =====
+!analyze -v
+
+.echo ===== all threads summary =====
+~*kn 20
+
+.echo ===== all threads full stack =====
+~*kPn 40
+
+.echo ===== locals at faulting frame =====
+dv /V /t
+
+.echo ===== critical sections / locks =====
+!locks
+
+.echo ===== heap summary =====
+!heap -s
+
+.echo ===== all thread registers =====
+~*r
+
+.echo ===== DONE =====
+.logclose
+q

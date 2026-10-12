@@ -1,33 +1,18 @@
 # lumex/tests/core/generators/number_generator/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexNumberGeneratorTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexNumberGenerator.tests.cpp
+# generators.number_generator has one standard in
+# lumex/tests/LumexTestStandards.cmake, C++11: LumexNumberGeneratorCxx11Tests
+# builds every *.cxx11.tests.cpp of this directory.
+#
+# LumexNumberGenerator.cxx11.tests.cpp is not a GoogleTest binary: it has its
+# own main () with RUN_TEST () / TEST_ASSERT () macros and runs its whole suite
+# whatever its arguments. Test discovery would run it with
+# --gtest_list_tests, which it does not understand, so PLAIN_EXECUTABLE
+# registers it as one CTest test instead:
+# generators.number_generator.LumexNumberGeneratorTests.cxx11.
+lumex_add_standard_suites(NumberGenerator
+    MODULE generators.number_generator
+    LINK
+        lumex::number_generator
+    PLAIN_EXECUTABLE
 )
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    GTest::gtest_main
-    Lumex::number_generator
-)
-
-if(WIN32)
-    add_custom_command(
-        TARGET ${TEST_EXECUTABLE_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:GTest::gtest>
-        $<TARGET_FILE_DIR:${TEST_EXECUTABLE_NAME}>
-
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:GTest::gtest_main>
-        $<TARGET_FILE_DIR:${TEST_EXECUTABLE_NAME}>
-
-        COMMENT "Copying GoogleTest DLLs for runtime execution"
-    )
-endif()
-
-include(GoogleTest)
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})

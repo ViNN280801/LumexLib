@@ -1,0 +1,144 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#define LUMEX_IMPLEMENTATION
+
+#include <algorithm>
+
+#include "lumex/core/utility/assert/LumexAssert.hpp"
+
+#include "lumex/xml/xpath/document/XPathDocumentOrderComparator.hpp"
+#include "lumex/xml/xpath/variable/XPathVariable.hpp"
+
+#include "XPathUtils.hpp"
+
+using namespace lumex::xml::xpath;
+using namespace lumex::xml::xpath::variable;
+using namespace lumex::xml::xpath::document;
+using namespace lumex::xml::xpath::node;
+using namespace lumex::xml::xpath::utility;
+
+LUMEX_PUBLIC_API
+XPathNodeSet::type_t
+lumex::xml::xpath::utility::xpath_get_order (
+    XPathNode const *begin,
+    XPathNode const *end) // NOLINT(misc-use-internal-linkage)
+{
+  if (end - begin < 2)
+    return XPathNodeSet::type_sorted;
+
+  document_order_comparator cmp;
+
+  bool first = cmp (begin[0], begin[1]);
+
+  for (XPathNode const *it = begin + 1; it + 1 < end; ++it)
+    if (cmp (it[0], it[1]) != first)
+      return XPathNodeSet::type_unsorted;
+
+  return first ? XPathNodeSet::type_sorted : XPathNodeSet::type_sorted_reverse;
+}
+
+LUMEX_PUBLIC_API
+XPathNodeSet::type_t
+lumex::xml::xpath::utility::xpath_sort (
+    XPathNode *begin, XPathNode *end, XPathNodeSet::type_t type,
+    bool rev) // NOLINT(misc-use-internal-linkage)
+{
+  XPathNodeSet::type_t order
+      = rev ? XPathNodeSet::type_sorted_reverse : XPathNodeSet::type_sorted;
+
+  if (type == XPathNodeSet::type_unsorted)
+    {
+      XPathNodeSet::type_t sorted
+          = lumex::xml::xpath::utility::xpath_get_order (begin, end);
+
+      if (sorted == XPathNodeSet::type_unsorted)
+        {
+          std::sort (begin, end, document_order_comparator ());
+
+          type = XPathNodeSet::type_sorted;
+        }
+      else
+        type = sorted;
+    }
+
+  if (type != order)
+    std::reverse (begin, end);
+
+  return order;
+}
+
+LUMEX_PUBLIC_API
+XPathNode
+lumex::xml::xpath::utility::xpath_first (
+    XPathNode const *begin,
+    XPathNode const *end, // NOLINT(misc-use-internal-linkage)
+    XPathNodeSet::type_t type)
+{
+  if (begin == end)
+    return {};
+
+  switch (type)
+    {
+    case XPathNodeSet::type_sorted:
+      return *begin;
+
+    case XPathNodeSet::type_sorted_reverse:
+      return *(end - 1);
+
+    case XPathNodeSet::type_unsorted:
+      return *std::min_element (begin, end, document_order_comparator ());
+
+    default:
+      LUMEX_ASSERT (false && "Invalid node set type"); // unreachable
+      return {};
+    }
+}
+
+LUMEX_PUBLIC_API
+bool
+lumex::xml::xpath::utility::copy_xpath_variable (
+    XPathVariable *lhs,
+    XPathVariable const *rhs) // NOLINT(misc-use-internal-linkage)
+{
+  // One implementation: the inline function of XPathVariable.hpp, which
+  // XPathVariableSet uses too. This exported name stays for binary
+  // compatibility.
+  return lumex::xml::xpath::variable::copy_xpath_variable (lhs, rhs);
+}

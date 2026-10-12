@@ -1,60 +1,72 @@
-If:
-  PathMatch: .*\.(h|hpp|c|cpp|ipp|cuh|cu)
+# LumexLib clangd config.
+# compile_commands.json at this directory is the only compilation database.
+# Do not use Ancestors: the parent PeakExpertWeb tree has its own
+# compile_commands.json (MSVC cl.exe, zero LumexLib entries) and an
+# identical .clangd that would merge -x c++ / UNIT_TEST / FMT_CONSTEVAL
+# and UnusedIncludes: Strict on top of clang-cl commands.
+
 CompileFlags:
-  Compiler: clang-cl
-  Add:
-  # C++ Standard and Warning Flags
-  - /std:c++17
-  - /W4
-  - /WX # Treat warnings as errors
-  - /permissive- # Enable C++11 standard compliance
-  - /Zc:twoPhase # Enable two-phase name lookup (more aggressive standard compliance)
-  - /EHsc # Enable exception handling
+  CompilationDatabase: .
 
-  # Optimizations and security
-  - /O2 # Aggressive optimizations
-  - /sdl # Enable SDL checks (security checks for Windows)
-  - /guard:cf # Enable control flow guard (for buffer overflow detection)
-  - /Zc:inline # Remove unused inline functions
-  - /Zc:strictStrings # Enable strict string checking
-  - /Zi # Enable PDB generation
-  - /DEBUG # Enable debug information
-  - /analyze # Enable static analysis (if it's available)
+  Remove:
+    - "/external:I.*"
+    - "/MP"
+    - "/GL"
+    - "/Zc:throwingNew"
+    - "-flto=thin"
+    - "-DFMT_CONSTEVAL="
+    - "-DUNIT_TEST"
+    - "-DTEST_BUILD"
 
-  # Preprocessor Defines
-  - -D_WIN32
-  - -D_WIN64
+Index:
+  Background: Build
+  StandardLibrary: true
 
-  # Project include path (relative to .clangd location)
-  - -ID:/Develop/LumexCore
+Diagnostics:
+  UnusedIncludes: None
+  Suppress:
+    - unused-includes
+    - llvmlibc-callee-namespace
+    - llvmlibc-inline-function-decl
+    - llvmlibc-restrict-system-libc-headers
+    - llvmlibc-implementation-in-namespace
+  ClangTidy:
+    Remove: ["*"]
 
-# Indexing configuration
+---
+If:
+  PathMatch: .*/3rdparty/.*
+Diagnostics:
+  Suppress: ["*"]
 Index:
   Background: Skip
-  StandardLibrary: Yes
 
-# Diagnostics configuration  
+---
+If:
+  PathMatch: .*/tests/.*
 Diagnostics:
   Suppress:
-  - "readability-convert-member-functions-to-static"
-  - "modernize-use-trailing-return-type"
-  - "readability-braces-around-statements"
-  - "readability-container-data-pointer"
-  # Enable clang-tidy checks
+    - unused-function
+    - unused-variable
+    - unused-includes
+    - cert-err58-cpp
+    - cppcoreguidelines-avoid-non-const-global-variables
   ClangTidy:
-    Add:
-    - readability-*
-    - performance-*
-    - modernize-*
-    - bugprone-*
-    - cppcoreguidelines-*
-    - performance-*
-    - misc-*
-    - portability-*
-    - concurrency-*
+    Remove: ["*"]
 
-# InlayHints configuration
+---
+Completion:
+  AllScopes: Yes
+  ArgumentLists: FullPlaceholders
+
 InlayHints:
   Enabled: Yes
   ParameterNames: Yes
   DeducedTypes: Yes
+  Designators: Yes
+  BlockEnd: false
+  DefaultArguments: false
+  TypeNameLimit: 24
+
+Hover:
+  ShowAKA: true

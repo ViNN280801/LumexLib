@@ -1,27 +1,122 @@
 # Root CMakeLists.txt
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
+
+# Must be set before project() enables RC. clang-cl + Ninja otherwise
+# uses `cmake -E cmake_llvm_rc` (clang-cl -E, then rc.exe). That wrapper
+# hangs here once version .rc files are dirty: clang-cl is invoked with
+# `-clang:-MD -clang:-MF` on an .rc and never finishes. LibraryVersioning
+# writes .rc files that do not include windows.h, so rc.exe can compile
+# them without a C preprocessor.
+if(WIN32)
+    set(CMAKE_RC_COMPILE_OBJECT
+        "<CMAKE_RC_COMPILER> /nologo /fo<OBJECT> <SOURCE>")
+endif()
+
+# TRUE when LumexLib is the top-level project, FALSE when a parent project
+# embeds it with add_subdirectory(). CMake 3.21 has PROJECT_IS_TOP_LEVEL,
+# but the minimum here is 3.16, and the value is needed before project().
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    set(LUMEX_IS_TOP_LEVEL TRUE)
+else()
+    set(LUMEX_IS_TOP_LEVEL FALSE)
+endif()
+
+# Prepend, not append: an embedding parent may already have another
+# CMakeRoutines checkout on CMAKE_MODULE_PATH, and every relative
+# include(core/...) below must resolve to this library's own copy.
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/CMakeRoutines")
+
+# Must run before project(): compiler detection has not happened yet.
+# No-op on non-Windows hosts. Skips INCLUDE/LIB injection for gcc/clang++.
+# clang-cl is an MSVC frontend, so the routine FATALS when vswhere /
+# vcvarsall.bat are missing. LLVM-only trees already pass
+# CMAKE_CXX_COMPILER; do not force a VS install on those machines.
+# When embedded, the parent already ran compiler detection and owns the
+# toolchain, so the routine would FATAL; skip it.
+if(NOT LUMEX_IS_TOP_LEVEL)
+    message(STATUS
+        "MsvcVcvarsConfig: skipped (LumexLib is embedded; "
+        "the parent project owns compiler selection)")
+else()
+    include(core/MsvcVcvarsConfig)
+    if(CMAKE_HOST_WIN32)
+        set(_lumex_cxx "${CMAKE_CXX_COMPILER}")
+        if(NOT _lumex_cxx AND DEFINED ENV{CXX} AND NOT "$ENV{CXX}" STREQUAL "")
+            set(_lumex_cxx "$ENV{CXX}")
+        endif()
+        set(_lumex_vswhere
+            "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/Installer/vswhere.exe")
+        if(NOT EXISTS "${_lumex_vswhere}")
+            set(_lumex_vswhere
+                "$ENV{ProgramFiles}/Microsoft Visual Studio/Installer/vswhere.exe")
+        endif()
+        set(_lumex_have_vcvars FALSE)
+        if(EXISTS "${_lumex_vswhere}"
+                OR MSVC_VCVARSALL
+                OR MSVC_VS_INSTALLATION_PATH)
+            set(_lumex_have_vcvars TRUE)
+        endif()
+        if(_lumex_have_vcvars OR NOT _lumex_cxx)
+            configure_msvc_vcvars()
+        else()
+            message(STATUS
+                "MsvcVcvarsConfig: skipped (no vswhere/vcvarsall; "
+                "compiler already '${_lumex_cxx}')")
+        endif()
+        unset(_lumex_cxx)
+        unset(_lumex_vswhere)
+        unset(_lumex_have_vcvars)
+    else()
+        configure_msvc_vcvars()
+    endif()
+endif()
 
 project(LumexLib
-    VERSION 1.0.0
+    VERSION 2.0.0.0
     LANGUAGES CXX
 )
+# The resource compiler only exists on Windows (version .rc files of the
+# shared libraries, cmake/LibraryVersioning.cmake). Asking for RC everywhere
+# made configure fail on Linux ("No CMAKE_RC_COMPILER could be found").
+# Pinned by cmake.wiring_rc_windows_only.
+if(WIN32)
+    enable_language(RC)
+endif()
 
 if(ARCHITECTURE)
     message(STATUS "Building for target architecture: ${ARCHITECTURE}")
 endif()
 
 # --- C++ Standard ---
-# Set C++11 as the default, but allow overriding it.
-if(NOT CMAKE_CXX_STANDARD)
-    set(CMAKE_CXX_STANDARD 11)
-endif()
-
+# Deliberately NOT setting a project-wide CMAKE_CXX_STANDARD default. A previous
+# attempt to pin one globally broke base64: Decoder/Validator select which
+# overload signature exists via `#if __cplusplus`, so a library .cpp compiled
+# at a different standard than its tests fails to link. Several *headers*
+# (LumexBit/Cast/MemRead/Ranges, ...) do require C++20 unconditionally,
+# but every one of them is header-only and only ever reached from a target that already pins
+# its own standard explicitly (test executables via `lumex_test_use_gtest(<tgt> CXX_STANDARD N)`).
+# Several older modules (e.g. base64's Decoder/Validator) instead use `#if __cplusplus` to
+# select which overload SIGNATURE is declared/defined at all - not just to gate extra
+# C++17/20-only additions - so their library .cpp files must keep compiling at whatever
+# standard the consuming test target expects (historically the toolchain's own bare default),
+# or the two sides disagree on the declared API shape and fail to link.
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF) # Use -std=c++11 instead of -std=gnu++11
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # --- Options ---
-option(LUMEX_BUILD_SHARED_LIBS "Build shared libraries (.dll/.so)" ON)
+include(cmake/LumexOptions.cmake)
+include(cmake/LumexModules.cmake)
+include(cmake/LumexNlohmannJson.cmake)
+lumex_check_module_dependencies()
+
+string(TOUPPER "${LUMEX_OPTIMIZATION_LEVEL}" _LUMEX_OPTIMIZATION_LEVEL)
+if(_LUMEX_OPTIMIZATION_LEVEL STREQUAL "MAXIMUM")
+    message(FATAL_ERROR
+        "LUMEX_OPTIMIZATION_LEVEL=Maximum enables /fp:fast and -ffast-math. "
+        "Lumex IEEE APIs (IsNanInf, CheckedNarrowCast, stringify inf/nan) require IEEE 754. "
+        "Use Portable (default), Standard, Aggressive, or MinSize.")
+endif()
 
 if(LUMEX_BUILD_SHARED_LIBS)
     set(BUILD_SHARED_LIBS ON)
@@ -30,18 +125,75 @@ else()
     message(STATUS "Building as static libraries")
 endif()
 
-# Set position-independent code for shared libs or static libs that will be linked into shared
-if(BUILD_SHARED_LIBS OR(CMAKE_POSITION_INDEPENDENT_CODE AND NOT WIN32))
+if(BUILD_SHARED_LIBS OR (CMAKE_POSITION_INDEPENDENT_CODE AND NOT WIN32))
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
+# Per-target flags come from CMakeRoutines (cmake/LumexBuild.cmake).
+# Do not re-enable global IPO: Portable forbids LTO.
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE OFF)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO OFF)
+
+include(cmake/LumexBuild.cmake)
+
+# RULE_LAUNCH_* must be set before targets compile (Ninja/Makefiles).
+configure_build_timing(ENABLE ${LUMEX_BUILD_TIMING})
+
+if(WIN32)
+    configure_windows_version(VERSION TENELEVEN)
+endif()
+
+# Intended default when the user did not pass -DCMAKE_BUILD_TYPE.
+# On CMake 4.x this check often does nothing: project() (above) already
+# initializes CMAKE_BUILD_TYPE from the toolchain, commonly Debug for
+# MSVC-like compilers. Pass -DCMAKE_BUILD_TYPE=Release explicitly for a
+# Release tree. Do not move this block before project() without a
+# deliberate decision - that would change the implicit default.
+# Embedded: the build type belongs to the parent; never FORCE its cache.
+if(LUMEX_IS_TOP_LEVEL AND NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "Setting build type to 'Release' as none was specified.")
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
+endif()
+
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "C++ Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "Target architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+message(STATUS "Optimization level: ${LUMEX_OPTIMIZATION_LEVEL}")
+message(STATUS
+    "Sanitizers: ASAN=${LUMEX_USE_ASAN} UBSAN=${LUMEX_USE_UBSAN} TSAN=${LUMEX_USE_TSAN}")
+message(STATUS
+    "Static analysis: CLANG_TIDY=${LUMEX_USE_CLANG_TIDY} CPPCHECK=${LUMEX_USE_CPPCHECK} "
+    "PROFILE=${LUMEX_STATIC_ANALYSIS_PROFILE}")
+message(STATUS
+    "Maximum standard compliance: ${LUMEX_MAXIMUM_STANDARD_COMPLIANCE}")
+message(STATUS
+    "Warnings as errors: ${LUMEX_WERROR}")
+message(STATUS
+    "Build timing: ${LUMEX_BUILD_TIMING}")
+message(STATUS
+    "Generate build info: ${LUMEX_GENERATE_BUILD_INFO} "
+    "(format=${LUMEX_BUILD_INFO_FORMAT})")
+lumex_warn_sanitizers_without_debug_info()
+
+# clang-cl + ASan rejects the debug CRT (invalid argument '-MDd' not allowed
+# with '-fsanitize=address'). Must run before any add_subdirectory so every
+# target inherits the forced release CRT; see cmake/LumexSanitizerBuildType.cmake.
+lumex_apply_asan_runtime_library()
+
+if(UNIX AND NOT APPLE)
+    add_compile_definitions(_GNU_SOURCE)
+elseif(APPLE)
+    add_compile_options(-fno-common)
+endif()
+
 # ---------------------------------------------------------------------------
-# Unified output directories – ensures *.dll sit next to the executables
+# Unified output directories - ensures *.dll sit next to the executables
 # ---------------------------------------------------------------------------
 set(LUMEX_BIN_DIR ${CMAKE_BINARY_DIR}/bin)
 set(LUMEX_LIB_DIR ${CMAKE_BINARY_DIR}/lib)
 
-# Multi-config generators (Visual Studio, Xcode)
 if(CMAKE_CONFIGURATION_TYPES)
     foreach(CONF ${CMAKE_CONFIGURATION_TYPES})
         string(TOUPPER ${CONF} CONF_UPPER)
@@ -49,118 +201,336 @@ if(CMAKE_CONFIGURATION_TYPES)
         set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONF_UPPER} ${LUMEX_BIN_DIR}/${CONF})
         set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${CONF_UPPER} ${LUMEX_LIB_DIR}/${CONF})
     endforeach()
-
-# Single-config generators (Make, Ninja)
 else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${LUMEX_BIN_DIR})
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LUMEX_BIN_DIR})
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LUMEX_LIB_DIR})
 endif()
 
-# --- Includes & Subdirectories ---
+include(cmake/LumexLibraryVersioning.cmake)
+
+# CMakeRoutines' symlink target is not ALL. clangd reads the repo-root copy.
+# Visual Studio / Xcode never write compile_commands.json, so copy via a
+# script that no-ops when the source is missing (copy_if_different would
+# fail ALL and abort MSBuild).
+# Embedded: CMAKE_EXPORT_COMPILE_COMMANDS is a cache entry of the whole
+# tree (the routine FORCEs it), and the copy would drop the parent's
+# database into this submodule's source tree; leave both to the parent.
+# The variable is read when a target is created, so this call has to
+# precede add_subdirectory(lumex). A later call leaves EXPORT_COMPILE_COMMANDS
+# off on every library target of a fresh tree.
+if(LUMEX_IS_TOP_LEVEL)
+    configure_compile_commands(ENABLE ON CREATE_SYMLINK OFF)
+    add_custom_target(lumex_copy_compile_commands ALL
+        COMMAND ${CMAKE_COMMAND}
+                -DSOURCE=${CMAKE_BINARY_DIR}/compile_commands.json
+                -DDEST=${PROJECT_SOURCE_DIR}/compile_commands.json
+                -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/CopyCompileCommandsIfPresent.cmake
+        COMMENT "Copying compile_commands.json to the repo root for clangd (if present)"
+        VERBATIM
+    )
+endif()
+
+# The install rules of the modules read CMAKE_INSTALL_BINDIR, _LIBDIR and
+# _INCLUDEDIR when their directory is processed, so GNUInstallDirs comes first.
+# Behind add_subdirectory, a configure that gave only -DCMAKE_INSTALL_LIBDIR
+# (create_release.sh does) left BINDIR empty and CMake dropped the RUNTIME
+# (DLL) rule of every shared library.
+include(GNUInstallDirs)
+
 add_subdirectory(lumex)
 
-# ==============================================================================
-# COMPILER OPTIMIZATIONS & WARNINGS
-# ==============================================================================
+if(LUMEX_BUILD_XML)
+    message(STATUS "Building with Xml enabled")
+endif()
 
-# Common compiler flags
-include(CheckCXXCompilerFlag)
+include(CMakePackageConfigHelpers)
 
-# Warnings
-if(MSVC)
-    # MSVC specific warning flags
-    add_compile_options(
-        /W4 # Highest warning level for MSVC
-        /permissive- # Enable strict standard compliance
+# LUMEX_INSTALL (cmake/LumexOptions.cmake) defaults to ON only when LumexLib
+# is the top-level project; module CMakeLists.txt files use the same guard.
+if(LUMEX_INSTALL)
+    lumex_install_export_if_any(LumexCoreTargets LumexCoreTargets.cmake
+        LumexCore_atomic
+        LumexCore_base64
+        LumexCore_circular_buffer
+        LumexCore_contracts
+        LumexCore_crc
+        LumexCore_environment
+        LumexCore_exceptions
+        LumexCore_expected
+        LumexCore_filesystem
+        LumexCore_fmt
+        LumexCore_hazard_pointer
+        LumexCore_number_generator
+        LumexCore_math
+        LumexCore_optional
+        LumexCore_reflection
+        LumexCore_smart_ptr
+        LumexCore_span
+        LumexCore_string
+        LumexCore_string_view
+        LumexCore_temporary
+        LumexCore_time
+        LumexCore_unicode
+        LumexCore_utility
     )
 
-# Specific warnings equivalent to -Wextra, -Wshadow etc. might need individual flags
-# For example, /wd#### to disable specific warnings that are too noisy
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    # GCC/Clang specific warning flags
-    foreach(FLAG -Wall -Wextra -Wpedantic -Wshadow)
-        check_cxx_compiler_flag(${FLAG} HAS_FLAG_${FLAG})
+    lumex_install_export_if_any(LumexAppliedTargets LumexAppliedTargets.cmake
+        LumexApplied_hardware
+        LumexApplied_json
+        LumexApplied_logger
+        LumexApplied_logging
+        LumexApplied_resource_monitor
+        LumexApplied_serial
+        LumexApplied_settings
+    )
 
-        if(HAS_FLAG_${FLAG})
-            add_compile_options(${FLAG})
-        endif()
-    endforeach()
+    lumex_install_export_if_any(LumexXmlTargets LumexXmlTargets.cmake
+        LumexXml
+    )
+
+    # The developer files of every library go to dev/: the import .lib, the
+    # .exp and the PDB (MSVC, cl.exe and clang-cl) or the .debug split out of
+    # the release binary (GCC/Clang on ELF). cmake/LumexModules.cmake.
+    lumex_install_dev_artifacts()
+
+    write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfigVersion.cmake"
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY AnyNewerVersion
+    )
+
+    configure_package_config_file(
+        "cmake/LumexLibConfig.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfig.cmake"
+        INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/LumexLib"
+    )
+
+    install(
+        FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfigVersion.cmake"
+        DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}/cmake/LumexLib
+    )
+
+    # The license and the notices of the code LumexLib derives from (pugixml).
+    install(
+        FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE"
+        "${CMAKE_CURRENT_SOURCE_DIR}/THIRD-PARTY-NOTICES.md"
+        DESTINATION
+        ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
+    )
+
+    # The compiler runtime the libraries link against goes next to them in the
+    # installed bin/ (Windows): the package runs on a machine that never
+    # installed the MSVC redistributable, as <platform>/Distr<Config> already
+    # does through publish_distr. Registered last on purpose - the hook walks
+    # the INSTALLED DLLs (cmake/InstallBinRuntime.cmake).
+    if(WIN32)
+        install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/InstallBinRuntime.cmake")
+    endif()
 endif()
 
 # ==============================================================================
-# INSTALLATION
+# DOCUMENTATION
 # ==============================================================================
-include(GNUInstallDirs)
-include(CMakePackageConfigHelpers)
+if(LUMEX_BUILD_DOCUMENTATION)
+    message(STATUS "Building with documentation enabled")
+    find_program(DOXYGEN_EXECUTABLE NAMES doxygen)
 
-# Generate and install the export file for targets
-install(EXPORT LumexCoreTargets
-    FILE
-    LumexCoreTargets.cmake
-    NAMESPACE
-    Lumex::
-    DESTINATION
-    ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-)
+    if(NOT DOXYGEN_EXECUTABLE)
+        message(FATAL_ERROR "Doxygen executable not found! Please install Doxygen or ensure it's in your PATH.")
+    endif()
 
-# Generate and install the export file for LumexApplied targets
-install(EXPORT LumexAppliedTargets
-    FILE
-    LumexAppliedTargets.cmake
-    NAMESPACE
-    Lumex::
-    DESTINATION
-    ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-)
+    # Markdown pages (README.md next to a component) keep repository-relative
+    # image links; this filter turns them into file names from IMAGE_PATH
+    # while Doxygen reads them. C and C++ sources go through a second filter
+    # that rewrites raw string literals into ordinary ones: Doxygen 1.8 does
+    # not lex them and loses the declarations that follow. Without Python the
+    # images are missing and such declarations may be too.
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    if(Python3_Interpreter_FOUND)
+        set(LUMEX_DOXYGEN_MARKDOWN_FILTER
+            "${Python3_EXECUTABLE} ${LumexLib_SOURCE_DIR}/Scripts/Doxygen/markdown_image_filter.py")
+        set(LUMEX_DOXYGEN_CPP_FILTER
+            "${Python3_EXECUTABLE} ${LumexLib_SOURCE_DIR}/Scripts/Doxygen/cpp_raw_string_filter.py")
+    else()
+        set(LUMEX_DOXYGEN_MARKDOWN_FILTER "")
+        set(LUMEX_DOXYGEN_CPP_FILTER "")
+        message(WARNING "Python 3 not found: Markdown images are left out of the documentation, "
+                        "and declarations after a raw string literal may be too")
+    endif()
 
-# Generate and install the config version file
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfigVersion.cmake"
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-)
+    # The module umbrellas (lumex/core/atomic/LumexAtomic, ...) have no file
+    # extension, so no FILE_PATTERNS entry of the Doxyfile reaches them.
+    # Doxyfile.in lists them in INPUT through LUMEX_DOXYGEN_UMBRELLAS, one
+    # source-relative path per line (Doxygen runs in the source directory).
+    # The list is taken at configure time; a new umbrella comes with a new
+    # module directory, whose add_subdirectory reruns the configure.
+    file(GLOB_RECURSE _lumex_doxygen_candidates
+        LIST_DIRECTORIES false
+        RELATIVE "${LumexLib_SOURCE_DIR}"
+        "${LumexLib_SOURCE_DIR}/lumex/*")
+    list(SORT _lumex_doxygen_candidates)
+    set(LUMEX_DOXYGEN_UMBRELLAS "")
+    foreach(_lumex_doxygen_file IN LISTS _lumex_doxygen_candidates)
+        get_filename_component(_lumex_doxygen_name "${_lumex_doxygen_file}" NAME)
+        if(_lumex_doxygen_file MATCHES "^lumex/(tests|examples)/"
+           OR _lumex_doxygen_name MATCHES "\\.")
+            continue()
+        endif()
+        if(LUMEX_DOXYGEN_UMBRELLAS)
+            string(APPEND LUMEX_DOXYGEN_UMBRELLAS " \\\n                         ")
+        endif()
+        string(APPEND LUMEX_DOXYGEN_UMBRELLAS "\"${_lumex_doxygen_file}\"")
+    endforeach()
 
-# Generate the main config file
-configure_package_config_file(
-    "cmake/LumexLibConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfig.cmake"
-    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/LumexLib"
-)
+    # Configure the Doxyfile from its template with the project version, the
+    # filters and the umbrella list.
+    set(DOXYFILE_IN "${LumexLib_SOURCE_DIR}/Doxyfile.in")
+    set(DOXYFILE_OUT "${CMAKE_BINARY_DIR}/Doxyfile")
 
-# Install the generated config files
-install(
-    FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/LumexLibConfigVersion.cmake"
-    DESTINATION
-    ${CMAKE_INSTALL_LIBDIR}/cmake/LumexLib
-)
+    configure_file(
+        ${DOXYFILE_IN}
+        ${DOXYFILE_OUT}
+        @ONLY
+    )
+
+    set(DOXYFILE_PATH "${DOXYFILE_OUT}")
+    set(DOXYGEN_OUTPUT_DIR "${LumexLib_SOURCE_DIR}/docs")
+
+    add_custom_command(
+        OUTPUT "${DOXYGEN_OUTPUT_DIR}/html/index.html"
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_PATH}
+        WORKING_DIRECTORY "${LumexLib_SOURCE_DIR}"
+        DEPENDS ${DOXYFILE_OUT}
+        COMMENT "Generating Doxygen documentation (version: ${PROJECT_VERSION})"
+        VERBATIM
+    )
+
+    add_custom_target(generate_documentation ALL
+        DEPENDS "${DOXYGEN_OUTPUT_DIR}/html/index.html"
+        COMMENT "Doxygen documentation generated"
+    )
+
+    if(LUMEX_INSTALL)
+        install(DIRECTORY "${DOXYGEN_OUTPUT_DIR}/"
+            DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/docs"
+            PATTERN "*.map" EXCLUDE
+            PATTERN "*.md5" EXCLUDE
+            PATTERN "*.tag" EXCLUDE
+            PATTERN "*.bak" EXCLUDE
+        )
+    endif()
+endif()
 
 # ==============================================================================
-# TESTING
+# EXAMPLES / TESTING
 # ==============================================================================
-option(LUMEX_BUILD_TESTS "Build the tests for LumexCore" OFF)
+# enable_testing() must precede add_test() in lumex/examples. Tests ON also
+# compiles and registers every example executable (exit 0) so the samples
+# cannot drift from the public API.
+if(LUMEX_BUILD_TESTS)
+    enable_testing()
+endif()
+
+if(LUMEX_BUILD_EXAMPLES OR LUMEX_BUILD_TESTS)
+    message(STATUS "Building examples (LUMEX_BUILD_EXAMPLES=${LUMEX_BUILD_EXAMPLES}, LUMEX_BUILD_TESTS=${LUMEX_BUILD_TESTS})")
+    add_subdirectory(lumex/examples)
+endif()
 
 if(LUMEX_BUILD_TESTS)
     message(STATUS "Building with tests enabled")
-    enable_testing()
     add_subdirectory(lumex/tests)
-
-    add_custom_target(run_all_tests ALL
-        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        DEPENDS
-
-        # Lumex Applied tests
-
-        # Lumex Core tests
-        LumexBase64Tests
-        LumexNumberGeneratorTests
-        LumexOptionalTests
-        LumexStringifyTests
-        LumexStringViewTests
-        LumexTimeTests
-        COMMENT "Running all tests..."
-    )
 endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_FMT)
+    message(STATUS "Building benchmarks (benchmarks/fmt)")
+    add_subdirectory(benchmarks/fmt)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_ATOMIC)
+    message(STATUS "Building benchmarks (benchmarks/atomic)")
+    add_subdirectory(benchmarks/atomic)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_SPAN)
+    message(STATUS "Building benchmarks (benchmarks/span)")
+    add_subdirectory(benchmarks/span)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_HAZARD_POINTER)
+    message(STATUS "Building benchmarks (benchmarks/hazard_pointer)")
+    add_subdirectory(benchmarks/hazard_pointer)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_EXPECTED)
+    message(STATUS "Building benchmarks (benchmarks/expected)")
+    add_subdirectory(benchmarks/expected)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_OPTIONAL)
+    message(STATUS "Building benchmarks (benchmarks/optional)")
+    add_subdirectory(benchmarks/optional)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_STRING_VIEW)
+    message(STATUS "Building benchmarks (benchmarks/string_view)")
+    add_subdirectory(benchmarks/string_view)
+endif()
+
+if(LUMEX_BUILD_BENCHMARKS AND LUMEX_BUILD_CORE AND LUMEX_BUILD_CIRCULAR_BUFFER)
+    message(STATUS "Building benchmarks (benchmarks/circular_buffer)")
+    add_subdirectory(benchmarks/circular_buffer)
+endif()
+
+# Shared libs (not test/example binaries) -> <platform>/Distr<Config>.
+# Tests are registered with CTest; the programmer runs ctest explicitly.
+# Embedded: Distr lives in this library's source tree, and the parent
+# decides where Lumex runtime files go, so do not publish there.
+if(LUMEX_IS_TOP_LEVEL)
+    lumex_add_publish_distr_target()
+endif()
+
+# After every add_subdirectory: per-target CompilerFlags + OptimizationLevel
+# (+ CMakeRoutines sanitizers when any LUMEX_USE_*SAN is ON, including tests
+# and vendored gtest).
+lumex_configure_all_compiled_targets()
+print_build_info()
+
+# ==============================================================================
+# PACKAGING (CPack)
+# ==============================================================================
+# compile.py -i/--setup-installer builds Release and then runs
+# `cpack -G <NSIS|TGZ>` in the build directory; create_release.ps1 drives that
+# for its `exe` format and copies the installer into release/. The NSIS
+# installer carries the install tree (bin/, include/, share/) and installs per
+# machine into <Program Files>/LumexLib/<version>; the release script overrides
+# CPACK_PACKAGE_INSTALL_DIRECTORY with LumexLib/<version>_<compiler> so builds
+# of several compilers sit side by side, like /opt/LumexLib/<version>_<compiler>
+# on Linux, and gives the uninstall entry the same compiler suffix. A plain
+# `cpack` run by hand keeps the version-only directory.
+if(LUMEX_IS_TOP_LEVEL AND LUMEX_INSTALL)
+    set(CPACK_PACKAGE_NAME "LumexLib")
+    set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+    set(CPACK_PACKAGE_VENDOR "Lumex Ltd.")
+    set(CPACK_PACKAGE_CONTACT "vladislav.semykin@gmail.com")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "LumexLib C++ utility library ${PROJECT_VERSION}")
+    set(CPACK_PACKAGE_FILE_NAME "LumexLib-${PROJECT_VERSION}-win")
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY "LumexLib/${PROJECT_VERSION}"
+        CACHE STRING "Installation directory (the release script adds the compiler suffix)")
+    set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "LumexLib ${PROJECT_VERSION}"
+        CACHE STRING "Add/Remove and vendor registry key of the installer")
+    set(CPACK_NSIS_DISPLAY_NAME "LumexLib ${PROJECT_VERSION}"
+        CACHE STRING "Name shown in Add/Remove Programs")
+    set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
+    if(WIN32)
+        set(CPACK_GENERATOR "NSIS")
+    else()
+        set(CPACK_GENERATOR "TGZ")
+    endif()
+    include(CPack)
+endif()
+

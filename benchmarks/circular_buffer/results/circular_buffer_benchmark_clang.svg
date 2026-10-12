@@ -1,0 +1,282 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="728" viewBox="0 0 1000 728" font-family="Segoe UI, Arial, sans-serif" font-size="11">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="250" y="22" font-size="15" font-weight="bold">circular_buffer, time relative to boost C++17 (clang)</text>
+<text x="250" y="40" fill="#555">Clang 23.1.0; 12th Gen Intel(R) Core(TM) i7-12700K</text>
+<circle cx="255" cy="55" r="4.5" fill="#3c9d4a"/>
+<text x="264" y="59">boost C++17</text>
+<circle cx="347" cy="55" r="4.5" fill="#8fd19a"/>
+<text x="356" y="59">boost C++11</text>
+<circle cx="439" cy="55" r="4.5" fill="#1b6ca8"/>
+<text x="448" y="59">lumex C++11</text>
+<circle cx="531" cy="55" r="4.5" fill="#6fb1e0"/>
+<text x="540" y="59">lumex C++17</text>
+<circle cx="623" cy="55" r="4.5" fill="#d9822b"/>
+<text x="632" y="59">deque C++17</text>
+<circle cx="716" cy="55" r="4.5" fill="#8c564b"/>
+<text x="725" y="59">vector C++17</text>
+<circle cx="814" cy="55" r="4.5" fill="#c49c94"/>
+<text x="823" y="59">vector % C++17</text>
+<line x1="250.0" y1="64" x2="250.0" y2="650" stroke="#ddd"/>
+<text x="250.0" y="664" text-anchor="middle" fill="#555">0.1x</text>
+<line x1="358.4" y1="64" x2="358.4" y2="650" stroke="#ddd"/>
+<text x="358.4" y="664" text-anchor="middle" fill="#555">0.2x</text>
+<line x1="501.6" y1="64" x2="501.6" y2="650" stroke="#ddd"/>
+<text x="501.6" y="664" text-anchor="middle" fill="#555">0.5x</text>
+<line x1="610.0" y1="64" x2="610.0" y2="650" stroke="#444"/>
+<text x="610.0" y="664" text-anchor="middle" fill="#555">1x</text>
+<line x1="718.4" y1="64" x2="718.4" y2="650" stroke="#ddd"/>
+<text x="718.4" y="664" text-anchor="middle" fill="#555">2x</text>
+<line x1="861.6" y1="64" x2="861.6" y2="650" stroke="#ddd"/>
+<text x="861.6" y="664" text-anchor="middle" fill="#555">5x</text>
+<line x1="970.0" y1="64" x2="970.0" y2="650" stroke="#ddd"/>
+<text x="970.0" y="664" text-anchor="middle" fill="#555">10x</text>
+<text x="610" y="684" text-anchor="middle" fill="#555">time relative to boost C++17 (log scale, clipped at 0.1x and 10x; left is faster)</text>
+<text x="610" y="700" text-anchor="middle" fill="#555">a hollow dot: the processes of that executable disagree by more than 25 % (code and stack placement), read it as noise</text>
+<rect x="0" y="70.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="84.0" text-anchor="end">push_overwrite_int (1,024)</text>
+<circle cx="610.0" cy="80.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 0.92 ns, 1.00x</title></circle>
+<circle cx="610.4" cy="80.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 0.92 ns, 1.00x</title></circle>
+<circle cx="576.5" cy="80.0" r="4" fill="none" stroke="#1b6ca8" stroke-width="1.6"><title>lumex C++11: 0.74 ns, 0.81x (unstable)</title></circle>
+<circle cx="578.3" cy="80.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.75 ns, 0.82x</title></circle>
+<circle cx="732.0" cy="80.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 2.00 ns, 2.18x</title></circle>
+<circle cx="624.4" cy="80.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 1.01 ns, 1.10x</title></circle>
+<circle cx="880.4" cy="80.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 5.18 ns, 5.64x</title></circle>
+<text x="242" y="104.0" text-anchor="end">push_overwrite_str_short (1,024)</text>
+<circle cx="610.0" cy="100.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 1.74 ns, 1.00x</title></circle>
+<circle cx="610.3" cy="100.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 1.75 ns, 1.00x</title></circle>
+<circle cx="666.7" cy="100.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 2.50 ns, 1.44x</title></circle>
+<circle cx="665.9" cy="100.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 2.49 ns, 1.43x</title></circle>
+<circle cx="714.9" cy="100.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 3.41 ns, 1.96x</title></circle>
+<circle cx="633.2" cy="100.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 2.02 ns, 1.16x</title></circle>
+<circle cx="780.9" cy="100.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 5.20 ns, 2.98x</title></circle>
+<rect x="0" y="110.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="124.0" text-anchor="end">push_overwrite_str_long (1,024)</text>
+<circle cx="610.0" cy="120.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 6.14 ns, 1.00x</title></circle>
+<circle cx="608.0" cy="120.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 6.06 ns, 0.99x</title></circle>
+<circle cx="711.0" cy="120.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 11.71 ns, 1.91x</title></circle>
+<circle cx="712.1" cy="120.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 11.80 ns, 1.92x</title></circle>
+<circle cx="726.4" cy="120.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 12.93 ns, 2.10x</title></circle>
+<circle cx="609.3" cy="120.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 6.11 ns, 1.00x</title></circle>
+<circle cx="617.8" cy="120.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 6.45 ns, 1.05x</title></circle>
+<text x="242" y="144.0" text-anchor="end">push_pop_steady_int (1,024)</text>
+<circle cx="610.0" cy="140.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 1.21 ns, 1.00x</title></circle>
+<circle cx="606.7" cy="140.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 1.18 ns, 0.98x</title></circle>
+<circle cx="604.9" cy="140.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 1.17 ns, 0.97x</title></circle>
+<circle cx="607.6" cy="140.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.19 ns, 0.98x</title></circle>
+<circle cx="916.9" cy="140.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 8.58 ns, 7.12x</title></circle>
+<circle cx="617.1" cy="140.0" r="4" fill="none" stroke="#8c564b" stroke-width="1.6"><title>vector C++17: 1.26 ns, 1.05x (unstable)</title></circle>
+<circle cx="837.9" cy="140.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 5.18 ns, 4.30x</title></circle>
+<rect x="0" y="150.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="164.0" text-anchor="end">push_pop_steady_str_short (1,024)</text>
+<circle cx="610.0" cy="160.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 2.23 ns, 1.00x</title></circle>
+<circle cx="610.5" cy="160.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 2.24 ns, 1.00x</title></circle>
+<circle cx="665.6" cy="160.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 3.18 ns, 1.43x</title></circle>
+<circle cx="669.4" cy="160.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.26 ns, 1.46x</title></circle>
+<circle cx="698.0" cy="160.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 3.91 ns, 1.76x</title></circle>
+<circle cx="646.1" cy="160.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 2.81 ns, 1.26x</title></circle>
+<circle cx="743.6" cy="160.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 5.24 ns, 2.35x</title></circle>
+<text x="242" y="184.0" text-anchor="end">push_pop_steady_str_long (1,024)</text>
+<circle cx="610.0" cy="180.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 12.08 ns, 1.00x</title></circle>
+<circle cx="611.6" cy="180.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 12.21 ns, 1.01x</title></circle>
+<circle cx="606.3" cy="180.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 11.80 ns, 0.98x</title></circle>
+<circle cx="606.6" cy="180.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 11.82 ns, 0.98x</title></circle>
+<circle cx="625.0" cy="180.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 13.29 ns, 1.10x</title></circle>
+<circle cx="525.4" cy="180.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 7.03 ns, 0.58x</title></circle>
+<circle cx="532.6" cy="180.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 7.36 ns, 0.61x</title></circle>
+<rect x="0" y="190.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="204.0" text-anchor="end">fill_int (1,024)</text>
+<circle cx="610.0" cy="200.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 573.4 ns, 1.00x</title></circle>
+<circle cx="607.9" cy="200.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 565.8 ns, 0.99x</title></circle>
+<circle cx="630.2" cy="200.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 652.5 ns, 1.14x</title></circle>
+<circle cx="631.0" cy="200.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 656.0 ns, 1.14x</title></circle>
+<circle cx="795.8" cy="200.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 1882 ns, 3.28x</title></circle>
+<circle cx="626.9" cy="200.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 639.0 ns, 1.11x</title></circle>
+<circle cx="754.6" cy="200.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 1446 ns, 2.52x</title></circle>
+<text x="242" y="224.0" text-anchor="end">fill_str_short (256)</text>
+<circle cx="610.0" cy="220.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 447.9 ns, 1.00x</title></circle>
+<circle cx="609.2" cy="220.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 445.6 ns, 0.99x</title></circle>
+<circle cx="661.5" cy="220.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 622.6 ns, 1.39x</title></circle>
+<circle cx="662.5" cy="220.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 626.6 ns, 1.40x</title></circle>
+<circle cx="697.8" cy="220.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 785.4 ns, 1.75x</title></circle>
+<circle cx="608.4" cy="220.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 443.5 ns, 0.99x</title></circle>
+<circle cx="616.3" cy="220.0" r="4" fill="none" stroke="#c49c94" stroke-width="1.6"><title>vector % C++17: 466.4 ns, 1.04x (unstable)</title></circle>
+<rect x="0" y="230.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="244.0" text-anchor="end">fill_str_long (256)</text>
+<circle cx="610.0" cy="240.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 4137 ns, 1.00x</title></circle>
+<circle cx="609.4" cy="240.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 4123 ns, 1.00x</title></circle>
+<circle cx="585.1" cy="240.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 3529 ns, 0.85x</title></circle>
+<circle cx="582.5" cy="240.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3471 ns, 0.84x</title></circle>
+<circle cx="593.2" cy="240.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 3715 ns, 0.90x</title></circle>
+<circle cx="457.5" cy="240.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 1560 ns, 0.38x</title></circle>
+<circle cx="460.2" cy="240.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 1587 ns, 0.38x</title></circle>
+<text x="242" y="264.0" text-anchor="end">fill_drain_int (1,024)</text>
+<circle cx="610.0" cy="260.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 1044 ns, 1.00x</title></circle>
+<circle cx="610.5" cy="260.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 1047 ns, 1.00x</title></circle>
+<circle cx="593.6" cy="260.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 940.2 ns, 0.90x</title></circle>
+<circle cx="594.9" cy="260.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 947.8 ns, 0.91x</title></circle>
+<circle cx="739.4" cy="260.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 2389 ns, 2.29x</title></circle>
+<circle cx="606.9" cy="260.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 1023 ns, 0.98x</title></circle>
+<circle cx="809.9" cy="260.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 3750 ns, 3.59x</title></circle>
+<rect x="0" y="270.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="284.0" text-anchor="end">fill_drain_str_short (256)</text>
+<circle cx="610.0" cy="280.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 625.4 ns, 1.00x</title></circle>
+<circle cx="609.3" cy="280.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 622.7 ns, 1.00x</title></circle>
+<circle cx="643.5" cy="280.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 774.8 ns, 1.24x</title></circle>
+<circle cx="642.1" cy="280.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 768.1 ns, 1.23x</title></circle>
+<circle cx="687.4" cy="280.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 1026 ns, 1.64x</title></circle>
+<circle cx="647.1" cy="280.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 792.7 ns, 1.27x</title></circle>
+<circle cx="747.3" cy="280.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 1505 ns, 2.41x</title></circle>
+<text x="242" y="304.0" text-anchor="end">front_back_int (1,024)</text>
+<circle cx="610.0" cy="300.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 0.50 ns, 1.00x</title></circle>
+<circle cx="607.1" cy="300.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 0.49 ns, 0.98x</title></circle>
+<circle cx="653.2" cy="300.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 0.66 ns, 1.32x</title></circle>
+<circle cx="650.1" cy="300.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 0.65 ns, 1.29x</title></circle>
+<circle cx="689.6" cy="300.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 0.84 ns, 1.66x</title></circle>
+<circle cx="648.7" cy="300.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 0.65 ns, 1.28x</title></circle>
+<circle cx="774.4" cy="300.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 1.44 ns, 2.86x</title></circle>
+<rect x="0" y="310.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="324.0" text-anchor="end">front_back_str_short (1,024)</text>
+<circle cx="610.0" cy="320.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 0.93 ns, 1.00x</title></circle>
+<circle cx="606.8" cy="320.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 0.91 ns, 0.98x</title></circle>
+<circle cx="718.7" cy="320.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 1.86 ns, 2.00x</title></circle>
+<circle cx="718.5" cy="320.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 1.86 ns, 2.00x</title></circle>
+<circle cx="762.5" cy="320.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 2.46 ns, 2.65x</title></circle>
+<circle cx="720.7" cy="320.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 1.89 ns, 2.03x</title></circle>
+<circle cx="754.0" cy="320.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 2.33 ns, 2.51x</title></circle>
+<text x="242" y="344.0" text-anchor="end">index_sum_int (1,024)</text>
+<circle cx="610.0" cy="340.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 309.5 ns, 1.00x</title></circle>
+<circle cx="608.3" cy="340.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 306.1 ns, 0.99x</title></circle>
+<circle cx="618.1" cy="340.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 325.9 ns, 1.05x</title></circle>
+<circle cx="619.0" cy="340.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 327.9 ns, 1.06x</title></circle>
+<circle cx="603.8" cy="340.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 297.4 ns, 0.96x</title></circle>
+<circle cx="620.2" cy="340.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 330.4 ns, 1.07x</title></circle>
+<circle cx="806.2" cy="340.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 1086 ns, 3.51x</title></circle>
+<rect x="0" y="350.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="364.0" text-anchor="end">index_sum_str_short (1,024)</text>
+<circle cx="610.0" cy="360.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 726.3 ns, 1.00x</title></circle>
+<circle cx="612.6" cy="360.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 738.3 ns, 1.02x</title></circle>
+<circle cx="594.4" cy="360.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 657.5 ns, 0.91x</title></circle>
+<circle cx="594.5" cy="360.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 658.0 ns, 0.91x</title></circle>
+<circle cx="638.4" cy="360.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 870.7 ns, 1.20x</title></circle>
+<circle cx="595.0" cy="360.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 659.9 ns, 0.91x</title></circle>
+<circle cx="687.8" cy="360.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 1194 ns, 1.64x</title></circle>
+<text x="242" y="384.0" text-anchor="end">iterate_sum_int (1,024)</text>
+<circle cx="610.0" cy="380.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 497.9 ns, 1.00x</title></circle>
+<circle cx="610.0" cy="380.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 498.0 ns, 1.00x</title></circle>
+<circle cx="544.0" cy="380.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 326.4 ns, 0.66x</title></circle>
+<circle cx="544.7" cy="380.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 327.9 ns, 0.66x</title></circle>
+<circle cx="511.9" cy="380.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 265.9 ns, 0.53x</title></circle>
+<circle cx="543.6" cy="380.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 325.5 ns, 0.65x</title></circle>
+<circle cx="731.9" cy="380.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 1086 ns, 2.18x</title></circle>
+<rect x="0" y="390.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="404.0" text-anchor="end">iterate_sum_str_short (1,024)</text>
+<circle cx="610.0" cy="400.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 675.7 ns, 1.00x</title></circle>
+<circle cx="609.5" cy="400.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 673.5 ns, 1.00x</title></circle>
+<circle cx="608.5" cy="400.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 669.4 ns, 0.99x</title></circle>
+<circle cx="607.6" cy="400.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 665.5 ns, 0.98x</title></circle>
+<circle cx="562.7" cy="400.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 499.4 ns, 0.74x</title></circle>
+<circle cx="606.3" cy="400.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 660.0 ns, 0.98x</title></circle>
+<circle cx="699.3" cy="400.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 1196 ns, 1.77x</title></circle>
+<text x="242" y="424.0" text-anchor="end">producer_consumer_int (1,024)</text>
+<circle cx="610.0" cy="420.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 16596 ns, 1.00x</title></circle>
+<circle cx="610.9" cy="420.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 16695 ns, 1.01x</title></circle>
+<circle cx="615.6" cy="420.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 17204 ns, 1.04x</title></circle>
+<circle cx="616.0" cy="420.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 17242 ns, 1.04x</title></circle>
+<circle cx="671.9" cy="420.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 24654 ns, 1.49x</title></circle>
+<circle cx="615.7" cy="420.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 17217 ns, 1.04x</title></circle>
+<circle cx="642.0" cy="420.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 20364 ns, 1.23x</title></circle>
+<rect x="0" y="430.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="444.0" text-anchor="end">producer_consumer_str_short (1,024)</text>
+<circle cx="610.0" cy="440.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 26088 ns, 1.00x</title></circle>
+<circle cx="611.5" cy="440.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 26346 ns, 1.01x</title></circle>
+<circle cx="611.0" cy="440.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 26249 ns, 1.01x</title></circle>
+<circle cx="610.5" cy="440.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 26176 ns, 1.00x</title></circle>
+<circle cx="637.5" cy="440.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 31109 ns, 1.19x</title></circle>
+<circle cx="622.3" cy="440.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 28228 ns, 1.08x</title></circle>
+<circle cx="636.6" cy="440.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 30920 ns, 1.19x</title></circle>
+<text x="242" y="464.0" text-anchor="end">ctor_dtor_int (1,024)</text>
+<circle cx="610.0" cy="460.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 26.51 ns, 1.00x</title></circle>
+<circle cx="610.6" cy="460.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 26.61 ns, 1.00x</title></circle>
+<circle cx="604.8" cy="460.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 25.65 ns, 0.97x</title></circle>
+<circle cx="608.2" cy="460.0" r="4" fill="none" stroke="#6fb1e0" stroke-width="1.6"><title>lumex C++17: 26.22 ns, 0.99x (unstable)</title></circle>
+<circle cx="250.0" cy="460.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 1.24 ns, 0.05x</title></circle>
+<circle cx="699.9" cy="460.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 47.13 ns, 1.78x</title></circle>
+<circle cx="696.8" cy="460.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 46.20 ns, 1.74x</title></circle>
+<rect x="0" y="470.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="484.0" text-anchor="end">ctor_dtor_str_short (1,024)</text>
+<circle cx="610.0" cy="480.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 17.65 ns, 1.00x</title></circle>
+<circle cx="607.8" cy="480.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 17.41 ns, 0.99x</title></circle>
+<circle cx="601.5" cy="480.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 16.71 ns, 0.95x</title></circle>
+<circle cx="600.9" cy="480.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 16.65 ns, 0.94x</title></circle>
+<circle cx="270.6" cy="480.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 2.01 ns, 0.11x</title></circle>
+<circle cx="970.0" cy="480.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 375.2 ns, 21.26x</title></circle>
+<circle cx="970.0" cy="480.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 377.1 ns, 21.36x</title></circle>
+<text x="242" y="504.0" text-anchor="end">copy_ctor_int (1,024)</text>
+<circle cx="610.0" cy="500.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 326.4 ns, 1.00x</title></circle>
+<circle cx="608.9" cy="500.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 324.2 ns, 0.99x</title></circle>
+<circle cx="355.0" cy="500.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 63.88 ns, 0.20x</title></circle>
+<circle cx="353.1" cy="500.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 63.10 ns, 0.19x</title></circle>
+<circle cx="602.4" cy="500.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 310.9 ns, 0.95x</title></circle>
+<circle cx="356.5" cy="500.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 64.51 ns, 0.20x</title></circle>
+<circle cx="373.1" cy="500.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 71.76 ns, 0.22x</title></circle>
+<rect x="0" y="510.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="524.0" text-anchor="end">copy_ctor_str_short (256)</text>
+<circle cx="610.0" cy="520.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 234.2 ns, 1.00x</title></circle>
+<circle cx="610.7" cy="520.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 235.2 ns, 1.00x</title></circle>
+<circle cx="618.2" cy="520.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 246.9 ns, 1.05x</title></circle>
+<circle cx="618.8" cy="520.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 247.7 ns, 1.06x</title></circle>
+<circle cx="663.4" cy="520.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 329.6 ns, 1.41x</title></circle>
+<circle cx="617.0" cy="520.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 244.9 ns, 1.05x</title></circle>
+<circle cx="617.5" cy="520.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 245.8 ns, 1.05x</title></circle>
+<text x="242" y="544.0" text-anchor="end">copy_ctor_str_long (128)</text>
+<circle cx="610.0" cy="540.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 2111 ns, 1.00x</title></circle>
+<circle cx="608.9" cy="540.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 2096 ns, 0.99x</title></circle>
+<circle cx="610.2" cy="540.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 2114 ns, 1.00x</title></circle>
+<circle cx="607.9" cy="540.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 2082 ns, 0.99x</title></circle>
+<circle cx="615.8" cy="540.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 2190 ns, 1.04x</title></circle>
+<circle cx="654.7" cy="540.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 2809 ns, 1.33x</title></circle>
+<circle cx="656.4" cy="540.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 2840 ns, 1.35x</title></circle>
+<rect x="0" y="550.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="564.0" text-anchor="end">copy_assign_int (1,024)</text>
+<circle cx="610.0" cy="560.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 327.4 ns, 1.00x</title></circle>
+<circle cx="610.6" cy="560.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 328.6 ns, 1.00x</title></circle>
+<circle cx="341.7" cy="560.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 58.85 ns, 0.18x</title></circle>
+<circle cx="342.8" cy="560.0" r="4" fill="none" stroke="#6fb1e0" stroke-width="1.6"><title>lumex C++17: 59.29 ns, 0.18x (unstable)</title></circle>
+<circle cx="250.0" cy="560.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 25.51 ns, 0.08x</title></circle>
+<circle cx="250.0" cy="560.0" r="4" fill="none" stroke="#8c564b" stroke-width="1.6"><title>vector C++17: 26.44 ns, 0.08x (unstable)</title></circle>
+<circle cx="250.0" cy="560.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 26.41 ns, 0.08x</title></circle>
+<text x="242" y="584.0" text-anchor="end">copy_assign_str_short (256)</text>
+<circle cx="610.0" cy="580.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 248.1 ns, 1.00x</title></circle>
+<circle cx="608.6" cy="580.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 246.0 ns, 0.99x</title></circle>
+<circle cx="608.6" cy="580.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 246.0 ns, 0.99x</title></circle>
+<circle cx="607.5" cy="580.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 244.2 ns, 0.98x</title></circle>
+<circle cx="588.3" cy="580.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 215.9 ns, 0.87x</title></circle>
+<circle cx="610.0" cy="580.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 248.1 ns, 1.00x</title></circle>
+<circle cx="608.6" cy="580.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 246.0 ns, 0.99x</title></circle>
+<rect x="0" y="590.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="604.0" text-anchor="end">copy_assign_str_long (128)</text>
+<circle cx="610.0" cy="600.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 2207 ns, 1.00x</title></circle>
+<circle cx="611.1" cy="600.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 2223 ns, 1.01x</title></circle>
+<circle cx="611.5" cy="600.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 2228 ns, 1.01x</title></circle>
+<circle cx="610.5" cy="600.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 2214 ns, 1.00x</title></circle>
+<circle cx="320.7" cy="600.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 347.0 ns, 0.16x</title></circle>
+<circle cx="354.1" cy="600.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 429.7 ns, 0.19x</title></circle>
+<circle cx="358.6" cy="600.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 442.1 ns, 0.20x</title></circle>
+<text x="242" y="624.0" text-anchor="end">move_pair_int (1,024)</text>
+<circle cx="610.0" cy="620.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 9.57 ns, 1.00x</title></circle>
+<circle cx="608.9" cy="620.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 9.51 ns, 0.99x</title></circle>
+<circle cx="444.0" cy="620.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 3.31 ns, 0.35x</title></circle>
+<circle cx="435.6" cy="620.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.14 ns, 0.33x</title></circle>
+<circle cx="590.8" cy="620.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 8.47 ns, 0.88x</title></circle>
+<circle cx="439.2" cy="620.0" r="4" fill="none" stroke="#8c564b" stroke-width="1.6"><title>vector C++17: 3.21 ns, 0.34x (unstable)</title></circle>
+<circle cx="429.3" cy="620.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 3.01 ns, 0.31x</title></circle>
+<rect x="0" y="630.0" width="1000" height="20" fill="#f6f8fa"/>
+<text x="242" y="644.0" text-anchor="end">move_pair_str_short (256)</text>
+<circle cx="610.0" cy="640.0" r="4" fill="#3c9d4a" fill-opacity="0.9"><title>boost C++17: 3.47 ns, 1.00x</title></circle>
+<circle cx="610.4" cy="640.0" r="4" fill="#8fd19a" fill-opacity="0.9"><title>boost C++11: 3.48 ns, 1.00x</title></circle>
+<circle cx="603.0" cy="640.0" r="4" fill="#1b6ca8" fill-opacity="0.9"><title>lumex C++11: 3.31 ns, 0.96x</title></circle>
+<circle cx="590.1" cy="640.0" r="4" fill="#6fb1e0" fill-opacity="0.9"><title>lumex C++17: 3.05 ns, 0.88x</title></circle>
+<circle cx="762.3" cy="640.0" r="4" fill="#d9822b" fill-opacity="0.9"><title>deque C++17: 9.18 ns, 2.65x</title></circle>
+<circle cx="592.8" cy="640.0" r="4" fill="#8c564b" fill-opacity="0.9"><title>vector C++17: 3.11 ns, 0.90x</title></circle>
+<circle cx="596.3" cy="640.0" r="4" fill="#c49c94" fill-opacity="0.9"><title>vector % C++17: 3.18 ns, 0.92x</title></circle>
+</svg>

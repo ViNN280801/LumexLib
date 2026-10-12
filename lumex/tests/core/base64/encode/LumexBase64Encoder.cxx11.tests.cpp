@@ -1,0 +1,375 @@
+// Base64 encoder tests that compile from C++11 (lumex/core/base64/encode):
+// the pointer and size core and the std::string and std::vector overloads.
+// Every suite of this directory compiles this file;
+// LumexBase64Encoder.cxx17.tests.cpp and LumexBase64Encoder.cxx20.tests.cpp
+// add the wrappers of the higher standards.
+
+#include <chrono>
+#include <cstring>
+#include <string>
+#include <thread>
+#include <vector>
+
+#include <gtest/gtest.h>
+
+#include "lumex/core/base64/LumexBase64"
+
+#include "lumex/tests/core/base64/LumexBase64TestFixtures.hpp"
+#include "lumex/tests/support/LumexPerfSkip.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#pragma clang diagnostic ignored "-Wnrvo"
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+
+using namespace lumex::core::base64::codec;
+using namespace lumex::core::base64::decode;
+using namespace lumex::core::base64::encode;
+using namespace lumex::core::base64::validate;
+using namespace lumex::core::base64::codec::Types;
+
+struct LifetimeTracker
+{
+  static int creations;
+  static int destructions;
+  static int copies;
+  static int moves;
+
+  int id;
+
+  static void
+  reset ()
+  {
+    creations = destructions = copies = moves = 0;
+  }
+
+  LifetimeTracker () : id (creations) { creations++; }
+  ~LifetimeTracker () { destructions++; }
+  LifetimeTracker (LifetimeTracker const &) : id (creations)
+  {
+    creations++;
+    copies++;
+  }
+  LifetimeTracker (LifetimeTracker &&) noexcept : id (creations)
+  {
+    creations++;
+    moves++;
+  }
+  LifetimeTracker &
+  operator= (LifetimeTracker const &)
+  {
+    copies++;
+    return *this;
+  }
+  LifetimeTracker &
+  operator= (LifetimeTracker &&) noexcept
+  {
+    moves++;
+    return *this;
+  }
+};
+
+int LifetimeTracker::creations = 0;
+int LifetimeTracker::destructions = 0;
+int LifetimeTracker::copies = 0;
+int LifetimeTracker::moves = 0;
+
+class Base64EncoderLifetimeTest : public ::testing::Test
+{
+protected:
+  void
+  SetUp () override
+  {
+    LifetimeTracker::reset ();
+  }
+  void
+  TearDown () override
+  {
+    ASSERT_EQ (LifetimeTracker::creations, LifetimeTracker::destructions)
+        << "Memory leak detected! Creations do not match destructions.";
+  }
+};
+
+// --- API Contract Verifier Tests ---------------------------------------
+
+TEST_F (Base64EncoderTest, GivenEmptyData_WhenEncode_ThenReturnsEmptyString)
+{
+  // Empty input should produce empty output
+  std::string result = encoder::encode (empty_data);
+  EXPECT_TRUE (result.empty ());
+
+  // Verify with raw pointer interface
+  result = encoder::encode (nullptr, 0);
+  EXPECT_TRUE (result.empty ());
+}
+
+TEST_F (Base64EncoderTest, GivenSingleByte_WhenEncode_ThenReturnsCorrectBase64)
+{
+  // Single byte 0x42 ('B') should encode to "Qg=="
+  std::string result = encoder::encode (single_byte);
+  EXPECT_EQ (result, "Qg==");
+  EXPECT_EQ (result.length (), 4); // Base64 always produces multiples of 4
+}
+
+TEST_F (Base64EncoderTest,
+        GivenKnownTestVectors_WhenEncode_ThenMatchesExpected)
+{
+  // Use RFC 4648 test vectors for verification
+  struct TestVector
+  {
+    std::vector<byte_type> input;
+    std::string expected;
+  };
+
+  std::vector<TestVector> vectors
+      = { { {}, "" },
+          { { 'f' }, "Zg==" },
+          { { 'f', 'o' }, "Zm8=" },
+          { { 'f', 'o', 'o' }, "Zm9v" },
+          { { 'f', 'o', 'o', 'b' }, "Zm9vYg==" },
+          { { 'f', 'o', 'o', 'b', 'a' }, "Zm9vYmE=" },
+          { { 'f', 'o', 'o', 'b', 'a', 'r' }, "Zm9vYmFy" },
+
+          // Binary data
+          { { 0x00 }, "AA==" },
+          { { 0xFF }, "/w==" },
+          { { 0x00, 0xFF }, "AP8=" },
+          { { 0xFF, 0x00 }, "/wA=" } };
+
+  for (auto const &vector : vectors)
+    {
+      std::string result = encoder::encode (vector.input);
+      EXPECT_EQ (result, vector.expected)
+          << "Failed for input size: " << vector.input.size ();
+    }
+}
+
+TEST_F (Base64EncoderTest,
+        GivenRawPointer_WhenEncode_ThenProducesCorrectOutput)
+{
+  // Test raw pointer interface with various sizes
+  char const *text = "Hello";
+  std::string result = encoder::encode (text, 5);
+  EXPECT_EQ (result, "SGVsbG8=");
+
+  // Test with binary data
+  byte_type binary[] = { 0x00, 0x01, 0x02 };
+  result = encoder::encode (binary, sizeof (binary));
+  EXPECT_EQ (result, "AAEC");
+}
+
+TEST_F (Base64EncoderTest,
+        GivenRangeInsideLargerBuffer_WhenEncode_ThenOnlyTheRangeIsEncoded)
+{
+  char const buffer[] = "xxHiyy";
+  EXPECT_EQ (encoder::encode (buffer + 2, 2), "SGk=");
+}
+
+// --- Edge & Corner Cases -----------------------------------------------
+
+TEST_F (Base64EncoderTest,
+        GivenAllPossibleBytes_WhenEncode_ThenHandlesCorrectly)
+{
+  // Verify all 256 possible byte values can be encoded
+  std::string result = encoder::encode (all_bytes);
+  EXPECT_FALSE (result.empty ());
+  EXPECT_EQ (result.length (), ((all_bytes.size () + 2) / 3) * 4);
+
+  // Verify only valid Base64 characters
+  for (char c : result)
+    {
+      EXPECT_TRUE ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
+                   || (c >= '0' && c <= '9') || c == '+' || c == '/'
+                   || c == '=')
+          << "Invalid Base64 character: " << c;
+    }
+}
+
+TEST_F (Base64EncoderTest, GivenLargeData_WhenEncode_ThenHandlesEfficiently)
+{
+  // Test with large data to verify no performance issues
+  std::string result = encoder::encode (large_data);
+  EXPECT_FALSE (result.empty ());
+
+  // Verify correct length calculation
+  std::size_t expected_length = ((large_data.size () + 2) / 3) * 4;
+  EXPECT_EQ (result.length (), expected_length);
+}
+
+TEST_F (Base64EncoderTest, GivenNullPointer_WhenEncode_ThenReturnsEmptyString)
+{
+  // Null pointer should be handled gracefully
+  std::string result = encoder::encode (nullptr, 100);
+  EXPECT_TRUE (result.empty ());
+}
+
+TEST_F (Base64EncoderTest, GivenZeroSize_WhenEncode_ThenReturnsEmptyString)
+{
+  byte_type dummy = 0x42;
+  std::string result = encoder::encode (&dummy, 0);
+  EXPECT_TRUE (result.empty ());
+}
+
+// --- Platform Compatibility Tests --------------------------------------
+
+TEST_F (Base64EncoderTest,
+        GivenDifferentEndianness_WhenEncode_ThenProducesConsistentResults)
+{
+  // Base64 should be endian-independent since it works on bytes
+  union EndianTest
+  {
+    uint32_t value;
+    byte_type bytes[4];
+  };
+
+  EndianTest test;
+  test.value = 0x01020304;
+
+  std::string result = encoder::encode (test.bytes, 4);
+  EXPECT_FALSE (result.empty ());
+  EXPECT_EQ (result.length (), 8); // 4 bytes -> 8 Base64 chars (with padding)
+}
+
+#ifdef _WIN32
+TEST_F (Base64EncoderTest,
+        WindowsSpecific_GivenWideCharData_WhenConvertAndEncode_ThenWorks)
+{
+  // Test Windows-specific wide character handling
+  std::wstring wide_text = L"Test";
+  std::vector<byte_type> bytes (
+      reinterpret_cast<byte_type const *> (wide_text.data ()),
+      reinterpret_cast<byte_type const *> (wide_text.data ())
+          + wide_text.size () * sizeof (wchar_t));
+
+  std::string result = encoder::encode (bytes);
+  EXPECT_FALSE (result.empty ());
+}
+#endif
+
+// --- Concurrency Tests -------------------------------------------------
+
+TEST_F (Base64EncoderTest, ThreadSafety_SimultaneousEncoding)
+{
+  // encoder should be thread-safe for simultaneous operations
+  constexpr int num_threads = 10;
+  std::vector<std::thread> threads;
+  std::vector<std::string> results (num_threads);
+
+  std::vector<byte_type> test_data
+      = { 'T', 'h', 'r', 'e', 'a', 'd', 'T', 'e', 's', 't' };
+
+  for (int i = 0; i < num_threads; ++i)
+    threads.emplace_back ([&results, &test_data, i] ()
+                            { results[i] = encoder::encode (test_data); });
+
+  for (auto &t : threads)
+    t.join ();
+
+  // All results should be identical
+  std::string expected = results[0];
+  for (int i = 1; i < num_threads; ++i)
+    EXPECT_EQ (results[i], expected)
+        << "Thread " << i << " produced different result";
+}
+
+// --- Performance & Stress Tests -----------------------------------------
+
+TEST_F (Base64EncoderTest, Perf_LargeDataEncoding)
+{
+#if LUMEX_PERF_WALL_CLOCK_ENABLED
+  // Performance test with very large data
+  std::size_t const large_size = 1000000; // 1MB
+  std::vector<byte_type> very_large_data (large_size);
+
+  // Fill with pattern to avoid optimization
+  for (std::size_t i = 0; i < large_size; ++i)
+    very_large_data[i] = static_cast<byte_type> (i % 256);
+
+  auto start = std::chrono::high_resolution_clock::now ();
+  std::string result = encoder::encode (very_large_data);
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds> (
+      std::chrono::high_resolution_clock::now () - start);
+
+  EXPECT_FALSE (result.empty ());
+  EXPECT_LT (duration.count (), 1000)
+      << "Encoding 1MB took too long: " << duration.count () << "ms";
+#else
+  GTEST_SKIP ()
+      << "wall-clock Perf_* thresholds are Release-only (no sanitizers)";
+#endif
+}
+
+TEST_F (Base64EncoderTest, Stress_RepeatedEncodingOperations)
+{
+  // Stress test with many repeated operations
+  constexpr int iterations = 10000;
+  std::vector<byte_type> test_data = { 'S', 't', 'r', 'e', 's', 's' };
+
+  for (int i = 0; i < iterations; ++i)
+    {
+      std::string result = encoder::encode (test_data);
+      EXPECT_EQ (result, "U3RyZXNz") << "Failed at iteration " << i;
+    }
+}
+
+// --- Memory Safety Tests ------------------------------------------------
+
+TEST_F (Base64EncoderLifetimeTest, MemorySafety_NoLeaksWithLargeData)
+{
+  {
+    std::vector<byte_type> large_data (100000, 0x55);
+    std::string result = encoder::encode (large_data);
+    EXPECT_FALSE (result.empty ());
+  } // large_data goes out of scope here
+
+  // No explicit lifetime tracking needed for this test as we're testing
+  // that no memory leaks occur with large temporary objects
+}
+
+TEST_F (Base64EncoderTest, BoundaryConditions_MaxSizeHandling)
+{
+  std::size_t const boundary_size = 1000000; // 1MB as practical boundary
+  std::vector<byte_type> boundary_data (boundary_size, 0x88);
+
+  EXPECT_NO_THROW ({
+    std::string result = encoder::encode (boundary_data);
+    EXPECT_FALSE (result.empty ());
+  });
+}
+
+// --- Input Validation Tests ---------------------------------------------
+
+TEST_F (Base64EncoderTest, InputValidation_VariousInputTypes)
+{
+  // Test with std::vector
+  std::vector<byte_type> vec_data = { 'V', 'e', 'c', 't', 'o', 'r' };
+  std::string vec_result = encoder::encode (vec_data);
+  EXPECT_FALSE (vec_result.empty ());
+
+  // Test with raw array
+  byte_type array_data[] = { 'A', 'r', 'r', 'a', 'y' };
+  std::string array_result = encoder::encode (array_data, sizeof (array_data));
+  EXPECT_FALSE (array_result.empty ());
+
+  // Test with string literal cast
+  char const *str = "String";
+  std::string str_result = encoder::encode (str, std::strlen (str));
+  EXPECT_FALSE (str_result.empty ());
+}

@@ -1,0 +1,164 @@
+# Configures, builds and runs one consumer fixture under consumer/<CASE>.
+#
+# Required: CASE, LUMEX_SOURCE_DIR, WORK_DIR, GENERATOR, CXX_COMPILER.
+# Optional: BUILD_TYPE (default Release), EXTRA_ARGS (;-list of -D...),
+# CONFIGURE_ONLY (stop after a successful configure), RUN_PREFIX (a ;-list put
+# in front of the command that runs the executable), CXX_FLAGS and
+# CLANG_STDLIB (the calling tree's CMAKE_CXX_FLAGS and LUMEX_CLANG_STDLIB,
+# forwarded when set), BUILD_RPATH (the directories of the compiler's own C++
+# runtime when it lies outside the system paths, forwarded as
+# CMAKE_BUILD_RPATH: the fixture's executable is not configured by LumexLib,
+# and without them it would load the older runtime of the system).
+#
+# The nested build uses the compiler environment of the calling ctest. On
+# MSVC that means a developer shell (INCLUDE/LIB set); without it the case
+# prints LUMEX_CONSUMER_SKIP and CTest reports it as skipped.
+
+foreach(_var CASE LUMEX_SOURCE_DIR WORK_DIR GENERATOR CXX_COMPILER)
+    if(NOT DEFINED ${_var} OR "${${_var}}" STREQUAL "")
+        message(FATAL_ERROR "run_consumer.cmake: ${_var} is required")
+    endif()
+endforeach()
+if(NOT BUILD_TYPE)
+    set(BUILD_TYPE Release)
+endif()
+
+get_filename_component(_compiler_name "${CXX_COMPILER}" NAME_WE)
+string(TOLOWER "${_compiler_name}" _compiler_name)
+if(WIN32 AND (_compiler_name STREQUAL "cl" OR _compiler_name STREQUAL "clang-cl")
+   AND "$ENV{INCLUDE}" STREQUAL "")
+    message("LUMEX_CONSUMER_SKIP: no MSVC environment (INCLUDE is empty); "
+            "run ctest from a developer shell")
+    return()
+endif()
+
+set(_source "${CMAKE_CURRENT_LIST_DIR}/${CASE}")
+# The nested build lives in one short directory under WORK_DIR: the deepest
+# object path of the embedded library (lumexlib/lumex/core/.../x.cpp.obj)
+# passes MAX_PATH in a deep outer tree, and cl.exe then reports C1083 for an
+# empty file name. WORK_DIR itself comes from the caller and is long - the
+# test name under the build tree - so this script keeps its own part short.
+set(_binary "${WORK_DIR}/b")
+file(REMOVE_RECURSE "${_binary}")
+
+set(_forwarded "")
+if(NOT "${CXX_FLAGS}" STREQUAL "")
+    list(APPEND _forwarded "-DCMAKE_CXX_FLAGS=${CXX_FLAGS}")
+endif()
+if(NOT "${CLANG_STDLIB}" STREQUAL "")
+    list(APPEND _forwarded "-DLUMEX_CLANG_STDLIB=${CLANG_STDLIB}")
+endif()
+
+if(NOT "${BUILD_RPATH}" STREQUAL "")
+    # One argument that holds a list: the separators are escaped so that the
+    # expansion below does not split it.
+    string(REPLACE ";" "\\;" _build_rpath "${BUILD_RPATH}")
+    list(APPEND _forwarded "-DCMAKE_BUILD_RPATH=${_build_rpath}")
+endif()
+
+execute_process(
+    COMMAND "${CMAKE_COMMAND}"
+        -S "${_source}" -B "${_binary}" -G "${GENERATOR}"
+        "-DCMAKE_CXX_COMPILER=${CXX_COMPILER}"
+        "-DCMAKE_BUILD_TYPE=${BUILD_TYPE}"
+        "-DLUMEX_SOURCE_DIR=${LUMEX_SOURCE_DIR}"
+        ${_forwarded}
+        ${EXTRA_ARGS}
+    RESULT_VARIABLE _rc
+    OUTPUT_VARIABLE _out
+    ERROR_VARIABLE _out
+)
+if(NOT _rc EQUAL 0)
+    message(FATAL_ERROR "consumer ${CASE}: configure failed (${_rc})\n${_out}")
+endif()
+
+# A fixture may report a platform it does not cover while configuring (for
+# example atomic_cross_module on Windows); echo the configure output so
+# CTest's SKIP_REGULAR_EXPRESSION sees the marker instead of running the
+# build below.
+string(FIND "${_out}" "LUMEX_CONSUMER_SKIP" _skip_pos)
+if(_skip_pos GREATER -1)
+    message("${_out}")
+    return()
+endif()
+
+# Fixtures that check everything while configuring (try_compile) stop here;
+# their output is echoed so CTest can match LUMEX_CONSUMER_SKIP.
+if(CONFIGURE_ONLY)
+    message("${_out}")
+    message(STATUS "consumer ${CASE}: configure OK")
+    return()
+endif()
+
+# What the embedded build produces: everything by default, or the single
+# target a fixture names. A deep build tree can push the longest object path
+# of the library past the MAX_PATH limit of cl.exe, which then fails with
+# C1083 for an empty file name; the consumer target still pulls in what it
+# links, so naming it builds exactly the same libraries.
+set(_build_args "")
+if(NOT "${BUILD_TARGET}" STREQUAL "")
+    list(APPEND _build_args --target "${BUILD_TARGET}")
+endif()
+
+execute_process(
+    COMMAND "${CMAKE_COMMAND}" --build "${_binary}" --config "${BUILD_TYPE}"
+            ${_build_args}
+    RESULT_VARIABLE _rc
+    OUTPUT_VARIABLE _out
+    ERROR_VARIABLE _out
+)
+if(NOT _rc EQUAL 0)
+    message(FATAL_ERROR "consumer ${CASE}: build failed (${_rc})\n${_out}")
+endif()
+
+# Every fixture builds one executable named <CASE>_consumer.
+file(GLOB_RECURSE _exe LIST_DIRECTORIES false
+    "${_binary}/${CASE}_consumer"
+    "${_binary}/${CASE}_consumer.exe"
+    "${_binary}/*/${CASE}_consumer.exe")
+list(REMOVE_DUPLICATES _exe)
+list(LENGTH _exe _count)
+if(_count EQUAL 0)
+    message(FATAL_ERROR "consumer ${CASE}: executable not found under ${_binary}")
+endif()
+list(GET _exe 0 _exe)
+get_filename_component(_exe_dir "${_exe}" DIRECTORY)
+
+# Shared Lumex libraries land in the embedded build tree; put every
+# directory that holds one on PATH so the executable can start on Windows.
+file(GLOB_RECURSE _dlls LIST_DIRECTORIES false "${_binary}/*.dll")
+set(_path_dirs "${_exe_dir}")
+foreach(_dll ${_dlls})
+    get_filename_component(_d "${_dll}" DIRECTORY)
+    list(APPEND _path_dirs "${_d}")
+endforeach()
+list(REMOVE_DUPLICATES _path_dirs)
+if(WIN32)
+    list(JOIN _path_dirs ";" _joined)
+    set(ENV{PATH} "${_joined};$ENV{PATH}")
+else()
+    list(JOIN _path_dirs ":" _joined)
+    set(ENV{PATH} "${_joined}:$ENV{PATH}")
+endif()
+
+# On ELF hosts the executable finds the runtime of the compiler through the
+# RUNPATH it was linked with, not through the caller's LD_LIBRARY_PATH.
+if(UNIX)
+    # RUN_PREFIX (a ;-list) goes before the executable, for example
+    # setarch;x86_64;-R: GCC's ThreadSanitizer needs ASLR off.
+    set(_run ${RUN_PREFIX} "${CMAKE_COMMAND}" -E env --unset=LD_LIBRARY_PATH "${_exe}")
+else()
+    set(_run "${_exe}")
+endif()
+execute_process(
+    COMMAND ${_run}
+    RESULT_VARIABLE _rc
+    OUTPUT_VARIABLE _out
+    ERROR_VARIABLE _out
+)
+if(NOT _rc EQUAL 0)
+    message(FATAL_ERROR
+        "consumer ${CASE}: executable exited with ${_rc} "
+        "(reflection_umbrella: 2 = LUMEX_WITH_FIELD_REFLECTION leaked into the consumer)\n${_out}")
+endif()
+message(STATUS "consumer ${CASE}: configure, build and run OK")

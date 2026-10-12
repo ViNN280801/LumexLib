@@ -1,33 +1,17 @@
 # lumex/tests/core/string/utility/CMakeLists.txt
 
-set(TEST_EXECUTABLE_NAME LumexStringifyTests)
-
-add_executable(
-    ${TEST_EXECUTABLE_NAME}
-    LumexStringify.tests.cpp
+# One suite per standard of the module (lumex/tests/LumexTestStandards.cmake):
+#   LumexStringUtilityCxx11Tests  *.cxx11.tests.cpp: format::stringify and
+#                                 stringify_v2
+#   LumexStringUtilityCxx14Tests  the C++11 files at C++14
+#   LumexStringUtilityCxx17Tests  the C++11 files at C++17
+#   LumexStringUtilityCxx20Tests  + *.cxx20.tests.cpp: the stream concepts and
+#                                 the tie of the stringify_v2 constraint to
+#                                 the concept AllStringifiable
+# LumexStringTestFixtures.hpp of the module's directory holds the fixture and
+# the types the files of several standards share.
+lumex_add_standard_suites(StringUtility
+    MODULE string
+    LINK lumex::string lumex::string_view
+    SOURCES ../LumexStringTestFixtures.hpp
 )
-
-target_link_libraries(
-    ${TEST_EXECUTABLE_NAME}
-    PRIVATE
-    GTest::gtest_main
-    Lumex::string
-)
-
-if(WIN32)
-    add_custom_command(
-        TARGET ${TEST_EXECUTABLE_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:GTest::gtest>
-        $<TARGET_FILE_DIR:${TEST_EXECUTABLE_NAME}>
-
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:GTest::gtest_main>
-        $<TARGET_FILE_DIR:${TEST_EXECUTABLE_NAME}>
-
-        COMMENT "Copying GoogleTest DLLs for runtime execution"
-    )
-endif()
-
-include(GoogleTest)
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
