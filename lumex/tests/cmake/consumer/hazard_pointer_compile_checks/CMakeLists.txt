@@ -58,10 +58,12 @@ foreach(_std IN LISTS _standards)
 
     foreach(_case RANGE 1 ${_last_case})
         # Cases 11-13 discard a [[nodiscard]] result, which only a compiler
-        # with the attribute warns about: MSVC has it from C++17 alone
+        # with the attribute warns about: cl.exe has it from C++17 alone
         # (LUMEX_NODISCARD is empty there at C++14), so at C++14 the check
-        # cannot reject them.
-        if(MSVC AND _std LESS 17 AND _case GREATER 10 AND _case LESS 14)
+        # cannot reject them. The test is the compiler id, not the MSVC
+        # variable - that one is also true for clang-cl, which does have the
+        # attribute at C++14.
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND _std LESS 17 AND _case GREATER 10 AND _case LESS 14)
             continue()
         endif()
         _lumex_hp_try(_ok bad_${_case}_${_tag} ${_std}

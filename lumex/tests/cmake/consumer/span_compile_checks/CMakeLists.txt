@@ -66,10 +66,12 @@ foreach(_std IN LISTS _standards)
 
     foreach(_case RANGE 1 ${_last_case})
         # Cases 1-4 discard a [[nodiscard]] result. Only a compiler with the
-        # attribute warns about that, and MSVC has it from C++17 alone
+        # attribute warns about that, and cl.exe has it from C++17 alone
         # (LUMEX_NODISCARD is empty there at C++14), so at C++14 the check
-        # cannot reject them: the case is not one MSVC can fail.
-        if(MSVC AND _std LESS 17 AND _case LESS 5)
+        # cannot reject them: the case is not one cl.exe can fail. The test is
+        # the compiler id, not the MSVC variable - that one is also true for
+        # clang-cl, which does have the attribute at C++14.
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND _std LESS 17 AND _case LESS 5)
             continue()
         endif()
         _lumex_span_try(_ok bad_${_case}_${_tag} ${_std}
@@ -128,13 +130,22 @@ foreach(_std IN LISTS _standards)
                 "check_constexpr case ${_case} (${_tag}) fails for another "
                 "reason\n${_on_OUTPUT}")
         endif()
-        _lumex_span_try_file("${_constexpr_source}" _off bad_c0_${_case}_${_tag}
-            ${_std} -DLUMEX_SPAN_BAD_CASE=${_case} -DLUMEX_SPAN_CHECKS=0)
-        if(NOT _off)
-            message(FATAL_ERROR
-                "check_constexpr case ${_case} (${_tag}) must compile with "
-                "the checks off, or the check is not what rejects it\n"
-                "${_off_OUTPUT}")
+        # The off form of a case whose precondition is violated reads out of
+        # the array: GCC and Clang of the other platforms fold it by accident
+        # (the read lands inside the object), while clang-cl refuses the
+        # constant evaluation ("constexpr variable 'result' must be
+        # initialized by a constant expression"). Only the checked side is
+        # compared there.
+        if(NOT (CMAKE_CXX_COMPILER_ID MATCHES "Clang"
+                AND CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC"))
+            _lumex_span_try_file("${_constexpr_source}" _off bad_c0_${_case}_${_tag}
+                ${_std} -DLUMEX_SPAN_BAD_CASE=${_case} -DLUMEX_SPAN_CHECKS=0)
+            if(NOT _off)
+                message(FATAL_ERROR
+                    "check_constexpr case ${_case} (${_tag}) must compile with "
+                    "the checks off, or the check is not what rejects it\n"
+                    "${_off_OUTPUT}")
+            endif()
         endif()
         math(EXPR _constexpr_checked "${_constexpr_checked} + 1")
     endforeach()
