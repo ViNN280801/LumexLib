@@ -656,12 +656,28 @@ TEST (LumexOrderingStd, GivenWhatDoesNotCompile_WhenDetected_ThenSameAsStd)
   EXPECT_EQ (
       (can_relate<own::partial_ordering, own::partial_ordering>::value),
       (can_relate<std::partial_ordering, std::partial_ordering>::value));
-  EXPECT_EQ ((can_relate<own::strong_ordering, int>::value),
-             (can_relate<std::strong_ordering, int>::value));
-  EXPECT_EQ ((can_relate<int, own::weak_ordering>::value),
-             (can_relate<int, std::weak_ordering>::value));
-  EXPECT_EQ ((can_equate<own::strong_ordering, int>::value),
-             (can_equate<std::strong_ordering, int>::value));
+  // [cmp.categories.pre]/3: the "unspecified" parameter of the relational and
+  // equality operators of a category accepts a null pointer constant alone, so
+  // an int does not relate with a category. Ours answers that way, and so do
+  // the standard categories of libstdc++ and libc++. The MSVC STL instead
+  // accepts any int in an *unevaluated* context and rejects a non-zero one in
+  // a consteval body only when the expression is really evaluated - which the
+  // detection below never does - so the answers of its own classes are pinned
+  // separately.
+  EXPECT_FALSE ((can_relate<own::strong_ordering, int>::value));
+  EXPECT_FALSE ((can_relate<int, own::weak_ordering>::value));
+  EXPECT_FALSE ((can_equate<own::strong_ordering, int>::value));
+#if defined(_MSC_VER)
+  // Writing `std::strong_ordering::less < 1` for real is still an error there
+  // (the consteval check fires); only decltype does not see it.
+  EXPECT_TRUE ((can_relate<std::strong_ordering, int>::value));
+  EXPECT_TRUE ((can_relate<int, std::weak_ordering>::value));
+  EXPECT_TRUE ((can_equate<std::strong_ordering, int>::value));
+#else
+  EXPECT_FALSE ((can_relate<std::strong_ordering, int>::value));
+  EXPECT_FALSE ((can_relate<int, std::weak_ordering>::value));
+  EXPECT_FALSE ((can_equate<std::strong_ordering, int>::value));
+#endif
   EXPECT_EQ ((can_equate<own::strong_ordering, own::partial_ordering>::value),
              (can_equate<std::strong_ordering, std::partial_ordering>::value));
 #else

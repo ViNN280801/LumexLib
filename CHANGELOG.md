@@ -3230,3 +3230,14 @@ Digits: текст раскрытого макроса (`#x` через два �
 - `lumex/core/utility/macros/LumexKeywords.hpp`
 
 - В ветке до C++11 убран дубликат `LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR`.
+##### LumexOrderingStd: паритет «что не компилируется» с STL MSVC
+
+**Файлы:**
+
+- `lumex/tests/core/utility/numeric/LumexOrdering.cxx20.tests.cpp`
+
+- Проверки `can_relate<..., int>` / `can_equate<..., int>` сравнивали наш ответ с ответом `std`. Реляционные и equality-операторы категории принимают рядом с unspecified-параметром только null pointer constant ([cmp.categories.pre]/3), поэтому ни у нас, ни у категорий libstdc++/libc++ `int` с категорией не связывается.
+- STL MSVC проверяет аргумент в `consteval`-теле конструктора `_Literal_zero`, а `decltype` это тело не вычисляет: `can_relate<std::strong_ordering, int>` там true. Запись выражения «по-настоящему» там по-прежнему ошибка.
+- Тест закрепляет строгий ответ для наших классов и для остальных библиотек; разрешительный ответ MSVC закреплен под `_MSC_VER` с пояснением.
+- `utility.numeric.LumexOrderingStd` на clang-cl: 19/19 (было 18/19).
+
