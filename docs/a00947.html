@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Deprecated List</title>
+<title>LumexLib: XmlAttributeIterator.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -102,29 +102,47 @@ $(function(){initNavTree('a00947.html',''); initResizable(true); });
 </div>
 </div>
 
-<div><div class="header">
-  <div class="headertitle"><div class="title">Deprecated List</div></div>
+<div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XmlAttributeIterator.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><dl class="reflist">
-<dt>Member <a class="el" href="a01217.html#a5d8f1e68cfb274941185dd53381c35c2">lumex::applied::logger::logger::LumexLogger::should_show_function_name</a>  () const noexcept</dt>
-<dd><a class="anchor" id="_deprecated000001"></a>Use <a class="el" href="a01217.html#aea8b0848863a0ddfe9b34b3b88c65906" title="Returns the function-name display mode used in logs.">get_function_name_mode()</a> instead.  </dd>
-<dt>Member <a class="el" href="a01043.html#a205b8c54dcc65f01c535eabdca5a68ca">lumex::core::expected::result::make_unexpected</a>  (U_err &amp;&amp;err)</dt>
-<dd><a class="anchor" id="_deprecated000003"></a>Use make_unexpected&lt;E&gt;(...) returning <a class="el" href="a01921.html" title="Wrapper that holds an error value for Expected.">Unexpected&lt;E&gt;</a> and <a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected(unexpect_t, ...)</a> instead of this function.  </dd>
-<dt>Member <a class="el" href="a01043.html#abfaa3e5a5d502b59b259be6f4c8c1d85">lumex::core::expected::result::make_unexpected</a>  (ErrorType &amp;&amp;err)</dt>
-<dd><a class="anchor" id="_deprecated000004"></a>Use make_unexpected&lt;E&gt;(...) returning <a class="el" href="a01921.html" title="Wrapper that holds an error value for Expected.">Unexpected&lt;E&gt;</a> and <a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected(unexpect_t, ...)</a> instead of this function.  </dd>
-<dt>Member <a class="el" href="a01051.html#a6ac88149259432feb94531fb1307044a">lumex::core::generators::number_generator::RealNumberGeneratorHost</a>  </dt>
-<dd><a class="anchor" id="_deprecated000005"></a>Use <code><a class="el" href="a01051.html#a19a8077fb55bf01f16176c5d18f6dcb0" title="Type alias for NumberGenerator specialized for double.">DoubleGenerator</a></code> directly for clarity and consistency with modern naming.  </dd>
-<dt>Member <a class="el" href="a02905.html#a8b098069f109e13fd8bd8e02648d490f">lumex::xml::document::XmlDocument::load</a>  (<a class="el" href="a01143.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *contents, unsigned int options=<a class="el" href="a01131.html#adb4452aac1ab84bc44f662063e968b14">Constants::kparse_default</a>)</dt>
-<dd><a class="anchor" id="_deprecated000006"></a>This function is deprecated. Use <code><a class="el" href="a02905.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero-terminated C-style string.">load_string(char_t const*,
-unsigned int)</a></code> for new code. </dd>
-</dl>
-</div></div><!-- contents -->
-</div><!-- PageDoc -->
+<div class="textblock"><code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00938_source.html">lumex/xml/attribute/XmlAttribute.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00983_source.html">lumex/xml/node/XmlNode.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XmlAttributeIterator.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00948.png" border="0" usemap="#a_xml_attribute_iterator_8cpp" alt=""/></div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_67864fa9b126ea0c63c4a33fb4799790.html">attribute</a></li><li class="navelem"><a class="el" href="a00947.html">XmlAttributeIterator.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,11 @@
+digraph "lumex::core::span::view::detail::is_extent_compatible&lt; Extent, Other &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::span::\lview::detail::is_extent\l_compatible\< Extent, Other \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="True when a view of Extent elements may be made from Other elements: at least one of the two is dynam..."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::integral_constant\l\< bool, Extent==dynamic\l_extent\|\|Other==dynamic\l_extent\|\|Extent==Other \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

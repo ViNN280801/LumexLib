@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['xml_0',['XML',['../a00998.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa',1,'lumex::applied::settings::ini']]],
-  ['xml_1',['xml',['../a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7',1,'lumex::applied::logger']]],
-  ['xpath_5ftype_5fboolean_2',['xpath_type_boolean',['../a01143.html#ab45611a4d899512e32aa65eb48a191a5a80042feb7d0f7888e3a86fb3c6c7b641',1,'lumex::xml::types::Types']]],
-  ['xpath_5ftype_5fnode_5fset_3',['xpath_type_node_set',['../a01143.html#ab45611a4d899512e32aa65eb48a191a5a1141b0c00ff38e450f1b3013c62f155f',1,'lumex::xml::types::Types']]],
-  ['xpath_5ftype_5fnone_4',['xpath_type_none',['../a01143.html#ab45611a4d899512e32aa65eb48a191a5aef88a06e63e24db27c45d2b3c9cbddc7',1,'lumex::xml::types::Types']]],
-  ['xpath_5ftype_5fnumber_5',['xpath_type_number',['../a01143.html#ab45611a4d899512e32aa65eb48a191a5aab160555061f91030ebc5b20f5db6da0',1,'lumex::xml::types::Types']]],
-  ['xpath_5ftype_5fstring_6',['xpath_type_string',['../a01143.html#ab45611a4d899512e32aa65eb48a191a5ad8df1fe43fb818a0c54b05207b890904',1,'lumex::xml::types::Types']]]
+  ['warning_0',['Warning',['../a01276.html#ab89470b4db8a7dc224df84237c78270ca0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'lumex::applied::logging::log']]],
+  ['warning_1',['warning',['../a01264.html#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd',1,'lumex::applied::json::diagnostics']]],
+  ['waste_2',['Waste',['../a00824.html#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d',1,'example_reflection_workflow.cpp']]]
 ];

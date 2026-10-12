@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::traits::invoke::detail Namespace Reference</title>
+<title>LumexLib: XPathLexer.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,51 +104,33 @@ $(function(){initNavTree('a01094.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::traits::invoke::detail Namespace Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XPathLexer.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02549.html">invoke_impl</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02553.html">invoke_impl&lt; MT B::* &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02557.html">invoke_result_impl</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02561.html">invoke_result_impl&lt; meta::void_t&lt; decltype(INVOKE(std::declval&lt; F &gt;(), std::declval&lt; Args &gt;()...))&gt;, F, Args... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02541.html">is_reference_wrapper</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02545.html">is_reference_wrapper&lt; std::reference_wrapper&lt; U &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a8ba7e4193163e68cb15bccd03b229d9c" id="r_a8ba7e4193163e68cb15bccd03b229d9c"><td class="memTemplParams" colspan="2">template&lt;typename Func, typename... Args, typename FuncDecayed = typename std::decay&lt;Func&gt;::type&gt; </td></tr>
-<tr class="memitem:a8ba7e4193163e68cb15bccd03b229d9c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8ba7e4193163e68cb15bccd03b229d9c">INVOKE</a> (Func &amp;&amp;func, Args &amp;&amp;...args) -&gt; decltype(<a class="el" href="a02549.html">invoke_impl</a>&lt; FuncDecayed &gt;::call(std::forward&lt; Func &gt;(func), std::forward&lt; Args &gt;(args)...))</td></tr>
-<tr class="separator:a8ba7e4193163e68cb15bccd03b229d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00950_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01097_source.html">XPathLexer.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XPathLexer.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01095.png" border="0" usemap="#a_x_path_lexer_8cpp" alt=""/></div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a8ba7e4193163e68cb15bccd03b229d9c" name="a8ba7e4193163e68cb15bccd03b229d9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ba7e4193163e68cb15bccd03b229d9c">&#9670;&#160;</a></span>INVOKE()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Func, typename... Args, typename FuncDecayed = typename std::decay&lt;Func&gt;::type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto lumex::core::utility::traits::invoke::detail::INVOKE </td>
-          <td>(</td>
-          <td class="paramtype">Func &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>func</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt;  decltype(<a class="el" href="a02549.html">invoke_impl</a>&lt; FuncDecayed &gt;::call(std::forward&lt; Func &gt;(func), std::forward&lt; Args &gt;(args)...))</td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -160,7 +142,7 @@ template&lt;typename Func, typename... Args, typename FuncDecayed = typename std
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01077.html">utility</a></li><li class="navelem"><a class="el" href="a01091.html">traits</a></li><li class="navelem"><a class="el" href="a01093.html">invoke</a></li><li class="navelem"><a class="el" href="a01094.html">detail</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="dir_2f8488fdbf169117866699aa1d08d080.html">lexer</a></li><li class="navelem"><a class="el" href="a01094.html">XPathLexer.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

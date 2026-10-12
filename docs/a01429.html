@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc8_maxim_dow_spec_t Struct Reference</title>
+<title>LumexLib: lumex::core::utility::numeric::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,61 +104,40 @@ $(function(){initNavTree('a01429.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01426.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc8_maxim_dow_spec_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::numeric::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>CRC-8/MAXIM-DOW (Dallas): width=8 poly=0x31 init=0 refin=true refout=true xorout=0.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:adb63db43b776d67b2d0cf6bc5b8ae726" id="r_adb63db43b776d67b2d0cf6bc5b8ae726"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb63db43b776d67b2d0cf6bc5b8ae726">ValueType</a> = std::uint8_t</td></tr>
-<tr class="separator:adb63db43b776d67b2d0cf6bc5b8ae726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04250.html">is_own_ordering</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for the three own ordering classes (no cv-qualifier, no reference).  <a href="a04250.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04254.html">is_plain_ordering</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if <code>T</code>, which has no cv-qualifier and is no reference, is an ordering.  <a href="a04254.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04230.html">literal_zero_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the second parameter of a comparison with <code>0</code>.  <a href="a04230.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04234.html">ordering_base</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value and the comparisons shared by the three ordering classes.  <a href="a04234.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a0df3ebbbac77ea26952722cb95c072bb" id="r_a0df3ebbbac77ea26952722cb95c072bb"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0df3ebbbac77ea26952722cb95c072bb">kWidth</a> = 8</td></tr>
-<tr class="separator:a0df3ebbbac77ea26952722cb95c072bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afca1893250816743847e50a553346c91" id="r_afca1893250816743847e50a553346c91"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afca1893250816743847e50a553346c91">kPoly</a> = 0x31U</td></tr>
-<tr class="separator:afca1893250816743847e50a553346c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4eeb3aa12257052edd3f3c5ed7ced3d" id="r_af4eeb3aa12257052edd3f3c5ed7ced3d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4eeb3aa12257052edd3f3c5ed7ced3d">kInit</a> = 0x0U</td></tr>
-<tr class="separator:af4eeb3aa12257052edd3f3c5ed7ced3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0562986cb5a339440bb88ee418e30fc" id="r_ad0562986cb5a339440bb88ee418e30fc"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0562986cb5a339440bb88ee418e30fc">kRefIn</a> = true</td></tr>
-<tr class="separator:ad0562986cb5a339440bb88ee418e30fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26b172dbc01e3218301efd78d1f17df3" id="r_a26b172dbc01e3218301efd78d1f17df3"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26b172dbc01e3218301efd78d1f17df3">kRefOut</a> = true</td></tr>
-<tr class="separator:a26b172dbc01e3218301efd78d1f17df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48ad8ebcc5143792fe54b57c5e54856d" id="r_a48ad8ebcc5143792fe54b57c5e54856d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48ad8ebcc5143792fe54b57c5e54856d">kXorOut</a> = 0x0U</td></tr>
-<tr class="separator:a48ad8ebcc5143792fe54b57c5e54856d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7f4ad803067f81a30fc2a4f3e9337d8" id="r_af7f4ad803067f81a30fc2a4f3e9337d8"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7f4ad803067f81a30fc2a4f3e9337d8">kCatalogCheck</a> = 0xA1U</td></tr>
-<tr class="separator:af7f4ad803067f81a30fc2a4f3e9337d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a0f23ee126a26c0aee8ce3b91e80b3616" id="r_a0f23ee126a26c0aee8ce3b91e80b3616"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616">ordering_value</a> : signed char { <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616ae37e8d912e8f7b8f9b5ef9452ba47ff1">less</a> = -1
+, <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616aa219d952c828c6dfd3c9e7465f0d29c4">equivalent</a> = 0
+, <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616a7b8dc4fb0fb55fc8eb69ff080c45ed7e">greater</a> = 1
+, <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616a2e3a2fe1ab6a59f682eec190c2b1fe27">unordered</a> = 2
+ }</td></tr>
+<tr class="memdesc:a0f23ee126a26c0aee8ce3b91e80b3616"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value of an ordering: the sign of the comparison, and <code>unordered</code> for the one value a <code>partial_ordering</code> has besides the three.  <a href="#a0f23ee126a26c0aee8ce3b91e80b3616">More...</a><br /></td></tr>
+<tr class="separator:a0f23ee126a26c0aee8ce3b91e80b3616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-8/MAXIM-DOW (Dallas): width=8 poly=0x31 init=0 refin=true refout=true xorout=0. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-8/MAXIM-DOW </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="adb63db43b776d67b2d0cf6bc5b8ae726" name="adb63db43b776d67b2d0cf6bc5b8ae726"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb63db43b776d67b2d0cf6bc5b8ae726">&#9670;&#160;</a></span>ValueType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#adb63db43b776d67b2d0cf6bc5b8ae726">lumex::core::crc::parametric::crc8_maxim_dow_spec_t::ValueType</a> = std::uint8_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="af7f4ad803067f81a30fc2a4f3e9337d8" name="af7f4ad803067f81a30fc2a4f3e9337d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7f4ad803067f81a30fc2a4f3e9337d8">&#9670;&#160;</a></span>kCatalogCheck</h2>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a0f23ee126a26c0aee8ce3b91e80b3616" name="a0f23ee126a26c0aee8ce3b91e80b3616"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f23ee126a26c0aee8ce3b91e80b3616">&#9670;&#160;</a></span>ordering_value</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,159 +146,32 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint8_t lumex::core::crc::parametric::crc8_maxim_dow_spec_t::kCatalogCheck = 0xA1U</td>
+          <td class="memname">enum class <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616">lumex::core::utility::numeric::Detail::ordering_value</a> : signed char</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="af4eeb3aa12257052edd3f3c5ed7ced3d" name="af4eeb3aa12257052edd3f3c5ed7ced3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4eeb3aa12257052edd3f3c5ed7ced3d">&#9670;&#160;</a></span>kInit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_maxim_dow_spec_t::kInit = 0x0U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
+<p>The value of an ordering: the sign of the comparison, and <code>unordered</code> for the one value a <code><a class="el" href="a04238.html" title="The result of a three-way comparison that may leave two values unordered (NaN against anything): less...">partial_ordering</a></code> has besides the three. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0f23ee126a26c0aee8ce3b91e80b3616ae37e8d912e8f7b8f9b5ef9452ba47ff1" name="a0f23ee126a26c0aee8ce3b91e80b3616ae37e8d912e8f7b8f9b5ef9452ba47ff1"></a>less&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0f23ee126a26c0aee8ce3b91e80b3616aa219d952c828c6dfd3c9e7465f0d29c4" name="a0f23ee126a26c0aee8ce3b91e80b3616aa219d952c828c6dfd3c9e7465f0d29c4"></a>equivalent&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0f23ee126a26c0aee8ce3b91e80b3616a7b8dc4fb0fb55fc8eb69ff080c45ed7e" name="a0f23ee126a26c0aee8ce3b91e80b3616a7b8dc4fb0fb55fc8eb69ff080c45ed7e"></a>greater&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0f23ee126a26c0aee8ce3b91e80b3616a2e3a2fe1ab6a59f682eec190c2b1fe27" name="a0f23ee126a26c0aee8ce3b91e80b3616a2e3a2fe1ab6a59f682eec190c2b1fe27"></a>unordered&#160;</td><td class="fielddoc"></td></tr>
 </table>
-</div><div class="memdoc">
 
 </div>
 </div>
-<a id="afca1893250816743847e50a553346c91" name="afca1893250816743847e50a553346c91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afca1893250816743847e50a553346c91">&#9670;&#160;</a></span>kPoly</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_maxim_dow_spec_t::kPoly = 0x31U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad0562986cb5a339440bb88ee418e30fc" name="ad0562986cb5a339440bb88ee418e30fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0562986cb5a339440bb88ee418e30fc">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc8_maxim_dow_spec_t::kRefIn = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a26b172dbc01e3218301efd78d1f17df3" name="a26b172dbc01e3218301efd78d1f17df3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26b172dbc01e3218301efd78d1f17df3">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc8_maxim_dow_spec_t::kRefOut = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0df3ebbbac77ea26952722cb95c072bb" name="a0df3ebbbac77ea26952722cb95c072bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0df3ebbbac77ea26952722cb95c072bb">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc8_maxim_dow_spec_t::kWidth = 8</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a48ad8ebcc5143792fe54b57c5e54856d" name="a48ad8ebcc5143792fe54b57c5e54856d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48ad8ebcc5143792fe54b57c5e54856d">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_maxim_dow_spec_t::kXorOut = 0x0U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01429.html">crc8_maxim_dow_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01428.html">numeric</a></li><li class="navelem"><a class="el" href="a01429.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

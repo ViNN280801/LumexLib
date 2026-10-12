@@ -1,0 +1,26 @@
+digraph "lumex::core::expected::result::detail::storage::expected_move_assign_base&lt; T, E, 1 &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::expected\l::result::detail::storage\l::expected_move_assign_base\l\< T, E, 1 \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The move assignment is written out: [expected.object.assign]/7 and /9."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::expected\l::result::detail::storage\l::expected_copy_assign_base\l\< T, E, Kind \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$a02706.html",tooltip="The layer of the copy assignment. Kind is 0 (the compiler's operator, trivial when the layer below is..."];
+  Node3 -> Node2 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::expected\l::result::detail::storage\l::expected_move_base\< T,\l E, Kind \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$a02694.html",tooltip="The layer of the move constructor. Kind is 0 (the compiler's constructor, trivial when the layer belo..."];
+  Node4 -> Node3 [id="edge3_Node000003_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::expected\l::result::detail::storage\l::expected_copy_base\< T,\l E, Kind \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$a02682.html",tooltip="The layer of the copy constructor. Kind is 0 (the compiler's constructor, trivial when the layer belo..."];
+  Node5 -> Node4 [id="edge4_Node000004_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::expected\l::result::detail::storage\l::expected_destruct_base\l\< T, E, Trivial \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$a02674.html",tooltip="The layer that destroys the active alternative; trivial."];
+  Node6 -> Node5 [id="edge5_Node000005_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::expected\l::result::detail::storage\l::expected_storage\< T, E \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$a02670.html",tooltip="has_val and the union of [expected.object.general], the constructors that start one alternative,..."];
+  Node7 -> Node6 [id="edge6_Node000006_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="checks_of\< T, E \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node6 [id="edge7_Node000006_Node000008",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" m_storage",fontcolor="grey" ];
+  Node8 [id="Node000008",label="lumex::core::expected\l::result::detail::storage\l::expected_union\< val_type,\l E, expected_traits\< T, E\l \>::trivial_destructor::value \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$a02654.html",tooltip=" "];
+  Node9 -> Node6 [id="edge8_Node000006_Node000009",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" m_has_value",fontcolor="grey" ];
+  Node9 [id="Node000009",label="lumex::core::expected\l::result::detail::storage\l::has_val_flag\< std::alignment\l_of\< lumex::core::expected::\lresult::detail::storage::expected\l_union \>::value \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$a02666.html",tooltip=" "];
+  Node2 -> Node1 [id="edge9_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

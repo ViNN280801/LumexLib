@@ -1,7 +1,8 @@
 var a00179 =
 [
-    [ "lumex::applied::settings::json::LumexSettingsJSON", "a01317.html", "a01317" ],
-    [ "LumexSettingsJSON", "a00179.html#aa919e4a6d6da15cb570e487987991a1b", null ],
-    [ "lumex::applied::settings::json::Constants::constJSON_FILE_EXTENSION", "a01002.html#a85ddcbba7f37a295f7363f2df6742f26", null ],
-    [ "lumex::applied::settings::json::Constants::constSETTINGS_ROOT_NAME", "a01002.html#a76a304e5fd1c4e9ef840f837995448f9", null ]
+    [ "lumex::applied::serial::port::resolve_serial_port_path", "a01290.html#a523de1146ace21810686af24cd7edd8f", null ],
+    [ "lumex::applied::serial::port::Constants::KNET_TCP_CHANNEL_TYPE", "a01292.html#a60c1583bdbe97272bebce16500252428", null ],
+    [ "lumex::applied::serial::port::Constants::KNET_UDP_CHANNEL_TYPE", "a01292.html#a8e84e78c1d605a4e97a9690581795555", null ],
+    [ "lumex::applied::serial::port::Constants::KSERIAL_PORT_CHANNEL_TYPE", "a01292.html#a78a9905c515b8e1e4efd4cdb738b67f3", null ],
+    [ "lumex::applied::serial::port::Constants::KSERIAL_PORT_SYNC_CHANNEL_TYPE", "a01292.html#ade27fc46c3a7e81d4b4282ecb789e043", null ]
 ];

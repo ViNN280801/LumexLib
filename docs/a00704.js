@@ -1,4 +1,4 @@
 var a00704 =
 [
-    [ "lumex::xml::range::XmlObjectRange< Iterator >", "a02945.html", "a02945" ]
+    [ "main", "a00704.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

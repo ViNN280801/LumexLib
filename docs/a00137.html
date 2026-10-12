@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSerialTransport.hpp File Reference</title>
+<title>LumexLib: LumexLoggingMacro.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,93 +104,341 @@ $(function(){initNavTree('a00137.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
-  <div class="headertitle"><div class="title">LumexSerialTransport.hpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexLoggingMacro.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Internal transport seam of the serial prober: the operations the probe engine performs on one port.  
+<p>Short macros over <code><a class="el" href="a00134.html#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a></code>: <code>lumDebug</code> to <code>lumCritical</code>, and the <code>...FL</code> variants that prefix the source file and line.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00134_source.html">LumexLogging.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00626_source.html">lumex/core/utility/macros/LumexMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSerialTransport.hpp:</div>
+Include dependency graph for LumexLoggingMacro.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00138.png" border="0" usemap="#a_lumex_serial_transport_8hpp" alt=""/></div>
-<map name="a_lumex_serial_transport_8hpp" id="a_lumex_serial_transport_8hpp">
-<area shape="rect" title="Internal transport seam of the serial prober: the operations the probe engine performs on one port." alt="" coords="78,5,252,32"/>
-<area shape="rect" title=" " alt="" coords="5,80,66,107"/>
-<area shape="poly" title=" " alt="" coords="144,35,73,74,70,70,141,30"/>
-<area shape="rect" title=" " alt="" coords="90,80,154,107"/>
-<area shape="poly" title=" " alt="" coords="160,34,139,68,135,65,155,31"/>
-<area shape="rect" title=" " alt="" coords="179,80,239,107"/>
-<area shape="poly" title=" " alt="" coords="175,31,196,65,191,68,170,34"/>
-<area shape="rect" title=" " alt="" coords="264,80,317,107"/>
-<area shape="poly" title=" " alt="" coords="188,30,257,70,254,74,185,35"/>
-</map>
+<div class="center"><img src="a00138.png" border="0" usemap="#a_lumex_logging_macro_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00139.png" border="0" usemap="#a_lumex_serial_transport_8hppdep" alt=""/></div>
-<map name="a_lumex_serial_transport_8hppdep" id="a_lumex_serial_transport_8hppdep">
-<area shape="rect" title="Internal transport seam of the serial prober: the operations the probe engine performs on one port." alt="" coords="82,5,255,32"/>
-<area shape="rect" href="a00134.html" title="Internal deadline engine of the serial prober." alt="" coords="5,80,198,107"/>
-<area shape="poly" title=" " alt="" coords="148,45,115,81,111,78,144,42"/>
-<area shape="rect" href="a00140.html" title=" " alt="" coords="90,155,246,181"/>
-<area shape="poly" title=" " alt="" coords="192,43,203,60,212,79,213,101,206,123,183,156,179,153,202,120,208,101,207,81,199,62,188,46"/>
-<area shape="poly" title=" " alt="" coords="125,116,159,152,155,156,121,120"/>
-</map>
+<div class="center"><img src="a00139.png" border="0" usemap="#a_lumex_logging_macro_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00137_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html">lumex::applied::serial::probe::detail::transport_result_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of one transport operation.  <a href="a01237.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operations the probe engine needs from one port.  <a href="a01241.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00981.html">lumex::applied::serial</a></td></tr>
-<tr class="memdesc:a00981"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00987.html">lumex::applied::serial::probe</a></td></tr>
-<tr class="memdesc:a00987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bounded probing of the device behind a serial port. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00988.html">lumex::applied::serial::probe::detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a55026740a9b543238617bc39b4d797e6" id="r_a55026740a9b543238617bc39b4d797e6"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00988.html#a55026740a9b543238617bc39b4d797e6">lumex::applied::serial::probe::detail::transport_status</a> { <a class="el" href="a00988.html#a55026740a9b543238617bc39b4d797e6a444bcb3a3fcf8389296c49467f27e1d6">lumex::applied::serial::probe::detail::ok</a>
-, <a class="el" href="a00988.html#a55026740a9b543238617bc39b4d797e6a3cef844c7982c2acb28d67b35e5bacc7">lumex::applied::serial::probe::detail::deadline_exceeded</a>
-, <a class="el" href="a00988.html#a55026740a9b543238617bc39b4d797e6a26934eb377001f66e37289a5c93fe284">lumex::applied::serial::probe::detail::failed</a>
- }</td></tr>
-<tr class="memdesc:a55026740a9b543238617bc39b4d797e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outcome of one transport operation.  <a href="a00988.html#a55026740a9b543238617bc39b4d797e6">More...</a><br /></td></tr>
-<tr class="separator:a55026740a9b543238617bc39b4d797e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ab9d811383a6660ae66efe797449b54c4" id="r_ab9d811383a6660ae66efe797449b54c4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9d811383a6660ae66efe797449b54c4">lumDebug</a>(moduleName, ...)</td></tr>
+<tr class="separator:ab9d811383a6660ae66efe797449b54c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf03ac40e82dc22d29bcd7f0591d8efb" id="r_abf03ac40e82dc22d29bcd7f0591d8efb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf03ac40e82dc22d29bcd7f0591d8efb">lumInfo</a>(moduleName, ...)</td></tr>
+<tr class="separator:abf03ac40e82dc22d29bcd7f0591d8efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d9790a6ac0afd238f27185519b059e2" id="r_a7d9790a6ac0afd238f27185519b059e2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d9790a6ac0afd238f27185519b059e2">lumSuccess</a>(moduleName, ...)</td></tr>
+<tr class="separator:a7d9790a6ac0afd238f27185519b059e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4723a0545868bc1b988b4d2c65386e39" id="r_a4723a0545868bc1b988b4d2c65386e39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4723a0545868bc1b988b4d2c65386e39">lumWarning</a>(moduleName, ...)</td></tr>
+<tr class="separator:a4723a0545868bc1b988b4d2c65386e39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae62f979f23f714f5275da9ce1f60435c" id="r_ae62f979f23f714f5275da9ce1f60435c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae62f979f23f714f5275da9ce1f60435c">lumError</a>(moduleName, ...)</td></tr>
+<tr class="separator:ae62f979f23f714f5275da9ce1f60435c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa23371e8c742bc7b94f33977cc306940" id="r_aa23371e8c742bc7b94f33977cc306940"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa23371e8c742bc7b94f33977cc306940">lumCritical</a>(moduleName, ...)</td></tr>
+<tr class="separator:aa23371e8c742bc7b94f33977cc306940"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d12884a15fa51a1dbaeeffb7c41fdcb" id="r_a7d12884a15fa51a1dbaeeffb7c41fdcb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d12884a15fa51a1dbaeeffb7c41fdcb">lumDebugFL</a>(moduleName, ...)</td></tr>
+<tr class="separator:a7d12884a15fa51a1dbaeeffb7c41fdcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af93a3415292639c338b18232778703e7" id="r_af93a3415292639c338b18232778703e7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af93a3415292639c338b18232778703e7">lumInfoFL</a>(moduleName, ...)</td></tr>
+<tr class="separator:af93a3415292639c338b18232778703e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a522ab7a45fc03475916950d12f1d8c7c" id="r_a522ab7a45fc03475916950d12f1d8c7c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a522ab7a45fc03475916950d12f1d8c7c">lumSuccessFL</a>(moduleName, ...)</td></tr>
+<tr class="separator:a522ab7a45fc03475916950d12f1d8c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2441b014034e5ec161b3f7bd5301d8dc" id="r_a2441b014034e5ec161b3f7bd5301d8dc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2441b014034e5ec161b3f7bd5301d8dc">lumWarningFL</a>(moduleName, ...)</td></tr>
+<tr class="separator:a2441b014034e5ec161b3f7bd5301d8dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae2b6bd2b080f3aefab21e9a0903e6a3" id="r_aae2b6bd2b080f3aefab21e9a0903e6a3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae2b6bd2b080f3aefab21e9a0903e6a3">lumErrorFL</a>(moduleName, ...)</td></tr>
+<tr class="separator:aae2b6bd2b080f3aefab21e9a0903e6a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af818e64debfd37f548e42ec80a27791a" id="r_af818e64debfd37f548e42ec80a27791a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af818e64debfd37f548e42ec80a27791a">lumCriticalFL</a>(moduleName, ...)</td></tr>
+<tr class="separator:af818e64debfd37f548e42ec80a27791a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Internal transport seam of the serial prober: the operations the probe engine performs on one port. </p>
-<p>Not part of the public API. The header is header-only so the engine and the test doubles compile against it without exported symbols; the platform transports live in <code><a class="el" href="a00140.html">LumexSerialProber.cpp</a></code>. Consumers must not include this header. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Short macros over <code><a class="el" href="a00134.html#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a></code>: <code>lumDebug</code> to <code>lumCritical</code>, and the <code>...FL</code> variants that prefix the source file and line. </p>
+<p>Each macro takes a module name and the message parts and calls the <code><a class="el" href="a00134.html#a4a6909dcad3d67fe13dede37e3679899">LumexLogging</a></code> function of the same level. The header also provides <code>LUMEX_FUNCTION_NAME</code> (the compiler's decorated name of the enclosing function) by including <code><a class="el" href="a00626.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT.">LumexMacros.hpp</a></code>, which defines it. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aa23371e8c742bc7b94f33977cc306940" name="aa23371e8c742bc7b94f33977cc306940"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa23371e8c742bc7b94f33977cc306940">&#9670;&#160;</a></span>lumCritical</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumCritical</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#ab45388c23b278021a8bb9e4a7b435e0c">LumexLogging::critical</a> (moduleName, __VA_ARGS__)</div>
+<div class="ttc" id="aa01582_html_ab45388c23b278021a8bb9e4a7b435e0c"><div class="ttname"><a href="a01582.html#ab45388c23b278021a8bb9e4a7b435e0c">lumex::applied::logging::log::LumexLogging::critical</a></div><div class="ttdeci">static void critical(char const *moduleName, Args &amp;&amp;...args)</div><div class="ttdoc">Log a CRITICAL-level message.</div><div class="ttdef"><b>Definition</b> LumexLogging.hpp:153</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af818e64debfd37f548e42ec80a27791a" name="af818e64debfd37f548e42ec80a27791a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af818e64debfd37f548e42ec80a27791a">&#9670;&#160;</a></span>lumCriticalFL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumCriticalFL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#ab45388c23b278021a8bb9e4a7b435e0c">LumexLogging::critical</a> (moduleName, <span class="stringliteral">&quot;[&quot;</span>, __FILE__, <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;] &quot;</span>,     \</div>
+<div class="line">                          __VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ab9d811383a6660ae66efe797449b54c4" name="ab9d811383a6660ae66efe797449b54c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9d811383a6660ae66efe797449b54c4">&#9670;&#160;</a></span>lumDebug</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumDebug</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_function" href="a01582.html#a44ad22b8a67f4f15a9a574b3d4d5cd74">LumexLogging::debug</a> (moduleName, __VA_ARGS__)</div>
+<div class="ttc" id="aa01582_html_a44ad22b8a67f4f15a9a574b3d4d5cd74"><div class="ttname"><a href="a01582.html#a44ad22b8a67f4f15a9a574b3d4d5cd74">lumex::applied::logging::log::LumexLogging::debug</a></div><div class="ttdeci">static void debug(char const *moduleName, Args &amp;&amp;...args)</div><div class="ttdoc">Log a DEBUG-level message.</div><div class="ttdef"><b>Definition</b> LumexLogging.hpp:103</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7d12884a15fa51a1dbaeeffb7c41fdcb" name="a7d12884a15fa51a1dbaeeffb7c41fdcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d12884a15fa51a1dbaeeffb7c41fdcb">&#9670;&#160;</a></span>lumDebugFL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumDebugFL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#a44ad22b8a67f4f15a9a574b3d4d5cd74">LumexLogging::debug</a> (moduleName, <span class="stringliteral">&quot;[&quot;</span>, __FILE__, <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;] &quot;</span>,        \</div>
+<div class="line">                       __VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae62f979f23f714f5275da9ce1f60435c" name="ae62f979f23f714f5275da9ce1f60435c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae62f979f23f714f5275da9ce1f60435c">&#9670;&#160;</a></span>lumError</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumError</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_function" href="a01582.html#aaeebb797a274ef51607814be5801bcc4">LumexLogging::error</a> (moduleName, __VA_ARGS__)</div>
+<div class="ttc" id="aa01582_html_aaeebb797a274ef51607814be5801bcc4"><div class="ttname"><a href="a01582.html#aaeebb797a274ef51607814be5801bcc4">lumex::applied::logging::log::LumexLogging::error</a></div><div class="ttdeci">static void error(char const *moduleName, Args &amp;&amp;...args)</div><div class="ttdoc">Log an ERROR-level message.</div><div class="ttdef"><b>Definition</b> LumexLogging.hpp:143</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aae2b6bd2b080f3aefab21e9a0903e6a3" name="aae2b6bd2b080f3aefab21e9a0903e6a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae2b6bd2b080f3aefab21e9a0903e6a3">&#9670;&#160;</a></span>lumErrorFL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumErrorFL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#aaeebb797a274ef51607814be5801bcc4">LumexLogging::error</a> (moduleName, <span class="stringliteral">&quot;[&quot;</span>, __FILE__, <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;] &quot;</span>,        \</div>
+<div class="line">                       __VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="abf03ac40e82dc22d29bcd7f0591d8efb" name="abf03ac40e82dc22d29bcd7f0591d8efb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf03ac40e82dc22d29bcd7f0591d8efb">&#9670;&#160;</a></span>lumInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumInfo</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_function" href="a01582.html#aafb110cd6feeb2ab91305f27352b9118">LumexLogging::info</a> (moduleName, __VA_ARGS__)</div>
+<div class="ttc" id="aa01582_html_aafb110cd6feeb2ab91305f27352b9118"><div class="ttname"><a href="a01582.html#aafb110cd6feeb2ab91305f27352b9118">lumex::applied::logging::log::LumexLogging::info</a></div><div class="ttdeci">static void info(char const *moduleName, Args &amp;&amp;...args)</div><div class="ttdoc">Log an INFO-level message.</div><div class="ttdef"><b>Definition</b> LumexLogging.hpp:113</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af93a3415292639c338b18232778703e7" name="af93a3415292639c338b18232778703e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af93a3415292639c338b18232778703e7">&#9670;&#160;</a></span>lumInfoFL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumInfoFL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#aafb110cd6feeb2ab91305f27352b9118">LumexLogging::info</a> (moduleName, <span class="stringliteral">&quot;[&quot;</span>, __FILE__, <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;] &quot;</span>,         \</div>
+<div class="line">                      __VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7d9790a6ac0afd238f27185519b059e2" name="a7d9790a6ac0afd238f27185519b059e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d9790a6ac0afd238f27185519b059e2">&#9670;&#160;</a></span>lumSuccess</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumSuccess</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#a8e7bac7289460386a2e59d59c388d4b6">LumexLogging::success</a> (moduleName, __VA_ARGS__)</div>
+<div class="ttc" id="aa01582_html_a8e7bac7289460386a2e59d59c388d4b6"><div class="ttname"><a href="a01582.html#a8e7bac7289460386a2e59d59c388d4b6">lumex::applied::logging::log::LumexLogging::success</a></div><div class="ttdeci">static void success(char const *moduleName, Args &amp;&amp;...args)</div><div class="ttdoc">Log a SUCCESS-level message (custom level).</div><div class="ttdef"><b>Definition</b> LumexLogging.hpp:123</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a522ab7a45fc03475916950d12f1d8c7c" name="a522ab7a45fc03475916950d12f1d8c7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a522ab7a45fc03475916950d12f1d8c7c">&#9670;&#160;</a></span>lumSuccessFL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumSuccessFL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#a8e7bac7289460386a2e59d59c388d4b6">LumexLogging::success</a> (moduleName, <span class="stringliteral">&quot;[&quot;</span>, __FILE__, <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;] &quot;</span>,      \</div>
+<div class="line">                         __VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a4723a0545868bc1b988b4d2c65386e39" name="a4723a0545868bc1b988b4d2c65386e39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4723a0545868bc1b988b4d2c65386e39">&#9670;&#160;</a></span>lumWarning</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumWarning</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#af4fec23e76323ffee4eaf2aaf716eb15">LumexLogging::warning</a> (moduleName, __VA_ARGS__)</div>
+<div class="ttc" id="aa01582_html_af4fec23e76323ffee4eaf2aaf716eb15"><div class="ttname"><a href="a01582.html#af4fec23e76323ffee4eaf2aaf716eb15">lumex::applied::logging::log::LumexLogging::warning</a></div><div class="ttdeci">static void warning(char const *moduleName, Args &amp;&amp;...args)</div><div class="ttdoc">Log a WARNING-level message.</div><div class="ttdef"><b>Definition</b> LumexLogging.hpp:133</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a2441b014034e5ec161b3f7bd5301d8dc" name="a2441b014034e5ec161b3f7bd5301d8dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2441b014034e5ec161b3f7bd5301d8dc">&#9670;&#160;</a></span>lumWarningFL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lumWarningFL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01582.html#af4fec23e76323ffee4eaf2aaf716eb15">LumexLogging::warning</a> (moduleName, <span class="stringliteral">&quot;[&quot;</span>, __FILE__, <span class="stringliteral">&quot;:&quot;</span>, __LINE__, <span class="stringliteral">&quot;] &quot;</span>,      \</div>
+<div class="line">                         __VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_0eb40f4dc310d2549676f4667bcb916d.html">probe</a></li><li class="navelem"><a class="el" href="dir_717a927561f37227ea34383ea00766b8.html">detail</a></li><li class="navelem"><a class="el" href="a00137.html">LumexSerialTransport.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_281e30212518eef343610f64aa21cb60.html">logging</a></li><li class="navelem"><a class="el" href="dir_3d0c1a0e323d53b93f898c19dcf5c30c.html">log</a></li><li class="navelem"><a class="el" href="a00137.html">LumexLoggingMacro.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

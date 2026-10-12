@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::settings::factory Namespace Reference</title>
+<title>LumexLib: XmlParser.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,23 +104,297 @@ $(function(){initNavTree('a00995.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::settings::factory Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XmlParser.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
+<div class="textblock"><code>#include &quot;<a class="el" href="a00575_source.html">lumex/core/unicode/utf/LumexUtf.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00950_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01019_source.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01022_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00998_source.html">XmlParser.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XmlParser.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00996.png" border="0" usemap="#a_xml_parser_8cpp" alt=""/></div>
+</div>
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01297.html">LumexSettingsFactory</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory class for creating <code><a class="el" href="a01313.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instances.  <a href="a01297.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04990.html">gap</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04994.html">strconv_attribute_impl&lt; Escape &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04998.html">strconv_pcdata_impl&lt; Trim, Eol, Escape &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a1771b42a0b454094b266b58f4b5cd053" id="r_a1771b42a0b454094b266b58f4b5cd053"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1771b42a0b454094b266b58f4b5cd053">strconv_attribute_t</a>) (<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a>)</td></tr>
+<tr class="separator:a1771b42a0b454094b266b58f4b5cd053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a674e7a8702a4fbe62d2bbf8d7813c963" id="r_a674e7a8702a4fbe62d2bbf8d7813c963"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a674e7a8702a4fbe62d2bbf8d7813c963">strconv_pcdata_t</a>) (<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *)</td></tr>
+<tr class="separator:a674e7a8702a4fbe62d2bbf8d7813c963"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a572ca023c41c429e54892e03cdc88a64" id="r_a572ca023c41c429e54892e03cdc88a64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a572ca023c41c429e54892e03cdc88a64">strconv_escape</a> (<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *s, <a class="el" href="a04990.html">gap</a> &amp;g)</td></tr>
+<tr class="separator:a572ca023c41c429e54892e03cdc88a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51e9b0004ac41f142aeed82a9801e288" id="r_a51e9b0004ac41f142aeed82a9801e288"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1771b42a0b454094b266b58f4b5cd053">strconv_attribute_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51e9b0004ac41f142aeed82a9801e288">get_strconv_attribute</a> (unsigned int optmask)</td></tr>
+<tr class="separator:a51e9b0004ac41f142aeed82a9801e288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabac4ba634904454129cb546e203a896" id="r_aabac4ba634904454129cb546e203a896"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabac4ba634904454129cb546e203a896">strconv_comment</a> (<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *str, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> endch)</td></tr>
+<tr class="separator:aabac4ba634904454129cb546e203a896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe3e6f37492a7bf6f15aa79ea3473a15" id="r_afe3e6f37492a7bf6f15aa79ea3473a15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe3e6f37492a7bf6f15aa79ea3473a15">strconv_cdata</a> (<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *str, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> endch)</td></tr>
+<tr class="separator:afe3e6f37492a7bf6f15aa79ea3473a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a107a81d20f6de13719a1c04b6eab36c8" id="r_a107a81d20f6de13719a1c04b6eab36c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a674e7a8702a4fbe62d2bbf8d7813c963">strconv_pcdata_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a107a81d20f6de13719a1c04b6eab36c8">get_strconv_pcdata</a> (unsigned int optmask)</td></tr>
+<tr class="separator:a107a81d20f6de13719a1c04b6eab36c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a1771b42a0b454094b266b58f4b5cd053" name="a1771b42a0b454094b266b58f4b5cd053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1771b42a0b454094b266b58f4b5cd053">&#9670;&#160;</a></span>strconv_attribute_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *(* strconv_attribute_t) (<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a674e7a8702a4fbe62d2bbf8d7813c963" name="a674e7a8702a4fbe62d2bbf8d7813c963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a674e7a8702a4fbe62d2bbf8d7813c963">&#9670;&#160;</a></span>strconv_pcdata_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *(* strconv_pcdata_t) (<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a51e9b0004ac41f142aeed82a9801e288" name="a51e9b0004ac41f142aeed82a9801e288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51e9b0004ac41f142aeed82a9801e288">&#9670;&#160;</a></span>get_strconv_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1771b42a0b454094b266b58f4b5cd053">strconv_attribute_t</a> get_strconv_attribute </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>optmask</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_a51e9b0004ac41f142aeed82a9801e288_cgraph.png" border="0" usemap="#aa00995_a51e9b0004ac41f142aeed82a9801e288_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_a51e9b0004ac41f142aeed82a9801e288_icgraph.png" border="0" usemap="#aa00995_a51e9b0004ac41f142aeed82a9801e288_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a107a81d20f6de13719a1c04b6eab36c8" name="a107a81d20f6de13719a1c04b6eab36c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a107a81d20f6de13719a1c04b6eab36c8">&#9670;&#160;</a></span>get_strconv_pcdata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a674e7a8702a4fbe62d2bbf8d7813c963">strconv_pcdata_t</a> get_strconv_pcdata </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>optmask</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_a107a81d20f6de13719a1c04b6eab36c8_cgraph.png" border="0" usemap="#aa00995_a107a81d20f6de13719a1c04b6eab36c8_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_a107a81d20f6de13719a1c04b6eab36c8_icgraph.png" border="0" usemap="#aa00995_a107a81d20f6de13719a1c04b6eab36c8_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="afe3e6f37492a7bf6f15aa79ea3473a15" name="afe3e6f37492a7bf6f15aa79ea3473a15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe3e6f37492a7bf6f15aa79ea3473a15">&#9670;&#160;</a></span>strconv_cdata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> * strconv_cdata </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a></td>          <td class="paramname"><span class="paramname"><em>endch</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_afe3e6f37492a7bf6f15aa79ea3473a15_cgraph.png" border="0" usemap="#aa00995_afe3e6f37492a7bf6f15aa79ea3473a15_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_afe3e6f37492a7bf6f15aa79ea3473a15_icgraph.png" border="0" usemap="#aa00995_afe3e6f37492a7bf6f15aa79ea3473a15_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="aabac4ba634904454129cb546e203a896" name="aabac4ba634904454129cb546e203a896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabac4ba634904454129cb546e203a896">&#9670;&#160;</a></span>strconv_comment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> * strconv_comment </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a></td>          <td class="paramname"><span class="paramname"><em>endch</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_aabac4ba634904454129cb546e203a896_cgraph.png" border="0" usemap="#aa00995_aabac4ba634904454129cb546e203a896_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_aabac4ba634904454129cb546e203a896_icgraph.png" border="0" usemap="#aa00995_aabac4ba634904454129cb546e203a896_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a572ca023c41c429e54892e03cdc88a64" name="a572ca023c41c429e54892e03cdc88a64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a572ca023c41c429e54892e03cdc88a64">&#9670;&#160;</a></span>strconv_escape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> * strconv_escape </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *</td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04990.html">gap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_a572ca023c41c429e54892e03cdc88a64_cgraph.png" border="0" usemap="#aa00995_a572ca023c41c429e54892e03cdc88a64_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00995_a572ca023c41c429e54892e03cdc88a64_icgraph.png" border="0" usemap="#aa00995_a572ca023c41c429e54892e03cdc88a64_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00994.html">settings</a></li><li class="navelem"><a class="el" href="a00995.html">factory</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a00995.html">XmlParser.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

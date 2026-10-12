@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: ILumexJsonSchemaValidator.hpp File Reference</title>
+<title>LumexLib: LumexCPUVectorizationCapabilities.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,91 +104,113 @@ $(function(){initNavTree('a00086.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">ILumexJsonSchemaValidator.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexCPUVectorizationCapabilities.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Contract for checking raw JSON text against a schema.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;exception&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00356_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00089_source.html">LumexCPUVectorizationCapabilities.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01163_source.html">lumex/applied/logging/LumexLogging</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00617_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00638_source.html">lumex/core/utility/os/LumexCheckOS.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for ILumexJsonSchemaValidator.hpp:</div>
+Include dependency graph for LumexCPUVectorizationCapabilities.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00087.png" border="0" usemap="#a_i_lumex_json_schema_validator_8hpp" alt=""/></div>
-<map name="a_i_lumex_json_schema_validator_8hpp" id="a_i_lumex_json_schema_validator_8hpp">
-<area shape="rect" title="Contract for checking raw JSON text against a schema." alt="" coords="255,5,470,32"/>
-<area shape="rect" title=" " alt="" coords="248,88,325,115"/>
-<area shape="poly" title=" " alt="" coords="353,34,311,79,307,75,349,31"/>
-<area shape="rect" href="a00356.html" title="C++11 lightweight, non&#45;owning view over character sequences." alt="" coords="349,80,531,123"/>
-<area shape="poly" title=" " alt="" coords="377,31,412,67,408,71,373,34"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,179,168,205"/>
-<area shape="poly" title=" " alt="" coords="358,126,153,177,151,172,356,121"/>
-<area shape="rect" title=" " alt="" coords="192,179,256,205"/>
-<area shape="poly" title=" " alt="" coords="387,126,269,173,266,174,264,170,267,168,385,121"/>
-<area shape="rect" title=" " alt="" coords="280,179,341,205"/>
-<area shape="poly" title=" " alt="" coords="411,125,343,172,340,167,408,121"/>
-<area shape="rect" title=" " alt="" coords="365,179,426,205"/>
-<area shape="poly" title=" " alt="" coords="432,124,411,166,406,164,427,122"/>
-<area shape="rect" title=" " alt="" coords="451,179,519,205"/>
-<area shape="poly" title=" " alt="" coords="453,122,474,163,469,166,448,124"/>
-<area shape="rect" title=" " alt="" coords="544,179,597,205"/>
-<area shape="poly" title=" " alt="" coords="472,121,541,167,538,172,469,125"/>
-<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="621,171,789,213"/>
-<area shape="poly" title=" " alt="" coords="503,121,629,163,628,168,501,126"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="813,171,1008,213"/>
-<area shape="poly" title=" " alt="" coords="532,117,799,167,798,172,531,122"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="590,261,821,304"/>
-<area shape="poly" title=" " alt="" coords="708,214,708,246,702,246,702,214"/>
-</map>
+<div class="center"><img src="a00087.png" border="0" usemap="#a_lumex_c_p_u_vectorization_capabilities_8cpp" alt=""/></div>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00088.png" border="0" usemap="#a_i_lumex_json_schema_validator_8hppdep" alt=""/></div>
-<map name="a_i_lumex_json_schema_validator_8hppdep" id="a_i_lumex_json_schema_validator_8hppdep">
-<area shape="rect" title="Contract for checking raw JSON text against a schema." alt="" coords="50,5,266,32"/>
-<area shape="rect" href="a00872.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="114,155,202,181"/>
-<area shape="poly" title=" " alt="" coords="137,45,124,62,115,81,114,101,121,120,146,153,142,156,116,123,108,102,110,79,120,59,132,42"/>
-<area shape="rect" href="a00089.html" title="Validate&#45;only checker for one schema tree." alt="" coords="124,80,336,107"/>
-<area shape="poly" title=" " alt="" coords="183,41,219,78,216,81,179,45"/>
-<area shape="rect" href="a00533.html" title=" " alt="" coords="5,229,132,256"/>
-<area shape="poly" title=" " alt="" coords="132,194,86,231,82,227,129,189"/>
-<area shape="rect" href="a00536.html" title=" " alt="" coords="156,229,341,256"/>
-<area shape="poly" title=" " alt="" coords="187,189,235,227,231,231,184,193"/>
-<area shape="poly" title=" " alt="" coords="208,120,172,156,168,152,205,116"/>
-</map>
-</div>
-</div>
-<p><a href="a00086_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01197.html">lumex::applied::json::validation::ILumexJsonSchemaValidator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks raw JSON text against the schema of the implementation. Builds nothing: a conforming document just returns.  <a href="a01197.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01249.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00963.html">lumex::applied::json</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01250.html">lumex::applied::hardware</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00970.html">lumex::applied::json::validation</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01251.html">lumex::applied::hardware::caps</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html">lumex::applied::hardware::caps::CPUIDFunctions</a></td></tr>
+<tr class="memdesc:a01253"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID function numbers for feature detection. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01254.html">lumex::applied::hardware::caps::SIMDWidth</a></td></tr>
+<tr class="memdesc:a01254"><td class="mdescLeft">&#160;</td><td class="mdescRight">SIMD width constants. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01255.html">lumex::applied::hardware::caps::CPUIDECXFlags</a></td></tr>
+<tr class="memdesc:a01255"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID feature flags (ECX register, function 0x00000001) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01256.html">lumex::applied::hardware::caps::CPUIDEDXFlags</a></td></tr>
+<tr class="memdesc:a01256"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID feature flags (EDX register, function 0x00000001) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01257.html">lumex::applied::hardware::caps::CPUIDEBXFlags</a></td></tr>
+<tr class="memdesc:a01257"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID extended feature flags (EBX register, function 0x00000007, subfunction 0) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01258.html">lumex::applied::hardware::caps::CPUIDECX7Flags</a></td></tr>
+<tr class="memdesc:a01258"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID extended feature flags (ECX register, function 0x00000007, subfunction 0) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01259.html">lumex::applied::hardware::caps::CPUIDEDXExtFlags</a></td></tr>
+<tr class="memdesc:a01259"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID extended feature flags (EDX register, function 0x80000001) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01260.html">lumex::applied::hardware::caps::ARMHWCAP</a></td></tr>
+<tr class="memdesc:a01260"><td class="mdescLeft">&#160;</td><td class="mdescRight">ARM feature flags for HWCAP (from getauxval) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01261.html">lumex::applied::hardware::caps::ARMHWCAP2</a></td></tr>
+<tr class="memdesc:a01261"><td class="mdescLeft">&#160;</td><td class="mdescRight">ARM feature flags for HWCAP2 (from getauxval) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f918755b601cf4bffca775992e6fb90" id="r_a9f918755b601cf4bffca775992e6fb90"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f918755b601cf4bffca775992e6fb90">NOMINMAX</a></td></tr>
+<tr class="separator:a9f918755b601cf4bffca775992e6fb90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:af20c257c98ae42c04ba567036a586faa" id="r_af20c257c98ae42c04ba567036a586faa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01251.html#af20c257c98ae42c04ba567036a586faa">lumex::applied::hardware::caps::__attribute__</a> ((visibility(&quot;default&quot;))) void <a class="el" href="a01526.html">CPUVectorizationDetector</a></td></tr>
+<tr class="separator:af20c257c98ae42c04ba567036a586faa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Contract for checking raw JSON text against a schema. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f918755b601cf4bffca775992e6fb90" name="a9f918755b601cf4bffca775992e6fb90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f918755b601cf4bffca775992e6fb90">&#9670;&#160;</a></span>NOMINMAX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NOMINMAX</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_3e92e8848bcd01e21718dfea84e9b21e.html">json</a></li><li class="navelem"><a class="el" href="dir_1fba93ce821cdd13ae0e389f6b0eec57.html">validation</a></li><li class="navelem"><a class="el" href="a00086.html">ILumexJsonSchemaValidator.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_67ca2fc5a6ed9c37068e27e587cd4bd5.html">hardware</a></li><li class="navelem"><a class="el" href="dir_d44df35ae1ff921f3f5bbaddfc0f5b6e.html">caps</a></li><li class="navelem"><a class="el" href="a00086.html">LumexCPUVectorizationCapabilities.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

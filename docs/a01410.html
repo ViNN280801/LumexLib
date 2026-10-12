@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::utility::bit Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01413.html',''); initResizable(true); });
+$(function(){initNavTree('a01410.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,19 +103,180 @@ $(function(){initNavTree('a01413.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::Detail::mask_impl_t&lt; Width, typename std::enable_if&lt; Width==std::numeric_limits&lt; std::uint64_t &gt;::digits, void &gt;::type &gt; Member List</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::bit Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01411.html">Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a8468ef56090dda0cf81cec700a57df38" id="r_a8468ef56090dda0cf81cec700a57df38"><td class="memTemplParams" colspan="2">template&lt;typename NumericType&gt; </td></tr>
+<tr class="memitem:a8468ef56090dda0cf81cec700a57df38"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; NumericType &gt;::value &amp;&amp;std::is_unsigned&lt; NumericType &gt;::value &amp;&amp;!std::is_same&lt; bool, NumericType &gt;::value &amp;&amp;(sizeof(NumericType)==1||sizeof(NumericType)==2||sizeof(NumericType)==4||sizeof(NumericType)==8), std::uint8_t &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8468ef56090dda0cf81cec700a57df38">count_leading_zeros</a> (NumericType value) noexcept</td></tr>
+<tr class="memdesc:a8468ef56090dda0cf81cec700a57df38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts the leading zero bits of an unsigned integer (C++11).  <br /></td></tr>
+<tr class="separator:a8468ef56090dda0cf81cec700a57df38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc5424148a3c93bf6ba9afb098dd93a6" id="r_abc5424148a3c93bf6ba9afb098dd93a6"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:abc5424148a3c93bf6ba9afb098dd93a6"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_integral&lt; T &gt;::value &amp;&amp;!std::is_same&lt; T, bool &gt;::value &amp;&amp;(sizeof(T)==1||sizeof(T)==2||sizeof(T)==4||sizeof(T)==8), T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abc5424148a3c93bf6ba9afb098dd93a6">byte_swap</a> (T value) noexcept</td></tr>
+<tr class="memdesc:abc5424148a3c93bf6ba9afb098dd93a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverses the byte order of an integral value (byte swap / endianness reverse), C++11 form.  <br /></td></tr>
+<tr class="separator:abc5424148a3c93bf6ba9afb098dd93a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb7c418e8ef454625d57b7b098e59e04" id="r_aeb7c418e8ef454625d57b7b098e59e04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb7c418e8ef454625d57b7b098e59e04">is_little_endian</a> () noexcept</td></tr>
+<tr class="memdesc:aeb7c418e8ef454625d57b7b098e59e04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells whether the machine stores the least significant byte of an integer first (little endian).  <br /></td></tr>
+<tr class="separator:aeb7c418e8ef454625d57b7b098e59e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="abc5424148a3c93bf6ba9afb098dd93a6" name="abc5424148a3c93bf6ba9afb098dd93a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc5424148a3c93bf6ba9afb098dd93a6">&#9670;&#160;</a></span>byte_swap()</h2>
 
-<p>This is the complete list of members for <a class="el" href="a01413.html">lumex::core::crc::parametric::Detail::mask_impl_t&lt; Width, typename std::enable_if&lt; Width==std::numeric_limits&lt; std::uint64_t &gt;::digits, void &gt;::type &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01413.html#a8716a3e29fc3778ed4c3479894afc1a7">Value</a>() noexcept</td><td class="entry"><a class="el" href="a01413.html">lumex::core::crc::parametric::Detail::mask_impl_t&lt; Width, typename std::enable_if&lt; Width==std::numeric_limits&lt; std::uint64_t &gt;::digits, void &gt;::type &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01409.html#a607d44610b6094412153f56ae3e7f977">Value</a>() noexcept</td><td class="entry"><a class="el" href="a01413.html">lumex::core::crc::parametric::Detail::mask_impl_t&lt; Width, typename std::enable_if&lt; Width==std::numeric_limits&lt; std::uint64_t &gt;::digits, void &gt;::type &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_integral&lt; T &gt;::value &amp;&amp;!std::is_same&lt; T, bool &gt;::value &amp;&amp;(sizeof(T)==1||sizeof(T)==2||sizeof(T)==4||sizeof(T)==8), T &gt;::type lumex::core::utility::bit::byte_swap </td>
+          <td>(</td>
+          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reverses the byte order of an integral value (byte swap / endianness reverse), C++11 form. </p>
+<p>Analogue of C++23 <code>std::byteswap</code>. The value is converted to the unsigned type of the same size, the bytes are reversed with shifts and masks, and the result is converted back, so signed values keep the bit pattern of the swapped bytes. It is <code>constexpr</code> and <code>noexcept</code>. From C++20 the same function name is the <code>std::bit_cast</code> and builtin based template; both give the same value. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Integral type other than <code>bool</code>, of 1, 2, 4 or 8 bytes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Input value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>value</code> with its byte order reversed; a one-byte value is returned unchanged. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a href="https://en.cppreference.com/w/cpp/numeric/byteswap.html">https://en.cppreference.com/w/cpp/numeric/byteswap.html</a> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01410_abc5424148a3c93bf6ba9afb098dd93a6_cgraph.png" border="0" usemap="#aa01410_abc5424148a3c93bf6ba9afb098dd93a6_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01410_abc5424148a3c93bf6ba9afb098dd93a6_icgraph.png" border="0" usemap="#aa01410_abc5424148a3c93bf6ba9afb098dd93a6_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a8468ef56090dda0cf81cec700a57df38" name="a8468ef56090dda0cf81cec700a57df38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8468ef56090dda0cf81cec700a57df38">&#9670;&#160;</a></span>count_leading_zeros()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NumericType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_integral&lt; NumericType &gt;::value &amp;&amp;std::is_unsigned&lt; NumericType &gt;::value &amp;&amp;!std::is_same&lt; bool, NumericType &gt;::value &amp;&amp;(sizeof(NumericType)==1||sizeof(NumericType)==2||sizeof(NumericType)==4||sizeof(NumericType)==8), std::uint8_t &gt;::type lumex::core::utility::bit::count_leading_zeros </td>
+          <td>(</td>
+          <td class="paramtype">NumericType</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Counts the leading zero bits of an unsigned integer (C++11). </p>
+<p>Analogue of C++20 <code>std::countl_zero</code> for an unsigned integer of 1, 2, 4 or 8 bytes. <code>bool</code> and wider types, including <code>unsigned __int128</code>, are not in the overload set: the intrinsics below scan 32 or 64 bits, and a wider value would be truncated. A zero value returns the bit width. The function is not <code>constexpr</code>: the MSVC intrinsics are not constant expressions on the toolchains this library supports. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">NumericType</td><td>Unsigned integer, not <code>bool</code>, of 1, 2, 4 or 8 bytes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Input value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of consecutive zero bits from the most significant bit, in the range <code>0 .. sizeof(NumericType) * 8</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Exception-safety: nothrow (the function is <code>noexcept</code>). </dd>
+<dd>
+Thread-safety: yes, no shared state is used. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01410_a8468ef56090dda0cf81cec700a57df38_cgraph.png" border="0" usemap="#aa01410_a8468ef56090dda0cf81cec700a57df38_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01410_a8468ef56090dda0cf81cec700a57df38_icgraph.png" border="0" usemap="#aa01410_a8468ef56090dda0cf81cec700a57df38_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="aeb7c418e8ef454625d57b7b098e59e04" name="aeb7c418e8ef454625d57b7b098e59e04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb7c418e8ef454625d57b7b098e59e04">&#9670;&#160;</a></span>is_little_endian()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::utility::bit::is_little_endian </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tells whether the machine stores the least significant byte of an integer first (little endian). </p>
+<p>Reads the first byte of the object representation of the 32-bit value 1 through <code>std::memcpy</code>, so it has no undefined behavior. A middle endian machine counts as not little endian. </p><dl class="section return"><dt>Returns</dt><dd><code>true</code> on a little endian machine (x86, x86-64 and, in practice, ARM and every Windows target), <code>false</code> otherwise. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01410_aeb7c418e8ef454625d57b7b098e59e04_icgraph.png" border="0" usemap="#aa01410_aeb7c418e8ef454625d57b7b098e59e04_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01410.html">bit</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

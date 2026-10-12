@@ -1,0 +1,28 @@
+digraph "main"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="main",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::temporary\l::tmp::lumex_temporary\l::create_temp_directory",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04070.html#a05e846e01473a6cd8575680c0e63acba",tooltip="Creates a temporary directory with optional name prefix."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::temporary\l::tmp::lumex_temporary\l::generate_temp_name",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04070.html#afdd27ac493a193a7ab78c526ff9bb769",tooltip="Generate unique temporary name with prefix."];
+  Node2 -> Node4 [id="edge3_Node000002_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::temporary\l::tmp::lumex_temporary\l::get_temp_directory_path",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04070.html#ac1e59cbc5ec1487afc15a8dad20acb61",tooltip="Returns the path to the temporary directory."];
+  Node4 -> Node5 [id="edge4_Node000004_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::environment\l::env::lumex_environment::get",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02422.html#a395ab3b27b542b7cb9092beed95f748d",tooltip="Static convenience method to retrieve an environment variable."];
+  Node5 -> Node6 [id="edge5_Node000005_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::environment\l::env::lumex_environment\l::get_environment_variable",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02422.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e",tooltip="Retrieves the value of a specified environment variable in a thread-safe manner."];
+  Node5 -> Node7 [id="edge6_Node000005_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::environment\l::env::lumex_environment\l::instance",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02422.html#a8773983c01d39e03732541958672fb84",tooltip="Provides the single, globally accessible instance of lumex_environment."];
+  Node7 -> Node7 [id="edge7_Node000007_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node8 [id="edge8_Node000001_Node000008",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::temporary\l::tmp::lumex_temporary\l::create_temp_file",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04070.html#a6beead52e81ac026ad6b6d1f4c46fde1",tooltip="Creates a temporary file with optional name prefix."];
+  Node8 -> Node3 [id="edge9_Node000008_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node8 -> Node4 [id="edge10_Node000008_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node3 [id="edge11_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node4 [id="edge12_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+}

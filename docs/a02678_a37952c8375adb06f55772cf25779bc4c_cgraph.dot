@@ -1,0 +1,13 @@
+digraph "lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt;::~expected_destruct_base"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::expected\l::result::detail::storage\l::expected_destruct_base\l\< T, E, false \>::~expected\l_destruct_base",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Destroys val if has_value (), otherwise unex."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::expected\l::result::detail::address_of",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01356.html#a07d94bee6da20f2047136d97431d8d45",tooltip="The address of object also when T overloads operator&, usable in a constant expression from C++11 (st..."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::expected\l::result::detail::destroy_at",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01356.html#aac3cdf6524f1c94486d6cff93fba3008",tooltip="Ends the lifetime of the T at where: std::destroy_at for an object that is not an array."];
+}

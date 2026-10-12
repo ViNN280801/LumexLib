@@ -1,5 +1,4 @@
 var a01025 =
 [
-    [ "catalog", "a01026.html", "a01026" ],
-    [ "parametric", "a01028.html", "a01028" ]
+    [ "lumex::xml::writer::IXmlWriter", "a05026.html", "a05026" ]
 ];

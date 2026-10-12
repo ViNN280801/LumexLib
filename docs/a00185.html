@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSettingsXML.hpp File Reference</title>
+<title>LumexLib: LumexSerialBoundedOpen.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -107,118 +107,94 @@ $(function(){initNavTree('a00185.html',''); initResizable(true); });
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">LumexSettingsXML.hpp File Reference</div></div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexSerialBoundedOpen.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> over XML files, parsed and written with the library's own <code><a class="el" href="a01126.html">lumex::xml</a></code> module.  
+<p>Internal bounded open shared by the serial prober and the port enumeration.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;unordered_map&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00173_source.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00419_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00173_source.html">lumex/applied/serial/enumeration/LumexSerialPortEnumeration.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00638_source.html">lumex/core/utility/os/LumexCheckOS.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSettingsXML.hpp:</div>
+Include dependency graph for LumexSerialBoundedOpen.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00186.png" border="0" usemap="#a_lumex_settings_x_m_l_8hpp" alt=""/></div>
-<map name="a_lumex_settings_x_m_l_8hpp" id="a_lumex_settings_x_m_l_8hpp">
-<area shape="rect" title="ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module." alt="" coords="117,5,277,32"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,179,168,205"/>
-<area shape="poly" title=" " alt="" coords="118,35,77,52,59,65,45,81,38,102,42,124,53,146,66,165,62,168,48,148,37,125,33,101,40,79,55,61,74,48,116,30"/>
-<area shape="rect" title=" " alt="" coords="54,88,164,115"/>
-<area shape="poly" title=" " alt="" coords="185,34,136,80,132,76,182,31"/>
-<area shape="rect" href="a00173.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="189,80,384,123"/>
-<area shape="poly" title=" " alt="" coords="213,31,254,68,251,72,209,34"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="408,80,640,123"/>
-<area shape="poly" title=" " alt="" coords="249,30,425,73,424,78,248,35"/>
-<area shape="poly" title=" " alt="" coords="241,126,130,174,128,169,239,121"/>
-<area shape="rect" title=" " alt="" coords="260,179,313,205"/>
-<area shape="poly" title=" " alt="" coords="289,123,289,163,284,163,284,123"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="427,171,621,213"/>
-<area shape="poly" title=" " alt="" coords="526,123,526,155,521,155,521,123"/>
-</map>
+<div class="center"><img src="a00186.png" border="0" usemap="#a_lumex_serial_bounded_open_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00187.png" border="0" usemap="#a_lumex_settings_x_m_l_8hppdep" alt=""/></div>
-<map name="a_lumex_settings_x_m_l_8hppdep" id="a_lumex_settings_x_m_l_8hppdep">
-<area shape="rect" title="ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module." alt="" coords="374,5,534,32"/>
-<area shape="rect" href="a00887.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="321,80,430,107"/>
-<area shape="poly" title=" " alt="" coords="431,45,391,82,387,78,427,41"/>
-<area shape="rect" href="a00182.html" title=" " alt="" coords="454,80,614,107"/>
-<area shape="poly" title=" " alt="" coords="481,41,522,78,519,82,477,44"/>
-<area shape="rect" href="a00587.html" title=" " alt="" coords="5,155,154,181"/>
-<area shape="poly" title=" " alt="" coords="309,114,132,157,131,151,308,108"/>
-<area shape="rect" href="a00590.html" title=" " alt="" coords="178,155,357,181"/>
-<area shape="poly" title=" " alt="" coords="346,118,288,156,285,152,343,113"/>
-<area shape="rect" href="a00593.html" title=" " alt="" coords="382,155,588,181"/>
-<area shape="poly" title=" " alt="" coords="409,113,467,152,464,156,406,118"/>
-<area shape="rect" href="a00596.html" title=" " alt="" coords="613,155,789,181"/>
-<area shape="poly" title=" " alt="" coords="446,107,645,152,644,157,445,113"/>
-</map>
+<div class="center"><img src="a00187.png" border="0" usemap="#a_lumex_serial_bounded_open_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00185_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01321.html">lumex::applied::settings::xml::LumexSettingsXML</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lightweight, C++11-based XML settings manager.  <a href="a01321.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01654.html">lumex::applied::serial::probe::detail::open_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of one bounded open.  <a href="a01654.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01249.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00994.html">lumex::applied::settings</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01287.html">lumex::applied::serial</a></td></tr>
+<tr class="memdesc:a01287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01003.html">lumex::applied::settings::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01293.html">lumex::applied::serial::probe</a></td></tr>
+<tr class="memdesc:a01293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bounded probing of the device behind a serial port. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html">lumex::applied::settings::xml::Constants</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html">lumex::applied::serial::probe::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ab23132a5fc6ee5da8ac4aa3c6f448f27" id="r_ab23132a5fc6ee5da8ac4aa3c6f448f27"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a> = <a class="el" href="a01321.html">lumex::applied::settings::xml::LumexSettingsXML</a></td></tr>
-<tr class="separator:ab23132a5fc6ee5da8ac4aa3c6f448f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ac21019735948552e6d1ef799f957e7" id="r_a3ac21019735948552e6d1ef799f957e7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html#a3ac21019735948552e6d1ef799f957e7">lumex::applied::serial::probe::detail::native_serial_handle_t</a> = int</td></tr>
+<tr class="memdesc:a3ac21019735948552e6d1ef799f957e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Native handle type: a file descriptor.  <br /></td></tr>
+<tr class="separator:a3ac21019735948552e6d1ef799f957e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:af855e4cf1325db801e3b37d639568677" id="r_af855e4cf1325db801e3b37d639568677"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#af855e4cf1325db801e3b37d639568677">lumex::applied::settings::xml::Constants::constXML_FILE_EXTENSION</a> = &quot;.xml&quot;</td></tr>
-<tr class="memdesc:af855e4cf1325db801e3b37d639568677"><td class="mdescLeft">&#160;</td><td class="mdescRight">XML file extension.  <br /></td></tr>
-<tr class="separator:af855e4cf1325db801e3b37d639568677"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9686f880e1ab09a34249727e8cb8f994" id="r_a9686f880e1ab09a34249727e8cb8f994"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01004.html#a9686f880e1ab09a34249727e8cb8f994">lumex::applied::settings::xml::Constants::constSETTINGS_ROOT_NAME</a> = &quot;settings&quot;</td></tr>
-<tr class="memdesc:a9686f880e1ab09a34249727e8cb8f994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Canonical root written by <code>save</code>.  <br /></td></tr>
-<tr class="separator:a9686f880e1ab09a34249727e8cb8f994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a92f95b0efd4f15ba8182341d9e440978" id="r_a92f95b0efd4f15ba8182341d9e440978"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html#a92f95b0efd4f15ba8182341d9e440978">lumex::applied::serial::probe::detail::open_outcome</a> { <a class="el" href="a01294.html#a92f95b0efd4f15ba8182341d9e440978a3a50c5e41a1c3eee6dcddca9e04992e0">lumex::applied::serial::probe::detail::opened</a>
+, <a class="el" href="a01294.html#a92f95b0efd4f15ba8182341d9e440978a56c27b1ab1a5a5a0eae853cabb4dc0c1">lumex::applied::serial::probe::detail::timed_out</a>
+, <a class="el" href="a01294.html#a92f95b0efd4f15ba8182341d9e440978a26934eb377001f66e37289a5c93fe284">lumex::applied::serial::probe::detail::failed</a>
+ }</td></tr>
+<tr class="memdesc:a92f95b0efd4f15ba8182341d9e440978"><td class="mdescLeft">&#160;</td><td class="mdescRight">How <code>bounded_open_serial_port</code> ended.  <a href="a01294.html#a92f95b0efd4f15ba8182341d9e440978">More...</a><br /></td></tr>
+<tr class="separator:a92f95b0efd4f15ba8182341d9e440978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a2cf67f171039ab45a5ec960d36c054c6" id="r_a2cf67f171039ab45a5ec960d36c054c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01294.html#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html#a2cf67f171039ab45a5ec960d36c054c6">lumex::applied::serial::probe::detail::invalid_native_serial_handle</a> () noexcept</td></tr>
+<tr class="memdesc:a2cf67f171039ab45a5ec960d36c054c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The platform value that means "no handle".  <br /></td></tr>
+<tr class="separator:a2cf67f171039ab45a5ec960d36c054c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a518e9f25f40fbb213907e34b881f81" id="r_a0a518e9f25f40fbb213907e34b881f81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01654.html">open_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html#a0a518e9f25f40fbb213907e34b881f81">lumex::applied::serial::probe::detail::bounded_open_serial_port</a> (std::string const &amp;open_path, std::uint32_t platform_open_flags, std::chrono::milliseconds deadline)</td></tr>
+<tr class="memdesc:a0a518e9f25f40fbb213907e34b881f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens <code>open_path</code> so the caller never waits past <code>deadline</code>.  <br /></td></tr>
+<tr class="separator:a0a518e9f25f40fbb213907e34b881f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeda0fc72f871cf1ddc177f5c172131ea" id="r_aeda0fc72f871cf1ddc177f5c172131ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html#aeda0fc72f871cf1ddc177f5c172131ea">lumex::applied::serial::probe::detail::close_serial_handle</a> (<a class="el" href="a01294.html#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a> handle) noexcept</td></tr>
+<tr class="memdesc:aeda0fc72f871cf1ddc177f5c172131ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes <code>handle</code>; a no-op for the invalid value.  <br /></td></tr>
+<tr class="separator:aeda0fc72f871cf1ddc177f5c172131ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2baec958c3eebd588ab9cbc9bccd7e5f" id="r_a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01288.html#a2833c2a4c2aca860a7fe8ecce5e59400">enumeration::serial_port_state</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html#a2baec958c3eebd588ab9cbc9bccd7e5f">lumex::applied::serial::probe::detail::state_from_open_result</a> (<a class="el" href="a01654.html">open_result_t</a> const &amp;result) noexcept</td></tr>
+<tr class="memdesc:a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps an open outcome to the enumeration state.  <br /></td></tr>
+<tr class="separator:a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> over XML files, parsed and written with the library's own <code><a class="el" href="a01126.html">lumex::xml</a></code> module. </p>
-<p>Declares <code><a class="el" href="#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a></code> and its <code>Constants</code> (the <code>.xml</code> extension and <code>settings</code>, the root element that saving writes). A section is a child element of the root and a key is a leaf element inside it. Without <code>LUMEX_SETTINGS_WITH_XML</code> (the XML module not built) the class still compiles, but loading, saving and validation fail. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="ab23132a5fc6ee5da8ac4aa3c6f448f27" name="ab23132a5fc6ee5da8ac4aa3c6f448f27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab23132a5fc6ee5da8ac4aa3c6f448f27">&#9670;&#160;</a></span>LumexSettingsXML</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a> = <a class="el" href="a01321.html">lumex::applied::settings::xml::LumexSettingsXML</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>Internal bounded open shared by the serial prober and the port enumeration. </p>
+<p>The helper opens a port so that the caller never waits longer than the deadline and classifies the outcome into a <code>serial_port_state</code>. A paired but disconnected Bluetooth virtual COM port blocks inside <code>CreateFile</code> in the RFCOMM connect, so the Windows branch runs the open on a worker thread and cancels it with <code>CancelSynchronousIo</code>; the POSIX branch opens with <code>O_NONBLOCK</code>. The enumeration and <code>LumexSerialProber</code> are the only callers. Consumers must not include this header. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_3df0cac0d3d934b72ac63bcfda3027b0.html">xml</a></li><li class="navelem"><a class="el" href="a00185.html">LumexSettingsXML.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_0eb40f4dc310d2549676f4667bcb916d.html">probe</a></li><li class="navelem"><a class="el" href="dir_717a927561f37227ea34383ea00766b8.html">detail</a></li><li class="navelem"><a class="el" href="a00185.html">LumexSerialBoundedOpen.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

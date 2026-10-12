@@ -1,0 +1,11 @@
+digraph "lumex::core::optional::opt::detail::converts_from_any_cvref&lt; T, W &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::optional\l::opt::detail::converts\l_from_any_cvref\< T, W \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="converts-from-any-cvref<T, W> of [optional.ctor]/1: T is constructible or convertible from W of any o..."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::integral_constant\l\< bool, std::is_constructible\l\< T, W & \>::value\|\|std::is\l_convertible\< W &, T \>::value\|\l\|std::is_constructible\< T, W \>\l::value\|\|std::is_convertible\< W,\l T \>::value\|\|std::is_constructible\l\< T, W const & \>::value\|\|std::is_convertible\l\< W const &, T \>::value\|\|std::is_constructible\l\< T, W const \>::value\|\|std::is_convertible\<\l W const, T \>::value \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01785.html',''); initResizable(true); });
+$(function(){initNavTree('a01782.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,257 @@ $(function(){initNavTree('a01785.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc24_lte_a_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="a01779.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01785.html#aef26cfd5467b9bef1b0b75cad55af5b6">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01785.html#a8ef863e90a3246961328d1cddac89093">kInit</a></td><td class="entry"><a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01785.html#a8e33f40c622ee1dc10b5c1b66da53e0f">kPoly</a></td><td class="entry"><a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01785.html#a822d9667c0d02063871865091a528a93">kRefIn</a></td><td class="entry"><a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01785.html#ad39acdcd8deba30e44164cd539d4aa80">kRefOut</a></td><td class="entry"><a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01785.html#af024f35b9b60d0cc0f31fbdf49edfa76">kWidth</a></td><td class="entry"><a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01785.html#a86abce97602c00dab54e73706bdceea2">kXorOut</a></td><td class="entry"><a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01785.html#a598e09ecb6ea98e584a6dbdb76321093">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01785.html">lumex::core::crc::parametric::crc24_lte_a_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>The wait generation shared by every engine: <code>notify_*</code> advances a 32-bit counter and wakes the threads that sleep on it, <code>wait</code> compares the current value with the old one and sleeps on the counter only while they are equivalent.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00272_source.html">LumexAtomicSmartPtrCell.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01781.png" border="0" usemap="#alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1_detail_1_1epoch__wait__base_inherit__map" alt="Inheritance graph"/></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a0094a0dcf8e1f8fc7ba9ede1bdbfb62a" id="r_a0094a0dcf8e1f8fc7ba9ede1bdbfb62a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0094a0dcf8e1f8fc7ba9ede1bdbfb62a">epoch_wait_base</a> (<a class="el" href="a01782.html">epoch_wait_base</a> const &amp;)=delete</td></tr>
+<tr class="separator:a0094a0dcf8e1f8fc7ba9ede1bdbfb62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a565db411c36da99eb3e3ba922fcecf31" id="r_a565db411c36da99eb3e3ba922fcecf31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01782.html">epoch_wait_base</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a565db411c36da99eb3e3ba922fcecf31">operator=</a> (<a class="el" href="a01782.html">epoch_wait_base</a> const &amp;)=delete</td></tr>
+<tr class="separator:a565db411c36da99eb3e3ba922fcecf31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a7adeea3765b4d7f1b878a76dd26ae6ce" id="r_a7adeea3765b4d7f1b878a76dd26ae6ce"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7adeea3765b4d7f1b878a76dd26ae6ce">epoch_wait_base</a> () noexcept</td></tr>
+<tr class="separator:a7adeea3765b4d7f1b878a76dd26ae6ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a395b4a0f374ba0741502f16025770784" id="r_a395b4a0f374ba0741502f16025770784"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a395b4a0f374ba0741502f16025770784">~epoch_wait_base</a> ()=default</td></tr>
+<tr class="separator:a395b4a0f374ba0741502f16025770784"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e5bade21d039edeab4e67ff83d137d8" id="r_a9e5bade21d039edeab4e67ff83d137d8"><td class="memTemplParams" colspan="2">template&lt;typename StillEquivalent&gt; </td></tr>
+<tr class="memitem:a9e5bade21d039edeab4e67ff83d137d8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9e5bade21d039edeab4e67ff83d137d8">wait_while</a> (StillEquivalent const &amp;still_equivalent) const noexcept</td></tr>
+<tr class="separator:a9e5bade21d039edeab4e67ff83d137d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a35b745d3511c725f65e8e074f8498e" id="r_a1a35b745d3511c725f65e8e074f8498e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a35b745d3511c725f65e8e074f8498e">notify_one</a> () noexcept</td></tr>
+<tr class="separator:a1a35b745d3511c725f65e8e074f8498e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad459e98a0f89eef706c8adc3f9c7e9bb" id="r_ad459e98a0f89eef706c8adc3f9c7e9bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad459e98a0f89eef706c8adc3f9c7e9bb">notify_all</a> () noexcept</td></tr>
+<tr class="separator:ad459e98a0f89eef706c8adc3f9c7e9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The wait generation shared by every engine: <code>notify_*</code> advances a 32-bit counter and wakes the threads that sleep on it, <code>wait</code> compares the current value with the old one and sleeps on the counter only while they are equivalent. </p>
+<p>The counter is independent of how the value is stored, so every cell derives from this class. (Not the epoch tag of an ABA-safe design: it counts notifications, nothing else.) A notification between the comparison and the sleep changes the counter, so the sleep returns at once instead of losing the wake-up. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a0094a0dcf8e1f8fc7ba9ede1bdbfb62a" name="a0094a0dcf8e1f8fc7ba9ede1bdbfb62a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0094a0dcf8e1f8fc7ba9ede1bdbfb62a">&#9670;&#160;</a></span>epoch_wait_base() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::epoch_wait_base </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01782.html">epoch_wait_base</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01782_a0094a0dcf8e1f8fc7ba9ede1bdbfb62a_cgraph.png" border="0" usemap="#aa01782_a0094a0dcf8e1f8fc7ba9ede1bdbfb62a_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01782_a0094a0dcf8e1f8fc7ba9ede1bdbfb62a_icgraph.png" border="0" usemap="#aa01782_a0094a0dcf8e1f8fc7ba9ede1bdbfb62a_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a7adeea3765b4d7f1b878a76dd26ae6ce" name="a7adeea3765b4d7f1b878a76dd26ae6ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7adeea3765b4d7f1b878a76dd26ae6ce">&#9670;&#160;</a></span>epoch_wait_base() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::epoch_wait_base </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel protected">protected</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a395b4a0f374ba0741502f16025770784" name="a395b4a0f374ba0741502f16025770784"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a395b4a0f374ba0741502f16025770784">&#9670;&#160;</a></span>~epoch_wait_base()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::~epoch_wait_base </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad459e98a0f89eef706c8adc3f9c7e9bb" name="ad459e98a0f89eef706c8adc3f9c7e9bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad459e98a0f89eef706c8adc3f9c7e9bb">&#9670;&#160;</a></span>notify_all()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::notify_all </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1a35b745d3511c725f65e8e074f8498e" name="a1a35b745d3511c725f65e8e074f8498e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a35b745d3511c725f65e8e074f8498e">&#9670;&#160;</a></span>notify_one()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::notify_one </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a565db411c36da99eb3e3ba922fcecf31" name="a565db411c36da99eb3e3ba922fcecf31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a565db411c36da99eb3e3ba922fcecf31">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01782.html">epoch_wait_base</a> &amp; lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01782.html">epoch_wait_base</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01782_a565db411c36da99eb3e3ba922fcecf31_cgraph.png" border="0" usemap="#aa01782_a565db411c36da99eb3e3ba922fcecf31_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a9e5bade21d039edeab4e67ff83d137d8" name="a9e5bade21d039edeab4e67ff83d137d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e5bade21d039edeab4e67ff83d137d8">&#9670;&#160;</a></span>wait_while()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename StillEquivalent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::wait_while </td>
+          <td>(</td>
+          <td class="paramtype">StillEquivalent const &amp;</td>          <td class="paramname"><span class="paramname"><em>still_equivalent</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Blocks while <code>still_equivalent ()</code> returns true; every wake-up asks again. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01782_a9e5bade21d039edeab4e67ff83d137d8_icgraph.png" border="0" usemap="#aa01782_a9e5bade21d039edeab4e67ff83d137d8_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a00272_source.html">LumexAtomicSmartPtrCell.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01312.html">atomic</a></li><li class="navelem"><a class="el" href="a01313.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a01314.html">table_wait</a></li><li class="navelem"><a class="el" href="a01315.html">Detail</a></li><li class="navelem"><a class="el" href="a01782.html">epoch_wait_base</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexDemangle.hpp File Reference</title>
+<title>LumexLib: ExpectedStorage.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,339 +104,175 @@ $(function(){initNavTree('a00410.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexDemangle.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">ExpectedStorage.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Readable C++ type names: the <code>lumDemangle</code> macro for a type or an expression and <code>demangle_type_name()</code> for a name that is already mangled.  
+<p>Internal storage of <code>expected</code>: the union of the two alternatives, and the layers that give <code>expected</code> the special member functions the standard describes.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdlib&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;typeinfo&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00407_source.html">ExpectedDetail.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00413_source.html">ExpectedTypes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexDemangle.hpp:</div>
+Include dependency graph for ExpectedStorage.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00411.png" border="0" usemap="#a_lumex_demangle_8hpp" alt=""/></div>
-<map name="a_lumex_demangle_8hpp" id="a_lumex_demangle_8hpp">
-<area shape="rect" title="Readable C++ type names: the lumDemangle macro for a type or an expression and demangle_type_name() f..." alt="" coords="43,5,187,32"/>
-<area shape="rect" title=" " alt="" coords="5,80,65,107"/>
-<area shape="poly" title=" " alt="" coords="103,35,62,72,58,68,99,31"/>
-<area shape="rect" title=" " alt="" coords="88,80,142,107"/>
-<area shape="poly" title=" " alt="" coords="118,33,118,64,112,64,112,33"/>
-<area shape="rect" title=" " alt="" coords="165,80,233,107"/>
-<area shape="poly" title=" " alt="" coords="131,31,175,68,171,72,128,35"/>
-</map>
+<div class="center"><img src="a00411.png" border="0" usemap="#a_expected_storage_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00412.png" border="0" usemap="#a_lumex_demangle_8hppdep" alt=""/></div>
-<map name="a_lumex_demangle_8hppdep" id="a_lumex_demangle_8hppdep">
-<area shape="rect" title="Readable C++ type names: the lumDemangle macro for a type or an expression and demangle_type_name() f..." alt="" coords="1471,5,1616,32"/>
-<area shape="rect" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="425,237,568,264"/>
-<area shape="poly" title=" " alt="" coords="1456,28,1255,43,1001,68,875,86,758,106,660,130,589,157,562,175,539,197,507,239,502,235,535,194,559,171,586,152,659,125,757,101,874,80,1001,63,1254,37,1456,22"/>
-<area shape="rect" href="a00941.html" title="Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,..." alt="" coords="1496,80,1591,107"/>
-<area shape="poly" title=" " alt="" coords="1546,48,1546,80,1541,80,1541,48"/>
-<area shape="rect" href="a00338.html" title="Debug diagnostic printer for an arbitrary expression: name, value (if printable), demangled type,..." alt="" coords="2464,80,2591,107"/>
-<area shape="poly" title=" " alt="" coords="1632,24,2464,85,2464,90,1631,29"/>
-<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="382,328,500,355"/>
-<area shape="poly" title=" " alt="" coords="483,279,451,329,446,326,478,276"/>
-<area shape="rect" href="a00260.html" title=" " alt="" coords="749,501,892,528"/>
-<area shape="poly" title=" " alt="" coords="508,278,523,317,547,364,578,411,618,451,642,464,678,477,761,498,760,503,677,482,640,469,615,455,574,414,542,366,519,319,503,280"/>
-<area shape="rect" href="a00482.html" title=" " alt="" coords="274,419,439,445"/>
-<area shape="poly" title=" " alt="" coords="420,368,371,420,367,416,416,364"/>
-<area shape="rect" href="a00485.html" title=" " alt="" coords="109,411,250,453"/>
-<area shape="poly" title=" " alt="" coords="390,363,241,413,240,408,388,358"/>
-<area shape="rect" href="a00251.html" title="LumexCrashHandler, the singleton that writes a dump when the process crashes." alt="" coords="817,237,982,264"/>
-<area shape="poly" title=" " alt="" coords="1481,103,1330,122,1241,137,1152,157,1088,176,1026,199,928,239,926,234,1024,194,1087,171,1151,152,1240,132,1329,117,1481,98"/>
-<area shape="rect" href="a00242.html" title="Defines the LumexEnvironment class for cross&#45;platform environment variable management." alt="" coords="1163,155,1321,181"/>
-<area shape="poly" title=" " alt="" coords="1481,112,1295,157,1294,152,1480,107"/>
-<area shape="rect" href="a00101.html" title=" " alt="" coords="1282,501,1413,528"/>
-<area shape="poly" title=" " alt="" coords="1523,120,1453,204,1416,261,1384,321,1368,372,1358,423,1350,501,1345,501,1353,423,1363,370,1380,319,1411,258,1449,201,1519,116"/>
-<area shape="rect" href="a00368.html" title="Temporary files and directories that delete themselves: TemporaryFile, TemporaryDirectory and the fac..." alt="" coords="1395,328,1540,355"/>
-<area shape="poly" title=" " alt="" coords="1531,121,1515,156,1487,254,1472,328,1467,327,1482,253,1510,154,1526,119"/>
-<area shape="rect" href="a00305.html" title="Cross&#45;platform replacement for &lt;filesystem&gt; (C++17) written in pure C++11, compiled into the lumex::f..." alt="" coords="1525,155,1674,181"/>
-<area shape="poly" title=" " alt="" coords="1564,117,1592,153,1588,156,1560,121"/>
-<area shape="rect" href="a00062.html" title=" " alt="" coords="2680,576,2889,603"/>
-<area shape="poly" title=" " alt="" coords="1607,102,1884,145,2260,207,2597,271,2709,297,2744,308,2761,318,2783,349,2797,385,2804,422,2806,460,2800,529,2791,576,2785,575,2795,528,2801,460,2799,423,2792,386,2778,352,2758,322,2741,313,2708,302,2596,276,2259,212,1883,150,1606,107"/>
-<area shape="rect" href="a00275.html" title="Defines the LumexBasicStacktrace class and related utilities for capturing and symbolizing call stack..." alt="" coords="600,155,748,181"/>
-<area shape="poly" title=" " alt="" coords="1481,103,749,163,748,158,1481,97"/>
-<area shape="rect" href="a00374.html" title="Provides cross&#45;platform utilities for time and date manipulation." alt="" coords="25,155,139,181"/>
-<area shape="poly" title=" " alt="" coords="1481,100,293,157,140,166,140,161,293,152,1480,95"/>
-<area shape="rect" href="a00257.html" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in..." alt="" coords="305,155,491,181"/>
-<area shape="poly" title=" " alt="" coords="1480,101,588,157,492,163,491,158,587,152,1480,96"/>
-<area shape="rect" href="a00692.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes..." alt="" coords="3192,237,3292,264"/>
-<area shape="poly" title=" " alt="" coords="1606,93,2035,109,2329,126,2629,152,2791,172,2950,196,3192,237,3191,242,2949,201,2790,177,2628,157,2329,132,2035,114,1606,99"/>
-<area shape="rect" href="a00704.html" title="XmlObjectRange, a pair of iterators that lets range&#45;based for loops walk the children or attributes o..." alt="" coords="3072,155,3217,181"/>
-<area shape="poly" title=" " alt="" coords="1606,95,3072,161,3071,166,1606,100"/>
-<area shape="rect" href="a00749.html" title=" " alt="" coords="2121,155,2246,181"/>
-<area shape="poly" title=" " alt="" coords="1606,98,1826,120,2102,152,2121,155,2120,160,2102,157,1825,125,1606,103"/>
-<area shape="rect" href="a00623.html" title=" " alt="" coords="2269,155,2402,181"/>
-<area shape="poly" title=" " alt="" coords="1606,96,1889,116,2258,152,2269,153,2268,159,2258,157,1889,121,1606,101"/>
-<area shape="rect" href="a00626.html" title=" " alt="" coords="2425,155,2616,181"/>
-<area shape="poly" title=" " alt="" coords="1606,95,1951,116,2414,152,2425,153,2425,158,2414,157,1950,122,1606,101"/>
-<area shape="poly" title=" " alt="" coords="827,270,805,275,501,332,500,327,804,269,826,265"/>
-<area shape="rect" href="a00248.html" title=" " alt="" coords="1005,501,1170,528"/>
-<area shape="poly" title=" " alt="" coords="859,274,832,294,811,321,805,342,811,361,831,389,856,413,884,435,913,453,975,480,1031,498,1029,503,973,485,911,457,881,439,852,418,827,393,806,364,799,342,806,319,828,291,856,270"/>
-<area shape="rect" href="a00902.html" title="Environment module: LumexEnvironment, thread&#45;safe reading and writing of environment variables on Win..." alt="" coords="1187,237,1321,264"/>
-<area shape="poly" title=" " alt="" coords="1249,197,1255,237,1250,238,1244,197"/>
-<area shape="rect" href="a00239.html" title=" " alt="" coords="1006,237,1164,264"/>
-<area shape="poly" title=" " alt="" coords="1205,191,1110,239,1108,235,1203,186"/>
-<area shape="poly" title=" " alt="" coords="1240,279,1098,502,1093,499,1236,276"/>
-<area shape="poly" title=" " alt="" coords="1266,278,1345,500,1340,502,1261,280"/>
-<area shape="poly" title=" " alt="" coords="1299,268,1438,325,1436,330,1297,273"/>
-<area shape="rect" href="a00380.html" title="High&#45;resolution stopwatch, callable timing helpers, and a thin LUMEX_MEASURE_TIME macro." alt="" coords="628,328,747,355"/>
-<area shape="poly" title=" " alt="" coords="1194,271,1176,275,1073,292,993,301,809,323,748,332,747,327,808,317,992,296,1072,287,1175,269,1193,266"/>
-<area shape="rect" href="a00476.html" title=" " alt="" coords="821,328,994,355"/>
-<area shape="poly" title=" " alt="" coords="1191,271,1176,275,958,330,957,325,1175,269,1189,266"/>
-<area shape="rect" href="a00479.html" title=" " alt="" coords="1019,320,1167,363"/>
-<area shape="poly" title=" " alt="" coords="1219,274,1131,322,1129,317,1216,270"/>
-<area shape="rect" href="a00935.html" title="Temporary module: an RAII temporary directory that is removed when its owner is destroyed." alt="" coords="1717,419,1839,445"/>
-<area shape="poly" title=" " alt="" coords="1527,357,1734,416,1733,421,1526,362"/>
-<area shape="rect" href="a00365.html" title=" " alt="" coords="1395,419,1540,445"/>
-<area shape="poly" title=" " alt="" coords="1470,370,1470,418,1465,418,1465,370"/>
-<area shape="rect" href="a00611.html" title=" " alt="" coords="1680,501,1839,528"/>
-<area shape="poly" title=" " alt="" coords="1774,461,1765,502,1760,501,1769,460"/>
-<area shape="rect" href="a00614.html" title=" " alt="" coords="1437,501,1655,528"/>
-<area shape="poly" title=" " alt="" coords="1729,453,1583,503,1582,498,1727,448"/>
-<area shape="rect" href="a00938.html" title="Time module: LumexTime, the current date and time as text and timestamps in units from nanoseconds to..." alt="" coords="464,419,553,445"/>
-<area shape="poly" title=" " alt="" coords="650,364,535,420,533,416,647,359"/>
-<area shape="rect" href="a00377.html" title=" " alt="" coords="628,419,747,445"/>
-<area shape="poly" title=" " alt="" coords="690,370,690,418,685,418,685,370"/>
-<area shape="poly" title=" " alt="" coords="563,448,573,451,764,498,763,503,572,456,561,453"/>
-<area shape="poly" title=" " alt="" coords="569,442,617,451,826,480,1005,502,1004,507,826,485,616,456,568,448"/>
-<area shape="poly" title=" " alt="" coords="569,443,617,451,911,477,1282,506,1282,511,911,482,616,456,568,448"/>
-<area shape="rect" href="a00110.html" title=" " alt="" coords="1001,576,1185,603"/>
-<area shape="poly" title=" " alt="" coords="513,460,521,495,530,512,542,526,565,536,607,545,728,560,1000,581,1000,586,728,566,606,550,564,541,539,530,526,515,516,497,508,461"/>
-<area shape="rect" href="a00158.html" title=" " alt="" coords="1793,576,1961,603"/>
-<area shape="poly" title=" " alt="" coords="523,457,549,495,566,512,586,526,641,535,757,545,1104,562,1792,583,1792,589,1104,567,757,550,640,541,584,530,563,516,545,498,519,460"/>
-<area shape="rect" href="a00617.html" title=" " alt="" coords="597,501,724,528"/>
-<area shape="poly" title=" " alt="" coords="547,451,638,499,636,503,545,455"/>
-<area shape="rect" href="a00620.html" title=" " alt="" coords="285,501,471,528"/>
-<area shape="poly" title=" " alt="" coords="477,456,400,503,397,499,474,451"/>
-<area shape="rect" href="a00911.html" title="Filesystem module: paths, directory iteration and file operations in the shape of C++17 &lt;filesystem&gt;,..." alt="" coords="1724,237,1848,264"/>
-<area shape="poly" title=" " alt="" coords="1643,185,1758,234,1756,239,1641,190"/>
-<area shape="rect" href="a00302.html" title=" " alt="" coords="1525,237,1674,264"/>
-<area shape="poly" title=" " alt="" coords="1602,197,1602,237,1597,237,1597,197"/>
-<area shape="poly" title=" " alt="" coords="1711,270,1686,275,1601,288,1534,295,1467,305,1383,323,1224,368,1071,419,852,503,850,498,1069,414,1222,363,1381,317,1466,299,1533,290,1600,282,1686,269,1710,265"/>
-<area shape="poly" title=" " alt="" coords="1724,272,1677,292,1633,322,1618,339,1608,356,1597,390,1584,424,1572,440,1554,456,1533,464,1498,471,1397,486,1171,509,1170,504,1397,481,1497,466,1532,459,1551,451,1569,437,1580,422,1592,389,1603,354,1613,336,1630,318,1675,288,1722,267"/>
-<area shape="poly" title=" " alt="" coords="1737,273,1698,293,1663,322,1649,339,1641,356,1633,390,1624,423,1614,439,1598,456,1572,466,1526,479,1413,503,1412,498,1524,474,1571,461,1595,451,1610,436,1619,421,1628,388,1636,354,1645,336,1659,318,1695,289,1735,268"/>
-<area shape="poly" title=" " alt="" coords="1726,271,1514,330,1512,325,1725,266"/>
-<area shape="poly" title=" " alt="" coords="1754,275,1730,294,1710,316,1701,339,1702,350,1707,361,1722,376,1739,384,1777,385,1816,386,1835,394,1853,409,1867,429,1876,452,1885,499,1885,543,1882,576,1876,575,1880,543,1880,500,1871,453,1862,432,1849,412,1833,398,1815,391,1777,390,1738,389,1719,381,1703,364,1696,351,1695,338,1706,313,1727,290,1751,271"/>
-<area shape="rect" href="a00104.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="2617,328,2747,355"/>
-<area shape="poly" title=" " alt="" coords="1864,251,2004,257,2189,269,2397,288,2607,317,2640,325,2639,330,2606,323,2396,293,2188,274,2004,262,1864,257"/>
-<area shape="rect" href="a00164.html" title=" " alt="" coords="1717,328,1868,355"/>
-<area shape="poly" title=" " alt="" coords="1791,279,1794,327,1789,328,1785,280"/>
-<area shape="rect" href="a00176.html" title=" " alt="" coords="1892,328,2061,355"/>
-<area shape="poly" title=" " alt="" coords="1828,269,1951,325,1948,330,1826,273"/>
-<area shape="rect" href="a00182.html" title=" " alt="" coords="2086,328,2246,355"/>
-<area shape="poly" title=" " alt="" coords="1856,265,2112,325,2111,330,1854,271"/>
-<area shape="rect" href="a00494.html" title=" " alt="" coords="2270,328,2433,355"/>
-<area shape="poly" title=" " alt="" coords="1864,259,2045,283,2259,317,2296,325,2295,330,2258,323,2044,289,1864,264"/>
-<area shape="rect" href="a00497.html" title=" " alt="" coords="2456,320,2593,363"/>
-<area shape="poly" title=" " alt="" coords="1864,254,2123,275,2284,293,2445,317,2456,319,2455,325,2444,323,2283,298,2122,280,1864,259"/>
-<area shape="poly" title=" " alt="" coords="2626,362,2606,365,2518,374,2409,376,2153,376,2022,377,1899,382,1791,393,1746,402,1707,413,1690,422,1678,433,1666,445,1648,456,1553,478,1414,504,1413,499,1552,473,1646,451,1663,441,1675,429,1687,418,1705,408,1744,397,1790,388,1898,377,2022,372,2153,370,2408,371,2518,368,2606,360,2625,356"/>
-<area shape="rect" href="a00878.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="2333,501,2439,528"/>
-<area shape="poly" title=" " alt="" coords="2652,366,2507,456,2414,503,2412,498,2505,451,2649,361"/>
-<area shape="rect" href="a00107.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="2328,419,2495,445"/>
-<area shape="poly" title=" " alt="" coords="2630,362,2451,421,2449,416,2628,357"/>
-<area shape="poly" title=" " alt="" coords="2318,522,1186,586,1185,580,2318,517"/>
-<area shape="poly" title=" " alt="" coords="2319,528,1962,579,1961,573,2318,523"/>
-<area shape="rect" href="a00056.html" title=" " alt="" coords="2232,576,2489,603"/>
-<area shape="poly" title=" " alt="" coords="2379,544,2368,576,2363,575,2374,542"/>
-<area shape="poly" title=" " alt="" coords="2454,526,2715,573,2714,578,2453,531"/>
-<area shape="rect" href="a00551.html" title=" " alt="" coords="2513,576,2656,603"/>
-<area shape="poly" title=" " alt="" coords="2436,531,2551,573,2549,578,2434,536"/>
-<area shape="rect" href="a00554.html" title=" " alt="" coords="2007,576,2208,603"/>
-<area shape="poly" title=" " alt="" coords="2324,535,2157,578,2156,573,2322,530"/>
-<area shape="poly" title=" " alt="" coords="2405,461,2392,502,2387,500,2400,459"/>
-<area shape="poly" title=" " alt="" coords="634,191,525,239,523,234,631,186"/>
-<area shape="poly" title=" " alt="" coords="658,195,625,235,582,274,528,307,477,330,474,325,526,302,579,270,621,231,654,192"/>
-<area shape="rect" href="a00272.html" title=" " alt="" coords="644,237,792,264"/>
-<area shape="poly" title=" " alt="" coords="691,194,714,236,709,238,686,196"/>
-<area shape="poly" title=" " alt="" coords="48,193,29,210,15,231,8,252,9,260,15,270,60,321,106,352,154,369,205,376,318,382,382,390,452,408,474,415,472,421,451,413,381,396,318,388,204,382,153,374,104,357,57,325,11,274,4,262,3,251,10,228,25,206,45,189"/>
-<area shape="rect" href="a00371.html" title=" " alt="" coords="25,237,139,264"/>
-<area shape="poly" title=" " alt="" coords="85,197,85,237,79,237,79,197"/>
-<area shape="poly" title=" " alt="" coords="427,189,483,235,480,239,423,193"/>
-<area shape="poly" title=" " alt="" coords="403,196,415,271,437,327,432,329,410,273,397,197"/>
-<area shape="rect" href="a00254.html" title=" " alt="" coords="164,237,350,264"/>
-<area shape="poly" title=" " alt="" coords="364,192,280,239,277,235,361,187"/>
-<area shape="rect" href="a00944.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="3843,651,3926,677"/>
-<area shape="poly" title=" " alt="" coords="3293,266,3305,269,3343,274,3392,277,3505,279,3562,282,3615,288,3660,300,3692,318,3712,343,3719,369,3718,431,3718,516,3722,540,3732,562,3746,582,3765,600,3808,628,3850,648,3848,652,3806,633,3762,604,3742,586,3727,565,3717,542,3713,516,3713,431,3714,369,3707,346,3688,322,3658,305,3614,293,3562,287,3505,284,3391,282,3343,280,3304,275,3291,271"/>
-<area shape="rect" href="a00800.html" title="XPathNode, an item of an XPath result: either an XML node or an attribute together with its element." alt="" coords="4147,328,4260,355"/>
-<area shape="poly" title=" " alt="" coords="3291,266,3305,269,3381,281,3481,292,3722,311,4146,335,4146,340,3722,316,3480,297,3380,286,3304,275,3290,271"/>
-<area shape="rect" href="a00689.html" title=" " alt="" coords="4832,651,4932,677"/>
-<area shape="poly" title=" " alt="" coords="3291,266,3305,269,3451,292,3575,303,3684,306,3787,305,4000,301,4126,305,4273,317,4328,321,4384,319,4497,307,4606,289,4706,275,4752,272,4794,273,4831,279,4863,292,4889,313,4908,342,4921,381,4925,431,4925,516,4921,555,4912,594,4890,651,4885,649,4907,592,4916,555,4919,516,4919,431,4915,382,4904,344,4885,316,4860,297,4829,284,4793,278,4752,277,4707,280,4606,294,4497,312,4384,325,4328,326,4273,323,4125,310,4000,306,3787,310,3684,311,3574,308,3450,297,3304,275,3290,271"/>
-<area shape="rect" href="a00656.html" title=" " alt="" coords="2873,328,3032,355"/>
-<area shape="poly" title=" " alt="" coords="3187,272,2995,330,2993,325,3185,266"/>
-<area shape="rect" href="a00662.html" title=" " alt="" coords="3135,419,3264,445"/>
-<area shape="poly" title=" " alt="" coords="3176,257,3091,262,2997,274,2914,293,2883,306,2863,322,2852,337,2848,351,2850,363,2856,374,2884,392,2925,406,2976,416,3031,422,3135,428,3134,433,3031,428,2975,421,2924,411,2881,397,2853,377,2845,365,2843,351,2847,335,2859,318,2880,302,2912,288,2996,268,3091,257,3176,251"/>
-<area shape="rect" href="a00665.html" title="XmlDocument, the owner of an XML tree: loading from files, streams, strings and memory buffers,..." alt="" coords="3548,328,3677,355"/>
-<area shape="poly" title=" " alt="" coords="3294,266,3305,269,3420,294,3536,317,3566,325,3565,330,3535,323,3419,300,3304,275,3293,271"/>
-<area shape="rect" href="a00686.html" title=" " alt="" coords="3057,328,3240,355"/>
-<area shape="poly" title=" " alt="" coords="3220,277,3164,329,3160,325,3216,273"/>
-<area shape="rect" href="a00701.html" title=" " alt="" coords="3265,328,3406,355"/>
-<area shape="poly" title=" " alt="" coords="3268,273,3324,325,3320,329,3264,277"/>
-<area shape="rect" href="a00719.html" title=" " alt="" coords="3430,328,3524,355"/>
-<area shape="poly" title=" " alt="" coords="3291,267,3444,325,3442,330,3289,272"/>
-<area shape="rect" href="a00629.html" title=" " alt="" coords="4030,725,4139,752"/>
-<area shape="poly" title=" " alt="" coords="3935,680,4050,722,4049,727,3933,685"/>
-<area shape="rect" href="a00632.html" title=" " alt="" coords="3630,725,3739,752"/>
-<area shape="poly" title=" " alt="" coords="3837,685,3721,727,3719,722,3835,680"/>
-<area shape="rect" href="a00635.html" title=" " alt="" coords="3763,725,3873,752"/>
-<area shape="poly" title=" " alt="" coords="3865,691,3831,727,3828,723,3861,687"/>
-<area shape="rect" href="a00638.html" title=" " alt="" coords="3897,725,4006,752"/>
-<area shape="poly" title=" " alt="" coords="3909,687,3942,723,3938,727,3905,691"/>
-<area shape="poly" title=" " alt="" coords="4131,347,4040,352,3939,363,3850,382,3817,396,3795,412,3779,442,3775,474,3782,508,3796,542,3837,605,3874,648,3870,652,3833,608,3792,545,3777,510,3770,474,3773,440,3791,409,3814,391,3848,377,3938,357,4039,346,4131,341"/>
-<area shape="rect" href="a00770.html" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="4646,501,4774,528"/>
-<area shape="poly" title=" " alt="" coords="4275,347,4403,367,4476,385,4546,408,4590,429,4633,454,4696,499,4693,503,4630,459,4588,434,4544,413,4474,390,4402,373,4275,352"/>
-<area shape="rect" href="a00776.html" title="Comparison of XPath nodes by document order, used to sort node sets." alt="" coords="4082,419,4325,445"/>
-<area shape="poly" title=" " alt="" coords="4206,370,4206,418,4201,418,4201,370"/>
-<area shape="rect" href="a00797.html" title=" " alt="" coords="3804,419,3917,445"/>
-<area shape="poly" title=" " alt="" coords="4135,361,3929,413,3903,421,3902,415,3928,408,4134,356"/>
-<area shape="rect" href="a00806.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="4399,419,4533,445"/>
-<area shape="poly" title=" " alt="" coords="4256,358,4429,416,4428,421,4254,363"/>
-<area shape="rect" href="a00848.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="4121,501,4230,528"/>
-<area shape="poly" title=" " alt="" coords="4272,358,4309,378,4326,392,4339,409,4347,432,4339,455,4322,469,4294,482,4229,503,4227,498,4292,477,4319,465,4335,452,4342,432,4334,412,4322,396,4306,383,4270,363"/>
-<area shape="poly" title=" " alt="" coords="4276,347,4428,369,4517,386,4604,408,4718,438,4765,460,4816,499,4845,537,4865,579,4877,620,4883,650,4878,651,4872,621,4860,581,4840,540,4812,503,4762,464,4716,443,4603,413,4516,391,4427,374,4275,352"/>
-<area shape="rect" href="a00839.html" title=" " alt="" coords="3941,419,4058,445"/>
-<area shape="poly" title=" " alt="" coords="4161,364,4030,421,4027,416,4159,359"/>
-<area shape="rect" href="a00764.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="4650,576,4783,603"/>
-<area shape="poly" title=" " alt="" coords="4715,544,4718,575,4713,576,4710,544"/>
-<area shape="rect" href="a00761.html" title=" " alt="" coords="4674,651,4807,677"/>
-<area shape="poly" title=" " alt="" coords="4728,617,4739,649,4734,651,4723,619"/>
-<area shape="rect" href="a00824.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="4479,651,4600,677"/>
-<area shape="poly" title=" " alt="" coords="4673,611,4571,652,4569,648,4671,607"/>
-<area shape="rect" href="a00821.html" title=" " alt="" coords="4529,725,4649,752"/>
-<area shape="poly" title=" " alt="" coords="4559,689,4582,723,4578,726,4554,692"/>
-<area shape="rect" href="a00833.html" title=" " alt="" coords="4276,725,4392,752"/>
-<area shape="poly" title=" " alt="" coords="4490,685,4371,727,4369,722,4488,680"/>
-<area shape="rect" href="a00773.html" title=" " alt="" coords="3804,501,4046,528"/>
-<area shape="poly" title=" " alt="" coords="4146,453,3969,503,3968,498,4145,447"/>
-<area shape="rect" href="a00845.html" title=" " alt="" coords="3933,576,4042,603"/>
-<area shape="poly" title=" " alt="" coords="4175,457,4006,578,4003,573,4172,453"/>
-<area shape="poly" title=" " alt="" coords="4436,457,4213,605,4136,630,4057,647,3927,663,3927,658,4056,642,4134,625,4210,600,4434,452"/>
-<area shape="poly" title=" " alt="" coords="4501,452,4698,573,4695,578,4498,456"/>
-<area shape="rect" href="a00803.html" title=" " alt="" coords="4066,576,4199,603"/>
-<area shape="poly" title=" " alt="" coords="4419,454,4300,504,4156,578,4154,573,4298,499,4417,449"/>
-<area shape="poly" title=" " alt="" coords="4407,452,4222,503,4220,498,4405,447"/>
-<area shape="rect" href="a00854.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="4378,501,4506,528"/>
-<area shape="poly" title=" " alt="" coords="4461,461,4448,502,4443,500,4455,459"/>
-<area shape="rect" href="a00860.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="4477,576,4626,603"/>
-<area shape="poly" title=" " alt="" coords="4489,456,4520,500,4539,540,4550,575,4545,577,4534,542,4516,503,4485,459"/>
-<area shape="poly" title=" " alt="" coords="4548,430,4605,436,4668,447,4730,468,4788,499,4805,522,4831,565,4878,649,4873,652,4826,567,4801,525,4784,503,4728,473,4666,452,4604,441,4548,436"/>
-<area shape="poly" title=" " alt="" coords="4129,536,4021,578,4019,573,4128,531"/>
-<area shape="poly" title=" " alt="" coords="4163,543,4142,577,4138,574,4158,540"/>
-<area shape="poly" title=" " alt="" coords="4443,544,4436,576,4427,592,4416,605,4377,625,4323,641,4257,652,4185,659,4040,666,3927,666,3927,661,4040,661,4184,654,4256,646,4322,635,4375,620,4412,601,4423,589,4431,574,4438,542"/>
-<area shape="poly" title=" " alt="" coords="4505,530,4669,573,4668,578,4504,535"/>
-<area shape="poly" title=" " alt="" coords="4363,530,4054,579,4043,581,4042,575,4054,573,4362,525"/>
-<area shape="rect" href="a00851.html" title=" " alt="" coords="4274,576,4402,603"/>
-<area shape="poly" title=" " alt="" coords="4413,539,4358,578,4355,573,4410,535"/>
-<area shape="poly" title=" " alt="" coords="4475,535,4534,573,4531,578,4472,539"/>
-<area shape="poly" title=" " alt="" coords="4462,605,4458,605,3927,661,3927,656,4458,600,4462,600"/>
-<area shape="poly" title=" " alt="" coords="4549,619,4544,651,4539,650,4544,618"/>
-<area shape="poly" title=" " alt="" coords="4584,611,4601,628,4614,650,4618,671,4614,692,4599,726,4594,724,4609,690,4612,671,4609,652,4596,631,4580,614"/>
-<area shape="poly" title=" " alt="" coords="4462,609,4356,631,4316,642,4296,652,4291,670,4296,689,4308,708,4323,723,4319,727,4304,711,4291,691,4285,670,4292,649,4314,637,4355,625,4461,603"/>
-<area shape="rect" href="a00857.html" title=" " alt="" coords="4307,651,4455,677"/>
-<area shape="poly" title=" " alt="" coords="4509,612,4412,652,4410,648,4507,607"/>
-<area shape="poly" title=" " alt="" coords="4625,604,4832,649,4831,654,4624,609"/>
-<area shape="poly" title=" " alt="" coords="3616,370,3622,419,3635,481,3659,545,3677,575,3699,601,3731,625,3769,642,3808,652,3843,657,3842,663,3807,657,3767,647,3729,630,3695,605,3672,578,3654,548,3630,483,3616,420,3611,371"/>
-<area shape="poly" title=" " alt="" coords="3552,362,3536,365,3265,421,3264,416,3535,360,3550,356"/>
-<area shape="poly" title=" " alt="" coords="3173,189,3229,235,3226,239,3170,193"/>
-<area shape="rect" href="a00926.html" title="Reflection module: LUMEX_VARINFO, which prints the name, value, type and other properties of an expre..." alt="" coords="3334,155,3454,181"/>
-<area shape="poly" title=" " alt="" coords="2606,99,3334,159,3334,164,2606,104"/>
-<area shape="rect" href="a00569.html" title=" " alt="" coords="3316,237,3472,264"/>
-<area shape="poly" title=" " alt="" coords="3397,197,3397,237,3391,237,3391,197"/>
-<area shape="rect" href="a00572.html" title=" " alt="" coords="3496,229,3626,272"/>
-<area shape="poly" title=" " alt="" coords="3435,186,3519,226,3517,231,3433,191"/>
-</map>
+<div class="center"><img src="a00412.png" border="0" usemap="#a_expected_storage_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00410_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02638.html">lumex::core::expected::result::detail::storage::expected_checks&lt; T, E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requirements on the types of <code>expected&lt;T, E&gt;</code> ([expected.object.general]/2, [expected.un.general]/2), as <code>static_assert</code>s.  <a href="a02638.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02642.html">lumex::core::expected::result::detail::storage::expected_void_checks&lt; E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requirements on the error type of <code>expected&lt;void, E&gt;</code> ([expected.void.general]/2), as <code>static_assert</code>s.  <a href="a02642.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01077.html">lumex::core::utility</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02646.html">lumex::core::expected::result::detail::storage::expected_traits&lt; T, E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The conditions the standard puts on the special member functions of <code>expected&lt;T, E&gt;</code>, evaluated once for a pair of types.  <a href="a02646.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01082.html">lumex::core::utility::demangle</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02650.html">lumex::core::expected::result::detail::storage::empty_alternative</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The alternative of the union that holds nothing.  <a href="a02650.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02658.html">lumex::core::expected::result::detail::storage::expected_union&lt; V, E, true &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a02654.html" title="The anonymous union of [expected.object.general] (union { remove_cv_t&lt;T&gt; val; E unex; }...">expected_union</a></code> with a trivial destructor.  <a href="a02658.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02662.html">lumex::core::expected::result::detail::storage::expected_union&lt; V, E, false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a02654.html" title="The anonymous union of [expected.object.general] (union { remove_cv_t&lt;T&gt; val; E unex; }...">expected_union</a></code> with a destructor that does nothing.  <a href="a02662.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02666.html">lumex::core::expected::result::detail::storage::has_val_flag&lt; Alignment &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>has_val</code> of [expected.object.general]: a <code>bool</code> in a class as large as the alignment of the union before it.  <a href="a02666.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02670.html">lumex::core::expected::result::detail::storage::expected_storage&lt; T, E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>has_val</code> and the union of [expected.object.general], the constructors that start one alternative, and the algorithms that move contents between two storages.  <a href="a02670.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02674.html">lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, Trivial &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer that destroys the active alternative; trivial.  <a href="a02674.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02678.html">lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer that destroys the active alternative: [expected.object.dtor]/1.  <a href="a02678.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02682.html">lumex::core::expected::result::detail::storage::expected_copy_base&lt; T, E, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the copy constructor. <code>Kind</code> is 0 (the compiler's constructor, trivial when the layer below is: [expected.object.cons]/10), 1 (written out) or 2 (deleted: [expected.object.cons]/9). The other three members are defaulted, so they stay what the layers below make them.  <a href="a02682.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02686.html">lumex::core::expected::result::detail::storage::expected_copy_base&lt; T, E, 1 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy constructor is written out: [expected.object.cons]/6.  <a href="a02686.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02690.html">lumex::core::expected::result::detail::storage::expected_copy_base&lt; T, E, 2 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy constructor is deleted.  <a href="a02690.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02694.html">lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the move constructor. <code>Kind</code> is 0 (the compiler's constructor, trivial when the layer below is: [expected.object.cons]/16), 1 (written out) or 2 (deleted, which makes the defaulted move constructor of every layer above, and of <code>expected</code>, defined as deleted, and overload resolution ignores such a constructor: [expected.object.cons]/11 leaves it out by a Constraints element, so an rvalue is copied).  <a href="a02694.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02698.html">lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, 1 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The move constructor is written out: [expected.object.cons]/12 and /15.  <a href="a02698.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02702.html">lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, 2 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The move constructor is deleted (left out).  <a href="a02702.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02706.html">lumex::core::expected::result::detail::storage::expected_copy_assign_base&lt; T, E, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the copy assignment. <code>Kind</code> is 0 (the compiler's operator, trivial when the layer below is: [expected.object.assign]/5), 1 (written out) or 2 (deleted: [expected.object.assign]/4).  <a href="a02706.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02710.html">lumex::core::expected::result::detail::storage::expected_copy_assign_base&lt; T, E, 1 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy assignment is written out: [expected.object.assign]/2.  <a href="a02710.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02714.html">lumex::core::expected::result::detail::storage::expected_copy_assign_base&lt; T, E, 2 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy assignment is deleted.  <a href="a02714.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02718.html">lumex::core::expected::result::detail::storage::expected_move_assign_base&lt; T, E, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the move assignment. <code>Kind</code> is 0 (the compiler's operator, trivial when the layer below is: [expected.object.assign]/10), 1 (written out) or 2 (deleted, so ignored by overload resolution as the move constructor above: [expected.object.assign]/6).  <a href="a02718.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02722.html">lumex::core::expected::result::detail::storage::expected_move_assign_base&lt; T, E, 1 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The move assignment is written out: [expected.object.assign]/7 and /9.  <a href="a02722.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02726.html">lumex::core::expected::result::detail::storage::expected_move_assign_base&lt; T, E, 2 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The move assignment is deleted (left out).  <a href="a02726.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:ad6621f383796b8a7a3dc899f94d7c0f4" id="r_ad6621f383796b8a7a3dc899f94d7c0f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6621f383796b8a7a3dc899f94d7c0f4">lumDemangle</a>(type)</td></tr>
-<tr class="memdesc:ad6621f383796b8a7a3dc899f94d7c0f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demangles a C++ type name for human-readable output.  <br /></td></tr>
-<tr class="separator:ad6621f383796b8a7a3dc899f94d7c0f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01351.html">lumex::core::expected</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01355.html">lumex::core::expected::result</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01356.html">lumex::core::expected::result::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01358.html">lumex::core::expected::result::detail::storage</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a71588fc7874861ef047683aaf7386556" id="r_a71588fc7874861ef047683aaf7386556"><td class="memTemplParams" colspan="2">template&lt;typename T, typename E&gt; </td></tr>
+<tr class="memitem:a71588fc7874861ef047683aaf7386556"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01358.html#a71588fc7874861ef047683aaf7386556">lumex::core::expected::result::detail::storage::checks_of</a></td></tr>
+<tr class="separator:a71588fc7874861ef047683aaf7386556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa87a00edbd20d7a4843cbfb7fcbfcc30" id="r_aa87a00edbd20d7a4843cbfb7fcbfcc30"><td class="memTemplParams" colspan="2">template&lt;typename Rhs, typename T&gt; </td></tr>
+<tr class="memitem:aa87a00edbd20d7a4843cbfb7fcbfcc30"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01358.html#aa87a00edbd20d7a4843cbfb7fcbfcc30">lumex::core::expected::result::detail::storage::source_of</a></td></tr>
+<tr class="memdesc:aa87a00edbd20d7a4843cbfb7fcbfcc30"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type the contents of an <code>expected</code> are read as when it is reached through <code>Rhs</code>: <code>T const &amp;</code> for an lvalue reference to a const object, <code>T &amp;&amp;</code> for an rvalue.  <br /></td></tr>
+<tr class="separator:aa87a00edbd20d7a4843cbfb7fcbfcc30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac65bd352580c736f1985431e902f3dd2" id="r_ac65bd352580c736f1985431e902f3dd2"><td class="memTemplParams" colspan="2">template&lt;typename T, typename E&gt; </td></tr>
+<tr class="memitem:ac65bd352580c736f1985431e902f3dd2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01358.html#ac65bd352580c736f1985431e902f3dd2">lumex::core::expected::result::detail::storage::expected_base</a> = <a class="el" href="a02718.html">expected_move_assign_base</a>&lt;T, E&gt;</td></tr>
+<tr class="memdesc:ac65bd352580c736f1985431e902f3dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The chain of layers <code>expected&lt;T, E&gt;</code> is built on.  <br /></td></tr>
+<tr class="separator:ac65bd352580c736f1985431e902f3dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5a8a6ca7779e633cf03b6e232ef67775" id="r_a5a8a6ca7779e633cf03b6e232ef67775"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01082.html#a5a8a6ca7779e633cf03b6e232ef67775">lumex::core::utility::demangle::demangle_type_name</a> (char const *mangled)</td></tr>
-<tr class="memdesc:a5a8a6ca7779e633cf03b6e232ef67775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demangles an already-mangled C++ name (e.g. one captured from a backtrace/stack unwinder), as opposed to the <code>lumDemangle</code> macro above, which mangles a type/expression itself (via <code>typeid</code>) before demangling it.  <br /></td></tr>
-<tr class="separator:a5a8a6ca7779e633cf03b6e232ef67775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e0090fe289d90d428c17d265d6cfed8" id="r_a1e0090fe289d90d428c17d265d6cfed8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01082.html#a1e0090fe289d90d428c17d265d6cfed8">lumex::core::utility::demangle::demangle_type_name</a> (std::string const &amp;mangled)</td></tr>
-<tr class="memdesc:a1e0090fe289d90d428c17d265d6cfed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience overload of <a class="el" href="a01082.html#a5a8a6ca7779e633cf03b6e232ef67775">demangle_type_name</a> for <code>std::string</code> input.  <br /></td></tr>
-<tr class="separator:a1e0090fe289d90d428c17d265d6cfed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b2e60741d402ef37ccb3959f558e0bc" id="r_a6b2e60741d402ef37ccb3959f558e0bc"><td class="memTemplParams" colspan="2">template&lt;typename Movable, typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:a6b2e60741d402ef37ccb3959f558e0bc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a6b2e60741d402ef37ccb3959f558e0bc">lumex::core::expected::result::detail::reinit_nothrow</a> (std::true_type, Movable, N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a6b2e60741d402ef37ccb3959f558e0bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>reinit-expected</code> of [expected.object.assign]/1 for the case that the construction of the new object cannot throw: destroy the old object, construct the new one.  <br /></td></tr>
+<tr class="separator:a6b2e60741d402ef37ccb3959f558e0bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4036e7dfa15bb0b3ad160825ec7559a1" id="r_a4036e7dfa15bb0b3ad160825ec7559a1"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:a4036e7dfa15bb0b3ad160825ec7559a1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a4036e7dfa15bb0b3ad160825ec7559a1">lumex::core::expected::result::detail::reinit_nothrow</a> (std::false_type, std::true_type, N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a4036e7dfa15bb0b3ad160825ec7559a1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code>: the construction may throw, but <code>N</code> can be moved without throwing: build a temporary first.  <br /></td></tr>
+<tr class="separator:a4036e7dfa15bb0b3ad160825ec7559a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadb2c52eaf3adcbeb3b512eee66452eb" id="r_aadb2c52eaf3adcbeb3b512eee66452eb"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:aadb2c52eaf3adcbeb3b512eee66452eb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#aadb2c52eaf3adcbeb3b512eee66452eb">lumex::core::expected::result::detail::reinit_nothrow</a> (std::false_type, std::false_type, N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:aadb2c52eaf3adcbeb3b512eee66452eb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code>: neither can be done without throwing: save the old object and put it back if the construction throws.  <br /></td></tr>
+<tr class="separator:aadb2c52eaf3adcbeb3b512eee66452eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acccbbbed047c705e9d0dfb50a3e29221" id="r_acccbbbed047c705e9d0dfb50a3e29221"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:acccbbbed047c705e9d0dfb50a3e29221"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#acccbbbed047c705e9d0dfb50a3e29221">lumex::core::expected::result::detail::reinit_dispatch</a> (std::true_type, N &amp;newval, O &amp;, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:acccbbbed047c705e9d0dfb50a3e29221"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code> when the old object is the <code><a class="el" href="a02734.html" title="Placeholder success type for expected&lt;void, ErrorType&gt;.">Unit</a></code> that stands for <code>void</code>: there is nothing to destroy or to put back, so the new object is built directly ([expected.void.assign]/1.2, /12.1 and [expected.void.swap] build <code>unex</code> with <code>construct_at</code> and nothing else).  <br /></td></tr>
+<tr class="separator:acccbbbed047c705e9d0dfb50a3e29221"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebb2cc5369b2ff0554cb8d8fbda8dca2" id="r_aebb2cc5369b2ff0554cb8d8fbda8dca2"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:aebb2cc5369b2ff0554cb8d8fbda8dca2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#aebb2cc5369b2ff0554cb8d8fbda8dca2">lumex::core::expected::result::detail::reinit_dispatch</a> (std::false_type, N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:aebb2cc5369b2ff0554cb8d8fbda8dca2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code> for an old object that holds something.  <br /></td></tr>
+<tr class="separator:aebb2cc5369b2ff0554cb8d8fbda8dca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6746fa8e180748b7d38e746bc179df5a" id="r_a6746fa8e180748b7d38e746bc179df5a"><td class="memTemplParams" colspan="2">template&lt;typename N, typename O, typename... Args&gt; </td></tr>
+<tr class="memitem:a6746fa8e180748b7d38e746bc179df5a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a6746fa8e180748b7d38e746bc179df5a">lumex::core::expected::result::detail::reinit</a> (N &amp;newval, O &amp;oldval, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a6746fa8e180748b7d38e746bc179df5a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinit-expected</code> (T = N, U = O): ends the life of <code>oldval</code> and starts <code>newval</code> with <code>args...</code>, keeping the old object if that throws.  <br /></td></tr>
+<tr class="separator:a6746fa8e180748b7d38e746bc179df5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Readable C++ type names: the <code>lumDemangle</code> macro for a type or an expression and <code>demangle_type_name()</code> for a name that is already mangled. </p>
-<p><code><a class="el" href="#ad6621f383796b8a7a3dc899f94d7c0f4" title="Demangles a C++ type name for human-readable output.">lumDemangle(type)</a></code> applies <code>typeid</code> and demangles the result; <code>demangle_type_name()</code> demangles a name taken from elsewhere, such as a stack frame. Both use <code>abi::__cxa_demangle</code> with GCC and Clang and return the name unchanged with other compilers or when demangling fails. The macro is defined at global scope. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ad6621f383796b8a7a3dc899f94d7c0f4" name="ad6621f383796b8a7a3dc899f94d7c0f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6621f383796b8a7a3dc899f94d7c0f4">&#9670;&#160;</a></span>lumDemangle</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define lumDemangle</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">std::string (<span class="keyword">typeid</span> (type).name ())</div>
-</div><!-- fragment -->
-<p>Demangles a C++ type name for human-readable output. </p>
-<p>This macro takes a type or an expression, gets its mangled name from <code>typeid</code>, and attempts to demangle it into a human-readable format. On GCC/Clang platforms, it uses the ABI's demangling function. On other platforms, it returns the name from <code>typeid</code> unchanged.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>A type or an expression, as for <code>typeid</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string The demangled name if successful, or the name from <code>typeid</code> if:<ul>
-<li>Platform doesn't support demangling (non-GNU)</li>
-<li>Demangling failed</li>
+<div class="textblock"><p>Internal storage of <code>expected</code>: the union of the two alternatives, and the layers that give <code>expected</code> the special member functions the standard describes. </p>
+<p>Everything here lives in <code><a class="el" href="a01356.html">lumex::core::expected::result::detail</a></code> and is not an interface for consumers. <code>expected&lt;T, E&gt;</code> and <code>expected&lt;void, E&gt;</code> ([expected.object.general], [expected.void.general]) derive from <code>expected_base&lt;T, E&gt;</code> (for <code>void</code> with the empty class <code>Unit</code> as <code>T</code>), which is a chain of class templates, one layer for each special member function whose existence and triviality the standard fixes:</p><ul>
+<li><code>expected_storage</code>: the union <code>{ val, unex }</code> and <code>has_val</code> of [expected.object.general], the constructors that start one alternative, and the algorithms the layers above and <code>expected</code> share (<code>reinit-expected</code> of [expected.object.assign], the swap of [expected.object.swap]);</li>
+<li><code>expected_destruct_base</code>: the destructor, trivial when <code>T</code> and <code>E</code> are trivially destructible ([expected.object.dtor]/2);</li>
+<li><code>expected_copy_base</code>, <code>expected_move_base</code>, <code>expected_copy_assign_base</code>, <code>expected_move_assign_base</code>: the copy and move constructors and assignments, each defaulted (so trivial) when the standard says it is trivial ([expected.object.cons]/10 and /16, [expected.object.assign]/5 and /10) and written out otherwise.</li>
 </ul>
-</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>On GNU-compatible compilers (GCC/Clang), this uses abi::__cxa_demangle which handles:<ul>
-<li>Template instantiations</li>
-<li>Namespace qualifications</li>
-<li>CV-qualifiers</li>
-<li>Calling conventions</li>
-</ul>
-</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code hl_define" href="#ad6621f383796b8a7a3dc899f94d7c0f4">lumDemangle</a> (std::vector&lt;int&gt;);</div>
-<div class="line"><span class="comment">// GCC: &quot;std::vector&lt;int, std::allocator&lt;int&gt; &gt;&quot; instead of</span></div>
-<div class="line"><span class="comment">// &quot;St6vectorIiSaIiEE&quot;</span></div>
-<div class="ttc" id="aa00410_html_ad6621f383796b8a7a3dc899f94d7c0f4"><div class="ttname"><a href="#ad6621f383796b8a7a3dc899f94d7c0f4">lumDemangle</a></div><div class="ttdeci">#define lumDemangle(type)</div><div class="ttdoc">Demangles a C++ type name for human-readable output.</div><div class="ttdef"><b>Definition</b> LumexDemangle.hpp:103</div></div>
-</div><!-- fragment --> </dd></dl>
-
-</div>
-</div>
-</div><!-- contents -->
+<p>A member whose condition does not hold is deleted in its layer (the copy constructor and the copy assignment: [expected.object.cons]/9, [expected.object.assign]/4) or deleted in its layer so that the defaulted member of every layer above, and of <code>expected</code>, is defined as deleted and ignored by overload resolution (the move constructor and the move assignment, which the standard leaves out by a Constraints element: [expected.object.cons]/11, [expected.object.assign]/6, so an rvalue is copied). A deleted function in a layer, unlike one added by an extra base class, leaves <code>std::is_trivially_copyable</code> true for the other members that are trivial, as for a class that declares them itself. </p><dl class="section note"><dt>Note</dt><dd>This is the technique of libstdc++ and of the MSVC STL (a layer of base classes per special member function), because C++11 has no <code>requires</code> and no conditionally defaulted member. </dd></dl>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_300ef6736afa582e6378ed5923e64696.html">demangle</a></li><li class="navelem"><a class="el" href="a00410.html">LumexDemangle.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00410.html">ExpectedStorage.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

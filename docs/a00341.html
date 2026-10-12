@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexJoin.hpp File Reference</title>
+<title>LumexLib: LumexContractsViolation.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,155 +104,102 @@ $(function(){initNavTree('a00341.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexJoin.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexContractsViolation.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Joins the elements of a range into one string.  
+<p>The enumerations <code>assertion_kind</code>, <code>evaluation_semantic</code> and <code>detection_mode</code>, and the class <code>contract_violation</code> that a violation handler receives.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;iterator&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00404_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00446_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00338_source.html">lumex/core/contracts/location/LumexContractsSourceLocation.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexJoin.hpp:</div>
+Include dependency graph for LumexContractsViolation.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00342.png" border="0" usemap="#a_lumex_join_8hpp" alt=""/></div>
-<map name="a_lumex_join_8hpp" id="a_lumex_join_8hpp">
-<area shape="rect" title="Joins the elements of a range into one string." alt="" coords="247,5,356,32"/>
-<area shape="rect" title=" " alt="" coords="5,179,67,205"/>
-<area shape="poly" title=" " alt="" coords="276,35,189,82,121,129,65,171,62,167,118,124,187,78,274,30"/>
-<area shape="rect" title=" " alt="" coords="923,88,992,115"/>
-<area shape="poly" title=" " alt="" coords="356,17,461,19,600,28,756,46,836,60,913,77,919,79,918,85,911,83,835,65,756,51,600,33,461,25,356,22"/>
-<area shape="rect" title=" " alt="" coords="91,179,144,205"/>
-<area shape="poly" title=" " alt="" coords="290,34,144,170,140,166,286,30"/>
-<area shape="rect" title=" " alt="" coords="168,179,250,205"/>
-<area shape="poly" title=" " alt="" coords="297,34,226,166,221,164,292,31"/>
-<area shape="rect" title=" " alt="" coords="275,179,328,205"/>
-<area shape="poly" title=" " alt="" coords="304,32,304,163,299,163,299,32"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="351,171,582,213"/>
-<area shape="poly" title=" " alt="" coords="315,30,438,157,434,161,311,34"/>
-<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="716,80,900,123"/>
-<area shape="poly" title=" " alt="" coords="357,26,701,80,701,86,356,31"/>
-<area shape="poly" title=" " alt="" coords="716,110,379,133,205,151,133,162,79,173,74,175,72,170,78,168,133,156,204,146,378,128,716,105"/>
-<area shape="poly" title=" " alt="" coords="716,104,601,107,461,117,307,138,231,154,157,173,153,175,151,169,155,168,230,149,307,133,460,112,601,102,716,99"/>
-<area shape="poly" title=" " alt="" coords="716,110,507,130,385,148,263,173,254,176,253,171,262,168,384,143,507,125,716,105"/>
-<area shape="poly" title=" " alt="" coords="716,109,634,116,539,128,438,147,339,173,336,174,335,169,338,168,437,141,538,123,634,111,716,104"/>
-<area shape="poly" title=" " alt="" coords="729,126,562,169,561,164,727,121"/>
-<area shape="rect" title=" " alt="" coords="1640,179,1690,205"/>
-<area shape="poly" title=" " alt="" coords="901,119,911,120,1019,131,1111,134,1269,130,1344,130,1425,134,1516,145,1622,168,1629,170,1627,175,1621,173,1515,151,1425,139,1344,135,1269,136,1111,139,1019,136,910,125,900,124"/>
-<area shape="rect" title=" " alt="" coords="1714,179,1779,205"/>
-<area shape="poly" title=" " alt="" coords="901,119,911,120,1031,131,1134,134,1309,129,1394,127,1484,131,1585,143,1703,168,1710,170,1708,175,1702,173,1584,149,1484,136,1394,132,1310,134,1134,140,1031,137,910,125,900,124"/>
-<area shape="rect" title=" " alt="" coords="1803,179,1880,205"/>
-<area shape="poly" title=" " alt="" coords="901,119,911,120,1045,132,1158,136,1353,131,1447,129,1547,132,1659,144,1791,168,1800,170,1799,176,1790,173,1659,149,1546,137,1447,134,1353,136,1158,141,1044,138,910,125,900,124"/>
-<area shape="rect" title=" " alt="" coords="606,179,658,205"/>
-<area shape="poly" title=" " alt="" coords="767,125,671,173,670,173,667,169,668,168,764,121"/>
-<area shape="rect" title=" " alt="" coords="682,179,750,205"/>
-<area shape="poly" title=" " alt="" coords="789,125,742,170,738,166,785,121"/>
-<area shape="rect" title=" " alt="" coords="774,179,842,205"/>
-<area shape="poly" title=" " alt="" coords="811,123,811,163,805,163,805,123"/>
-<area shape="rect" title=" " alt="" coords="866,179,915,205"/>
-<area shape="poly" title=" " alt="" coords="829,121,871,165,867,169,825,125"/>
-<area shape="rect" title=" " alt="" coords="939,179,1005,205"/>
-<area shape="poly" title=" " alt="" coords="848,121,936,169,934,173,845,126"/>
-<area shape="rect" title=" " alt="" coords="1030,179,1117,205"/>
-<area shape="poly" title=" " alt="" coords="874,121,1018,168,1025,171,1024,176,1016,173,872,126"/>
-<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1142,171,1309,213"/>
-<area shape="poly" title=" " alt="" coords="901,119,1127,167,1126,172,900,125"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1352,261,1546,304"/>
-<area shape="poly" title=" " alt="" coords="901,119,911,120,1039,124,1253,127,1364,132,1462,139,1538,151,1563,159,1579,169,1587,180,1588,191,1580,215,1559,239,1534,256,1531,252,1556,235,1575,212,1583,191,1582,182,1575,173,1561,164,1537,156,1462,144,1363,137,1253,133,1039,129,910,125,900,124"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1333,171,1566,213"/>
-<area shape="poly" title=" " alt="" coords="901,118,911,120,1024,136,1113,145,1318,168,1317,173,1112,150,1023,141,910,125,900,124"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1144,269,1306,296"/>
-<area shape="poly" title=" " alt="" coords="1228,214,1228,254,1223,254,1223,214"/>
-<area shape="poly" title=" " alt="" coords="1279,211,1384,253,1382,258,1277,216"/>
-<area shape="poly" title=" " alt="" coords="1452,214,1452,246,1447,246,1447,214"/>
-</map>
+<div class="center"><img src="a00342.png" border="0" usemap="#a_lumex_contracts_violation_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00343.png" border="0" usemap="#a_lumex_join_8hppdep" alt=""/></div>
-<map name="a_lumex_join_8hppdep" id="a_lumex_join_8hppdep">
-<area shape="rect" title="Joins the elements of a range into one string." alt="" coords="661,5,770,32"/>
-<area shape="rect" href="a00344.html" title="Joins the elements of a range with each element wrapped in quotes." alt="" coords="607,80,728,107"/>
-<area shape="poly" title=" " alt="" coords="701,47,678,81,673,78,696,44"/>
-<area shape="rect" href="a00929.html" title="String module: stringify, which concatenates the stream output of its arguments, joining and quoting ..." alt="" coords="668,155,762,181"/>
-<area shape="poly" title=" " alt="" coords="731,46,742,80,743,101,739,122,725,155,720,153,734,120,737,100,737,80,726,47"/>
-<area shape="poly" title=" " alt="" coords="686,118,709,153,705,156,682,121"/>
-<area shape="rect" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="380,229,523,256"/>
-<area shape="poly" title=" " alt="" coords="656,188,498,231,497,226,654,183"/>
-<area shape="rect" href="a00104.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="573,229,703,256"/>
-<area shape="poly" title=" " alt="" coords="693,194,653,231,649,227,689,190"/>
-<area shape="rect" href="a00599.html" title=" " alt="" coords="727,229,861,256"/>
-<area shape="poly" title=" " alt="" coords="742,190,782,227,779,231,739,194"/>
-<area shape="rect" href="a00602.html" title=" " alt="" coords="886,229,1078,256"/>
-<area shape="poly" title=" " alt="" coords="777,183,936,226,934,231,775,188"/>
-<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="238,304,356,331"/>
-<area shape="poly" title=" " alt="" coords="412,265,325,306,323,301,409,261"/>
-<area shape="rect" href="a00260.html" title=" " alt="" coords="380,304,523,331"/>
-<area shape="poly" title=" " alt="" coords="454,272,454,304,449,304,449,272"/>
-<area shape="rect" href="a00482.html" title=" " alt="" coords="185,387,350,413"/>
-<area shape="poly" title=" " alt="" coords="289,346,274,387,269,386,284,345"/>
-<area shape="rect" href="a00485.html" title=" " alt="" coords="374,379,515,421"/>
-<area shape="poly" title=" " alt="" coords="334,336,408,376,405,381,332,341"/>
-<area shape="rect" href="a00878.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="660,387,765,413"/>
-<area shape="poly" title=" " alt="" coords="612,268,599,282,589,298,584,314,588,329,603,348,622,363,665,384,663,389,619,368,600,352,584,332,579,314,584,296,594,279,608,265"/>
-<area shape="rect" href="a00101.html" title=" " alt="" coords="598,304,728,331"/>
-<area shape="poly" title=" " alt="" coords="650,270,661,303,656,304,645,272"/>
-<area shape="rect" href="a00107.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="752,304,918,331"/>
-<area shape="poly" title=" " alt="" coords="688,259,802,301,800,306,686,264"/>
-<area shape="rect" href="a00056.html" title=" " alt="" coords="5,469,263,496"/>
-<area shape="poly" title=" " alt="" coords="646,413,226,471,225,466,645,408"/>
-<area shape="rect" href="a00062.html" title=" " alt="" coords="287,469,496,496"/>
-<area shape="poly" title=" " alt="" coords="648,420,443,471,441,466,647,415"/>
-<area shape="rect" href="a00110.html" title=" " alt="" coords="520,469,705,496"/>
-<area shape="poly" title=" " alt="" coords="687,425,630,471,626,467,684,421"/>
-<area shape="rect" href="a00158.html" title=" " alt="" coords="728,469,897,496"/>
-<area shape="poly" title=" " alt="" coords="742,421,799,467,796,471,738,425"/>
-<area shape="rect" href="a00551.html" title=" " alt="" coords="921,469,1064,496"/>
-<area shape="poly" title=" " alt="" coords="772,415,949,466,948,471,770,421"/>
-<area shape="rect" href="a00554.html" title=" " alt="" coords="1088,469,1289,496"/>
-<area shape="poly" title=" " alt="" coords="781,410,1114,466,1113,471,780,415"/>
-<area shape="poly" title=" " alt="" coords="805,342,733,388,730,384,802,337"/>
-</map>
+<div class="center"><img src="a00343.png" border="0" usemap="#a_lumex_contracts_violation_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00341_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01938.html">lumex::core::contracts::detail::has_violation_accessors&lt; Violation, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detects an object with the accessors of a contract violation.  <a href="a01938.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01942.html">lumex::core::contracts::detail::has_violation_accessors&lt; Violation, typename std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; Violation const &amp; &gt;().comment()), char const * &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Violation const &amp; &gt;().location().line()), std::uint_least32_t &gt;::value &amp;&amp;std::is_integral&lt; typename std::underlying_type&lt; decltype(std::declval&lt; Violation const &amp; &gt;().kind())&gt;::type &gt;::value &amp;&amp;std::is_integral&lt; typename std::underlying_type&lt; decltype(std::declval&lt; Violation const &amp; &gt;().semantic())&gt;::type &gt;::value &amp;&amp;std::is_integral&lt; typename std::underlying_type&lt; decltype(std::declval&lt; Violation const &amp; &gt;() .detection_mode())&gt;::type &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01946.html">lumex::core::contracts::contract_violation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What a violation handler is told about a violated contract assertion.  <a href="a01946.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01065.html">lumex::core::string</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html">lumex::core::contracts</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01066.html">lumex::core::string::text</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01333.html">lumex::core::contracts::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a01015ca72292d19e5d6459a895eb465a" id="r_a01015ca72292d19e5d6459a895eb465a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html#a01015ca72292d19e5d6459a895eb465a">lumex::core::contracts::assertion_kind</a> : int { <a class="el" href="a01332.html#a01015ca72292d19e5d6459a895eb465aa6bf9e70a1f928aba143ef1eebe2720b5">lumex::core::contracts::pre</a> = 1
+, <a class="el" href="a01332.html#a01015ca72292d19e5d6459a895eb465aa42b90196b487c54069097a68fe98ab6f">lumex::core::contracts::post</a> = 2
+, <a class="el" href="a01332.html#a01015ca72292d19e5d6459a895eb465aae44e4612f62d2fb8f8738bab118a9850">lumex::core::contracts::assert</a> = 3
+ }</td></tr>
+<tr class="memdesc:a01015ca72292d19e5d6459a895eb465a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The syntactic form of the violated contract assertion.  <a href="a01332.html#a01015ca72292d19e5d6459a895eb465a">More...</a><br /></td></tr>
+<tr class="separator:a01015ca72292d19e5d6459a895eb465a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9476a589ca9ee4a8f3d3bf4f75332c9" id="r_af9476a589ca9ee4a8f3d3bf4f75332c9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html#af9476a589ca9ee4a8f3d3bf4f75332c9">lumex::core::contracts::evaluation_semantic</a> : int { <a class="el" href="a01332.html#af9476a589ca9ee4a8f3d3bf4f75332c9a567bc1d268f135496de3d5b946b691f3">lumex::core::contracts::ignore</a> = 1
+, <a class="el" href="a01332.html#af9476a589ca9ee4a8f3d3bf4f75332c9a1b65e84b7aa724b3f34c7dede00d439c">lumex::core::contracts::observe</a> = 2
+, <a class="el" href="a01332.html#af9476a589ca9ee4a8f3d3bf4f75332c9a99c25911a5c787824b7a197b11b9fcfe">lumex::core::contracts::enforce</a> = 3
+, <a class="el" href="a01332.html#af9476a589ca9ee4a8f3d3bf4f75332c9a604afef3e15b4988c3b42323d0709cc3">lumex::core::contracts::quick_enforce</a> = 4
+ }</td></tr>
+<tr class="memdesc:af9476a589ca9ee4a8f3d3bf4f75332c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">How a contract assertion was evaluated.  <a href="a01332.html#af9476a589ca9ee4a8f3d3bf4f75332c9">More...</a><br /></td></tr>
+<tr class="separator:af9476a589ca9ee4a8f3d3bf4f75332c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac047405c9b47d7fbca89a44b3e927978" id="r_ac047405c9b47d7fbca89a44b3e927978"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html#ac047405c9b47d7fbca89a44b3e927978">lumex::core::contracts::detection_mode</a> : int { <a class="el" href="a01332.html#ac047405c9b47d7fbca89a44b3e927978af746fe6b70eef78ccdaaecbc6b70e990">lumex::core::contracts::predicate_false</a> = 1
+, <a class="el" href="a01332.html#ac047405c9b47d7fbca89a44b3e927978a4c297ee40bb7b83a93ff4b399746f2b7">lumex::core::contracts::evaluation_exception</a> = 2
+ }</td></tr>
+<tr class="memdesc:ac047405c9b47d7fbca89a44b3e927978"><td class="mdescLeft">&#160;</td><td class="mdescRight">How a violation was found.  <a href="a01332.html#ac047405c9b47d7fbca89a44b3e927978">More...</a><br /></td></tr>
+<tr class="separator:ac047405c9b47d7fbca89a44b3e927978"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a663cd429e2385f582c3ea2fe311bc9ba" id="r_a663cd429e2385f582c3ea2fe311bc9ba"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
-<tr class="memitem:a663cd429e2385f582c3ea2fe311bc9ba"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a02661.html">lumex::core::utility::traits::range::has_streamable_elements</a>&lt; Range &gt;::value &amp;&amp;<a class="el" href="a02629.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01066.html#a663cd429e2385f582c3ea2fe311bc9ba">lumex::core::string::text::join</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
-<tr class="memdesc:a663cd429e2385f582c3ea2fe311bc9ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streams every element of <code>range</code> with <code>operator&lt;&lt;</code>, separated by <code>separator</code> (C++11 to C++17).  <br /></td></tr>
-<tr class="separator:a663cd429e2385f582c3ea2fe311bc9ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a247400ce4aad3c5074547001c49e3c86" id="r_a247400ce4aad3c5074547001c49e3c86"><td class="memItemLeft" align="right" valign="top">constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html#a247400ce4aad3c5074547001c49e3c86">lumex::core::contracts::to_string</a> (<a class="el" href="a01332.html#a01015ca72292d19e5d6459a895eb465a">assertion_kind</a> kind) noexcept</td></tr>
+<tr class="memdesc:a247400ce4aad3c5074547001c49e3c86"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enumerator name of <code>kind</code>; <code>"unknown"</code> for a stray value.  <br /></td></tr>
+<tr class="separator:a247400ce4aad3c5074547001c49e3c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51ca6e07b30b59187a6732ea9ef97821" id="r_a51ca6e07b30b59187a6732ea9ef97821"><td class="memItemLeft" align="right" valign="top">constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html#a51ca6e07b30b59187a6732ea9ef97821">lumex::core::contracts::to_string</a> (<a class="el" href="a01332.html#af9476a589ca9ee4a8f3d3bf4f75332c9">evaluation_semantic</a> semantic) noexcept</td></tr>
+<tr class="memdesc:a51ca6e07b30b59187a6732ea9ef97821"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enumerator name of <code>semantic</code>; <code>"unknown"</code> for a stray value.  <br /></td></tr>
+<tr class="separator:a51ca6e07b30b59187a6732ea9ef97821"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38455c9ce7d5b96975d872f34173a497" id="r_a38455c9ce7d5b96975d872f34173a497"><td class="memItemLeft" align="right" valign="top">constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html#a38455c9ce7d5b96975d872f34173a497">lumex::core::contracts::to_string</a> (<a class="el" href="a01332.html#ac047405c9b47d7fbca89a44b3e927978">detection_mode</a> mode) noexcept</td></tr>
+<tr class="memdesc:a38455c9ce7d5b96975d872f34173a497"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enumerator name of <code>mode</code>; <code>"unknown"</code> for a stray value.  <br /></td></tr>
+<tr class="separator:a38455c9ce7d5b96975d872f34173a497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23efd16b97d23ef8be46e99c69d9496b" id="r_a23efd16b97d23ef8be46e99c69d9496b"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html#a23efd16b97d23ef8be46e99c69d9496b">lumex::core::contracts::is_terminating</a> (<a class="el" href="a01332.html#af9476a589ca9ee4a8f3d3bf4f75332c9">evaluation_semantic</a> semantic) noexcept</td></tr>
+<tr class="memdesc:a23efd16b97d23ef8be46e99c69d9496b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>semantic</code> ends the program after the violation handler returns ([basic.contract.eval]: enforce and quick-enforce are the terminating semantics).  <br /></td></tr>
+<tr class="separator:a23efd16b97d23ef8be46e99c69d9496b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Joins the elements of a range into one string. </p>
-<p>C++20: <code>join</code> takes any <code>std::ranges::input_range</code> (views included) and a <code>std::string_view</code> separator. C++11 to C++17: <code>join</code> takes anything a range-based <code>for</code> can walk (containers, C arrays, <code>std::initializer_list</code>) and any separator <code>operator&lt;&lt;</code> can write (<code>"literal"</code>, <code>std::string</code>, <code><a class="el" href="a04089.html" title="A lightweight, non-owning view over a contiguous sequence of char characters.">LumexStringView</a></code>, C++17 <code>std::string_view</code>, <code>char</code>). Both produce the same text for the same elements.</p>
-<p>C++20 takes the range as <code>input_range auto const &amp;</code>: a view that is not iterable through const (<code>std::views::filter</code>) must be materialized first. </p>
+<div class="textblock"><p>The enumerations <code>assertion_kind</code>, <code>evaluation_semantic</code> and <code>detection_mode</code>, and the class <code>contract_violation</code> that a violation handler receives. </p>
+<p>The names, the enumerator values and the accessors follow <code>&lt;contracts&gt;</code> of the C++26 draft ([support.contract], P2900): <code>assertion_kind</code> (<code>pre</code> 1, <code>post</code> 2, <code>assert</code> 3), <code>evaluation_semantic</code> (<code>ignore</code> 1, <code>observe</code> 2, <code>enforce</code> 3, <code>quick_enforce</code> 4) and <code>detection_mode</code> (<code>predicate_false</code> 1, <code>evaluation_exception</code> 2), and <code>contract_violation</code> with <code>comment</code>, <code>detection_mode</code>, <code>is_terminating</code>, <code>kind</code>, <code>location</code> and <code>semantic</code>. The types are the module's own on every standard and toolchain, not aliases of the standard ones (no library ships <code>&lt;contracts&gt;</code> yet). Differences from the standard class: it is a plain value that can be constructed (the macros of this library create it) and copied, and its <code>location</code> is the module's <code>source_location</code>. Only <code>assertion_kind::assert</code> is produced by <code>LUMEX_CONTRACT_ASSERT</code>; <code>pre</code> and <code>post</code> exist so that a violation reported by the compiler's own contracts converts into the same class.</p>
+<p>A <code>contract_violation</code> converts from any object that has the six accessors of the standard class (the <code>std::contracts::contract_violation</code> of a C++26 library, or another type of that shape) through an explicit template constructor: the strings and the location are taken by value, so the result does not depend on the lifetime of the source. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="dir_7f2a87a12e57e05b49f1824eaaf6f6a8.html">text</a></li><li class="navelem"><a class="el" href="a00341.html">LumexJoin.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_77a8419351938abae08e7136cdf99e60.html">contracts</a></li><li class="navelem"><a class="el" href="dir_dd0c7ac5e9e91f1366555abfa4214791.html">violation</a></li><li class="navelem"><a class="el" href="a00341.html">LumexContractsViolation.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

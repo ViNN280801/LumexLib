@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::atomic::sync Namespace Reference</title>
+<title>LumexLib: XmlText.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,24 +104,67 @@ $(function(){initNavTree('a01010.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::atomic::sync Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XmlText.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>XmlText</code>, typed access to the text content of a node.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01016_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XmlText.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01011.png" border="0" usemap="#a_xml_text_8hpp" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01012.png" border="0" usemap="#a_xml_text_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a01010_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05010.html">lumex::xml::text::XmlText</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the text content of an XML node, providing type-safe access and modification.  <a href="a05010.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01012.html">Detail</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01011.html">table_wait</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01495.html">lumex::xml::node</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html">lumex::xml::text</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a98673d4a1b8b431dcfef95e6148547eb" id="r_a98673d4a1b8b431dcfef95e6148547eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html#a98673d4a1b8b431dcfef95e6148547eb">lumex::xml::text::operator&amp;&amp;</a> (<a class="el" href="a05010.html">XmlText</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="memdesc:a98673d4a1b8b431dcfef95e6148547eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for logical AND operator with <code><a class="el" href="a05010.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> on the left-hand side.  <br /></td></tr>
+<tr class="separator:a98673d4a1b8b431dcfef95e6148547eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a637cf8030dca5d7cc1d7a84daa3f1f8f" id="r_a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html#a637cf8030dca5d7cc1d7a84daa3f1f8f">lumex::xml::text::operator||</a> (<a class="el" href="a05010.html">XmlText</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="memdesc:a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for logical OR operator with <code><a class="el" href="a05010.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> on the left-hand side.  <br /></td></tr>
+<tr class="separator:a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>XmlText</code>, typed access to the text content of a node. </p>
+<p><code>XmlNode::text()</code> returns an <code>XmlText</code> for an element or a text node. It reads the node's first PCDATA or CDATA child, or the element's own value when the document was parsed with <code>kparse_embed_pcdata</code>, and converts it to numbers or a boolean; the given default is returned only when there is no text. Setting a value creates a PCDATA child when there is none. The handle does not own the text and is valid as long as the document.</p>
+<p>The <code>string_view_t</code> overloads (<code>string_view_t</code> is the <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> of <code>lumex::string_view</code> in every C++ standard; a <code>std::string_view</code> converts to it) exist in every C++ standard. They are inline wrappers and are not <code>dllimport</code>, because the class itself is not exported. The file also declares the logical AND and OR operators with a <code>bool</code>. Consumers include it through <code>lumex/xml/LumexXml</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01006.html">atomic</a></li><li class="navelem"><a class="el" href="a01010.html">sync</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a01010.html">XmlText.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

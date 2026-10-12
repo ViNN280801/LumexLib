@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::applied::resource_monitor::process::detail::process_tree_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01617.html',''); initResizable(true); });
+$(function(){initNavTree('a01614.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,71 @@ $(function(){initNavTree('a01617.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc11_umts_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a01611.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::resource_monitor::process::detail::process_tree_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01617.html#a308e3b1f60f414b6c398421dbf5541f9">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01617.html#a5e329eb80d3c1d8093bf4ae8e054cdca">kInit</a></td><td class="entry"><a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01617.html#aba91bda6626517779fb546b617a79c0b">kPoly</a></td><td class="entry"><a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01617.html#ab119fb5eb81b398b466a84c8564b4dc4">kRefIn</a></td><td class="entry"><a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01617.html#af3143934fe511409c0583c8062c17982">kRefOut</a></td><td class="entry"><a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01617.html#a84d9021155b292ac7220d1f052ebc45c">kWidth</a></td><td class="entry"><a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01617.html#a25e2d1cae92dd026c90ff97e6ed50d3c">kXorOut</a></td><td class="entry"><a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01617.html#a06a89454d8d7e70a99b10bb1fd2ea7af">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01617.html">lumex::core::crc::parametric::crc11_umts_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>A process and every process below it.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00161_source.html">LumexProcessDetail.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a37c8435e030be366c95ec721c5731a35" id="r_a37c8435e030be366c95ec721c5731a35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37c8435e030be366c95ec721c5731a35">root</a> {}</td></tr>
+<tr class="memdesc:a37c8435e030be366c95ec721c5731a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">The top process of the tree.  <br /></td></tr>
+<tr class="separator:a37c8435e030be366c95ec721c5731a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa5b64cf5325ac77676ac38e5b011de" id="r_a9fa5b64cf5325ac77676ac38e5b011de"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fa5b64cf5325ac77676ac38e5b011de">descendants</a></td></tr>
+<tr class="memdesc:a9fa5b64cf5325ac77676ac38e5b011de"><td class="mdescLeft">&#160;</td><td class="mdescRight">The processes below it, nearest first (children, then their children, ...).  <br /></td></tr>
+<tr class="separator:a9fa5b64cf5325ac77676ac38e5b011de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A process and every process below it. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a9fa5b64cf5325ac77676ac38e5b011de" name="a9fa5b64cf5325ac77676ac38e5b011de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fa5b64cf5325ac77676ac38e5b011de">&#9670;&#160;</a></span>descendants</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a>&gt; lumex::applied::resource_monitor::process::detail::process_tree_t::descendants</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The processes below it, nearest first (children, then their children, ...). </p>
+
+</div>
+</div>
+<a id="a37c8435e030be366c95ec721c5731a35" name="a37c8435e030be366c95ec721c5731a35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37c8435e030be366c95ec721c5731a35">&#9670;&#160;</a></span>root</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> lumex::applied::resource_monitor::process::detail::process_tree_t::root {}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The top process of the tree. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00161_source.html">LumexProcessDetail.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01277.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a01283.html">process</a></li><li class="navelem"><a class="el" href="a01284.html">detail</a></li><li class="navelem"><a class="el" href="a01614.html">process_tree_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::base64::decode::Decoder Class Reference</title>
+<title>LumexLib: lumex::core::hazard_pointer::engine Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,266 +104,459 @@ $(function(){initNavTree('a01369.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01366.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::base64::decode::Decoder Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::hazard_pointer::engine Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Base64 decoder.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00212_source.html">Decoder.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a9bb0fe0301536700898cec8624aa7faa" id="r_a9bb0fe0301536700898cec8624aa7faa"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bb0fe0301536700898cec8624aa7faa">decode</a> (char const *encoded, std::size_t size, std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; &amp;out)</td></tr>
-<tr class="memdesc:a9bb0fe0301536700898cec8624aa7faa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes <code>size</code> Base64 characters starting at <code>encoded</code> into <code>out</code>.  <br /></td></tr>
-<tr class="separator:a9bb0fe0301536700898cec8624aa7faa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadb06150d21908f57ba9f26af92b4800" id="r_aadb06150d21908f57ba9f26af92b4800"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadb06150d21908f57ba9f26af92b4800">decode</a> (char const *encoded, std::size_t size)</td></tr>
-<tr class="memdesc:aadb06150d21908f57ba9f26af92b4800"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes <code>size</code> Base64 characters starting at <code>encoded</code>.  <br /></td></tr>
-<tr class="separator:aadb06150d21908f57ba9f26af92b4800"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaad3b4bd9161881e378092c54ec1fa93" id="r_aaad3b4bd9161881e378092c54ec1fa93"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaad3b4bd9161881e378092c54ec1fa93">decode</a> (std::string_view encoded, std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; &amp;out)</td></tr>
-<tr class="memdesc:aaad3b4bd9161881e378092c54ec1fa93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a Base64 string into <code>out</code> (see the pointer and size overload).  <br /></td></tr>
-<tr class="separator:aaad3b4bd9161881e378092c54ec1fa93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afadb34078159e6f0bdcca5e553bb947b" id="r_afadb34078159e6f0bdcca5e553bb947b"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afadb34078159e6f0bdcca5e553bb947b">decode</a> (std::string_view encoded)</td></tr>
-<tr class="memdesc:afadb34078159e6f0bdcca5e553bb947b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a Base64 string.  <br /></td></tr>
-<tr class="separator:afadb34078159e6f0bdcca5e553bb947b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03114.html">node_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The record a retired object carries: the next node of the retired list and the function that reclaims the object.  <a href="a03114.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03110.html">slot_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One hazard slot: the address of the node a thread protects, or null.  <a href="a03110.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03118.html">statistics_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counters of the domain, for tests and diagnostics.  <a href="a03118.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ae7c0ac99eb3dfb702701ee36df0bcdb9" id="r_ae7c0ac99eb3dfb702701ee36df0bcdb9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9">test_point_id_t</a> { <br />
+&#160;&#160;<a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9a3e46fd042d146ba76c3939db0b479b49">reader_announced</a> = 1
+, <a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9aab631ce22b1f20e01c48e0abe247bbec">pass_fenced</a> = 2
+, <a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9a086a7f0c7eb9c4b06553a15e6be865ca">pass_scanned</a> = 3
+, <a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9a846f67f736be5d85119c28c727ddefe7">retire_pushed</a> = 4
+, <br />
+&#160;&#160;<a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9a12b66c884a2d181514640ebee58a102a">cache_evicting</a> = 5
+, <a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9ae1406426d0d88d3279aafc2dbf8573fb">reader_fenced</a> = 6
+<br />
+ }</td></tr>
+<tr class="memdesc:ae7c0ac99eb3dfb702701ee36df0bcdb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Named places where a test may stall a thread (<code>LUMEX_HAZARD_POINTER_TEST_HOOKS</code> builds only).  <a href="#ae7c0ac99eb3dfb702701ee36df0bcdb9">More...</a><br /></td></tr>
+<tr class="separator:ae7c0ac99eb3dfb702701ee36df0bcdb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a3d2a866e3b2b069642be2741590ed4d5" id="r_a3d2a866e3b2b069642be2741590ed4d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03110.html">slot_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d2a866e3b2b069642be2741590ed4d5">acquire_slot</a> ()</td></tr>
+<tr class="memdesc:a3d2a866e3b2b069642be2741590ed4d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a hazard slot for the calling thread.  <br /></td></tr>
+<tr class="separator:a3d2a866e3b2b069642be2741590ed4d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05ed59c81364fd53de26142343a8b795" id="r_a05ed59c81364fd53de26142343a8b795"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05ed59c81364fd53de26142343a8b795">acquire_slots</a> (<a class="el" href="a03110.html">slot_t</a> **out, std::size_t count)</td></tr>
+<tr class="memdesc:a05ed59c81364fd53de26142343a8b795"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes <code>count</code> hazard slots at once, all or none.  <br /></td></tr>
+<tr class="separator:a05ed59c81364fd53de26142343a8b795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2f5479b3d0eb9819218688201bc0a6a" id="r_ac2f5479b3d0eb9819218688201bc0a6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2f5479b3d0eb9819218688201bc0a6a">release_slot</a> (<a class="el" href="a03110.html">slot_t</a> *slot) noexcept</td></tr>
+<tr class="memdesc:ac2f5479b3d0eb9819218688201bc0a6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears a slot (ending the protection) and gives it back.  <br /></td></tr>
+<tr class="separator:ac2f5479b3d0eb9819218688201bc0a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00dc8121273d3c16dd945d846cddcc26" id="r_a00dc8121273d3c16dd945d846cddcc26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00dc8121273d3c16dd945d846cddcc26">retire_node</a> (<a class="el" href="a03114.html">node_t</a> *node) noexcept</td></tr>
+<tr class="memdesc:a00dc8121273d3c16dd945d846cddcc26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hands a retired object to the domain.  <br /></td></tr>
+<tr class="separator:a00dc8121273d3c16dd945d846cddcc26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa34d79801d811e8ea1a75ae4fd3376dd" id="r_aa34d79801d811e8ea1a75ae4fd3376dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa34d79801d811e8ea1a75ae4fd3376dd">reclaim_or_retire</a> (<a class="el" href="a03114.html">node_t</a> *node) noexcept</td></tr>
+<tr class="memdesc:aa34d79801d811e8ea1a75ae4fd3376dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reclaims an object now when no slot names it, otherwise retires it.  <br /></td></tr>
+<tr class="separator:aa34d79801d811e8ea1a75ae4fd3376dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94bbb08d16159c30fbc6f73783601ff8" id="r_a94bbb08d16159c30fbc6f73783601ff8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94bbb08d16159c30fbc6f73783601ff8">clean_up</a> () noexcept</td></tr>
+<tr class="memdesc:a94bbb08d16159c30fbc6f73783601ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a full reclamation pass now and waits for a running one.  <br /></td></tr>
+<tr class="separator:a94bbb08d16159c30fbc6f73783601ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f96ec7d1b96fe75d3ff8e28c64c4f99" id="r_a1f96ec7d1b96fe75d3ff8e28c64c4f99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03118.html">statistics_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f96ec7d1b96fe75d3ff8e28c64c4f99">statistics</a> () noexcept</td></tr>
+<tr class="memdesc:a1f96ec7d1b96fe75d3ff8e28c64c4f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the counters of the domain.  <br /></td></tr>
+<tr class="separator:a1f96ec7d1b96fe75d3ff8e28c64c4f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a038376618af78c36c697023858a07862" id="r_a038376618af78c36c697023858a07862"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a038376618af78c36c697023858a07862">init_node</a> (<a class="el" href="a03114.html">node_t</a> &amp;node) noexcept</td></tr>
+<tr class="memdesc:a038376618af78c36c697023858a07862"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks a node as not retired.  <br /></td></tr>
+<tr class="separator:a038376618af78c36c697023858a07862"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a026fc91e7aa8fc05597cb994895eaf3d" id="r_a026fc91e7aa8fc05597cb994895eaf3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a026fc91e7aa8fc05597cb994895eaf3d">reader_fence</a> () noexcept</td></tr>
+<tr class="memdesc:a026fc91e7aa8fc05597cb994895eaf3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The fence between a reader's announcement and its re-read of the source.  <br /></td></tr>
+<tr class="separator:a026fc91e7aa8fc05597cb994895eaf3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base64 decoder. </p>
-<p>The two functions that take a pointer and a size are exported and have the same signature in every C++ standard, so a consumer built at another standard than the library links. The overloads that take a string are inline wrappers over them: <code>std::string_view</code> from C++17, <code>std::string const &amp;</code> below. The class itself is not exported: a dllimport class makes clang-cl emit an import for an inline member it does not inline, and the library does not provide the standard-dependent overload. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aadb06150d21908f57ba9f26af92b4800" name="aadb06150d21908f57ba9f26af92b4800"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadb06150d21908f57ba9f26af92b4800">&#9670;&#160;</a></span>decode() <span class="overload">[1/4]</span></h2>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ae7c0ac99eb3dfb702701ee36df0bcdb9" name="ae7c0ac99eb3dfb702701ee36df0bcdb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7c0ac99eb3dfb702701ee36df0bcdb9">&#9670;&#160;</a></span>test_point_id_t</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; Decoder::decode </td>
-          <td>(</td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>encoded</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+          <td class="memname">enum <a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9">lumex::core::hazard_pointer::engine::test_point_id_t</a></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Decodes <code>size</code> Base64 characters starting at <code>encoded</code>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">encoded</td><td>First character of the input; never valid as <code>nullptr</code>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Number of characters to decode. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The decoded bytes, or an empty vector if the range is not valid Base64. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01369_aadb06150d21908f57ba9f26af92b4800_cgraph.png" border="0" usemap="#aa01369_aadb06150d21908f57ba9f26af92b4800_cgraph" alt=""/></div>
-<map name="aa01369_aadb06150d21908f57ba9f26af92b4800_cgraph" id="aa01369_aadb06150d21908f57ba9f26af92b4800_cgraph">
-<area shape="rect" title="Decodes size Base64 characters starting at encoded." alt="" coords="5,13,184,56"/>
-<area shape="rect" href="a01369.html#a9bb0fe0301536700898cec8624aa7faa" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="232,13,410,56"/>
-<area shape="poly" title=" " alt="" coords="184,32,216,32,216,37,184,37"/>
-<area shape="rect" href="a01381.html#a7a9e8f1098b9482f03266947dc320d3a" title="Checks whether size characters starting at str are valid Base64." alt="" coords="458,5,597,64"/>
-<area shape="poly" title=" " alt="" coords="411,32,442,32,442,37,411,37"/>
-</map>
-</div>
+<p>Named places where a test may stall a thread (<code>LUMEX_HAZARD_POINTER_TEST_HOOKS</code> builds only). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9a3e46fd042d146ba76c3939db0b479b49" name="ae7c0ac99eb3dfb702701ee36df0bcdb9a3e46fd042d146ba76c3939db0b479b49"></a>reader_announced&#160;</td><td class="fielddoc"><p>A reader stored its announcement and issued the fence, before it re-reads the source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9aab631ce22b1f20e01c48e0abe247bbec" name="ae7c0ac99eb3dfb702701ee36df0bcdb9aab631ce22b1f20e01c48e0abe247bbec"></a>pass_fenced&#160;</td><td class="fielddoc"><p>A reclamation pass took its nodes and issued the fence, before it reads the slots. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9a086a7f0c7eb9c4b06553a15e6be865ca" name="ae7c0ac99eb3dfb702701ee36df0bcdb9a086a7f0c7eb9c4b06553a15e6be865ca"></a>pass_scanned&#160;</td><td class="fielddoc"><p>A pass read every slot, before it reclaims. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9a846f67f736be5d85119c28c727ddefe7" name="ae7c0ac99eb3dfb702701ee36df0bcdb9a846f67f736be5d85119c28c727ddefe7"></a>retire_pushed&#160;</td><td class="fielddoc"><p><code>retire_node</code> pushed a node. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9a12b66c884a2d181514640ebee58a102a" name="ae7c0ac99eb3dfb702701ee36df0bcdb9a12b66c884a2d181514640ebee58a102a"></a>cache_evicting&#160;</td><td class="fielddoc"><p>A thread-exit hook is about to hand the cache back. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9ae1406426d0d88d3279aafc2dbf8573fb" name="ae7c0ac99eb3dfb702701ee36df0bcdb9ae1406426d0d88d3279aafc2dbf8573fb"></a>reader_fenced&#160;</td><td class="fielddoc"><p>The reader's fence is about to be issued. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
-<a id="a9bb0fe0301536700898cec8624aa7faa" name="a9bb0fe0301536700898cec8624aa7faa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bb0fe0301536700898cec8624aa7faa">&#9670;&#160;</a></span>decode() <span class="overload">[2/4]</span></h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a3d2a866e3b2b069642be2741590ed4d5" name="a3d2a866e3b2b069642be2741590ed4d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d2a866e3b2b069642be2741590ed4d5">&#9670;&#160;</a></span>acquire_slot()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool Decoder::decode </td>
+          <td class="memname"><a class="el" href="a03110.html">slot_t</a> * lumex::core::hazard_pointer::engine::acquire_slot </td>
           <td>(</td>
-          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>encoded</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Decodes <code>size</code> Base64 characters starting at <code>encoded</code> into <code>out</code>. </p>
-<p>The range needs no terminating NUL and nothing after it is read; a NUL inside the range is an invalid character. The input may omit the trailing padding (<code>"SGk"</code> decodes like <code>"SGk="</code>). <code>out</code> is cleared first and stays empty on failure.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">encoded</td><td>First character of the input; never valid as <code>nullptr</code>, even with a <code>size</code> of 0 (pass <code>""</code> for an empty input). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Number of characters to decode. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>Receives the decoded bytes. </td></tr>
+<p>Takes a hazard slot for the calling thread. </p>
+<dl class="section return"><dt>Returns</dt><dd>A slot whose value is null, owned by the caller until <code>release_slot</code>. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>when a new block of slots cannot be allocated.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the range is valid Base64 (an empty range is), <code>false</code> otherwise (invalid length, a character outside the alphabet, misplaced or excess padding, <code>nullptr</code>). </dd></dl>
+<p>Takes it from the per-thread cache, then from the shared pool, then from a new block; the cache hit is wait-free. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01369_a9bb0fe0301536700898cec8624aa7faa_cgraph.png" border="0" usemap="#aa01369_a9bb0fe0301536700898cec8624aa7faa_cgraph" alt=""/></div>
-<map name="aa01369_a9bb0fe0301536700898cec8624aa7faa_cgraph" id="aa01369_a9bb0fe0301536700898cec8624aa7faa_cgraph">
-<area shape="rect" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="5,13,184,56"/>
-<area shape="rect" href="a01381.html#a7a9e8f1098b9482f03266947dc320d3a" title="Checks whether size characters starting at str are valid Base64." alt="" coords="232,5,371,64"/>
-<area shape="poly" title=" " alt="" coords="184,32,216,32,216,37,184,37"/>
-</map>
+<div class="center"><img src="a01369_a3d2a866e3b2b069642be2741590ed4d5_cgraph.png" border="0" usemap="#aa01369_a3d2a866e3b2b069642be2741590ed4d5_cgraph" alt=""/></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01369_a9bb0fe0301536700898cec8624aa7faa_icgraph.png" border="0" usemap="#aa01369_a9bb0fe0301536700898cec8624aa7faa_icgraph" alt=""/></div>
-<map name="aa01369_a9bb0fe0301536700898cec8624aa7faa_icgraph" id="aa01369_a9bb0fe0301536700898cec8624aa7faa_icgraph">
-<area shape="rect" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="232,105,410,148"/>
-<area shape="rect" href="a01369.html#aadb06150d21908f57ba9f26af92b4800" title="Decodes size Base64 characters starting at encoded." alt="" coords="5,5,184,48"/>
-<area shape="poly" title=" " alt="" coords="263,101,183,62,155,51,157,46,185,58,265,96"/>
-<area shape="rect" href="a01369.html#afadb34078159e6f0bdcca5e553bb947b" title="Decodes a Base64 string." alt="" coords="5,72,184,115"/>
-<area shape="poly" title=" " alt="" coords="216,114,184,109,185,104,217,109"/>
-<area shape="rect" href="a01369.html#aaad3b4bd9161881e378092c54ec1fa93" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="5,139,184,181"/>
-<area shape="poly" title=" " alt="" coords="217,145,185,149,184,144,216,139"/>
-<area shape="rect" href="a00458.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="70,205,119,232"/>
-<area shape="poly" title=" " alt="" coords="268,158,185,196,120,216,119,210,183,191,265,153"/>
-</map>
+<div class="center"><img src="a01369_a3d2a866e3b2b069642be2741590ed4d5_icgraph.png" border="0" usemap="#aa01369_a3d2a866e3b2b069642be2741590ed4d5_icgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="afadb34078159e6f0bdcca5e553bb947b" name="afadb34078159e6f0bdcca5e553bb947b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afadb34078159e6f0bdcca5e553bb947b">&#9670;&#160;</a></span>decode() <span class="overload">[3/4]</span></h2>
+<a id="a05ed59c81364fd53de26142343a8b795" name="a05ed59c81364fd53de26142343a8b795"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05ed59c81364fd53de26142343a8b795">&#9670;&#160;</a></span>acquire_slots()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; lumex::core::base64::decode::Decoder::decode </td>
+          <td class="memname">void lumex::core::hazard_pointer::engine::acquire_slots </td>
           <td>(</td>
-          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>encoded</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Decodes a Base64 string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">encoded</td><td>The Base64-encoded input. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The decoded bytes, or an empty vector if the input is invalid. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01369_afadb34078159e6f0bdcca5e553bb947b_cgraph.png" border="0" usemap="#aa01369_afadb34078159e6f0bdcca5e553bb947b_cgraph" alt=""/></div>
-<map name="aa01369_afadb34078159e6f0bdcca5e553bb947b_cgraph" id="aa01369_afadb34078159e6f0bdcca5e553bb947b_cgraph">
-<area shape="rect" title="Decodes a Base64 string." alt="" coords="5,13,184,56"/>
-<area shape="rect" href="a01369.html#a9bb0fe0301536700898cec8624aa7faa" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="232,13,410,56"/>
-<area shape="poly" title=" " alt="" coords="184,32,216,32,216,37,184,37"/>
-<area shape="rect" href="a01381.html#a7a9e8f1098b9482f03266947dc320d3a" title="Checks whether size characters starting at str are valid Base64." alt="" coords="458,5,597,64"/>
-<area shape="poly" title=" " alt="" coords="411,32,442,32,442,37,411,37"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aaad3b4bd9161881e378092c54ec1fa93" name="aaad3b4bd9161881e378092c54ec1fa93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaad3b4bd9161881e378092c54ec1fa93">&#9670;&#160;</a></span>decode() <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::core::base64::decode::Decoder::decode </td>
-          <td>(</td>
-          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>encoded</em></span>, </td>
+          <td class="paramtype"><a class="el" href="a03110.html">slot_t</a> **</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>count</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Takes <code>count</code> hazard slots at once, all or none. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>Receives <code>count</code> slots. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>Number of slots. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>when a new block cannot be allocated; the slots taken so far are returned to the pool and <code>out</code> is not meaningful. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_a05ed59c81364fd53de26142343a8b795_cgraph.png" border="0" usemap="#aa01369_a05ed59c81364fd53de26142343a8b795_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_a05ed59c81364fd53de26142343a8b795_icgraph.png" border="0" usemap="#aa01369_a05ed59c81364fd53de26142343a8b795_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a94bbb08d16159c30fbc6f73783601ff8" name="a94bbb08d16159c30fbc6f73783601ff8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94bbb08d16159c30fbc6f73783601ff8">&#9670;&#160;</a></span>clean_up()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::hazard_pointer::engine::clean_up </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Decodes a Base64 string into <code>out</code> (see the pointer and size overload). </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">encoded</td><td>The Base64-encoded input. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>Receives the decoded bytes; cleared first. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the input is valid Base64, <code>false</code> otherwise. </dd></dl>
+<p>Runs a full reclamation pass now and waits for a running one. </p>
+<p>Every retired node that no slot protects is reclaimed before the call returns, unless the call comes from a deleter of the pass itself (it then returns at once). Meant for tests, leak checkers and orderly shutdown. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01369_aaad3b4bd9161881e378092c54ec1fa93_cgraph.png" border="0" usemap="#aa01369_aaad3b4bd9161881e378092c54ec1fa93_cgraph" alt=""/></div>
-<map name="aa01369_aaad3b4bd9161881e378092c54ec1fa93_cgraph" id="aa01369_aaad3b4bd9161881e378092c54ec1fa93_cgraph">
-<area shape="rect" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="5,13,184,56"/>
-<area shape="rect" href="a01369.html#a9bb0fe0301536700898cec8624aa7faa" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="232,13,410,56"/>
-<area shape="poly" title=" " alt="" coords="184,32,216,32,216,37,184,37"/>
-<area shape="rect" href="a01381.html#a7a9e8f1098b9482f03266947dc320d3a" title="Checks whether size characters starting at str are valid Base64." alt="" coords="458,5,597,64"/>
-<area shape="poly" title=" " alt="" coords="411,32,442,32,442,37,411,37"/>
-</map>
+<div class="center"><img src="a01369_a94bbb08d16159c30fbc6f73783601ff8_cgraph.png" border="0" usemap="#aa01369_a94bbb08d16159c30fbc6f73783601ff8_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_a94bbb08d16159c30fbc6f73783601ff8_icgraph.png" border="0" usemap="#aa01369_a94bbb08d16159c30fbc6f73783601ff8_icgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="a00212_source.html">Decoder.hpp</a></li>
-<li><a class="el" href="a00209.html">Decoder.cpp</a></li>
-</ul>
+<a id="a038376618af78c36c697023858a07862" name="a038376618af78c36c697023858a07862"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a038376618af78c36c697023858a07862">&#9670;&#160;</a></span>init_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::hazard_pointer::engine::init_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03114.html">node_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Marks a node as not retired. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_a038376618af78c36c697023858a07862_icgraph.png" border="0" usemap="#aa01369_a038376618af78c36c697023858a07862_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a026fc91e7aa8fc05597cb994895eaf3d" name="a026fc91e7aa8fc05597cb994895eaf3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a026fc91e7aa8fc05597cb994895eaf3d">&#9670;&#160;</a></span>reader_fence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::hazard_pointer::engine::reader_fence </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The fence between a reader's announcement and its re-read of the source. </p>
+<p>Sequentially consistent today. This is the single place that decides the reader's side of the protocol; the pass's matching fence is in the engine source. </p>
+
+</div>
+</div>
+<a id="aa34d79801d811e8ea1a75ae4fd3376dd" name="aa34d79801d811e8ea1a75ae4fd3376dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa34d79801d811e8ea1a75ae4fd3376dd">&#9670;&#160;</a></span>reclaim_or_retire()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::hazard_pointer::engine::reclaim_or_retire </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03114.html">node_t</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reclaims an object now when no slot names it, otherwise retires it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td>The node of an object that was removed from the shared structure (the removing store happened before this call), whose <code>reclaim</code> is set and whose <code>next</code> still points at itself. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True when the object was reclaimed before the call returned; false when a slot named it and it was handed to the domain like <code>retire_node</code>.</dd></dl>
+<p>Scans the slots for the one address of <code>node</code> (cost proportional to the number of slots ever created, no allocation) instead of waiting for a pass over all retired nodes. The reclaiming function runs on the calling thread, without any lock held, so it may use hazard pointers and retire other objects. The caller must not hold a slot that names the object itself; it would keep the object alive and send it down the retire path. Retiring or reclaiming a node twice aborts through <code>LUMEX_ASSERT</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_aa34d79801d811e8ea1a75ae4fd3376dd_cgraph.png" border="0" usemap="#aa01369_aa34d79801d811e8ea1a75ae4fd3376dd_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_aa34d79801d811e8ea1a75ae4fd3376dd_icgraph.png" border="0" usemap="#aa01369_aa34d79801d811e8ea1a75ae4fd3376dd_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ac2f5479b3d0eb9819218688201bc0a6a" name="ac2f5479b3d0eb9819218688201bc0a6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2f5479b3d0eb9819218688201bc0a6a">&#9670;&#160;</a></span>release_slot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::hazard_pointer::engine::release_slot </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03110.html">slot_t</a> *</td>          <td class="paramname"><span class="paramname"><em>slot</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clears a slot (ending the protection) and gives it back. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">slot</td><td>A slot from <code>acquire_slot</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Safe to call from a thread-exit hook and during static destruction. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_ac2f5479b3d0eb9819218688201bc0a6a_cgraph.png" border="0" usemap="#aa01369_ac2f5479b3d0eb9819218688201bc0a6a_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_ac2f5479b3d0eb9819218688201bc0a6a_icgraph.png" border="0" usemap="#aa01369_ac2f5479b3d0eb9819218688201bc0a6a_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a00dc8121273d3c16dd945d846cddcc26" name="a00dc8121273d3c16dd945d846cddcc26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00dc8121273d3c16dd945d846cddcc26">&#9670;&#160;</a></span>retire_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::hazard_pointer::engine::retire_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03114.html">node_t</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hands a retired object to the domain. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td>The node of an object whose <code>reclaim</code> is set and whose <code>next</code> still points at itself.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The object is reclaimed once no slot names its node. The call may run a reclamation pass on the calling thread, and then deleters run here. Retiring a node twice aborts through <code>LUMEX_ASSERT</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_a00dc8121273d3c16dd945d846cddcc26_cgraph.png" border="0" usemap="#aa01369_a00dc8121273d3c16dd945d846cddcc26_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_a00dc8121273d3c16dd945d846cddcc26_icgraph.png" border="0" usemap="#aa01369_a00dc8121273d3c16dd945d846cddcc26_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a1f96ec7d1b96fe75d3ff8e28c64c4f99" name="a1f96ec7d1b96fe75d3ff8e28c64c4f99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f96ec7d1b96fe75d3ff8e28c64c4f99">&#9670;&#160;</a></span>statistics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03118.html">statistics_t</a> lumex::core::hazard_pointer::engine::statistics </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads the counters of the domain. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_a1f96ec7d1b96fe75d3ff8e28c64c4f99_cgraph.png" border="0" usemap="#aa01369_a1f96ec7d1b96fe75d3ff8e28c64c4f99_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01369_a1f96ec7d1b96fe75d3ff8e28c64c4f99_icgraph.png" border="0" usemap="#aa01369_a1f96ec7d1b96fe75d3ff8e28c64c4f99_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01013.html">base64</a></li><li class="navelem"><a class="el" href="a01019.html">decode</a></li><li class="navelem"><a class="el" href="a01369.html">Decoder</a></li>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01367.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="a01369.html">engine</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

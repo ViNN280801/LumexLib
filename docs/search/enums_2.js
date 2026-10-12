@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['distributiontype_0',['DistributionType',['../a01051.html#ac790ad052a54165bc304a20f53f7a502',1,'lumex::core::generators::number_generator']]],
-  ['dumptype_1',['DumpType',['../a01083.html#a8ccf1bd2864104aaf2e850d72d393c19',1,'lumex::core::utility::dump']]]
+  ['chartype_5ft_0',['chartype_t',['../a01508.html#a54c963b7a6def6381146ead18a8753ce',1,'lumex::xml::types::Types']]],
+  ['chartypex_5ft_1',['chartypex_t',['../a01508.html#a355198379230c3f88efbc231a9f617b3',1,'lumex::xml::types::Types']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_circular_buffer.cpp File Reference</title>
+<title>LumexLib: LumexOptionalDetail.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,113 +104,355 @@ $(function(){initNavTree('a00464.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_circular_buffer.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexOptionalDetail.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00896_source.html">lumex/core/circular_buffer/CircularBuffer</a>&quot;</code><br />
+
+<p>Internal machinery of <code>optional</code>: the storage union, the layers that give <code>optional</code> the special member functions the standard describes, an <code>INVOKE</code> for C++11 and the traits the converting operations use.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;initializer_list&gt;</code><br />
+<code>#include &lt;new&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00470_source.html">lumex/core/optional/opt/LumexOptionalTags.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_circular_buffer.cpp:</div>
+Include dependency graph for LumexOptionalDetail.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00465.png" border="0" usemap="#aexample__circular__buffer_8cpp" alt=""/></div>
-<map name="aexample__circular__buffer_8cpp" id="aexample__circular__buffer_8cpp">
-<area shape="rect" title=" " alt="" coords="299,5,482,32"/>
-<area shape="rect" title=" " alt="" coords="268,88,340,115"/>
-<area shape="poly" title=" " alt="" coords="379,34,330,80,326,76,375,31"/>
-<area shape="rect" title=" " alt="" coords="364,88,417,115"/>
-<area shape="poly" title=" " alt="" coords="393,32,393,73,388,73,388,32"/>
-<area shape="rect" href="a00896.html" title="Circular buffer module: a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="442,80,585,123"/>
-<area shape="poly" title=" " alt="" coords="411,30,471,69,468,74,408,35"/>
-<area shape="rect" href="a00227.html" title="CircularBuffer, a fixed&#45;capacity ring buffer that overwrites its oldest element when full,..." alt="" coords="450,171,576,197"/>
-<area shape="poly" title=" " alt="" coords="516,123,516,155,510,155,510,123"/>
-<area shape="rect" title=" " alt="" coords="5,253,80,280"/>
-<area shape="poly" title=" " alt="" coords="450,192,287,210,189,226,93,248,85,250,84,245,91,243,188,221,286,205,450,187"/>
-<area shape="rect" title=" " alt="" coords="104,253,168,280"/>
-<area shape="poly" title=" " alt="" coords="450,195,324,214,252,229,181,248,175,250,174,245,179,243,251,223,323,208,450,189"/>
-<area shape="rect" title=" " alt="" coords="192,253,253,280"/>
-<area shape="poly" title=" " alt="" coords="451,200,362,219,266,248,262,250,260,245,264,243,361,214,449,194"/>
-<area shape="rect" title=" " alt="" coords="278,253,346,280"/>
-<area shape="poly" title=" " alt="" coords="481,200,359,248,356,249,354,244,358,243,479,195"/>
-<area shape="rect" title=" " alt="" coords="370,253,448,280"/>
-<area shape="poly" title=" " alt="" coords="499,200,439,246,435,242,495,196"/>
-<area shape="rect" title=" " alt="" coords="472,253,554,280"/>
-<area shape="poly" title=" " alt="" coords="516,198,516,238,510,238,510,198"/>
-<area shape="rect" title=" " alt="" coords="579,253,631,280"/>
-<area shape="poly" title=" " alt="" coords="529,196,582,241,578,245,526,200"/>
-<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="655,245,822,288"/>
-<area shape="poly" title=" " alt="" coords="549,195,667,237,665,242,547,200"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="803,336,997,379"/>
-<area shape="poly" title=" " alt="" coords="577,188,721,208,789,223,836,243,855,260,870,280,891,320,886,323,865,282,851,263,833,248,788,228,720,213,576,194"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="898,245,1129,288"/>
-<area shape="poly" title=" " alt="" coords="577,193,883,242,882,247,576,198"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1153,245,1385,288"/>
-<area shape="poly" title=" " alt="" coords="576,187,819,208,1138,242,1137,248,818,213,576,193"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="616,344,778,371"/>
-<area shape="poly" title=" " alt="" coords="731,290,712,331,707,329,726,287"/>
-<area shape="poly" title=" " alt="" coords="778,286,850,326,848,331,775,291"/>
-<area shape="poly" title=" " alt="" coords="1183,291,1002,334,1001,329,1182,286"/>
-</map>
+<div class="center"><img src="a00465.png" border="0" usemap="#a_lumex_optional_detail_8hpp" alt=""/></div>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00466.png" border="0" usemap="#a_lumex_optional_detail_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00464_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03258.html">lumex::core::optional::opt::detail::make_void&lt; Ts &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CWG 1558 safe <code>void_t</code>.  <a href="a03258.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03262.html">lumex::core::optional::opt::detail::is_optional_specialization&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is a specialization of <code>optional</code> (no cv, no reference).  <a href="a03262.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03266.html">lumex::core::optional::opt::detail::is_optional_specialization&lt; optional&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03270.html">lumex::core::optional::opt::detail::is_tag_type&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is <code><a class="el" href="a03498.html" title="A tag type used to indicate in-place construction of the contained value.">in_place_t</a></code> or <code><a class="el" href="a03490.html" title="A tag type used to indicate the absence of a value in optional.">nullopt_t</a></code>, cv-qualified or not: the types an <code>optional</code> may not hold.  <a href="a03270.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03274.html">lumex::core::optional::opt::detail::conjunction&lt; B &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::conjunction</code> of C++17: the first false trait ends the evaluation, so a later trait is not instantiated. The constraints of the converting operations name the cheap exclusions first (<code>T</code> is <code>U</code>, <code>U</code> is <code>optional</code>) so that a <code>T</code> whose constructor template tests <code>is_copy_constructible&lt;optional&lt;T&gt;&gt;</code> (such as <code>std::any</code>) is not asked about <code>optional&lt;T&gt;</code> while <code>optional&lt;T&gt;</code> is being declared.  <a href="a03274.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03278.html">lumex::core::optional::opt::detail::conjunction&lt; B &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03282.html">lumex::core::optional::opt::detail::conjunction&lt; B, Rest... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03286.html">lumex::core::optional::opt::detail::negation&lt; B &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::negation</code> of C++17.  <a href="a03286.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03290.html">lumex::core::optional::opt::detail::converts_from_any_cvref&lt; T, W &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>converts-from-any-cvref&lt;T, W&gt;</code> of [optional.ctor]/1: <code>T</code> is constructible or convertible from <code>W</code> of any of the four forms.  <a href="a03290.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03294.html">lumex::core::optional::opt::detail::assigns_from_any_cvref&lt; T, W &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is assignable from <code>W</code> of any of the four forms ([optional.assign]/21).  <a href="a03294.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03298.html">lumex::core::optional::opt::detail::is_cv_bool&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is <code>bool</code>, with or without <code>const</code> and <code>volatile</code>.  <a href="a03298.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03302.html">lumex::core::optional::opt::detail::is_reference_wrapper&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03306.html">lumex::core::optional::opt::detail::is_reference_wrapper&lt; std::reference_wrapper&lt; U &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03310.html">lumex::core::optional::opt::detail::invoke_result_impl&lt; AlwaysVoid, Fn, Args &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03314.html">lumex::core::optional::opt::detail::invoke_result_impl&lt; void_t&lt; decltype(detail::invoke(std::declval&lt; Fn &gt;(), std::declval&lt; Args &gt;()...))&gt;, Fn, Args... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03318.html">lumex::core::optional::opt::detail::invoke_tag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: build the value from the result of a call.  <a href="a03318.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03322.html">lumex::core::optional::opt::detail::empty_member</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The member of the union that is active while no value is held.  <a href="a03322.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03326.html">lumex::core::optional::opt::detail::has_nonconst_copy_assign&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> has a copy assignment that takes a non-const reference (<code>T &amp;operator= (T &amp;)</code>, as <code>std::auto_ptr</code>) and none that takes a const one.  <a href="a03326.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03330.html">lumex::core::optional::opt::detail::has_nonconst_copy_ctor&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> has a copy constructor that takes a non-const reference and none that takes a const one.  <a href="a03330.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03338.html">lumex::core::optional::opt::detail::optional_union&lt; T, true, false, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03342.html">lumex::core::optional::opt::detail::optional_union&lt; T, true, true, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03346.html">lumex::core::optional::opt::detail::optional_union&lt; T, true, false, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03350.html">lumex::core::optional::opt::detail::optional_union&lt; T, true, true, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03354.html">lumex::core::optional::opt::detail::optional_union&lt; T, false, false, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03358.html">lumex::core::optional::opt::detail::optional_union&lt; T, false, true, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03362.html">lumex::core::optional::opt::detail::optional_union&lt; T, false, false, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03366.html">lumex::core::optional::opt::detail::optional_union&lt; T, false, true, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03370.html">lumex::core::optional::opt::detail::opt_destruct_base&lt; T, bool &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The union, the flag and the destructor; this form is for a trivially destructible <code>T</code>, so the destructor is trivial.  <a href="a03370.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03374.html">lumex::core::optional::opt::detail::opt_destruct_base&lt; T, false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The same for a <code>T</code> with a non-trivial destructor.  <a href="a03374.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03378.html">lumex::core::optional::opt::detail::copy_ctor_kind&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">0 deleted, 1 trivial, 2 written out ([optional.ctor]/6).  <a href="a03378.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03386.html">lumex::core::optional::opt::detail::opt_copy_ctor_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03390.html">lumex::core::optional::opt::detail::opt_copy_ctor_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03394.html">lumex::core::optional::opt::detail::opt_copy_ctor_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03398.html">lumex::core::optional::opt::detail::move_ctor_kind&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03406.html">lumex::core::optional::opt::detail::opt_move_ctor_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03410.html">lumex::core::optional::opt::detail::opt_move_ctor_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03414.html">lumex::core::optional::opt::detail::opt_move_ctor_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03418.html">lumex::core::optional::opt::detail::copy_assign_kind&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03426.html">lumex::core::optional::opt::detail::opt_copy_assign_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03430.html">lumex::core::optional::opt::detail::opt_copy_assign_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03434.html">lumex::core::optional::opt::detail::opt_copy_assign_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03438.html">lumex::core::optional::opt::detail::move_assign_kind&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03446.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03450.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03454.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03458.html">lumex::core::optional::opt::detail::and_then_result&lt; AlwaysVoid, Fn, Arg &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code>and_then</code>: <code>remove_cvref_t</code> of the call, which must be a specialization of <code>optional</code>; absent otherwise.  <a href="a03458.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03462.html">lumex::core::optional::opt::detail::and_then_result&lt; typename std::enable_if&lt; is_optional_specialization&lt; remove_cvref_t&lt; invoke_result_t&lt; Fn, Arg &gt; &gt; &gt;::value &gt;::type, Fn, Arg &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03466.html">lumex::core::optional::opt::detail::is_transform_target&lt; U, R &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>U</code> can be held by an <code>optional</code> and constructed from the call result <code>R</code>. From C++17 a prvalue result of the type <code>U</code> itself is built in place (guaranteed elision), so <code>U</code> need not be movable.  <a href="a03466.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03470.html">lumex::core::optional::opt::detail::transform_result&lt; AlwaysVoid, Fn, Arg &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code>transform</code>: <code>optional&lt;remove_cv_t&lt;call result&gt;&gt;</code>; absent when the call is ill-formed or its result cannot be held.  <a href="a03470.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03474.html">lumex::core::optional::opt::detail::transform_result&lt; typename std::enable_if&lt; is_transform_target&lt; typename std::remove_cv&lt; invoke_result_t&lt; Fn, Arg &gt; &gt;::type, invoke_result_t&lt; Fn, Arg &gt; &gt;::value &gt;::type, Fn, Arg &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03478.html">lumex::core::optional::opt::detail::or_else_result_is&lt; AlwaysVoid, Fn, Opt &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>Fn ()</code> is a valid call whose result, without cv and reference, is <code>Opt</code>.  <a href="a03478.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03482.html">lumex::core::optional::opt::detail::or_else_result_is&lt; void_t&lt; invoke_result_t&lt; Fn &gt; &gt;, Fn, Opt &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03486.html">lumex::core::optional::opt::detail::or_else_enabled&lt; Fn, Opt, Allowed &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>or_else</code> is viable: <code>Fn ()</code> returns <code>Opt</code> and the value can be copied or moved (<code>Allowed</code>, computed from <code>T</code> by the caller).  <a href="a03486.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01375.html">lumex::core::optional</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01376.html">lumex::core::optional::opt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01377.html">lumex::core::optional::opt::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ad5ffebd4108164fb823ad48f8fef1288" id="r_ad5ffebd4108164fb823ad48f8fef1288"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5ffebd4108164fb823ad48f8fef1288">LUMEX_OPTIONAL_CONSTEXPR_CXX20</a></td></tr>
+<tr class="memdesc:ad5ffebd4108164fb823ad48f8fef1288"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>constexpr</code> where the language lets a constant expression start the lifetime of an object in a union (<code>std::construct_at</code> on an inactive member, P0784, P1330): C++20 with a <code>constexpr</code> of 201907L and <code>std::construct_at</code>; empty before.  <br /></td></tr>
+<tr class="separator:ad5ffebd4108164fb823ad48f8fef1288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc446ed9f306c842f93e4a9e8d715113" id="r_abc446ed9f306c842f93e4a9e8d715113"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc446ed9f306c842f93e4a9e8d715113">LUMEX_OPTIONAL_HAS_CONSTRUCT_AT</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:abc446ed9f306c842f93e4a9e8d715113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a494c83248bf773767860317393755147" id="r_a494c83248bf773767860317393755147"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a494c83248bf773767860317393755147">LUMEX_OPTIONAL_ADDRESSOF</a>(object)</td></tr>
+<tr class="separator:a494c83248bf773767860317393755147"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08f50ed450c0d582ae7be16c1536e1d8" id="r_a08f50ed450c0d582ae7be16c1536e1d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08f50ed450c0d582ae7be16c1536e1d8">LUMEX_OPTIONAL_UNION_BODY</a></td></tr>
+<tr class="memdesc:a08f50ed450c0d582ae7be16c1536e1d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The members and constructors every form of <code>optional_union</code> shares.  <br /></td></tr>
+<tr class="separator:a08f50ed450c0d582ae7be16c1536e1d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a7decd168ca183c20f3213e7261c33134" id="r_a7decd168ca183c20f3213e7261c33134"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a7decd168ca183c20f3213e7261c33134"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a7decd168ca183c20f3213e7261c33134">lumex::core::optional::opt::detail::remove_cvref_t</a></td></tr>
+<tr class="memdesc:a7decd168ca183c20f3213e7261c33134"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::remove_cvref_t</code> of C++20.  <br /></td></tr>
+<tr class="separator:a7decd168ca183c20f3213e7261c33134"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3220550a0b98aa55e21baf378674adaa" id="r_a3220550a0b98aa55e21baf378674adaa"><td class="memTemplParams" colspan="2">template&lt;typename... Ts&gt; </td></tr>
+<tr class="memitem:a3220550a0b98aa55e21baf378674adaa"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a3220550a0b98aa55e21baf378674adaa">lumex::core::optional::opt::detail::void_t</a> = typename <a class="el" href="a03258.html">make_void</a>&lt;Ts...&gt;::type</td></tr>
+<tr class="memdesc:a3220550a0b98aa55e21baf378674adaa"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::void_t</code> of C++17.  <br /></td></tr>
+<tr class="separator:a3220550a0b98aa55e21baf378674adaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78a8245a75aa534b73cd7ef1aa21440f" id="r_a78a8245a75aa534b73cd7ef1aa21440f"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a78a8245a75aa534b73cd7ef1aa21440f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a78a8245a75aa534b73cd7ef1aa21440f">lumex::core::optional::opt::detail::is_swappable</a> = std::is_swappable&lt;T&gt;</td></tr>
+<tr class="separator:a78a8245a75aa534b73cd7ef1aa21440f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3e57f08475c1637c5be5a848574f3e" id="r_a8a3e57f08475c1637c5be5a848574f3e"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a8a3e57f08475c1637c5be5a848574f3e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a8a3e57f08475c1637c5be5a848574f3e">lumex::core::optional::opt::detail::is_nothrow_swappable</a> = std::is_nothrow_swappable&lt;T&gt;</td></tr>
+<tr class="separator:a8a3e57f08475c1637c5be5a848574f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81da0389c44b87c6405b12fee881fea0" id="r_a81da0389c44b87c6405b12fee881fea0"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:a81da0389c44b87c6405b12fee881fea0"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a81da0389c44b87c6405b12fee881fea0">lumex::core::optional::opt::detail::invoke_result_t</a> = typename <a class="el" href="a03310.html">invoke_result_impl</a>&lt;void, Fn, Args...&gt;::type</td></tr>
+<tr class="memdesc:a81da0389c44b87c6405b12fee881fea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of <code>INVOKE (declval&lt;Fn&gt; (), declval&lt;Args&gt; ()...)</code>; absent (a substitution failure) when the call is ill-formed.  <br /></td></tr>
+<tr class="separator:a81da0389c44b87c6405b12fee881fea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a082ca03541f76bc3739cf1d6618c70e8" id="r_a082ca03541f76bc3739cf1d6618c70e8"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a082ca03541f76bc3739cf1d6618c70e8"><td class="memTemplItemLeft" align="right" valign="top">constexpr T &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a082ca03541f76bc3739cf1d6618c70e8">lumex::core::optional::opt::detail::fwd</a> (typename std::remove_reference&lt; T &gt;::type &amp;t) noexcept</td></tr>
+<tr class="memdesc:a082ca03541f76bc3739cf1d6618c70e8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast&lt;T &amp;&amp;&gt; (t)</code>: <code>std::forward</code> is not <code>constexpr</code> in C++11.  <br /></td></tr>
+<tr class="separator:a082ca03541f76bc3739cf1d6618c70e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9d8ef4b7c161c6d9f3b76e79f498671" id="r_ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::remove_reference&lt; T &gt;::type &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#ad9d8ef4b7c161c6d9f3b76e79f498671">lumex::core::optional::opt::detail::mv</a> (T &amp;&amp;t) noexcept</td></tr>
+<tr class="memdesc:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t)</code>: <code>std::move</code> is not <code>constexpr</code> in C++11.  <br /></td></tr>
+<tr class="separator:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2accfaa04f297a6e4c12a36448e19ef" id="r_ae2accfaa04f297a6e4c12a36448e19ef"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ae2accfaa04f297a6e4c12a36448e19ef"><td class="memTemplItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#ae2accfaa04f297a6e4c12a36448e19ef">lumex::core::optional::opt::detail::address_of</a> (T &amp;object) noexcept</td></tr>
+<tr class="memdesc:ae2accfaa04f297a6e4c12a36448e19ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of <code>object</code> also when <code>T</code> overloads <code>operator&amp;</code>, usable in a constant expression from C++11.  <br /></td></tr>
+<tr class="separator:ae2accfaa04f297a6e4c12a36448e19ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ebf297c5727c955b66997cc5db2918a" id="r_a3ebf297c5727c955b66997cc5db2918a"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a3ebf297c5727c955b66997cc5db2918a"><td class="memTemplItemLeft" align="right" valign="top">void *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a3ebf297c5727c955b66997cc5db2918a">lumex::core::optional::opt::detail::voidify</a> (T &amp;object) noexcept</td></tr>
+<tr class="memdesc:a3ebf297c5727c955b66997cc5db2918a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of <code>object</code> as a <code>void *</code>, also for a <code>const</code> object.  <br /></td></tr>
+<tr class="separator:a3ebf297c5727c955b66997cc5db2918a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d4cf60aacd9a54ae35907dc79d7a005" id="r_a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a2d4cf60aacd9a54ae35907dc79d7a005">lumex::core::optional::opt::detail::construct_at</a> (T *where, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::construct_at</code>: <code>constexpr</code> from C++20, a placement new before. <code>T</code> is not <code>const</code>: the union stores the value without it.  <br /></td></tr>
+<tr class="separator:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97bb07d234b056ff0d820f562d7ae2d9" id="r_a97bb07d234b056ff0d820f562d7ae2d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01377.html#a97bb07d234b056ff0d820f562d7ae2d9">lumex::core::optional::opt::detail::throw_bad_optional_access</a> ()</td></tr>
+<tr class="memdesc:a97bb07d234b056ff0d820f562d7ae2d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throws <code><a class="el" href="a03506.html" title="Exception thrown when attempting to access the value of an empty optional.">lumex_bad_optional_access</a></code>; a function, so that the <code>constexpr</code> observers of C++11 can name it in a conditional expression.  <br /></td></tr>
+<tr class="separator:a97bb07d234b056ff0d820f562d7ae2d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac50c233dd99e0fa65e3082c86c9c226b" id="r_ac50c233dd99e0fa65e3082c86c9c226b"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:ac50c233dd99e0fa65e3082c86c9c226b"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, Obj &amp;&amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#ac50c233dd99e0fa65e3082c86c9c226b">lumex::core::optional::opt::detail::member_target</a> (Obj &amp;&amp;obj) noexcept</td></tr>
+<tr class="memdesc:ac50c233dd99e0fa65e3082c86c9c226b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is an object of the class (or derived from it).  <br /></td></tr>
+<tr class="separator:ac50c233dd99e0fa65e3082c86c9c226b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5b2b7d6080ebd656edfb4bc77f9de2f" id="r_ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a03302.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(std::declval&lt; Obj &gt;().get())&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#ae5b2b7d6080ebd656edfb4bc77f9de2f">lumex::core::optional::opt::detail::member_target</a> (Obj &amp;&amp;obj) noexcept</td></tr>
+<tr class="memdesc:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is a <code>std::reference_wrapper</code>.  <br /></td></tr>
+<tr class="separator:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a481def8468f96f311ba579b656bdc84d" id="r_a481def8468f96f311ba579b656bdc84d"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:a481def8468f96f311ba579b656bdc84d"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt;!<a class="el" href="a03302.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(*std::declval&lt; Obj &gt;())&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a481def8468f96f311ba579b656bdc84d">lumex::core::optional::opt::detail::member_target</a> (Obj &amp;&amp;obj)</td></tr>
+<tr class="memdesc:a481def8468f96f311ba579b656bdc84d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is a pointer-like object.  <br /></td></tr>
+<tr class="separator:a481def8468f96f311ba579b656bdc84d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bc25abebadae33c51fef4b1338ff576" id="r_a5bc25abebadae33c51fef4b1338ff576"><td class="memTemplParams" colspan="2">template&lt;typename Member, typename Class, typename Obj, typename... Args&gt; </td></tr>
+<tr class="memitem:a5bc25abebadae33c51fef4b1338ff576"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a5bc25abebadae33c51fef4b1338ff576">lumex::core::optional::opt::detail::invoke</a> (Member Class::*pmf, Obj &amp;&amp;obj, Args &amp;&amp;...args) -&gt; typename std::enable_if&lt; std::is_function&lt; Member &gt;::value, decltype((detail::member_target&lt; Class &gt;(detail::fwd&lt; Obj &gt;(obj)) .*pmf)(detail::fwd&lt; Args &gt;(args)...))&gt;::type</td></tr>
+<tr class="memdesc:a5bc25abebadae33c51fef4b1338ff576"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a pointer to a member function.  <br /></td></tr>
+<tr class="separator:a5bc25abebadae33c51fef4b1338ff576"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2425032f49c0a1e321a29743d8cb1e0b" id="r_a2425032f49c0a1e321a29743d8cb1e0b"><td class="memTemplParams" colspan="2">template&lt;typename Member, typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:a2425032f49c0a1e321a29743d8cb1e0b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a2425032f49c0a1e321a29743d8cb1e0b">lumex::core::optional::opt::detail::invoke</a> (Member Class::*pmd, Obj &amp;&amp;obj) -&gt; typename std::enable_if&lt; !std::is_function&lt; Member &gt;::value, decltype(detail::member_target&lt; Class &gt;(detail::fwd&lt; Obj &gt;(obj)) .*pmd)&gt;::type</td></tr>
+<tr class="memdesc:a2425032f49c0a1e321a29743d8cb1e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a pointer to a data member.  <br /></td></tr>
+<tr class="separator:a2425032f49c0a1e321a29743d8cb1e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e079a46148550bb63fe6ff5249f2989" id="r_a6e079a46148550bb63fe6ff5249f2989"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:a6e079a46148550bb63fe6ff5249f2989"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01377.html#a6e079a46148550bb63fe6ff5249f2989">lumex::core::optional::opt::detail::invoke</a> (Fn &amp;&amp;fn, Args &amp;&amp;...args) -&gt; decltype(detail::fwd&lt; Fn &gt;(fn)(detail::fwd&lt; Args &gt;(args)...))</td></tr>
+<tr class="memdesc:a6e079a46148550bb63fe6ff5249f2989"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a function object or a function pointer.  <br /></td></tr>
+<tr class="separator:a6e079a46148550bb63fe6ff5249f2989"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Internal machinery of <code>optional</code>: the storage union, the layers that give <code>optional</code> the special member functions the standard describes, an <code>INVOKE</code> for C++11 and the traits the converting operations use. </p>
+<p>Everything here lives in <code><a class="el" href="a01377.html">lumex::core::optional::opt::detail</a></code> and is not an interface for consumers. <code>optional&lt;T&gt;</code> holds, as its only member, the last of a chain of class templates, one layer for each special member function whose existence and triviality the standard fixes ([optional.ctor], [optional.dtor], [optional.assign]):</p><ul>
+<li><code>opt_destruct_base</code>: the union <code>{ dummy, value }</code>, the engaged flag, the in-place constructors and the destructor, trivial when <code>T</code> is trivially destructible ([optional.dtor]/2);</li>
+<li><code>opt_copy_ctor_base</code>, <code>opt_move_ctor_base</code>, <code>opt_copy_assign_base</code>, <code>opt_move_assign_base</code>: each defaulted (so trivial) when the standard says it is trivial, written out otherwise, and deleted in its layer when <code>T</code> lacks the operation, so that the defaulted member of every layer above, and of <code>optional</code>, is defined as deleted (a deleted copy) or deleted and then ignored by overload resolution (a move: an rvalue is copied).</li>
+</ul>
+<p>C++11 has no <code>requires</code> and no conditionally defaulted member, so a layer per special member function is the technique of the standard libraries. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a494c83248bf773767860317393755147" name="a494c83248bf773767860317393755147"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a494c83248bf773767860317393755147">&#9670;&#160;</a></span>LUMEX_OPTIONAL_ADDRESSOF</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
+          <td class="memname">#define LUMEX_OPTIONAL_ADDRESSOF</td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00464_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00464_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-<map name="aa00464_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00464_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
-<area shape="rect" title=" " alt="" coords="5,336,55,363"/>
-<area shape="rect" href="a01385.html#a45ddf10dbcfa53cf0f863431fc320897" title="Access the newest element (back)." alt="" coords="103,5,286,48"/>
-<area shape="poly" title=" " alt="" coords="28,336,28,285,35,212,44,171,57,131,76,92,101,58,103,56,106,60,105,62,80,95,62,133,49,172,41,212,33,285,33,336"/>
-<area shape="rect" href="a01385.html#aefdc95390229c967b48e00697641022e" title="Removes every element from the buffer." alt="" coords="121,72,268,131"/>
-<area shape="poly" title=" " alt="" coords="30,335,35,298,47,246,68,191,82,165,101,141,106,135,110,139,105,144,87,168,72,193,52,248,40,299,35,336"/>
-<area shape="rect" href="a01385.html#a04fd3c271c15c316fca1651a39bb1ca7" title="Constructs an element in place at the back." alt="" coords="334,453,481,512"/>
-<area shape="poly" title=" " alt="" coords="53,361,104,388,154,406,194,416,287,439,320,449,318,454,285,444,193,421,152,411,102,393,51,365"/>
-<area shape="rect" href="a01385.html#aba1c8c6cac89abd09dfa0dc2a4cf879b" title="Access the oldest element (front)." alt="" coords="121,155,268,213"/>
-<area shape="poly" title=" " alt="" coords="34,334,57,282,77,251,101,223,106,219,110,223,105,227,81,254,62,284,38,337"/>
-<area shape="rect" href="a01385.html#ab3783d978e70b1d7611291ba0660cb08" title="Removes the newest element." alt="" coords="121,237,268,296"/>
-<area shape="poly" title=" " alt="" coords="53,333,101,306,111,301,113,306,104,310,55,338"/>
-<area shape="rect" href="a01385.html#a24c4b42af519f82996d506e11f4a8e4c" title="Removes the oldest element." alt="" coords="121,320,268,379"/>
-<area shape="poly" title=" " alt="" coords="55,347,105,347,105,352,55,352"/>
-<area shape="rect" href="a01385.html#a724cb41a65049593d9d257a3c5d89f41" title="Appends a copy of an element." alt="" coords="121,453,268,512"/>
-<area shape="poly" title=" " alt="" coords="42,361,68,396,104,433,118,443,115,447,101,437,64,399,38,364"/>
-<area shape="rect" href="a01385.html#af8bbf0f91868d4234516f2d8e26d179a" title="Prepends a copy of an element." alt="" coords="121,536,268,595"/>
-<area shape="poly" title=" " alt="" coords="36,362,43,394,55,437,76,482,105,522,110,527,106,531,101,526,71,485,50,439,38,396,31,364"/>
-<area shape="rect" href="a01385.html#ae1b27d59327bdfe7e65548eb4ad209ba" title="Returns the current number of elements in the buffer." alt="" coords="105,619,284,661"/>
-<area shape="poly" title=" " alt="" coords="34,363,35,409,44,473,53,508,66,543,83,576,105,605,107,607,103,611,101,608,78,579,61,545,48,510,39,474,30,409,28,363"/>
-<area shape="rect" href="a01385.html#ad07e20aad7f989d914e907b2234a924a" title="Checks whether the buffer is empty." alt="" coords="334,196,481,255"/>
-<area shape="poly" title=" " alt="" coords="269,46,288,58,319,86,346,118,387,181,382,184,341,121,315,90,284,62,266,51"/>
-<area shape="rect" href="a01385.html#afa6737097a06ea6b96d3e7ff6e46d8a4" title="Checks whether the buffer is full." alt="" coords="529,503,702,545"/>
-<area shape="poly" title=" " alt="" coords="482,495,515,501,514,506,481,500"/>
-<area shape="poly" title=" " alt="" coords="269,196,319,206,318,211,268,201"/>
-<area shape="poly" title=" " alt="" coords="268,250,318,240,319,245,269,255"/>
-<area shape="poly" title=" " alt="" coords="263,317,285,306,353,262,356,266,287,310,266,322"/>
-<area shape="poly" title=" " alt="" coords="268,480,318,480,318,485,268,485"/>
-<area shape="rect" href="a01385.html#a3c78a4a793254482bfd7db8a8a812b39" title="Constructs an element in place at the front." alt="" coords="334,536,481,595"/>
-<area shape="poly" title=" " alt="" coords="268,563,318,563,318,568,268,568"/>
-<area shape="poly" title=" " alt="" coords="481,548,514,542,515,547,482,553"/>
-</map>
+<b>Value:</b><div class="fragment"><div class="line">std::addressof (<span class="keywordtype">object</span>)</div>
+</div><!-- fragment -->
 </div>
+</div>
+<a id="ad5ffebd4108164fb823ad48f8fef1288" name="ad5ffebd4108164fb823ad48f8fef1288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5ffebd4108164fb823ad48f8fef1288">&#9670;&#160;</a></span>LUMEX_OPTIONAL_CONSTEXPR_CXX20</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_OPTIONAL_CONSTEXPR_CXX20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>constexpr</code> where the language lets a constant expression start the lifetime of an object in a union (<code>std::construct_at</code> on an inactive member, P0784, P1330): C++20 with a <code>constexpr</code> of 201907L and <code>std::construct_at</code>; empty before. </p>
+<p>The members that change the active member of the union (a non-trivial copy or move, assignment from a value or an <code>optional</code>, <code>emplace</code>, <code>swap</code>, the non-trivial <code>reset</code>) are marked with it. The constructors, the observers and the trivial special members are <code>constexpr</code> from C++11 and the trivial <code>reset</code> from C++14. </p>
+
+</div>
+</div>
+<a id="abc446ed9f306c842f93e4a9e8d715113" name="abc446ed9f306c842f93e4a9e8d715113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc446ed9f306c842f93e4a9e8d715113">&#9670;&#160;</a></span>LUMEX_OPTIONAL_HAS_CONSTRUCT_AT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_OPTIONAL_HAS_CONSTRUCT_AT&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a08f50ed450c0d582ae7be16c1536e1d8" name="a08f50ed450c0d582ae7be16c1536e1d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08f50ed450c0d582ae7be16c1536e1d8">&#9670;&#160;</a></span>LUMEX_OPTIONAL_UNION_BODY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_OPTIONAL_UNION_BODY</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  empty_member dummy;                                                         \</div>
+<div class="line">  <span class="keyword">typename</span> std::remove_cv&lt;T&gt;::type value;                                     \</div>
+<div class="line">                                                                              \</div>
+<div class="line">  LUMEX_CONSTEXPR_CTOR                                                        \</div>
+<div class="line">  optional_union () <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> : dummy () {}                              \</div>
+<div class="line">                                                                              \</div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;                                                 \</div>
+<div class="line">  <a class="code hl_define" href="a00623.html#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a> <span class="keyword">explicit</span> optional_union (in_place_t, Args &amp;&amp;...args)   \</div>
+<div class="line">      : value (detail::fwd&lt;Args&gt; (args)...)                                   \</div>
+<div class="line">  {                                                                           \</div>
+<div class="line">  }                                                                           \</div>
+<div class="line">                                                                              \</div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Fn, <span class="keyword">typename</span>... Args&gt;                                    \</div>
+<div class="line">  <a class="code hl_define" href="a00623.html#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a> optional_union (invoke_tag, Fn &amp;&amp;fn, Args &amp;&amp;...args)   \</div>
+<div class="line">      : value (detail::invoke (detail::fwd&lt;Fn&gt; (fn),                          \</div>
+<div class="line">                               detail::fwd&lt;Args&gt; (args)...))                  \</div>
+<div class="line">  {                                                                           \</div>
+<div class="line">  }</div>
+<div class="ttc" id="aa00623_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<div class="ttc" id="aa00623_html_a8aac503affc067676ceedfe24f4c3357"><div class="ttname"><a href="a00623.html#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR_CTOR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:123</div></div>
+</div><!-- fragment -->
+<p>The members and constructors every form of <code>optional_union</code> shares. </p>
 
 </div>
 </div>
@@ -219,7 +461,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_0355cb929a8769565a0594efea203022.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a00464.html">example_circular_buffer.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9669aebcb67621c55bde5b6a59fa609b.html">optional</a></li><li class="navelem"><a class="el" href="dir_626d756ae48599a658a004880e86ef23.html">opt</a></li><li class="navelem"><a class="el" href="a00464.html">LumexOptionalDetail.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

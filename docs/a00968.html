@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::json::normalization Namespace Reference</title>
+<title>LumexLib: XmlAllocator.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,26 +104,71 @@ $(function(){initNavTree('a00968.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::json::normalization Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XmlAllocator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>The page allocator that holds the nodes, attributes and strings of one XML document.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01016_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00974_source.html">XmlMemoryPage.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XmlAllocator.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00969.png" border="0" usemap="#a_xml_allocator_8hpp" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00970.png" border="0" usemap="#a_xml_allocator_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00968_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01181.html">ILumexJsonNormalizer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses raw JSON text, checks it and returns the canonical document.  <a href="a01181.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04958.html">lumex::xml::memory::XmlAllocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.  <a href="a04958.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01185.html">LumexJsonSchemaNormalizer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shares the schema walker and the strict/non-strict error policy between concrete normalizers.  <a href="a01185.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01500.html">lumex::xml::memory</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:af5c331138f914028e4642100ea3e7a24" id="r_af5c331138f914028e4642100ea3e7a24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01500.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::memory::char_t</a></td></tr>
+<tr class="separator:af5c331138f914028e4642100ea3e7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7" id="r_a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplParams" colspan="2">template&lt;typename Object&gt; </td></tr>
+<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a04958.html">XmlAllocator</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01500.html#a9e2f482374d0d85e41688b19b06931c7">lumex::xml::memory::get_allocator</a> (Object const *object)</td></tr>
+<tr class="memdesc:a9e2f482374d0d85e41688b19b06931c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the <code><a class="el" href="a04958.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> instance that manages the memory for a given object.  <br /></td></tr>
+<tr class="separator:a9e2f482374d0d85e41688b19b06931c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The page allocator that holds the nodes, attributes and strings of one XML document. </p>
+<p><code>XmlAllocator</code> hands out memory from a chain of <code>XmlMemoryPage</code> blocks of 32 KiB; a request larger than a quarter of a page gets a block of its own. Freeing only counts the released bytes of a page, and a page whose bytes are all freed is returned to the system, except the current page, which is reused. A string allocation is preceded by an <code>xml_mem_str_header_t</code> that locates its page. <code>get_allocator</code> finds the allocator of any node or attribute through the header word of the object, without a pointer stored in it.</p>
+<p>Each document is its own allocator (<code>XmlDocumentBase</code> derives from this type). The allocator is not synchronized. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00963.html">json</a></li><li class="navelem"><a class="el" href="a00968.html">normalization</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_dfaff3bf0c138bf12cc91354825aa357.html">memory</a></li><li class="navelem"><a class="el" href="a00968.html">XmlAllocator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

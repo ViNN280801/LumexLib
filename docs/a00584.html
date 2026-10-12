@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_serial_workflow.cpp File Reference</title>
+<title>LumexLib: LumexAttributes.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,146 +104,379 @@ $(function(){initNavTree('a00584.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_serial_workflow.cpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexAttributes.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00884_source.html">lumex/applied/serial/LumexSerialPort</a>&quot;</code><br />
+
+<p><code>LUMEX_ATTRIBUTE_*</code> macros that spell C++ attributes portably, and the structure packing macros <code>LUMEX_PACK_BEGIN</code> and <code>LUMEX_PACK_END</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_serial_workflow.cpp:</div>
+Include dependency graph for LumexAttributes.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00585.png" border="0" usemap="#aexample__serial__workflow_8cpp" alt=""/></div>
-<map name="aexample__serial__workflow_8cpp" id="aexample__serial__workflow_8cpp">
-<area shape="rect" title=" " alt="" coords="693,5,884,32"/>
-<area shape="rect" title=" " alt="" coords="26,269,87,296"/>
-<area shape="poly" title=" " alt="" coords="692,26,620,32,537,43,451,59,367,83,318,101,282,120,203,173,138,219,84,261,81,257,135,215,200,168,279,116,315,96,365,77,449,54,536,38,619,27,692,21"/>
-<area shape="rect" title=" " alt="" coords="110,269,171,296"/>
-<area shape="poly" title=" " alt="" coords="704,35,610,54,499,82,380,121,322,145,267,173,237,192,208,215,163,259,160,255,205,211,234,188,264,168,320,141,378,116,497,77,609,48,703,30"/>
-<area shape="rect" title=" " alt="" coords="1353,88,1424,115"/>
-<area shape="poly" title=" " alt="" coords="885,21,1093,38,1214,54,1334,77,1344,80,1343,85,1333,83,1213,59,1092,43,884,26"/>
-<area shape="rect" title=" " alt="" coords="971,269,1024,296"/>
-<area shape="poly" title=" " alt="" coords="797,31,819,79,831,118,838,150,847,180,869,211,961,259,959,264,865,215,842,182,833,151,826,119,814,81,792,33"/>
-<area shape="rect" title=" " alt="" coords="1292,269,1349,296"/>
-<area shape="poly" title=" " alt="" coords="885,20,981,31,1034,41,1090,56,1145,75,1198,100,1248,131,1292,169,1306,188,1315,210,1323,253,1317,254,1310,212,1301,191,1288,172,1244,135,1195,104,1143,80,1088,61,1033,46,980,36,884,25"/>
-<area shape="rect" href="a00884.html" title="Serial port module: lists serial ports with device details, turns a configuration&#45;style port name int..." alt="" coords="668,80,805,123"/>
-<area shape="poly" title=" " alt="" coords="782,34,760,69,755,66,778,31"/>
-<area shape="rect" href="a00119.html" title="Enumerates serial ports and reports structured device information." alt="" coords="879,171,1071,213"/>
-<area shape="poly" title=" " alt="" coords="793,121,906,162,904,167,791,126"/>
-<area shape="rect" href="a00125.html" title="Resolves short, configuration&#45;style serial&#45;port names into the platform&#45;specific path or identifier a..." alt="" coords="278,179,446,205"/>
-<area shape="poly" title=" " alt="" coords="668,121,431,177,429,172,667,116"/>
-<area shape="rect" href="a00143.html" title="Bounded serial port probing: open a port, send a request and wait for a caller&#45;defined response insid..." alt="" coords="590,179,782,205"/>
-<area shape="poly" title=" " alt="" coords="727,124,703,166,698,164,722,122"/>
-<area shape="rect" href="a00149.html" title="Identifies the process that holds a serial port open." alt="" coords="1096,171,1278,213"/>
-<area shape="poly" title=" " alt="" coords="805,113,1081,167,1080,172,804,119"/>
-<area shape="poly" title=" " alt="" coords="983,213,993,253,988,255,978,214"/>
-<area shape="poly" title=" " alt="" coords="1072,210,1189,235,1280,259,1284,260,1282,265,1278,264,1188,240,1071,215"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="697,269,859,296"/>
-<area shape="poly" title=" " alt="" coords="930,216,821,265,819,260,928,212"/>
-<area shape="rect" title=" " alt="" coords="883,269,947,296"/>
-<area shape="poly" title=" " alt="" coords="963,215,934,258,930,255,959,212"/>
-<area shape="rect" title=" " alt="" coords="1373,269,1441,296"/>
-<area shape="poly" title=" " alt="" coords="1072,208,1085,211,1163,222,1225,229,1286,239,1362,259,1368,261,1366,266,1361,264,1285,244,1224,235,1162,228,1084,216,1071,214"/>
-<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1099,261,1267,304"/>
-<area shape="poly" title=" " alt="" coords="1025,212,1121,252,1119,257,1023,216"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="771,443,966,485"/>
-<area shape="poly" title=" " alt="" coords="1003,212,1023,233,1039,260,1044,283,1039,305,1015,346,984,382,950,412,918,436,914,432,947,408,980,378,1011,343,1034,303,1039,283,1034,262,1019,237,999,215"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1099,352,1331,395"/>
-<area shape="poly" title=" " alt="" coords="1193,303,1205,336,1200,338,1188,305"/>
-<area shape="poly" title=" " alt="" coords="331,208,191,264,186,266,184,261,189,259,329,203"/>
-<area shape="poly" title=" " alt="" coords="446,199,742,229,881,245,960,259,964,260,962,265,958,264,880,250,742,234,446,204"/>
-<area shape="poly" title=" " alt="" coords="422,203,703,263,702,268,421,209"/>
-<area shape="poly" title=" " alt="" coords="313,208,270,229,251,244,236,263,228,283,236,303,250,317,268,331,319,357,383,380,456,399,613,429,756,449,755,454,612,435,455,404,381,385,317,362,266,336,246,321,231,305,223,283,231,260,247,240,267,225,311,204"/>
-<area shape="rect" title=" " alt="" coords="476,451,554,477"/>
-<area shape="poly" title=" " alt="" coords="277,201,202,208,124,220,57,238,32,250,16,263,10,273,8,282,16,303,27,316,43,330,88,355,145,378,211,399,348,431,461,452,460,457,347,436,210,404,144,383,86,360,40,334,23,320,11,305,3,282,5,271,12,260,29,245,55,233,123,215,201,202,277,195"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="246,261,478,304"/>
-<area shape="poly" title=" " alt="" coords="364,206,364,246,359,246,359,206"/>
-<area shape="poly" title=" " alt="" coords="411,302,516,345,641,392,780,435,778,440,639,397,514,350,409,307"/>
-<area shape="poly" title=" " alt="" coords="590,205,303,235,173,251,98,264,94,265,92,260,97,259,172,246,303,230,589,200"/>
-<area shape="poly" title=" " alt="" coords="591,209,424,233,234,264,186,274,185,268,233,259,423,227,590,203"/>
-<area shape="poly" title=" " alt="" coords="756,203,853,226,960,259,963,260,961,265,958,264,852,231,754,209"/>
-<area shape="poly" title=" " alt="" coords="782,201,1280,259,1285,260,1283,265,1278,264,782,207"/>
-<area shape="poly" title=" " alt="" coords="701,204,755,256,752,260,697,208"/>
-<area shape="poly" title=" " alt="" coords="724,203,872,259,875,260,873,265,870,264,722,208"/>
-<area shape="poly" title=" " alt="" coords="757,203,1084,261,1083,266,756,209"/>
-<area shape="poly" title=" " alt="" coords="685,206,678,251,680,277,687,303,712,344,745,379,782,409,817,432,814,437,778,413,741,383,708,347,682,305,674,278,673,251,680,206"/>
-<area shape="poly" title=" " alt="" coords="629,208,582,229,560,244,542,263,530,283,522,305,512,353,511,398,513,435,508,436,505,398,507,352,516,304,526,281,538,260,557,240,579,224,627,203"/>
-<area shape="poly" title=" " alt="" coords="640,209,453,259,451,254,639,203"/>
-<area shape="rect" title=" " alt="" coords="553,269,621,296"/>
-<area shape="poly" title=" " alt="" coords="673,208,614,261,611,257,670,204"/>
-<area shape="poly" title=" " alt="" coords="1144,216,1040,265,1037,260,1142,212"/>
-<area shape="poly" title=" " alt="" coords="1096,216,852,268,851,263,1095,210"/>
-<area shape="poly" title=" " alt="" coords="1189,214,1187,246,1182,246,1183,214"/>
-<area shape="poly" title=" " alt="" coords="1279,194,1350,204,1414,223,1439,237,1456,256,1463,278,1456,305,1435,340,1412,363,1382,380,1344,397,1277,417,1183,433,981,456,981,451,1183,428,1276,411,1342,392,1380,375,1408,359,1431,337,1451,303,1457,278,1452,258,1436,242,1412,228,1349,209,1278,200"/>
-<area shape="rect" href="a00923.html" title="Optional module: a C++11 implementation of the C++17 std::optional." alt="" coords="1521,261,1656,304"/>
-<area shape="poly" title=" " alt="" coords="1279,211,1498,259,1506,261,1505,266,1497,264,1278,216"/>
-<area shape="rect" href="a00326.html" title="C++11 implementation of std::optional (C++17 feature) providing a type&#45;safe nullable value container." alt="" coords="1513,360,1669,387"/>
-<area shape="poly" title=" " alt="" coords="1592,304,1593,344,1588,344,1586,304"/>
-<area shape="poly" title=" " alt="" coords="1535,390,1495,397,1218,433,981,456,981,451,1218,428,1495,392,1534,385"/>
-<area shape="poly" title=" " alt="" coords="1513,384,759,445,570,461,569,456,759,440,1513,378"/>
-<area shape="rect" title=" " alt="" coords="1592,451,1689,477"/>
-<area shape="poly" title=" " alt="" coords="1600,386,1628,436,1624,438,1596,389"/>
-<area shape="rect" title=" " alt="" coords="1713,451,1792,477"/>
-<area shape="poly" title=" " alt="" coords="1615,385,1717,440,1715,445,1613,390"/>
-<area shape="rect" title=" " alt="" coords="1409,451,1491,477"/>
-<area shape="poly" title=" " alt="" coords="1572,390,1484,444,1481,440,1569,385"/>
-<area shape="rect" title=" " alt="" coords="1516,451,1568,477"/>
-<area shape="poly" title=" " alt="" coords="1586,389,1558,438,1554,436,1582,386"/>
-</map>
+<div class="center"><img src="a00585.png" border="0" usemap="#a_lumex_attributes_8hpp" alt=""/></div>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00586.png" border="0" usemap="#a_lumex_attributes_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00584_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:af6aeadbda428235a14f147ade9783f8f" id="r_af6aeadbda428235a14f147ade9783f8f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a>(msg)</td></tr>
+<tr class="separator:af6aeadbda428235a14f147ade9783f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcff7ab97fba8878f8a5526929644ea4" id="r_adcff7ab97fba8878f8a5526929644ea4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adcff7ab97fba8878f8a5526929644ea4">LUMEX_ATTRIBUTE_NORETURN</a>&#160;&#160;&#160;[[noreturn]]</td></tr>
+<tr class="separator:adcff7ab97fba8878f8a5526929644ea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb652623305f8803081a68cf664aeeeb" id="r_acb652623305f8803081a68cf664aeeeb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb652623305f8803081a68cf664aeeeb">LUMEX_ATTRIBUTE_NOINLINE</a></td></tr>
+<tr class="separator:acb652623305f8803081a68cf664aeeeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09d6d70ee6810a522e1ed0e9e0817641" id="r_a09d6d70ee6810a522e1ed0e9e0817641"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09d6d70ee6810a522e1ed0e9e0817641">LUMEX_ATTRIBUTE_PACKED</a></td></tr>
+<tr class="separator:a09d6d70ee6810a522e1ed0e9e0817641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d50ae4f7a924074b52466dc39674f0c" id="r_a7d50ae4f7a924074b52466dc39674f0c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d50ae4f7a924074b52466dc39674f0c">LUMEX_PACK_BEGIN</a>(alignment)</td></tr>
+<tr class="separator:a7d50ae4f7a924074b52466dc39674f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40c58590222dce0e19ece1cec79729b3" id="r_a40c58590222dce0e19ece1cec79729b3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40c58590222dce0e19ece1cec79729b3">LUMEX_PACK_END</a></td></tr>
+<tr class="separator:a40c58590222dce0e19ece1cec79729b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5a8b21b17b4aa53dc37ef9a085be2bf" id="r_ab5a8b21b17b4aa53dc37ef9a085be2bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5a8b21b17b4aa53dc37ef9a085be2bf">LUMEX_ATTRIBUTE_CARRIES_DEPENDENCY</a>&#160;&#160;&#160;[[carries_dependency]]</td></tr>
+<tr class="separator:ab5a8b21b17b4aa53dc37ef9a085be2bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2aa95e089ea4c648991b10248f06ea1a" id="r_a2aa95e089ea4c648991b10248f06ea1a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2aa95e089ea4c648991b10248f06ea1a">LUMEX_ATTRIBUTE_DEPRECATED</a>&#160;&#160;&#160;[[deprecated]]</td></tr>
+<tr class="separator:a2aa95e089ea4c648991b10248f06ea1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af679dd83203e8ade198db9282a058881" id="r_af679dd83203e8ade198db9282a058881"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af679dd83203e8ade198db9282a058881">LUMEX_ATTRIBUTE_DEPRECATED_MSG</a>(msg)</td></tr>
+<tr class="separator:af679dd83203e8ade198db9282a058881"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad446e8a6f9f2d5d5412efe54912c247b" id="r_ad446e8a6f9f2d5d5412efe54912c247b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad446e8a6f9f2d5d5412efe54912c247b">LUMEX_ATTRIBUTE_FALLTHROUGH</a>&#160;&#160;&#160;[[fallthrough]]</td></tr>
+<tr class="separator:ad446e8a6f9f2d5d5412efe54912c247b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f7e1c4a689aff4cf2c75942d17d5ba2" id="r_a4f7e1c4a689aff4cf2c75942d17d5ba2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f7e1c4a689aff4cf2c75942d17d5ba2">LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</a>(...)</td></tr>
+<tr class="separator:a4f7e1c4a689aff4cf2c75942d17d5ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06748e501657bea60452820c04a1cb9e" id="r_a06748e501657bea60452820c04a1cb9e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06748e501657bea60452820c04a1cb9e">LUMEX_ATTRIBUTE_MAYBE_UNUSED</a>&#160;&#160;&#160;[[maybe_unused]]</td></tr>
+<tr class="separator:a06748e501657bea60452820c04a1cb9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa35d12d81115e566d61c0b267d7b7aa1" id="r_aa35d12d81115e566d61c0b267d7b7aa1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa35d12d81115e566d61c0b267d7b7aa1">LUMEX_ATTRIBUTE_LIKELY</a>&#160;&#160;&#160;[[likely]]</td></tr>
+<tr class="separator:aa35d12d81115e566d61c0b267d7b7aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f3e0db2f24a490f5d48348cbfbc6fb9" id="r_a9f3e0db2f24a490f5d48348cbfbc6fb9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f3e0db2f24a490f5d48348cbfbc6fb9">LUMEX_ATTRIBUTE_UNLIKELY</a>&#160;&#160;&#160;[[unlikely]]</td></tr>
+<tr class="separator:a9f3e0db2f24a490f5d48348cbfbc6fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a462d02884aa74970f3e6a791dc843f58" id="r_a462d02884aa74970f3e6a791dc843f58"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a462d02884aa74970f3e6a791dc843f58">LUMEX_ATTRIBUTE_LIKELY_COND</a>(cond)</td></tr>
+<tr class="separator:a462d02884aa74970f3e6a791dc843f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be58b7cdc675eda56cf33bc9c6d7f5e" id="r_a3be58b7cdc675eda56cf33bc9c6d7f5e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3be58b7cdc675eda56cf33bc9c6d7f5e">LUMEX_ATTRIBUTE_UNLIKELY_COND</a>(cond)</td></tr>
+<tr class="separator:a3be58b7cdc675eda56cf33bc9c6d7f5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9692e2728c8535d41cb0054d3b1ce845" id="r_a9692e2728c8535d41cb0054d3b1ce845"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9692e2728c8535d41cb0054d3b1ce845">LUMEX_ATTRIBUTE_NO_UNIQUE_ADDRESS</a>&#160;&#160;&#160;[[no_unique_address]]</td></tr>
+<tr class="separator:a9692e2728c8535d41cb0054d3b1ce845"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a455c1889b796fa6817194933e324cfa8" id="r_a455c1889b796fa6817194933e324cfa8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a455c1889b796fa6817194933e324cfa8">LUMEX_ATTRIBUTE_ASSUME</a>(expr)</td></tr>
+<tr class="separator:a455c1889b796fa6817194933e324cfa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a044c309d4749e2a4091adffb234e0f63" id="r_a044c309d4749e2a4091adffb234e0f63"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a044c309d4749e2a4091adffb234e0f63">LUMEX_ATTRIBUTE_INDETERMINATE</a></td></tr>
+<tr class="separator:a044c309d4749e2a4091adffb234e0f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af526877eabe3ac0bdd6d8f50d401f20d" id="r_af526877eabe3ac0bdd6d8f50d401f20d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af526877eabe3ac0bdd6d8f50d401f20d">LUMEX_ATTRIBUTE_OPTIMIZE_FOR_SYNCHRONIZED</a></td></tr>
+<tr class="separator:af526877eabe3ac0bdd6d8f50d401f20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>LUMEX_ATTRIBUTE_*</code> macros that spell C++ attributes portably, and the structure packing macros <code>LUMEX_PACK_BEGIN</code> and <code>LUMEX_PACK_END</code>. </p>
+<p>Each attribute macro expands to the standard attribute when the compiled standard has it, otherwise to a GCC, Clang or MSVC extension with the same effect, and to nothing where neither exists. The macros cover nodiscard (with a reason), noreturn, noinline, packed, carries_dependency, deprecated (with or without a reason), fallthrough, maybe_unused, likely and unlikely, no_unique_address (C++20), assume (C++23) and indeterminate (C++26). <code><a class="el" href="#a4f7e1c4a689aff4cf2c75942d17d5ba2">LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...)</a></code> silences an unused expression by casting it to <code>void</code>; on GCC below C++17 it also passes the value on, because GCC reports a <code>LUMEX_ATTRIBUTE_NODISCARD</code> result that is only cast to <code>void</code> (see the macro). <code>LUMEX_ATTRIBUTE_PACKED</code> is empty for MSVC, which packs through <code><a class="el" href="#a7d50ae4f7a924074b52466dc39674f0c">LUMEX_PACK_BEGIN(n)</a></code> and <code>LUMEX_PACK_END</code> instead; those two work with MSVC, GCC and Clang and are empty elsewhere. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a455c1889b796fa6817194933e324cfa8" name="a455c1889b796fa6817194933e324cfa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a455c1889b796fa6817194933e324cfa8">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_ASSUME</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
+          <td class="memname">#define LUMEX_ATTRIBUTE_ASSUME</td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>expr</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00584_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00584_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-<map name="aa00584_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00584_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
-<area shape="rect" title=" " alt="" coords="5,228,55,255"/>
-<area shape="rect" href="a01269.html#aec4e0ca8a3228735b8dde7e2c5e51f7e" title="Closes the port; safe to call on a closed session." alt="" coords="120,5,264,64"/>
-<area shape="poly" title=" " alt="" coords="31,227,52,156,72,113,101,74,106,69,109,73,105,78,77,116,57,158,36,228"/>
-<area shape="rect" href="a00982.html#a4dace1c927ae9cae3eed94de871c9cb1" title="Enumerate serial port paths only." alt="" coords="107,88,276,147"/>
-<area shape="poly" title=" " alt="" coords="38,226,64,192,101,157,106,153,109,157,104,161,68,196,43,229"/>
-<area shape="rect" href="a00982.html#ae27c22d50630c732a459b88a4f0e4260" title="True when Windows registered port_name through a Bluetooth enumerator (BTHENUM / BTHLEENUM)." alt="" coords="103,171,281,229"/>
-<area shape="poly" title=" " alt="" coords="54,233,87,224,88,229,56,238"/>
-<area shape="rect" href="a01269.html#aeccb8971734d9825d958152ec2e6ed49" title="True while the port is open." alt="" coords="120,253,264,312"/>
-<area shape="poly" title=" " alt="" coords="56,245,105,258,104,263,54,250"/>
-<area shape="rect" href="a01269.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline." alt="" coords="104,336,280,379"/>
-<area shape="poly" title=" " alt="" coords="42,253,68,287,104,322,111,326,108,331,101,326,64,291,38,257"/>
-<area shape="rect" href="a00984.html#a523de1146ace21810686af24cd7edd8f" title="Converts a short serial&#45;port name into the full, platform&#45;specific path a channel needs in order to a..." alt="" coords="120,403,264,461"/>
-<area shape="poly" title=" " alt="" coords="37,254,59,318,78,355,105,389,109,393,105,397,101,392,74,358,54,320,32,256"/>
-<area shape="rect" href="a00982.html#a4bf634028bc0cb0ff4024dd920df1602" title="Enumerate serial ports with full serial_port_info_t records." alt="" coords="329,88,498,147"/>
-<area shape="poly" title=" " alt="" coords="277,115,313,115,313,120,277,120"/>
-<area shape="rect" href="a00982.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="556,5,714,64"/>
-<area shape="poly" title=" " alt="" coords="493,85,541,67,543,72,495,90"/>
-<area shape="rect" href="a00982.html#aeda0fc72f871cf1ddc177f5c172131ea" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="546,88,724,147"/>
-<area shape="poly" title=" " alt="" coords="499,115,531,115,531,120,499,120"/>
-<area shape="rect" href="a00982.html#a2baec958c3eebd588ab9cbc9bccd7e5f" title="Maps an open outcome to the enumeration state." alt="" coords="550,171,720,229"/>
-<area shape="poly" title=" " alt="" coords="495,145,541,162,539,167,493,150"/>
-</map>
+
 </div>
+</div>
+<a id="ab5a8b21b17b4aa53dc37ef9a085be2bf" name="ab5a8b21b17b4aa53dc37ef9a085be2bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5a8b21b17b4aa53dc37ef9a085be2bf">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_CARRIES_DEPENDENCY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_CARRIES_DEPENDENCY&#160;&#160;&#160;[[carries_dependency]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2aa95e089ea4c648991b10248f06ea1a" name="a2aa95e089ea4c648991b10248f06ea1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2aa95e089ea4c648991b10248f06ea1a">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_DEPRECATED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_DEPRECATED&#160;&#160;&#160;[[deprecated]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af679dd83203e8ade198db9282a058881" name="af679dd83203e8ade198db9282a058881"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af679dd83203e8ade198db9282a058881">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_DEPRECATED_MSG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_DEPRECATED_MSG</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>msg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">[[deprecated (msg)]]</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ad446e8a6f9f2d5d5412efe54912c247b" name="ad446e8a6f9f2d5d5412efe54912c247b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad446e8a6f9f2d5d5412efe54912c247b">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_FALLTHROUGH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_FALLTHROUGH&#160;&#160;&#160;[[fallthrough]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a044c309d4749e2a4091adffb234e0f63" name="a044c309d4749e2a4091adffb234e0f63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a044c309d4749e2a4091adffb234e0f63">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_INDETERMINATE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_INDETERMINATE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa35d12d81115e566d61c0b267d7b7aa1" name="aa35d12d81115e566d61c0b267d7b7aa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa35d12d81115e566d61c0b267d7b7aa1">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_LIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_LIKELY&#160;&#160;&#160;[[likely]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a462d02884aa74970f3e6a791dc843f58" name="a462d02884aa74970f3e6a791dc843f58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a462d02884aa74970f3e6a791dc843f58">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_LIKELY_COND</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_LIKELY_COND</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>cond</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(cond)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a06748e501657bea60452820c04a1cb9e" name="a06748e501657bea60452820c04a1cb9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06748e501657bea60452820c04a1cb9e">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_MAYBE_UNUSED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_MAYBE_UNUSED&#160;&#160;&#160;[[maybe_unused]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4f7e1c4a689aff4cf2c75942d17d5ba2" name="a4f7e1c4a689aff4cf2c75942d17d5ba2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f7e1c4a689aff4cf2c75942d17d5ba2">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(void)(__VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9692e2728c8535d41cb0054d3b1ce845" name="a9692e2728c8535d41cb0054d3b1ce845"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9692e2728c8535d41cb0054d3b1ce845">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_NO_UNIQUE_ADDRESS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_NO_UNIQUE_ADDRESS&#160;&#160;&#160;[[no_unique_address]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6aeadbda428235a14f147ade9783f8f" name="af6aeadbda428235a14f147ade9783f8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6aeadbda428235a14f147ade9783f8f">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_NODISCARD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_NODISCARD</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>msg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  [[nodiscard]]</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="acb652623305f8803081a68cf664aeeeb" name="acb652623305f8803081a68cf664aeeeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb652623305f8803081a68cf664aeeeb">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_NOINLINE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_NOINLINE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adcff7ab97fba8878f8a5526929644ea4" name="adcff7ab97fba8878f8a5526929644ea4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcff7ab97fba8878f8a5526929644ea4">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_NORETURN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_NORETURN&#160;&#160;&#160;[[noreturn]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af526877eabe3ac0bdd6d8f50d401f20d" name="af526877eabe3ac0bdd6d8f50d401f20d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af526877eabe3ac0bdd6d8f50d401f20d">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_OPTIMIZE_FOR_SYNCHRONIZED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_OPTIMIZE_FOR_SYNCHRONIZED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a09d6d70ee6810a522e1ed0e9e0817641" name="a09d6d70ee6810a522e1ed0e9e0817641"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09d6d70ee6810a522e1ed0e9e0817641">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_PACKED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_PACKED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f3e0db2f24a490f5d48348cbfbc6fb9" name="a9f3e0db2f24a490f5d48348cbfbc6fb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f3e0db2f24a490f5d48348cbfbc6fb9">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_UNLIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_UNLIKELY&#160;&#160;&#160;[[unlikely]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3be58b7cdc675eda56cf33bc9c6d7f5e" name="a3be58b7cdc675eda56cf33bc9c6d7f5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be58b7cdc675eda56cf33bc9c6d7f5e">&#9670;&#160;</a></span>LUMEX_ATTRIBUTE_UNLIKELY_COND</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATTRIBUTE_UNLIKELY_COND</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>cond</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(cond)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7d50ae4f7a924074b52466dc39674f0c" name="a7d50ae4f7a924074b52466dc39674f0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d50ae4f7a924074b52466dc39674f0c">&#9670;&#160;</a></span>LUMEX_PACK_BEGIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_PACK_BEGIN</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>alignment</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40c58590222dce0e19ece1cec79729b3" name="a40c58590222dce0e19ece1cec79729b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40c58590222dce0e19ece1cec79729b3">&#9670;&#160;</a></span>LUMEX_PACK_END</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_PACK_END</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -252,7 +485,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_17cee27abc1c3519861fbb803c40e452.html">serial</a></li><li class="navelem"><a class="el" href="a00584.html">example_serial_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_d65c1677fc41de294b85ad20ff4f84ce.html">attr</a></li><li class="navelem"><a class="el" href="a00584.html">LumexAttributes.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

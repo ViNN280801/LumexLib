@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::base64::validate::validator Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01877.html',''); initResizable(true); });
+$(function(){initNavTree('a01874.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,125 @@ $(function(){initNavTree('a01877.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::environment::env::LumexEnvironment::EnvResult Member List</div></div>
+  <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a01871.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::base64::validate::validator Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01877.html#a0f519e298cc0e307205d47efd85c7866">EnvResult</a>()</td><td class="entry"><a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01877.html#a0f09c36d3f0f599086edb2057c1ca298">EnvResult</a>(string_type val)</td><td class="entry"><a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01877.html#a6a434c859737ea209ac772420ee3d0ea">EnvResult</a>(int err_code, string_type fallback=string_type())</td><td class="entry"><a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01877.html#afe2af0c92ae86337b521d95d12e95e41">error_code</a></td><td class="entry"><a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01877.html#ac150613ec458adba41b1af131c4c9d69">get_value_or</a>(string_type const &amp;fallback) const</td><td class="entry"><a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01877.html#aa441aabc21e56a277efcf55816d30cbb">operator bool</a>() const</td><td class="entry"><a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01877.html#ab7385b33818826ec05c94adfb968ca7a">success</a></td><td class="entry"><a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01877.html#a76137a4dfe6916f5ac8edc08e9cbd664">value</a></td><td class="entry"><a class="el" href="a01877.html">lumex::core::environment::env::LumexEnvironment::EnvResult</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Base64 syntax check.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00323_source.html">Validator.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a8b23b25f82a0b98ed3f35601e0d5604b" id="r_a8b23b25f82a0b98ed3f35601e0d5604b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b23b25f82a0b98ed3f35601e0d5604b">is_valid_base64</a> (char const *str, std::size_t size)</td></tr>
+<tr class="memdesc:a8b23b25f82a0b98ed3f35601e0d5604b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether <code>size</code> characters starting at <code>str</code> are valid Base64.  <br /></td></tr>
+<tr class="separator:a8b23b25f82a0b98ed3f35601e0d5604b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d9c71796e7ea3011f64939ff07a92f6" id="r_a1d9c71796e7ea3011f64939ff07a92f6"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d9c71796e7ea3011f64939ff07a92f6">is_valid_base64</a> (<a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a> str)</td></tr>
+<tr class="memdesc:a1d9c71796e7ea3011f64939ff07a92f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the rules).  <br /></td></tr>
+<tr class="separator:a1d9c71796e7ea3011f64939ff07a92f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base64 syntax check. </p>
+<p>The pointer and size overload is exported and has the same signature in every C++ standard; the string overload is an inline wrapper over it (<code><a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a" title="Type of the Base64 text the string overloads take: the lumex_string_view of lumex::string_view in eve...">string_type_t</a></code> is <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> in every standard; a string literal, a <code>char const *</code>, a <code>std::string</code> and, from C++17, a <code>std::string_view</code> convert to it). The class itself is not exported: a dllimport class makes clang-cl emit an import for an inline member it does not inline, and the library does not provide the standard-dependent overload. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8b23b25f82a0b98ed3f35601e0d5604b" name="a8b23b25f82a0b98ed3f35601e0d5604b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b23b25f82a0b98ed3f35601e0d5604b">&#9670;&#160;</a></span>is_valid_base64() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool validator::is_valid_base64 </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks whether <code>size</code> characters starting at <code>str</code> are valid Base64. </p>
+<p>Valid Base64 consists of alphabet characters followed by at most two &lsquo;&rsquo;='`; with padding the length is a multiple of 4, without it the last group has two or three characters. The range needs no terminating NUL and nothing after it is read; a NUL inside the range is invalid.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">str</td><td>First character; never valid as <code>nullptr</code>, even with a <code>size</code> of 0 (pass <code>""</code> for an empty input). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Number of characters to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the range is valid Base64 (an empty range is), <code>false</code> otherwise, and always for <code>nullptr</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01874_a8b23b25f82a0b98ed3f35601e0d5604b_icgraph.png" border="0" usemap="#aa01874_a8b23b25f82a0b98ed3f35601e0d5604b_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a1d9c71796e7ea3011f64939ff07a92f6" name="a1d9c71796e7ea3011f64939ff07a92f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d9c71796e7ea3011f64939ff07a92f6">&#9670;&#160;</a></span>is_valid_base64() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool lumex::core::base64::validate::validator::is_valid_base64 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a></td>          <td class="paramname"><span class="paramname"><em>str</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the rules). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">str</td><td>The string to be checked for Base64 validity. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the string adheres to Base64 formatting rules, <code>false</code> otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01874_a1d9c71796e7ea3011f64939ff07a92f6_cgraph.png" border="0" usemap="#aa01874_a1d9c71796e7ea3011f64939ff07a92f6_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="a00323_source.html">Validator.hpp</a></li>
+<li><a class="el" href="a00320.html">Validator.cpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01320.html">base64</a></li><li class="navelem"><a class="el" href="a01330.html">validate</a></li><li class="navelem"><a class="el" href="a01874.html">validator</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

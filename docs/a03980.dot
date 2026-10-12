@@ -1,0 +1,12 @@
+digraph "lumex::core::span::view::detail::is_sized_sentinel&lt; Sentinel, Iterator, typename std::enable_if&lt; !std::is_convertible&lt; Sentinel, std::size_t &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Sentinel &amp; &gt;() - std::declval&lt; Iterator &amp; &gt;()), std::ptrdiff_t &gt;::value &gt;::type &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="lumex::core::span::\lview::detail::is_sized\l_sentinel\< Sentinel, Iterator,\l typename std::enable_if\< !std\l::is_convertible\< Sentinel, std\l::size_t \>::value &&std::is_convertible\l\< decltype(std::declval\< Sentinel & \>\l() - std::declval\< Iterator & \>()), std\l::ptrdiff_t \>::value \>::type \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::false_type",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node1 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="std::true_type",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

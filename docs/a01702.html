@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::applied::serial::resolver::port_holder_info_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01705.html',''); initResizable(true); });
+$(function(){initNavTree('a01702.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,109 @@ $(function(){initNavTree('a01705.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc16_maxim_dow_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a01699.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::resolver::port_holder_info_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01705.html#aaf1659d8a134da11847e53cb90471f30">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01705.html#a2f99c4cbc338ff6528b073d14af27bdd">kInit</a></td><td class="entry"><a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01705.html#a81ab81af885d816902e1c09fc99648e1">kPoly</a></td><td class="entry"><a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01705.html#a6adc96c9833d06d401afb7692b7ad973">kRefIn</a></td><td class="entry"><a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01705.html#ac12adf2a6dd16bc6a252061cff4bb6ef">kRefOut</a></td><td class="entry"><a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01705.html#ab6c80b979ff52441412216b7de898d48">kWidth</a></td><td class="entry"><a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01705.html#a54b54d3d0c57f0d5d789a311bacf9805">kXorOut</a></td><td class="entry"><a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01705.html#a543650fe62f5f6368d8260db5b39c2a9">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01705.html">lumex::core::crc::parametric::crc16_maxim_dow_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Process that currently holds a serial-port file descriptor or handle.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00203_source.html">LumexPortProcessResolver.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ac99a422884c1120ec45b568bf7c46d1e" id="r_ac99a422884c1120ec45b568bf7c46d1e"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac99a422884c1120ec45b568bf7c46d1e">pid</a></td></tr>
+<tr class="memdesc:ac99a422884c1120ec45b568bf7c46d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process identifier.  <br /></td></tr>
+<tr class="separator:ac99a422884c1120ec45b568bf7c46d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52bdc7b78aca6bf1128878218165b797" id="r_a52bdc7b78aca6bf1128878218165b797"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52bdc7b78aca6bf1128878218165b797">exe_name</a></td></tr>
+<tr class="memdesc:a52bdc7b78aca6bf1128878218165b797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basename of the executable, e.g. <code>"PeakExpert"</code>.  <br /></td></tr>
+<tr class="separator:a52bdc7b78aca6bf1128878218165b797"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a566fd1aa31b275caad94f3620a9a1df3" id="r_a566fd1aa31b275caad94f3620a9a1df3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a566fd1aa31b275caad94f3620a9a1df3">exe_path</a></td></tr>
+<tr class="memdesc:a566fd1aa31b275caad94f3620a9a1df3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full path to the executable when available.  <br /></td></tr>
+<tr class="separator:a566fd1aa31b275caad94f3620a9a1df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a097c551f78ade1f63fe53fc0d36c2a5d" id="r_a097c551f78ade1f63fe53fc0d36c2a5d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a097c551f78ade1f63fe53fc0d36c2a5d">cmdline</a></td></tr>
+<tr class="memdesc:a097c551f78ade1f63fe53fc0d36c2a5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command line when the platform exposes it.  <br /></td></tr>
+<tr class="separator:a097c551f78ade1f63fe53fc0d36c2a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Process that currently holds a serial-port file descriptor or handle. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a097c551f78ade1f63fe53fc0d36c2a5d" name="a097c551f78ade1f63fe53fc0d36c2a5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a097c551f78ade1f63fe53fc0d36c2a5d">&#9670;&#160;</a></span>cmdline</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::serial::resolver::port_holder_info_t::cmdline</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Command line when the platform exposes it. </p>
+
+</div>
+</div>
+<a id="a52bdc7b78aca6bf1128878218165b797" name="a52bdc7b78aca6bf1128878218165b797"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52bdc7b78aca6bf1128878218165b797">&#9670;&#160;</a></span>exe_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::serial::resolver::port_holder_info_t::exe_name</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Basename of the executable, e.g. <code>"PeakExpert"</code>. </p>
+
+</div>
+</div>
+<a id="a566fd1aa31b275caad94f3620a9a1df3" name="a566fd1aa31b275caad94f3620a9a1df3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a566fd1aa31b275caad94f3620a9a1df3">&#9670;&#160;</a></span>exe_path</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::serial::resolver::port_holder_info_t::exe_path</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Full path to the executable when available. </p>
+
+</div>
+</div>
+<a id="ac99a422884c1120ec45b568bf7c46d1e" name="ac99a422884c1120ec45b568bf7c46d1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac99a422884c1120ec45b568bf7c46d1e">&#9670;&#160;</a></span>pid</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long lumex::applied::serial::resolver::port_holder_info_t::pid</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Process identifier. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00203_source.html">LumexPortProcessResolver.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01287.html">serial</a></li><li class="navelem"><a class="el" href="a01298.html">resolver</a></li><li class="navelem"><a class="el" href="a01702.html">port_holder_info_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

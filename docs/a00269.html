@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexExceptionWrapper.hpp File Reference</title>
+<title>LumexLib: LumexAtomicSmartPtrBox.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,294 +104,88 @@ $(function(){initNavTree('a00269.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexExceptionWrapper.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexAtomicSmartPtrBox.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Exception-safe call wrapper: invokes a callable, catches anything it throws, reports it to <code>std::cerr</code>, and returns a safe default value instead of letting the exception propagate.  
+<p>The immutable heap box of the lock-free engine, and the policies that say when a replaced box is destroyed.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstring&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00428_source.html">lumex/core/utility/macros/LumexMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00446_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00275_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01208_source.html">lumex/core/hazard_pointer/LumexHazardPointer</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexExceptionWrapper.hpp:</div>
+Include dependency graph for LumexAtomicSmartPtrBox.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00270.png" border="0" usemap="#a_lumex_exception_wrapper_8hpp" alt=""/></div>
-<map name="a_lumex_exception_wrapper_8hpp" id="a_lumex_exception_wrapper_8hpp">
-<area shape="rect" title="Exception&#45;safe call wrapper: invokes a callable, catches anything it throws, reports it to std::cerr,..." alt="" coords="644,5,836,32"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,269,168,296"/>
-<area shape="poly" title=" " alt="" coords="644,28,471,46,373,61,276,83,206,96,147,105,122,112,98,125,75,144,53,172,46,192,48,214,57,236,69,256,65,258,53,238,43,216,41,192,48,169,71,140,95,120,120,107,146,99,205,90,275,77,372,56,471,40,644,23"/>
-<area shape="rect" title=" " alt="" coords="1534,88,1594,115"/>
-<area shape="poly" title=" " alt="" coords="836,21,1195,41,1380,57,1515,77,1524,80,1522,85,1514,83,1380,62,1194,46,836,26"/>
-<area shape="rect" title=" " alt="" coords="1618,88,1689,115"/>
-<area shape="poly" title=" " alt="" coords="836,20,1240,38,1453,55,1540,65,1607,77,1615,80,1613,85,1606,83,1540,70,1452,60,1240,43,836,25"/>
-<area shape="rect" title=" " alt="" coords="254,179,308,205"/>
-<area shape="poly" title=" " alt="" coords="663,35,576,54,485,82,390,127,314,172,311,168,388,122,483,78,575,49,661,30"/>
-<area shape="rect" title=" " alt="" coords="332,179,414,205"/>
-<area shape="poly" title=" " alt="" coords="700,35,640,56,574,82,483,129,407,173,405,168,480,124,572,78,638,51,698,30"/>
-<area shape="rect" title=" " alt="" coords="439,179,491,205"/>
-<area shape="poly" title=" " alt="" coords="721,35,500,172,497,168,718,30"/>
-<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="63,171,230,213"/>
-<area shape="poly" title=" " alt="" coords="644,33,523,51,457,65,393,83,288,123,199,165,196,161,286,118,391,77,456,60,522,46,643,27"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1333,261,1528,304"/>
-<area shape="poly" title=" " alt="" coords="832,30,1521,120,1620,122,1748,121,1813,124,1871,132,1920,146,1939,156,1954,169,1961,180,1964,192,1961,204,1954,215,1934,227,1898,237,1792,254,1665,268,1543,277,1543,272,1664,262,1792,249,1897,232,1932,222,1950,211,1956,202,1959,192,1956,182,1950,172,1936,161,1918,151,1870,137,1812,130,1748,127,1620,128,1521,125,831,35"/>
-<area shape="rect" href="a00428.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="1713,80,1892,123"/>
-<area shape="poly" title=" " alt="" coords="836,19,1210,34,1451,51,1698,77,1697,82,1451,57,1210,40,836,24"/>
-<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="754,80,937,123"/>
-<area shape="poly" title=" " alt="" coords="758,30,808,68,805,72,755,35"/>
-<area shape="poly" title=" " alt="" coords="135,215,106,258,101,255,130,212"/>
-<area shape="poly" title=" " alt="" coords="231,209,243,211,547,243,849,263,1116,273,1318,278,1318,283,1116,279,848,268,546,248,242,216,230,214"/>
-<area shape="poly" title=" " alt="" coords="753,108,661,113,552,125,435,144,321,173,317,175,315,169,319,168,434,139,551,120,661,108,753,102"/>
-<area shape="poly" title=" " alt="" coords="753,115,600,137,513,153,427,173,419,176,417,171,426,168,512,148,599,132,753,110"/>
-<area shape="poly" title=" " alt="" coords="754,116,634,138,568,154,505,173,502,174,500,169,503,168,567,149,633,133,753,111"/>
-<area shape="poly" title=" " alt="" coords="753,113,527,136,246,173,245,168,526,130,753,108"/>
-<area shape="poly" title=" " alt="" coords="910,121,962,142,1015,168,1030,180,1040,191,1050,201,1065,211,1128,235,1193,253,1258,265,1318,273,1317,278,1257,271,1192,258,1126,240,1063,216,1047,206,1036,195,1026,184,1012,173,960,146,908,126"/>
-<area shape="rect" title=" " alt="" coords="1444,179,1494,205"/>
-<area shape="poly" title=" " alt="" coords="937,100,1041,104,1166,115,1300,135,1368,150,1433,168,1436,169,1434,174,1431,173,1366,155,1299,141,1165,120,1040,110,937,105"/>
-<area shape="rect" title=" " alt="" coords="1518,179,1583,205"/>
-<area shape="poly" title=" " alt="" coords="937,100,1053,104,1196,115,1353,135,1431,150,1507,168,1513,170,1511,175,1506,173,1430,155,1352,140,1196,120,1053,109,937,105"/>
-<area shape="rect" title=" " alt="" coords="1606,179,1684,205"/>
-<area shape="poly" title=" " alt="" coords="937,100,1067,104,1232,114,1414,134,1506,149,1595,168,1604,171,1603,176,1594,173,1505,155,1413,140,1232,119,1067,109,937,105"/>
-<area shape="rect" title=" " alt="" coords="516,179,577,205"/>
-<area shape="poly" title=" " alt="" coords="754,125,674,146,590,173,586,175,584,170,588,168,672,141,753,120"/>
-<area shape="rect" title=" " alt="" coords="602,179,654,205"/>
-<area shape="poly" title=" " alt="" coords="786,126,666,173,665,174,663,169,664,168,784,121"/>
-<area shape="rect" title=" " alt="" coords="678,179,746,205"/>
-<area shape="poly" title=" " alt="" coords="815,126,745,172,742,168,812,121"/>
-<area shape="rect" title=" " alt="" coords="770,179,838,205"/>
-<area shape="poly" title=" " alt="" coords="838,124,818,166,814,164,833,122"/>
-<area shape="rect" title=" " alt="" coords="862,179,911,205"/>
-<area shape="poly" title=" " alt="" coords="857,122,877,164,872,166,852,124"/>
-<area shape="rect" title=" " alt="" coords="935,179,1001,205"/>
-<area shape="poly" title=" " alt="" coords="875,121,940,168,937,172,872,125"/>
-<area shape="rect" title=" " alt="" coords="1076,179,1164,205"/>
-<area shape="poly" title=" " alt="" coords="910,121,1067,171,1065,176,909,126"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1188,171,1420,213"/>
-<area shape="poly" title=" " alt="" coords="938,118,1182,165,1181,170,937,123"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1708,171,1940,213"/>
-<area shape="poly" title=" " alt="" coords="937,105,1266,127,1477,145,1692,168,1692,173,1476,151,1266,133,937,110"/>
-<area shape="poly" title=" " alt="" coords="1732,217,1538,260,1537,255,1731,211"/>
-</map>
+<div class="center"><img src="a00270.png" border="0" usemap="#a_lumex_atomic_smart_ptr_box_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00271.png" border="0" usemap="#a_lumex_exception_wrapper_8hppdep" alt=""/></div>
-<map name="a_lumex_exception_wrapper_8hppdep" id="a_lumex_exception_wrapper_8hppdep">
-<area shape="rect" title="Exception&#45;safe call wrapper: invokes a callable, catches anything it throws, reports it to std::cerr,..." alt="" coords="170,5,361,32"/>
-<area shape="rect" href="a00905.html" title="Exceptions module: the LumexBaseException hierarchy, stack traces, a crash handler that writes minidu..." alt="" coords="117,80,235,107"/>
-<area shape="poly" title=" " alt="" coords="240,44,193,82,190,78,236,40"/>
-<area shape="rect" href="a00266.html" title=" " alt="" coords="259,80,450,107"/>
-<area shape="poly" title=" " alt="" coords="294,40,341,78,338,82,291,44"/>
-<area shape="rect" href="a00482.html" title=" " alt="" coords="5,163,171,189"/>
-<area shape="poly" title=" " alt="" coords="153,119,103,164,100,161,149,115"/>
-<area shape="rect" href="a00485.html" title=" " alt="" coords="195,155,336,197"/>
-<area shape="poly" title=" " alt="" coords="203,115,244,152,241,156,200,119"/>
-</map>
+<div class="center"><img src="a00271.png" border="0" usemap="#a_lumex_atomic_smart_ptr_box_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00269_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01754.html">lumex::core::atomic::smart_ptr::table_wait::reclaim::immediate</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to destroy the replaced value inside the replacing call.  <a href="a01754.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01758.html">lumex::core::atomic::smart_ptr::table_wait::reclaim::deferred</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Leaves the replaced value to the reclamation passes of the hazard domain.  <a href="a01758.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01762.html">lumex::core::atomic::smart_ptr::table_wait::Detail::box_t&lt; Pointer &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One published value of the lock-free engine: a retire node and an immutable smart pointer.  <a href="a01762.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01032.html">lumex::core::exceptions</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01312.html">lumex::core::atomic</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html">lumex::core::exceptions::Wrapper</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01313.html">lumex::core::atomic::smart_ptr</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html">lumex::core::exceptions::Wrapper::detail</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01314.html">lumex::core::atomic::smart_ptr::table_wait</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a03ec1ac9d020fd4f7b12362a94f204e9" id="r_a03ec1ac9d020fd4f7b12362a94f204e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03ec1ac9d020fd4f7b12362a94f204e9">LUMEX_SAFE_CALL</a>(expr)</td></tr>
-<tr class="memdesc:a03ec1ac9d020fd4f7b12362a94f204e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely evaluates <code>expr</code>, with default, source-location-based diagnostic messages.  <br /></td></tr>
-<tr class="separator:a03ec1ac9d020fd4f7b12362a94f204e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a261fa5b1604d900afd08ec4e0bebacb8" id="r_a261fa5b1604d900afd08ec4e0bebacb8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a261fa5b1604d900afd08ec4e0bebacb8">LUMEX_SAFE_CALL_MSG</a>(expr,  excMessage,  unknExcMessage)</td></tr>
-<tr class="memdesc:a261fa5b1604d900afd08ec4e0bebacb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely evaluates <code>expr</code>, with caller-supplied diagnostic messages.  <br /></td></tr>
-<tr class="separator:a261fa5b1604d900afd08ec4e0bebacb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ed36355e2c324c794ddd802ade7d549" id="r_a1ed36355e2c324c794ddd802ade7d549"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ed36355e2c324c794ddd802ade7d549">LUMEX_SAFE_CALL_LAMBDA_MSG</a>(lambda,  excMessage,  unknExcMessage)</td></tr>
-<tr class="memdesc:a1ed36355e2c324c794ddd802ade7d549"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely invokes <code>lambda</code>, with caller-supplied diagnostic messages.  <br /></td></tr>
-<tr class="separator:a1ed36355e2c324c794ddd802ade7d549"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a44e9e9da5b97d168978390c418a62b3f" id="r_a44e9e9da5b97d168978390c418a62b3f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#a44e9e9da5b97d168978390c418a62b3f">lumex::core::exceptions::Wrapper::safe_call_report_fn</a> = void (*) (char const *message)</td></tr>
-<tr class="memdesc:a44e9e9da5b97d168978390c418a62b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consumer report sink for a fully built failure line.  <br /></td></tr>
-<tr class="separator:a44e9e9da5b97d168978390c418a62b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01316.html">lumex::core::atomic::smart_ptr::table_wait::reclaim</a></td></tr>
+<tr class="memdesc:a01316"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the value that a <code>store</code>, <code>exchange</code> or compare-exchange replaced is destroyed (template argument of the lock-free engine). <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01315.html">lumex::core::atomic::smart_ptr::table_wait::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a71d9df48ad62f6a5f94220cd14b5f70c" id="r_a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#a71d9df48ad62f6a5f94220cd14b5f70c">lumex::core::exceptions::Wrapper::set_safe_call_reporter</a> (<a class="el" href="a01035.html#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> reporter) noexcept</td></tr>
-<tr class="memdesc:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>.  <br /></td></tr>
-<tr class="separator:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e00681207c6fe8355e6416db22d6ee8" id="r_a0e00681207c6fe8355e6416db22d6ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01035.html#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01035.html#a0e00681207c6fe8355e6416db22d6ee8">lumex::core::exceptions::Wrapper::get_safe_call_reporter</a> () noexcept</td></tr>
-<tr class="memdesc:a0e00681207c6fe8355e6416db22d6ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>.  <br /></td></tr>
-<tr class="separator:a0e00681207c6fe8355e6416db22d6ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a730010fd0f524d97727a82bb42f2ddd3" id="r_a730010fd0f524d97727a82bb42f2ddd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html#a730010fd0f524d97727a82bb42f2ddd3">lumex::core::exceptions::Wrapper::detail::write_to_stderr</a> (std::string const &amp;prefix, char const *whatMsg) noexcept</td></tr>
-<tr class="memdesc:a730010fd0f524d97727a82bb42f2ddd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes "prefix. Reason: &lt;whatMsg&gt;\n" to <code>std::cerr</code> using only <code>noexcept</code> operations.  <br /></td></tr>
-<tr class="separator:a730010fd0f524d97727a82bb42f2ddd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92da48ec00b5194131e081ffabbbed57" id="r_a92da48ec00b5194131e081ffabbbed57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html#a92da48ec00b5194131e081ffabbbed57">lumex::core::exceptions::Wrapper::detail::write_to_stderr</a> (std::string const &amp;line) noexcept</td></tr>
-<tr class="memdesc:a92da48ec00b5194131e081ffabbbed57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes "line\n" to <code>std::cerr</code> using only <code>noexcept</code> operations.  <br /></td></tr>
-<tr class="separator:a92da48ec00b5194131e081ffabbbed57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7031ff23205b8e8d31fb72ed3744806" id="r_ab7031ff23205b8e8d31fb72ed3744806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html#ab7031ff23205b8e8d31fb72ed3744806">lumex::core::exceptions::Wrapper::detail::report_line</a> (std::string const &amp;line) noexcept</td></tr>
-<tr class="memdesc:ab7031ff23205b8e8d31fb72ed3744806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends <code>line</code> to the installed sink. On a null sink or a throw from the sink, writes <code>line</code> to <code>std::cerr</code>.  <br /></td></tr>
-<tr class="separator:ab7031ff23205b8e8d31fb72ed3744806"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6731c24b90644c9b4b94c4c81af602dd" id="r_a6731c24b90644c9b4b94c4c81af602dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01037.html#a6731c24b90644c9b4b94c4c81af602dd">lumex::core::exceptions::Wrapper::detail::report_exception</a> (std::string const &amp;prefix, char const *whatMsg) noexcept</td></tr>
-<tr class="memdesc:a6731c24b90644c9b4b94c4c81af602dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds "prefix. Reason: what" and reports it.  <br /></td></tr>
-<tr class="separator:a6731c24b90644c9b4b94c4c81af602dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a830b8d9cf501bccfb594bebd0221c287" id="r_a830b8d9cf501bccfb594bebd0221c287"><td class="memTemplParams" colspan="2">template&lt;typename Function, typename... Args&gt; </td></tr>
-<tr class="memitem:a830b8d9cf501bccfb594bebd0221c287"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a> (std::string const &amp;excMessage, std::string const &amp;unknownExcMessage, Function &amp;&amp;func, Args &amp;&amp;...args) noexcept(noexcept(std::declval&lt; Function &gt;()(std::declval&lt; Args &gt;()...))) -&gt; <a class="el" href="a01093.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a>&lt; Function, Args... &gt;</td></tr>
-<tr class="memdesc:a830b8d9cf501bccfb594bebd0221c287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <code>func(args...)</code>, catching and safely reporting any exception it throws instead of letting it propagate.  <br /></td></tr>
-<tr class="separator:a830b8d9cf501bccfb594bebd0221c287"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31c402376bcc2e685ff264c2e57d227f" id="r_a31c402376bcc2e685ff264c2e57d227f"><td class="memTemplParams" colspan="2">template&lt;typename Pointer&gt; </td></tr>
+<tr class="memitem:a31c402376bcc2e685ff264c2e57d227f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01315.html#a31c402376bcc2e685ff264c2e57d227f">lumex::core::atomic::smart_ptr::table_wait::Detail::dispose_box</a> (<a class="el" href="a01762.html">box_t</a>&lt; Pointer &gt; *box, <a class="el" href="a01754.html">reclaim::immediate</a>) noexcept</td></tr>
+<tr class="memdesc:a31c402376bcc2e685ff264c2e57d227f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hands a box that was removed from its cell to the policy.  <br /></td></tr>
+<tr class="separator:a31c402376bcc2e685ff264c2e57d227f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19b5ddda62e663afe553a29f90c7743c" id="r_a19b5ddda62e663afe553a29f90c7743c"><td class="memTemplParams" colspan="2">template&lt;typename Pointer&gt; </td></tr>
+<tr class="memitem:a19b5ddda62e663afe553a29f90c7743c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01315.html#a19b5ddda62e663afe553a29f90c7743c">lumex::core::atomic::smart_ptr::table_wait::Detail::dispose_box</a> (<a class="el" href="a01762.html">box_t</a>&lt; Pointer &gt; *box, <a class="el" href="a01758.html">reclaim::deferred</a>) noexcept</td></tr>
+<tr class="memdesc:a19b5ddda62e663afe553a29f90c7743c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hands a box that was removed from its cell to the policy.     <br /></td></tr>
+<tr class="separator:a19b5ddda62e663afe553a29f90c7743c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Exception-safe call wrapper: invokes a callable, catches anything it throws, reports it to <code>std::cerr</code>, and returns a safe default value instead of letting the exception propagate. </p>
-<p>This header provides <code><a class="el" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop...">lumex::core::exceptions::Wrapper::ExceptionWrapper</a></code> plus the <code>LUMEX_SAFE_CALL</code>/<code>LUMEX_SAFE_CALL_MSG</code>/<code>LUMEX_SAFE_CALL_LAMBDA_MSG</code> convenience macros built on top of it. It is a distinct, self-contained concern from <code><a class="el" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,...">LumexException.hpp</a></code> (which defines the <code><a class="el" href="a00263.html#a14cb3c521ade640b8e5a7bf4aac3c929">LumexBaseException</a></code> base class and the <code>LUMEX_DEFINE_EXCEPTION</code>/<code>LUMEX_THROW_EXCEPTION</code>/ <code>LUMEX_EXCEPTION_HANDLE_BEGIN</code>/<code>END</code> machinery for <em>throwing and handling</em> exceptions) - this header instead <em>swallows</em> exceptions at a call site, which is why it lives in its own file next to <code><a class="el" href="a00263.html" title="LumexBaseException, the base exception of LumexLib that records the stack where it was constructed,...">LumexException.hpp</a></code> rather than being folded into it. </p><pre class="fragment">     Unlike `LumexBaseException`, `ExceptionWrapper` does not depend on
-</pre><p> any logging facility: <code>core/</code> must not depend on <code>lumex/applied/logging</code>. The default report sink is <code>std::cerr</code>. A consumer can install one function pointer (<code>set_safe_call_reporter</code>) so the same text goes to its own logger. If that function throws, the wrapper falls back to <code>std::cerr</code>. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a03ec1ac9d020fd4f7b12362a94f204e9" name="a03ec1ac9d020fd4f7b12362a94f204e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03ec1ac9d020fd4f7b12362a94f204e9">&#9670;&#160;</a></span>LUMEX_SAFE_CALL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SAFE_CALL</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>expr</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a> (                        \</div>
-<div class="line">      std::string (<span class="stringliteral">&quot;Exception in &quot;</span>) + std::string (<a class="code hl_define" href="a00428.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a>)       \</div>
-<div class="line">          + <span class="stringliteral">&quot; at &quot;</span> + std::string (__FILE__) + <span class="stringliteral">&quot;:&quot;</span>                             \</div>
-<div class="line">          + std::to_string (__LINE__),                                        \</div>
-<div class="line">      std::string (<span class="stringliteral">&quot;Unknown exception in &quot;</span>)                                   \</div>
-<div class="line">          + std::string (<a class="code hl_define" href="a00428.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a>) + <span class="stringliteral">&quot; at &quot;</span>                        \</div>
-<div class="line">          + std::string (__FILE__) + <span class="stringliteral">&quot;:&quot;</span> + std::to_string (__LINE__),         \</div>
-<div class="line">      [&amp;] () -&gt; <span class="keyword">decltype</span> (expr) { <span class="keywordflow">return</span> expr; })</div>
-<div class="ttc" id="aa00428_html_aaae5674dd2d0d351d585e646e72118fd"><div class="ttname"><a href="a00428.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a></div><div class="ttdeci">#define LUMEX_FUNCTION_NAME</div><div class="ttdef"><b>Definition</b> LumexMacros.hpp:44</div></div>
-<div class="ttc" id="aa01035_html_a830b8d9cf501bccfb594bebd0221c287"><div class="ttname"><a href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a></div><div class="ttdeci">auto ExceptionWrapper(std::string const &amp;excMessage, std::string const &amp;unknownExcMessage, Function &amp;&amp;func, Args &amp;&amp;...args) noexcept(noexcept(std::declval&lt; Function &gt;()(std::declval&lt; Args &gt;()...))) -&gt; lumex::core::utility::traits::invoke::invoke_result_t&lt; Function, Args... &gt;</div><div class="ttdoc">Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop...</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:284</div></div>
-</div><!-- fragment -->
-<p>Safely evaluates <code>expr</code>, with default, source-location-based diagnostic messages. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">expr</td><td>Expression to evaluate (any callable expression or function call). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>Captures the enclosing scope by reference (<code>[&amp;]</code>) so <code>expr</code> can use local variables. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Do not use with an expression that has side effects intended to run more than once - <code>expr</code> is only evaluated once here, but is written twice into the macro expansion's lambda body only in the <code>decltype</code>/return position, not re-evaluated. </dd></dl>
-
-</div>
-</div>
-<a id="a1ed36355e2c324c794ddd802ade7d549" name="a1ed36355e2c324c794ddd802ade7d549"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ed36355e2c324c794ddd802ade7d549">&#9670;&#160;</a></span>LUMEX_SAFE_CALL_LAMBDA_MSG</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SAFE_CALL_LAMBDA_MSG</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>lambda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>excMessage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>unknExcMessage</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a> (excMessage,             \</div>
-<div class="line">                                                      unknExcMessage, lambda)</div>
-</div><!-- fragment -->
-<p>Safely invokes <code>lambda</code>, with caller-supplied diagnostic messages. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">lambda</td><td>Callable to invoke directly (useful when the body is more than one statement, so it cannot be written as a single <code>expr</code>). </td></tr>
-    <tr><td class="paramname">excMessage</td><td>Message reported for a <code>std::exception</code>. </td></tr>
-    <tr><td class="paramname">unknExcMessage</td><td>Message reported for any other exception.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><a class="code hl_define" href="#a1ed36355e2c324c794ddd802ade7d549">LUMEX_SAFE_CALL_LAMBDA_MSG</a>(</div>
-<div class="line">    [&amp;]() {</div>
-<div class="line">        config = loadConfig(<span class="stringliteral">&quot;configure.txt&quot;</span>);</div>
-<div class="line">        <span class="keywordflow">if</span>(!tryApply(config)) config = defaultConfig();</div>
-<div class="line">    },</div>
-<div class="line">    <span class="stringliteral">&quot;Failed to load configure.txt&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;Unknown error while loading configure.txt&quot;</span>);</div>
-<div class="ttc" id="aa00269_html_a1ed36355e2c324c794ddd802ade7d549"><div class="ttname"><a href="#a1ed36355e2c324c794ddd802ade7d549">LUMEX_SAFE_CALL_LAMBDA_MSG</a></div><div class="ttdeci">#define LUMEX_SAFE_CALL_LAMBDA_MSG(lambda, excMessage, unknExcMessage)</div><div class="ttdoc">Safely invokes lambda, with caller-supplied diagnostic messages.</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:394</div></div>
-</div><!-- fragment --> </dd></dl>
-
-</div>
-</div>
-<a id="a261fa5b1604d900afd08ec4e0bebacb8" name="a261fa5b1604d900afd08ec4e0bebacb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a261fa5b1604d900afd08ec4e0bebacb8">&#9670;&#160;</a></span>LUMEX_SAFE_CALL_MSG</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SAFE_CALL_MSG</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>expr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>excMessage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>unknExcMessage</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="a01035.html#a830b8d9cf501bccfb594bebd0221c287">lumex::core::exceptions::Wrapper::ExceptionWrapper</a> (                        \</div>
-<div class="line">      excMessage, unknExcMessage, [&amp;] () -&gt; <span class="keyword">decltype</span> (expr) { <span class="keywordflow">return</span> expr; })</div>
-</div><!-- fragment -->
-<p>Safely evaluates <code>expr</code>, with caller-supplied diagnostic messages. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">expr</td><td>Expression to evaluate (any callable expression or function call). </td></tr>
-    <tr><td class="paramname">excMessage</td><td>Message reported for a <code>std::exception</code>. </td></tr>
-    <tr><td class="paramname">unknExcMessage</td><td>Message reported for any other exception. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>The immutable heap box of the lock-free engine, and the policies that say when a replaced box is destroyed. </p>
+<p>The lock-free engine (<code><a class="el" href="a00278.html" title="The lock-free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h...">LumexAtomicSmartPtrLockFreeCell.hpp</a></code>) never modifies a stored smart pointer in place. It keeps the value in a <code>box_t</code> allocated on the heap and publishes the box through one <code>std::atomic</code> pointer. A box is immutable after publication, so many readers may copy its smart pointer at the same time (a concurrent const access), and a box that a reader still names is protected by a hazard pointer (<code>core/hazard_pointer</code>) and cannot be freed under it. <code>box_t</code> carries the retire node of the hazard module (two words) and the smart pointer (two words): 32 bytes.</p>
+<p><code>reclaim::immediate</code> and <code>reclaim::deferred</code> choose what happens to the box a <code>store</code>, <code>exchange</code> or successful compare-exchange removed:</p>
+<ul>
+<li><code>immediate</code> (the default): the writer scans the hazard slots for that one box (<code>hazard_pointer_obj_base::reclaim_or_retire</code>) and destroys it before the call returns when no reader names it, so <code>use_count ()</code> and the deleter of the replaced value behave as with the lock-based engine. A box some reader is copying at that moment is retired instead and destroyed by a later reclamation pass. The scan costs one read of every hazard slot ever created per replacing operation.</li>
+<li><code>deferred</code>: the box is retired at once (<code>retire</code>) and destroyed by a reclamation pass of the hazard domain on whichever thread runs it, up to a threshold of retired objects later. <code>store</code> is then cheaper, and the replaced value outlives the call.</li>
+</ul>
+<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>, except the two policy tags, which are template arguments of <code>atomic_shared_ptr_lock_free</code> and <code>atomic_weak_ptr_lock_free</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="a00269.html">LumexExceptionWrapper.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00269.html">LumexAtomicSmartPtrBox.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

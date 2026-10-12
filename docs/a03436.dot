@@ -1,0 +1,11 @@
+digraph "lumex::core::optional::opt::detail::move_assign_kind&lt; T &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::optional\l::opt::detail::move_assign\l_kind\< T \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::integral_constant\l\< int, !(std::is_move\l_constructible\< T \>::value\l &&std::is_move_assignable\l\< T \>::value) ? 0 :((std::is\l_trivially_move_constructible\l\< T \>::value &&std::is_trivially\l_move_assignable\< T \>::value &&std\l::is_trivially_destructible\< T \>::\lvalue) ? 1 :2)\>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

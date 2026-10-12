@@ -1,0 +1,25 @@
+digraph "LumexDwcasWord.hpp"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="LumexDwcasWord.hpp",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="dwcas_word, a 16-byte atomic word with a 128-bit compare-and-swap (x86-64 only), and the header that ..."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="LumexAtomic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01175.html",tooltip="Atomic module: atomic_shared_ptr<T> and atomic_weak_ptr<T>, the interface of the C++20 std::atomic<st..."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="example_atomic_config\l_reload.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00659.html",tooltip=" "];
+  Node2 -> Node4 [id="edge3_Node000002_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="example_atomic_smart\l_ptr.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00662.html",tooltip=" "];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="example_atomic_split\l_count.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00665.html",tooltip=" "];
+  Node1 -> Node6 [id="edge5_Node000001_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="LumexSplitCountCell.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00287.html",tooltip="The split-count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..."];
+  Node1 -> Node7 [id="edge6_Node000001_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="LumexSplitCountPolicy.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00290.html",tooltip="The policy of the split-count engine: the named steps of its protocol, the events a ledger counts,..."];
+  Node7 -> Node6 [id="edge7_Node000007_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node8 [id="edge8_Node000001_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="LumexSplitCountWord.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00296.html",tooltip="The slot word of the split-count engine: a control block, the ticks of the loads in flight and the st..."];
+  Node8 -> Node6 [id="edge9_Node000008_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 -> Node7 [id="edge10_Node000008_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

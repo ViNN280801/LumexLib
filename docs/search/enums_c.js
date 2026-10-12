@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['write_5fmode_0',['write_mode',['../a01045.html#aff3ca2c04a9619a71b70141134fff438',1,'lumex::core::filesystem::fs']]]
+  ['test_5fpoint_5fid_5ft_0',['test_point_id_t',['../a01315.html#adb6bacd656d47fc088685836f33190d7',1,'lumex::core::atomic::smart_ptr::table_wait::Detail::test_point_id_t'],['../a01369.html#ae7c0ac99eb3dfb702701ee36df0bcdb9',1,'lumex::core::hazard_pointer::engine::test_point_id_t']]],
+  ['transport_5fstatus_1',['transport_status',['../a01294.html#a55026740a9b543238617bc39b4d797e6',1,'lumex::applied::serial::probe::detail']]],
+  ['transportcrcmode_2',['TransportCrcMode',['../a01336.html#a550c04492ccdbe76b3c82f02ac7c3dc0',1,'lumex::core::crc::catalog']]],
+  ['type_5ft_3',['type_t',['../a05110.html#adb8cd64c821b92dc30490b083e5e686c',1,'lumex::xml::xpath::node::XPathNodeSet']]]
 ];

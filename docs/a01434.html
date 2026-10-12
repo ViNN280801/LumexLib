@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::utility::sequence Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01437.html',''); initResizable(true); });
+$(function(){initNavTree('a01434.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,146 @@ $(function(){initNavTree('a01437.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::sequence Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01435.html">detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04398.html">integer_sequence</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The compile-time list of the integers <code>Values...</code> of type <code>T</code> (the counterpart of <code>std::integer_sequence</code>, C++14).  <a href="a04398.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a9a30df5a0494c32982bf21963e9ba78c" id="r_a9a30df5a0494c32982bf21963e9ba78c"><td class="memTemplParams" colspan="2">template&lt;std::size_t... Indices&gt; </td></tr>
+<tr class="memitem:a9a30df5a0494c32982bf21963e9ba78c"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9a30df5a0494c32982bf21963e9ba78c">index_sequence</a> = <a class="el" href="a04398.html">integer_sequence</a>&lt;std::size_t, Indices...&gt;</td></tr>
+<tr class="memdesc:a9a30df5a0494c32982bf21963e9ba78c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of <code>std::size_t</code> indices (the counterpart of <code>std::index_sequence</code>, C++14).  <br /></td></tr>
+<tr class="separator:a9a30df5a0494c32982bf21963e9ba78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dbe331823c6f375ed1987f6fdfe901e" id="r_a0dbe331823c6f375ed1987f6fdfe901e"><td class="memTemplParams" colspan="2">template&lt;typename T, T Count&gt; </td></tr>
+<tr class="memitem:a0dbe331823c6f375ed1987f6fdfe901e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0dbe331823c6f375ed1987f6fdfe901e">make_integer_sequence</a></td></tr>
+<tr class="memdesc:a0dbe331823c6f375ed1987f6fdfe901e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list <code>0, 1, ..., Count - 1</code> of type <code>T</code> (the counterpart of <code>std::make_integer_sequence</code>, C++14).  <br /></td></tr>
+<tr class="separator:a0dbe331823c6f375ed1987f6fdfe901e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d24f7d93f15d295bb915777058ac246" id="r_a0d24f7d93f15d295bb915777058ac246"><td class="memTemplParams" colspan="2">template&lt;std::size_t Count&gt; </td></tr>
+<tr class="memitem:a0d24f7d93f15d295bb915777058ac246"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0d24f7d93f15d295bb915777058ac246">make_index_sequence</a> = <a class="el" href="#a0dbe331823c6f375ed1987f6fdfe901e">make_integer_sequence</a>&lt;std::size_t, Count&gt;</td></tr>
+<tr class="memdesc:a0d24f7d93f15d295bb915777058ac246"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of indices <code>0, 1, ..., Count - 1</code> (the counterpart of <code>std::make_index_sequence</code>, C++14).  <br /></td></tr>
+<tr class="separator:a0d24f7d93f15d295bb915777058ac246"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66e9839e09b185e1c44aaed83c94f72a" id="r_a66e9839e09b185e1c44aaed83c94f72a"><td class="memTemplParams" colspan="2">template&lt;typename... Types&gt; </td></tr>
+<tr class="memitem:a66e9839e09b185e1c44aaed83c94f72a"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a66e9839e09b185e1c44aaed83c94f72a">index_sequence_for</a> = <a class="el" href="#a0d24f7d93f15d295bb915777058ac246">make_index_sequence</a>&lt;sizeof...(Types)&gt;</td></tr>
+<tr class="memdesc:a66e9839e09b185e1c44aaed83c94f72a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of indices of a pack, <code>0 .. sizeof... (Types) - 1</code> (the counterpart of <code>std::index_sequence_for</code>, C++14).  <br /></td></tr>
+<tr class="separator:a66e9839e09b185e1c44aaed83c94f72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a9a30df5a0494c32982bf21963e9ba78c" name="a9a30df5a0494c32982bf21963e9ba78c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a30df5a0494c32982bf21963e9ba78c">&#9670;&#160;</a></span>index_sequence</h2>
 
-<p>This is the complete list of members for <a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01437.html#aba6f71ed0e68d03a0a8c83cdf41d1634">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01437.html#a8d526bf73d5e6db1775cc9a0d2c01cf3">kInit</a></td><td class="entry"><a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01437.html#aaa6c8985dc6f2f7ddf4017f7fdeb61bf">kPoly</a></td><td class="entry"><a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01437.html#a4e1e003a591657370eae279ad8aaca58">kRefIn</a></td><td class="entry"><a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01437.html#a1dedd6189b184a88864f685c81ea50c2">kRefOut</a></td><td class="entry"><a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01437.html#af3f7f85c221bfcef968c890485db35c3">kWidth</a></td><td class="entry"><a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01437.html#a6a5007803a5c528a8fef3897b9e728c7">kXorOut</a></td><td class="entry"><a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01437.html#a22029d641951901976c9cd4dc0e60417">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01437.html">lumex::core::crc::parametric::crc6_cdma2000_b_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t... Indices&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a9a30df5a0494c32982bf21963e9ba78c">lumex::core::utility::sequence::index_sequence</a> = <a class="el" href="a04398.html">integer_sequence</a>&lt;std::size_t, Indices...&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A list of <code>std::size_t</code> indices (the counterpart of <code>std::index_sequence</code>, C++14). </p>
+
+</div>
+</div>
+<a id="a66e9839e09b185e1c44aaed83c94f72a" name="a66e9839e09b185e1c44aaed83c94f72a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66e9839e09b185e1c44aaed83c94f72a">&#9670;&#160;</a></span>index_sequence_for</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Types&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a66e9839e09b185e1c44aaed83c94f72a">lumex::core::utility::sequence::index_sequence_for</a> = <a class="el" href="#a0d24f7d93f15d295bb915777058ac246">make_index_sequence</a>&lt;sizeof...(Types)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The list of indices of a pack, <code>0 .. sizeof... (Types) - 1</code> (the counterpart of <code>std::index_sequence_for</code>, C++14). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Types</td><td>The pack. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0d24f7d93f15d295bb915777058ac246" name="a0d24f7d93f15d295bb915777058ac246"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d24f7d93f15d295bb915777058ac246">&#9670;&#160;</a></span>make_index_sequence</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t Count&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a0d24f7d93f15d295bb915777058ac246">lumex::core::utility::sequence::make_index_sequence</a> = <a class="el" href="#a0dbe331823c6f375ed1987f6fdfe901e">make_integer_sequence</a>&lt;std::size_t, Count&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The list of indices <code>0, 1, ..., Count - 1</code> (the counterpart of <code>std::make_index_sequence</code>, C++14). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Count</td><td>The length, at most 16384. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0dbe331823c6f375ed1987f6fdfe901e" name="a0dbe331823c6f375ed1987f6fdfe901e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dbe331823c6f375ed1987f6fdfe901e">&#9670;&#160;</a></span>make_integer_sequence</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, T Count&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a0dbe331823c6f375ed1987f6fdfe901e">lumex::core::utility::sequence::make_integer_sequence</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> </div>
+<div class="line">    <span class="keyword">typename</span> <a class="code hl_struct" href="a04410.html">detail::sequence_builder</a>&lt;T,</div>
+<div class="line">                                      <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span> (Count)&gt;::type</div>
+<div class="ttc" id="aa04410_html"><div class="ttname"><a href="a04410.html">lumex::core::utility::sequence::detail::sequence_builder</a></div><div class="ttdoc">type is the list 0 .. Count - 1 of type T, built by halving, so the depth is log2 (Count)....</div><div class="ttdef"><b>Definition</b> LumexIndexSequence.hpp:147</div></div>
+</div><!-- fragment -->
+<p>The list <code>0, 1, ..., Count - 1</code> of type <code>T</code> (the counterpart of <code>std::make_integer_sequence</code>, C++14). </p>
+<p>A negative count and a count above 16384 are refused: the alias has no type then, so <code><a class="el" href="#a0d24f7d93f15d295bb915777058ac246" title="The list of indices 0, 1, ..., Count - 1 (the counterpart of std::make_index_sequence,...">make_index_sequence</a>&lt;N - 1&gt;</code> with <code>N == 0</code> is an error at once instead of a compiler running out of memory on a list of 2^64 integers (a negative count converts to a huge unsigned one). </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>An integer type. </td></tr>
+    <tr><td class="paramname">Count</td><td>The length. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01434.html">sequence</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

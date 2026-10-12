@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::atomic::sync::table_wait::Detail::waiter_table_t Struct Reference</title>
+<title>LumexLib: lumex::core::expected::result::detail::invoke_detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,108 +104,33 @@ $(function(){initNavTree('a01357.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01354.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::atomic::sync::table_wait::Detail::waiter_table_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::detail::invoke_detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The whole waiting table.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00200_source.html">LumexAtomicWait.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a9411b94235117d67b0ea2a30479dc534" id="r_a9411b94235117d67b0ea2a30479dc534"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: std::size_t { <a class="el" href="#a9411b94235117d67b0ea2a30479dc534a09aa016a280f6f90b222ce7c69cf095b">stripe_count</a> = 64
- }</td></tr>
-<tr class="memdesc:a9411b94235117d67b0ea2a30479dc534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of stripes.  <a href="#a9411b94235117d67b0ea2a30479dc534">More...</a><br /></td></tr>
-<tr class="separator:a9411b94235117d67b0ea2a30479dc534"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:acece4ed37350a81045dd68451b7f676b" id="r_acece4ed37350a81045dd68451b7f676b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acece4ed37350a81045dd68451b7f676b">waiter_table_t</a> ()</td></tr>
-<tr class="separator:acece4ed37350a81045dd68451b7f676b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ac47b8d2c7877fae7fa499f31fa8d1b32" id="r_ac47b8d2c7877fae7fa499f31fa8d1b32"><td class="memItemLeft" align="right" valign="top">std::array&lt; <a class="el" href="a01353.html">waiter_stripe_t</a>, <a class="el" href="#a9411b94235117d67b0ea2a30479dc534a09aa016a280f6f90b222ce7c69cf095b">stripe_count</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac47b8d2c7877fae7fa499f31fa8d1b32">stripes</a></td></tr>
-<tr class="separator:ac47b8d2c7877fae7fa499f31fa8d1b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02626.html">is_class_object</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object operand is of the class of the member pointer (or derived).  <a href="a02626.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02634.html">is_pointer_object</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object operand is neither: it is dereferenced (a pointer).  <a href="a02634.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02618.html">is_reference_wrapper</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02622.html">is_reference_wrapper&lt; std::reference_wrapper&lt; U &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02630.html">is_wrapped_object</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object operand is a <code>std::reference_wrapper</code>.  <a href="a02630.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The whole waiting table. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a9411b94235117d67b0ea2a30479dc534" name="a9411b94235117d67b0ea2a30479dc534"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9411b94235117d67b0ea2a30479dc534">&#9670;&#160;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum : std::size_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Number of stripes. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9411b94235117d67b0ea2a30479dc534a09aa016a280f6f90b222ce7c69cf095b" name="a9411b94235117d67b0ea2a30479dc534a09aa016a280f6f90b222ce7c69cf095b"></a>stripe_count&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="acece4ed37350a81045dd68451b7f676b" name="acece4ed37350a81045dd68451b7f676b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acece4ed37350a81045dd68451b7f676b">&#9670;&#160;</a></span>waiter_table_t()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">lumex::core::atomic::sync::table_wait::Detail::waiter_table_t::waiter_table_t </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="ac47b8d2c7877fae7fa499f31fa8d1b32" name="ac47b8d2c7877fae7fa499f31fa8d1b32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac47b8d2c7877fae7fa499f31fa8d1b32">&#9670;&#160;</a></span>stripes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt;<a class="el" href="a01353.html">waiter_stripe_t</a>, <a class="el" href="#a9411b94235117d67b0ea2a30479dc534a09aa016a280f6f90b222ce7c69cf095b">stripe_count</a>&gt; lumex::core::atomic::sync::table_wait::Detail::waiter_table_t::stripes</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00200_source.html">LumexAtomicWait.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01006.html">atomic</a></li><li class="navelem"><a class="el" href="a01010.html">sync</a></li><li class="navelem"><a class="el" href="a01011.html">table_wait</a></li><li class="navelem"><a class="el" href="a01012.html">Detail</a></li><li class="navelem"><a class="el" href="a01357.html">waiter_table_t</a></li>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01351.html">expected</a></li><li class="navelem"><a class="el" href="a01355.html">result</a></li><li class="navelem"><a class="el" href="a01356.html">detail</a></li><li class="navelem"><a class="el" href="a01357.html">invoke_detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -110,31 +110,35 @@ $(function(){initNavTree('dir_554c46647e80ff154b2b91be60b0bc34.html',''); initRe
 Directory dependency graph for smart_ptr:</div>
 <div class="dyncontent">
 <div class="center"><img src="dir_554c46647e80ff154b2b91be60b0bc34_dep.png" border="0" usemap="#adir__554c46647e80ff154b2b91be60b0bc34__dep" alt="smart_ptr"/></div>
-<map name="adir__554c46647e80ff154b2b91be60b0bc34__dep" id="adir__554c46647e80ff154b2b91be60b0bc34__dep">
-<area shape="rect" href="dir_a794f2aa14bb7adf95f9a3f4e3b55361.html" title="sync" alt="" coords="41,128,90,155"/>
-<area shape="rect" href="dir_554c46647e80ff154b2b91be60b0bc34.html" title="smart_ptr" alt="" coords="27,53,104,80"/>
-<area shape="poly" href="dir_000112_000119.html" alt="" coords="68,81,68,112,63,112,63,81"/>
-<area shape="rect" href="dir_000112_000119.html" title="3" alt="" coords="70,101,77,117"/>
-<area shape="rect" href="dir_aaa57aed14d71e316a67f95634c796d3.html" title="utility" alt="" coords="126,128,178,155"/>
-<area shape="poly" href="dir_000112_000133.html" alt="" coords="82,78,127,116,124,120,79,83"/>
-<area shape="rect" href="dir_000112_000133.html" title="6" alt="" coords="125,102,132,118"/>
-<area shape="rect" href="dir_46588a2def099f5c90ce8dff319725b2.html" title="atomic" alt="" coords="16,16,115,165"/>
-</map>
 </div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="subdirs" name="subdirs"></a>
+Directories</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><span class="iconfclosed"></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_95030709502da905a080530bb25e5eb1.html">split_count</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00188_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00188.html">LumexAtomicSharedPtr.hpp</a></td></tr>
-<tr class="memdesc:a00188"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a>&lt;T&gt;</code>: the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> for C++11 and later. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00266_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00266.html">LumexAtomicSharedPtr.hpp</a></td></tr>
+<tr class="memdesc:a00266"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a00659.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a>&lt;T&gt;</code> and its engines (<code>atomic_shared_ptr_lock_free</code>, <code>atomic_shared_ptr_lock_based</code>, <code>atomic_shared_ptr_std_backed</code>, and <code>atomic_shared_ptr_lock_free_split_count</code> over <code><a class="el" href="a03686.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a></code>): the interface of the C++20 <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> for C++11 and later. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00191_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00191.html">LumexAtomicSmartPtrCell.hpp</a></td></tr>
-<tr class="memdesc:a00191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storage and operations behind <code><a class="el" href="a01325.html" title="Atomic std::shared_ptr&lt;T&gt;, as std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;.">atomic_shared_ptr</a></code> and <code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a></code>: a lock-based cell for every standard library, and a cell over the standard atomic smart pointers. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00269_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00269.html">LumexAtomicSmartPtrBox.hpp</a></td></tr>
+<tr class="memdesc:a00269"><td class="mdescLeft">&#160;</td><td class="mdescRight">The immutable heap box of the lock-free engine, and the policies that say when a replaced box is destroyed. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00194_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00194.html">LumexAtomicSmartPtrConfig.hpp</a></td></tr>
-<tr class="memdesc:a00194"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chooses between the standard <code>std::atomic&lt;std::shared_ptr&lt;T&gt;&gt;</code> and the lock-based implementation, and defines the memory order checks of the atomic smart pointers. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00272_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00272.html">LumexAtomicSmartPtrCell.hpp</a></td></tr>
+<tr class="memdesc:a00272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storage and operations behind <code>atomic_shared_ptr_lock_based</code>, <code>atomic_weak_ptr_lock_based</code> and the <code>*_std_backed</code> class templates: a lock-based cell for every standard library, and a cell over the standard atomic smart pointers. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00197_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00197.html">LumexAtomicWeakPtr.hpp</a></td></tr>
-<tr class="memdesc:a00197"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a01349.html" title="Atomic std::weak_ptr&lt;T&gt;, as std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;.">atomic_weak_ptr</a>&lt;T&gt;</code>: the interface of the C++20 <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> for C++11 and later. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00275_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00275.html">LumexAtomicSmartPtrConfig.hpp</a></td></tr>
+<tr class="memdesc:a00275"><td class="mdescLeft">&#160;</td><td class="mdescRight">The one place that decides which engines exist and which one the common names <code><a class="el" href="a00659.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a></code> and <code><a class="el" href="a00659.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> stand for, and the memory order checks of the atomic smart pointers. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00278_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00278.html">LumexAtomicSmartPtrLockFreeCell.hpp</a></td></tr>
+<tr class="memdesc:a00278"><td class="mdescLeft">&#160;</td><td class="mdescRight">The lock-free engine behind <code>atomic_shared_ptr_lock_free</code> and <code>atomic_weak_ptr_lock_free</code>: an immutable heap box behind one <code>std::atomic</code> pointer, protected by hazard pointers. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00281_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00281.html">LumexAtomicSmartPtrLumexFamily.hpp</a></td></tr>
+<tr class="memdesc:a00281"><td class="mdescLeft">&#160;</td><td class="mdescRight">The equivalence traits of the module's own pointer family (<code><a class="el" href="a03686.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a></code> / <code>weak_ptr</code>) for the lock-based cell, which <code>atomic_shared_ptr_lock_based_lumex</code> and <code>atomic_weak_ptr_lock_based_lumex</code> use. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00284_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00284.html">LumexAtomicWeakPtr.hpp</a></td></tr>
+<tr class="memdesc:a00284"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a00659.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a>&lt;T&gt;</code> and its engines (<code>atomic_weak_ptr_lock_free</code>, <code>atomic_weak_ptr_lock_based</code>, <code>atomic_weak_ptr_std_backed</code>, and <code>atomic_weak_ptr_lock_free_split_count</code> over <code><a class="el" href="a03690.html" title="A weak reference to an object owned by shared_ptr objects.">lumex::core::smart_ptr::weak_ptr</a></code>): the interface of the C++20 <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> for C++11 and later. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

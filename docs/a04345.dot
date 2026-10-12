@@ -1,0 +1,13 @@
+digraph "lumex::core::utility::ranges::Algorithm::Detail::is_order_between&lt; Predicate, Value, Projected, traits::meta::void_t&lt; decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Projected &gt;(), std::declval&lt; Value const &amp; &gt;())), decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Value const &amp; &gt;(), std::declval&lt; Projected &gt;()))&gt; &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::utility\l::ranges::Algorithm::\lDetail::is_order_between\l\< Predicate, Value, Projected,\l traits::meta::void_t\< decltype\l(std::declval\< Predicate & \>()\l(std::declval\< Projected \>(), std\l::declval\< Value const & \>())), decltype\l(std::declval\< Predicate & \>()(std::declval\l\< Value const & \>(), std::declval\< Projected \>()))\> \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::false_type",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node1 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="std::integral_constant\l\< bool, std::is_convertible\l\< decltype(std::declval\< Predicate\l & \>()(std::declval\< Projected\l \>(), std::declval\< Value const\l & \>())), bool \>::value &&std::is\l_convertible\< decltype(std::declval\l\< Predicate & \>()(std::declval\< Value\l const & \>(), std::declval\< Projected\l \>())), bool \>::value \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,16 +1,26 @@
 var a01269 =
 [
-    [ "Impl", "a01249.html", "a01249" ],
-    [ "SerialProber", "a01269.html#a60094bd3411cdf03146bb5731e745009", null ],
-    [ "~SerialProber", "a01269.html#abb88a396c99d472e759e2faf36aa1db3", null ],
-    [ "SerialProber", "a01269.html#a8b9e8e7242a2a133211228bfc7551b57", null ],
-    [ "SerialProber", "a01269.html#adb6024418e5d30b4be86e7e460a1f1e6", null ],
-    [ "close", "a01269.html#aec4e0ca8a3228735b8dde7e2c5e51f7e", null ],
-    [ "is_open", "a01269.html#aeccb8971734d9825d958152ec2e6ed49", null ],
-    [ "open", "a01269.html#aa345ad61b5406b3ed295788ec6ad8ffd", null ],
-    [ "operator=", "a01269.html#aa8020d760bfd17ec23e6a1d3c0e358ad", null ],
-    [ "operator=", "a01269.html#aa9aff66a1a0294c1520a0dfd668f35b1", null ],
-    [ "probe", "a01269.html#a845214e6e33fa487163f38e3b13ee1ec", null ],
-    [ "read", "a01269.html#a2bec366a058baf6a1573254d30bce52e", null ],
-    [ "write", "a01269.html#a5d84b61824813951c20b4fed25b8cdab", null ]
+    [ "LumexJsonSchemaException", "a01550.html", "a01550" ],
+    [ "LumexJsonSchemaTraverser", "a01554.html", "a01554" ],
+    [ "LumexJsonSchemaCheckMode", "a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33", [
+      [ "validate_only", "a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33a6608187b13a5d6d09880f3101d20aa99", null ],
+      [ "validate_and_normalize", "a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107", null ]
+    ] ],
+    [ "LumexJsonSchemaFailure", "a01269.html#a2384d12933d21396aa0daa63d43936e1", [
+      [ "parse_error", "a01269.html#a2384d12933d21396aa0daa63d43936e1a456e19aeafa334241c7ff3f589547f9d", null ],
+      [ "missing_required", "a01269.html#a2384d12933d21396aa0daa63d43936e1af6c29ae73451ab6997c55effd0a64e99", null ],
+      [ "type_mismatch", "a01269.html#a2384d12933d21396aa0daa63d43936e1a570a4fa126d94bc89332b5f610420adf", null ],
+      [ "const_mismatch", "a01269.html#a2384d12933d21396aa0daa63d43936e1a6b08be114aa59131cc4ac8b9dc72437d", null ],
+      [ "enum_mismatch", "a01269.html#a2384d12933d21396aa0daa63d43936e1abd13a502c42db4e72bb5feea69edd218", null ]
+    ] ],
+    [ "to_string", "a01269.html#a57f7508f32fdf0b89d304252b1afd45b", null ],
+    [ "to_string", "a01269.html#af7939c82c55c94d9da8357597bef1092", null ],
+    [ "LumexJsonSchemaCheckModeFirst", "a01269.html#ab89235ea80bc3f74c2dd50338695f356", null ],
+    [ "LumexJsonSchemaCheckModeLast", "a01269.html#a5dbafca3402a198602f4cb429ef923ca", null ],
+    [ "LumexJsonSchemaCheckModeSize", "a01269.html#ac3c4a84172a044c313362a96ff45f511", null ],
+    [ "LumexJsonSchemaCheckModeValues", "a01269.html#af08889a31e28d3ede7b844fc31dde93c", null ],
+    [ "LumexJsonSchemaFailureFirst", "a01269.html#a8b60b4fba0a537a7c6b8442f23ada11d", null ],
+    [ "LumexJsonSchemaFailureLast", "a01269.html#a25dab2247fa17f1e89dbcc1baebf333c", null ],
+    [ "LumexJsonSchemaFailureSize", "a01269.html#afb4b30401a9adec785560ffe8faebd06", null ],
+    [ "LumexJsonSchemaFailureValues", "a01269.html#ae56d735e8f5d7196019b721716f911f9", null ]
 ];

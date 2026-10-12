@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::hazard_pointer::hazard_pointer Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03125.html',''); initResizable(true); });
+$(function(){initNavTree('a03122.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,21 +103,615 @@ $(function(){initNavTree('a03125.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::xml::xpath::memory::XPathAllocatorCapture Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
+<a href="a03119.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::hazard_pointer::hazard_pointer Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03125.html">lumex::xml::xpath::memory::XPathAllocatorCapture</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03125.html#a1e4066fd6589308abecd92451597a5a5">_state</a></td><td class="entry"><a class="el" href="a03125.html">lumex::xml::xpath::memory::XPathAllocatorCapture</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03125.html#a70ee668422b70b55bdd9fee3aecd6e2a">_target</a></td><td class="entry"><a class="el" href="a03125.html">lumex::xml::xpath::memory::XPathAllocatorCapture</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03125.html#af17eb46a374fdc63d71c62dbff1190ba">XPathAllocatorCapture</a>(XPathAllocator *alloc)</td><td class="entry"><a class="el" href="a03125.html">lumex::xml::xpath::memory::XPathAllocatorCapture</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03125.html#ab17ba73a0b5607ae26c7d70448047ca0">~XPathAllocatorCapture</a>()</td><td class="entry"><a class="el" href="a03125.html">lumex::xml::xpath::memory::XPathAllocatorCapture</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Owner of one hazard slot ([saferecl.hp.holder]).  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00452_source.html">LumexHazardPointerHolder.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:afdcf623055efa1f47a964f4bb6d48543" id="r_afdcf623055efa1f47a964f4bb6d48543"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdcf623055efa1f47a964f4bb6d48543">hazard_pointer</a> () noexcept</td></tr>
+<tr class="memdesc:afdcf623055efa1f47a964f4bb6d48543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty holder (no slot).  <br /></td></tr>
+<tr class="separator:afdcf623055efa1f47a964f4bb6d48543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae648be7baccd39f2e8b7c15c1e961778" id="r_ae648be7baccd39f2e8b7c15c1e961778"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae648be7baccd39f2e8b7c15c1e961778">hazard_pointer</a> (<a class="el" href="a03122.html">hazard_pointer</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:ae648be7baccd39f2e8b7c15c1e961778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes the slot of <code>other</code>, which becomes empty.  <br /></td></tr>
+<tr class="separator:ae648be7baccd39f2e8b7c15c1e961778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15fd274905b9bea763b072dcd2bcb1f6" id="r_a15fd274905b9bea763b072dcd2bcb1f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03122.html">hazard_pointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15fd274905b9bea763b072dcd2bcb1f6">operator=</a> (<a class="el" href="a03122.html">hazard_pointer</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a15fd274905b9bea763b072dcd2bcb1f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a225f0ec1d5204c8213dd85f581aa9729" id="r_a225f0ec1d5204c8213dd85f581aa9729"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a225f0ec1d5204c8213dd85f581aa9729">hazard_pointer</a> (<a class="el" href="a03122.html">hazard_pointer</a> const &amp;)=delete</td></tr>
+<tr class="separator:a225f0ec1d5204c8213dd85f581aa9729"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6defd4345746744a47f114909b4a586a" id="r_a6defd4345746744a47f114909b4a586a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03122.html">hazard_pointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6defd4345746744a47f114909b4a586a">operator=</a> (<a class="el" href="a03122.html">hazard_pointer</a> const &amp;)=delete</td></tr>
+<tr class="separator:a6defd4345746744a47f114909b4a586a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf76b401560935c53179b917d1c48058" id="r_abf76b401560935c53179b917d1c48058"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf76b401560935c53179b917d1c48058">~hazard_pointer</a> ()</td></tr>
+<tr class="memdesc:abf76b401560935c53179b917d1c48058"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ends the protection and gives the slot back (when not empty).  <br /></td></tr>
+<tr class="separator:abf76b401560935c53179b917d1c48058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a117e9c37708d6359f511e6cb72df9122" id="r_a117e9c37708d6359f511e6cb72df9122"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a117e9c37708d6359f511e6cb72df9122">empty</a> () const noexcept</td></tr>
+<tr class="memdesc:a117e9c37708d6359f511e6cb72df9122"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when the holder owns no slot.  <br /></td></tr>
+<tr class="separator:a117e9c37708d6359f511e6cb72df9122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac49221408e2375f27055ed92d484592e" id="r_ac49221408e2375f27055ed92d484592e"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:ac49221408e2375f27055ed92d484592e"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac49221408e2375f27055ed92d484592e">protect</a> (std::atomic&lt; T * &gt; const &amp;src) noexcept</td></tr>
+<tr class="memdesc:ac49221408e2375f27055ed92d484592e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads <code>src</code> and protects the loaded object; returns it.  <br /></td></tr>
+<tr class="separator:ac49221408e2375f27055ed92d484592e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01995ce8c3384e0fbb95b796e08203c5" id="r_a01995ce8c3384e0fbb95b796e08203c5"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a01995ce8c3384e0fbb95b796e08203c5"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a01995ce8c3384e0fbb95b796e08203c5">try_protect</a> (T *&amp;ptr, std::atomic&lt; T * &gt; const &amp;src) noexcept</td></tr>
+<tr class="memdesc:a01995ce8c3384e0fbb95b796e08203c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Protects <code>ptr</code> and checks that <code>src</code> still holds it.  <br /></td></tr>
+<tr class="separator:a01995ce8c3384e0fbb95b796e08203c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79b9537f4416a5af8d3fed1d95d7b4ec" id="r_a79b9537f4416a5af8d3fed1d95d7b4ec"><td class="memTemplParams" colspan="2">template&lt;class T, class Source, class Filter&gt; </td></tr>
+<tr class="memitem:a79b9537f4416a5af8d3fed1d95d7b4ec"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a79b9537f4416a5af8d3fed1d95d7b4ec">try_protect</a> (T *&amp;ptr, Source const &amp;src, Filter filter) noexcept</td></tr>
+<tr class="memdesc:a79b9537f4416a5af8d3fed1d95d7b4ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension: <code>try_protect</code> over a source that is not a <code>std::atomic&lt;T *&gt;</code>.  <br /></td></tr>
+<tr class="separator:a79b9537f4416a5af8d3fed1d95d7b4ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8706d1bc216c40812555c10f7b6da4f" id="r_ac8706d1bc216c40812555c10f7b6da4f"><td class="memTemplParams" colspan="2">template&lt;class Source, class Filter&gt; </td></tr>
+<tr class="memitem:ac8706d1bc216c40812555c10f7b6da4f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac8706d1bc216c40812555c10f7b6da4f">protect</a> (Source const &amp;src, Filter filter) noexcept -&gt; decltype(filter(src()))</td></tr>
+<tr class="memdesc:ac8706d1bc216c40812555c10f7b6da4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension: <code>protect</code> over a callable source and a filter (see <code>try_protect</code> with three arguments).  <br /></td></tr>
+<tr class="separator:ac8706d1bc216c40812555c10f7b6da4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af399e64d25a641dfe9dfad781b93a075" id="r_af399e64d25a641dfe9dfad781b93a075"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:af399e64d25a641dfe9dfad781b93a075"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af399e64d25a641dfe9dfad781b93a075">reset_protection</a> (T const *ptr) noexcept</td></tr>
+<tr class="memdesc:af399e64d25a641dfe9dfad781b93a075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Protects <code>ptr</code> without checking a source (ends the previous protection).  <br /></td></tr>
+<tr class="separator:af399e64d25a641dfe9dfad781b93a075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d629d77b94cba00a5b8b1eddeed7cce" id="r_a1d629d77b94cba00a5b8b1eddeed7cce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d629d77b94cba00a5b8b1eddeed7cce">reset_protection</a> (std::nullptr_t=nullptr) noexcept</td></tr>
+<tr class="memdesc:a1d629d77b94cba00a5b8b1eddeed7cce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ends the protection.  <br /></td></tr>
+<tr class="separator:a1d629d77b94cba00a5b8b1eddeed7cce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad656669c2363efbdda07a101b81fa187" id="r_ad656669c2363efbdda07a101b81fa187"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad656669c2363efbdda07a101b81fa187">swap</a> (<a class="el" href="a03122.html">hazard_pointer</a> &amp;other) noexcept</td></tr>
+<tr class="memdesc:ad656669c2363efbdda07a101b81fa187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the slots; no protection starts or ends.  <br /></td></tr>
+<tr class="separator:ad656669c2363efbdda07a101b81fa187"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a1ca070263da53a5a4081c67a623538ae" id="r_a1ca070263da53a5a4081c67a623538ae"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ca070263da53a5a4081c67a623538ae">detail::holder_access</a></td></tr>
+<tr class="separator:a1ca070263da53a5a4081c67a623538ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Owner of one hazard slot ([saferecl.hp.holder]). </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="afdcf623055efa1f47a964f4bb6d48543" name="afdcf623055efa1f47a964f4bb6d48543"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdcf623055efa1f47a964f4bb6d48543">&#9670;&#160;</a></span>hazard_pointer() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::hazard_pointer::hazard_pointer::hazard_pointer </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs an empty holder (no slot). </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_afdcf623055efa1f47a964f4bb6d48543_icgraph.png" border="0" usemap="#aa03122_afdcf623055efa1f47a964f4bb6d48543_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ae648be7baccd39f2e8b7c15c1e961778" name="ae648be7baccd39f2e8b7c15c1e961778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae648be7baccd39f2e8b7c15c1e961778">&#9670;&#160;</a></span>hazard_pointer() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::hazard_pointer::hazard_pointer::hazard_pointer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03122.html">hazard_pointer</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Takes the slot of <code>other</code>, which becomes empty. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_ae648be7baccd39f2e8b7c15c1e961778_cgraph.png" border="0" usemap="#aa03122_ae648be7baccd39f2e8b7c15c1e961778_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a225f0ec1d5204c8213dd85f581aa9729" name="a225f0ec1d5204c8213dd85f581aa9729"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a225f0ec1d5204c8213dd85f581aa9729">&#9670;&#160;</a></span>hazard_pointer() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::hazard_pointer::hazard_pointer::hazard_pointer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03122.html">hazard_pointer</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_a225f0ec1d5204c8213dd85f581aa9729_cgraph.png" border="0" usemap="#aa03122_a225f0ec1d5204c8213dd85f581aa9729_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="abf76b401560935c53179b917d1c48058" name="abf76b401560935c53179b917d1c48058"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf76b401560935c53179b917d1c48058">&#9670;&#160;</a></span>~hazard_pointer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::hazard_pointer::hazard_pointer::~hazard_pointer </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ends the protection and gives the slot back (when not empty). </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a117e9c37708d6359f511e6cb72df9122" name="a117e9c37708d6359f511e6cb72df9122"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a117e9c37708d6359f511e6cb72df9122">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::hazard_pointer::hazard_pointer::empty </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>True when the holder owns no slot. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_a117e9c37708d6359f511e6cb72df9122_cgraph.png" border="0" usemap="#aa03122_a117e9c37708d6359f511e6cb72df9122_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_a117e9c37708d6359f511e6cb72df9122_icgraph.png" border="0" usemap="#aa03122_a117e9c37708d6359f511e6cb72df9122_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a15fd274905b9bea763b072dcd2bcb1f6" name="a15fd274905b9bea763b072dcd2bcb1f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15fd274905b9bea763b072dcd2bcb1f6">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03122.html">hazard_pointer</a> &amp; lumex::core::hazard_pointer::hazard_pointer::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03122.html">hazard_pointer</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Ends the protection of this holder and takes the slot of <code>other</code>; self-assignment has no effect. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_a15fd274905b9bea763b072dcd2bcb1f6_cgraph.png" border="0" usemap="#aa03122_a15fd274905b9bea763b072dcd2bcb1f6_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a6defd4345746744a47f114909b4a586a" name="a6defd4345746744a47f114909b4a586a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6defd4345746744a47f114909b4a586a">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03122.html">hazard_pointer</a> &amp; lumex::core::hazard_pointer::hazard_pointer::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03122.html">hazard_pointer</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_a6defd4345746744a47f114909b4a586a_cgraph.png" border="0" usemap="#aa03122_a6defd4345746744a47f114909b4a586a_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ac8706d1bc216c40812555c10f7b6da4f" name="ac8706d1bc216c40812555c10f7b6da4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8706d1bc216c40812555c10f7b6da4f">&#9670;&#160;</a></span>protect() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Source, class Filter&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::hazard_pointer::hazard_pointer::protect </td>
+          <td>(</td>
+          <td class="paramtype">Source const &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Filter</td>          <td class="paramname"><span class="paramname"><em>filter</em></span>&#160;) -&gt; decltype (filter (src ()))
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Extension: <code>protect</code> over a callable source and a filter (see <code>try_protect</code> with three arguments). </p>
+<dl class="section return"><dt>Returns</dt><dd>The pointer <code>filter (src ())</code> returned when the protection held. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_ac8706d1bc216c40812555c10f7b6da4f_cgraph.png" border="0" usemap="#aa03122_ac8706d1bc216c40812555c10f7b6da4f_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ac49221408e2375f27055ed92d484592e" name="ac49221408e2375f27055ed92d484592e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac49221408e2375f27055ed92d484592e">&#9670;&#160;</a></span>protect() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * lumex::core::hazard_pointer::hazard_pointer::protect </td>
+          <td>(</td>
+          <td class="paramtype">std::atomic&lt; T * &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Loads <code>src</code> and protects the loaded object; returns it. </p>
+<dl class="section pre"><dt>Precondition</dt><dd>The holder is not empty. <code>T</code> is hazard-protectable. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_ac49221408e2375f27055ed92d484592e_cgraph.png" border="0" usemap="#aa03122_ac49221408e2375f27055ed92d484592e_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_ac49221408e2375f27055ed92d484592e_icgraph.png" border="0" usemap="#aa03122_ac49221408e2375f27055ed92d484592e_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a1d629d77b94cba00a5b8b1eddeed7cce" name="a1d629d77b94cba00a5b8b1eddeed7cce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d629d77b94cba00a5b8b1eddeed7cce">&#9670;&#160;</a></span>reset_protection() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::hazard_pointer::hazard_pointer::reset_protection </td>
+          <td>(</td>
+          <td class="paramtype">std::nullptr_t</td>          <td class="paramname"><span class="paramname"><em></em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ends the protection. </p>
+<dl class="section pre"><dt>Precondition</dt><dd>The holder is not empty. </dd></dl>
+
+</div>
+</div>
+<a id="af399e64d25a641dfe9dfad781b93a075" name="af399e64d25a641dfe9dfad781b93a075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af399e64d25a641dfe9dfad781b93a075">&#9670;&#160;</a></span>reset_protection() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::hazard_pointer::hazard_pointer::reset_protection </td>
+          <td>(</td>
+          <td class="paramtype">T const *</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Protects <code>ptr</code> without checking a source (ends the previous protection). </p>
+<p>For an object that is already protected some other way, for example by another holder (hand-over-hand traversal). A null <code>ptr</code> ends the protection. </p><dl class="section pre"><dt>Precondition</dt><dd>The holder is not empty. <code>T</code> is hazard-protectable. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_af399e64d25a641dfe9dfad781b93a075_icgraph.png" border="0" usemap="#aa03122_af399e64d25a641dfe9dfad781b93a075_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ad656669c2363efbdda07a101b81fa187" name="ad656669c2363efbdda07a101b81fa187"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad656669c2363efbdda07a101b81fa187">&#9670;&#160;</a></span>swap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::hazard_pointer::hazard_pointer::swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03122.html">hazard_pointer</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Exchanges the slots; no protection starts or ends. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_ad656669c2363efbdda07a101b81fa187_cgraph.png" border="0" usemap="#aa03122_ad656669c2363efbdda07a101b81fa187_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a79b9537f4416a5af8d3fed1d95d7b4ec" name="a79b9537f4416a5af8d3fed1d95d7b4ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79b9537f4416a5af8d3fed1d95d7b4ec">&#9670;&#160;</a></span>try_protect() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Source, class Filter&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::hazard_pointer::hazard_pointer::try_protect </td>
+          <td>(</td>
+          <td class="paramtype">T *&amp;</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Source const &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Filter</td>          <td class="paramname"><span class="paramname"><em>filter</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Extension: <code>try_protect</code> over a source that is not a <code>std::atomic&lt;T *&gt;</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The protected object type. </td></tr>
+    <tr><td class="paramname">Source</td><td>A callable: <code>src ()</code> loads the shared word (with at least acquire ordering; pass <code>seq_cst</code> if the structure needs it) and returns it, for example a tagged pointer or an integer. </td></tr>
+    <tr><td class="paramname">Filter</td><td>A callable: <code>filter (word)</code> returns the <code>T *</code> the word stands for (the word with its tag bits removed). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">ptr</td><td>The pointer to protect; on failure it receives <code>filter (src ())</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">src</td><td>Loads the shared word. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">filter</td><td>Maps a loaded word to the pointer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True when <code>filter (src ())</code> equals <code>ptr</code> after the announcement. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>The holder is not empty. <code>T</code> is hazard-protectable. Neither callable throws. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>An extension: the standard's <code><a class="el" href="a03122.html" title="Owner of one hazard slot ([saferecl.hp.holder]).">hazard_pointer</a></code> has no such overload. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_a79b9537f4416a5af8d3fed1d95d7b4ec_cgraph.png" border="0" usemap="#aa03122_a79b9537f4416a5af8d3fed1d95d7b4ec_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a01995ce8c3384e0fbb95b796e08203c5" name="a01995ce8c3384e0fbb95b796e08203c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01995ce8c3384e0fbb95b796e08203c5">&#9670;&#160;</a></span>try_protect() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::hazard_pointer::hazard_pointer::try_protect </td>
+          <td>(</td>
+          <td class="paramtype">T *&amp;</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::atomic&lt; T * &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Protects <code>ptr</code> and checks that <code>src</code> still holds it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">ptr</td><td>The pointer to protect; on failure it receives the value that <code>src</code> holds now. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">src</td><td>The source the pointer was read from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True when <code>src</code> still held <code>ptr</code> after the announcement; the object is then protected. False: nothing is protected, <code>ptr</code> is the new value. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>The holder is not empty. <code>T</code> is hazard-protectable. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_a01995ce8c3384e0fbb95b796e08203c5_cgraph.png" border="0" usemap="#aa03122_a01995ce8c3384e0fbb95b796e08203c5_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03122_a01995ce8c3384e0fbb95b796e08203c5_icgraph.png" border="0" usemap="#aa03122_a01995ce8c3384e0fbb95b796e08203c5_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="a1ca070263da53a5a4081c67a623538ae" name="a1ca070263da53a5a4081c67a623538ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ca070263da53a5a4081c67a623538ae">&#9670;&#160;</a></span>detail::holder_access</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend struct <a class="el" href="a03134.html">detail::holder_access</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a00452_source.html">LumexHazardPointerHolder.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01367.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="a03122.html">hazard_pointer</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

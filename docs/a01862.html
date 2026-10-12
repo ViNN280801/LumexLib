@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::base64::decode::decoder Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01865.html',''); initResizable(true); });
+$(function(){initNavTree('a01862.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,230 @@ $(function(){initNavTree('a01865.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc64_xz_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a01859.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::base64::decode::decoder Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01865.html#a396d017f1390402e16029563a469b36b">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01865.html#a88b1e1fd4b097175813f60bb29be938b">kInit</a></td><td class="entry"><a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01865.html#aa111c077d624910507b326f86e9ded44">kPoly</a></td><td class="entry"><a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01865.html#a95b7d858f151d8c785682d694871e213">kRefIn</a></td><td class="entry"><a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01865.html#ab940302e5593e9b771201cddf424eb24">kRefOut</a></td><td class="entry"><a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01865.html#aaee117b7e1bd2888c3b9c381b5847fe0">kWidth</a></td><td class="entry"><a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01865.html#ac08cbc41d5e0e07b2694cabd9f1b546c">kXorOut</a></td><td class="entry"><a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01865.html#ad571e0644707cdc86504d2585997c9f1">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01865.html">lumex::core::crc::parametric::crc64_xz_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Base64 decoder.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00311_source.html">Decoder.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac8bf414de7a978ca3fd9ea7121916435" id="r_ac8bf414de7a978ca3fd9ea7121916435"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8bf414de7a978ca3fd9ea7121916435">decode</a> (char const *encoded, std::size_t size, std::vector&lt; <a class="el" href="a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; &amp;out)</td></tr>
+<tr class="memdesc:ac8bf414de7a978ca3fd9ea7121916435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes <code>size</code> Base64 characters starting at <code>encoded</code> into <code>out</code>.  <br /></td></tr>
+<tr class="separator:ac8bf414de7a978ca3fd9ea7121916435"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74954c082460dfd907f881e4d021286c" id="r_a74954c082460dfd907f881e4d021286c"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74954c082460dfd907f881e4d021286c">decode</a> (char const *encoded, std::size_t size)</td></tr>
+<tr class="memdesc:a74954c082460dfd907f881e4d021286c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes <code>size</code> Base64 characters starting at <code>encoded</code>.  <br /></td></tr>
+<tr class="separator:a74954c082460dfd907f881e4d021286c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a360afd49df79519220388de49571f5a4" id="r_a360afd49df79519220388de49571f5a4"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a360afd49df79519220388de49571f5a4">decode</a> (<a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a> encoded, std::vector&lt; <a class="el" href="a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; &amp;out)</td></tr>
+<tr class="memdesc:a360afd49df79519220388de49571f5a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a Base64 string into <code>out</code> (see the pointer and size overload).  <br /></td></tr>
+<tr class="separator:a360afd49df79519220388de49571f5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf0c2c4214bf10c4e53c7f7a3b5f5d33" id="r_abf0c2c4214bf10c4e53c7f7a3b5f5d33"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf0c2c4214bf10c4e53c7f7a3b5f5d33">decode</a> (<a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a> encoded)</td></tr>
+<tr class="memdesc:abf0c2c4214bf10c4e53c7f7a3b5f5d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a Base64 string.  <br /></td></tr>
+<tr class="separator:abf0c2c4214bf10c4e53c7f7a3b5f5d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base64 decoder. </p>
+<p>The two functions that take a pointer and a size are exported and have the same signature in every C++ standard, so a consumer built at another standard than the library links. The overloads that take a string (<code><a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a" title="Type of the Base64 text the string overloads take: the lumex_string_view of lumex::string_view in eve...">string_type_t</a></code>) are inline wrappers over them: <code><a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a" title="Type of the Base64 text the string overloads take: the lumex_string_view of lumex::string_view in eve...">string_type_t</a></code> is <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> in every standard; a string literal, a <code>char const *</code>, a <code>std::string</code> and, from C++17, a <code>std::string_view</code> convert to it. The class itself is not exported: a dllimport class makes clang-cl emit an import for an inline member it does not inline, and the library does not provide the standard-dependent overload. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a74954c082460dfd907f881e4d021286c" name="a74954c082460dfd907f881e4d021286c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74954c082460dfd907f881e4d021286c">&#9670;&#160;</a></span>decode() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; decoder::decode </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>encoded</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Decodes <code>size</code> Base64 characters starting at <code>encoded</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">encoded</td><td>First character of the input; never valid as <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Number of characters to decode. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The decoded bytes, or an empty vector if the range is not valid Base64. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01862_a74954c082460dfd907f881e4d021286c_cgraph.png" border="0" usemap="#aa01862_a74954c082460dfd907f881e4d021286c_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ac8bf414de7a978ca3fd9ea7121916435" name="ac8bf414de7a978ca3fd9ea7121916435"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8bf414de7a978ca3fd9ea7121916435">&#9670;&#160;</a></span>decode() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool decoder::decode </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>encoded</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Decodes <code>size</code> Base64 characters starting at <code>encoded</code> into <code>out</code>. </p>
+<p>The range needs no terminating NUL and nothing after it is read; a NUL inside the range is an invalid character. The input may omit the trailing padding (<code>"SGk"</code> decodes like <code>"SGk="</code>). <code>out</code> is cleared first and stays empty on failure.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">encoded</td><td>First character of the input; never valid as <code>nullptr</code>, even with a <code>size</code> of 0 (pass <code>""</code> for an empty input). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Number of characters to decode. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>Receives the decoded bytes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the range is valid Base64 (an empty range is), <code>false</code> otherwise (invalid length, a character outside the alphabet, misplaced or excess padding, <code>nullptr</code>). </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01862_ac8bf414de7a978ca3fd9ea7121916435_cgraph.png" border="0" usemap="#aa01862_ac8bf414de7a978ca3fd9ea7121916435_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01862_ac8bf414de7a978ca3fd9ea7121916435_icgraph.png" border="0" usemap="#aa01862_ac8bf414de7a978ca3fd9ea7121916435_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="abf0c2c4214bf10c4e53c7f7a3b5f5d33" name="abf0c2c4214bf10c4e53c7f7a3b5f5d33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf0c2c4214bf10c4e53c7f7a3b5f5d33">&#9670;&#160;</a></span>decode() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::vector&lt; <a class="el" href="a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; lumex::core::base64::decode::decoder::decode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a></td>          <td class="paramname"><span class="paramname"><em>encoded</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Decodes a Base64 string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">encoded</td><td>The Base64-encoded input; sized, so a NUL character inside it is an invalid character. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The decoded bytes, or an empty vector if the input is invalid. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01862_abf0c2c4214bf10c4e53c7f7a3b5f5d33_cgraph.png" border="0" usemap="#aa01862_abf0c2c4214bf10c4e53c7f7a3b5f5d33_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a360afd49df79519220388de49571f5a4" name="a360afd49df79519220388de49571f5a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a360afd49df79519220388de49571f5a4">&#9670;&#160;</a></span>decode() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool lumex::core::base64::decode::decoder::decode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01322.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a></td>          <td class="paramname"><span class="paramname"><em>encoded</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Decodes a Base64 string into <code>out</code> (see the pointer and size overload). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">encoded</td><td>The Base64-encoded input; sized, so a NUL character inside it is an invalid character. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>Receives the decoded bytes; cleared first. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the input is valid Base64, <code>false</code> otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01862_a360afd49df79519220388de49571f5a4_cgraph.png" border="0" usemap="#aa01862_a360afd49df79519220388de49571f5a4_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="a00311_source.html">Decoder.hpp</a></li>
+<li><a class="el" href="a00308.html">Decoder.cpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01320.html">base64</a></li><li class="navelem"><a class="el" href="a01326.html">decode</a></li><li class="navelem"><a class="el" href="a01862.html">decoder</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

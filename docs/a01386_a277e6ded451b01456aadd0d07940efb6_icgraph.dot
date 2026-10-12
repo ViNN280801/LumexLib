@@ -1,0 +1,21 @@
+digraph "lumex::core::smart_ptr::detail::create_block"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::smart\l_ptr::detail::create_block",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Allocates one object of Block with the allocator Alloc rebound to it, constructs it with make and fre..."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::smart\l_ptr::detail::ctl_inplace\l::create",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03670.html#a95f558d550641bc52b405eb65a814cc8",tooltip="Allocates a block and constructs the object in it from args."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::smart\l_ptr::detail::ctl_ptr\l::create",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03666.html#aaae03fcf0dd57bc527b2a16ce6f51324",tooltip="Allocates and constructs a block."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::smart\l_ptr::detail::ctl_std\l::create",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03818.html#a0a6c3ea863906e8dee2185a0288877ed",tooltip="Allocates a block that owns owner."];
+  Node4 -> Node5 [id="edge4_Node000004_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::smart\l_ptr::from_std",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01385.html#a0f7e35c6ff6b5552331b1d5449faf6cc",tooltip="Wraps a std::shared_ptr, taking it over (no extra reference of it)."];
+  Node4 -> Node6 [id="edge5_Node000004_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::smart\l_ptr::from_std",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01385.html#ac2864e50b7539f646b6e1f278485d428",tooltip="Wraps a std::shared_ptr (see the file text)."];
+  Node6 -> Node7 [id="edge6_Node000006_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="main",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00851.html#ae66f6b31b5ad750f1fe042a706a4e3d4",tooltip=" "];
+}

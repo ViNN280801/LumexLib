@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: BadExpectedAccess.hpp File Reference</title>
+<title>LumexLib: LumexAtomicWeakPtr.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,86 +105,84 @@ $(function(){initNavTree('a00284.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">BadExpectedAccess.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">LumexAtomicWeakPtr.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code><a class="el" href="a04033.html" title="Exception thrown when the value of an Expected is read while it holds an error.">BadExpectedAccess</a></code>, the exception that <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> throws when its value is read while it holds an error; an analogue of C++23 <code>std::bad_expected_access</code>.  
+<p><code><a class="el" href="a00659.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a>&lt;T&gt;</code> and its engines (<code>atomic_weak_ptr_lock_free</code>, <code>atomic_weak_ptr_lock_based</code>, <code>atomic_weak_ptr_std_backed</code>, and <code>atomic_weak_ptr_lock_free_split_count</code> over <code><a class="el" href="a03690.html" title="A weak reference to an object owned by shared_ptr objects.">lumex::core::smart_ptr::weak_ptr</a></code>): the interface of the C++20 <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> for C++11 and later.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;exception&gt;</code><br />
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00272_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00275_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for BadExpectedAccess.hpp:</div>
+Include dependency graph for LumexAtomicWeakPtr.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00285.png" border="0" usemap="#a_bad_expected_access_8hpp" alt=""/></div>
-<map name="a_bad_expected_access_8hpp" id="a_bad_expected_access_8hpp">
-<area shape="rect" title="BadExpectedAccess, the exception that Expected throws when its value is read while it holds an error;..." alt="" coords="49,5,218,32"/>
-<area shape="rect" title=" " alt="" coords="5,88,83,115"/>
-<area shape="poly" title=" " alt="" coords="121,34,71,80,67,76,118,31"/>
-<area shape="rect" title=" " alt="" coords="107,88,160,115"/>
-<area shape="poly" title=" " alt="" coords="136,32,136,73,131,73,131,32"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="184,80,378,123"/>
-<area shape="poly" title=" " alt="" coords="158,30,231,70,229,75,155,35"/>
-</map>
+<div class="center"><img src="a00285.png" border="0" usemap="#a_lumex_atomic_weak_ptr_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00286.png" border="0" usemap="#a_bad_expected_access_8hppdep" alt=""/></div>
-<map name="a_bad_expected_access_8hppdep" id="a_bad_expected_access_8hppdep">
-<area shape="rect" title="BadExpectedAccess, the exception that Expected throws when its value is read while it holds an error;..." alt="" coords="71,5,239,32"/>
-<area shape="rect" href="a00908.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="149,304,225,331"/>
-<area shape="poly" title=" " alt="" coords="158,47,163,140,175,256,186,303,181,304,170,256,157,140,153,48"/>
-<area shape="rect" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,..." alt="" coords="179,80,280,107"/>
-<area shape="poly" title=" " alt="" coords="181,41,219,78,215,82,177,45"/>
-<area shape="rect" href="a00488.html" title=" " alt="" coords="5,379,161,405"/>
-<area shape="poly" title=" " alt="" coords="158,342,103,380,100,376,155,337"/>
-<area shape="rect" href="a00491.html" title=" " alt="" coords="184,379,398,405"/>
-<area shape="poly" title=" " alt="" coords="219,337,274,376,271,380,216,342"/>
-<area shape="poly" title=" " alt="" coords="210,120,198,137,190,155,181,197,180,238,187,303,182,304,175,239,176,196,184,154,193,134,205,117"/>
-<area shape="rect" href="a00296.html" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="198,155,325,181"/>
-<area shape="poly" title=" " alt="" coords="244,120,259,153,254,155,239,122"/>
-<area shape="rect" href="a00299.html" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="250,229,386,256"/>
-<area shape="poly" title=" " alt="" coords="288,111,316,128,339,153,345,173,343,195,328,230,323,228,337,193,339,174,334,156,313,132,286,116"/>
-<area shape="poly" title=" " alt="" coords="251,196,196,305,191,302,246,194"/>
-<area shape="poly" title=" " alt="" coords="283,192,310,227,306,231,279,195"/>
-<area shape="poly" title=" " alt="" coords="283,266,211,306,209,301,280,262"/>
-</map>
+<div class="center"><img src="a00286.png" border="0" usemap="#a_lumex_atomic_weak_ptr_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00284_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the value of an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> is read while it holds an error.  <a href="a01917.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html">lumex::core::atomic::smart_ptr::table_wait::Detail::basic_atomic_weak_ptr&lt; T, Cell &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic <code>std::weak_ptr&lt;T&gt;</code>, as <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code>.  <a href="a01818.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04033.html">BadExpectedAccess&lt; ErrorType &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the value of an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> is read while it holds an error.  <a href="a04033.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01822.html">lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic <code>std::weak_ptr&lt;T&gt;</code> over a lock (the lock-based engine).  <a href="a01822.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01041.html">lumex::core::expected</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01312.html">lumex::core::atomic</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01042.html">lumex::core::expected::error</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01313.html">lumex::core::atomic::smart_ptr</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01314.html">lumex::core::atomic::smart_ptr::table_wait</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01315.html">lumex::core::atomic::smart_ptr::table_wait::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a3e01c91b16f07375bef18e0fab333a38" id="r_a3e01c91b16f07375bef18e0fab333a38"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a3e01c91b16f07375bef18e0fab333a38"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01314.html#a3e01c91b16f07375bef18e0fab333a38">lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr</a> = <a class="el" href="a01822.html">atomic_weak_ptr_lock_based</a>&lt;T&gt;</td></tr>
+<tr class="memdesc:a3e01c91b16f07375bef18e0fab333a38"><td class="mdescLeft">&#160;</td><td class="mdescRight">The common name: <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> from C++11 on.  <br /></td></tr>
+<tr class="separator:a3e01c91b16f07375bef18e0fab333a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code><a class="el" href="a04033.html" title="Exception thrown when the value of an Expected is read while it holds an error.">BadExpectedAccess</a></code>, the exception that <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> throws when its value is read while it holds an error; an analogue of C++23 <code>std::bad_expected_access</code>. </p>
-<p><code>value()</code> of an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> in the error state throws <code><a class="el" href="a04033.html" title="Exception thrown when the value of an Expected is read while it holds an error.">BadExpectedAccess</a>&lt;E&gt;</code> with a copy (or, from an rvalue, the moved value) of that error, which <code>error()</code> of the exception returns. Header-only, part of <code>lumex::expected</code> and usable from C++11; the class is also visible at global scope. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p><code><a class="el" href="a00659.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a>&lt;T&gt;</code> and its engines (<code>atomic_weak_ptr_lock_free</code>, <code>atomic_weak_ptr_lock_based</code>, <code>atomic_weak_ptr_std_backed</code>, and <code>atomic_weak_ptr_lock_free_split_count</code> over <code><a class="el" href="a03690.html" title="A weak reference to an object owned by shared_ptr objects.">lumex::core::smart_ptr::weak_ptr</a></code>): the interface of the C++20 <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> for C++11 and later. </p>
+<p>Every engine is a class template of its own over the same interface; <code><a class="el" href="a00659.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a>&lt;T&gt;</code> is an alias template of one of them (see <code><a class="el" href="a00275.html" title="The one place that decides which engines exist and which one the common names atomic_shared_ptr and a...">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a></code>): the lock-free engine where it exists, the lock-based one otherwise, never the wrapper of the standard library's type. The member functions follow [util.smartptr.atomic.weak]; unlike <code><a class="el" href="a00659.html#a95edeffb6728b143aa58a91608d059ac" title="The common name: std::atomic&lt;std::shared_ptr&lt;T&gt;&gt; from C++11 on.">atomic_shared_ptr</a></code> there is no construction from or assignment of <code>nullptr</code>.</p>
+<p>Two weak pointers are equivalent when they store the same pointer and either share ownership or are both empty. <code>std::weak_ptr</code> does not expose its stored pointer, so the lock-based and lock-free engines, and <code>wait</code> in every engine, read it through <code>lock ()</code>. When the object is already gone, two weak pointers with the same owner count as equivalent even if they were made from aliasing shared pointers to different subobjects; the standard types compare those stored pointers.</p>
+<p>The templates are declared only in <code><a class="el" href="a01313.html">lumex::core::atomic::smart_ptr</a></code>; nothing is added to the global namespace.</p>
+<div class="fragment"><div class="line"><span class="keyword">using </span><a class="code hl_typedef" href="a01314.html#a3e01c91b16f07375bef18e0fab333a38">lumex::core::atomic::smart_ptr::atomic_weak_ptr</a>;</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_typedef" href="a00659.html#a3e01c91b16f07375bef18e0fab333a38">atomic_weak_ptr&lt;Session&gt;</a> active;</div>
+<div class="line">active.store (session);                                <span class="comment">// keeps no owner</span></div>
+<div class="line"><span class="keywordflow">if</span> (std::shared_ptr&lt;Session&gt; s = active.load ().lock ())</div>
+<div class="line">  s-&gt;ping ();</div>
+<div class="ttc" id="aa00659_html_a3e01c91b16f07375bef18e0fab333a38"><div class="ttname"><a href="a00659.html#a3e01c91b16f07375bef18e0fab333a38">atomic_weak_ptr</a></div><div class="ttdeci">atomic_weak_ptr_lock_based&lt; T &gt; atomic_weak_ptr</div><div class="ttdoc">The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.</div><div class="ttdef"><b>Definition</b> LumexAtomicWeakPtr.hpp:522</div></div>
+<div class="ttc" id="aa01314_html_a3e01c91b16f07375bef18e0fab333a38"><div class="ttname"><a href="a01314.html#a3e01c91b16f07375bef18e0fab333a38">lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr</a></div><div class="ttdeci">atomic_weak_ptr_lock_based&lt; T &gt; atomic_weak_ptr</div><div class="ttdoc">The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.</div><div class="ttdef"><b>Definition</b> LumexAtomicWeakPtr.hpp:522</div></div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_d137d0eb9968c5b308dad29829b7bf65.html">error</a></li><li class="navelem"><a class="el" href="a00284.html">BadExpectedAccess.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00284.html">LumexAtomicWeakPtr.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

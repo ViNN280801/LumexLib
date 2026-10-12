@@ -1,0 +1,23 @@
+digraph "lumex::applied::serial::probe::SerialProber::probe"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::applied::serial\l::probe::SerialProber\l::probe",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Opens the port when needed, sends request and collects the response until response_complete confirms ..."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::applied::serial\l::probe::detail::run_probe",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01294.html#aad815f0706b5da1500fbda9d64a48e88",tooltip="Runs one bounded probe over transport."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::applied::serial\l::probe::detail::elapsed_since",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01294.html#abfe791d5b660fa24d46ceb665e918f12",tooltip="Milliseconds elapsed since start."];
+  Node2 -> Node4 [id="edge3_Node000002_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::applied::serial\l::probe::detail::serial\l_transport_t::is_open",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01662.html#a03d9d7c732ecaba43e39d3dea068c656",tooltip="True while the port is open."];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::applied::serial\l::probe::detail::serial\l_transport_t::open",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01662.html#adc8013c9670a1b893619cd2c852108ab",tooltip="Bounded open with the configured settings."];
+  Node2 -> Node6 [id="edge5_Node000002_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::applied::serial\l::probe::detail::serial\l_transport_t::purge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01662.html#a9e89076cc288e82ded1f5c9c4f4a2087",tooltip="Flushes the input and output buffers."];
+  Node2 -> Node7 [id="edge6_Node000002_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::applied::serial\l::probe::detail::serial\l_transport_t::read",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01662.html#ab8d9442067657ea5b9a0d99f85c33c02",tooltip="Reads at least one byte or stops at the deadline."];
+  Node2 -> Node8 [id="edge7_Node000002_Node000008",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::applied::serial\l::probe::detail::serial\l_transport_t::write",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01662.html#ac5f44687a280f415d8fd6a924e961497",tooltip="Writes size bytes or stops at the deadline."];
+}

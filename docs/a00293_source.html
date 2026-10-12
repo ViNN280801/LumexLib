@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: ExpectedTypes.hpp Source File</title>
+<title>LumexLib: LumexSplitCountTraits.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00293_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">ExpectedTypes.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexSplitCountTraits.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00293.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,78 +145,406 @@ $(function(){initNavTree('a00293_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#ifndef LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#define LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#include &quot;<a class="code" href="a00425.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &quot;<a class="code" href="a00446.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">// ====================== Helper tags and types ======================</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a00948.html">lumex</a></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01005.html">core</a></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01041.html">expected</a></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>{</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01043.html">result</a></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>{</div>
-<div class="foldopen" id="foldopen00074" data-start="{" data-end="};">
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="a04057.html">   74</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01933.html">in_place_tag</a></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>{</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>};</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#ifndef LUMEX_CORE_ATOMIC_SMART_PTR_SPLIT_COUNT_SPLIT_COUNT_TRAITS_HPP</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#define LUMEX_CORE_ATOMIC_SMART_PTR_SPLIT_COUNT_SPLIT_COUNT_TRAITS_HPP</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#include &lt;exception&gt;</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#include &quot;<a class="code" href="a00275.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#include &quot;<a class="code" href="a00488.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlBase.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#include &quot;<a class="code" href="a00491.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlKinds.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#include &quot;<a class="code" href="a00494.html">lumex/core/smart_ptr/detail/LumexSmartPtrAccess.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#include &quot;<a class="code" href="a00497.html">lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#include &quot;<a class="code" href="a00515.html">lumex/core/smart_ptr/shared/LumexSharedPtr.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#include &quot;<a class="code" href="a00518.html">lumex/core/smart_ptr/weak/LumexWeakPtr.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#include &quot;<a class="code" href="a00584.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#include &quot;<a class="code" href="a00623.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01248.html">lumex</a></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>{</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01311.html">core</a></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>{</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01312.html">atomic</a></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>{</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01313.html">smart_ptr</a></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>{</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="keyword">inline</span> <span class="keyword">namespace </span><a class="code hl_define" href="a00275.html#a9be53a42a0b6b53bcfd084ff60e871bc">LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE</a></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>{</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="keyword">namespace </span>Detail</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>{</div>
+<div class="foldopen" id="foldopen00094" data-start="{" data-end="};">
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="a01826.html">   94</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01826.html">split_strong_ledger_t</a></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>{</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="a01826.html#ab1484a08243193a2d2fe57facef62261">   96</a></span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03662.html">::lumex::core::smart_ptr::detail::ctl_base</a> <a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00099" data-start="{" data-end="}">
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="a01826.html#afd0c7aa07adf0f643b948118602df6a7">   99</a></span>  <a class="code hl_function" href="a01826.html#afd0c7aa07adf0f643b948118602df6a7">add</a> (<a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a> *block) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    block-&gt;add_strong ();</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  }</div>
 </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="a01043.html#a2843a9a82731a57457a67854be6546d6">   84</a></span><a class="code hl_define" href="a00425.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <a class="code hl_struct" href="a01933.html">in_place_tag</a> <a class="code hl_variable" href="a01043.html#a2843a9a82731a57457a67854be6546d6">in_place</a>{};</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span></div>
-<div class="foldopen" id="foldopen00093" data-start="{" data-end="};">
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="a01937.html">   93</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01937.html">Unit</a></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>{</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>};</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00105" data-start="{" data-end="}">
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="a01826.html#a898ed588f06119d550cf7fd1df1da192">  105</a></span>  <a class="code hl_function" href="a01826.html#a898ed588f06119d550cf7fd1df1da192">transfer</a> (<a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a> *block, std::uint32_t ticks) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    block-&gt;transfer_strong_ext (ticks);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  }</div>
 </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span></div>
-<div class="foldopen" id="foldopen00098" data-start="{" data-end="};">
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="a01941.html">   98</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01941.html">unexpect_t</a></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>{</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>};</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00111" data-start="{" data-end="}">
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="a01826.html#a30ee15ecfca123dc3a3e89718c0312f5">  111</a></span>  <a class="code hl_function" href="a01826.html#a30ee15ecfca123dc3a3e89718c0312f5">settle</a> (<a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a> *block) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    block-&gt;settle_strong ();</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  }</div>
 </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="a01043.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">  103</a></span><a class="code hl_define" href="a00425.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <a class="code hl_struct" href="a01941.html">unexpect_t</a> <a class="code hl_variable" href="a01043.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">unexpect</a>{};</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">// is_expected / is_expected_v / is_expected_concept live in</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">// lumex/core/utility/traits/LumexTypeTraits.hpp (traits::value).</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>} <span class="comment">// namespace result</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>} <span class="comment">// namespace expected</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>} <span class="comment">// namespace core</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">using </span><a class="code hl_variable" href="a01043.html#a2843a9a82731a57457a67854be6546d6">lumex::core::expected::result::in_place</a>;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="keyword">using </span><a class="code hl_struct" href="a01933.html">lumex::core::expected::result::in_place_tag</a>;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">using </span><a class="code hl_variable" href="a01043.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">lumex::core::expected::result::unexpect</a>;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keyword">using </span><a class="code hl_struct" href="a01941.html">lumex::core::expected::result::unexpect_t</a>;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_EXPECTED_RESULT_EXPECTED_TYPES_HPP</span></div>
-<div class="ttc" id="aa00425_html"><div class="ttname"><a href="a00425.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
-<div class="ttc" id="aa00425_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00425.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-<div class="ttc" id="aa00446_html"><div class="ttname"><a href="a00446.html">LumexTypeTraits.hpp</a></div><div class="ttdoc">Every general-purpose type trait of LumexLib, one sub-namespace of lumex::core::utility::traits per t...</div></div>
-<div class="ttc" id="aa00948_html"><div class="ttname"><a href="a00948.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:65</div></div>
-<div class="ttc" id="aa01005_html"><div class="ttname"><a href="a01005.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:103</div></div>
-<div class="ttc" id="aa01041_html"><div class="ttname"><a href="a01041.html">lumex::core::expected</a></div><div class="ttdef"><b>Definition</b> BadExpectedAccess.hpp:94</div></div>
-<div class="ttc" id="aa01043_html"><div class="ttname"><a href="a01043.html">lumex::core::expected::result</a></div><div class="ttdef"><b>Definition</b> Expected.hpp:91</div></div>
-<div class="ttc" id="aa01043_html_a2843a9a82731a57457a67854be6546d6"><div class="ttname"><a href="a01043.html#a2843a9a82731a57457a67854be6546d6">lumex::core::expected::result::in_place</a></div><div class="ttdeci">constexpr in_place_tag in_place</div><div class="ttdoc">Global constant of type in_place_tag.</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:84</div></div>
-<div class="ttc" id="aa01043_html_a99d7baa9c7bfa0e1e8d7ac195f1abcbc"><div class="ttname"><a href="a01043.html#a99d7baa9c7bfa0e1e8d7ac195f1abcbc">lumex::core::expected::result::unexpect</a></div><div class="ttdeci">constexpr unexpect_t unexpect</div><div class="ttdoc">Global tag constant (like std::unexpect).</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:103</div></div>
-<div class="ttc" id="aa01933_html"><div class="ttname"><a href="a01933.html">lumex::core::expected::result::in_place_tag</a></div><div class="ttdoc">In-place construction tag; C++11 has no std::in_place.</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:75</div></div>
-<div class="ttc" id="aa01937_html"><div class="ttname"><a href="a01937.html">lumex::core::expected::result::Unit</a></div><div class="ttdoc">Placeholder success type for Expected&lt;void, ErrorType&gt;.</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:94</div></div>
-<div class="ttc" id="aa01941_html"><div class="ttname"><a href="a01941.html">lumex::core::expected::result::unexpect_t</a></div><div class="ttdoc">C++23-compatible tag: construct the error in place.</div><div class="ttdef"><b>Definition</b> ExpectedTypes.hpp:99</div></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00117" data-start="{" data-end="}">
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="a01826.html#a2548a0e2e34103598fe5f984457e1be4">  117</a></span>  <a class="code hl_function" href="a01826.html#a2548a0e2e34103598fe5f984457e1be4">settle_n</a> (<a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a> *block, std::uint32_t n) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    block-&gt;settle_strong_n (n);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  }</div>
+</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00123" data-start="{" data-end="}">
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="a01826.html#a459ec978ea43aabdde219c91a676f44e">  123</a></span>  <a class="code hl_function" href="a01826.html#a459ec978ea43aabdde219c91a676f44e">untransfer</a> (<a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a> *block, std::uint32_t ticks) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    block-&gt;untransfer_strong_ext (ticks);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  }</div>
+</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00129" data-start="{" data-end="}">
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="a01826.html#a350f3df33109ca5a1180554d2f985b28">  129</a></span>  <a class="code hl_function" href="a01826.html#a350f3df33109ca5a1180554d2f985b28">take_and_settle</a> (<a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a> *block) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    block-&gt;take_and_settle_strong ();</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>  }</div>
+</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00135" data-start="{" data-end="}">
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="a01826.html#a8d5449e642ce1d44e58c97e3ed090f78">  135</a></span>  <a class="code hl_function" href="a01826.html#a8d5449e642ce1d44e58c97e3ed090f78">release_with_ext</a> (<a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a> *block, std::uint32_t n) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>  {</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    block-&gt;release_strong_with_ext (n);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  }</div>
+</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00141" data-start="{" data-end="}">
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="a01826.html#a7ab56d5b2753ee55b96f7fb53c48cfd7">  141</a></span>  <a class="code hl_function" href="a01826.html#a7ab56d5b2753ee55b96f7fb53c48cfd7">release</a> (<a class="code hl_typedef" href="a01826.html#ab1484a08243193a2d2fe57facef62261">block_type</a> *block) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>  {</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    block-&gt;release_strong ();</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  }</div>
+</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>};</div>
+</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span></div>
+<div class="foldopen" id="foldopen00148" data-start="{" data-end="};">
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="a01830.html">  148</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01830.html">split_weak_ledger_t</a></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>{</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">  150</a></span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03662.html">::lumex::core::smart_ptr::detail::ctl_base</a> <a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a>;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00153" data-start="{" data-end="}">
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="a01830.html#acdb205237b7a6e8a44594b0069e56700">  153</a></span>  <a class="code hl_function" href="a01830.html#acdb205237b7a6e8a44594b0069e56700">add</a> (<a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a> *block) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>  {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    block-&gt;add_weak ();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>  }</div>
+</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00159" data-start="{" data-end="}">
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="a01830.html#a2af3405e98293209ace4782a32119ab4">  159</a></span>  <a class="code hl_function" href="a01830.html#a2af3405e98293209ace4782a32119ab4">transfer</a> (<a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a> *block, std::uint32_t ticks) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>  {</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    block-&gt;transfer_weak_ext (ticks);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  }</div>
+</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00165" data-start="{" data-end="}">
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="a01830.html#aa5727cb722add9222268dd6b5604e74a">  165</a></span>  <a class="code hl_function" href="a01830.html#aa5727cb722add9222268dd6b5604e74a">settle</a> (<a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a> *block) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>  {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    block-&gt;settle_weak ();</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>  }</div>
+</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00171" data-start="{" data-end="}">
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="a01830.html#a05eadf1b231f00eab4382185557ea9c0">  171</a></span>  <a class="code hl_function" href="a01830.html#a05eadf1b231f00eab4382185557ea9c0">settle_n</a> (<a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a> *block, std::uint32_t n) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>  {</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    block-&gt;settle_weak_n (n);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>  }</div>
+</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00177" data-start="{" data-end="}">
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="a01830.html#a01d1f68d15d906cd1dd234fb2d7e4084">  177</a></span>  <a class="code hl_function" href="a01830.html#a01d1f68d15d906cd1dd234fb2d7e4084">untransfer</a> (<a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a> *block, std::uint32_t ticks) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>  {</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    block-&gt;untransfer_weak_ext (ticks);</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>  }</div>
+</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00183" data-start="{" data-end="}">
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="a01830.html#ad27e6d63395756beae1195f65965f4e5">  183</a></span>  <a class="code hl_function" href="a01830.html#ad27e6d63395756beae1195f65965f4e5">take_and_settle</a> (<a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a> *block) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>  {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    block-&gt;take_and_settle_weak ();</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>  }</div>
+</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00189" data-start="{" data-end="}">
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno"><a class="line" href="a01830.html#a8041e058d4b76bf5a5e85c884feb291c">  189</a></span>  <a class="code hl_function" href="a01830.html#a8041e058d4b76bf5a5e85c884feb291c">release_with_ext</a> (<a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a> *block, std::uint32_t n) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>  {</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    block-&gt;release_weak_with_ext (n);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>  }</div>
+</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00195" data-start="{" data-end="}">
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno"><a class="line" href="a01830.html#a437774aadd0d8ab6c10546943689b927">  195</a></span>  <a class="code hl_function" href="a01830.html#a437774aadd0d8ab6c10546943689b927">release</a> (<a class="code hl_typedef" href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">block_type</a> *block) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>  {</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    block-&gt;release_weak ();</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>  }</div>
+</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>};</div>
+</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt;</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="keywordtype">void</span> *</div>
+<div class="foldopen" id="foldopen00204" data-start="{" data-end="}">
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="a01315.html#a023309f567d7a3d067a6715ac3c998f7">  204</a></span><a class="code hl_function" href="a01315.html#a023309f567d7a3d067a6715ac3c998f7">split_erase</a> (E *pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>{</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>  <span class="keywordflow">return</span> <span class="keyword">const_cast&lt;</span><span class="keywordtype">void</span> *<span class="keyword">&gt;</span> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span> <span class="keyword">const </span><span class="keyword">volatile </span>*<span class="keyword">&gt;</span> (pointer));</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>}</div>
+</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Holder&gt;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>Holder *</div>
+<div class="foldopen" id="foldopen00215" data-start="{" data-end="}">
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="a01315.html#aa27e593e75b976cbaf1e42f9a5bac437">  215</a></span><a class="code hl_function" href="a01315.html#aa27e593e75b976cbaf1e42f9a5bac437">split_make_holder</a> (<a class="code hl_class" href="a03662.html">::lumex::core::smart_ptr::detail::ctl_base</a> *owner,</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                   <span class="keywordtype">void</span> *pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>{</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>  Holder *holder = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>  <a class="code hl_define" href="a00497.html#ad1dcb95a0b062e6151e4868080895b7a">LUMEX_SMART_PTR_TRY</a> { holder = Holder::create (owner, pointer); }</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>  <a class="code hl_define" href="a00497.html#a9bd31ac8c2ae29dbcbb3ce6509a60859">LUMEX_SMART_PTR_CATCH_ALL</a> { std::terminate (); }</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>  <span class="keywordflow">return</span> holder;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>}</div>
+</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="a01834.html">  225</a></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Po<span class="keywordtype">int</span>er&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a01834.html">split_pointer_traits_t</a>;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00229" data-start="{" data-end="};">
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno"><a class="line" href="a01838.html">  229</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01834.html">split_pointer_traits_t</a>&lt;::<a class="code hl_class" href="a03686.html">lumex::core::smart_ptr::shared_ptr</a>&lt;T&gt;&gt;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>{</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="a01838.html#a670d76c0ec369c34066aa422bdf9e378">  231</a></span>  typedef ::lumex::core::smart_ptr::shared_ptr&lt;T&gt; <a class="code hl_typedef" href="a01838.html#a670d76c0ec369c34066aa422bdf9e378">pointer_type</a>;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno"><a class="line" href="a01838.html#a51c5a68214d8fbc5963f617ceb1803e2">  232</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_typedef" href="a03686.html#a29eafd1a160eef2d33e0a629a70fd43b">pointer_type::element_type</a> <a class="code hl_typedef" href="a01838.html#a51c5a68214d8fbc5963f617ceb1803e2">element_type</a>;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="a01838.html#a1e04f9d523e6f6f387e7016bb6a8973f">  233</a></span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03662.html">::lumex::core::smart_ptr::detail::ctl_base</a> <a class="code hl_typedef" href="a01838.html#a1e04f9d523e6f6f387e7016bb6a8973f">block_type</a>;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="a01838.html#a9c2234048a659e134869be845c2cee61">  234</a></span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03722.html">::lumex::core::smart_ptr::detail::access</a> <a class="code hl_typedef" href="a01838.html#a9c2234048a659e134869be845c2cee61">access_type</a>;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno"><a class="line" href="a01838.html#a307b02407126bca595c94e3c751cf379">  235</a></span>  <span class="keyword">typedef</span> <a class="code hl_struct" href="a01826.html">split_strong_ledger_t</a> <a class="code hl_typedef" href="a01838.html#a307b02407126bca595c94e3c751cf379">ledger_type</a>;</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="a01838.html#a561f4b5a4c0ef945d7801a97983d00af">  236</a></span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03678.html">::lumex::core::smart_ptr::detail::ctl_holder</a> <a class="code hl_typedef" href="a01838.html#a561f4b5a4c0ef945d7801a97983d00af">holder_type</a>;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno"><a class="line" href="a01838.html#aa01acfbff6e0f1c53b6ddf2fccadd309">  240</a></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> <span class="keyword">const</span> <a class="code hl_variable" href="a01838.html#aa01acfbff6e0f1c53b6ddf2fccadd309">mirror_holder</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>  <span class="keyword">static</span> <a class="code hl_typedef" href="a01838.html#a1e04f9d523e6f6f387e7016bb6a8973f">block_type</a> *</div>
+<div class="foldopen" id="foldopen00244" data-start="{" data-end="}">
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno"><a class="line" href="a01838.html#a64ee7a20aa9b62c6d671a3d42d09839a">  244</a></span>  <a class="code hl_function" href="a01838.html#a64ee7a20aa9b62c6d671a3d42d09839a">control</a> (<a class="code hl_typedef" href="a01838.html#a670d76c0ec369c34066aa422bdf9e378">pointer_type</a> <span class="keyword">const</span> &amp;pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>  {</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a03722.html#ab5a9909429775aef7fd4ae60255e2b1e">access_type::control</a> (pointer);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>  }</div>
+</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>  <span class="keyword">static</span> element_type *</div>
+<div class="foldopen" id="foldopen00251" data-start="{" data-end="}">
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno"><a class="line" href="a01838.html#a6de857413ec68a10218dff7d436f3224">  251</a></span>  <a class="code hl_function" href="a01838.html#a6de857413ec68a10218dff7d436f3224">stored</a> (<a class="code hl_typedef" href="a01838.html#a670d76c0ec369c34066aa422bdf9e378">pointer_type</a> <span class="keyword">const</span> &amp;pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>  {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    <span class="keywordflow">return</span> pointer.get ();</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>  }</div>
+</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00258" data-start="{" data-end="}">
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="a01838.html#a01484538b66c88e3c824c70ccdf3599d">  258</a></span>  <a class="code hl_function" href="a01838.html#a01484538b66c88e3c824c70ccdf3599d">detach</a> (<a class="code hl_typedef" href="a01838.html#a670d76c0ec369c34066aa422bdf9e378">pointer_type</a> &amp;pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  {</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    <a class="code hl_typedef" href="a01838.html#a51c5a68214d8fbc5963f617ceb1803e2">element_type</a> *stored_pointer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    <a class="code hl_function" href="a03722.html#a726c8be561404b98285628a3be4badbb">access_type::detach</a> (pointer, stored_pointer);</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    <a class="code hl_define" href="a00584.html#a4f7e1c4a689aff4cf2c75942d17d5ba2">LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</a> (stored_pointer);</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>  }</div>
+</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span></div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>  <span class="keyword">static</span> pointer_type</div>
+<div class="foldopen" id="foldopen00268" data-start="{" data-end="}">
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno"><a class="line" href="a01838.html#ad299ba6d5a0118231ce57519832c69e1">  268</a></span>  <a class="code hl_function" href="a01838.html#ad299ba6d5a0118231ce57519832c69e1">adopt</a> (<a class="code hl_typedef" href="a01838.html#a1e04f9d523e6f6f387e7016bb6a8973f">block_type</a> *block, <a class="code hl_typedef" href="a01838.html#a51c5a68214d8fbc5963f617ceb1803e2">element_type</a> *stored_pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  {</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    <span class="keywordflow">return</span> access_type::template <a class="code hl_function" href="a01838.html#ad299ba6d5a0118231ce57519832c69e1">adopt&lt;T&gt;</a> (block, stored_pointer);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>  }</div>
+</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>  <span class="keyword">static</span> holder_type *</div>
+<div class="foldopen" id="foldopen00276" data-start="{" data-end="}">
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno"><a class="line" href="a01838.html#a21983dfba9c1c766742a7675fa24de7b">  276</a></span>  <a class="code hl_function" href="a01838.html#a21983dfba9c1c766742a7675fa24de7b">make_holder</a> (<a class="code hl_typedef" href="a01838.html#a1e04f9d523e6f6f387e7016bb6a8973f">block_type</a> *owner, <a class="code hl_typedef" href="a01838.html#a51c5a68214d8fbc5963f617ceb1803e2">element_type</a> *stored_pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>  {</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a01315.html#aa27e593e75b976cbaf1e42f9a5bac437">split_make_holder&lt;holder_type&gt;</a> (owner,</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>                                           <a class="code hl_function" href="a01315.html#a023309f567d7a3d067a6715ac3c998f7">split_erase</a> (stored_pointer));</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>  }</div>
+</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>};</div>
+</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span></div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00285" data-start="{" data-end="};">
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="a01842.html">  285</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a01834.html">split_pointer_traits_t</a>&lt;::<a class="code hl_class" href="a03690.html">lumex::core::smart_ptr::weak_ptr</a>&lt;T&gt;&gt;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>{</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno"><a class="line" href="a01842.html#a7da737060db0717b0a225f6f74f2c57f">  287</a></span>  typedef ::lumex::core::smart_ptr::weak_ptr&lt;T&gt; <a class="code hl_typedef" href="a01842.html#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a>;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno"><a class="line" href="a01842.html#ac2050258128eb193ea7bf3d2030e0a8d">  288</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_typedef" href="a03690.html#a6f9feaaf406d407e24436535e9ad3f76">pointer_type::element_type</a> <a class="code hl_typedef" href="a01842.html#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a>;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno"><a class="line" href="a01842.html#aba9c5e0a0ae138332b8b90cdf27440d1">  289</a></span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03662.html">::lumex::core::smart_ptr::detail::ctl_base</a> <a class="code hl_typedef" href="a01842.html#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a>;</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno"><a class="line" href="a01842.html#aa989075071c82748a8ddfff15bb208b7">  290</a></span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03722.html">::lumex::core::smart_ptr::detail::access</a> <a class="code hl_typedef" href="a01842.html#aa989075071c82748a8ddfff15bb208b7">access_type</a>;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno"><a class="line" href="a01842.html#a52f8e97e1d591269da3c84ad8a8f2df3">  291</a></span>  <span class="keyword">typedef</span> <a class="code hl_struct" href="a01830.html">split_weak_ledger_t</a> <a class="code hl_typedef" href="a01842.html#a52f8e97e1d591269da3c84ad8a8f2df3">ledger_type</a>;</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno"><a class="line" href="a01842.html#a9ac99bf74106453f73e2087e1d2722e7">  292</a></span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03682.html">::lumex::core::smart_ptr::detail::ctl_weak_holder</a> <a class="code hl_typedef" href="a01842.html#a9ac99bf74106453f73e2087e1d2722e7">holder_type</a>;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno"><a class="line" href="a01842.html#a647fc864439227730b7ececdd2d39066">  295</a></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> <span class="keyword">const</span> <a class="code hl_variable" href="a01842.html#a647fc864439227730b7ececdd2d39066">mirror_holder</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>  <span class="keyword">static</span> <a class="code hl_typedef" href="a01842.html#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> *</div>
+<div class="foldopen" id="foldopen00299" data-start="{" data-end="}">
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno"><a class="line" href="a01842.html#ac4502150d762131801c47de75cc33948">  299</a></span>  <a class="code hl_function" href="a01842.html#ac4502150d762131801c47de75cc33948">control</a> (<a class="code hl_typedef" href="a01842.html#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> <span class="keyword">const</span> &amp;pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>  {</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a03722.html#ab5a9909429775aef7fd4ae60255e2b1e">access_type::control</a> (pointer);</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>  }</div>
+</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>  <span class="keyword">static</span> element_type *</div>
+<div class="foldopen" id="foldopen00306" data-start="{" data-end="}">
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="a01842.html#a3b5a6ab3012b63037f0278d92cde0185">  306</a></span>  <a class="code hl_function" href="a01842.html#a3b5a6ab3012b63037f0278d92cde0185">stored</a> (<a class="code hl_typedef" href="a01842.html#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> <span class="keyword">const</span> &amp;pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>  {</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a03722.html#acc8b8bbfada5f542cf82f14fb1606a11">access_type::stored</a> (pointer);</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>  }</div>
+</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span></div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00313" data-start="{" data-end="}">
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno"><a class="line" href="a01842.html#a8838be83310ba8b4a3ce5799de8ee817">  313</a></span>  <a class="code hl_function" href="a01842.html#a8838be83310ba8b4a3ce5799de8ee817">detach</a> (<a class="code hl_typedef" href="a01842.html#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> &amp;pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>  {</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    <a class="code hl_typedef" href="a01842.html#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> *stored_pointer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <a class="code hl_function" href="a03722.html#a101d18057b6db6b9e3fdb4602605fa34">access_type::detach_weak</a> (pointer, stored_pointer);</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    <a class="code hl_define" href="a00584.html#a4f7e1c4a689aff4cf2c75942d17d5ba2">LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</a> (stored_pointer);</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>  }</div>
+</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span></div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>  <span class="keyword">static</span> pointer_type</div>
+<div class="foldopen" id="foldopen00323" data-start="{" data-end="}">
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno"><a class="line" href="a01842.html#a7594e803486612d16cbfa06db04079b4">  323</a></span>  <a class="code hl_function" href="a01842.html#a7594e803486612d16cbfa06db04079b4">adopt</a> (<a class="code hl_typedef" href="a01842.html#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> *block, <a class="code hl_typedef" href="a01842.html#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> *stored_pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>  {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    <span class="keywordflow">return</span> access_type::template adopt_weak&lt;T&gt; (block, stored_pointer);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>  }</div>
+</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span></div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>  <span class="keyword">static</span> holder_type *</div>
+<div class="foldopen" id="foldopen00331" data-start="{" data-end="}">
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno"><a class="line" href="a01842.html#afa930ced7f6260426234cb487d86ca74">  331</a></span>  <a class="code hl_function" href="a01842.html#afa930ced7f6260426234cb487d86ca74">make_holder</a> (<a class="code hl_typedef" href="a01842.html#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> *owner, <a class="code hl_typedef" href="a01842.html#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> *stored_pointer) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>  {</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a01315.html#aa27e593e75b976cbaf1e42f9a5bac437">split_make_holder&lt;holder_type&gt;</a> (owner,</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>                                           <a class="code hl_function" href="a01315.html#a023309f567d7a3d067a6715ac3c998f7">split_erase</a> (stored_pointer));</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>  }</div>
+</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>};</div>
+</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>} <span class="comment">// namespace Detail</span></div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>} <span class="comment">// namespace LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE</span></div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>} <span class="comment">// namespace smart_ptr</span></div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>} <span class="comment">// namespace atomic</span></div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_ATOMIC_SMART_PTR_SPLIT_COUNT_SPLIT_COUNT_TRAITS_HPP</span></div>
+<div class="ttc" id="aa00275_html"><div class="ttname"><a href="a00275.html">LumexAtomicSmartPtrConfig.hpp</a></div><div class="ttdoc">The one place that decides which engines exist and which one the common names atomic_shared_ptr and a...</div></div>
+<div class="ttc" id="aa00275_html_a9be53a42a0b6b53bcfd084ff60e871bc"><div class="ttname"><a href="a00275.html#a9be53a42a0b6b53bcfd084ff60e871bc">LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE</a></div><div class="ttdeci">#define LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE</div><div class="ttdoc">Name of the inline namespace that holds the smart pointers.</div><div class="ttdef"><b>Definition</b> LumexAtomicSmartPtrConfig.hpp:221</div></div>
+<div class="ttc" id="aa00488_html"><div class="ttname"><a href="a00488.html">LumexSmartPtrCtlBase.hpp</a></div><div class="ttdoc">ctl_base: the control block of shared_ptr and weak_ptr, 32 bytes on a 64-bit target.</div></div>
+<div class="ttc" id="aa00491_html"><div class="ttname"><a href="a00491.html">LumexSmartPtrCtlKinds.hpp</a></div><div class="ttdoc">The control blocks shared_ptr creates: ctl_ptr (a separate object with a deleter),...</div></div>
+<div class="ttc" id="aa00494_html"><div class="ttname"><a href="a00494.html">LumexSmartPtrAccess.hpp</a></div><div class="ttdoc">Forward declarations of the pointer classes and detail::access, the friend that gives the split-count...</div></div>
+<div class="ttc" id="aa00497_html"><div class="ttname"><a href="a00497.html">LumexSmartPtrConfig.hpp</a></div><div class="ttdoc">Configuration macros of core/smart_ptr: exception handling, ThreadSanitizer detection,...</div></div>
+<div class="ttc" id="aa00497_html_a9bd31ac8c2ae29dbcbb3ce6509a60859"><div class="ttname"><a href="a00497.html#a9bd31ac8c2ae29dbcbb3ce6509a60859">LUMEX_SMART_PTR_CATCH_ALL</a></div><div class="ttdeci">#define LUMEX_SMART_PTR_CATCH_ALL</div><div class="ttdef"><b>Definition</b> LumexSmartPtrConfig.hpp:86</div></div>
+<div class="ttc" id="aa00497_html_ad1dcb95a0b062e6151e4868080895b7a"><div class="ttname"><a href="a00497.html#ad1dcb95a0b062e6151e4868080895b7a">LUMEX_SMART_PTR_TRY</a></div><div class="ttdeci">#define LUMEX_SMART_PTR_TRY</div><div class="ttdef"><b>Definition</b> LumexSmartPtrConfig.hpp:85</div></div>
+<div class="ttc" id="aa00515_html"><div class="ttname"><a href="a00515.html">LumexSharedPtr.hpp</a></div><div class="ttdoc">shared_ptr&lt;T&gt;: shared ownership with the module&#39;s own control block, at the level of the C++17 std::s...</div></div>
+<div class="ttc" id="aa00518_html"><div class="ttname"><a href="a00518.html">LumexWeakPtr.hpp</a></div><div class="ttdoc">weak_ptr&lt;T&gt; and owner_less: non-owning observers of an object that a shared_ptr owns ([util....</div></div>
+<div class="ttc" id="aa00584_html"><div class="ttname"><a href="a00584.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
+<div class="ttc" id="aa00584_html_a4f7e1c4a689aff4cf2c75942d17d5ba2"><div class="ttname"><a href="a00584.html#a4f7e1c4a689aff4cf2c75942d17d5ba2">LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...)</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:274</div></div>
+<div class="ttc" id="aa00623_html"><div class="ttname"><a href="a00623.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
+<div class="ttc" id="aa00623_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<div class="ttc" id="aa01248_html"><div class="ttname"><a href="a01248.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01311_html"><div class="ttname"><a href="a01311.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:116</div></div>
+<div class="ttc" id="aa01312_html"><div class="ttname"><a href="a01312.html">lumex::core::atomic</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:118</div></div>
+<div class="ttc" id="aa01313_html"><div class="ttname"><a href="a01313.html">lumex::core::atomic::smart_ptr</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:120</div></div>
+<div class="ttc" id="aa01315_html_a023309f567d7a3d067a6715ac3c998f7"><div class="ttname"><a href="a01315.html#a023309f567d7a3d067a6715ac3c998f7">lumex::core::atomic::smart_ptr::table_wait::Detail::split_erase</a></div><div class="ttdeci">void * split_erase(E *pointer) noexcept</div><div class="ttdoc">A stored pointer as the void * a holder keeps.</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:204</div></div>
+<div class="ttc" id="aa01315_html_aa27e593e75b976cbaf1e42f9a5bac437"><div class="ttname"><a href="a01315.html#aa27e593e75b976cbaf1e42f9a5bac437">lumex::core::atomic::smart_ptr::table_wait::Detail::split_make_holder</a></div><div class="ttdeci">Holder * split_make_holder(::lumex::core::smart_ptr::detail::ctl_base *owner, void *pointer) noexcept</div><div class="ttdoc">Allocates the holder of an alias; running out of memory ends the program, because every operation of ...</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:215</div></div>
+<div class="ttc" id="aa01826_html"><div class="ttname"><a href="a01826.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t</a></div><div class="ttdoc">The strong group of a control block.</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:95</div></div>
+<div class="ttc" id="aa01826_html_a2548a0e2e34103598fe5f984457e1be4"><div class="ttname"><a href="a01826.html#a2548a0e2e34103598fe5f984457e1be4">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::settle_n</a></div><div class="ttdeci">static void settle_n(block_type *block, std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:117</div></div>
+<div class="ttc" id="aa01826_html_a30ee15ecfca123dc3a3e89718c0312f5"><div class="ttname"><a href="a01826.html#a30ee15ecfca123dc3a3e89718c0312f5">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::settle</a></div><div class="ttdeci">static void settle(block_type *block) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:111</div></div>
+<div class="ttc" id="aa01826_html_a350f3df33109ca5a1180554d2f985b28"><div class="ttname"><a href="a01826.html#a350f3df33109ca5a1180554d2f985b28">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::take_and_settle</a></div><div class="ttdeci">static void take_and_settle(block_type *block) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:129</div></div>
+<div class="ttc" id="aa01826_html_a459ec978ea43aabdde219c91a676f44e"><div class="ttname"><a href="a01826.html#a459ec978ea43aabdde219c91a676f44e">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::untransfer</a></div><div class="ttdeci">static void untransfer(block_type *block, std::uint32_t ticks) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:123</div></div>
+<div class="ttc" id="aa01826_html_a7ab56d5b2753ee55b96f7fb53c48cfd7"><div class="ttname"><a href="a01826.html#a7ab56d5b2753ee55b96f7fb53c48cfd7">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::release</a></div><div class="ttdeci">static void release(block_type *block) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:141</div></div>
+<div class="ttc" id="aa01826_html_a898ed588f06119d550cf7fd1df1da192"><div class="ttname"><a href="a01826.html#a898ed588f06119d550cf7fd1df1da192">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::transfer</a></div><div class="ttdeci">static void transfer(block_type *block, std::uint32_t ticks) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:105</div></div>
+<div class="ttc" id="aa01826_html_a8d5449e642ce1d44e58c97e3ed090f78"><div class="ttname"><a href="a01826.html#a8d5449e642ce1d44e58c97e3ed090f78">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::release_with_ext</a></div><div class="ttdeci">static void release_with_ext(block_type *block, std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:135</div></div>
+<div class="ttc" id="aa01826_html_ab1484a08243193a2d2fe57facef62261"><div class="ttname"><a href="a01826.html#ab1484a08243193a2d2fe57facef62261">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::block_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::detail::ctl_base block_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:96</div></div>
+<div class="ttc" id="aa01826_html_afd0c7aa07adf0f643b948118602df6a7"><div class="ttname"><a href="a01826.html#afd0c7aa07adf0f643b948118602df6a7">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t::add</a></div><div class="ttdeci">static void add(block_type *block) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:99</div></div>
+<div class="ttc" id="aa01830_html"><div class="ttname"><a href="a01830.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t</a></div><div class="ttdoc">The weak ledger of a control block.</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:149</div></div>
+<div class="ttc" id="aa01830_html_a01d1f68d15d906cd1dd234fb2d7e4084"><div class="ttname"><a href="a01830.html#a01d1f68d15d906cd1dd234fb2d7e4084">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::untransfer</a></div><div class="ttdeci">static void untransfer(block_type *block, std::uint32_t ticks) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:177</div></div>
+<div class="ttc" id="aa01830_html_a05eadf1b231f00eab4382185557ea9c0"><div class="ttname"><a href="a01830.html#a05eadf1b231f00eab4382185557ea9c0">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::settle_n</a></div><div class="ttdeci">static void settle_n(block_type *block, std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:171</div></div>
+<div class="ttc" id="aa01830_html_a2af3405e98293209ace4782a32119ab4"><div class="ttname"><a href="a01830.html#a2af3405e98293209ace4782a32119ab4">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::transfer</a></div><div class="ttdeci">static void transfer(block_type *block, std::uint32_t ticks) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:159</div></div>
+<div class="ttc" id="aa01830_html_a437774aadd0d8ab6c10546943689b927"><div class="ttname"><a href="a01830.html#a437774aadd0d8ab6c10546943689b927">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::release</a></div><div class="ttdeci">static void release(block_type *block) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:195</div></div>
+<div class="ttc" id="aa01830_html_a7c74a92bd1895b2d6fe312449d631513"><div class="ttname"><a href="a01830.html#a7c74a92bd1895b2d6fe312449d631513">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::block_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::detail::ctl_base block_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:150</div></div>
+<div class="ttc" id="aa01830_html_a8041e058d4b76bf5a5e85c884feb291c"><div class="ttname"><a href="a01830.html#a8041e058d4b76bf5a5e85c884feb291c">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::release_with_ext</a></div><div class="ttdeci">static void release_with_ext(block_type *block, std::uint32_t n) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:189</div></div>
+<div class="ttc" id="aa01830_html_aa5727cb722add9222268dd6b5604e74a"><div class="ttname"><a href="a01830.html#aa5727cb722add9222268dd6b5604e74a">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::settle</a></div><div class="ttdeci">static void settle(block_type *block) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:165</div></div>
+<div class="ttc" id="aa01830_html_acdb205237b7a6e8a44594b0069e56700"><div class="ttname"><a href="a01830.html#acdb205237b7a6e8a44594b0069e56700">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::add</a></div><div class="ttdeci">static void add(block_type *block) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:153</div></div>
+<div class="ttc" id="aa01830_html_ad27e6d63395756beae1195f65965f4e5"><div class="ttname"><a href="a01830.html#ad27e6d63395756beae1195f65965f4e5">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t::take_and_settle</a></div><div class="ttdeci">static void take_and_settle(block_type *block) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:183</div></div>
+<div class="ttc" id="aa01834_html"><div class="ttname"><a href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a></div><div class="ttdoc">The traits of a pointer kind; specialized below.</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:225</div></div>
+<div class="ttc" id="aa01838_html_a01484538b66c88e3c824c70ccdf3599d"><div class="ttname"><a href="a01838.html#a01484538b66c88e3c824c70ccdf3599d">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::detach</a></div><div class="ttdeci">static void detach(pointer_type &amp;pointer) noexcept</div><div class="ttdoc">Empties pointer without dropping its count (the caller owns it).</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:258</div></div>
+<div class="ttc" id="aa01838_html_a1e04f9d523e6f6f387e7016bb6a8973f"><div class="ttname"><a href="a01838.html#a1e04f9d523e6f6f387e7016bb6a8973f">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::block_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::detail::ctl_base block_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:233</div></div>
+<div class="ttc" id="aa01838_html_a21983dfba9c1c766742a7675fa24de7b"><div class="ttname"><a href="a01838.html#a21983dfba9c1c766742a7675fa24de7b">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::make_holder</a></div><div class="ttdeci">static holder_type * make_holder(block_type *owner, element_type *stored_pointer) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:276</div></div>
+<div class="ttc" id="aa01838_html_a307b02407126bca595c94e3c751cf379"><div class="ttname"><a href="a01838.html#a307b02407126bca595c94e3c751cf379">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::ledger_type</a></div><div class="ttdeci">split_strong_ledger_t ledger_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:235</div></div>
+<div class="ttc" id="aa01838_html_a51c5a68214d8fbc5963f617ceb1803e2"><div class="ttname"><a href="a01838.html#a51c5a68214d8fbc5963f617ceb1803e2">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::element_type</a></div><div class="ttdeci">pointer_type::element_type element_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:232</div></div>
+<div class="ttc" id="aa01838_html_a561f4b5a4c0ef945d7801a97983d00af"><div class="ttname"><a href="a01838.html#a561f4b5a4c0ef945d7801a97983d00af">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::holder_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::detail::ctl_holder holder_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:236</div></div>
+<div class="ttc" id="aa01838_html_a64ee7a20aa9b62c6d671a3d42d09839a"><div class="ttname"><a href="a01838.html#a64ee7a20aa9b62c6d671a3d42d09839a">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::control</a></div><div class="ttdeci">static block_type * control(pointer_type const &amp;pointer) noexcept</div><div class="ttdoc">The block of pointer (null for an empty one).</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:244</div></div>
+<div class="ttc" id="aa01838_html_a670d76c0ec369c34066aa422bdf9e378"><div class="ttname"><a href="a01838.html#a670d76c0ec369c34066aa422bdf9e378">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::pointer_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::shared_ptr&lt; T &gt; pointer_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:231</div></div>
+<div class="ttc" id="aa01838_html_a6de857413ec68a10218dff7d436f3224"><div class="ttname"><a href="a01838.html#a6de857413ec68a10218dff7d436f3224">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::stored</a></div><div class="ttdeci">static element_type * stored(pointer_type const &amp;pointer) noexcept</div><div class="ttdoc">The stored pointer of pointer.</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:251</div></div>
+<div class="ttc" id="aa01838_html_a9c2234048a659e134869be845c2cee61"><div class="ttname"><a href="a01838.html#a9c2234048a659e134869be845c2cee61">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::access_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::detail::access access_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:234</div></div>
+<div class="ttc" id="aa01838_html_aa01acfbff6e0f1c53b6ddf2fccadd309"><div class="ttname"><a href="a01838.html#aa01acfbff6e0f1c53b6ddf2fccadd309">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::mirror_holder</a></div><div class="ttdeci">static bool const mirror_holder</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:240</div></div>
+<div class="ttc" id="aa01838_html_ad299ba6d5a0118231ce57519832c69e1"><div class="ttname"><a href="a01838.html#ad299ba6d5a0118231ce57519832c69e1">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::adopt</a></div><div class="ttdeci">static pointer_type adopt(block_type *block, element_type *stored_pointer) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:268</div></div>
+<div class="ttc" id="aa01842_html_a3b5a6ab3012b63037f0278d92cde0185"><div class="ttname"><a href="a01842.html#a3b5a6ab3012b63037f0278d92cde0185">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::stored</a></div><div class="ttdeci">static element_type * stored(pointer_type const &amp;pointer) noexcept</div><div class="ttdoc">The stored pointer of pointer.</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:306</div></div>
+<div class="ttc" id="aa01842_html_a52f8e97e1d591269da3c84ad8a8f2df3"><div class="ttname"><a href="a01842.html#a52f8e97e1d591269da3c84ad8a8f2df3">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::ledger_type</a></div><div class="ttdeci">split_weak_ledger_t ledger_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:291</div></div>
+<div class="ttc" id="aa01842_html_a647fc864439227730b7ececdd2d39066"><div class="ttname"><a href="a01842.html#a647fc864439227730b7ececdd2d39066">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::mirror_holder</a></div><div class="ttdeci">static bool const mirror_holder</div><div class="ttdoc">Weak loads do not change use_count (): no mirror.</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:295</div></div>
+<div class="ttc" id="aa01842_html_a7594e803486612d16cbfa06db04079b4"><div class="ttname"><a href="a01842.html#a7594e803486612d16cbfa06db04079b4">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::adopt</a></div><div class="ttdeci">static pointer_type adopt(block_type *block, element_type *stored_pointer) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:323</div></div>
+<div class="ttc" id="aa01842_html_a7da737060db0717b0a225f6f74f2c57f"><div class="ttname"><a href="a01842.html#a7da737060db0717b0a225f6f74f2c57f">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::pointer_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::weak_ptr&lt; T &gt; pointer_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:287</div></div>
+<div class="ttc" id="aa01842_html_a8838be83310ba8b4a3ce5799de8ee817"><div class="ttname"><a href="a01842.html#a8838be83310ba8b4a3ce5799de8ee817">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::detach</a></div><div class="ttdeci">static void detach(pointer_type &amp;pointer) noexcept</div><div class="ttdoc">Empties pointer without dropping its weak count.</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:313</div></div>
+<div class="ttc" id="aa01842_html_a9ac99bf74106453f73e2087e1d2722e7"><div class="ttname"><a href="a01842.html#a9ac99bf74106453f73e2087e1d2722e7">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::holder_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::detail::ctl_weak_holder holder_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:292</div></div>
+<div class="ttc" id="aa01842_html_aa989075071c82748a8ddfff15bb208b7"><div class="ttname"><a href="a01842.html#aa989075071c82748a8ddfff15bb208b7">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::access_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::detail::access access_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:290</div></div>
+<div class="ttc" id="aa01842_html_aba9c5e0a0ae138332b8b90cdf27440d1"><div class="ttname"><a href="a01842.html#aba9c5e0a0ae138332b8b90cdf27440d1">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::block_type</a></div><div class="ttdeci">::lumex::core::smart_ptr::detail::ctl_base block_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:289</div></div>
+<div class="ttc" id="aa01842_html_ac2050258128eb193ea7bf3d2030e0a8d"><div class="ttname"><a href="a01842.html#ac2050258128eb193ea7bf3d2030e0a8d">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::element_type</a></div><div class="ttdeci">pointer_type::element_type element_type</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:288</div></div>
+<div class="ttc" id="aa01842_html_ac4502150d762131801c47de75cc33948"><div class="ttname"><a href="a01842.html#ac4502150d762131801c47de75cc33948">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::control</a></div><div class="ttdeci">static block_type * control(pointer_type const &amp;pointer) noexcept</div><div class="ttdoc">The block of pointer (null for an empty one).</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:299</div></div>
+<div class="ttc" id="aa01842_html_afa930ced7f6260426234cb487d86ca74"><div class="ttname"><a href="a01842.html#afa930ced7f6260426234cb487d86ca74">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::make_holder</a></div><div class="ttdeci">static holder_type * make_holder(block_type *owner, element_type *stored_pointer) noexcept</div><div class="ttdef"><b>Definition</b> LumexSplitCountTraits.hpp:331</div></div>
+<div class="ttc" id="aa03662_html"><div class="ttname"><a href="a03662.html">lumex::core::smart_ptr::detail::ctl_base</a></div><div class="ttdoc">The polymorphic control block (see the file text).</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlBase.hpp:98</div></div>
+<div class="ttc" id="aa03678_html"><div class="ttname"><a href="a03678.html">lumex::core::smart_ptr::detail::ctl_holder</a></div><div class="ttdoc">A block that owns one strong reference to another block and the stored pointer of an alias (see the f...</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlKinds.hpp:299</div></div>
+<div class="ttc" id="aa03682_html"><div class="ttname"><a href="a03682.html">lumex::core::smart_ptr::detail::ctl_weak_holder</a></div><div class="ttdoc">The holder of an alias that the engine of atomic_weak_ptr cannot pack: it owns one WEAK reference to ...</div><div class="ttdef"><b>Definition</b> LumexSmartPtrCtlKinds.hpp:392</div></div>
+<div class="ttc" id="aa03686_html"><div class="ttname"><a href="a03686.html">lumex::core::smart_ptr::shared_ptr</a></div><div class="ttdoc">Shared ownership of an object ([util.smartptr.shared]).</div><div class="ttdef"><b>Definition</b> LumexSharedPtr.hpp:114</div></div>
+<div class="ttc" id="aa03686_html_a29eafd1a160eef2d33e0a629a70fd43b"><div class="ttname"><a href="a03686.html#a29eafd1a160eef2d33e0a629a70fd43b">lumex::core::smart_ptr::shared_ptr::element_type</a></div><div class="ttdeci">std::remove_extent&lt; T &gt;::type element_type</div><div class="ttdoc">T without one array extent ([util.smartptr.shared.general]).</div><div class="ttdef"><b>Definition</b> LumexSharedPtr.hpp:117</div></div>
+<div class="ttc" id="aa03690_html"><div class="ttname"><a href="a03690.html">lumex::core::smart_ptr::weak_ptr</a></div><div class="ttdoc">A weak reference to an object owned by shared_ptr objects.</div><div class="ttdef"><b>Definition</b> LumexWeakPtr.hpp:82</div></div>
+<div class="ttc" id="aa03690_html_a6f9feaaf406d407e24436535e9ad3f76"><div class="ttname"><a href="a03690.html#a6f9feaaf406d407e24436535e9ad3f76">lumex::core::smart_ptr::weak_ptr::element_type</a></div><div class="ttdeci">std::remove_extent&lt; T &gt;::type element_type</div><div class="ttdoc">T without one array extent.</div><div class="ttdef"><b>Definition</b> LumexWeakPtr.hpp:85</div></div>
+<div class="ttc" id="aa03722_html"><div class="ttname"><a href="a03722.html">lumex::core::smart_ptr::detail::access</a></div><div class="ttdoc">The friend of the pointer classes (see the file text).</div><div class="ttdef"><b>Definition</b> LumexSmartPtrAccess.hpp:199</div></div>
+<div class="ttc" id="aa03722_html_a101d18057b6db6b9e3fdb4602605fa34"><div class="ttname"><a href="a03722.html#a101d18057b6db6b9e3fdb4602605fa34">lumex::core::smart_ptr::detail::access::detach_weak</a></div><div class="ttdeci">static ctl_base * detach_weak(weak_ptr&lt; T &gt; &amp;p, typename weak_ptr&lt; T &gt;::element_type *&amp;ptr) noexcept</div><div class="ttdoc">Empties p without dropping its weak count (see detach).</div><div class="ttdef"><b>Definition</b> LumexSmartPtrAccess.hpp:265</div></div>
+<div class="ttc" id="aa03722_html_a726c8be561404b98285628a3be4badbb"><div class="ttname"><a href="a03722.html#a726c8be561404b98285628a3be4badbb">lumex::core::smart_ptr::detail::access::detach</a></div><div class="ttdeci">static ctl_base * detach(shared_ptr&lt; T &gt; &amp;p, typename shared_ptr&lt; T &gt;::element_type *&amp;ptr) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrAccess.hpp:252</div></div>
+<div class="ttc" id="aa03722_html_ab5a9909429775aef7fd4ae60255e2b1e"><div class="ttname"><a href="a03722.html#ab5a9909429775aef7fd4ae60255e2b1e">lumex::core::smart_ptr::detail::access::control</a></div><div class="ttdeci">static ctl_base * control(shared_ptr&lt; T &gt; const &amp;p) noexcept</div><div class="ttdoc">The control block of a shared pointer (null when it has none).</div><div class="ttdef"><b>Definition</b> LumexSmartPtrAccess.hpp:206</div></div>
+<div class="ttc" id="aa03722_html_acc8b8bbfada5f542cf82f14fb1606a11"><div class="ttname"><a href="a03722.html#acc8b8bbfada5f542cf82f14fb1606a11">lumex::core::smart_ptr::detail::access::stored</a></div><div class="ttdeci">static weak_ptr&lt; T &gt;::element_type * stored(weak_ptr&lt; T &gt; const &amp;p) noexcept</div><div class="ttdef"><b>Definition</b> LumexSmartPtrAccess.hpp:223</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00293.html">ExpectedTypes.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_95030709502da905a080530bb25e5eb1.html">split_count</a></li><li class="navelem"><a class="el" href="a00293.html">LumexSplitCountTraits.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

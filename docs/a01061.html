@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::reflection::reflected_enum Namespace Reference</title>
+<title>LumexLib: XPathDocumentOrderComparator.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,22 +104,69 @@ $(function(){initNavTree('a01061.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::reflection::reflected_enum Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XPathDocumentOrderComparator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Comparison of XPath nodes by document order, used to sort node sets.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00989_source.html">lumex/xml/node/XmlNodeBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01085_source.html">lumex/xml/xpath/node/XPathNode.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XPathDocumentOrderComparator.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01062.png" border="0" usemap="#a_x_path_document_order_comparator_8hpp" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01063.png" border="0" usemap="#a_x_path_document_order_comparator_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a01061_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05074.html">lumex::xml::xpath::document::document_order_comparator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functor for comparing two <a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a> objects based on their document order.  <a href="a05074.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01062.html">detail</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01501.html">lumex::xml::xpath</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01515.html">lumex::xml::xpath::document</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a390bce9be17e61e113730fb8084c70cc" id="r_a390bce9be17e61e113730fb8084c70cc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01515.html#a390bce9be17e61e113730fb8084c70cc">lumex::xml::xpath::document::node_is_before_sibling</a> (<a class="el" href="a04982.html">XmlNodeBase</a> *ln_node, <a class="el" href="a04982.html">XmlNodeBase</a> *rn_node)</td></tr>
+<tr class="memdesc:a390bce9be17e61e113730fb8084c70cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if <code>ln_node</code> comes before <code>rn_node</code> among siblings in document order.  <br /></td></tr>
+<tr class="separator:a390bce9be17e61e113730fb8084c70cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8581d5ce879c267c49916eb9b84be203" id="r_a8581d5ce879c267c49916eb9b84be203"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01515.html#a8581d5ce879c267c49916eb9b84be203">lumex::xml::xpath::document::node_is_before</a> (<a class="el" href="a04982.html">XmlNodeBase</a> *ln_node, <a class="el" href="a04982.html">XmlNodeBase</a> *rn_node)</td></tr>
+<tr class="memdesc:a8581d5ce879c267c49916eb9b84be203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if <code>ln_node</code> comes before <code>rn_node</code> in overall document order.  <br /></td></tr>
+<tr class="separator:a8581d5ce879c267c49916eb9b84be203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fae07ce6115049a6980bd493832dbff" id="r_a3fae07ce6115049a6980bd493832dbff"><td class="memItemLeft" align="right" valign="top">void const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01515.html#a3fae07ce6115049a6980bd493832dbff">lumex::xml::xpath::document::document_buffer_order</a> (<a class="el" href="a05106.html">XPathNode</a> const &amp;xnode)</td></tr>
+<tr class="memdesc:a3fae07ce6115049a6980bd493832dbff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a pointer to a buffer location for document order comparison optimization.  <br /></td></tr>
+<tr class="separator:a3fae07ce6115049a6980bd493832dbff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Comparison of XPath nodes by document order, used to sort node sets. </p>
+<p><code>node_is_before</code> compares two tree nodes through their common ancestor, and <code>node_is_before_sibling</code> two children of one parent. <code>document_buffer_order</code> gives a fast path: while a node's name or value still lies in the buffer the document was parsed from, the order of the addresses is the document order. <code>document_order_comparator</code> combines both and places an attribute after its element and before the element's children. <code>xpath_sort</code> and <code>xpath_first</code> (<code><a class="el" href="a01133.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values.">XPathUtils.hpp</a></code>) use it. The file is internal to the XPath engine. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01058.html">reflection</a></li><li class="navelem"><a class="el" href="a01061.html">reflected_enum</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_ba6dde11e0d892758174c56741e331d7.html">document</a></li><li class="navelem"><a class="el" href="a01061.html">XPathDocumentOrderComparator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

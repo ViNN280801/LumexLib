@@ -1,0 +1,15 @@
+digraph "lumex::applied::serial::enumeration::enumerate_serial_ports_detailed"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::applied::serial\l::enumeration::enumerate\l_serial_ports_detailed",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Enumerate serial ports with full serial_port_info_t records."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::applied::serial\l::enumeration::bounded\l_open_serial_port",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01288.html#a0a518e9f25f40fbb213907e34b881f81",tooltip="Opens open_path so the caller never waits past deadline."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::applied::serial\l::enumeration::close_serial\l_handle",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01288.html#aeda0fc72f871cf1ddc177f5c172131ea",tooltip="Closes handle; a no-op for the invalid value."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::applied::serial\l::enumeration::state_from\l_open_result",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01288.html#a2baec958c3eebd588ab9cbc9bccd7e5f",tooltip="Maps an open outcome to the enumeration state."];
+}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_settings.cpp File Reference</title>
+<title>LumexLib: LumexBit.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,127 +104,89 @@ $(function(){initNavTree('a00587.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_settings.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexBit.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+
+<p>Bit helpers. <code>count_leading_zeros</code> (C++11) counts the leading zeros of an unsigned integer of 1, 2, 4 or 8 bytes, an analogue of C++20 <code>std::countl_zero</code>. <code>byte_swap</code> (C++11) reverses the byte order of an integral value, an analogue of C++23 <code>std::byteswap</code>. <code>is_little_endian</code> (C++11) tells whether the machine stores the least significant byte first.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;cstdio&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00887_source.html">lumex/applied/settings/LumexSettings</a>&quot;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_settings.cpp:</div>
+Include dependency graph for LumexBit.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00588.png" border="0" usemap="#aexample__settings_8cpp" alt=""/></div>
-<map name="aexample__settings_8cpp" id="aexample__settings_8cpp">
-<area shape="rect" title=" " alt="" coords="1031,5,1180,32"/>
-<area shape="rect" title=" " alt="" coords="619,88,690,115"/>
-<area shape="poly" title=" " alt="" coords="1031,28,879,47,790,62,704,83,696,85,695,80,702,77,789,57,878,41,1031,23"/>
-<area shape="rect" title=" " alt="" coords="1046,253,1114,280"/>
-<area shape="poly" title=" " alt="" coords="1107,33,1086,238,1080,238,1102,32"/>
-<area shape="rect" title=" " alt="" coords="1492,344,1546,371"/>
-<area shape="poly" title=" " alt="" coords="1167,30,1251,55,1300,74,1350,97,1399,125,1445,159,1486,198,1520,244,1528,265,1531,288,1528,329,1523,329,1526,288,1523,266,1515,247,1482,202,1442,163,1396,130,1347,102,1298,79,1249,60,1165,35"/>
-<area shape="rect" title=" " alt="" coords="1138,253,1196,280"/>
-<area shape="poly" title=" " alt="" coords="1111,32,1163,238,1158,239,1106,33"/>
-<area shape="rect" title=" " alt="" coords="1607,88,1663,115"/>
-<area shape="poly" title=" " alt="" coords="1180,20,1367,36,1479,53,1589,77,1596,80,1595,85,1587,83,1478,58,1367,42,1180,25"/>
-<area shape="rect" href="a00887.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="715,80,866,123"/>
-<area shape="poly" title=" " alt="" coords="1057,35,883,79,881,74,1055,30"/>
-<area shape="rect" href="a00173.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="526,253,717,280"/>
-<area shape="poly" title=" " alt="" coords="740,125,703,146,670,172,647,206,632,240,627,238,642,203,666,169,700,141,737,121"/>
-<area shape="rect" href="a00155.html" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="681,171,901,197"/>
-<area shape="poly" title=" " alt="" coords="794,123,794,155,788,155,788,123"/>
-<area shape="rect" href="a00170.html" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="792,245,1022,288"/>
-<area shape="poly" title=" " alt="" coords="857,121,890,141,916,169,922,184,924,200,921,231,916,230,919,200,917,186,911,172,886,145,854,125"/>
-<area shape="rect" href="a00161.html" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="1169,171,1373,197"/>
-<area shape="poly" title=" " alt="" coords="867,113,1181,165,1180,170,866,118"/>
-<area shape="rect" href="a00167.html" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="5,171,174,197"/>
-<area shape="poly" title=" " alt="" coords="715,123,703,125,561,144,448,153,335,160,189,173,189,168,334,155,448,148,560,139,702,120,714,118"/>
-<area shape="rect" href="a00179.html" title="ILumexSettings over JSON files, parsed and written with the vendored nlohmann/json." alt="" coords="198,171,395,197"/>
-<area shape="poly" title=" " alt="" coords="715,123,703,125,551,151,410,171,410,166,550,146,702,120,714,118"/>
-<area shape="rect" href="a00185.html" title="ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module." alt="" coords="420,171,605,197"/>
-<area shape="poly" title=" " alt="" coords="720,126,572,168,570,163,718,121"/>
-<area shape="poly" title=" " alt="" coords="718,278,780,285,1185,325,1477,350,1476,355,1185,330,780,291,717,283"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="423,344,585,371"/>
-<area shape="poly" title=" " alt="" coords="606,283,535,336,532,332,603,278"/>
-<area shape="poly" title=" " alt="" coords="855,195,941,216,1034,243,1040,245,1038,250,1033,248,939,221,853,201"/>
-<area shape="poly" title=" " alt="" coords="766,200,663,249,660,244,763,195"/>
-<area shape="poly" title=" " alt="" coords="789,199,769,243,752,268,731,290,701,310,668,325,602,346,600,340,666,320,699,305,728,286,748,265,765,241,784,197"/>
-<area shape="poly" title=" " alt="" coords="810,196,866,234,863,239,807,200"/>
-<area shape="rect" title=" " alt="" coords="877,344,937,371"/>
-<area shape="poly" title=" " alt="" coords="910,288,910,328,904,328,904,288"/>
-<area shape="poly" title=" " alt="" coords="1241,200,1128,248,1124,249,1122,244,1126,243,1239,195"/>
-<area shape="poly" title=" " alt="" coords="1374,190,1435,208,1464,223,1489,243,1503,263,1512,285,1521,328,1515,329,1507,286,1498,265,1485,247,1461,228,1433,213,1373,195"/>
-<area shape="poly" title=" " alt="" coords="1256,200,1196,246,1193,242,1253,196"/>
-<area shape="poly" title=" " alt="" coords="1169,200,780,248,733,254,732,249,780,243,1168,195"/>
-<area shape="poly" title=" " alt="" coords="1270,199,1250,245,1233,270,1210,290,1158,311,1090,325,1011,332,926,334,759,334,687,335,630,339,592,344,592,338,629,333,687,330,759,329,926,329,1010,326,1089,319,1156,306,1207,286,1229,266,1246,242,1265,197"/>
-<area shape="rect" title=" " alt="" coords="1271,253,1348,280"/>
-<area shape="poly" title=" " alt="" coords="1279,197,1299,238,1295,241,1274,199"/>
-<area shape="rect" title=" " alt="" coords="1373,253,1430,280"/>
-<area shape="poly" title=" " alt="" coords="1293,196,1370,243,1367,247,1290,200"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="642,336,836,379"/>
-<area shape="poly" title=" " alt="" coords="1371,195,1412,213,1430,227,1445,244,1454,267,1452,279,1445,290,1431,299,1409,306,1343,317,1161,330,976,335,864,339,852,340,851,335,864,333,975,329,1161,324,1343,312,1407,301,1429,294,1441,286,1447,277,1449,267,1441,247,1426,231,1409,218,1369,200"/>
-<area shape="poly" title=" " alt="" coords="174,195,523,248,522,253,173,201"/>
-<area shape="poly" title=" " alt="" coords="69,200,45,220,25,247,18,268,19,277,25,286,49,305,87,320,133,331,186,340,301,351,407,354,407,359,301,356,186,345,132,337,85,325,47,309,21,290,14,279,13,268,20,244,41,216,66,196"/>
-<area shape="rect" title=" " alt="" coords="34,253,145,280"/>
-<area shape="poly" title=" " alt="" coords="92,198,92,238,87,238,87,198"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="219,245,451,288"/>
-<area shape="poly" title=" " alt="" coords="129,195,258,237,256,243,127,200"/>
-<area shape="poly" title=" " alt="" coords="430,286,630,330,629,335,429,291"/>
-<area shape="poly" title=" " alt="" coords="348,195,556,247,555,252,347,201"/>
-<area shape="poly" title=" " alt="" coords="264,200,233,219,220,232,209,247,202,268,203,277,209,286,221,297,239,307,288,323,348,335,408,344,407,349,347,341,287,328,237,311,218,301,205,290,198,278,196,267,204,244,216,228,230,215,262,196"/>
-<area shape="poly" title=" " alt="" coords="265,200,137,250,135,245,263,195"/>
-<area shape="poly" title=" " alt="" coords="305,197,321,231,316,233,300,199"/>
-<area shape="poly" title=" " alt="" coords="531,196,594,242,591,246,528,200"/>
-<area shape="poly" title=" " alt="" coords="514,198,508,328,503,328,509,197"/>
-<area shape="poly" title=" " alt="" coords="446,201,160,255,159,249,445,195"/>
-<area shape="poly" title=" " alt="" coords="486,200,395,241,393,236,483,195"/>
-</map>
+<div class="center"><img src="a00588.png" border="0" usemap="#a_lumex_bit_8hpp" alt=""/></div>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00589.png" border="0" usemap="#a_lumex_bit_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00587_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01409.html">lumex::core::utility</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01410.html">lumex::core::utility::bit</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01411.html">lumex::core::utility::bit::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8468ef56090dda0cf81cec700a57df38" id="r_a8468ef56090dda0cf81cec700a57df38"><td class="memTemplParams" colspan="2">template&lt;typename NumericType&gt; </td></tr>
+<tr class="memitem:a8468ef56090dda0cf81cec700a57df38"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; NumericType &gt;::value &amp;&amp;std::is_unsigned&lt; NumericType &gt;::value &amp;&amp;!std::is_same&lt; bool, NumericType &gt;::value &amp;&amp;(sizeof(NumericType)==1||sizeof(NumericType)==2||sizeof(NumericType)==4||sizeof(NumericType)==8), std::uint8_t &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01410.html#a8468ef56090dda0cf81cec700a57df38">lumex::core::utility::bit::count_leading_zeros</a> (NumericType value) noexcept</td></tr>
+<tr class="memdesc:a8468ef56090dda0cf81cec700a57df38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts the leading zero bits of an unsigned integer (C++11).  <br /></td></tr>
+<tr class="separator:a8468ef56090dda0cf81cec700a57df38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff30e8b7fe645acb0375d1c7f82f0c1b" id="r_aff30e8b7fe645acb0375d1c7f82f0c1b"><td class="memTemplParams" colspan="2">template&lt;typename Unsigned&gt; </td></tr>
+<tr class="memitem:aff30e8b7fe645acb0375d1c7f82f0c1b"><td class="memTemplItemLeft" align="right" valign="top">constexpr Unsigned&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01411.html#aff30e8b7fe645acb0375d1c7f82f0c1b">lumex::core::utility::bit::Detail::swap_bytes</a> (Unsigned value, std::integral_constant&lt; std::size_t, 1 &gt;) noexcept</td></tr>
+<tr class="memdesc:aff30e8b7fe645acb0375d1c7f82f0c1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">One-byte value: nothing to reverse.  <br /></td></tr>
+<tr class="separator:aff30e8b7fe645acb0375d1c7f82f0c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa40573a111dee343da2a265b05d47a2f" id="r_aa40573a111dee343da2a265b05d47a2f"><td class="memTemplParams" colspan="2">template&lt;typename Unsigned&gt; </td></tr>
+<tr class="memitem:aa40573a111dee343da2a265b05d47a2f"><td class="memTemplItemLeft" align="right" valign="top">constexpr Unsigned&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01411.html#aa40573a111dee343da2a265b05d47a2f">lumex::core::utility::bit::Detail::swap_bytes</a> (Unsigned value, std::integral_constant&lt; std::size_t, 2 &gt;) noexcept</td></tr>
+<tr class="memdesc:aa40573a111dee343da2a265b05d47a2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverses the two bytes of an unsigned value.  <br /></td></tr>
+<tr class="separator:aa40573a111dee343da2a265b05d47a2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a804df08b57c68616295689a41c9fbd0a" id="r_a804df08b57c68616295689a41c9fbd0a"><td class="memTemplParams" colspan="2">template&lt;typename Unsigned&gt; </td></tr>
+<tr class="memitem:a804df08b57c68616295689a41c9fbd0a"><td class="memTemplItemLeft" align="right" valign="top">constexpr Unsigned&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01411.html#a804df08b57c68616295689a41c9fbd0a">lumex::core::utility::bit::Detail::swap_bytes</a> (Unsigned value, std::integral_constant&lt; std::size_t, 4 &gt;) noexcept</td></tr>
+<tr class="memdesc:a804df08b57c68616295689a41c9fbd0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverses the four bytes of an unsigned value.  <br /></td></tr>
+<tr class="separator:a804df08b57c68616295689a41c9fbd0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7122d439ea29190937f1553b6a329b7" id="r_ac7122d439ea29190937f1553b6a329b7"><td class="memTemplParams" colspan="2">template&lt;typename Unsigned&gt; </td></tr>
+<tr class="memitem:ac7122d439ea29190937f1553b6a329b7"><td class="memTemplItemLeft" align="right" valign="top">constexpr Unsigned&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01411.html#ac7122d439ea29190937f1553b6a329b7">lumex::core::utility::bit::Detail::swap_bytes</a> (Unsigned value, std::integral_constant&lt; std::size_t, 8 &gt;) noexcept</td></tr>
+<tr class="memdesc:ac7122d439ea29190937f1553b6a329b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverses the eight bytes of an unsigned value.  <br /></td></tr>
+<tr class="separator:ac7122d439ea29190937f1553b6a329b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc5424148a3c93bf6ba9afb098dd93a6" id="r_abc5424148a3c93bf6ba9afb098dd93a6"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:abc5424148a3c93bf6ba9afb098dd93a6"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_integral&lt; T &gt;::value &amp;&amp;!std::is_same&lt; T, bool &gt;::value &amp;&amp;(sizeof(T)==1||sizeof(T)==2||sizeof(T)==4||sizeof(T)==8), T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01410.html#abc5424148a3c93bf6ba9afb098dd93a6">lumex::core::utility::bit::byte_swap</a> (T value) noexcept</td></tr>
+<tr class="memdesc:abc5424148a3c93bf6ba9afb098dd93a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverses the byte order of an integral value (byte swap / endianness reverse), C++11 form.  <br /></td></tr>
+<tr class="separator:abc5424148a3c93bf6ba9afb098dd93a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb7c418e8ef454625d57b7b098e59e04" id="r_aeb7c418e8ef454625d57b7b098e59e04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01410.html#aeb7c418e8ef454625d57b7b098e59e04">lumex::core::utility::bit::is_little_endian</a> () noexcept</td></tr>
+<tr class="memdesc:aeb7c418e8ef454625d57b7b098e59e04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells whether the machine stores the least significant byte of an integer first (little endian).  <br /></td></tr>
+<tr class="separator:aeb7c418e8ef454625d57b7b098e59e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00587_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00587_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-<map name="aa00587_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00587_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
-<area shape="rect" title=" " alt="" coords="5,63,55,89"/>
-<area shape="rect" href="a01297.html#a309046eb225dab34d5578b0174e711ab" title="Creates a settings object for the specified file format." alt="" coords="103,5,311,64"/>
-<area shape="poly" title=" " alt="" coords="55,68,87,60,88,65,56,73"/>
-<area shape="rect" href="a01309.html#ad7d89bb26cb39d1ce799779febe35edb" title="Performs a static check on an INI file for basic validity." alt="" coords="127,88,286,147"/>
-<area shape="poly" title=" " alt="" coords="56,79,113,93,112,98,55,84"/>
-</map>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Bit helpers. <code>count_leading_zeros</code> (C++11) counts the leading zeros of an unsigned integer of 1, 2, 4 or 8 bytes, an analogue of C++20 <code>std::countl_zero</code>. <code>byte_swap</code> (C++11) reverses the byte order of an integral value, an analogue of C++23 <code>std::byteswap</code>. <code>is_little_endian</code> (C++11) tells whether the machine stores the least significant byte first. </p>
+<p><code>count_leading_zeros</code> uses <code>_BitScanReverse</code> with MSVC (including clang-cl) and <code>__builtin_clz</code> / <code>__builtin_clzll</code> with GCC and Clang. A zero value returns the width; those intrinsics do not define that case. <code>byte_swap</code> accepts every integral type except <code>bool</code> whose size is 1, 2, 4 or 8 bytes. From C++20, where concepts, <code>std::bit_cast</code>, <code>std::ranges</code> and <code>std::is_constant_evaluated</code> exist, it uses the compiler's byte swap builtin for 2, 4 and 8 bytes (<code>__builtin_bswap*</code> with GCC and Clang, <code>_byteswap_*</code> with MSVC) at run time and reverses the bytes of a <code>std::bit_cast</code> copy in a constant expression. Below C++20 it is written with shifts and masks, so it is <code>constexpr</code> from C++11 and compilers turn it into one byte swap instruction. Both forms give the same result for the same value.</p>
+<p>The byte swap and the byte-order probe serve code that reads or writes data of a fixed byte order, such as the UTF-16 and UTF-32 transcoders of the <code>unicode</code> module. <code>byte_swap</code> below C++20 and <code>is_little_endian</code> replace helpers of the XML module; both functions are Lumex's own code (the XML module itself is derived from pugixml, see <code>THIRD-PARTY-NOTICES.md</code>). </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_687203564ac037bfeaa905b155c4129c.html">settings</a></li><li class="navelem"><a class="el" href="a00587.html">example_settings.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_f777a8edc8a36058595e811338c8cc87.html">bit</a></li><li class="navelem"><a class="el" href="a00587.html">LumexBit.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

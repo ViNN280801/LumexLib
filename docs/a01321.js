@@ -1,15 +1,20 @@
 var a01321 =
 [
-    [ "add", "a01321.html#a5681a6cb0cc82bb3f9178b7b456ec863", null ],
-    [ "add", "a01321.html#ad38af7fcdb702801b644cf27e8326a08", null ],
-    [ "get", "a01321.html#a329cbe03809f11567c247392b669aa13", null ],
-    [ "get", "a01321.html#acdd3841842f97972dcee82fca7ac1412", null ],
-    [ "is_xml_valid", "a01321.html#a8d037cd5f5f2336c9295633a24a5f53c", null ],
-    [ "is_xml_valid", "a01321.html#ae1b637ba55ed87cd379edb2d82afdf23", null ],
-    [ "load", "a01321.html#a49ecba46ab453277477a0298ca001778", null ],
-    [ "load", "a01321.html#aee36de8debc87784e6a28833736c0f88", null ],
-    [ "remove", "a01321.html#a9e566b3a4ffdeb3b96cdc3a4cb2de217", null ],
-    [ "remove", "a01321.html#a38fdd47780dcb3f11faf92504e337e84", null ],
-    [ "save", "a01321.html#ac6e0321b99e2cc418849320787815641", null ],
-    [ "save", "a01321.html#afb5ef6e05c93bdb8f76b5d059923e388", null ]
+    [ "Constants", "a01323.html", [
+      [ "kBase64DecodeInvalidChar", "a01323.html#a310994bff0f37c34e998e64ccd0d9b4a", null ],
+      [ "kBase64MaskFourBits", "a01323.html#a0d133094b5ed0ee9e698035e63daae7f", null ],
+      [ "kBase64MaskSixBits", "a01323.html#aecebd7ba4ffe04b988126e41c33ecfea", null ],
+      [ "kBase64MaskTwoBits", "a01323.html#abfd68edd3c78816eef9e59ff829ee8f4", null ],
+      [ "kBase64RightShiftSixBits", "a01323.html#a71b364fecb88ca9458896d44cb1be5d5", null ]
+    ] ],
+    [ "detail", "a01324.html", [
+      [ "_encode_impl", "a01324.html#abda97488987b0b151816d6cc1ee24873", null ],
+      [ "_is_base64_char_impl", "a01324.html#aed2c6635159a04fc20cc0c5a5398cf63", null ],
+      [ "_base64_chars", "a01324.html#a9d7e600219f0ee2a9f913871d1ebb0b4", null ],
+      [ "_decode_table", "a01324.html#a1532c566da2e92bae3b58e0ad551ef7e", null ]
+    ] ],
+    [ "Types", "a01322.html", [
+      [ "byte_type", "a01322.html#a5e9a9660b44f2279e84d63cbdb62ffd1", null ],
+      [ "string_type_t", "a01322.html#ad7e09f224a1afaf5231200090c1f100a", null ]
+    ] ]
 ];

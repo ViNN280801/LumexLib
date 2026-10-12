@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::resource_monitor::monitor::Constants Namespace Reference</title>
+<title>LumexLib: XmlNode.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,23 +104,80 @@ $(function(){initNavTree('a00980.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::resource_monitor::monitor::Constants Namespace Reference</div></div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XmlNode.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a2d339c3a57f9e52e4313ff7322012a35" id="r_a2d339c3a57f9e52e4313ff7322012a35"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d339c3a57f9e52e4313ff7322012a35">KDEFAULT_POLL_INTERVAL_MS</a> = 10000</td></tr>
-<tr class="memdesc:a2d339c3a57f9e52e4313ff7322012a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll interval used when the caller does not request a specific one.  <br /></td></tr>
-<tr class="separator:a2d339c3a57f9e52e4313ff7322012a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9a62099ac7bcfe99416183349af1c31" id="r_af9a62099ac7bcfe99416183349af1c31"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9a62099ac7bcfe99416183349af1c31">KSTARTUP_GRACE_PERIOD_MS</a> = 2000</td></tr>
-<tr class="memdesc:af9a62099ac7bcfe99416183349af1c31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grace period the sampler waits before taking its first sample.  <br /></td></tr>
-<tr class="separator:af9a62099ac7bcfe99416183349af1c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00962_source.html">lumex/xml/document/XmlDocumentBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00968_source.html">lumex/xml/memory/XmlAllocator.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01004_source.html">lumex/xml/text/XmlParseResult.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01010_source.html">lumex/xml/text/XmlText.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01013_source.html">lumex/xml/tree/XmlTreeWalker.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01016_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01022_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01025_source.html">lumex/xml/writer/IXmlWriter.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01031_source.html">lumex/xml/writer/XmlBufferedWriter.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01043_source.html">lumex/xml/writer/XmlWriterStream.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01085_source.html">lumex/xml/xpath/node/XPathNode.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01091_source.html">lumex/xml/xpath/node/XPathNodeSet.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01121_source.html">lumex/xml/xpath/query/XPathQuery.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01145_source.html">lumex/xml/xpath/variable/XPathVariableSet.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00983_source.html">XmlNode.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XmlNode.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00981.png" border="0" usemap="#a_xml_node_8cpp" alt=""/></div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a7f14902237d6fd53b62ea287105d1c31" id="r_a7f14902237d6fd53b62ea287105d1c31"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f14902237d6fd53b62ea287105d1c31">unspecified_bool_xml_node</a> (<a class="el" href="a04966.html">XmlNode</a> ***)</td></tr>
+<tr class="separator:a7f14902237d6fd53b62ea287105d1c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a647665f2ca21227b6053327ad22ae43a" id="r_a647665f2ca21227b6053327ad22ae43a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a647665f2ca21227b6053327ad22ae43a">text_output_escaped</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a> type, unsigned int flags)</td></tr>
+<tr class="separator:a647665f2ca21227b6053327ad22ae43a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf60e317ab315b5cb3eb74f99c1c7818" id="r_adf60e317ab315b5cb3eb74f99c1c7818"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf60e317ab315b5cb3eb74f99c1c7818">text_output</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a> type, unsigned int flags)</td></tr>
+<tr class="separator:adf60e317ab315b5cb3eb74f99c1c7818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e97a025d5f0d5027445d44145586231" id="r_a9e97a025d5f0d5027445d44145586231"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e97a025d5f0d5027445d44145586231">text_output_cdata</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
+<tr class="separator:a9e97a025d5f0d5027445d44145586231"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c50f986d8e0bd24c89594197a5dc0e9" id="r_a1c50f986d8e0bd24c89594197a5dc0e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c50f986d8e0bd24c89594197a5dc0e9">text_output_indent</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int depth)</td></tr>
+<tr class="separator:a1c50f986d8e0bd24c89594197a5dc0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdf88c166fbef8feba73a11656d1a2a5" id="r_afdf88c166fbef8feba73a11656d1a2a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdf88c166fbef8feba73a11656d1a2a5">node_output_comment</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
+<tr class="separator:afdf88c166fbef8feba73a11656d1a2a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a759553362006542d7aa6079a39a24bf4" id="r_a759553362006542d7aa6079a39a24bf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a759553362006542d7aa6079a39a24bf4">node_output_pi_value</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
+<tr class="separator:a759553362006542d7aa6079a39a24bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aec0d3f33d23989698e84beb2403d60" id="r_a1aec0d3f33d23989698e84beb2403d60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1aec0d3f33d23989698e84beb2403d60">node_output_attributes</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a04982.html">XmlNodeBase</a> *node, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int flags, unsigned int depth)</td></tr>
+<tr class="separator:a1aec0d3f33d23989698e84beb2403d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3781da2446a997aeab30b3a127de9a9d" id="r_a3781da2446a997aeab30b3a127de9a9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3781da2446a997aeab30b3a127de9a9d">node_output_start</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a04982.html">XmlNodeBase</a> *node, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int flags, unsigned int depth)</td></tr>
+<tr class="separator:a3781da2446a997aeab30b3a127de9a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08731803b31fe1bac86107d608100f94" id="r_a08731803b31fe1bac86107d608100f94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08731803b31fe1bac86107d608100f94">node_output_end</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a04982.html">XmlNodeBase</a> *node)</td></tr>
+<tr class="separator:a08731803b31fe1bac86107d608100f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cf6a87493cf624f41e7e716ca14c5b5" id="r_a9cf6a87493cf624f41e7e716ca14c5b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cf6a87493cf624f41e7e716ca14c5b5">node_output_simple</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a04982.html">XmlNodeBase</a> *node, unsigned int flags)</td></tr>
+<tr class="separator:a9cf6a87493cf624f41e7e716ca14c5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a2d339c3a57f9e52e4313ff7322012a35" name="a2d339c3a57f9e52e4313ff7322012a35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d339c3a57f9e52e4313ff7322012a35">&#9670;&#160;</a></span>KDEFAULT_POLL_INTERVAL_MS</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a1aec0d3f33d23989698e84beb2403d60" name="a1aec0d3f33d23989698e84beb2403d60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aec0d3f33d23989698e84beb2403d60">&#9670;&#160;</a></span>node_output_attributes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -129,22 +186,57 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::int64_t lumex::applied::resource_monitor::monitor::Constants::KDEFAULT_POLL_INTERVAL_MS = 10000</td>
+          <td class="memname">void node_output_attributes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Poll interval used when the caller does not request a specific one. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a1aec0d3f33d23989698e84beb2403d60_cgraph.png" border="0" usemap="#aa00980_a1aec0d3f33d23989698e84beb2403d60_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a1aec0d3f33d23989698e84beb2403d60_icgraph.png" border="0" usemap="#aa00980_a1aec0d3f33d23989698e84beb2403d60_icgraph" alt=""/></div>
+</div>
 
 </div>
 </div>
-<a id="af9a62099ac7bcfe99416183349af1c31" name="af9a62099ac7bcfe99416183349af1c31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9a62099ac7bcfe99416183349af1c31">&#9670;&#160;</a></span>KSTARTUP_GRACE_PERIOD_MS</h2>
+<a id="afdf88c166fbef8feba73a11656d1a2a5" name="afdf88c166fbef8feba73a11656d1a2a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdf88c166fbef8feba73a11656d1a2a5">&#9670;&#160;</a></span>node_output_comment()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,7 +245,386 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::int64_t lumex::applied::resource_monitor::monitor::Constants::KSTARTUP_GRACE_PERIOD_MS = 2000</td>
+          <td class="memname">void node_output_comment </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_afdf88c166fbef8feba73a11656d1a2a5_icgraph.png" border="0" usemap="#aa00980_afdf88c166fbef8feba73a11656d1a2a5_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a08731803b31fe1bac86107d608100f94" name="a08731803b31fe1bac86107d608100f94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08731803b31fe1bac86107d608100f94">&#9670;&#160;</a></span>node_output_end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void node_output_end </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a08731803b31fe1bac86107d608100f94_icgraph.png" border="0" usemap="#aa00980_a08731803b31fe1bac86107d608100f94_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a759553362006542d7aa6079a39a24bf4" name="a759553362006542d7aa6079a39a24bf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a759553362006542d7aa6079a39a24bf4">&#9670;&#160;</a></span>node_output_pi_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void node_output_pi_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a759553362006542d7aa6079a39a24bf4_icgraph.png" border="0" usemap="#aa00980_a759553362006542d7aa6079a39a24bf4_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a9cf6a87493cf624f41e7e716ca14c5b5" name="a9cf6a87493cf624f41e7e716ca14c5b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cf6a87493cf624f41e7e716ca14c5b5">&#9670;&#160;</a></span>node_output_simple()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void node_output_simple </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a9cf6a87493cf624f41e7e716ca14c5b5_cgraph.png" border="0" usemap="#aa00980_a9cf6a87493cf624f41e7e716ca14c5b5_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a9cf6a87493cf624f41e7e716ca14c5b5_icgraph.png" border="0" usemap="#aa00980_a9cf6a87493cf624f41e7e716ca14c5b5_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a3781da2446a997aeab30b3a127de9a9d" name="a3781da2446a997aeab30b3a127de9a9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3781da2446a997aeab30b3a127de9a9d">&#9670;&#160;</a></span>node_output_start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool node_output_start </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a3781da2446a997aeab30b3a127de9a9d_cgraph.png" border="0" usemap="#aa00980_a3781da2446a997aeab30b3a127de9a9d_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a3781da2446a997aeab30b3a127de9a9d_icgraph.png" border="0" usemap="#aa00980_a3781da2446a997aeab30b3a127de9a9d_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="adf60e317ab315b5cb3eb74f99c1c7818" name="adf60e317ab315b5cb3eb74f99c1c7818"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf60e317ab315b5cb3eb74f99c1c7818">&#9670;&#160;</a></span>text_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void text_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_adf60e317ab315b5cb3eb74f99c1c7818_cgraph.png" border="0" usemap="#aa00980_adf60e317ab315b5cb3eb74f99c1c7818_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_adf60e317ab315b5cb3eb74f99c1c7818_icgraph.png" border="0" usemap="#aa00980_adf60e317ab315b5cb3eb74f99c1c7818_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a9e97a025d5f0d5027445d44145586231" name="a9e97a025d5f0d5027445d44145586231"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e97a025d5f0d5027445d44145586231">&#9670;&#160;</a></span>text_output_cdata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void text_output_cdata </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a9e97a025d5f0d5027445d44145586231_icgraph.png" border="0" usemap="#aa00980_a9e97a025d5f0d5027445d44145586231_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a647665f2ca21227b6053327ad22ae43a" name="a647665f2ca21227b6053327ad22ae43a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a647665f2ca21227b6053327ad22ae43a">&#9670;&#160;</a></span>text_output_escaped()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void text_output_escaped </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a647665f2ca21227b6053327ad22ae43a_icgraph.png" border="0" usemap="#aa00980_a647665f2ca21227b6053327ad22ae43a_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a1c50f986d8e0bd24c89594197a5dc0e9" name="a1c50f986d8e0bd24c89594197a5dc0e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c50f986d8e0bd24c89594197a5dc0e9">&#9670;&#160;</a></span>text_output_indent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void text_output_indent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a1c50f986d8e0bd24c89594197a5dc0e9_icgraph.png" border="0" usemap="#aa00980_a1c50f986d8e0bd24c89594197a5dc0e9_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a7f14902237d6fd53b62ea287105d1c31" name="a7f14902237d6fd53b62ea287105d1c31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f14902237d6fd53b62ea287105d1c31">&#9670;&#160;</a></span>unspecified_bool_xml_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void unspecified_bool_xml_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04966.html">XmlNode</a> ***</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -162,9 +633,11 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Grace period the sampler waits before taking its first sample. </p>
-<p>Gives the host application time to finish initializing before any sampling starts, and keeps a thread/instrumentation sanitizer from reporting noise for activity that happens during that initialization window. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00980_a7f14902237d6fd53b62ea287105d1c31_icgraph.png" border="0" usemap="#aa00980_a7f14902237d6fd53b62ea287105d1c31_icgraph" alt=""/></div>
+</div>
 
 </div>
 </div>
@@ -173,7 +646,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00977.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a00978.html">monitor</a></li><li class="navelem"><a class="el" href="a00980.html">Constants</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_29d6ff05bf0fbfd630b35569eea8b892.html">node</a></li><li class="navelem"><a class="el" href="a00980.html">XmlNode.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

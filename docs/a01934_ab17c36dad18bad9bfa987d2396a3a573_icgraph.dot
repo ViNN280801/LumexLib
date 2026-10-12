@@ -1,0 +1,13 @@
+digraph "lumex::core::contracts::source_location::source_location"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::contracts\l::source_location::source\l_location",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The empty location: empty names, line 0, column 0."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::contracts\l::source_location::operator!=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01934.html#a05cfe36fc1298e6d0cb629e088f21c17",tooltip="The negation of operator==."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::contracts\l::source_location::operator==",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01934.html#af28bf5a4f121b198f9861f69e026a0cd",tooltip="Whether both names and both numbers are equal (by content)."];
+}

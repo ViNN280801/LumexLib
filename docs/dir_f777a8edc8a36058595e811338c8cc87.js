@@ -1,4 +1,4 @@
 var dir_f777a8edc8a36058595e811338c8cc87 =
 [
-    [ "LumexBit.hpp", "a00392.html", "a00392" ]
+    [ "LumexBit.hpp", "a00587.html", "a00587" ]
 ];

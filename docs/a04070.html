@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::temporary::tmp::lumex_temporary Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a04073.html',''); initResizable(true); });
+$(function(){initNavTree('a04070.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,30 +103,290 @@ $(function(){initNavTree('a04073.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexJsonSchemaNormalizer Member List</div></div>
+  <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a04067.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::temporary::tmp::lumex_temporary Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a04073.html#aa895f4efd6c47529d881aa66d27621f2">get_exception_message</a>(std::exception_ptr const &amp;error) noexcept</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04073.html#a9918c71ec1bdbd6181e3737ef8b168db">is_strict</a>() const noexcept</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04073.html#abb52695431f3bdf5cbade4f2f30abd4b">LumexJsonSchemaNormalizer</a>(bool strict) noexcept</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01181.html#a55776e2b94b12a57fd8b1c64e850352c">normalize</a>(lumex::core::string_view::view::LumexStringView raw) const =0</td><td class="entry"><a class="el" href="a01181.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01181.html#abcf53bbebdf6b8f9ca547657c0e8f617">normalize</a>(lumex::core::string_view::view::LumexStringView raw, std::exception_ptr &amp;error) const =0</td><td class="entry"><a class="el" href="a01181.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04073.html#a6d6a03c5740ff75f5149ea6fdee9dc06">normalize_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04073.html#a8ae52f1cd83ea06bf9c6cb850704d156">parse</a>(lumex::core::string_view::view::LumexStringView raw)</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04073.html#a8b52d105932cbbf487e7111f269f13f9">process_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, lumex::applied::json::schema::LumexJsonSchemaCheckMode mode, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04073.html#ad4e6f91a4cc39ea650825173f0406128">report_or_rethrow</a>(std::exception_ptr &amp;error) const</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04073.html#ae3d3b9be81452b31633c886480c2ca56">validate</a>(lumex::core::string_view::view::LumexStringView raw) const=0</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04073.html#aff1aafcf342dcda7c30965db3b211341">validate</a>(lumex::core::string_view::view::LumexStringView raw, std::exception_ptr &amp;error) const=0</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04073.html#a1384265ea61be8a83ba651e8fb89a8c5">validate_against_schema</a>(nlohmann::json const &amp;schema, nlohmann::json const &amp;input, std::string const &amp;path=&quot;$&quot;)</td><td class="entry"><a class="el" href="a04073.html">LumexJsonSchemaNormalizer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01181.html#a67d2467937fd7eed290938a31b2b7733">~ILumexJsonNormalizer</a>()=default</td><td class="entry"><a class="el" href="a01181.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;<a class="el" href="a00557_source.html">LumexTemporary.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac1e59cbc5ec1487afc15a8dad20acb61" id="r_ac1e59cbc5ec1487afc15a8dad20acb61"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1e59cbc5ec1487afc15a8dad20acb61">get_temp_directory_path</a> ()</td></tr>
+<tr class="memdesc:ac1e59cbc5ec1487afc15a8dad20acb61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the path to the temporary directory.  <br /></td></tr>
+<tr class="separator:ac1e59cbc5ec1487afc15a8dad20acb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05e846e01473a6cd8575680c0e63acba" id="r_a05e846e01473a6cd8575680c0e63acba"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a>&lt; <a class="el" href="a04062.html">temporary_directory</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05e846e01473a6cd8575680c0e63acba">create_temp_directory</a> (std::string const &amp;name=std::string())</td></tr>
+<tr class="memdesc:a05e846e01473a6cd8575680c0e63acba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a temporary directory with optional name prefix.  <br /></td></tr>
+<tr class="separator:a05e846e01473a6cd8575680c0e63acba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3092fc5ba23cf0f7fb4370ced3b79167" id="r_a3092fc5ba23cf0f7fb4370ced3b79167"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3092fc5ba23cf0f7fb4370ced3b79167">remove_temp_directory</a> (<a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> const &amp;<a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>)</td></tr>
+<tr class="memdesc:a3092fc5ba23cf0f7fb4370ced3b79167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a temporary directory.  <br /></td></tr>
+<tr class="separator:a3092fc5ba23cf0f7fb4370ced3b79167"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6beead52e81ac026ad6b6d1f4c46fde1" id="r_a6beead52e81ac026ad6b6d1f4c46fde1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a>&lt; <a class="el" href="a04066.html">temporary_file</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6beead52e81ac026ad6b6d1f4c46fde1">create_temp_file</a> (std::string const &amp;name=std::string())</td></tr>
+<tr class="memdesc:a6beead52e81ac026ad6b6d1f4c46fde1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a temporary file with optional name prefix.  <br /></td></tr>
+<tr class="separator:a6beead52e81ac026ad6b6d1f4c46fde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd4e290c04ca9757fb39adff466e29bd" id="r_abd4e290c04ca9757fb39adff466e29bd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd4e290c04ca9757fb39adff466e29bd">remove_temp_file</a> (<a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> const &amp;<a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>)</td></tr>
+<tr class="memdesc:abd4e290c04ca9757fb39adff466e29bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a temporary file.  <br /></td></tr>
+<tr class="separator:abd4e290c04ca9757fb39adff466e29bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdd27ac493a193a7ab78c526ff9bb769" id="r_afdd27ac493a193a7ab78c526ff9bb769"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdd27ac493a193a7ab78c526ff9bb769">generate_temp_name</a> (std::string const &amp;prefix=std::string())</td></tr>
+<tr class="memdesc:afdd27ac493a193a7ab78c526ff9bb769"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate unique temporary name with prefix.  <br /></td></tr>
+<tr class="separator:afdd27ac493a193a7ab78c526ff9bb769"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a05e846e01473a6cd8575680c0e63acba" name="a05e846e01473a6cd8575680c0e63acba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05e846e01473a6cd8575680c0e63acba">&#9670;&#160;</a></span>create_temp_directory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a>&lt; <a class="el" href="a04062.html">temporary_directory</a> &gt; lumex::core::temporary::tmp::lumex_temporary::create_temp_directory </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a temporary directory with optional name prefix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Prefix for directory name (can be empty) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::filesystem_result.">filesystem_result</a> containing <a class="el" href="a04062.html" title="RAII wrapper for temporary directory management.">temporary_directory</a> on success </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_a05e846e01473a6cd8575680c0e63acba_cgraph.png" border="0" usemap="#aa04070_a05e846e01473a6cd8575680c0e63acba_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_a05e846e01473a6cd8575680c0e63acba_icgraph.png" border="0" usemap="#aa04070_a05e846e01473a6cd8575680c0e63acba_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a6beead52e81ac026ad6b6d1f4c46fde1" name="a6beead52e81ac026ad6b6d1f4c46fde1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6beead52e81ac026ad6b6d1f4c46fde1">&#9670;&#160;</a></span>create_temp_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a>&lt; <a class="el" href="a04066.html">temporary_file</a> &gt; lumex::core::temporary::tmp::lumex_temporary::create_temp_file </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a temporary file with optional name prefix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Prefix for file name (can be empty) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::filesystem_result.">filesystem_result</a> containing <a class="el" href="a04066.html" title="RAII wrapper for temporary file management.">temporary_file</a> on success </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_a6beead52e81ac026ad6b6d1f4c46fde1_cgraph.png" border="0" usemap="#aa04070_a6beead52e81ac026ad6b6d1f4c46fde1_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_a6beead52e81ac026ad6b6d1f4c46fde1_icgraph.png" border="0" usemap="#aa04070_a6beead52e81ac026ad6b6d1f4c46fde1_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="afdd27ac493a193a7ab78c526ff9bb769" name="afdd27ac493a193a7ab78c526ff9bb769"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdd27ac493a193a7ab78c526ff9bb769">&#9670;&#160;</a></span>generate_temp_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::core::temporary::tmp::lumex_temporary::generate_temp_name </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::string&#160;()</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generate unique temporary name with prefix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prefix</td><td>Optional prefix for the name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Unique string suitable for temporary files/directories </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_afdd27ac493a193a7ab78c526ff9bb769_icgraph.png" border="0" usemap="#aa04070_afdd27ac493a193a7ab78c526ff9bb769_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ac1e59cbc5ec1487afc15a8dad20acb61" name="ac1e59cbc5ec1487afc15a8dad20acb61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1e59cbc5ec1487afc15a8dad20acb61">&#9670;&#160;</a></span>get_temp_directory_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> lumex::core::temporary::tmp::lumex_temporary::get_temp_directory_path </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the path to the temporary directory. </p>
+<dl class="section return"><dt>Returns</dt><dd>The path to the temporary directory. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_ac1e59cbc5ec1487afc15a8dad20acb61_cgraph.png" border="0" usemap="#aa04070_ac1e59cbc5ec1487afc15a8dad20acb61_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_ac1e59cbc5ec1487afc15a8dad20acb61_icgraph.png" border="0" usemap="#aa04070_ac1e59cbc5ec1487afc15a8dad20acb61_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a3092fc5ba23cf0f7fb4370ced3b79167" name="a3092fc5ba23cf0f7fb4370ced3b79167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3092fc5ba23cf0f7fb4370ced3b79167">&#9670;&#160;</a></span>remove_temp_directory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a>&lt; void &gt; lumex::core::temporary::tmp::lumex_temporary::remove_temp_directory </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Removes a temporary directory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to directory to remove </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::filesystem_result.">filesystem_result</a> indicating success/failure </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_a3092fc5ba23cf0f7fb4370ced3b79167_icgraph.png" border="0" usemap="#aa04070_a3092fc5ba23cf0f7fb4370ced3b79167_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="abd4e290c04ca9757fb39adff466e29bd" name="abd4e290c04ca9757fb39adff466e29bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd4e290c04ca9757fb39adff466e29bd">&#9670;&#160;</a></span>remove_temp_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a>&lt; void &gt; lumex::core::temporary::tmp::lumex_temporary::remove_temp_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Removes a temporary file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to file to remove </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="a01248.html#a3949d82b26417e74b46290efe0816635" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::filesystem_result.">filesystem_result</a> indicating success/failure </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04070_abd4e290c04ca9757fb39adff466e29bd_icgraph.png" border="0" usemap="#aa04070_abd4e290c04ca9757fb39adff466e29bd_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="a00557_source.html">LumexTemporary.hpp</a></li>
+<li><a class="el" href="a00554.html">LumexTemporary.cpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01400.html">temporary</a></li><li class="navelem"><a class="el" href="a01401.html">tmp</a></li><li class="navelem"><a class="el" href="a04070.html">lumex_temporary</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,6 +1,13 @@
 var a00134 =
 [
-    [ "lumex::applied::serial::probe::detail::elapsed_since", "a00988.html#abfe791d5b660fa24d46ceb665e918f12", null ],
-    [ "lumex::applied::serial::probe::detail::run_probe", "a00988.html#aad815f0706b5da1500fbda9d64a48e88", null ],
-    [ "lumex::applied::serial::probe::detail::KPROBE_READ_CHUNK_BYTES", "a00988.html#a22e940a3c83c980c026e83c4465e2bbf", null ]
+    [ "lumex::applied::logging::log::LumexLogging", "a01582.html", "a01582" ],
+    [ "LumexLogging", "a00134.html#a4a6909dcad3d67fe13dede37e3679899", null ],
+    [ "lumex::applied::logging::log::LumexLogLevel", "a01276.html#ab89470b4db8a7dc224df84237c78270c", [
+      [ "lumex::applied::logging::log::LumexLogLevel::Debug", "a01276.html#ab89470b4db8a7dc224df84237c78270caa603905470e2a5b8c13e96b579ef0dba", null ],
+      [ "lumex::applied::logging::log::LumexLogLevel::Info", "a01276.html#ab89470b4db8a7dc224df84237c78270ca4059b0251f66a18cb56f544728796875", null ],
+      [ "lumex::applied::logging::log::LumexLogLevel::Success", "a01276.html#ab89470b4db8a7dc224df84237c78270ca505a83f220c02df2f85c3810cd9ceb38", null ],
+      [ "lumex::applied::logging::log::LumexLogLevel::Warning", "a01276.html#ab89470b4db8a7dc224df84237c78270ca0eaadb4fcb48a0a0ed7bc9868be9fbaa", null ],
+      [ "lumex::applied::logging::log::LumexLogLevel::Error", "a01276.html#ab89470b4db8a7dc224df84237c78270ca902b0d55fddef6f8d651fe1035b7d4bd", null ],
+      [ "lumex::applied::logging::log::LumexLogLevel::Critical", "a01276.html#ab89470b4db8a7dc224df84237c78270ca278d01e5af56273bae1bb99a98b370cd", null ]
+    ] ]
 ];

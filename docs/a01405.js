@@ -1,9 +1,9 @@
 var a01405 =
 [
-    [ "init", "a01405.html#abeb40ff7bcce9217909ef1356d4e083f", null ],
-    [ "poly", "a01405.html#a20ce03300d984746aa9bc6679d90e246", null ],
-    [ "refIn", "a01405.html#a4c28d3d75ce4fcb56fca7875c71c77a2", null ],
-    [ "refOut", "a01405.html#a385fb2d6379507789c485e3b6f3d0a01", null ],
-    [ "widthBits", "a01405.html#a922850c27198d41cfbac66ae0d3ea022", null ],
-    [ "xorOut", "a01405.html#ad274e477a4b1f7269b2bb8d9d736cdfe", null ]
+    [ "lumex_timer", "a04078.html", "a04078" ],
+    [ "default_measure_time_env_name", "a01405.html#a7a5e6044c994dc0aaa411d6703fc32f4", null ],
+    [ "extract_function_name", "a01405.html#a92a181555350dcc075d22a432da22d8a", null ],
+    [ "measure_execution_time", "a01405.html#a2cc90c92f6a2261ecfb8bc76e3943ed1", null ],
+    [ "measure_time", "a01405.html#ac2a95e66868e1a2cc9cc1da9676e38c8", null ],
+    [ "write_measure_time_report", "a01405.html#aa04009deb3c2f28294b819490ed44b27", null ]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['swap_0',['swap',['../a01385.html#aa112c6de3c1c9bdca0f748542d3b947f',1,'lumex::core::circular_buffer::CircularBuffer']]]
+  ['hazard_5fpointer_0',['hazard_pointer',['../a03042.html#aa0fdcffd1caede141695db49602504ff',1,'lumex::core::hazard_pointer::hazard_pointer_obj_base']]]
 ];

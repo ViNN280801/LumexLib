@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::hazard_pointer::engine::statistics_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03121.html',''); initResizable(true); });
+$(function(){initNavTree('a03118.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,114 @@ $(function(){initNavTree('a03121.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::xml::xpath::memory::XPathAllocator Member List</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a03115.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::hazard_pointer::engine::statistics_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03121.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52">allocate</a>(std::size_t size)</td><td class="entry"><a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03121.html#a84ceb6f0d114672149d70c344882a848">m_error</a></td><td class="entry"><a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03121.html#a76585a353024c8f0781cea18177f7d4d">m_root</a></td><td class="entry"><a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03121.html#ae6ec1a1fb63fee0d1268659e7e497e3e">m_root_size</a></td><td class="entry"><a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03121.html#aa2549a11a0984f0c478cb7eaf82c0caa">reallocate</a>(void *ptr, std::size_t old_size, std::size_t new_size)</td><td class="entry"><a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03121.html#ab93c0b3a302c65d01f9846257ac426ce">release</a>() const noexcept</td><td class="entry"><a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03121.html#a54acf44addba49c1e45292baea223d8c">revert</a>(XPathAllocator const &amp;state)</td><td class="entry"><a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03121.html#a5316cafc0d51151287b517472f8730a8">XPathAllocator</a>(XPathMemoryBlock *root, bool *error=nullptr)</td><td class="entry"><a class="el" href="a03121.html">lumex::xml::xpath::memory::XPathAllocator</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Counters of the domain, for tests and diagnostics.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00446_source.html">LumexHazardPointerEngine.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:af469b2ab57e159a976018bb01c7da020" id="r_af469b2ab57e159a976018bb01c7da020"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af469b2ab57e159a976018bb01c7da020">records</a></td></tr>
+<tr class="separator:af469b2ab57e159a976018bb01c7da020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a299784e89772e3d16a9b229117a6c8aa" id="r_a299784e89772e3d16a9b229117a6c8aa"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a299784e89772e3d16a9b229117a6c8aa">pooled_records</a></td></tr>
+<tr class="separator:a299784e89772e3d16a9b229117a6c8aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1f22475fa29b308b3508dab7cb2f67d" id="r_af1f22475fa29b308b3508dab7cb2f67d"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1f22475fa29b308b3508dab7cb2f67d">retired</a></td></tr>
+<tr class="separator:af1f22475fa29b308b3508dab7cb2f67d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a28f29ce339fb639b9c399166fd560e" id="r_a6a28f29ce339fb639b9c399166fd560e"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a28f29ce339fb639b9c399166fd560e">reclaimed</a></td></tr>
+<tr class="separator:a6a28f29ce339fb639b9c399166fd560e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a42281aa79e087b2c6c5fa23e9723ce" id="r_a6a42281aa79e087b2c6c5fa23e9723ce"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a42281aa79e087b2c6c5fa23e9723ce">passes</a></td></tr>
+<tr class="separator:a6a42281aa79e087b2c6c5fa23e9723ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Counters of the domain, for tests and diagnostics. </p>
+<p>All values are snapshots of relaxed counters. <code>records</code> is the number of hazard slots ever created (they are never freed), <code>pooled_records</code> the number that sit in the shared pool (not counting the per-thread caches), <code>retired</code> and <code>reclaimed</code> the number of nodes ever handed to the domain (<code>retire_node</code>, and <code>reclaim_or_retire</code>, also when it reclaims at once) and reclaimed, and <code>passes</code> the number of reclamation passes that took at least one node. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a6a42281aa79e087b2c6c5fa23e9723ce" name="a6a42281aa79e087b2c6c5fa23e9723ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a42281aa79e087b2c6c5fa23e9723ce">&#9670;&#160;</a></span>passes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::hazard_pointer::engine::statistics_t::passes</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a299784e89772e3d16a9b229117a6c8aa" name="a299784e89772e3d16a9b229117a6c8aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a299784e89772e3d16a9b229117a6c8aa">&#9670;&#160;</a></span>pooled_records</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::hazard_pointer::engine::statistics_t::pooled_records</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6a28f29ce339fb639b9c399166fd560e" name="a6a28f29ce339fb639b9c399166fd560e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a28f29ce339fb639b9c399166fd560e">&#9670;&#160;</a></span>reclaimed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::hazard_pointer::engine::statistics_t::reclaimed</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af469b2ab57e159a976018bb01c7da020" name="af469b2ab57e159a976018bb01c7da020"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af469b2ab57e159a976018bb01c7da020">&#9670;&#160;</a></span>records</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::hazard_pointer::engine::statistics_t::records</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1f22475fa29b308b3508dab7cb2f67d" name="af1f22475fa29b308b3508dab7cb2f67d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1f22475fa29b308b3508dab7cb2f67d">&#9670;&#160;</a></span>retired</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::hazard_pointer::engine::statistics_t::retired</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00446_source.html">LumexHazardPointerEngine.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01367.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="a01369.html">engine</a></li><li class="navelem"><a class="el" href="a03118.html">statistics_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

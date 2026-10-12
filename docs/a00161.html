@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSettingsGuard.hpp File Reference</title>
+<title>LumexLib: LumexProcessDetail.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,173 +106,115 @@ $(function(){initNavTree('a00161.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
-  <div class="headertitle"><div class="title">LumexSettingsGuard.hpp File Reference</div></div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexProcessDetail.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Format-agnostic backup/repair/validation layer built on top of <code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code>.  
+<p>Text parsers for Linux <code>/proc/&lt;pid&gt;</code> files, the executable name rules and the process tree rules of <code><a class="el" href="a06415.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;functional&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00173_source.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01214_source.html">lumex/core/optional/LumexOptional</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01229_source.html">lumex/core/string_view/LumexStringView</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00617_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSettingsGuard.hpp:</div>
+Include dependency graph for LumexProcessDetail.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00162.png" border="0" usemap="#a_lumex_settings_guard_8hpp" alt=""/></div>
-<map name="a_lumex_settings_guard_8hpp" id="a_lumex_settings_guard_8hpp">
-<area shape="rect" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="242,5,410,32"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="158,171,320,197"/>
-<area shape="poly" title=" " alt="" coords="242,27,176,34,109,45,53,60,32,70,19,82,9,99,10,113,19,126,36,137,85,156,143,168,142,174,83,161,33,142,16,130,5,115,4,97,14,78,29,66,51,55,108,39,175,29,241,22"/>
-<area shape="rect" title=" " alt="" coords="29,88,106,115"/>
-<area shape="poly" title=" " alt="" coords="278,35,119,83,112,85,111,80,117,77,276,30"/>
-<area shape="rect" title=" " alt="" coords="130,88,199,115"/>
-<area shape="poly" title=" " alt="" coords="302,35,204,83,202,79,299,30"/>
-<area shape="rect" title=" " alt="" coords="223,88,280,115"/>
-<area shape="poly" title=" " alt="" coords="316,34,275,79,271,75,312,31"/>
-<area shape="rect" title=" " alt="" coords="483,171,537,197"/>
-<area shape="poly" title=" " alt="" coords="411,25,520,44,566,59,584,68,596,78,603,90,604,101,596,124,577,149,551,167,548,162,573,145,592,121,599,100,598,91,592,82,581,72,564,63,519,49,410,30"/>
-<area shape="rect" title=" " alt="" coords="524,88,581,115"/>
-<area shape="poly" title=" " alt="" coords="371,30,438,51,512,78,515,79,513,84,510,82,437,56,370,35"/>
-<area shape="rect" href="a00173.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="304,80,500,123"/>
-<area shape="poly" title=" " alt="" coords="340,31,374,67,370,71,336,34"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="657,80,851,123"/>
-<area shape="poly" title=" " alt="" coords="394,30,642,76,641,82,393,35"/>
-<area shape="poly" title=" " alt="" coords="361,126,279,166,277,161,359,121"/>
-<area shape="poly" title=" " alt="" coords="431,121,482,159,479,163,428,125"/>
-</map>
+<div class="center"><img src="a00162.png" border="0" usemap="#a_lumex_process_detail_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00163.png" border="0" usemap="#a_lumex_settings_guard_8hppdep" alt=""/></div>
-<map name="a_lumex_settings_guard_8hppdep" id="a_lumex_settings_guard_8hppdep">
-<area shape="rect" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="373,5,541,32"/>
-<area shape="rect" href="a00887.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="321,80,430,107"/>
-<area shape="poly" title=" " alt="" coords="433,44,391,82,388,78,430,41"/>
-<area shape="rect" href="a00158.html" title=" " alt="" coords="454,80,622,107"/>
-<area shape="poly" title=" " alt="" coords="484,41,526,78,522,82,480,44"/>
-<area shape="rect" href="a00587.html" title=" " alt="" coords="5,155,154,181"/>
-<area shape="poly" title=" " alt="" coords="309,114,132,157,131,151,308,108"/>
-<area shape="rect" href="a00590.html" title=" " alt="" coords="178,155,357,181"/>
-<area shape="poly" title=" " alt="" coords="346,118,288,156,285,152,343,113"/>
-<area shape="rect" href="a00593.html" title=" " alt="" coords="382,155,588,181"/>
-<area shape="poly" title=" " alt="" coords="409,113,467,152,464,156,406,118"/>
-<area shape="rect" href="a00596.html" title=" " alt="" coords="613,155,789,181"/>
-<area shape="poly" title=" " alt="" coords="446,107,645,152,644,157,445,113"/>
-</map>
+<div class="center"><img src="a00163.png" border="0" usemap="#a_lumex_process_detail_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00161_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01301.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes a single settings key that <code><a class="el" href="a01305.html#a2992a46c96ffd85535ee0aafdf6e2c5d" title="Ensures every key in specs is present and valid, restoring default_value otherwise.">LumexSettingsGuard::ensureKeysWithDefaults</a></code> must keep present and valid.  <a href="a01301.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01602.html">lumex::applied::resource_monitor::process::detail::proc_pid_stat_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The fields of <code>/proc/&lt;pid&gt;/stat</code> the monitor needs.  <a href="a01602.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01305.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format-agnostic backup/repair/validation guard for an <code><a class="el" href="a01313.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instance.  <a href="a01305.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01606.html">lumex::applied::resource_monitor::process::detail::proc_pid_status_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The memory fields of <code>/proc/&lt;pid&gt;/status</code> the monitor needs.  <a href="a01606.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01610.html">lumex::applied::resource_monitor::process::detail::process_link_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One process and its parent, as the process tree rules need them.  <a href="a01610.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01614.html">lumex::applied::resource_monitor::process::detail::process_tree_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A process and every process below it.  <a href="a01614.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01249.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00994.html">lumex::applied::settings</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html">lumex::applied::resource_monitor</a></td></tr>
+<tr class="memdesc:a01277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background system-resource (CPU/RAM) sampling utilities. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00996.html">lumex::applied::settings::guard</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01283.html">lumex::applied::resource_monitor::process</a></td></tr>
+<tr class="memdesc:a01283"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPU and RAM of single processes. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html">lumex::applied::resource_monitor::process::detail</a></td></tr>
+<tr class="memdesc:a01284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation details of <code><a class="el" href="a01646.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code>, public only for its tests. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:abb83c517a273434e9ce8e83640838f61" id="r_abb83c517a273434e9ce8e83640838f61"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00996.html#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a> = std::function&lt;bool (std::string const &amp;)&gt;</td></tr>
-<tr class="memdesc:abb83c517a273434e9ce8e83640838f61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validation callback for a single settings key.  <br /></td></tr>
-<tr class="separator:abb83c517a273434e9ce8e83640838f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa7cdf0a7ae72bb172b541454fb9bf5a" id="r_afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00996.html#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a> = std::function&lt;bool (void)&gt;</td></tr>
-<tr class="memdesc:afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback that (re)creates a settings file's default content from scratch.  <br /></td></tr>
-<tr class="separator:afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03c038d49d13658f514ec716f3b4db81" id="r_a03c038d49d13658f514ec716f3b4db81"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03c038d49d13658f514ec716f3b4db81">LumexSettingsGuard</a> = <a class="el" href="a01305.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td></tr>
-<tr class="separator:a03c038d49d13658f514ec716f3b4db81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaba76e604dc91717d20367b64faa7745" id="r_aaba76e604dc91717d20367b64faa7745"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaba76e604dc91717d20367b64faa7745">lumex_settings_key_spec_t</a> = <a class="el" href="a01301.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td></tr>
-<tr class="separator:aaba76e604dc91717d20367b64faa7745"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76e902ce20d92ae885d6684f4f295001" id="r_a76e902ce20d92ae885d6684f4f295001"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76e902ce20d92ae885d6684f4f295001">LumexSettingsValidateFn</a> = <a class="el" href="a00996.html#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a></td></tr>
-<tr class="separator:a76e902ce20d92ae885d6684f4f295001"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abea24e19462376739279490b339d4de0" id="r_abea24e19462376739279490b339d4de0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abea24e19462376739279490b339d4de0">LumexSettingsCreateFn</a> = <a class="el" href="a00996.html#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a></td></tr>
-<tr class="separator:abea24e19462376739279490b339d4de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4732c0dcb60b25cb92c642d4545ea018" id="r_a4732c0dcb60b25cb92c642d4545ea018"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">lumex::applied::resource_monitor::process::detail::process_id_t</a> = std::uint32_t</td></tr>
+<tr class="memdesc:a4732c0dcb60b25cb92c642d4545ea018"><td class="mdescLeft">&#160;</td><td class="mdescRight">A process ID (<code>DWORD</code> on Windows, <code>pid_t</code> on POSIX).  <br /></td></tr>
+<tr class="separator:a4732c0dcb60b25cb92c642d4545ea018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab97f8f8bddf5fcda9df7dd830459706d" id="r_ab97f8f8bddf5fcda9df7dd830459706d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00467.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; <a class="el" href="a01602.html">proc_pid_stat_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#ab97f8f8bddf5fcda9df7dd830459706d">lumex::applied::resource_monitor::process::detail::parse_proc_pid_stat</a> (<a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> text)</td></tr>
+<tr class="memdesc:ab97f8f8bddf5fcda9df7dd830459706d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the text of <code>/proc/&lt;pid&gt;/stat</code>.  <br /></td></tr>
+<tr class="separator:ab97f8f8bddf5fcda9df7dd830459706d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfd03a410a583bd4d98d8452b164f802" id="r_abfd03a410a583bd4d98d8452b164f802"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01606.html">proc_pid_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#abfd03a410a583bd4d98d8452b164f802">lumex::applied::resource_monitor::process::detail::parse_proc_pid_status</a> (<a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> text)</td></tr>
+<tr class="memdesc:abfd03a410a583bd4d98d8452b164f802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the text of <code>/proc/&lt;pid&gt;/status</code>.  <br /></td></tr>
+<tr class="separator:abfd03a410a583bd4d98d8452b164f802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a338216e93dcc183c0b94bcc5f00f0579" id="r_a338216e93dcc183c0b94bcc5f00f0579"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#a338216e93dcc183c0b94bcc5f00f0579">lumex::applied::resource_monitor::process::detail::executable_name</a> (<a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> link_target)</td></tr>
+<tr class="memdesc:a338216e93dcc183c0b94bcc5f00f0579"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file name of a <code>/proc/&lt;pid&gt;/exe</code> link target.  <br /></td></tr>
+<tr class="separator:a338216e93dcc183c0b94bcc5f00f0579"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fdc61ad2fd0b3708f639104d5888ca3" id="r_a1fdc61ad2fd0b3708f639104d5888ca3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00467.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#a1fdc61ad2fd0b3708f639104d5888ca3">lumex::applied::resource_monitor::process::detail::first_argument_name</a> (<a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> cmdline)</td></tr>
+<tr class="memdesc:a1fdc61ad2fd0b3708f639104d5888ca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file name of the first argument in a <code>/proc/&lt;pid&gt;/cmdline</code> text.  <br /></td></tr>
+<tr class="separator:a1fdc61ad2fd0b3708f639104d5888ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab85d8b416a2ab829a4f6ab529a0fb87c" id="r_ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#ab85d8b416a2ab829a4f6ab529a0fb87c">lumex::applied::resource_monitor::process::detail::linux_name_matches</a> (<a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> requested, <a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> name, bool name_is_comm)</td></tr>
+<tr class="memdesc:ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Linux name rule: does a process named <code class="param">name</code> match the requested name?  <br /></td></tr>
+<tr class="separator:ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa17a3f0aaa3c95a1ed09133d4d7e7a02" id="r_aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#aa17a3f0aaa3c95a1ed09133d4d7e7a02">lumex::applied::resource_monitor::process::detail::descendants_of</a> (<a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> root, std::vector&lt; <a class="el" href="a01610.html">process_link_t</a> &gt; const &amp;links)</td></tr>
+<tr class="memdesc:aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every process below one process: its children, their children, and so on.  <br /></td></tr>
+<tr class="separator:aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab09c4e1b3214362a5927245f139cad05" id="r_ab09c4e1b3214362a5927245f139cad05"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a01614.html">process_tree_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#ab09c4e1b3214362a5927245f139cad05">lumex::applied::resource_monitor::process::detail::process_trees</a> (std::vector&lt; <a class="el" href="a01284.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt; const &amp;roots, std::vector&lt; <a class="el" href="a01610.html">process_link_t</a> &gt; const &amp;links)</td></tr>
+<tr class="memdesc:ab09c4e1b3214362a5927245f139cad05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Groups processes into trees, so that every process is counted once.  <br /></td></tr>
+<tr class="separator:ab09c4e1b3214362a5927245f139cad05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed847477a88ce98cee280fdd2732ab07" id="r_aed847477a88ce98cee280fdd2732ab07"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#aed847477a88ce98cee280fdd2732ab07">lumex::applied::resource_monitor::process::detail::windows_name_matches</a> (<a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> requested, <a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> name)</td></tr>
+<tr class="memdesc:aed847477a88ce98cee280fdd2732ab07"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Windows name rule: equal without regard to ASCII case, with or without <code>.exe</code> on either side.  <br /></td></tr>
+<tr class="separator:aed847477a88ce98cee280fdd2732ab07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad2529eaee467605722c3e72490f3ac7f" id="r_ad2529eaee467605722c3e72490f3ac7f"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01284.html#ad2529eaee467605722c3e72490f3ac7f">lumex::applied::resource_monitor::process::detail::KCOMM_LENGTH</a> = 15</td></tr>
+<tr class="memdesc:ad2529eaee467605722c3e72490f3ac7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The length the Linux kernel cuts a process's <code>comm</code> to.  <br /></td></tr>
+<tr class="separator:ad2529eaee467605722c3e72490f3ac7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Format-agnostic backup/repair/validation layer built on top of <code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code>. </p>
-<p>Keeps a settings file usable: restores default keys, backs up and regenerates a corrupted file, and validates single keys. It works with any <code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> implementation (INI, JSON, XML or one of your own) because it drives everything through the interface's <code>load</code>/<code>save</code>/<code>get</code>/<code>add</code> contract instead of a concrete parser. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="aaba76e604dc91717d20367b64faa7745" name="aaba76e604dc91717d20367b64faa7745"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaba76e604dc91717d20367b64faa7745">&#9670;&#160;</a></span>lumex_settings_key_spec_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#aaba76e604dc91717d20367b64faa7745">lumex_settings_key_spec_t</a> = <a class="el" href="a01301.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abea24e19462376739279490b339d4de0" name="abea24e19462376739279490b339d4de0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abea24e19462376739279490b339d4de0">&#9670;&#160;</a></span>LumexSettingsCreateFn</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#abea24e19462376739279490b339d4de0">LumexSettingsCreateFn</a> = <a class="el" href="a00996.html#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a03c038d49d13658f514ec716f3b4db81" name="a03c038d49d13658f514ec716f3b4db81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03c038d49d13658f514ec716f3b4db81">&#9670;&#160;</a></span>LumexSettingsGuard</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a03c038d49d13658f514ec716f3b4db81">LumexSettingsGuard</a> = <a class="el" href="a01305.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a76e902ce20d92ae885d6684f4f295001" name="a76e902ce20d92ae885d6684f4f295001"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76e902ce20d92ae885d6684f4f295001">&#9670;&#160;</a></span>LumexSettingsValidateFn</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a76e902ce20d92ae885d6684f4f295001">LumexSettingsValidateFn</a> = <a class="el" href="a00996.html#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>Text parsers for Linux <code>/proc/&lt;pid&gt;</code> files, the executable name rules and the process tree rules of <code><a class="el" href="a06415.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code>. </p>
+<p>Pure functions on text and on lists of process links, so they work, and are tested, on any platform; the monitor applies the Linux ones on Linux and the Windows one on Windows. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_6c1e121f7cdeaa97aad22f5242bef3d8.html">guard</a></li><li class="navelem"><a class="el" href="a00161.html">LumexSettingsGuard.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_f9152e2f803c7072c4cc804ced04476e.html">resource_monitor</a></li><li class="navelem"><a class="el" href="dir_7e4aa1d3c3df06d6268652f90de54db3.html">process</a></li><li class="navelem"><a class="el" href="dir_09c476a83a24c12acac03c80c930ad42.html">detail</a></li><li class="navelem"><a class="el" href="a00161.html">LumexProcessDetail.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_generators.cpp File Reference</title>
+<title>LumexLib: LumexWeakPtr.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,97 +104,78 @@ $(function(){initNavTree('a00518.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_generators.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexWeakPtr.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00917_source.html">lumex/core/generators/LumexGenerators</a>&quot;</code><br />
+
+<p><code>weak_ptr&lt;T&gt;</code> and <code>owner_less</code>: non-owning observers of an object that a <code>shared_ptr</code> owns ([util.smartptr.weak], [util.smartptr.ownerless]).  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00488_source.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00494_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrAccess.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00500_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrTraits.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00515_source.html">lumex/core/smart_ptr/shared/LumexSharedPtr.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_generators.cpp:</div>
+Include dependency graph for LumexWeakPtr.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00519.png" border="0" usemap="#aexample__generators_8cpp" alt=""/></div>
-<map name="aexample__generators_8cpp" id="aexample__generators_8cpp">
-<area shape="rect" title=" " alt="" coords="47,5,211,32"/>
-<area shape="rect" title=" " alt="" coords="5,269,77,296"/>
-<area shape="poly" title=" " alt="" coords="127,33,53,255,47,254,122,32"/>
-<area shape="rect" title=" " alt="" coords="100,269,158,296"/>
-<area shape="poly" title=" " alt="" coords="132,33,132,254,126,254,126,33"/>
-<area shape="rect" href="a00917.html" title="Generators module: NumberGenerator, random integral and floating&#45;point numbers from the uniform,..." alt="" coords="304,80,455,123"/>
-<area shape="poly" title=" " alt="" coords="169,30,301,72,300,77,167,35"/>
-<area shape="rect" href="a00317.html" title="Defines the NumberGenerator template class for versatile random number generation." alt="" coords="412,171,627,213"/>
-<area shape="poly" title=" " alt="" coords="414,121,476,160,473,164,411,126"/>
-<area shape="poly" title=" " alt="" coords="412,205,258,227,172,243,88,264,82,266,80,261,87,259,171,238,257,221,412,200"/>
-<area shape="poly" title=" " alt="" coords="413,212,299,233,178,264,171,266,170,261,176,259,297,228,412,206"/>
-<area shape="rect" title=" " alt="" coords="490,269,550,296"/>
-<area shape="poly" title=" " alt="" coords="522,214,522,254,517,254,517,214"/>
-<area shape="rect" title=" " alt="" coords="574,269,628,296"/>
-<area shape="poly" title=" " alt="" coords="540,212,581,256,577,260,537,216"/>
-<area shape="rect" title=" " alt="" coords="652,269,716,296"/>
-<area shape="poly" title=" " alt="" coords="559,212,648,259,646,264,557,216"/>
-<area shape="rect" title=" " alt="" coords="740,269,822,296"/>
-<area shape="poly" title=" " alt="" coords="586,211,729,259,735,261,733,266,727,264,584,216"/>
-<area shape="rect" title=" " alt="" coords="847,269,899,296"/>
-<area shape="poly" title=" " alt="" coords="628,207,729,228,835,259,838,260,837,265,833,264,728,233,627,212"/>
-<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="923,261,1090,304"/>
-<area shape="poly" title=" " alt="" coords="628,208,908,258,907,263,627,214"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="252,352,446,395"/>
-<area shape="poly" title=" " alt="" coords="412,206,354,215,298,228,251,244,235,253,223,263,217,273,216,282,223,303,243,325,268,343,265,347,239,329,219,305,210,282,212,271,219,260,231,248,249,239,296,222,353,210,411,201"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="233,261,465,304"/>
-<area shape="poly" title=" " alt="" coords="481,216,403,256,401,252,478,212"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="925,360,1088,387"/>
-<area shape="poly" title=" " alt="" coords="1009,304,1009,344,1004,344,1004,304"/>
-<area shape="poly" title=" " alt="" coords="923,305,912,307,672,341,462,364,461,359,671,335,911,301,922,300"/>
-<area shape="poly" title=" " alt="" coords="352,304,352,337,346,337,346,304"/>
-</map>
+<div class="center"><img src="a00519.png" border="0" usemap="#a_lumex_weak_ptr_8hpp" alt=""/></div>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00520.png" border="0" usemap="#a_lumex_weak_ptr_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00518_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03690.html">lumex::core::smart_ptr::weak_ptr&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A weak reference to an object owned by <code><a class="el" href="a03686.html" title="Shared ownership of an object ([util.smartptr.shared]).">shared_ptr</a></code> objects.  <a href="a03690.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03838.html">lumex::core::smart_ptr::owner_less&lt; shared_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orders shared and weak pointers of one type by their owners.  <a href="a03838.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03842.html">lumex::core::smart_ptr::owner_less&lt; weak_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orders weak and shared pointers of one type by their owners.  <a href="a03842.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03846.html">lumex::core::smart_ptr::owner_less&lt; void &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The transparent form: any pair of shared and weak pointers.  <a href="a03846.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01385.html">lumex::core::smart_ptr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab95b41a4f4797d6fac5b2284d89f12f0" id="r_ab95b41a4f4797d6fac5b2284d89f12f0"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:ab95b41a4f4797d6fac5b2284d89f12f0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01385.html#ab95b41a4f4797d6fac5b2284d89f12f0">lumex::core::smart_ptr::swap</a> (<a class="el" href="a03690.html">weak_ptr</a>&lt; T &gt; &amp;a, <a class="el" href="a03690.html">weak_ptr</a>&lt; T &gt; &amp;b) noexcept</td></tr>
+<tr class="memdesc:ab95b41a4f4797d6fac5b2284d89f12f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges two weak pointers.  <br /></td></tr>
+<tr class="separator:ab95b41a4f4797d6fac5b2284d89f12f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00518_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00518_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-<map name="aa00518_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00518_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
-<area shape="rect" title=" " alt="" coords="5,145,55,172"/>
-<area shape="rect" href="a02245.html#aede99d86546c89a1fc8d25ab0bd08740" title="Gets a random number with explicitly specified parameters." alt="" coords="103,5,347,64"/>
-<area shape="poly" title=" " alt="" coords="38,143,63,109,101,74,108,70,111,74,104,78,67,112,42,147"/>
-<area shape="rect" href="a02245.html#af01d623fe341896abc84f2f67075c1b8" title="Generates a sequence (vector) of random numbers." alt="" coords="103,88,347,147"/>
-<area shape="poly" title=" " alt="" coords="55,151,86,144,88,149,56,156"/>
-<area shape="rect" href="a02245.html#ab302c3598a3093a1ee7df07ddb787911" title="Sets both the lower and upper bounds for subsequent random number generations." alt="" coords="103,171,347,229"/>
-<area shape="poly" title=" " alt="" coords="56,161,88,168,86,173,55,166"/>
-<area shape="rect" href="a02245.html#a18170648ef2fced4beb6bae981a3fe65" title="Sets the probability distribution type for subsequent random number generations." alt="" coords="103,253,347,312"/>
-<area shape="poly" title=" " alt="" coords="42,171,67,205,104,239,111,243,108,248,101,243,63,208,38,174"/>
-</map>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>weak_ptr&lt;T&gt;</code> and <code>owner_less</code>: non-owning observers of an object that a <code>shared_ptr</code> owns ([util.smartptr.weak], [util.smartptr.ownerless]). </p>
+<p>A <code>weak_ptr</code> shares the control block of the <code>shared_ptr</code> it was made from and keeps only the block (the weak ledger), not the object, so <code>lock ()</code> can promote it while an owner exists and <code>expired ()</code> tells when none does. The promotion is an increment-if-nonzero on the packed strong counter (<code>split_counter::try_add</code>): it never revives an object whose last owner has dropped it. A weak pointer made from an aliasing <code>shared_ptr</code> remembers the aliased pointer, and <code>lock ()</code> returns it.</p>
+<p><code>owner_less&lt;shared_ptr&lt;T&gt; &gt;</code>, <code>owner_less&lt;weak_ptr&lt;T&gt; &gt;</code> and the transparent <code>owner_less&lt;void&gt;</code> order both kinds of pointer by their control blocks, so a <code>std::map</code> or <code>std::set</code> keyed by them is stable for the life of the owners. The default argument <code>owner_less&lt;&gt;</code> is <code>owner_less&lt;void&gt;</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_e8d6585c0a3ccc095622008e70435a51.html">generators</a></li><li class="navelem"><a class="el" href="a00518.html">example_generators.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_f49348c03cbbd10cc8855c06335ffde3.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_36187600011663c916e685818925b6d7.html">weak</a></li><li class="navelem"><a class="el" href="a00518.html">LumexWeakPtr.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

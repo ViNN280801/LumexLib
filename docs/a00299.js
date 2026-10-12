@@ -1,9 +1,13 @@
 var a00299 =
 [
-    [ "lumex::core::expected::result::success_t< ValueType >", "a01953.html", "a01953" ],
-    [ "lumex::core::expected::result::success_t< void >", "a01957.html", "a01957" ],
-    [ "lumex::core::expected::result::failure_t< ErrorType >", "a01961.html", "a01961" ],
-    [ "lumex::core::expected::result::failure", "a01043.html#a8af150230768426fd35e631a6134e162", null ],
-    [ "lumex::core::expected::result::success", "a01043.html#acf582366ba9e45e54dfb712995539ba3", null ],
-    [ "lumex::core::expected::result::success", "a01043.html#a33ae257796f0a87a9dd7dfc572762b8c", null ]
+    [ "lumex::core::atomic::sync::table_wait::Detail::waiter_stripe_t", "a01846.html", "a01846" ],
+    [ "lumex::core::atomic::sync::table_wait::Detail::waiter_table_t", "a01850.html", "a01850" ],
+    [ "LUMEX_ATOMIC_WAIT_ABI_NAMESPACE", "a00299.html#a0508297ef17d771c69e6f945dd092220", null ],
+    [ "LUMEX_ATOMIC_WAIT_TABLE_VISIBILITY", "a00299.html#a0bcecfa7d572df819b4f8c8cdde1e39f", null ],
+    [ "LUMEX_ATOMIC_WAIT_USES_STD", "a00299.html#ad9f5e06c72e74b95ce7b40d4f6ec11a0", null ],
+    [ "lumex::core::atomic::sync::table_wait::Detail::cpu_relax", "a01319.html#a069847c28bd87c2003813e1284bcf355", null ],
+    [ "lumex::core::atomic::sync::table_wait::Detail::notify_all", "a01319.html#ab0a372674a94f35856052c9f32a55909", null ],
+    [ "lumex::core::atomic::sync::table_wait::Detail::notify_one", "a01319.html#a57da345244e75b4b313c745e12a46382", null ],
+    [ "lumex::core::atomic::sync::table_wait::Detail::stripe_for", "a01319.html#a0ef36c77415fb5ece4adacc21cfd1d2c", null ],
+    [ "lumex::core::atomic::sync::table_wait::Detail::wait_until_changed", "a01319.html#a1639c5bbfd26c902c3942c785090b761", null ]
 ];

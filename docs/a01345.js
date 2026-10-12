@@ -1,19 +1,13 @@
 var a01345 =
 [
-    [ "LockBasedCell", "a01345.html#afffe57ec95a2da7bc1c166c221f92480", null ],
-    [ "LockBasedCell", "a01345.html#a724e3063d2623c245ac91f18713616d8", null ],
-    [ "LockBasedCell", "a01345.html#a8645626ccfcb31acb1494918106805c2", null ],
-    [ "compare_exchange_strong", "a01345.html#ab2b9593bee1075863ba0070272785f82", null ],
-    [ "compare_exchange_strong", "a01345.html#a4d11c8b99a8cea56d7fc0f88a06ac591", null ],
-    [ "compare_exchange_weak", "a01345.html#ab474b17442fa612c05371573da91ef23", null ],
-    [ "compare_exchange_weak", "a01345.html#ab8399fb627d542be121040701e9e714b", null ],
-    [ "exchange", "a01345.html#ad3296fa41a0bbf3f268307882b4a2dc9", null ],
-    [ "is_lock_free", "a01345.html#a32894ed6a94fb3a3f8e3c7ef3f968358", null ],
-    [ "load", "a01345.html#aa894bf236729021fa592e19be1000257", null ],
-    [ "notify_all", "a01345.html#afba323e7b7766d981566a7273f066e6a", null ],
-    [ "notify_one", "a01345.html#aef3f0a96a23f8531354daeead156b223", null ],
-    [ "operator=", "a01345.html#a347a3db9467ccc334c78f9d6974eb62e", null ],
-    [ "store", "a01345.html#a710136a5930154c16ecce60f5ca1a6f5", null ],
-    [ "wait", "a01345.html#a84aeb1ccf8b53d74c04ab7ad5f60a24a", null ],
-    [ "is_always_lock_free", "a01345.html#ab78590febec49addfc4913dc474b53f9", null ]
+    [ "detail", "a01347.html", [
+      [ "report_exception", "a01347.html#a6731c24b90644c9b4b94c4c81af602dd", null ],
+      [ "report_line", "a01347.html#ab7031ff23205b8e8d31fb72ed3744806", null ],
+      [ "write_to_stderr", "a01347.html#a92da48ec00b5194131e081ffabbbed57", null ],
+      [ "write_to_stderr", "a01347.html#a730010fd0f524d97727a82bb42f2ddd3", null ]
+    ] ],
+    [ "safe_call_report_fn", "a01345.html#a44e9e9da5b97d168978390c418a62b3f", null ],
+    [ "exception_wrapper", "a01345.html#afb06f391d20856dda70f63c9b3e13037", null ],
+    [ "get_safe_call_reporter", "a01345.html#a0e00681207c6fe8355e6416db22d6ee8", null ],
+    [ "set_safe_call_reporter", "a01345.html#a71d9df48ad62f6a5f94220cd14b5f70c", null ]
 ];

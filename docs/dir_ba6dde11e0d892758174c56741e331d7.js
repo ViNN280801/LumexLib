@@ -1,5 +1,5 @@
 var dir_ba6dde11e0d892758174c56741e331d7 =
 [
-    [ "XPathDocumentOrderComparator.cpp", "a00773.html", "a00773" ],
-    [ "XPathDocumentOrderComparator.hpp", "a00776.html", "a00776" ]
+    [ "XPathDocumentOrderComparator.cpp", "a01058.html", "a01058" ],
+    [ "XPathDocumentOrderComparator.hpp", "a01061.html", "a01061" ]
 ];

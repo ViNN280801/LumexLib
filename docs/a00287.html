@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Unexpected.hpp File Reference</title>
+<title>LumexLib: LumexSplitCountCell.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,82 +103,69 @@ $(function(){initNavTree('a00287.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">Unexpected.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexSplitCountCell.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code><a class="el" href="a04037.html" title="Wrapper that holds an error value for Expected.">Unexpected</a></code>, the wrapper that carries an error into an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>; an analogue of C++23 <code>std::unexpected</code>.  
+<p>The split-count engine behind <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code>: one 16-byte word updated by a 128-bit compare-and-swap over the module's own control block.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;utility&gt;</code><br />
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00263_source.html">lumex/core/atomic/dwcas/LumexDwcasWord.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00272_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00275_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00290_source.html">lumex/core/atomic/smart_ptr/split_count/LumexSplitCountPolicy.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00293_source.html">lumex/core/atomic/smart_ptr/split_count/LumexSplitCountTraits.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00296_source.html">lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00497_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for Unexpected.hpp:</div>
+Include dependency graph for LumexSplitCountCell.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00288.png" border="0" usemap="#a_unexpected_8hpp" alt=""/></div>
-<map name="a_unexpected_8hpp" id="a_unexpected_8hpp">
-<area shape="rect" title="Unexpected, the wrapper that carries an error into an Expected; an analogue of C++23 std::unexpected." alt="" coords="5,5,122,32"/>
-<area shape="rect" title=" " alt="" coords="37,80,90,107"/>
-<area shape="poly" title=" " alt="" coords="66,33,66,64,61,64,61,33"/>
-</map>
-</div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00289.png" border="0" usemap="#a_unexpected_8hppdep" alt=""/></div>
-<map name="a_unexpected_8hppdep" id="a_unexpected_8hppdep">
-<area shape="rect" title="Unexpected, the wrapper that carries an error into an Expected; an analogue of C++23 std::unexpected." alt="" coords="97,5,213,32"/>
-<area shape="rect" href="a00908.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="149,304,225,331"/>
-<area shape="poly" title=" " alt="" coords="158,47,163,140,175,256,186,303,181,304,170,256,157,140,153,48"/>
-<area shape="rect" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,..." alt="" coords="179,80,280,107"/>
-<area shape="poly" title=" " alt="" coords="181,41,219,78,215,82,177,45"/>
-<area shape="rect" href="a00488.html" title=" " alt="" coords="5,379,161,405"/>
-<area shape="poly" title=" " alt="" coords="158,342,103,380,100,376,155,337"/>
-<area shape="rect" href="a00491.html" title=" " alt="" coords="184,379,398,405"/>
-<area shape="poly" title=" " alt="" coords="219,337,274,376,271,380,216,342"/>
-<area shape="poly" title=" " alt="" coords="210,120,198,137,190,155,181,197,180,238,187,303,182,304,175,239,176,196,184,154,193,134,205,117"/>
-<area shape="rect" href="a00296.html" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="198,155,325,181"/>
-<area shape="poly" title=" " alt="" coords="244,120,259,153,254,155,239,122"/>
-<area shape="rect" href="a00299.html" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="250,229,386,256"/>
-<area shape="poly" title=" " alt="" coords="288,111,316,128,339,153,345,173,343,195,328,230,323,228,337,193,339,174,334,156,313,132,286,116"/>
-<area shape="poly" title=" " alt="" coords="251,196,196,305,191,302,246,194"/>
-<area shape="poly" title=" " alt="" coords="283,192,310,227,306,231,279,195"/>
-<area shape="poly" title=" " alt="" coords="283,266,211,306,209,301,280,262"/>
-</map>
+<div class="center"><img src="a00288.png" border="0" usemap="#a_lumex_split_count_cell_8hpp" alt=""/></div>
 </div>
 </div>
 <p><a href="a00287_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01921.html">lumex::core::expected::error::Unexpected&lt; ErrorType &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper that holds an error value for <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>.  <a href="a01921.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04037.html">Unexpected&lt; ErrorType &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper that holds an error value for <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>.  <a href="a04037.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01041.html">lumex::core::expected</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01042.html">lumex::core::expected::error</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code><a class="el" href="a04037.html" title="Wrapper that holds an error value for Expected.">Unexpected</a></code>, the wrapper that carries an error into an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>; an analogue of C++23 <code>std::unexpected</code>. </p>
-<p>Constructing an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> from an <code><a class="el" href="a04037.html" title="Wrapper that holds an error value for Expected.">Unexpected</a>&lt;E&gt;</code> puts it in the error state, and <code>make_unexpected&lt;E&gt;()</code> of <code><a class="el" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,...">Expected.hpp</a></code> builds one in place. Header-only, part of <code>lumex::expected</code> and usable from C++11; the class is also visible at global scope. </p>
+<div class="textblock"><p>The split-count engine behind <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code>: one 16-byte word updated by a 128-bit compare-and-swap over the module's own control block. </p>
+<p>The value lives in one <code>dwcas_word</code> (see <code><a class="el" href="a00296.html" title="The slot word of the split-count engine: a control block, the ticks of the loads in flight and the st...">LumexSplitCountWord.hpp</a></code> for the layout) next to the 32-bit wait counter of the other engines: 32 bytes. A non-empty word owns one <code>count</code> unit of its counter group: the strong group of the block in the shared engine, the weak ledger in the weak engine, and the strong group of the holder for a holder word (below).</p>
+<p><b>Why ticks.</b> A loader cannot take a reference on a block it only knows the address of: the block could be freed first. It therefore first pins the block with a tick, one compare-and-swap of the whole word that raises <code>L</code>. While a tick exists the block cannot be freed: either the word still names it, or the writer that swapped it out has deposited the tick as a unit of the block's <code>ext</code> ("owners in transit") before it swapped. <code>ext</code> is never negative.</p>
+<p><b>Load.</b> Tick (the acquire of this compare-and-swap synchronizes with the release swap that published the block, its anchor and the object), read the block (<code>anchor</code>, or the holder's owner and pointer), then decide on an atomic read whether the own tick is still in the word:</p><ul>
+<li>if the word still names the block with <code>L &gt; 0</code>: count one reference on the owner (this is the linearization point of the load), then take a tick back from the word (ticks are fungible, so it need not be the loader's own; the un-tick is <code>release</code>). If the tick is gone by then, pay the unit the writer deposited for it (<code>settle</code>);</li>
+<li>otherwise the tick was deposited by the writer that swapped the word: one read-modify-write counts the reference and pays the unit. The decision that the tick is not in the word is always taken on a value read with acquire (a load, or the failure value of a compare-and-swap with an acquire failure order), because only then the deposit of the winning writer, sequenced before its swap, precedes the payment in the modification order of the counter.</li>
+</ul>
+<p><b>Store and exchange.</b> A word with <code>L == 0</code> is swapped by one compare-and-swap, validated by the swap itself. A word with <code>L &gt; 0</code> names a block the writer owns nothing of, so the writer pins it first (a tick, like a load), deposits <code>L - 1 + k</code> units in <code>ext</code> BEFORE the swap (its own tick is excluded, because the swap consumes it; <code>k</code> is the reserve of the policy, so that ticks arriving before the swap need no further access to the counter), swaps (success <code>acq_rel</code>, failure <code>acquire</code>) and:</p><ul>
+<li>on a failed swap that left the same block with more ticks, tops up the deposit, only upward, and retries;</li>
+<li>on a failed swap that removed the block (the writer's own tick went with it, deposited by the winner) pays <code>deposited + 1</code> units in ONE read-modify-write and starts again;</li>
+<li>on success the surplus (<code>deposited - (L - 1)</code>) goes back with the drop of the word's unit (<code>store</code>: one read-modify-write) or before the hand-over (<code>exchange</code>). A compare-exchange does not pin: <code>expected</code> owns the block. It deposits the ticks it sees (no reserve), swaps, and withdraws the deposit if the swap fails. A compare-exchange whose <code>expected</code> does not fit the word compares a holder word, which it first pins like a loader.</li>
+</ul>
+<p><b>Holders (HG).</b> A pointer whose offset from the anchor does not fit in 40 bits is stored through a holder: a block (<code>ctl_holder</code>, <code>ctl_weak_holder</code>) that owns a reference to the owner block (strong, or weak in the weak engine) and keeps the stored pointer. The atomic object owns one strong <code>count</code> unit of the HOLDER, readers tick and settle on the holder's strong group, and a load of a holder word returns the OWNER (the holder never escapes). In the shared engine every deposit, withdrawal and payment on a holder is mirrored on the owner's strong <code>ext</code>, so that <code>use_count ()</code> of the owner sees the pins; the owner is touched first when units leave and the holder first when units enter. The reference of the holder on the owner belongs to the word: whoever drops the word's unit (<code>store</code>, a successful compare-exchange, the destructor, an image that was never installed) also drops that reference, together with the surplus of the mirror in one read-modify-write, after the holder was told to give it up (<code>disown</code>); the <code>exchange</code> hand-over gives the reference to its result and adds none. The owner stays alive for every pin that remains on the holder, because the mirror unit of each such pin was deposited on the owner before the swap that removed it, and the holder keeps itself alive by its own counter. So the owner shows no extra reference once the replacing call has dropped the word's unit. The weak engine does not mirror (weak loads do not change <code>use_count ()</code>) and keeps the weak reference of its holder until the holder is disposed.</p>
+<p><b>Why no address comparison can be fooled by a reused block address.</b> A tick and a swap compare the whole word in one instruction (success means the word names the live block); a settle compares while its own tick keeps the block alive; a compare-exchange compares through <code>expected</code>, whose reference keeps that block alive, and pins a holder word before it reads it. A block freed, created again at the same address and installed again is simply the live block, and ticks are fungible between the installations of a block (also with different offsets). No tag and no epoch is needed.</p>
+<p><b>Memory orders.</b> Every successful read-modify-write of the word is at least <code>acq_rel</code> (<code>seq_cst</code> when the caller asks for it). The take-back of a tick is <code>release</code> and MUST NOT be relaxed: a loader of a holder word reads the holder's owner and pointer without owning a count on the holder, and the only edge from those reads to the holder's destruction runs from the un-tick (release) to the swap of the writer (acquire) and the drop. A failed compare-and-swap is <code>relaxed</code>, except the swap of a writer, whose failure value is the decision value of the rule above (<code>acquire</code>). The counters of the block bring their own orders (<code><a class="el" href="a00485.html" title="split_counter: the packed reference counter of the control block, one 64-bit atomic word {count:32,...">LumexSmartPtrCounter.hpp</a></code>). The hardware backends of the word ignore the orders (every locked instruction is a full barrier); they matter for the built-in backend that ThreadSanitizer checks.</p>
+<p><b>use_count and the linearization rule.</b> The linearization point of a store, an exchange and a successful compare-exchange is its successful swap; of a failing compare-exchange the load it performs; of a load that finds its tick in the word its count step; of any other load the deposit that covered its tick, made by the writer whose swap then succeeded. Owners of a block at an instant are the live pointers, the non-empty slots naming it and the loads linearized but not yet returned. <code>use_count ()</code> of the block is <code>count + ext</code> and satisfies:</p><ul>
+<li>G1, never below: at every instant <code>use_count () &gt;= owners</code>, so a thread that is an owner and reads 1 is the sole owner;</li>
+<li>G2, bounded above: <code>use_count () == owners</code> except for (i) a store or a successful compare-exchange between its swap and its drop (+1, the lagging decrement; <code>exchange</code> has no such window), (ii) a writer between its deposit and the end of its call (+ other ticks + <code>k</code>), (iii) a unit deposited for a loader that has already counted itself, until it pays (+1). This holds for the owner of an alias stored through a holder as well;</li>
+<li>exact when nothing is in flight. It never waits;</li>
+<li><code>ext</code> is bounded by <code>W * (P + k)</code> for <code>W</code> writers that have deposited and not yet returned or paid and <code>P</code> pins: the outstanding deposit of one writer is the pins its swap covers (at most <code>P</code>) plus its reserve.</li>
+</ul>
+<p><b>Progress.</b> A compare-and-swap of the word fails only when another operation succeeded on it; no operation waits for a counter that another thread moves. The one wait is the back-off of a pin that finds <code>L</code> at the limit of the policy (2^24 - 1 pins of one object at once). Allocation of a holder may block in the allocator; running out of memory ends the program (every operation is <code>noexcept</code>).</p>
+<p><b>Notification and deleters.</b> Modifying operations do not wake waiters, as in the standard; only <code>notify_one</code> and <code>notify_all</code> do. A replaced value is destroyed in the replacing call, unless a pin on it is still outstanding; then the last thread to pay for it destroys it. Deleters therefore run inside <code>load</code>, <code>store</code>, <code>exchange</code>, <code>compare_exchange_*</code>, <code>wait</code> and the destructor, only from the read-modify-write that makes the counter zero, after the word was updated and with no lock held. At that moment the running thread holds no pin and no deposit on that block, so a deleter may use the same atomic object.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Pointer</td><td><code><a class="el" href="a03686.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a>&lt;T&gt;</code> or <code>weak_ptr&lt;T&gt;</code>. </td></tr>
+    <tr><td class="paramname">Policy</td><td>The hooks of the protocol (<code><a class="el" href="a00290.html" title="The policy of the split-count engine: the named steps of its protocol, the events a ledger counts,...">LumexSplitCountPolicy.hpp</a></code>).</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_d137d0eb9968c5b308dad29829b7bf65.html">error</a></li><li class="navelem"><a class="el" href="a00287.html">Unexpected.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_95030709502da905a080530bb25e5eb1.html">split_count</a></li><li class="navelem"><a class="el" href="a00287.html">LumexSplitCountCell.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

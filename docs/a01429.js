@@ -1,11 +1,13 @@
 var a01429 =
 [
-    [ "ValueType", "a01429.html#adb63db43b776d67b2d0cf6bc5b8ae726", null ],
-    [ "kCatalogCheck", "a01429.html#af7f4ad803067f81a30fc2a4f3e9337d8", null ],
-    [ "kInit", "a01429.html#af4eeb3aa12257052edd3f3c5ed7ced3d", null ],
-    [ "kPoly", "a01429.html#afca1893250816743847e50a553346c91", null ],
-    [ "kRefIn", "a01429.html#ad0562986cb5a339440bb88ee418e30fc", null ],
-    [ "kRefOut", "a01429.html#a26b172dbc01e3218301efd78d1f17df3", null ],
-    [ "kWidth", "a01429.html#a0df3ebbbac77ea26952722cb95c072bb", null ],
-    [ "kXorOut", "a01429.html#a48ad8ebcc5143792fe54b57c5e54856d", null ]
+    [ "is_own_ordering", "a04250.html", null ],
+    [ "is_plain_ordering", "a04254.html", null ],
+    [ "literal_zero_t", "a04230.html", "a04230" ],
+    [ "ordering_base", "a04234.html", "a04234" ],
+    [ "ordering_value", "a01429.html#a0f23ee126a26c0aee8ce3b91e80b3616", [
+      [ "less", "a01429.html#a0f23ee126a26c0aee8ce3b91e80b3616ae37e8d912e8f7b8f9b5ef9452ba47ff1", null ],
+      [ "equivalent", "a01429.html#a0f23ee126a26c0aee8ce3b91e80b3616aa219d952c828c6dfd3c9e7465f0d29c4", null ],
+      [ "greater", "a01429.html#a0f23ee126a26c0aee8ce3b91e80b3616a7b8dc4fb0fb55fc8eb69ff080c45ed7e", null ],
+      [ "unordered", "a01429.html#a0f23ee126a26c0aee8ce3b91e80b3616a2e3a2fe1ab6a59f682eec190c2b1fe27", null ]
+    ] ]
 ];

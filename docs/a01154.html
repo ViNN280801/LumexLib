@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::xpath::parser::lexer Namespace Reference</title>
+<title>LumexLib: LumexHardware File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,27 +103,35 @@ $(function(){initNavTree('a01154.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::xpath::parser::lexer Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">LumexHardware File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03157.html">XPathLexer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lexer (tokenizer) for XPath expressions.  <a href="a03157.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03161.html">XPathLexerString</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a string view used by the XPath lexer.  <a href="a03161.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-</div><!-- contents -->
+
+<p>Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the CPU supports, the MAC address and a seed for random generators.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00089_source.html">caps/LumexCPUVectorizationCapabilities.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00095_source.html">caps/LumexHardwareCapabilities.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexHardware:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01155.png" border="0" usemap="#a_lumex_hardware" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01156.png" border="0" usemap="#a_lumex_hardwaredep" alt=""/></div>
+</div>
+</div>
+<p><a href="a01154_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the CPU supports, the MAC address and a seed for random generators. </p>
+<p>Link <code>lumex::hardware</code> (compiled library). Works from C++11. The umbrella includes <code><a class="el" href="a00095.html" title="Hardware inventory (processor, memory, graphics adapter) and the decision whether an application shou...">caps/LumexHardwareCapabilities.hpp</a></code> (<code><a class="el" href="a06311.html" title="Comprehensive hardware information structure containing system specifications.">hardware_info_t</a></code>, <code><a class="el" href="a06315.html" title="Hardware detection and capability assessment utility class.">HardwareCapabilities</a></code>, <code>get_mac_address</code>, <code>generate_cryptographic_seed</code>) and <code><a class="el" href="a00089.html" title="Run-time detection of the SIMD instruction sets that the processor and the operating system support.">caps/LumexCPUVectorizationCapabilities.hpp</a></code> (<code>CPUVectorizationDetector</code>). </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01126.html">xml</a></li><li class="navelem"><a class="el" href="a01135.html">xpath</a></li><li class="navelem"><a class="el" href="a01153.html">parser</a></li><li class="navelem"><a class="el" href="a01154.html">lexer</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_67ca2fc5a6ed9c37068e27e587cd4bd5.html">hardware</a></li><li class="navelem"><a class="el" href="a01154.html">LumexHardware</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

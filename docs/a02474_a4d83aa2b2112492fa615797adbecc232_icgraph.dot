@@ -1,0 +1,36 @@
+digraph "lumex::core::expected::error::unexpected::error"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::expected\l::error::unexpected::error",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Returns a mutable lvalue reference to the stored error."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::expected\l::error::unexpected::error",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02474.html#ad670bd0cc4c112a04eb4129bccce3ea1",tooltip="Returns an rvalue reference to the stored error."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::expected\l::error::unexpected::error",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02474.html#a26e24386d8bf05d80b6a0c837f980663",tooltip="Returns a const rvalue reference to the stored error."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::expected\l::error::unexpected::error",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02474.html#a67ff45c9e2b78ddae39dcad9c6d2b955",tooltip="Returns a const lvalue reference to the stored error."];
+  Node1 -> Node5 [id="edge4_Node000001_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::expected\l::result::detail::move_error",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01356.html#aab0625e5174ad931757b0d5bcf1e84f9",tooltip="std::move (unex).error () where error () && of unexpected is not constexpr."];
+  Node5 -> Node6 [id="edge5_Node000005_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::expected\l::result::expected\< process\l_usage_t, process_query_error\l \>::operator=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02522.html#a1a653010457900754d6acdd59031c979",tooltip=" "];
+  Node5 -> Node7 [id="edge6_Node000005_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::expected\l::result::expected\< void,\l ErrorType \>::operator=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02742.html#a3e03c2768b7098bacb858189a9fff731",tooltip="Replaces the contents with an error (move)."];
+  Node1 -> Node8 [id="edge7_Node000001_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::expected\l::error::operator!=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01352.html#a7e742fefef3235463fe4677544234df7",tooltip="Compares the errors of two unexpected objects for inequality."];
+  Node1 -> Node9 [id="edge8_Node000001_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::core::expected\l::result::expected\< process\l_usage_t, process_query_error\l \>::operator=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02522.html#a6159cd0e3c558632234988c01e2166af",tooltip=" "];
+  Node1 -> Node10 [id="edge9_Node000001_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="lumex::core::expected\l::result::expected\< void,\l ErrorType \>::operator=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02742.html#aece0aa2b06710ca514ab73043f09505a",tooltip="Replaces the contents with an error (copy)."];
+  Node1 -> Node11 [id="edge10_Node000001_Node000011",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node11 [id="Node000011",label="lumex::core::expected\l::error::operator==",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01352.html#a7c7132e1e9b1490b939949c3cdd66cdf",tooltip="Compares the errors of two unexpected objects."];
+  Node1 -> Node12 [id="edge11_Node000001_Node000012",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node12 [id="Node000012",label="lumex::core::expected\l::result::operator==",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01355.html#a7a26f59238e032a56019188424314f2b",tooltip="Compares an expected with an unexpected for equality."];
+  Node1 -> Node13 [id="edge12_Node000001_Node000013",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node13 [id="Node000013",label="lumex::core::expected\l::error::unexpected::\lunexpected",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02474.html#a4f3096dffe3b79b7fc2ee733212ca09b",tooltip="Constructs the error from one argument."];
+  Node13 -> Node14 [id="edge13_Node000013_Node000014",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node14 [id="Node000014",label="lumex::core::expected\l::error::unexpected::swap",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a02474.html#a9065fe257d9822dd990a99e2a5526726",tooltip="Exchanges the stored error with the one of other."];
+  Node14 -> Node14 [id="edge14_Node000014_Node000014",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

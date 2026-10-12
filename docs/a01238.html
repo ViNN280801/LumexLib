@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: LumexUnicode File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01241.html',''); initResizable(true); });
+$(function(){initNavTree('a01238.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,24 +103,35 @@ $(function(){initNavTree('a01241.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::serial::probe::detail::serial_transport_t Member List</div></div>
+  <div class="headertitle"><div class="title">LumexUnicode File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01241.html#a441bb7416bdfcb873ff42ee284eab5e4">close</a>()=0</td><td class="entry"><a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01241.html#a03d9d7c732ecaba43e39d3dea068c656">is_open</a>() const =0</td><td class="entry"><a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01241.html#adc8013c9670a1b893619cd2c852108ab">open</a>(std::chrono::milliseconds deadline)=0</td><td class="entry"><a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01241.html#a9e89076cc288e82ded1f5c9c4f4a2087">purge</a>()=0</td><td class="entry"><a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01241.html#ab8d9442067657ea5b9a0d99f85c33c02">read</a>(std::uint8_t *buffer, std::size_t capacity, std::chrono::milliseconds deadline)=0</td><td class="entry"><a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01241.html#ac5f44687a280f415d8fd6a924e961497">write</a>(std::uint8_t const *data, std::size_t size, std::chrono::milliseconds deadline)=0</td><td class="entry"><a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01241.html#ac8d59bab1769a5513d6dd73c498a45fb">~serial_transport_t</a>()=default</td><td class="entry"><a class="el" href="a01241.html">lumex::applied::serial::probe::detail::serial_transport_t</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<p>Unicode module: transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>, and the string conversions <code>to_utf8</code> and <code>to_wide</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00572_source.html">convert/LumexUnicodeConvert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00575_source.html">utf/LumexUtf.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexUnicode:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01239.png" border="0" usemap="#a_lumex_unicode" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01240.png" border="0" usemap="#a_lumex_unicodedep" alt=""/></div>
+</div>
+</div>
+<p><a href="a01238_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Unicode module: transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>, and the string conversions <code>to_utf8</code> and <code>to_wide</code>. </p>
+<p>Link <code>lumex::unicode</code> (header-only). Works from C++11. The umbrella includes <code><a class="el" href="a00575.html" title="Transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and wchar_t: counters, writers and decoders t...">utf/LumexUtf.hpp</a></code> (counters, writers and decoders in <code><a class="el" href="a01408.html">lumex::core::unicode::utf</a></code>) and <code><a class="el" href="a00572.html" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF-8 and of a UTF-8 string to wchar_t,...">convert/LumexUnicodeConvert.hpp</a></code> (<code><a class="el" href="a01407.html">lumex::core::unicode::convert</a></code>). The conversions do not depend on the C locale or the operating system. The code comes from the XML module: the functions are Lumex's own, the structure of the policy classes is taken from pugixml; see <code>THIRD-PARTY-NOTICES.md</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_99253d4096ffea06e09286d5da0452b9.html">unicode</a></li><li class="navelem"><a class="el" href="a01238.html">LumexUnicode</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

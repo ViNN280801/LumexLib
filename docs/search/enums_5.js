@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['indent_5fflags_5ft_0',['indent_flags_t',['../a01143.html#a63ddb262b3a90024af7c616c32245e57',1,'lumex::xml::types::Types']]]
+  ['file_5ftype_0',['file_type',['../a01360.html#ab64d400fe6c2cab49e4cf4c63a82cc19',1,'lumex::core::filesystem::fs']]],
+  ['floatstyle_1',['FloatStyle',['../a01364.html#a6d0e5ca2289d7692d18fc6fd0b832ef7',1,'lumex::core::fmt::Detail']]],
+  ['functionnamemode_2',['FunctionNameMode',['../a01272.html#a620d10efcad9ba3f0f1e124a0989ca01',1,'lumex::applied::logger::logger']]]
 ];
