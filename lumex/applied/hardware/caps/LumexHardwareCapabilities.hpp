@@ -98,7 +98,7 @@
 #include <vector>
 
 #if defined(_WIN32) || defined(WIN32)
-#include <Windows.h>
+#include <windows.h>
 
 #include <iphlpapi.h>
 #include <wincrypt.h>
