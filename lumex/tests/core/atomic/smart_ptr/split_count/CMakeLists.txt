@@ -65,9 +65,17 @@ lumex_add_standard_suites(AtomicSplitCount
 foreach(_target IN LISTS _split_targets)
     if(_target MATCHES "Builtin" OR _split_sanitize_thread)
         # GCC sends the 16-byte __atomic_* operations to libatomic; Clang
-        # does so without -mcx16.
+        # does so unless the target has cx16.
         if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
             target_link_libraries(${_target} PRIVATE atomic)
+        elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU"
+               AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|amd64")
+            # Windows has no libatomic to link: the built-in backend must
+            # lower its 16-byte builtins to the instruction (the library
+            # documents -mcx16 in LumexDwcasBackendAsm.hpp), or clang emits
+            # calls that nothing defines (lld-link: undefined symbol
+            # __atomic_compare_exchange_16).
+            target_compile_options(${_target} PRIVATE -mcx16)
         endif()
     endif()
 endforeach()

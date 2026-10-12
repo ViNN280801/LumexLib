@@ -57,11 +57,21 @@ lumex_add_standard_suites(Dwcas
 
 foreach(_target IN LISTS _dwcas_targets)
     if(_target MATCHES "Builtin" OR _dwcas_sanitize_thread)
-        # GCC sends the 16-byte __atomic_* operations to libatomic; Clang
-        # does so without -mcx16.
+        # GCC sends the 16-byte __atomic_* operations to libatomic.
         if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
             target_link_libraries(${_target} PRIVATE atomic)
         endif()
+    endif()
+    if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux"
+       AND CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU"
+       AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|amd64")
+        # Every dwcas suite reaches the 16-byte __atomic_* builtins somewhere
+        # (the built-in backend, the test support of the word): Windows has no
+        # libatomic to link, so the compiler must lower them to the
+        # instruction, as the library documents it (LumexDwcasBackendAsm.hpp,
+        # -mcx16). Without it clang emits calls that nothing defines
+        # (lld-link: undefined symbol __atomic_load_16 and friends).
+        target_compile_options(${_target} PRIVATE -mcx16)
     endif()
     if(_target MATCHES "MsvcWrapper" AND NOT MSVC AND NOT _dwcas_sanitize_thread)
         target_include_directories(${_target} BEFORE PRIVATE
