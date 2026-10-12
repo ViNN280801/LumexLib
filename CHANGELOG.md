@@ -3230,6 +3230,7 @@ Digits: текст раскрытого макроса (`#x` через два �
 - `lumex/core/utility/macros/LumexKeywords.hpp`
 
 - В ветке до C++11 убран дубликат `LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR`.
+
 ##### LumexOrderingStd: паритет «что не компилируется» с STL MSVC
 
 **Файлы:**
@@ -3240,4 +3241,13 @@ Digits: текст раскрытого макроса (`#x` через два �
 - STL MSVC проверяет аргумент в `consteval`-теле конструктора `_Literal_zero`, а `decltype` это тело не вычисляет: `can_relate<std::strong_ordering, int>` там true. Запись выражения «по-настоящему» там по-прежнему ошибка.
 - Тест закрепляет строгий ответ для наших классов и для остальных библиотек; разрешительный ответ MSVC закреплен под `_MSC_VER` с пояснением.
 - `utility.numeric.LumexOrderingStd` на clang-cl: 19/19 (было 18/19).
+
+##### dwcas: вариант builtin останавливал полную сборку дерева на MSVC
+
+**Файлы:**
+
+- `lumex/tests/core/atomic/dwcas/CMakeLists.txt`
+
+- Вариант `LumexDwcasBuiltinCxx<std>Tests` задает `LUMEX_DWCAS_BACKEND=3` (`__atomic_*` на `unsigned __int128`), а у MSVC нет ни типа, ни builtins: `LumexDwcasConfig.hpp` останавливал 16 объектных файлов с `fatal error C1189` в первой же полной сборке дерева cl.exe. Бэкенд существует для ThreadSanitizer, которого на MSVC нет, а бэкенд-обертка MSVC и есть вариант `msvc_wrapper`.
+- Вариант регистрируется, только когда компилятор не MSVC (`CMAKE_CXX_COMPILER_ID`): clang-cl - это Clang, его вариант (с `-mcx16`) сохраняется. Проверено на дереве clang-cl: `atomic.dwcas` 600 тестов, из них 200 `builtin` и 200 `msvc_wrapper`, цель `LumexDwcasBuiltinCxx11Tests` собирается.
 
