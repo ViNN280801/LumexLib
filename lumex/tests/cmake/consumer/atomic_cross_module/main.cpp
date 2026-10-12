@@ -31,8 +31,9 @@ finished_in_time (std::atomic<bool> const &done, int seconds)
 int
 main ()
 {
-  std::printf ("atomic smart pointers: uses std=%d, std wait=%d\n",
-               LUMEX_ATOMIC_SMART_PTR_USES_STD, LUMEX_HAS_STD_ATOMIC_WAIT);
+  std::printf ("atomic smart pointers: lock-free=%d, std wait=%d\n",
+               LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE,
+               LUMEX_HAS_STD_ATOMIC_WAIT);
   atomic_shared_ptr<int> a (std::make_shared<int> (0));
 
   // 1. Sleep through the sleeper library, wake through the waker library.

@@ -1,5 +1,4 @@
 var a01034 =
 [
-    [ "LumexBaseException", "a01893.html", "a01893" ],
-    [ "LumexException_GetStackTraceTrampoline", "a01034.html#a31ed01634f7b6bd094769a42fe5f966b", null ]
+    [ "LUMEX_IMPLEMENTATION", "a01034.html#a07486181f1990291c2a348de8eb4c480", null ]
 ];

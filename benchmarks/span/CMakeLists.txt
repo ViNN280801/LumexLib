@@ -10,6 +10,10 @@
 #
 #   LumexSpanBench_lumex_cxx11   the span of this library at C++11
 #   LumexSpanBench_lumex_cxx20   the same at C++20
+#   LumexSpanBench_lumex_checks_cxx11 / _cxx20
+#                                the same with LUMEX_SPAN_CHECKS=1 (the
+#                                precondition checks on), the cost of the
+#                                checks; the lumex variants above have them off
 #   LumexSpanBench_std_cxx20     std::span of the standard library in use
 #                                (only where <span> exists)
 #   LumexSpanBench_boost_cxx11   boost::span at C++11
@@ -79,6 +83,8 @@ function(lumex_span_bench_variant impl standard)
         set(_id 1)
     elseif(impl STREQUAL "std")
         set(_id 2)
+    elseif(impl STREQUAL "lumex_checks")
+        set(_id 4)
     else()
         set(_id 3)
     endif()
@@ -110,6 +116,8 @@ endfunction()
 set(LUMEX_SPAN_BENCH_TARGETS "")
 lumex_span_bench_variant(lumex 11)
 lumex_span_bench_variant(lumex 20)
+lumex_span_bench_variant(lumex_checks 11)
+lumex_span_bench_variant(lumex_checks 20)
 if(LUMEX_BENCH_HAS_STD_SPAN)
     lumex_span_bench_variant(std 20)
 else()

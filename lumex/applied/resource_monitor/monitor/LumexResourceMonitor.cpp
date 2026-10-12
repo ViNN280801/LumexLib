@@ -49,7 +49,7 @@
 #include <vector>
 
 #if defined(_WIN32) || defined(_WIN64)
-#include <windows.h>
+#include <Windows.h>
 #else
 #include <sys/sysinfo.h>
 #endif
@@ -106,9 +106,17 @@ namespace monitor
 {
 namespace
 {
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
 std::mutex g_mutex;
 std::thread g_thread;
 bool g_started{ false };
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 // stop () wakes the sampler through these instead of letting it sleep out the
 // startup pause or the poll interval.

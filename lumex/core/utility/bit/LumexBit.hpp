@@ -75,6 +75,33 @@
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
 namespace lumex
 {
 namespace core
@@ -111,7 +138,7 @@ count_leading_zeros (NumericType value) LUMEX_NOEXCEPT
 {
   // __builtin_clz(0) is undefined, and _BitScanReverse(0) reports no bit.
   if (value == 0)
-    return sizeof (NumericType) * 8;
+    return static_cast<std::uint8_t> (sizeof (NumericType) * 8);
 
 #if defined(_MSC_VER)
   // clang-cl defines __clang__ as well as _MSC_VER. This branch is first
@@ -123,27 +150,29 @@ count_leading_zeros (NumericType value) LUMEX_NOEXCEPT
       _BitScanReverse (std::addressof (index),
                        static_cast<std::uint32_t> (value));
       // Index of the highest set bit (0 is the least significant bit).
-      return (sizeof (NumericType) * 8) - 1 - index;
+      return static_cast<std::uint8_t> ((sizeof (NumericType) * 8) - 1
+                                        - index);
     }
   else
     {
 #if defined(_M_X64) || defined(_M_ARM64)
       _BitScanReverse64 (std::addressof (index),
                          static_cast<std::uint64_t> (value));
-      return 64 - 1 - index;
+      return static_cast<std::uint8_t> (64 - 1 - index);
 #else
       // 32-bit MSVC has no _BitScanReverse64. Split the value in half.
-      std::uint32_t high = static_cast<std::uint32_t> (value >> 32);
+      std::uint32_t high = static_cast<std::uint32_t> (
+          static_cast<std::uint64_t> (value) >> 32);
       if (high != 0)
         {
           _BitScanReverse (std::addressof (index), high);
-          return 32 - 1 - index;
+          return static_cast<std::uint8_t> (32 - 1 - index);
         }
       else
         {
           _BitScanReverse (std::addressof (index),
                            static_cast<std::uint32_t> (value));
-          return 64 - 1 - index;
+          return static_cast<std::uint8_t> (64 - 1 - index);
         }
 #endif
     }
@@ -151,17 +180,21 @@ count_leading_zeros (NumericType value) LUMEX_NOEXCEPT
 #elif defined(__GNUC__) || defined(__clang__)
   if (sizeof (NumericType) <= 4)
     {
-      // __builtin_clz counts zeros of a 32-bit unsigned int.
-      return __builtin_clz (static_cast<std::uint32_t> (value))
-             - (32 - sizeof (NumericType) * 8);
+      // __builtin_clz counts zeros of a 32-bit unsigned int, so a narrower
+      // value is widened and its extra high bits are subtracted. The
+      // arithmetic is done in int (the builtin returns int) and narrowed once.
+      return static_cast<std::uint8_t> (
+          __builtin_clz (static_cast<std::uint32_t> (value))
+          - (32 - static_cast<int> (sizeof (NumericType) * 8)));
     }
   else
     {
-      return __builtin_clzll (static_cast<std::uint64_t> (value));
+      return static_cast<std::uint8_t> (
+          __builtin_clzll (static_cast<std::uint64_t> (value)));
     }
 
 #else
-  std::uint8_t bits = sizeof (NumericType) * 8;
+  std::uint8_t bits = static_cast<std::uint8_t> (sizeof (NumericType) * 8);
   std::uint8_t count = 0;
 
   // Halve the window: 32, then 16, 8, 4, 2, 1 for a 64-bit value.
@@ -169,11 +202,11 @@ count_leading_zeros (NumericType value) LUMEX_NOEXCEPT
     {
       if ((value >> shift) != 0)
         {
-          value >>= shift;
+          value = static_cast<NumericType> (value >> shift);
         }
       else
         {
-          count += shift;
+          count = static_cast<std::uint8_t> (count + shift);
         }
     }
   return count;
@@ -396,5 +429,9 @@ is_little_endian () LUMEX_NOEXCEPT
 
 // NOLINTEND(readability-identifier-length,
 // cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !LUMEX_CORE_UTILITY_BIT_HPP

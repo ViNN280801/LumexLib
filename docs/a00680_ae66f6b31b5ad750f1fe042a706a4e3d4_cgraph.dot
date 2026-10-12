@@ -1,0 +1,29 @@
+digraph "main"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="main",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::circular\l_buffer::circular_buffer::at",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#acc934795eb3adfb74f2f06279a6f4266",tooltip="Bounds-checked access by logical index."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::circular\l_buffer::circular_buffer\l::capacity",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#a1d423e4ad18a4329efe36c8ddef18c01",tooltip="Returns the maximum number of elements the buffer can hold."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::circular\l_buffer::circular_buffer\l::emplace_back",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#af8a4166f62e8e05901b26e017f2127a6",tooltip="Constructs an element in place at the back."];
+  Node1 -> Node5 [id="edge4_Node000001_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::circular\l_buffer::circular_buffer\l::front",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#a3d9d4aeb03998d6bd83b53ccf46d9905",tooltip="Access the oldest element (front)."];
+  Node5 -> Node6 [id="edge5_Node000005_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::circular\l_buffer::circular_buffer\l::empty",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#a8d484612f38792175e6101ef13cb1513",tooltip="Checks whether the buffer is empty."];
+  Node1 -> Node7 [id="edge6_Node000001_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::circular\l_buffer::circular_buffer\l::front_safe",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#a5e01b8e0ea51510aeafdbb9d757000d7",tooltip="Bounds-checked access to the oldest element (front)."];
+  Node7 -> Node6 [id="edge7_Node000007_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node8 [id="edge8_Node000001_Node000008",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::circular\l_buffer::circular_buffer\l::pop_front",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#ac1d61b48a49f08470df6ec9b677b0dc0",tooltip="Removes the oldest element."];
+  Node8 -> Node6 [id="edge9_Node000008_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node9 [id="edge10_Node000001_Node000009",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::core::circular\l_buffer::circular_buffer\l::push_back",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#ab8b530317c0c039c0856ccc14b6e7575",tooltip="Appends a copy of an element."];
+  Node1 -> Node10 [id="edge11_Node000001_Node000010",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="lumex::core::circular\l_buffer::circular_buffer::size",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01878.html#a5ecc4cbf0af26e45311c542a7d3f7e41",tooltip="Returns the current number of elements in the buffer."];
+}

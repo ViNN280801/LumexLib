@@ -45,8 +45,9 @@
  * vector with a success flag or as a returned vector that is empty for invalid
  * input. The overloads that take a pointer and a size are compiled into the
  * library and have the same signature in every C++ standard; the string
- * overloads are inline wrappers over them (`std::string_view` from C++17, the
- * `lumex_string_view` of `lumex::string_view` below). Like the other Base64
+ * overloads are inline wrappers over them (they take the `lumex_string_view`
+ * of `lumex::string_view` in every standard; a `std::string_view` converts to
+ * it). Like the other Base64
  * headers, it brings the names of the codec's `Types` namespace (`byte_type`,
  * `string_type_t`) into the global namespace with a using-directive.
  */
@@ -108,12 +109,12 @@ using namespace lumex::core::base64::codec::Types;
  * @details The two functions that take a pointer and a size are exported and
  * have the same signature in every C++ standard, so a consumer built at
  * another standard than the library links. The overloads that take a string
- * (`string_type_t`) are inline wrappers over them: `std::string_view` from
- * C++17, `lumex_string_view` below; a string literal, a `char const *` and a
- * `std::string` convert to either. The class itself is not exported: a
- * dllimport class makes clang-cl emit an import for an inline member it does
- * not inline, and the library does not provide the standard-dependent
- * overload.
+ * (`string_type_t`) are inline wrappers over them: `string_type_t` is
+ * `lumex_string_view` in every standard; a string literal, a `char const *`,
+ * a `std::string` and, from C++17, a `std::string_view` convert to it. The
+ * class itself is not exported: a dllimport class makes clang-cl emit an
+ * import for an inline member it does not inline, and the library does not
+ * provide the standard-dependent overload.
  */
 class decoder final
 {

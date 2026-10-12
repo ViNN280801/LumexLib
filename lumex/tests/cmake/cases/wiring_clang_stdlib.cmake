@@ -25,7 +25,7 @@ endforeach()
 
 file(READ "${LUMEX_SOURCE_DIR}/cmake/LumexBuild.cmake" _build)
 string(REGEX MATCH
-    "configure_optimization_level\\(\"\\$\\{target_name\\}\"[^)]*CXX_STDLIB \"\\$\\{LUMEX_CLANG_STDLIB\\}\"\\)"
+    "configure_optimization_level\\(\"\\$\\{target_name\\}\"[^)]*CXX_STDLIB \"\\$\\{LUMEX_CLANG_STDLIB\\}\"[^)]*\\)"
     _call "${_build}")
 if(_call STREQUAL "")
     message(FATAL_ERROR

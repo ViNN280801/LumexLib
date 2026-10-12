@@ -45,9 +45,12 @@
  * @details Link <tt>%lumex::expected</tt> (header-only; it brings
  * <tt>%lumex::utility</tt> for `LUMEX_ASSERT`). Works from C++11. The umbrella
  * includes the error types (`error/`) and the result types (`result/`);
- * `result/ExpectedDetail.hpp` is internal. The surface follows
- * `std::expected`, including `transform` with a function that returns `void`
- * or an `expected`; the differences are listed at the class `expected`.
+ * `result/ExpectedDetail.hpp` and `result/ExpectedStorage.hpp` are internal.
+ * The surface follows `std::expected` ([expected.expected] of the working
+ * draft): the special member functions are deleted, left out and trivial as
+ * the standard says, the members are `constexpr` as far as the language of the
+ * standard in use allows, and the differences that remain are listed at the
+ * class `expected`.
  *
  * Global names: `expected`, `bad_expected_access`, `make_unexpected`,
  * `unexpect`, `unexpect_t` and `in_place_tag` are also visible at global scope.

@@ -59,8 +59,16 @@ namespace crash
 {
 LUMEX_PUBLIC_API char const *lumex_crash_handler::s_defaultAppName
     = "UnknownApp";
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
 LUMEX_PUBLIC_API std::string lumex_crash_handler::s_appName
     = lumex_crash_handler::s_defaultAppName;
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 LUMEX_PUBLIC_API
 lumex_crash_handler &
@@ -264,8 +272,8 @@ lumex_crash_handler::_on_windows_crash_handler (PEXCEPTION_POINTERS pExInfo)
   std::wstring wfilename (filename.begin (), filename.end ());
 
   // Open file for writing dump
-  HANDLE hFile = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, NULL,
-                              CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+  HANDLE hFile = CreateFileW (wfilename.c_str (), GENERIC_WRITE, 0, nullptr,
+                              CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
   if (hFile != INVALID_HANDLE_VALUE)
     {
@@ -277,9 +285,9 @@ lumex_crash_handler::_on_windows_crash_handler (PEXCEPTION_POINTERS pExInfo)
       eInfo.ExceptionPointers = pExInfo;
       eInfo.ClientPointers = 0;
 
-      BOOL success
-          = MiniDumpWriteDump (GetCurrentProcess (), GetCurrentProcessId (),
-                               hFile, MiniDumpNormal, &eInfo, NULL, NULL);
+      BOOL success = MiniDumpWriteDump (
+          GetCurrentProcess (), GetCurrentProcessId (), hFile, MiniDumpNormal,
+          &eInfo, nullptr, nullptr);
 
       if (success == TRUE)
         {

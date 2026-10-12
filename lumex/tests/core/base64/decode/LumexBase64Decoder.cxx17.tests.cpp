@@ -4,11 +4,14 @@
 
 #include <string>
 #include <string_view>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
 
 #include "lumex/core/base64/LumexBase64"
+#include "lumex/core/string_view/LumexStringView"
 
 #include "lumex/tests/core/base64/LumexBase64TestFixtures.hpp"
 
@@ -40,6 +43,26 @@ using namespace lumex::core::base64::encode;
 using namespace lumex::core::base64::validate;
 using namespace lumex::core::base64::codec::Types;
 
+// A std::string_view argument converts to the lumex_string_view the overloads
+// take; the conversion is implicit, so the calls are unambiguous and return
+// the same types as every other form.
+static_assert (std::is_convertible<std::string_view, string_type_t>::value,
+               "std::string_view converts to the text type");
+static_assert (std::is_same<decltype (decoder::decode (
+                                std::declval<std::string_view> ())),
+                            std::vector<unsigned char>>::value,
+               "decode (std::string_view)");
+static_assert (std::is_same<decltype (decoder::decode (
+                                std::declval<std::string_view const &> ())),
+                            std::vector<unsigned char>>::value,
+               "decode (std::string_view const &)");
+static_assert (
+    std::is_same<decltype (decoder::decode (
+                     std::declval<std::string_view> (),
+                     std::declval<std::vector<unsigned char> &> ())),
+                 bool>::value,
+    "decode (std::string_view, out)");
+
 TEST_F (Base64DecoderTest,
         GivenDefaultConstructedStringView_WhenDecode_ThenTrueAndEmpty)
 {
@@ -63,4 +86,25 @@ TEST_F (Base64DecoderTest,
   // Without the padding the view is still valid unpadded Base64.
   std::vector<byte_type> const unpadded = decoder::decode (view.substr (0, 3));
   EXPECT_EQ (std::string (unpadded.begin (), unpadded.end ()), "Hi");
+}
+
+TEST_F (Base64DecoderTest,
+        GivenLumexStringView_WhenDecode_ThenSameAsStdStringView)
+{
+  // The view of the library converts to std::string_view.
+  std::string const longer = "xxSGk=yy";
+  lumex_string_view const view = lumex_string_view (longer).substr (2, 4);
+  std::vector<byte_type> const bytes = decoder::decode (view);
+  EXPECT_EQ (std::string (bytes.begin (), bytes.end ()), "Hi");
+  std::vector<byte_type> out (3, 0x7F);
+  EXPECT_TRUE (decoder::decode (view, out));
+  EXPECT_EQ (out, bytes);
+  EXPECT_FALSE (decoder::decode (lumex_string_view (longer), out));
+  EXPECT_TRUE (out.empty ());
+  std::string const with_nul ("Zm9v\0YmFy", 9);
+  EXPECT_FALSE (decoder::decode (lumex_string_view (with_nul), out));
+  EXPECT_TRUE (decoder::decode (lumex_string_view (), out));
+  EXPECT_TRUE (out.empty ());
+  EXPECT_EQ (decoder::decode ("SGk="), bytes);
+  EXPECT_EQ (decoder::decode (std::string ("SGk=")), bytes);
 }

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexLoggerConfigFormat.hpp File Reference</title>
+<title>LumexLib: LumexHardwareCapabilities.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,85 +105,91 @@ $(function(){initNavTree('a00092.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexLoggerConfigFormat.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexHardwareCapabilities.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The format of the logger's trigger file, fixed when the logger library is configured.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;regex&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00095_source.html">LumexHardwareCapabilities.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01163_source.html">lumex/applied/logging/LumexLogging</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01241_source.html">lumex/core/utility/LumexUtility</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexLoggerConfigFormat.hpp:</div>
+Include dependency graph for LumexHardwareCapabilities.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00093.png" border="0" usemap="#a_lumex_logger_config_format_8hpp" alt=""/></div>
-<map name="a_lumex_logger_config_format_8hpp" id="a_lumex_logger_config_format_8hpp">
-<area shape="rect" title="The format of the logger&#39;s trigger file, fixed when the logger library is configured." alt="" coords="121,5,324,32"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,88,168,115"/>
-<area shape="poly" title=" " alt="" coords="203,35,122,82,119,78,200,30"/>
-<area shape="rect" title=" " alt="" coords="192,88,253,115"/>
-<area shape="poly" title=" " alt="" coords="225,32,225,73,220,73,220,32"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="277,80,472,123"/>
-<area shape="poly" title=" " alt="" coords="247,30,323,70,321,75,245,35"/>
-</map>
+<div class="center"><img src="a00093.png" border="0" usemap="#a_lumex_hardware_capabilities_8cpp" alt=""/></div>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00094.png" border="0" usemap="#a_lumex_logger_config_format_8hppdep" alt=""/></div>
-<map name="a_lumex_logger_config_format_8hppdep" id="a_lumex_logger_config_format_8hppdep">
-<area shape="rect" title="The format of the logger&#39;s trigger file, fixed when the logger library is configured." alt="" coords="47,5,250,32"/>
-<area shape="rect" href="a00095.html" title=" " alt="" coords="5,88,130,115"/>
-<area shape="poly" title=" " alt="" coords="127,45,82,90,78,86,123,41"/>
-<area shape="rect" href="a00542.html" title=" " alt="" coords="154,80,309,123"/>
-<area shape="poly" title=" " alt="" coords="175,41,212,78,209,82,171,45"/>
-</map>
-</div>
-</div>
-<p><a href="a00092_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01249.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00971.html">lumex::applied::logger</a></td></tr>
-<tr class="memdesc:a00971"><td class="mdescLeft">&#160;</td><td class="mdescRight">Universal file logger, ported and kept up to date from the DChannel project's Logger. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01250.html">lumex::applied::hardware</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01251.html">lumex::applied::hardware::caps</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a50817df5a1c7ef0cc99cfb1a2fd513e9" id="r_a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9">lumex::applied::logger::logger_config_format_t</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55">lumex::applied::logger::plain_text</a> = 0
-, <a class="el" href="a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3">lumex::applied::logger::ini</a>
-, <a class="el" href="a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54">lumex::applied::logger::json</a>
-, <a class="el" href="a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f">lumex::applied::logger::yaml</a>
-, <br />
-&#160;&#160;<a class="el" href="a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7">lumex::applied::logger::xml</a>
-<br />
- }</td></tr>
-<tr class="memdesc:a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time format of the logger enable/config file.  <a href="a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9">More...</a><br /></td></tr>
-<tr class="separator:a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a226762b2a199486d557abe18fc2bff5c" id="r_a226762b2a199486d557abe18fc2bff5c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a226762b2a199486d557abe18fc2bff5c">LUMEX_HAS_GETENTROPY</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a226762b2a199486d557abe18fc2bff5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4ff8994ab54d107e5c4077786599a415" id="r_a4ff8994ab54d107e5c4077786599a415"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a00971.html#a50817df5a1c7ef0cc99cfb1a2fd513e9">logger_config_format_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00971.html#a4ff8994ab54d107e5c4077786599a415">lumex::applied::logger::configured_logger_config_format</a> () noexcept</td></tr>
-<tr class="memdesc:a4ff8994ab54d107e5c4077786599a415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the only logger config format compiled into this target.  <br /></td></tr>
-<tr class="separator:a4ff8994ab54d107e5c4077786599a415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab859866b0c575b1a3e396b0b53fe9ed7" id="r_ab859866b0c575b1a3e396b0b53fe9ed7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01251.html#ab859866b0c575b1a3e396b0b53fe9ed7">lumex::applied::hardware::caps::get_mac_address</a> ()</td></tr>
+<tr class="memdesc:ab859866b0c575b1a3e396b0b53fe9ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the MAC address of the first active network interface.  <br /></td></tr>
+<tr class="separator:ab859866b0c575b1a3e396b0b53fe9ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a211e7ff7e7de8c55d405628d09595cd6" id="r_a211e7ff7e7de8c55d405628d09595cd6"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01251.html#a211e7ff7e7de8c55d405628d09595cd6">lumex::applied::hardware::caps::generate_cryptographic_seed</a> ()</td></tr>
+<tr class="memdesc:a211e7ff7e7de8c55d405628d09595cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a cryptographically strong seed for unique identification.  <br /></td></tr>
+<tr class="separator:a211e7ff7e7de8c55d405628d09595cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The format of the logger's trigger file, fixed when the logger library is configured. </p>
-<p>Declares <code>logger_config_format_t</code> and <code>configured_logger_config_format()</code>, which returns the one format compiled into the target. The CMake cache variable <code>LUMEX_LOGGER_CONFIG_FORMAT</code> (<code>PLAIN_TEXT</code> by default, or <code>INI</code>, <code>JSON</code>, <code>YAML</code>, <code>XML</code>) becomes exactly one public <code>LUMEX_LOGGER_CONFIG_FORMAT_*</code> definition of <code>lumex::logger</code>, so a consumer compiles this header with the same choice; the header stops with <code>#error</code> unless exactly one is defined. The extension of the trigger file name plays no part in choosing the parser, and <code>yaml</code> is reserved: the logger throws for it until a YAML settings reader exists. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a226762b2a199486d557abe18fc2bff5c" name="a226762b2a199486d557abe18fc2bff5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a226762b2a199486d557abe18fc2bff5c">&#9670;&#160;</a></span>LUMEX_HAS_GETENTROPY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_HAS_GETENTROPY&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_e29b5b767fb03629027b334d9196758a.html">logger</a></li><li class="navelem"><a class="el" href="dir_80d5cf857ff12cbb6cbf9119972f9e06.html">config</a></li><li class="navelem"><a class="el" href="a00092.html">LumexLoggerConfigFormat.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_67ca2fc5a6ed9c37068e27e587cd4bd5.html">hardware</a></li><li class="navelem"><a class="el" href="dir_d44df35ae1ff921f3f5bbaddfc0f5b6e.html">caps</a></li><li class="navelem"><a class="el" href="a00092.html">LumexHardwareCapabilities.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

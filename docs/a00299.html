@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: SuccessFailure.hpp File Reference</title>
+<title>LumexLib: LumexAtomicWait.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,167 +106,156 @@ $(function(){initNavTree('a00299.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">SuccessFailure.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexAtomicWait.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>The return markers <code>success()</code> and <code>failure()</code> for functions that return an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>.  
+<p>Blocking wait for a change of a 32-bit atomic word, and the wake-up that ends it, from C++11 on.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00290_source.html">lumex/core/expected/result/Expected.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00293_source.html">lumex/core/expected/result/ExpectedTypes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00296_source.html">lumex/core/expected/result/ExpectedVoid.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;new&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for SuccessFailure.hpp:</div>
+Include dependency graph for LumexAtomicWait.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00300.png" border="0" usemap="#a_success_failure_8hpp" alt=""/></div>
-<map name="a_success_failure_8hpp" id="a_success_failure_8hpp">
-<area shape="rect" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="1630,5,1767,32"/>
-<area shape="rect" title=" " alt="" coords="5,451,88,477"/>
-<area shape="poly" title=" " alt="" coords="1630,24,1298,33,1076,43,845,58,628,80,446,109,375,127,321,146,287,168,279,179,276,191,276,284,270,304,255,326,204,370,142,412,85,445,82,441,139,408,201,366,251,322,265,302,271,284,271,190,274,177,283,164,319,141,373,121,445,104,627,75,844,53,1075,38,1298,27,1630,18"/>
-<area shape="rect" title=" " alt="" coords="1676,451,1729,477"/>
-<area shape="poly" title=" " alt="" coords="1686,34,1625,93,1588,136,1552,185,1524,237,1507,291,1505,317,1507,343,1514,369,1527,393,1548,409,1582,425,1662,450,1661,455,1581,430,1545,414,1523,396,1509,371,1501,344,1499,317,1502,290,1519,235,1548,182,1583,133,1621,90,1682,31"/>
-<area shape="rect" href="a00290.html" title="Expected&lt;SuccessType, ErrorType&gt;, an analogue of C++23 std::expected usable from C++11,..." alt="" coords="1627,171,1770,213"/>
-<area shape="poly" title=" " alt="" coords="1701,32,1701,155,1696,155,1696,32"/>
-<area shape="rect" href="a00293.html" title="The tags and the placeholder type that Expected uses: in_place, unexpect and Unit." alt="" coords="706,269,843,296"/>
-<area shape="poly" title=" " alt="" coords="1648,35,1466,83,1104,186,831,267,830,262,1102,181,1464,77,1647,30"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1516,533,1710,576"/>
-<area shape="poly" title=" " alt="" coords="1768,27,1887,49,2021,84,2081,105,2131,130,2164,158,2174,174,2177,190,2177,375,2179,437,2171,462,2151,487,2121,506,2078,521,2026,533,1967,542,1842,553,1726,556,1726,551,1842,547,1967,537,2025,528,2076,516,2118,501,2147,483,2167,460,2173,436,2172,375,2172,191,2169,176,2160,162,2128,135,2079,110,2020,89,1886,55,1767,33"/>
-<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1897,261,2065,304"/>
-<area shape="poly" title=" " alt="" coords="1768,25,1873,45,1920,60,1950,78,1964,97,1975,118,1987,163,1990,208,1989,246,1983,246,1985,208,1982,164,1970,120,1959,100,1946,82,1917,65,1872,50,1767,31"/>
-<area shape="rect" href="a00296.html" title="The specialization Expected&lt;void, ErrorType&gt; for operations that succeed without a value; an analogue..." alt="" coords="1770,80,1936,123"/>
-<area shape="poly" title=" " alt="" coords="1724,30,1801,70,1799,75,1721,35"/>
-<area shape="poly" title=" " alt="" coords="1701,214,1705,435,1699,435,1696,214"/>
-<area shape="rect" title=" " alt="" coords="1572,269,1636,296"/>
-<area shape="poly" title=" " alt="" coords="1678,216,1630,261,1626,257,1675,212"/>
-<area shape="poly" title=" " alt="" coords="1627,198,1295,217,1079,236,862,264,839,268,838,263,861,259,1079,231,1295,211,1627,193"/>
-<area shape="poly" title=" " alt="" coords="1633,216,1595,236,1562,263,1546,284,1537,303,1528,353,1523,374,1528,393,1542,410,1560,417,1580,424,1598,441,1613,479,1617,518,1612,518,1608,481,1594,444,1577,429,1559,422,1539,414,1523,396,1518,374,1523,351,1532,302,1541,282,1558,259,1592,231,1631,212"/>
-<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="112,443,280,485"/>
-<area shape="poly" title=" " alt="" coords="1627,208,1079,302,296,445,295,439,1078,296,1627,203"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="1906,443,2137,485"/>
-<area shape="poly" title=" " alt="" coords="1733,212,1886,302,1913,314,1935,321,1956,331,1978,350,2002,388,2016,426,2011,428,1997,390,1974,354,1953,336,1933,326,1911,319,1884,306,1731,216"/>
-<area shape="rect" href="a00284.html" title="BadExpectedAccess, the exception that Expected throws when its value is read while it holds an error;..." alt="" coords="1761,352,1964,395"/>
-<area shape="poly" title=" " alt="" coords="1719,212,1836,339,1832,343,1715,216"/>
-<area shape="rect" href="a00287.html" title="Unexpected, the wrapper that carries an error into an Expected; an analogue of C++23 std::unexpected." alt="" coords="1537,352,1687,395"/>
-<area shape="poly" title=" " alt="" coords="1692,215,1650,305,1632,340,1628,337,1645,303,1687,213"/>
-<area shape="poly" title=" " alt="" coords="1766,211,1901,254,1900,259,1764,217"/>
-<area shape="poly" title=" " alt="" coords="720,299,376,378,101,445,93,448,91,443,99,440,375,373,718,294"/>
-<area shape="poly" title=" " alt="" coords="844,292,1025,320,1250,359,1452,402,1524,422,1564,440,1580,457,1593,477,1608,517,1603,519,1588,479,1576,460,1561,445,1522,427,1451,407,1249,364,1024,325,843,297"/>
-<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="876,352,1060,395"/>
-<area shape="poly" title=" " alt="" coords="803,294,910,343,908,348,801,299"/>
-<area shape="poly" title=" " alt="" coords="876,387,765,397,664,404,577,407,430,407,360,409,285,415,200,426,100,445,90,448,89,443,99,440,199,421,284,409,360,404,430,402,577,401,664,399,765,392,875,382"/>
-<area shape="poly" title=" " alt="" coords="1060,382,1563,440,1661,454,1660,459,1562,445,1060,387"/>
-<area shape="poly" title=" " alt="" coords="1060,383,1157,403,1208,419,1257,440,1273,451,1283,462,1293,473,1308,483,1355,503,1404,519,1501,539,1500,544,1403,524,1353,508,1305,488,1289,477,1279,466,1269,455,1255,445,1207,424,1156,408,1059,388"/>
-<area shape="rect" title=" " alt="" coords="416,451,466,477"/>
-<area shape="poly" title=" " alt="" coords="876,394,858,397,750,408,666,412,583,420,535,429,479,445,476,446,474,441,478,440,534,424,582,414,665,406,750,403,857,392,875,389"/>
-<area shape="rect" title=" " alt="" coords="490,451,555,477"/>
-<area shape="poly" title=" " alt="" coords="877,394,858,397,775,409,711,415,647,425,567,445,562,447,560,442,566,440,646,420,710,410,775,404,857,392,876,389"/>
-<area shape="rect" title=" " alt="" coords="578,451,656,477"/>
-<area shape="poly" title=" " alt="" coords="876,394,776,416,669,445,662,447,660,442,667,440,774,411,875,389"/>
-<area shape="rect" title=" " alt="" coords="680,451,741,477"/>
-<area shape="poly" title=" " alt="" coords="895,398,754,445,751,446,749,441,752,440,894,393"/>
-<area shape="rect" title=" " alt="" coords="766,451,818,477"/>
-<area shape="poly" title=" " alt="" coords="926,397,830,445,830,445,827,441,828,440,924,393"/>
-<area shape="rect" title=" " alt="" coords="842,451,910,477"/>
-<area shape="poly" title=" " alt="" coords="948,397,902,442,898,438,945,393"/>
-<area shape="rect" title=" " alt="" coords="934,451,1002,477"/>
-<area shape="poly" title=" " alt="" coords="970,395,970,435,965,435,965,395"/>
-<area shape="rect" title=" " alt="" coords="1026,451,1080,477"/>
-<area shape="poly" title=" " alt="" coords="990,393,1032,437,1029,441,986,397"/>
-<area shape="rect" title=" " alt="" coords="1104,451,1154,477"/>
-<area shape="poly" title=" " alt="" coords="1007,393,1094,440,1091,445,1004,398"/>
-<area shape="rect" title=" " alt="" coords="1177,451,1244,477"/>
-<area shape="poly" title=" " alt="" coords="1034,393,1167,440,1171,442,1169,447,1166,445,1032,398"/>
-<area shape="rect" title=" " alt="" coords="304,451,392,477"/>
-<area shape="poly" title=" " alt="" coords="876,395,858,397,730,411,630,415,530,423,404,445,394,448,393,443,403,440,529,418,629,410,729,405,857,392,875,389"/>
-<area shape="poly" title=" " alt="" coords="876,395,857,397,701,414,578,420,454,427,295,445,295,440,453,422,577,415,701,408,857,392,875,389"/>
-<area shape="poly" title=" " alt="" coords="1060,376,1420,398,1652,416,1890,440,1890,445,1652,421,1419,403,1060,382"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1318,443,1551,485"/>
-<area shape="poly" title=" " alt="" coords="1061,389,1311,437,1310,442,1060,395"/>
-<area shape="poly" title=" " alt="" coords="280,481,292,483,462,502,636,517,977,538,1278,548,1500,551,1500,556,1278,553,977,543,636,523,462,507,291,488,280,486"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="115,541,277,568"/>
-<area shape="poly" title=" " alt="" coords="198,486,198,526,193,526,193,486"/>
-<area shape="poly" title=" " alt="" coords="1478,484,1559,524,1557,528,1475,488"/>
-<area shape="poly" title=" " alt="" coords="1826,398,1740,445,1737,440,1824,393"/>
-<area shape="poly" title=" " alt="" coords="1843,397,1790,447,1743,488,1673,529,1670,524,1740,483,1786,443,1840,393"/>
-<area shape="rect" title=" " alt="" coords="1804,451,1881,477"/>
-<area shape="poly" title=" " alt="" coords="1860,396,1851,436,1846,435,1855,394"/>
-<area shape="poly" title=" " alt="" coords="1635,393,1681,438,1677,442,1631,397"/>
-<area shape="poly" title=" " alt="" coords="1999,303,2012,325,2022,351,2028,391,2028,428,2023,428,2023,391,2017,353,2007,328,1994,306"/>
-<area shape="poly" title=" " alt="" coords="1818,126,1749,165,1746,161,1816,121"/>
-<area shape="poly" title=" " alt="" coords="1937,104,2029,118,2077,131,2123,148,2164,171,2198,200,2220,237,2226,258,2228,281,2228,375,2228,409,2226,437,2217,463,2195,487,2161,507,2113,523,2055,535,1990,544,1852,554,1725,557,1725,552,1851,549,1989,539,2054,530,2111,518,2158,502,2191,483,2212,460,2221,436,2223,409,2223,375,2223,281,2221,259,2215,239,2193,204,2161,175,2121,153,2075,136,2027,123,1936,110"/>
-<area shape="poly" title=" " alt="" coords="1770,110,1576,124,1308,152,1157,172,1002,197,846,228,695,264,568,304,444,351,335,398,251,438,249,433,333,394,442,346,566,299,694,259,845,222,1001,192,1157,167,1307,147,1576,119,1769,104"/>
-<area shape="poly" title=" " alt="" coords="1908,121,1953,143,2001,173,2045,212,2064,235,2080,260,2088,282,2091,305,2084,351,2067,395,2047,431,2042,428,2062,392,2079,350,2085,305,2082,283,2075,263,2060,238,2041,216,1997,178,1950,148,1906,126"/>
-<area shape="poly" title=" " alt="" coords="1870,122,1960,247,1956,250,1866,125"/>
-</map>
+<div class="center"><img src="a00300.png" border="0" usemap="#a_lumex_atomic_wait_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00301.png" border="0" usemap="#a_success_failure_8hppdep" alt=""/></div>
-<map name="a_success_failure_8hppdep" id="a_success_failure_8hppdep">
-<area shape="rect" title="The return markers success() and failure() for functions that return an Expected." alt="" coords="119,5,255,32"/>
-<area shape="rect" href="a00908.html" title="Expected module: Expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="149,80,225,107"/>
-<area shape="poly" title=" " alt="" coords="190,48,190,80,184,80,184,48"/>
-<area shape="rect" href="a00488.html" title=" " alt="" coords="5,155,161,181"/>
-<area shape="poly" title=" " alt="" coords="158,118,103,156,100,152,155,113"/>
-<area shape="rect" href="a00491.html" title=" " alt="" coords="184,155,398,181"/>
-<area shape="poly" title=" " alt="" coords="219,113,274,152,271,156,216,118"/>
-</map>
+<div class="center"><img src="a00301.png" border="0" usemap="#a_lumex_atomic_wait_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00299_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01953.html">lumex::core::expected::result::success_t&lt; ValueType &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker returned by success(value): success carrying a value.  <a href="a01953.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01846.html">lumex::core::atomic::sync::table_wait::Detail::waiter_stripe_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One stripe of the waiting table: the sleepers of every word that hashes to it share this mutex and condition variable.  <a href="a01846.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01957.html">lumex::core::expected::result::success_t&lt; void &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker returned by <a class="el" href="a01043.html#acf582366ba9e45e54dfb712995539ba3" title="Creates a marker for a successful call that carries no value.">success()</a>: a successful call with no value.  <a href="a01957.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01961.html">lumex::core::expected::result::failure_t&lt; ErrorType &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker returned by failure(error): a failed call carrying an error.  <a href="a01961.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01850.html">lumex::core::atomic::sync::table_wait::Detail::waiter_table_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The whole waiting table.  <a href="a01850.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01041.html">lumex::core::expected</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01312.html">lumex::core::atomic</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01043.html">lumex::core::expected::result</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01317.html">lumex::core::atomic::sync</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01318.html">lumex::core::atomic::sync::table_wait</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01319.html">lumex::core::atomic::sync::table_wait::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ad9f5e06c72e74b95ce7b40d4f6ec11a0" id="r_ad9f5e06c72e74b95ce7b40d4f6ec11a0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9f5e06c72e74b95ce7b40d4f6ec11a0">LUMEX_ATOMIC_WAIT_USES_STD</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:ad9f5e06c72e74b95ce7b40d4f6ec11a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when threads sleep through <code>std::atomic::wait</code>, 0 when they sleep on the striped table.  <br /></td></tr>
+<tr class="separator:ad9f5e06c72e74b95ce7b40d4f6ec11a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0508297ef17d771c69e6f945dd092220" id="r_a0508297ef17d771c69e6f945dd092220"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0508297ef17d771c69e6f945dd092220">LUMEX_ATOMIC_WAIT_ABI_NAMESPACE</a>&#160;&#160;&#160;table_wait</td></tr>
+<tr class="memdesc:a0508297ef17d771c69e6f945dd092220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the inline namespace that holds the waiting code.  <br /></td></tr>
+<tr class="separator:a0508297ef17d771c69e6f945dd092220"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bcecfa7d572df819b4f8c8cdde1e39f" id="r_a0bcecfa7d572df819b4f8c8cdde1e39f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0bcecfa7d572df819b4f8c8cdde1e39f">LUMEX_ATOMIC_WAIT_TABLE_VISIBILITY</a></td></tr>
+<tr class="memdesc:a0bcecfa7d572df819b4f8c8cdde1e39f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visibility of the function that owns the waiting table.  <br /></td></tr>
+<tr class="separator:a0bcecfa7d572df819b4f8c8cdde1e39f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acf582366ba9e45e54dfb712995539ba3" id="r_acf582366ba9e45e54dfb712995539ba3"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01953.html">success_t</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01043.html#acf582366ba9e45e54dfb712995539ba3">lumex::core::expected::result::success</a> () noexcept</td></tr>
-<tr class="memdesc:acf582366ba9e45e54dfb712995539ba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a marker for a successful call that carries no value.  <br /></td></tr>
-<tr class="separator:acf582366ba9e45e54dfb712995539ba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33ae257796f0a87a9dd7dfc572762b8c" id="r_a33ae257796f0a87a9dd7dfc572762b8c"><td class="memTemplParams" colspan="2">template&lt;typename ValueType&gt; </td></tr>
-<tr class="memitem:a33ae257796f0a87a9dd7dfc572762b8c"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01953.html">success_t</a>&lt; typename std::decay&lt; ValueType &gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01043.html#a33ae257796f0a87a9dd7dfc572762b8c">lumex::core::expected::result::success</a> (ValueType &amp;&amp;value)</td></tr>
-<tr class="memdesc:a33ae257796f0a87a9dd7dfc572762b8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a marker for a successful call that carries a value.  <br /></td></tr>
-<tr class="separator:a33ae257796f0a87a9dd7dfc572762b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8af150230768426fd35e631a6134e162" id="r_a8af150230768426fd35e631a6134e162"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
-<tr class="memitem:a8af150230768426fd35e631a6134e162"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a01961.html">failure_t</a>&lt; typename std::decay&lt; ErrorType &gt;::type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01043.html#a8af150230768426fd35e631a6134e162">lumex::core::expected::result::failure</a> (ErrorType &amp;&amp;error)</td></tr>
-<tr class="memdesc:a8af150230768426fd35e631a6134e162"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a marker for a failed call that carries an error.  <br /></td></tr>
-<tr class="separator:a8af150230768426fd35e631a6134e162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a069847c28bd87c2003813e1284bcf355" id="r_a069847c28bd87c2003813e1284bcf355"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01319.html#a069847c28bd87c2003813e1284bcf355">lumex::core::atomic::sync::table_wait::Detail::cpu_relax</a> () noexcept</td></tr>
+<tr class="memdesc:a069847c28bd87c2003813e1284bcf355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells the processor that the calling thread is spinning.  <br /></td></tr>
+<tr class="separator:a069847c28bd87c2003813e1284bcf355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ef36c77415fb5ece4adacc21cfd1d2c" id="r_a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01846.html">waiter_stripe_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01319.html#a0ef36c77415fb5ece4adacc21cfd1d2c">lumex::core::atomic::sync::table_wait::Detail::stripe_for</a> (void const *address) noexcept</td></tr>
+<tr class="memdesc:a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stripe that serves the word at <code class="param">address</code>.  <br /></td></tr>
+<tr class="separator:a0ef36c77415fb5ece4adacc21cfd1d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1639c5bbfd26c902c3942c785090b761" id="r_a1639c5bbfd26c902c3942c785090b761"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01319.html#a1639c5bbfd26c902c3942c785090b761">lumex::core::atomic::sync::table_wait::Detail::wait_until_changed</a> (std::atomic&lt; std::uint32_t &gt; const &amp;word, std::uint32_t old) noexcept</td></tr>
+<tr class="memdesc:a1639c5bbfd26c902c3942c785090b761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocks the calling thread while <code class="param">word</code> holds <code class="param">old</code>.  <br /></td></tr>
+<tr class="separator:a1639c5bbfd26c902c3942c785090b761"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0a372674a94f35856052c9f32a55909" id="r_ab0a372674a94f35856052c9f32a55909"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01319.html#ab0a372674a94f35856052c9f32a55909">lumex::core::atomic::sync::table_wait::Detail::notify_all</a> (std::atomic&lt; std::uint32_t &gt; &amp;word) noexcept</td></tr>
+<tr class="memdesc:ab0a372674a94f35856052c9f32a55909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes every thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>.  <br /></td></tr>
+<tr class="separator:ab0a372674a94f35856052c9f32a55909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57da345244e75b4b313c745e12a46382" id="r_a57da345244e75b4b313c745e12a46382"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01319.html#a57da345244e75b4b313c745e12a46382">lumex::core::atomic::sync::table_wait::Detail::notify_one</a> (std::atomic&lt; std::uint32_t &gt; &amp;word) noexcept</td></tr>
+<tr class="memdesc:a57da345244e75b4b313c745e12a46382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes at least one thread sleeping in <code>wait_until_changed</code> on <code class="param">word</code>.  <br /></td></tr>
+<tr class="separator:a57da345244e75b4b313c745e12a46382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The return markers <code>success()</code> and <code>failure()</code> for functions that return an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code>. </p>
-<p><code>return success();</code>, <code>return success(value);</code> and <code>return failure(error);</code> produce <code>success_t</code> and <code>failure_t</code> objects that convert implicitly into the <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;T, E&gt;</code> the function returns, so the return statement need not spell that type. A conversion takes part in overload resolution only when the target value or error type can be constructed from what the marker holds; <code>success()</code> without an argument converts into <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a>&lt;void, E&gt;</code> or into an <code><a class="el" href="a04049.html" title="Class that mimics std::expected from C++23.">Expected</a></code> whose value type is default-constructible. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Blocking wait for a change of a 32-bit atomic word, and the wake-up that ends it, from C++11 on. </p>
+<p>The lock-based atomic smart pointers of this module put threads to sleep in two places: a thread that finds the internal lock taken, and a thread inside <code>wait ()</code>. In both cases the thread waits until a 32-bit word changes, and the thread that changes the word wakes it.</p>
+<p>From C++20 on, when the standard library defines <code>__cpp_lib_atomic_wait</code> (<code>LUMEX_HAS_STD_ATOMIC_WAIT</code>), that is <code>std::atomic::wait</code> and <code>std::atomic::notify_*</code>, which the standard library maps to the address-keyed wait of the operating system (a futex on Linux, <code>WaitOnAddress</code> on Windows).</p>
+<p>Before C++20 the standard has no address-keyed wait, so this header keeps a table of 64 stripes, each a <code>std::mutex</code> with a <code>std::condition_variable</code>, and hashes the address of the word to a stripe. A mutex and a condition variable inside every atomic smart pointer would add about 90 bytes to each object, and the constructors could no longer be <code>constexpr</code>, because the constructor of <code>std::condition_variable</code> is not; <code>constinit</code> objects need them. A shared table costs one mutex round trip per wake-up instead. Words that hash to the same stripe share one condition variable, so a wake-up reaches every sleeper of the stripe (<code>notify_one</code> acts as <code>notify_all</code>), and each sleeper re-checks its own word and sleeps again if the word did not change.</p>
+<p>The table is a function-local static of an inline function. On ELF and Mach-O the function has default visibility, so one table serves the whole process even when shared objects are built with hidden visibility. A Windows DLL that instantiates the function gets a table of its own: before C++20, a thread that sleeps through one DLL is not woken by a wake-up issued through another DLL on the same word. Programs that share one atomic smart pointer between DLLs should be built at C++20 or keep the operations on that object in one module.</p>
+<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a0508297ef17d771c69e6f945dd092220" name="a0508297ef17d771c69e6f945dd092220"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0508297ef17d771c69e6f945dd092220">&#9670;&#160;</a></span>LUMEX_ATOMIC_WAIT_ABI_NAMESPACE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_WAIT_ABI_NAMESPACE&#160;&#160;&#160;table_wait</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Name of the inline namespace that holds the waiting code. </p>
+<p>The two ways of sleeping are not interchangeable: a thread that sleeps on the table is not woken by <code>std::atomic::notify_all</code>. Each one lives in its own inline namespace, so a program that mixes translation units with different choices (for example built before and after C++20) gets distinct symbols instead of two different definitions of one inline function. </p>
+
+</div>
+</div>
+<a id="a0bcecfa7d572df819b4f8c8cdde1e39f" name="a0bcecfa7d572df819b4f8c8cdde1e39f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bcecfa7d572df819b4f8c8cdde1e39f">&#9670;&#160;</a></span>LUMEX_ATOMIC_WAIT_TABLE_VISIBILITY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_WAIT_TABLE_VISIBILITY</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Visibility of the function that owns the waiting table. </p>
+<p>Default visibility makes the dynamic linker merge the table of every shared object into one, also when the objects are compiled with <code>-fvisibility=hidden</code>. Windows has no such merge; see the file comment. </p>
+
+</div>
+</div>
+<a id="ad9f5e06c72e74b95ce7b40d4f6ec11a0" name="ad9f5e06c72e74b95ce7b40d4f6ec11a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9f5e06c72e74b95ce7b40d4f6ec11a0">&#9670;&#160;</a></span>LUMEX_ATOMIC_WAIT_USES_STD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_ATOMIC_WAIT_USES_STD&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when threads sleep through <code>std::atomic::wait</code>, 0 when they sleep on the striped table. </p>
+<p><code>std::atomic::wait</code> is used when the standard library has it (<code>LUMEX_HAS_STD_ATOMIC_WAIT</code>, <code>__cpp_lib_atomic_wait</code>). Defining <code>LUMEX_ATOMIC_WAIT_FORCE_TABLE</code> before the first include selects the table even then; it is meant for tests, which run the table at C++20 that way. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00299.html">SuccessFailure.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_a794f2aa14bb7adf95f9a3f4e3b55361.html">sync</a></li><li class="navelem"><a class="el" href="a00299.html">LumexAtomicWait.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -180,8 +180,7 @@ TEST (XmlGlobalNames,
 TEST (XmlGlobalNames,
       GivenUmbrellasIncluded_WhenLibraryNamesQualified_ThenLibraryEntities)
 {
-  EXPECT_TRUE (
-      (std::is_same<lumex::xml::types::Types::char_t, LUMEX_XML_CHAR>::value));
+  EXPECT_TRUE ((std::is_same<lumex::xml::types::Types::char_t, char>::value));
   EXPECT_FALSE (is_own_name<lumex::xml::node::XmlNode> ());
   EXPECT_TRUE (lumex::xml::node::XmlNode ().empty ());
   EXPECT_TRUE (lumex::xml::attribute::XmlAttribute ().empty ());

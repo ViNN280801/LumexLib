@@ -24,8 +24,9 @@
 
 /**
  * @file CircularBuffer.hpp
- * @brief `circular_buffer`, a fixed-capacity ring buffer that overwrites its
- * oldest element when full, modeled on Boost's `circular_buffer`.
+ * @brief `circular_buffer`, a ring buffer with a run-time capacity that
+ * overwrites its oldest element when full, modeled on Boost's
+ * `circular_buffer`.
  * @details Header-only (`lumex::circular_buffer` is an interface target) and
  * written for C++11: the class template, its random-access iterators and the
  * non-member comparison operators, with `operator<=>` added when the compiler
@@ -41,19 +42,23 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <functional>
+#include <initializer_list>
 #include <iterator>
+#include <limits>
 #include <memory>
 #include <stdexcept>
 #include <type_traits>
 #include <utility>
+#include <vector>
 #if __cplusplus > 201703L && defined(__has_include)
 #if __has_include(<compare>)
-#include <compare> // For std::strong_ordering
+#include <compare> // For std::three_way_comparable and the ordering types
 #endif
 #endif
 #if __cplusplus > 201703L && defined(__has_include)
 #if __has_include(<concepts>)
-#include <concepts> // For std::three_way_comparable
+#include <concepts> // For the standard concepts library
 #endif
 #endif
 
@@ -69,23 +74,33 @@ namespace core
 namespace circular_buffer
 {
 /**
- * @brief Fixed-capacity circular buffer that overwrites when full (similar to
- * Boost's `circular_buffer`).
+ * @brief Circular buffer with a run-time capacity that overwrites when full
+ * (similar to Boost's `circular_buffer`).
  *
  * @tparam T Element type stored in the buffer.
  * @tparam Allocator Allocator type; default `std::allocator<T>`.
  *
  * This container mimics the main behavior of Boost `circular_buffer`
- * while staying C++11 and header-only. Capacity is fixed at construction.
+ * while staying C++11 and header-only. The capacity is set at construction
+ * (or by `set_capacity`, `rset_capacity`, `resize` and `assign`) and may be 0:
+ * a buffer with capacity 0 is valid, holds nothing and ignores `push_*`.
+ *
+ * @note Brace initialization with one integer is a list, as for
+ * `std::vector`: `circular_buffer<int> b{16};` has capacity 1 and holds 16,
+ * and `circular_buffer<int> b = {5, 3};` has capacity 2 and holds 5 and 3.
+ * Use parentheses for a capacity: `circular_buffer<int> b (16);`.
  *
  * @section characteristics Characteristics
  *  - Insert into a full buffer overwrites the oldest element.
  *  - `T` need not be default-constructible (elements are created on demand).
- *  - Strong exception safety for insert when not overwriting;
- *    basic exception safety on overwrite (the overwritten element is destroyed
- * before the insert).
+ *  - Strong exception safety for insert on a non-full buffer and, when `T` is
+ *    move-constructible, for the construction part of an overwrite (see
+ *    below).
  *  - Random access at indexes (`0..size()-1`), where `0` is the oldest
  *    element.
+ *  - `emplace_back` / `emplace_front` need room for the new element and throw
+ *    `std::length_error` on a buffer with capacity 0 (they return a
+ * reference); `push_back` / `push_front` ignore their argument then.
  *  - Not thread-safe.
  * @section guarantees Guarantees, invalidation, and complexity
  *
@@ -119,6 +134,11 @@ namespace circular_buffer
  * the rest stay valid;
  *      - references/pointers: the removed element is invalid; the rest stay
  * valid.
+ *  - `insert`, `erase`, `erase_begin`, `erase_end`, `resize`: every iterator
+ * is invalidated; elements are moved by assignment, so references and pointers
+ * to the elements that stay are valid but refer to other values.
+ *  - `set_capacity`, `rset_capacity`, `linearize` (when it has to move
+ * elements), `assign`: every iterator, reference and pointer is invalidated.
  *  - `clear`:
  *      - iterators/references/pointers: all invalidated.
  *  - `swap`:
@@ -129,14 +149,25 @@ namespace circular_buffer
  * @subsection complexity Complexity
  * Core operations are O(1): indexed access, `front`/`back`,
  * `push_*`/`emplace_*`/`pop_*`, including overwrite. Iteration is O(n). `swap`
- * is O(1).
+ * is O(1). Copy, `assign`, `set_capacity`, `rset_capacity`, `resize`,
+ * `insert` and `erase` are linear.
  *
  * @subsection exceptions Exception guarantees
  *  - Construct/insert on a non-full buffer: strong guarantee
  * (commit-or-rollback).
- *  - Overwrite (full buffer): basic guarantee - the replaced element is
- * destroyed first, then the new one is constructed; on exception the buffer
- * stays consistent.
+ *  - Overwrite (full buffer): the new element is first built in a temporary,
+ * so when its construction throws the buffer is unchanged. Then the replaced
+ * element is destroyed and the new one is moved (or, for a `T` without a move
+ * constructor, copied) from the temporary into its place; if that throws the
+ * buffer stays consistent and holds one element fewer (basic). Only for a `T`
+ * that is neither move- nor copy-constructible is the replaced element
+ * destroyed first and the new one constructed in place (basic, and the
+ * arguments must not refer to the replaced element).
+ *  - Copy construction and copy assignment: strong (nothing leaks, `*this` is
+ * unchanged when a copy throws).
+ *  - `set_capacity`, `rset_capacity`, `linearize`, `assign`: strong.
+ *  - `insert`, `erase`, `resize`: basic (the buffer stays valid); `resize` and
+ * `insert` roll back the elements they constructed when a construction throws.
  *  - `pop_*`, `clear`, `swap` do not throw (as declared `noexcept`/macros).
  *
  * @subsection threads Thread safety
@@ -144,30 +175,53 @@ namespace circular_buffer
  * needs external synchronization.
  *
  * @subsection iterators Iterators
- * Iterators are random-access. Because they store an index, any change of
- * `head` makes them inconsistent with the original elements (see
- * invalidation).
+ * Iterators are random-access (they model `std::random_access_iterator` from
+ * C++20). Because they store an index, any change of `head` makes them
+ * inconsistent with the original elements (see invalidation). `iterator`
+ * converts to `const_iterator` and the two compare with each other.
  *
  * @subsection contiguity Memory contiguity
  *             The container does not promise contiguous `T` like
- * `std::vector`. There is no `data()`. Addresses of live elements stay stable
- * across operations that do not destroy that element; overwrite/erase
- * invalidates the address.
+ * `std::vector`; `linearize` makes the content contiguous in the storage and
+ * returns a pointer to it, `is_linearized` tells whether it already is. There
+ * is no `data()`. Addresses of live elements stay stable across operations
+ * that do not destroy that element; overwrite/erase invalidates the address.
  *
  * @subsection ordering Comparison
  *  - `==`, `!=`, `<`, `<=`, `>`, `>=` are lexicographical on the logical
  * sequence; they require the matching operations on `T`.
- *  - Operator `<=>` is available in C++20+ and requires
- * `std::totally_ordered<T>`.
+ *  - Operator `<=>` is available in C++20+ for any `T` that is
+ * `std::three_way_comparable`; it returns `std::compare_three_way_result_t<T>`
+ * (strong for `int`, partial for `double`).
  *
- * @subsection allocator Allocator and swap
- * On `swap`, allocators are exchanged only if
+ * @subsection allocator Allocator, copy, move and swap
+ * Copy construction uses
+ * <tt>std::allocator_traits\<Allocator\>\::select_on_container_copy_construction</tt>.
+ * Copy assignment follows
+ * <tt>std::allocator_traits\<Allocator\>\::propagate_on_container_copy_assignment</tt>:
+ * when it is `true` the allocator of the source is taken (the old storage is
+ * released with the old allocator); otherwise the own allocator is kept and
+ * the new storage is made with it. The move operations always move the
+ * allocator along with the storage (`propagate_on_container_move_assignment`
+ * is not consulted). On `swap`, allocators are exchanged only
+ * if
  * <tt>std::allocator_traits\<Allocator\>\::propagate_on_container_swap\::value</tt>
- * is `true`. Otherwise they are assumed equivalent; elements do not move.
+ * is `true`. Otherwise they are assumed equivalent (as for the standard
+ * containers; a debug build asserts it); elements do not move.
  */
 template <class T, class Allocator = std::allocator<T>> class circular_buffer
 {
   using alloc_traits = std::allocator_traits<Allocator>;
+
+  /// Tag of the private constructor that only allocates the storage.
+  struct alloc_tag
+  {
+  };
+
+  /// Tag of the private constructors that fill the buffer from a range.
+  struct range_tag
+  {
+  };
 
 public:
   // ============= public member types =============
@@ -212,27 +266,53 @@ private:
                                std::declval<slot_allocator &> ())))
              : std::allocator_traits<Allocator>::is_always_equal::value);
 
+  /// Enabled for the types that are at least input iterators (not integers).
+  template <class It>
+  using enable_if_input_iterator = typename std::enable_if<
+      std::is_convertible<typename std::iterator_traits<It>::iterator_category,
+                          std::input_iterator_tag>::value>::type;
+
 public:
   /**
    * @brief Random-access iterator over the logical element sequence.
    *
-   * This iterator walks circular_buffer elements
-   * with random access. It behaves like ordinary pointers or iterators
-   * of standard containers such as `std::vector`.
+   * `iterator` and `const_iterator` are the two instances of this template.
+   * The iterator walks the buffer elements with random access, like a pointer
+   * or an iterator of `std::vector`; `const_iterator` cannot modify elements.
+   * An `iterator` converts to a `const_iterator`, and the two compare with
+   * each other in both directions.
+   *
+   * @tparam IsConst `true` for the iterator that gives const access.
    */
-  class iterator
+  template <bool IsConst> class basic_iterator
   {
+    using buffer_pointer =
+        typename std::conditional<IsConst, circular_buffer const *,
+                                  circular_buffer *>::type;
+
   public:
     using iterator_category
         = std::random_access_iterator_tag; ///< Iterator category.
     using value_type = T; ///< Element type the iterator points to.
     using difference_type = std::ptrdiff_t; ///< Type used for the difference
                                             ///< between two iterators.
-    using pointer = T *;                    ///< Pointer type to an element.
-    using reference = T &;                  ///< Reference type to an element.
+    using pointer = typename std::conditional<IsConst, T const *,
+                                              T *>::type; ///< Pointer type.
+    using reference =
+        typename std::conditional<IsConst, T const &,
+                                  T &>::type; ///< Reference type.
 
-    /// @brief Default constructor. Creates an uninitialized iterator.
-    iterator () = default;
+    /// @brief Default constructor. Creates a singular iterator.
+    basic_iterator () : m_buf (nullptr), m_idx (0) {}
+
+    /// @brief Conversion from the non-const iterator to the const iterator.
+    /// @param other Source iterator.
+    template <bool OtherConst,
+              class = typename std::enable_if<IsConst && !OtherConst>::type>
+    basic_iterator (basic_iterator<OtherConst> const &other)
+        : m_buf (other.m_buf), m_idx (other.m_idx)
+    {
+    }
 
     /**
      * @brief Dereference operator.
@@ -255,10 +335,21 @@ public:
     }
 
     /**
+     * @brief Subscript operator.
+     * @param n Offset from the iterator.
+     * @return Reference to the element `n` positions after the iterator.
+     */
+    reference
+    operator[] (difference_type n) const
+    {
+      return (*m_buf)[m_idx + static_cast<size_type> (n)];
+    }
+
+    /**
      * @brief Prefix increment. Advances the iterator to the next element.
      * @return Reference to this iterator after increment.
      */
-    iterator &
+    basic_iterator &
     operator++ ()
     {
       ++m_idx;
@@ -269,10 +360,10 @@ public:
      * @brief Postfix increment. Advances the iterator to the next element.
      * @return Copy of the iterator before increment.
      */
-    iterator
+    basic_iterator
     operator++ (int)
     {
-      iterator tmp (*this);
+      basic_iterator tmp (*this);
       ++*this;
       return tmp;
     }
@@ -281,7 +372,7 @@ public:
      * @brief Prefix decrement. Moves the iterator to the previous element.
      * @return Reference to this iterator after decrement.
      */
-    iterator &
+    basic_iterator &
     operator-- ()
     {
       --m_idx;
@@ -292,35 +383,35 @@ public:
      * @brief Postfix decrement. Moves the iterator to the previous element.
      * @return Copy of the iterator before decrement.
      */
-    iterator
+    basic_iterator
     operator-- (int)
     {
-      iterator tmp (*this);
+      basic_iterator tmp (*this);
       --*this;
       return tmp;
     }
 
     /**
      * @brief Addition assignment. Advances the iterator by `n` positions.
-     * @param n Number of positions to move.
+     * @param n Number of positions to move (may be negative).
      * @return Reference to this iterator after the move.
      */
-    iterator &
+    basic_iterator &
     operator+= (difference_type n)
     {
-      m_idx += n;
+      m_idx += static_cast<size_type> (n);
       return *this;
     }
 
     /**
      * @brief Subtraction assignment. Moves the iterator back by `n` positions.
-     * @param n Number of positions to move.
+     * @param n Number of positions to move (may be negative).
      * @return Reference to this iterator after the move.
      */
-    iterator &
+    basic_iterator &
     operator-= (difference_type n)
     {
-      m_idx -= n;
+      m_idx -= static_cast<size_type> (n);
       return *this;
     }
 
@@ -329,10 +420,10 @@ public:
      * @param n Number of positions to shift.
      * @return New iterator shifted by `n` positions.
      */
-    iterator
+    basic_iterator
     operator+ (difference_type n) const
     {
-      iterator tmp (*this);
+      basic_iterator tmp (*this);
       return tmp += n;
     }
 
@@ -343,8 +434,8 @@ public:
      * @param iter Source iterator.
      * @return New iterator shifted by `n` positions.
      */
-    friend iterator
-    operator+ (difference_type n, iterator iter)
+    friend basic_iterator
+    operator+ (difference_type n, basic_iterator iter)
     {
       return iter += n;
     }
@@ -354,367 +445,123 @@ public:
      * @param n Number of positions to shift.
      * @return New iterator shifted by `n` positions.
      */
-    iterator
+    basic_iterator
     operator- (difference_type n) const
     {
-      iterator tmp (*this);
+      basic_iterator tmp (*this);
       return tmp -= n;
     }
 
     /**
-     * @brief Difference. distance between two iterators.
-     * @param other The other iterator.
-     * @return Position difference between this iterator and the other.
+     * @brief Difference. Distance between two iterators of one buffer.
+     * @param lhs The iterator at the end of the distance.
+     * @param rhs The iterator at the start of the distance.
+     * @return Position difference `lhs - rhs`.
+     * @note Found for every mix of `iterator` and `const_iterator`.
      */
-    difference_type
-    operator- (iterator const &other) const
+    friend difference_type
+    operator- (basic_iterator const &lhs, basic_iterator const &rhs)
     {
-      return difference_type (m_idx) - difference_type (other.m_idx);
+      return static_cast<difference_type> (lhs.m_idx)
+             - static_cast<difference_type> (rhs.m_idx);
     }
 
     /**
      * @brief Equality comparison.
-     * @param other The other iterator.
+     * @param lhs The first iterator.
+     * @param rhs The second iterator.
      * @return `true` if both iterators point at the same element in the same
      * buffer, otherwise `false`.
+     * @note Found for every mix of `iterator` and `const_iterator`.
      */
-    bool
-    operator== (iterator const &other) const
+    friend bool
+    operator== (basic_iterator const &lhs, basic_iterator const &rhs)
     {
-      return m_buf == other.m_buf && m_idx == other.m_idx;
+      return lhs.m_buf == rhs.m_buf && lhs.m_idx == rhs.m_idx;
     }
 
     /**
      * @brief Inequality comparison.
-     * @param other The other iterator.
+     * @param lhs The first iterator.
+     * @param rhs The second iterator.
      * @return `true` if the iterators point at different elements or different
      * buffers, otherwise `false`.
      */
-    bool
-    operator!= (iterator const &other) const
+    friend bool
+    operator!= (basic_iterator const &lhs, basic_iterator const &rhs)
     {
-      return !(*this == other);
+      return !(lhs == rhs);
     }
 
     /**
      * @brief "less" operator. Compares the positions of two iterators.
-     * @param other The other iterator.
-     * @return `true` if this iterator precedes `other`, otherwise `false`.
+     * @param lhs The first iterator.
+     * @param rhs The second iterator.
+     * @return `true` if `lhs` precedes `rhs`, otherwise `false`.
      */
-    bool
-    operator< (iterator const &other) const
+    friend bool
+    operator< (basic_iterator const &lhs, basic_iterator const &rhs)
     {
-      return m_idx < other.m_idx;
+      return lhs.m_idx < rhs.m_idx;
     }
 
     /**
      * @brief "greater" operator. Compares the positions of two iterators.
-     * @param other The other iterator.
-     * @return `true` if this iterator follows `other`, otherwise `false`.
+     * @param lhs The first iterator.
+     * @param rhs The second iterator.
+     * @return `true` if `lhs` follows `rhs`, otherwise `false`.
      */
-    bool
-    operator> (iterator const &other) const
+    friend bool
+    operator> (basic_iterator const &lhs, basic_iterator const &rhs)
     {
-      return other < *this;
+      return rhs.m_idx < lhs.m_idx;
     }
 
     /**
      * @brief "less or equal" operator. Compares the positions of two
      * iterators.
-     * @param other The other iterator.
-     * @return `true` if this iterator precedes or equals `other`, otherwise
-     * `false`.
+     * @param lhs The first iterator.
+     * @param rhs The second iterator.
+     * @return `true` if `lhs` precedes or equals `rhs`, otherwise `false`.
      */
-    bool
-    operator<= (iterator const &other) const
+    friend bool
+    operator<= (basic_iterator const &lhs, basic_iterator const &rhs)
     {
-      return !(other < *this);
+      return !(rhs.m_idx < lhs.m_idx);
     }
 
     /**
      * @brief "greater or equal" operator. Compares the positions of two
      * iterators.
-     * @param other The other iterator.
-     * @return `true` if this iterator follows or equals `other`, otherwise
-     * `false`.
+     * @param lhs The first iterator.
+     * @param rhs The second iterator.
+     * @return `true` if `lhs` follows or equals `rhs`, otherwise `false`.
      */
-    bool
-    operator>= (iterator const &other) const
+    friend bool
+    operator>= (basic_iterator const &lhs, basic_iterator const &rhs)
     {
-      return !(*this < other);
+      return !(lhs.m_idx < rhs.m_idx);
     }
 
   private:
     friend class circular_buffer;
+    template <bool> friend class basic_iterator;
 
     /// @brief Private constructor.
     /// @param buf Pointer to the circular_buffer that owns the iterator.
     /// @param idx Logical element index.
-    iterator (circular_buffer *buf, size_type idx) : m_buf (buf), m_idx (idx)
-    {
-    }
-
-    circular_buffer
-        *m_buf{};      ///< Pointer to the buffer owned by this iterator.
-    size_type m_idx{}; ///< Logical element index in the buffer.
-  };
-
-  /**
-   * @brief Const random-access iterator.
-   *
-   * This iterator walks circular_buffer elements
-   * with random access, but it cannot modify elements.
-   * It behaves like `const` pointers or iterators of standard containers.
-   */
-  class const_iterator
-  {
-  public:
-    using iterator_category
-        = std::random_access_iterator_tag; ///< Iterator category.
-    using value_type = T; ///< Element type the iterator points to.
-    using difference_type = std::ptrdiff_t; ///< Type used for the difference
-                                            ///< between two iterators.
-    using pointer = T const *;   ///< Const pointer type to an element.
-    using reference = T const &; ///< Const reference type to an element.
-
-    /// @brief Default constructor. Creates an uninitialized const iterator.
-    const_iterator () : m_buf (0), m_idx (0) {}
-
-    /// @brief Copy constructor from a non-const iterator.
-    /// @param iter Source iterator.
-    const_iterator (iterator const &iter)
-        : m_buf (iter.m_buf), m_idx (iter.m_idx)
-    {
-    }
-
-    /**
-     * @brief Dereference operator.
-     * @return Const reference to the element the iterator points to.
-     */
-    reference
-    operator* () const
-    {
-      return (*m_buf)[m_idx];
-    }
-
-    /**
-     * @brief Member-access operator.
-     * @return Const pointer to the element the iterator points to.
-     */
-    pointer
-    operator->() const
-    {
-      return std::addressof ((*m_buf)[m_idx]);
-    }
-
-    /**
-     * @brief Prefix increment. Advances the iterator to the next element.
-     * @return Reference to this iterator after increment.
-     */
-    const_iterator &
-    operator++ ()
-    {
-      ++m_idx;
-      return *this;
-    }
-
-    /**
-     * @brief Postfix increment. Advances the iterator to the next element.
-     * @return Copy of the iterator before increment.
-     */
-    const_iterator
-    operator++ (int)
-    {
-      const_iterator tmp (*this);
-      ++*this;
-      return tmp;
-    }
-
-    /**
-     * @brief Prefix decrement. Moves the iterator to the previous element.
-     * @return Reference to this iterator after decrement.
-     */
-    const_iterator &
-    operator-- ()
-    {
-      --m_idx;
-      return *this;
-    }
-
-    /**
-     * @brief Postfix decrement. Moves the iterator to the previous element.
-     * @return Copy of the iterator before decrement.
-     */
-    const_iterator
-    operator-- (int)
-    {
-      const_iterator tmp (*this);
-      --*this;
-      return tmp;
-    }
-
-    /**
-     * @brief Addition assignment. Advances the iterator by `n` positions.
-     * @param n Number of positions to move.
-     * @return Reference to this iterator after the move.
-     */
-    const_iterator &
-    operator+= (difference_type n)
-    {
-      m_idx += n;
-      return *this;
-    }
-
-    /**
-     * @brief Subtraction assignment. Moves the iterator back by `n` positions.
-     * @param n Number of positions to move.
-     * @return Reference to this iterator after the move.
-     */
-    const_iterator &
-    operator-= (difference_type n)
-    {
-      m_idx -= n;
-      return *this;
-    }
-
-    /**
-     * @brief Addition. Creates a new const iterator advanced by `n` positions.
-     * @param n Number of positions to shift.
-     * @return New const iterator shifted by `n` positions.
-     */
-    const_iterator
-    operator+ (difference_type n) const
-    {
-      const_iterator tmp (*this);
-      return tmp += n;
-    }
-
-    /**
-     * @brief Friend addition. Creates a new const iterator advanced by `n`
-     * positions forward.
-     * @param n Number of positions to shift.
-     * @param iter Source const iterator.
-     * @return New const iterator shifted by `n` positions.
-     */
-    friend const_iterator
-    operator+ (difference_type n, const_iterator iter)
-    {
-      return iter += n;
-    }
-
-    /**
-     * @brief Subtraction. Creates a new const iterator moved back by `n`
-     * positions.
-     * @param n Number of positions to shift.
-     * @return New const iterator shifted by `n` positions.
-     */
-    const_iterator
-    operator- (difference_type n) const
-    {
-      const_iterator tmp (*this);
-      return tmp -= n;
-    }
-
-    /**
-     * @brief Difference. distance between two const iterators.
-     * @param other The other const iterator.
-     * @return Position difference between this iterator and the other.
-     */
-    difference_type
-    operator- (const_iterator const &other) const
-    {
-      return difference_type (m_idx) - difference_type (other.m_idx);
-    }
-
-    /**
-     * @brief Equality comparison.
-     * @param other The other const iterator.
-     * @return `true` if both iterators point at the same element in the same
-     * buffer, otherwise `false`.
-     */
-    bool
-    operator== (const_iterator const &other) const
-    {
-      return m_buf == other.m_buf && m_idx == other.m_idx;
-    }
-
-    /**
-     * @brief Inequality comparison.
-     * @param other The other const iterator.
-     * @return `true` if the iterators point at different elements or different
-     * buffers, otherwise `false`.
-     */
-    bool
-    operator!= (const_iterator const &other) const
-    {
-      return !(*this == other);
-    }
-
-    /**
-     * @brief "less" operator. Compares the positions of two const iterators.
-     * @param other The other const iterator.
-     * @return `true` if this iterator precedes `other`, otherwise `false`.
-     */
-    bool
-    operator< (const_iterator const &other) const
-    {
-      return m_idx < other.m_idx;
-    }
-
-    /**
-     * @brief "greater" operator. Compares the positions of two const
-     * iterators.
-     * @param other The other const iterator.
-     * @return `true` if this iterator follows `other`, otherwise `false`.
-     */
-    bool
-    operator> (const_iterator const &other) const
-    {
-      return other < *this;
-    }
-
-    /**
-     * @brief "less or equal" operator. Compares the positions of two const
-     * iterators.
-     * @param other The other const iterator.
-     * @return `true` if this iterator precedes or equals `other`, otherwise
-     * `false`.
-     */
-    bool
-    operator<= (const_iterator const &other) const
-    {
-      return !(other < *this);
-    }
-
-    /**
-     * @brief "greater or equal" operator. Compares the positions of two const
-     * iterators.
-     * @param other The other const iterator.
-     * @return `true` if this iterator follows or equals `other`, otherwise
-     * `false`.
-     */
-    bool
-    operator>= (const_iterator const &other) const
-    {
-      return !(*this < other);
-    }
-
-  private:
-    friend class circular_buffer;
-
-    /// @brief Private constructor.
-    /// @param buf Pointer to the const circular_buffer that owns the iterator.
-    /// @param idx Logical element index.
-    const_iterator (circular_buffer const *buf, size_type idx)
+    basic_iterator (buffer_pointer buf, size_type idx)
         : m_buf (buf), m_idx (idx)
     {
     }
 
-    circular_buffer const
-        *m_buf;      ///< Pointer to the const buffer owned by this iterator.
-    size_type m_idx; ///< Logical element index in the buffer.
+    buffer_pointer m_buf; ///< Pointer to the buffer owned by this iterator.
+    size_type m_idx;      ///< Logical element index in the buffer.
   };
 
+  using iterator = basic_iterator<false>; ///< Random-access iterator.
+  using const_iterator
+      = basic_iterator<true>; ///< Random-access iterator to const elements.
   using reverse_iterator
       = std::reverse_iterator<iterator>; ///< Reverse-iterator type.
   using const_reverse_iterator
@@ -724,64 +571,192 @@ public:
   // ============= ctors / dtors =============
 
   /**
-   * @brief Creates a buffer with the given capacity.
+   * @brief Creates an empty buffer with capacity 0.
    *
-   * @param capacity Positive maximum number of elements the buffer can hold.
+   * A buffer with capacity 0 is valid: it holds nothing, `push_*` ignore their
+   * argument, and `set_capacity`, `assign` or an assignment give it room.
+   */
+  circular_buffer () LUMEX_NOEXCEPT_IF (
+      std::is_nothrow_default_constructible<allocator_type>::value)
+      : circular_buffer (alloc_tag (), allocator_type (), 0)
+  {
+  }
+
+  /**
+   * @brief Creates an empty buffer with capacity 0 and the given allocator.
    * @param alloc Allocator used to allocate memory.
-   * @throws std::length_error if `capacity == 0`, because a zero-capacity
-   * buffer is not allowed.
+   */
+  explicit circular_buffer (allocator_type const &alloc) LUMEX_NOEXCEPT
+      : circular_buffer (alloc_tag (), alloc, 0)
+  {
+  }
+
+  /**
+   * @brief Creates an empty buffer with the given capacity.
+   *
+   * @param capacity Maximum number of elements the buffer can hold; may be 0.
+   * @param alloc Allocator used to allocate memory.
+   * @throws std::length_error if `capacity > max_size()`; whatever the
+   * allocator throws.
    * @note The buffer starts empty; elements are added later.
    */
   explicit circular_buffer (size_type capacity,
                             allocator_type const &alloc = allocator_type ())
-      : m_allocator (alloc), m_slots_alloc (m_allocator), m_capacity (capacity)
+      : circular_buffer (alloc_tag (), alloc, capacity)
   {
-    if (m_capacity == 0)
-      throw std::length_error ("CircularBuffer capacity must be > 0");
-    allocate_storage ();
+  }
+
+  /**
+   * @brief Creates a full buffer of `n` copies of `item` (capacity `n`).
+   * @param n Number of elements, also the capacity.
+   * @param item Value to copy.
+   * @param alloc Allocator used to allocate memory.
+   * @throws Whatever the copy constructor of `T` or the allocator throws; no
+   * memory leaks.
+   */
+  circular_buffer (size_type n, value_type const &item,
+                   allocator_type const &alloc = allocator_type ())
+      : circular_buffer (alloc_tag (), alloc, n)
+  {
+    fill_back (n, item);
+  }
+
+  /**
+   * @brief Creates a buffer of the given capacity filled with `n` copies of
+   * `item`.
+   * @param capacity Capacity of the buffer.
+   * @param n Number of elements, at most `capacity` (more are cut to the
+   * capacity).
+   * @param item Value to copy.
+   * @param alloc Allocator used to allocate memory.
+   * @throws Whatever the copy constructor of `T` or the allocator throws; no
+   * memory leaks.
+   */
+  circular_buffer (size_type capacity, size_type n, value_type const &item,
+                   allocator_type const &alloc = allocator_type ())
+      : circular_buffer (alloc_tag (), alloc, capacity)
+  {
+    fill_back (n < capacity ? n : capacity, item);
+  }
+
+  /**
+   * @brief Creates a full buffer with a copy of a range (capacity = length of
+   * the range).
+   * @tparam InputIt Input iterator type.
+   * @param first Start of the range.
+   * @param last End of the range.
+   * @param alloc Allocator used to allocate memory.
+   * @throws Whatever the construction of `T` from `*first` or the allocator
+   * throws; no memory leaks.
+   * @note An input iterator that is not a forward iterator is read once into a
+   * temporary `std::vector` first.
+   */
+  template <class InputIt, class = enable_if_input_iterator<InputIt>>
+  circular_buffer (InputIt first, InputIt last,
+                   allocator_type const &alloc = allocator_type ())
+      : circular_buffer (
+            range_tag (), first, last, alloc,
+            typename std::iterator_traits<InputIt>::iterator_category ())
+  {
+  }
+
+  /**
+   * @brief Creates a buffer of the given capacity with a copy of a range.
+   *
+   * If the range is longer than `capacity`, only its last `capacity` elements
+   * are copied.
+   *
+   * @tparam InputIt Input iterator type.
+   * @param capacity Capacity of the buffer.
+   * @param first Start of the range.
+   * @param last End of the range.
+   * @param alloc Allocator used to allocate memory.
+   * @throws Whatever the construction of `T` from `*first` or the allocator
+   * throws; no memory leaks.
+   */
+  template <class InputIt, class = enable_if_input_iterator<InputIt>>
+  circular_buffer (size_type capacity, InputIt first, InputIt last,
+                   allocator_type const &alloc = allocator_type ())
+      : circular_buffer (
+            range_tag (), capacity, first, last, alloc,
+            typename std::iterator_traits<InputIt>::iterator_category ())
+  {
+  }
+
+  /**
+   * @brief Creates a full buffer with the elements of a list (capacity = size
+   * of the list).
+   * @note `circular_buffer<int> b{16};` is this constructor (capacity 1,
+   * holding 16), not a capacity of 16: use parentheses for the capacity.
+   * @param init Elements, oldest first.
+   * @param alloc Allocator used to allocate memory.
+   */
+  circular_buffer (std::initializer_list<value_type> init,
+                   allocator_type const &alloc = allocator_type ())
+      : circular_buffer (init.begin (), init.end (), alloc)
+  {
+  }
+
+  /**
+   * @brief Creates a buffer of the given capacity with the elements of a list.
+   *
+   * If the list is longer than `capacity`, only its last `capacity` elements
+   * are kept.
+   *
+   * @param capacity Capacity of the buffer.
+   * @param init Elements, oldest first.
+   * @param alloc Allocator used to allocate memory.
+   */
+  circular_buffer (size_type capacity, std::initializer_list<value_type> init,
+                   allocator_type const &alloc = allocator_type ())
+      : circular_buffer (capacity, init.begin (), init.end (), alloc)
+  {
   }
 
   /**
    * @brief Copy constructor.
    *
-   * Creates a new circular buffer that is a copy of `other`.
-   * Elements are copied in logical order from `other` into the new buffer.
-   * If the allocator has `propagate_on_container_copy_construction`, it is
-   * copied too.
+   * Creates a new circular buffer that is a copy of `other` (same capacity,
+   * same logical content). The content is copied in at most two contiguous
+   * pieces. The allocator is
+   * `std::allocator_traits<Allocator>::select_on_container_copy_construction`
+   * of the allocator of `other`.
    *
    * @param other Buffer copied from.
-   * @throws Exceptions thrown by `T` copy constructors or the allocator.
+   * @throws Exceptions thrown by `T` copy constructors or the allocator;
+   * nothing leaks when a copy throws.
    */
   circular_buffer (circular_buffer const &other)
-      : m_allocator (alloc_traits::select_on_container_copy_construction (
-            other.m_allocator)),
-        m_slots_alloc (m_allocator), // Initialize from the new m_allocator
-        m_capacity (other.m_capacity)
+      : circular_buffer (alloc_tag (),
+                         alloc_traits::select_on_container_copy_construction (
+                             other.m_allocator),
+                         other.m_capacity)
   {
-    allocate_storage ();
-    // Copy existing elements in logical order
-    for (size_type i = 0; i < other.m_size; ++i)
-      emplace_back (other[i]);
+    append_copy_of (other);
   }
 
   /**
    * @brief Copy assignment operator.
    *
-   * Assigns the contents of `other` to this buffer.
-   * Uses copy-and-swap for the strong exception guarantee.
+   * Assigns the contents of `other` to this buffer (the capacity of `other`
+   * is taken). The copy is made first and swapped in, so `*this` is unchanged
+   * when a copy throws. With
+   * `propagate_on_container_copy_assignment` the allocator of `other` is taken
+   * and the old storage is released with the old allocator; otherwise the own
+   * allocator is kept and used for the new storage.
    *
    * @param other Buffer assigned from.
    * @return Reference to this buffer.
-   * @throws Exceptions thrown by the `circular_buffer` copy constructor or the
-   * allocator.
+   * @throws Exceptions thrown by the copy constructor of `T` or the allocator.
    */
   circular_buffer &
   operator= (circular_buffer const &other)
   {
     if (this == &other)
       return *this;
-    circular_buffer tmp (other);
-    swap (tmp);
+    copy_assign (
+        other,
+        typename alloc_traits::propagate_on_container_copy_assignment ());
     return *this;
   }
 
@@ -789,7 +764,7 @@ public:
    * @brief Move constructor.
    *
    * Creates a new circular buffer by moving resources from `other`.
-   * After the call, `other` is valid but unspecified.
+   * After the call, `other` is valid, empty and has capacity 0.
    *
    * @param other Buffer whose resources are moved.
    * @note This constructor is `noexcept` so move is well-behaved.
@@ -813,7 +788,8 @@ public:
    *
    * Assigns `other` to this buffer by moving resources.
    * Every existing element in this buffer is destroyed and memory is released.
-   * After the call, `other` is valid but unspecified.
+   * After the call, `other` is valid, empty and has capacity 0 (it can be
+   * assigned to or given room by `set_capacity`).
    *
    * @param other Buffer whose resources are moved.
    * @return Reference to this buffer.
@@ -850,6 +826,97 @@ public:
     deallocate_storage ();
   }
 
+  // ============= assignment of content =============
+
+  /**
+   * @brief Replaces the content with `n` copies of `item`; the capacity
+   * becomes `n`.
+   * @param n Number of elements, also the new capacity.
+   * @param item Value to copy (may be an element of this buffer).
+   * @throws Whatever the copy constructor of `T` or the allocator throws; the
+   * buffer is unchanged then (strong).
+   */
+  void
+  assign (size_type n, value_type const &item)
+  {
+    circular_buffer tmp (alloc_tag (), m_allocator, n);
+    tmp.fill_back (n, item);
+    swap_data (tmp);
+  }
+
+  /**
+   * @brief Replaces the content with `n` copies of `item` in a buffer of the
+   * given capacity.
+   * @param capacity New capacity.
+   * @param n Number of elements, at most `capacity` (more are cut to it).
+   * @param item Value to copy (may be an element of this buffer).
+   * @throws As `assign (size_type, value_type const &)`.
+   */
+  void
+  assign (size_type capacity, size_type n, value_type const &item)
+  {
+    circular_buffer tmp (alloc_tag (), m_allocator, capacity);
+    tmp.fill_back (n < capacity ? n : capacity, item);
+    swap_data (tmp);
+  }
+
+  /**
+   * @brief Replaces the content with a copy of a range; the capacity becomes
+   * the length of the range.
+   * @tparam InputIt Input iterator type.
+   * @param first Start of the range (not an iterator of this buffer unless the
+   * range is the whole buffer).
+   * @param last End of the range.
+   * @throws As the range constructor; the buffer is unchanged then (strong).
+   */
+  template <class InputIt, class = enable_if_input_iterator<InputIt>>
+  void
+  assign (InputIt first, InputIt last)
+  {
+    circular_buffer tmp (first, last, m_allocator);
+    swap_data (tmp);
+  }
+
+  /**
+   * @brief Replaces the content with a copy of a range in a buffer of the
+   * given capacity (the last `capacity` elements of a longer range).
+   * @tparam InputIt Input iterator type.
+   * @param capacity New capacity.
+   * @param first Start of the range.
+   * @param last End of the range.
+   * @throws As the range constructor; the buffer is unchanged then (strong).
+   */
+  template <class InputIt, class = enable_if_input_iterator<InputIt>>
+  void
+  assign (size_type capacity, InputIt first, InputIt last)
+  {
+    circular_buffer tmp (capacity, first, last, m_allocator);
+    swap_data (tmp);
+  }
+
+  /**
+   * @brief Replaces the content with the elements of a list; the capacity
+   * becomes the size of the list.
+   * @param init Elements, oldest first.
+   */
+  void
+  assign (std::initializer_list<value_type> init)
+  {
+    assign (init.begin (), init.end ());
+  }
+
+  /**
+   * @brief Replaces the content with the elements of a list in a buffer of the
+   * given capacity (the last `capacity` elements of a longer list).
+   * @param capacity New capacity.
+   * @param init Elements, oldest first.
+   */
+  void
+  assign (size_type capacity, std::initializer_list<value_type> init)
+  {
+    assign (capacity, init.begin (), init.end ());
+  }
+
   // ============= capacity / state =============
 
   /**
@@ -875,6 +942,21 @@ public:
   }
 
   /**
+   * @brief Returns the largest capacity the allocator and the difference type
+   * allow.
+   * @return Maximum capacity.
+   * @note This function is `noexcept`.
+   */
+  size_type
+  max_size () const LUMEX_NOEXCEPT
+  {
+    return (std::min)(static_cast<size_type> (
+                          alloc_traits::max_size (m_allocator)),
+                      static_cast<size_type> (
+                          (std::numeric_limits<difference_type>::max) ()));
+  }
+
+  /**
    * @brief Checks whether the buffer is empty.
    * @return `true` if the buffer holds no elements, otherwise `false`.
    * @note This function is `noexcept`.
@@ -888,12 +970,135 @@ public:
   /**
    * @brief Checks whether the buffer is full.
    * @return `true` if the buffer holds capacity elements, otherwise `false`.
+   * A buffer with capacity 0 is both empty and full.
    * @note This function is `noexcept`.
    */
   bool
   full () const LUMEX_NOEXCEPT
   {
     return m_size == m_capacity;
+  }
+
+  /**
+   * @brief Checks whether the content is one contiguous run in the storage.
+   * @return `true` if `&(*this)[0] < &(*this)[1] < ... < &(*this)[size () -
+   * 1]` holds as consecutive slots (always for an empty buffer).
+   * @note This function is `noexcept`; it does not invalidate anything.
+   */
+  bool
+  is_linearized () const LUMEX_NOEXCEPT
+  {
+    return m_head + m_size <= m_capacity;
+  }
+
+  /**
+   * @brief Makes the content contiguous in the storage.
+   *
+   * If the buffer is already linearized nothing moves. Otherwise the elements
+   * are moved (copied when `T` has no `noexcept` move) into a new block of the
+   * same capacity, so the first element ends up at the start of the storage.
+   *
+   * @return Pointer to the oldest element, or `nullptr` for an empty buffer.
+   * The elements `p[0] .. p[size () - 1]` are the logical sequence.
+   * @throws Whatever the allocator or the move/copy of `T` throws; the buffer
+   * is unchanged then (strong).
+   * @note Invalidates every iterator, pointer and reference when it moves the
+   * elements.
+   */
+  pointer
+  linearize ()
+  {
+    if (m_size == 0)
+      return nullptr;
+    if (!is_linearized ())
+      reallocate (m_capacity, 0, m_size);
+    return elem_ptr (m_head);
+  }
+
+  /**
+   * @brief Changes the capacity; a shrink removes the newest elements.
+   *
+   * If the new capacity is smaller than the size, the `size () -
+   * new_capacity` last (newest) elements are removed. Nothing happens when the
+   * capacity does not change.
+   *
+   * @param new_capacity New capacity; may be 0.
+   * @throws std::length_error if `new_capacity > max_size()`; whatever the
+   * allocator or the move/copy of `T` throws. The buffer is unchanged then
+   * (strong).
+   * @note Invalidates every iterator, pointer and reference if the capacity
+   * changes. Elements are moved if their move is `noexcept` (or `T` cannot be
+   * copied), otherwise copied.
+   */
+  void
+  set_capacity (size_type new_capacity)
+  {
+    if (new_capacity == m_capacity)
+      return;
+    reallocate (new_capacity, 0, (std::min)(m_size, new_capacity));
+  }
+
+  /**
+   * @brief Changes the capacity; a shrink removes the oldest elements.
+   *
+   * If the new capacity is smaller than the size, the `size () -
+   * new_capacity` first (oldest) elements are removed.
+   *
+   * @param new_capacity New capacity; may be 0.
+   * @throws As `set_capacity`.
+   * @note Invalidates every iterator, pointer and reference if the capacity
+   * changes.
+   */
+  void
+  rset_capacity (size_type new_capacity)
+  {
+    if (new_capacity == m_capacity)
+      return;
+    size_type const keep = (std::min)(m_size, new_capacity);
+    reallocate (new_capacity, m_size - keep, keep);
+  }
+
+  /**
+   * @brief Changes the size; a growth appends copies of `item`, a shrink
+   * removes the newest elements.
+   *
+   * If `new_size` exceeds the capacity, the capacity is set to `new_size`
+   * first.
+   *
+   * @param new_size New size.
+   * @param item Value to append (may be an element of this buffer).
+   * @throws Whatever the copy of `T` or the allocator throws. The elements
+   * appended before the exception are removed again.
+   */
+  void
+  resize (size_type new_size, value_type const &item)
+  {
+    if (new_size <= m_size)
+      {
+        erase_end_n (m_size - new_size);
+        return;
+      }
+    if (aliases (item))
+      {
+        value_type copy (item);
+        resize (new_size, copy);
+        return;
+      }
+    if (new_size > m_capacity)
+      set_capacity (new_size);
+    fill_back (new_size - m_size, item);
+  }
+
+  /**
+   * @brief Changes the size; a growth appends value-initialized elements.
+   * @param new_size New size.
+   * @throws As `resize (size_type, value_type const &)`.
+   * @note Requires a default-constructible `T`.
+   */
+  void
+  resize (size_type new_size)
+  {
+    resize (new_size, value_type ());
   }
 
   /**
@@ -911,10 +1116,7 @@ public:
   void
   clear () LUMEX_NOEXCEPT
   {
-    if (!std::is_trivially_destructible<T>::value)
-      for (size_type i = 0; i < m_size; ++i)
-        alloc_traits::destroy (m_allocator, std::addressof (at_slot (i)));
-
+    destroy_elements ();
     m_size = 0;
     m_head = 0;
   }
@@ -937,7 +1139,7 @@ public:
   {
     if (idx >= m_size)
       throw std::out_of_range ("circular_buffer::at: index out of range");
-    return at_slot_ref (idx);
+    return (*this)[idx];
   }
 
   /**
@@ -956,7 +1158,7 @@ public:
   {
     if (idx >= m_size)
       throw std::out_of_range ("circular_buffer::at: index out of range");
-    return at_slot_cref (idx);
+    return (*this)[idx];
   }
 
   /**
@@ -973,7 +1175,7 @@ public:
   reference
   operator[] (size_type idx)
   {
-    return at_slot_ref (idx);
+    return *elem_ptr (physical_index (idx));
   }
 
   /**
@@ -990,7 +1192,7 @@ public:
   const_reference
   operator[] (size_type idx) const
   {
-    return at_slot_cref (idx);
+    return *elem_ptr (physical_index (idx));
   }
 
   /**
@@ -1001,7 +1203,6 @@ public:
    * @see front_safe() - bounds-checked version that throws std::out_of_range.
    * @pre The buffer must not be empty (`!empty()`) - UB.
    * @return Reference to the first element.
-   * @throws Undefined if the buffer is empty.
    */
   reference
   front ()
@@ -1009,7 +1210,7 @@ public:
 #ifndef NDEBUG
     LUMEX_ASSERT (!empty () && "circular_buffer::front() on empty buffer");
 #endif
-    return (*this)[0];
+    return *elem_ptr (m_head);
   }
 
   /**
@@ -1019,7 +1220,7 @@ public:
    *
    * @see front() - unchecked version; UB if empty.
    * @return Reference to the first element.
-   * @throws Undefined if the buffer is empty.
+   * @throws std::out_of_range if the buffer is empty.
    */
   reference
   front_safe ()
@@ -1038,7 +1239,6 @@ public:
    * @see front_safe() - bounds-checked version that throws std::out_of_range.
    * @pre The buffer must not be empty (`!empty()`) - UB.
    * @return Const reference to the first element.
-   * @throws Undefined if the buffer is empty.
    */
   const_reference
   front () const
@@ -1046,7 +1246,7 @@ public:
 #ifndef NDEBUG
     LUMEX_ASSERT (!empty () && "circular_buffer::front() on empty buffer");
 #endif
-    return (*this)[0];
+    return *elem_ptr (m_head);
   }
 
   /**
@@ -1054,9 +1254,9 @@ public:
    *
    * Returns a const reference to the first (oldest) element.
    *
-   * @see back() - unchecked version; UB if empty.
+   * @see front() - unchecked version; UB if empty.
    * @return Const reference to the first element.
-   * @throws Undefined if the buffer is empty.
+   * @throws std::out_of_range if the buffer is empty.
    */
   const_reference
   front_safe () const
@@ -1074,7 +1274,6 @@ public:
    *
    * @pre The buffer must not be empty (`!empty()`) - UB.
    * @return Reference to the last element.
-   * @throws Undefined if the buffer is empty.
    */
   reference
   back ()
@@ -1110,7 +1309,6 @@ public:
    * @pre The buffer must not be empty (`!empty()`) - UB.
    * @see back_safe() - version that throws std::out_of_range.
    * @return Const reference to the last element.
-   * @throws Undefined if the buffer is empty.
    */
   const_reference
   back () const
@@ -1128,7 +1326,7 @@ public:
    *
    * @see back() - unchecked version; UB if empty.
    * @return Const reference to the last element.
-   * @throws Undefined if the buffer is empty.
+   * @throws std::out_of_range if the buffer is empty.
    */
   const_reference
   back_safe () const
@@ -1143,7 +1341,8 @@ public:
   /**
    * @brief Appends a copy of an element.
    *
-   * If the buffer is full, the oldest element is overwritten.
+   * If the buffer is full, the oldest element is overwritten. If the capacity
+   * is 0, nothing happens. `value` may be an element of this buffer.
    *
    * @param value Value to append.
    * @throws Exceptions thrown by the `T` copy constructor or the allocator.
@@ -1151,13 +1350,14 @@ public:
   void
   push_back (T const &value)
   {
-    emplace_back (value);
+    emplace_back_ptr (value);
   }
 
   /**
    * @brief Appends a moved element.
    *
-   * If the buffer is full, the oldest element is overwritten.
+   * If the buffer is full, the oldest element is overwritten. If the capacity
+   * is 0, nothing happens.
    *
    * @param value Value to append (moved).
    * @throws Exceptions thrown by the `T` move constructor or the allocator.
@@ -1165,119 +1365,100 @@ public:
   void
   push_back (T &&value)
   {
-    emplace_back (std::move (value));
+    emplace_back_ptr (std::move (value));
   }
 
   /**
    * @brief Prepends a copy of an element.
    *
    * If the buffer is full, the newest element is overwritten (lost).
-   * Unlike `push_back`, which overwrites the oldest element.
+   * Unlike `push_back`, which overwrites the oldest element. If the capacity
+   * is 0, nothing happens. `value` may be an element of this buffer.
    *
-   * @param value Value to append.
+   * @param value Value to prepend.
    * @throws Exceptions thrown by the `T` copy constructor or the allocator.
    * @note The element becomes the new front.
    */
   void
   push_front (T const &value)
   {
-    emplace_front (value);
+    emplace_front_ptr (value);
   }
 
   /**
    * @brief Prepends a moved element.
    *
    * If the buffer is full, the newest element is overwritten (lost).
-   * Unlike `push_back`, which overwrites the oldest element.
+   * Unlike `push_back`, which overwrites the oldest element. If the capacity
+   * is 0, nothing happens.
    *
-   * @param value Value to append (moved).
+   * @param value Value to prepend (moved).
    * @throws Exceptions thrown by the `T` move constructor or the allocator.
    * @note The element becomes the new front.
    */
   void
   push_front (T &&value)
   {
-    emplace_front (std::move (value));
+    emplace_front_ptr (std::move (value));
   }
 
   /**
    * @brief Constructs an element in place at the back.
    *
    * Constructs a new element in the buffer from the forwarded arguments.
-   * If the buffer is full, the oldest element is destroyed before insert.
+   * If the buffer is full, the oldest element is replaced. When `T` is
+   * move- or copy-constructible the new element is built in a temporary first
+   * (so the arguments may refer to the oldest element and a throwing
+   * constructor leaves the buffer unchanged) and then moved (copied when there
+   * is no move constructor) into the slot of the oldest element.
    *
    * @tparam Args Argument types forwarded to the `T` constructor.
    * @param args Arguments forwarded to the `T` constructor.
    * @return Reference to the newly inserted element.
-   * @throws Exceptions thrown by the `T` constructor or the allocator.
-   * @note Basic exception safety: if the `T` constructor throws
-   *       during overwrite, the old element is already destroyed and the
-   * buffer stays consistent. If the buffer was not full, the strong exception
-   * guarantee holds.
+   * @throws std::length_error if the capacity is 0 (there is nowhere to put
+   * the element); exceptions thrown by the `T` constructor or the allocator.
+   * @note Strong exception safety on a non-full buffer; on a full buffer see
+   * the class documentation.
    *
    * @note
    *  - Non-full buffer: iterators stay valid except `end()`.
    *  - Full buffer: every iterator is invalidated; references/pointers to the
    * oldest element are invalid.
    * @note Complexity: O(1).
-   * @throws `T` constructor or the allocator.
    */
   template <class... Args>
   reference
   emplace_back (Args &&...args)
   {
-    if (full ())
-      {
-        // same as pop_front(): drop the oldest, make the buffer non-full
-        alloc_traits::destroy (m_allocator, std::addressof (at_slot (0)));
-        m_head = next_index (m_head);
-        --m_size;
-      }
-    size_type const pos = physical_index (m_size); // buffer is no longer full
-    alloc_traits::construct (m_allocator,
-                             reinterpret_cast<T *> (slot_ptr (pos)),
-                             std::forward<Args> (args)...);
-    ++m_size;
-    return *reinterpret_cast<T *> (slot_ptr (pos));
+    T *const elem = emplace_back_ptr (std::forward<Args> (args)...);
+    if (elem == nullptr)
+      throw std::length_error (
+          "circular_buffer::emplace_back: the capacity is 0");
+    return *elem;
   }
 
   /**
    * @brief Constructs an element in place at the front.
    *
    * Constructs a new element in the buffer from the forwarded arguments.
-   * If the buffer is full, the newest element is destroyed before insert.
+   * If the buffer is full, the newest element is replaced (see
+   * `emplace_back` for the order of construction).
    *
    * @tparam Args Argument types forwarded to the `T` constructor.
    * @param args Arguments forwarded to the `T` constructor.
    * @return Reference to the newly inserted element.
-   * @throws Exceptions thrown by the `T` constructor or the allocator.
-   * @note Basic exception safety: if the `T` constructor throws
-   *       during overwrite, the old element is already destroyed and the
-   * buffer stays consistent. If the buffer was not full, the strong exception
-   * guarantee holds.
+   * @throws std::length_error if the capacity is 0; exceptions thrown by the
+   * `T` constructor or the allocator.
    */
   template <class... Args>
   reference
   emplace_front (Args &&...args)
   {
-    size_type const pos = (m_size == 0) ? m_head : prev_index (m_head);
-
-    if (full ())
-      {
-        // free the target slot: prev_index(m_head)
-        alloc_traits::destroy (
-            m_allocator,
-            std::addressof (at_slot (0 + m_size - 1))); // former newest
-        --m_size; // now capacity-1; head is not moved
-      }
-
-    // construct at pos; invariants hold if it throws
-    alloc_traits::construct (m_allocator,
-                             reinterpret_cast<T *> (slot_ptr (pos)),
-                             std::forward<Args> (args)...);
-    m_head = (m_size == 0) ? m_head : pos;
-    ++m_size;
-    return *reinterpret_cast<T *> (slot_ptr (m_head));
+    T *const elem = emplace_front_ptr (std::forward<Args> (args)...);
+    if (elem == nullptr)
+      throw std::length_error (
+          "circular_buffer::emplace_front: the capacity is 0");
+    return *elem;
   }
 
   /**
@@ -1293,11 +1474,11 @@ public:
    * @note This function is `noexcept`.
    */
   void
-  pop_front ()
+  pop_front () LUMEX_NOEXCEPT
   {
     if (empty ())
       return;
-    alloc_traits::destroy (m_allocator, std::addressof (at_slot (0)));
+    alloc_traits::destroy (m_allocator, elem_ptr (m_head));
     m_head = next_index (m_head);
     --m_size;
   }
@@ -1316,12 +1497,172 @@ public:
    * @note This function is `noexcept`.
    */
   void
-  pop_back ()
+  pop_back () LUMEX_NOEXCEPT
   {
     if (empty ())
       return;
-    alloc_traits::destroy (m_allocator, std::addressof (at_slot (m_size - 1)));
+    alloc_traits::destroy (m_allocator,
+                           elem_ptr (physical_index (m_size - 1)));
     --m_size;
+  }
+
+  /**
+   * @brief Inserts an element before `pos`.
+   *
+   * The result is the last `capacity ()` elements of the sequence "elements
+   * before `pos`, `item`, elements from `pos`". So on a full buffer the oldest
+   * element is removed, and when `pos == begin ()` on a full buffer `item` is
+   * not inserted at all (as in Boost).
+   *
+   * @param pos Iterator to this buffer, `begin ()` to `end ()`.
+   * @param item Value to insert (may be an element of this buffer).
+   * @return Iterator to the inserted element, or `begin ()` if nothing was
+   * inserted.
+   * @throws Exceptions thrown by `T` (copy or move construction and
+   * assignment) or the allocator. Basic exception safety.
+   * @note Requires `T` to be move-assignable (or copy-assignable). Invalidates
+   * every iterator. Complexity: linear in `size ()`.
+   */
+  iterator
+  insert (const_iterator pos, value_type const &item)
+  {
+    return insert_one (pos, item);
+  }
+
+  /// @copybrief insert(const_iterator, value_type const&)
+  /// @param pos Iterator to this buffer, `begin ()` to `end ()`.
+  /// @param item Value to insert (moved).
+  /// @return Iterator to the inserted element, or `begin ()` if nothing was
+  /// inserted.
+  iterator
+  insert (const_iterator pos, value_type &&item)
+  {
+    return insert_one (pos, std::move (item));
+  }
+
+  /**
+   * @brief Inserts `n` copies of `item` before `pos`.
+   *
+   * The result is the last `capacity ()` elements of the sequence "elements
+   * before `pos`, `n` copies, elements from `pos`".
+   *
+   * @param pos Iterator to this buffer, `begin ()` to `end ()`.
+   * @param n Number of copies.
+   * @param item Value to copy (may be an element of this buffer).
+   * @throws As `insert (const_iterator, value_type const &)`.
+   */
+  void
+  insert (const_iterator pos, size_type n, value_type const &item)
+  {
+    if (aliases (item))
+      {
+        value_type copy (item);
+        insert (pos, n, copy);
+        return;
+      }
+    fill_gen gen (m_allocator, item);
+    insert_generated (index_of (pos), n, gen);
+  }
+
+  /**
+   * @brief Inserts a range before `pos`.
+   *
+   * The result is the last `capacity ()` elements of the sequence "elements
+   * before `pos`, the range, elements from `pos`".
+   *
+   * @tparam InputIt Input iterator type (not an iterator of this buffer).
+   * @param pos Iterator to this buffer, `begin ()` to `end ()`.
+   * @param first Start of the range.
+   * @param last End of the range.
+   * @throws As `insert (const_iterator, value_type const &)`.
+   */
+  template <class InputIt, class = enable_if_input_iterator<InputIt>>
+  void
+  insert (const_iterator pos, InputIt first, InputIt last)
+  {
+    insert_range (
+        index_of (pos), first, last,
+        typename std::iterator_traits<InputIt>::iterator_category ());
+  }
+
+  /**
+   * @brief Inserts the elements of a list before `pos`.
+   * @param pos Iterator to this buffer, `begin ()` to `end ()`.
+   * @param init Elements, oldest first.
+   * @throws As `insert (const_iterator, value_type const &)`.
+   */
+  void
+  insert (const_iterator pos, std::initializer_list<value_type> init)
+  {
+    insert (pos, init.begin (), init.end ());
+  }
+
+  /**
+   * @brief Removes the element at `pos`.
+   * @param pos Iterator to an element of this buffer.
+   * @return Iterator to the element that followed the removed one (`end ()` if
+   * it was the last).
+   * @note Requires `T` to be move-assignable (or copy-assignable). Invalidates
+   * every iterator. Complexity: linear in the number of elements after `pos`.
+   */
+  iterator
+  erase (const_iterator pos)
+  {
+    size_type const idx = index_of (pos);
+#ifndef NDEBUG
+    LUMEX_ASSERT (idx < m_size && "circular_buffer::erase() at end()");
+#endif
+    std::move (begin () + static_cast<difference_type> (idx + 1), end (),
+               begin () + static_cast<difference_type> (idx));
+    pop_back ();
+    return begin () + static_cast<difference_type> (idx);
+  }
+
+  /**
+   * @brief Removes the elements of the range `[first, last)`.
+   * @param first Start of the range.
+   * @param last End of the range.
+   * @return Iterator to the element that followed the removed ones.
+   * @note Requires `T` to be move-assignable (or copy-assignable). Invalidates
+   * every iterator. Complexity: linear.
+   */
+  iterator
+  erase (const_iterator first, const_iterator last)
+  {
+    size_type const from = index_of (first);
+    size_type const to = index_of (last);
+#ifndef NDEBUG
+    LUMEX_ASSERT (from <= to && to <= m_size
+                  && "circular_buffer::erase() invalid range");
+#endif
+    if (from == to)
+      return begin () + static_cast<difference_type> (from);
+    std::move (begin () + static_cast<difference_type> (to), end (),
+               begin () + static_cast<difference_type> (from));
+    erase_end_n (to - from);
+    return begin () + static_cast<difference_type> (from);
+  }
+
+  /**
+   * @brief Removes the `n` oldest elements.
+   * @param n Number of elements; limited to `size ()`.
+   * @note Invalidates every iterator. Complexity: O(n).
+   */
+  void
+  erase_begin (size_type n) LUMEX_NOEXCEPT
+  {
+    erase_begin_n ((std::min)(n, m_size));
+  }
+
+  /**
+   * @brief Removes the `n` newest elements.
+   * @param n Number of elements; limited to `size ()`.
+   * @note Iterators to the removed elements and `end ()` are invalidated.
+   */
+  void
+  erase_end (size_type n) LUMEX_NOEXCEPT
+  {
+    erase_end_n ((std::min)(n, m_size));
   }
 
   /**
@@ -1342,7 +1683,8 @@ public:
    *          If
    * <tt>std::allocator_traits\<Allocator\>\::propagate_on_container_swap\::value</tt>
    * is `true`, allocators are swapped too. Otherwise allocators are not
-   * swapped, and they are assumed equivalent.
+   * swapped, and they are assumed equivalent (undefined behavior otherwise,
+   * as for the standard containers; a debug build asserts it).
    *
    * @note Invalidates every iterator (they are bound to this
    * container). References/pointers stay valid, but ownership moves to the
@@ -1374,11 +1716,7 @@ public:
         // Allocators stay in place.
       }
 
-    // Swap internal data (pointer and metadata)
-    std::swap (m_slots, other.m_slots);
-    std::swap (m_capacity, other.m_capacity);
-    std::swap (m_size, other.m_size);
-    std::swap (m_head, other.m_head);
+    swap_data (other);
   }
 
   /**
@@ -1535,28 +1873,95 @@ private:
   slot_allocator m_slots_alloc; ///< Allocator for internal slots (`Slot`) used
                                 ///< to allocate raw memory.
   Slot *m_slots{};      ///< Pointer to the slot array (raw memory) that holds
-                        ///< elements.
+                        ///< elements; `nullptr` for capacity 0.
   size_type m_capacity; ///< Maximum number of elements the buffer can hold.
   size_type m_size{};   ///< Current number of constructed (live) elements.
   size_type m_head{};   ///< Physical index in `m_slots` of the logical start
-                        ///< (the oldest element).
+                        ///< (the oldest element); below `m_capacity`.
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
 
+  // ============= private constructors =============
+
+  /// Allocates the storage for `capacity` elements; the buffer is empty. Every
+  /// other constructor delegates to it, so a throwing body runs the
+  /// destructor and nothing leaks.
+  circular_buffer (alloc_tag, allocator_type const &alloc, size_type capacity)
+      : m_allocator (alloc), m_slots_alloc (m_allocator), m_capacity (capacity)
+  {
+    allocate_storage ();
+  }
+
+  /// Forward range, capacity = length of the range.
+  template <class It>
+  circular_buffer (range_tag, It first, It last, allocator_type const &alloc,
+                   std::forward_iterator_tag)
+      : circular_buffer (alloc_tag (), alloc,
+                         static_cast<size_type> (std::distance (first, last)))
+  {
+    append_run (first, m_capacity);
+  }
+
+  /// Input range read once, capacity = length of the range.
+  template <class It>
+  circular_buffer (range_tag, It first, It last, allocator_type const &alloc,
+                   std::input_iterator_tag)
+      : circular_buffer (alloc_tag (), alloc, 0)
+  {
+    std::vector<value_type, allocator_type> tmp (first, last, alloc);
+    set_capacity (tmp.size ());
+    for (typename std::vector<value_type, allocator_type>::iterator it
+         = tmp.begin ();
+         it != tmp.end (); ++it)
+      emplace_back_ptr (std::move (*it));
+  }
+
+  /// Forward range with a capacity: the last `capacity` elements are kept.
+  template <class It>
+  circular_buffer (range_tag, size_type capacity, It first, It last,
+                   allocator_type const &alloc, std::forward_iterator_tag)
+      : circular_buffer (alloc_tag (), alloc, capacity)
+  {
+    size_type n = static_cast<size_type> (std::distance (first, last));
+    if (n > capacity)
+      {
+        std::advance (
+            first,
+            static_cast<typename std::iterator_traits<It>::difference_type> (
+                n - capacity));
+        n = capacity;
+      }
+    append_run (first, n);
+  }
+
+  /// Input range with a capacity: pushing overwrites, so the last `capacity`
+  /// elements are kept.
+  template <class It>
+  circular_buffer (range_tag, size_type capacity, It first, It last,
+                   allocator_type const &alloc, std::input_iterator_tag)
+      : circular_buffer (alloc_tag (), alloc, capacity)
+  {
+    for (; first != last; ++first)
+      emplace_back_ptr (*first);
+  }
+
+  // ============= private helpers =============
+
   /**
    * @brief Maps a logical index to a physical index in the backing array.
-   * @param logical_idx Logical element index (`0` to `m_size - 1`).
+   * @param logical_idx Logical element index (`0` to `m_capacity - 1`).
    * @return Physical index in `m_slots`.
-   * @note This function is `noexcept`.
+   * @note The head is below the capacity and the index at most the capacity,
+   * so one subtraction wraps; no division. This function is `noexcept`.
    */
   size_type
   physical_index (size_type logical_idx) const LUMEX_NOEXCEPT
   {
-    return (m_head + logical_idx) % m_capacity;
+    size_type const phys = m_head + logical_idx;
+    return phys >= m_capacity ? phys - m_capacity : phys;
   }
 
-  // Helpers to move head circularly
   /**
    * @brief Next physical index in circular order.
    * @param idx Current physical index.
@@ -1566,7 +1971,8 @@ private:
   size_type
   next_index (size_type idx) const LUMEX_NOEXCEPT
   {
-    return (idx + 1) % m_capacity;
+    ++idx;
+    return idx == m_capacity ? 0 : idx;
   }
 
   /**
@@ -1578,109 +1984,71 @@ private:
   size_type
   prev_index (size_type idx) const LUMEX_NOEXCEPT
   {
-    return (idx + m_capacity - 1) % m_capacity;
+    return idx == 0 ? m_capacity - 1 : idx - 1;
   }
 
-  /**
-   * @brief Returns a mutable reference at a logical index without bounds
-   * checks.
-   * @param logical_idx Logical element index.
-   * @return Mutable reference to the element.
-   */
-  reference
-  at_slot_ref (size_type logical_idx)
-  {
-    return at_slot (logical_idx);
-  }
-
-  /**
-   * @brief Returns a const reference at a logical index without bounds checks.
-   * @param logical_idx Logical element index.
-   * @return Const reference to the element.
-   */
-  const_reference
-  at_slot_cref (size_type logical_idx) const
-  {
-    return at_slot_const (logical_idx);
-  }
-
-  /**
-   * @brief Returns a pointer to raw (byte) storage at a physical index.
-   * @param phys_idx Physical slot index.
-   * @return `void*` to the slot's raw data.
-   * @note This function is `noexcept`.
-   */
-  void *
-  slot_ptr (size_type phys_idx) LUMEX_NOEXCEPT
+  /// Address of the element slot `phys_idx` of the block `block`.
+  static T *
+  elem_in (Slot *block, size_type phys_idx) LUMEX_NOEXCEPT
   {
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
     // address of the byte pocket for T, not the Slot object
-    return static_cast<void *> (
-        m_slots[phys_idx]
+    return reinterpret_cast<T *> (
+        block[phys_idx]
             .data); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
   }
 
-  /**
-   * @brief Returns a const pointer to raw (byte) storage at a physical index.
-   * @param phys_idx Physical slot index.
-   * @return `void const*` to the slot's raw data.
-   * @note This function is `noexcept`.
-   */
-  void const *
-  slot_ptr (size_type phys_idx) const LUMEX_NOEXCEPT
+  /// Address of the element slot `phys_idx` of the storage.
+  T *
+  elem_ptr (size_type phys_idx) LUMEX_NOEXCEPT
   {
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+    return elem_in (m_slots, phys_idx);
+  }
+
+  /// Const address of the element slot `phys_idx` of the storage.
+  T const *
+  elem_ptr (size_type phys_idx) const LUMEX_NOEXCEPT
+  {
+    return elem_in (m_slots, phys_idx);
+  }
+
+  /// Logical index of a const iterator of this buffer.
+  size_type
+  index_of (const_iterator pos) const
+  {
+#ifndef NDEBUG
+    LUMEX_ASSERT (pos.m_buf == this
+                  && "circular_buffer: iterator of another buffer");
 #endif
-    // address of the byte pocket for T, not the Slot object
-    return static_cast<void const *> (
-        m_slots[phys_idx]
-            .data); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif
+    return pos.m_idx;
   }
 
-  /**
-   * @brief Returns a mutable reference at a logical index.
-   * @param logical_idx Logical element index.
-   * @return Mutable reference to a `T` element.
-   */
-  reference
-  at_slot (size_type logical_idx)
+  /// Whether `value` is an element (or a part of one) of this buffer.
+  bool
+  aliases (value_type const &value) const LUMEX_NOEXCEPT
   {
-    return *reinterpret_cast<T *> (slot_ptr (physical_index (logical_idx)));
+    std::less<void const *> const before;
+    void const *const addr
+        = static_cast<void const *> (std::addressof (value));
+    void const *const low = static_cast<void const *> (m_slots);
+    void const *const high = static_cast<void const *> (m_slots + m_capacity);
+    return !before (addr, low) && before (addr, high);
   }
 
-  /**
-   * @brief Returns a const reference at a logical index.
-   * @param logical_idx Logical element index.
-   * @return Const reference to a `T` element.
-   */
-  const_reference
-  at_slot_const (size_type logical_idx) const
-  {
-    return *reinterpret_cast<T const *> (
-        slot_ptr (physical_index (logical_idx)));
-  }
-
-  /**
-   * @brief Allocates memory for `m_capacity` slots.
-   *
-   * Uses `m_slots_alloc` to allocate the required memory.
-   *
-   * @throws Exceptions thrown by the allocator.
-   */
+  /// Allocates the block of `m_capacity` slots (none for capacity 0).
   void
   allocate_storage ()
   {
+    if (m_capacity == 0)
+      return;
+    if (m_capacity > max_size ())
+      throw std::length_error ("circular_buffer: capacity exceeds max_size");
     m_slots = slot_traits::allocate (m_slots_alloc, m_capacity);
   }
 
@@ -1698,6 +2066,464 @@ private:
     if (m_slots)
       slot_traits::deallocate (m_slots_alloc, m_slots, m_capacity);
     m_slots = nullptr;
+  }
+
+  /// Destroys the live elements (no size change).
+  void
+  destroy_elements () LUMEX_NOEXCEPT
+  {
+    size_type idx = m_head;
+    for (size_type i = 0; i < m_size; ++i)
+      {
+        alloc_traits::destroy (m_allocator, elem_ptr (idx));
+        idx = next_index (idx);
+      }
+  }
+
+  /// Exchanges the storage, capacity, size and head (not the allocators).
+  void
+  swap_data (circular_buffer &other) LUMEX_NOEXCEPT
+  {
+    std::swap (m_slots, other.m_slots);
+    std::swap (m_capacity, other.m_capacity);
+    std::swap (m_size, other.m_size);
+    std::swap (m_head, other.m_head);
+  }
+
+  /// Constructs `n` elements from `src` after the last element, in contiguous
+  /// runs (one index computation per run). The room must be there.
+  template <class It>
+  void
+  append_run (It src, size_type n)
+  {
+    while (n > 0)
+      {
+        size_type const phys = physical_index (m_size);
+        size_type const run = (std::min)(n, m_capacity - phys);
+        T *const dest = elem_ptr (phys);
+        size_type done = 0;
+        try
+          {
+            for (; done < run; ++done, ++src)
+              alloc_traits::construct (m_allocator, dest + done, *src);
+          }
+        catch (...)
+          {
+            for (size_type i = 0; i < done; ++i)
+              alloc_traits::destroy (m_allocator, dest + i);
+            throw;
+          }
+        m_size += run;
+        n -= run;
+      }
+  }
+
+  /// Appends a copy of the content of `other` in at most two contiguous
+  /// pieces. The room must be there.
+  void
+  append_copy_of (circular_buffer const &other)
+  {
+    if (other.m_size == 0)
+      return;
+    size_type const first_piece
+        = (std::min)(other.m_size, other.m_capacity - other.m_head);
+    append_run (other.elem_ptr (other.m_head), first_piece);
+    append_run (other.elem_ptr (0), other.m_size - first_piece);
+  }
+
+  /// Copy assignment when the allocator propagates: take the allocator of the
+  /// source, release the old storage with the old allocator.
+  void
+  copy_assign (circular_buffer const &other, std::true_type)
+  {
+    circular_buffer tmp (alloc_tag (), other.m_allocator, other.m_capacity);
+    tmp.append_copy_of (other);
+    std::swap (m_allocator, tmp.m_allocator);
+    std::swap (m_slots_alloc, tmp.m_slots_alloc);
+    swap_data (tmp);
+  }
+
+  /// Copy assignment when the allocator does not propagate: keep the own
+  /// allocator and make the new storage with it.
+  void
+  copy_assign (circular_buffer const &other, std::false_type)
+  {
+    circular_buffer tmp (alloc_tag (), m_allocator, other.m_capacity);
+    tmp.append_copy_of (other);
+    swap_data (tmp);
+  }
+
+  /// The temporary of an overwrite as the source of the final construction:
+  /// an rvalue when `T` is move-constructible, else a const lvalue (a copy;
+  /// a deleted move constructor must not be selected).
+  static typename std::conditional<std::is_move_constructible<T>::value, T &&,
+                                   T const &>::type
+  take (T &value) LUMEX_NOEXCEPT
+  {
+    return static_cast<typename std::conditional<
+        std::is_move_constructible<T>::value, T &&, T const &>::type> (value);
+  }
+
+  /// Builds the element for an overwrite in a temporary on the stack.
+  struct scratch
+  {
+    template <class... Args>
+    explicit scratch (allocator_type &alloc, Args &&...args) : m_alloc (alloc)
+    {
+      alloc_traits::construct (m_alloc, ptr (), std::forward<Args> (args)...);
+    }
+
+    scratch (scratch const &) = delete;
+    scratch &operator= (scratch const &) = delete;
+
+    ~scratch () { alloc_traits::destroy (m_alloc, ptr ()); }
+
+    T *
+    ptr () LUMEX_NOEXCEPT
+    {
+      return reinterpret_cast<T *> (m_bytes);
+    }
+
+    allocator_type &m_alloc;
+    alignas (T) unsigned char m_bytes[sizeof (T)];
+  };
+
+  /// Constructs at the back; returns the new element or `nullptr` for
+  /// capacity 0.
+  template <class... Args>
+  T *
+  emplace_back_ptr (Args &&...args)
+  {
+    if (m_capacity == 0)
+      return nullptr;
+    if (m_size < m_capacity)
+      {
+        T *const slot = elem_ptr (physical_index (m_size));
+        alloc_traits::construct (m_allocator, slot,
+                                 std::forward<Args> (args)...);
+        ++m_size;
+        return slot;
+      }
+    return overwrite_oldest (
+        std::integral_constant<bool,
+                               std::is_move_constructible<T>::value
+                                   || std::is_copy_constructible<T>::value> (),
+        std::forward<Args> (args)...);
+  }
+
+  /// Full buffer, `T` movable or copyable: build the new element first, then
+  /// replace (the temporary is moved from, or copied when `T` has no move).
+  template <class... Args>
+  T *
+  overwrite_oldest (std::true_type, Args &&...args)
+  {
+    scratch tmp (m_allocator, std::forward<Args> (args)...);
+    return replace_oldest (take (*tmp.ptr ()));
+  }
+
+  /// Full buffer, `T` neither movable nor copyable: destroy first, then
+  /// construct in place.
+  template <class... Args>
+  T *
+  overwrite_oldest (std::false_type, Args &&...args)
+  {
+    return replace_oldest (std::forward<Args> (args)...);
+  }
+
+  /// Destroys the oldest element and constructs the new one in its slot.
+  template <class... Args>
+  T *
+  replace_oldest (Args &&...args)
+  {
+    T *const slot = elem_ptr (m_head);
+    alloc_traits::destroy (m_allocator, slot);
+    m_head = next_index (m_head);
+    --m_size;
+    // The slot of the destroyed element is the tail of the shortened buffer.
+    alloc_traits::construct (m_allocator, slot, std::forward<Args> (args)...);
+    ++m_size;
+    return slot;
+  }
+
+  /// Constructs at the front; returns the new element or `nullptr` for
+  /// capacity 0.
+  template <class... Args>
+  T *
+  emplace_front_ptr (Args &&...args)
+  {
+    if (m_capacity == 0)
+      return nullptr;
+    if (m_size < m_capacity)
+      {
+        size_type const pos = (m_size == 0) ? m_head : prev_index (m_head);
+        T *const slot = elem_ptr (pos);
+        alloc_traits::construct (m_allocator, slot,
+                                 std::forward<Args> (args)...);
+        m_head = pos;
+        ++m_size;
+        return slot;
+      }
+    return overwrite_newest (
+        std::integral_constant<bool,
+                               std::is_move_constructible<T>::value
+                                   || std::is_copy_constructible<T>::value> (),
+        std::forward<Args> (args)...);
+  }
+
+  /// Full buffer, `T` movable or copyable: build the new element first, then
+  /// replace (the temporary is moved from, or copied when `T` has no move).
+  template <class... Args>
+  T *
+  overwrite_newest (std::true_type, Args &&...args)
+  {
+    scratch tmp (m_allocator, std::forward<Args> (args)...);
+    return replace_newest (take (*tmp.ptr ()));
+  }
+
+  /// Full buffer, `T` neither movable nor copyable: destroy first, then
+  /// construct in place.
+  template <class... Args>
+  T *
+  overwrite_newest (std::false_type, Args &&...args)
+  {
+    return replace_newest (std::forward<Args> (args)...);
+  }
+
+  /// Destroys the newest element and constructs the new one in its slot,
+  /// which becomes the front.
+  template <class... Args>
+  T *
+  replace_newest (Args &&...args)
+  {
+    size_type const pos = prev_index (m_head); // slot of the newest element
+    T *const slot = elem_ptr (pos);
+    alloc_traits::destroy (m_allocator, slot);
+    --m_size; // head is not moved: the live elements are unchanged
+    alloc_traits::construct (m_allocator, slot, std::forward<Args> (args)...);
+    m_head = pos;
+    ++m_size;
+    return slot;
+  }
+
+  /// Removes `n` (at most `size ()`) oldest elements.
+  void
+  erase_begin_n (size_type n) LUMEX_NOEXCEPT
+  {
+    for (size_type i = 0; i < n; ++i)
+      pop_front ();
+  }
+
+  /// Removes `n` (at most `size ()`) newest elements.
+  void
+  erase_end_n (size_type n) LUMEX_NOEXCEPT
+  {
+    for (size_type i = 0; i < n; ++i)
+      pop_back ();
+  }
+
+  /// Source of `n` copies of one value for `append_generated`.
+  struct fill_gen
+  {
+    fill_gen (allocator_type &alloc, value_type const &item)
+        : m_alloc (alloc), m_item (item)
+    {
+    }
+
+    void
+    operator() (T *where)
+    {
+      alloc_traits::construct (m_alloc, where, m_item);
+    }
+
+    void
+    skip (size_type)
+    {
+    }
+
+    allocator_type &m_alloc;
+    value_type const &m_item;
+  };
+
+  /// Source of one value (copy or move) for `append_generated`.
+  template <class U> struct value_gen
+  {
+    value_gen (allocator_type &alloc, U &&item)
+        : m_alloc (alloc), m_item (std::forward<U> (item))
+    {
+    }
+
+    void
+    operator() (T *where)
+    {
+      alloc_traits::construct (m_alloc, where, std::forward<U> (m_item));
+    }
+
+    void
+    skip (size_type)
+    {
+    }
+
+    allocator_type &m_alloc;
+    U &&m_item;
+  };
+
+  /// Source of the elements of a forward range for `append_generated`.
+  template <class It> struct range_gen
+  {
+    range_gen (allocator_type &alloc, It first) : m_alloc (alloc), m_it (first)
+    {
+    }
+
+    void
+    operator() (T *where)
+    {
+      alloc_traits::construct (m_alloc, where, *m_it);
+      ++m_it;
+    }
+
+    void
+    skip (size_type count)
+    {
+      std::advance (
+          m_it,
+          static_cast<typename std::iterator_traits<It>::difference_type> (
+              count));
+    }
+
+    allocator_type &m_alloc;
+    It m_it;
+  };
+
+  /// Constructs `n` elements at the back one by one from `gen`; the room must
+  /// be there. A throwing construction removes the elements made so far.
+  template <class Gen>
+  void
+  append_generated (size_type n, Gen &gen)
+  {
+    size_type const before = m_size;
+    try
+      {
+        for (size_type i = 0; i < n; ++i)
+          {
+            gen (elem_ptr (physical_index (m_size)));
+            ++m_size;
+          }
+      }
+    catch (...)
+      {
+        erase_end_n (m_size - before);
+        throw;
+      }
+  }
+
+  /// Appends `n` copies of `item` (room required).
+  void
+  fill_back (size_type n, value_type const &item)
+  {
+    fill_gen gen (m_allocator, item);
+    append_generated (n, gen);
+  }
+
+  /// The core of every insert: puts up to `n` elements of `gen` before the
+  /// logical index `pos` so that the buffer holds the last `capacity ()`
+  /// elements of "before pos, the items, from pos". Returns the logical index
+  /// of the first inserted element (`pos` when nothing was inserted).
+  template <class Gen>
+  size_type
+  insert_generated (size_type pos, size_type n, Gen &gen)
+  {
+    size_type const after = m_size - pos;
+    if (n == 0 || after >= m_capacity)
+      return pos;
+    size_type const fit = m_capacity - after;
+    size_type const count = n < fit ? n : fit;
+    gen.skip (n - count); // of a longer range only the last items fit
+    size_type const drop
+        = m_size + count > m_capacity ? m_size + count - m_capacity : 0;
+    erase_begin_n (drop);
+    size_type const target = pos - drop;
+    size_type const old_size = m_size;
+    append_generated (count, gen);
+    if (target != old_size)
+      std::rotate (begin () + static_cast<difference_type> (target),
+                   begin () + static_cast<difference_type> (old_size), end ());
+    return target;
+  }
+
+  /// Single insert; a value of this buffer is copied first.
+  template <class U>
+  iterator
+  insert_one (const_iterator pos, U &&item)
+  {
+    if (aliases (item))
+      {
+        value_type copy (std::forward<U> (item));
+        return insert_one (pos, std::move (copy));
+      }
+    value_gen<U> gen (m_allocator, std::forward<U> (item));
+    size_type const idx = insert_generated (index_of (pos), 1, gen);
+    return begin () + static_cast<difference_type> (idx);
+  }
+
+  /// Range insert for forward iterators.
+  template <class It>
+  void
+  insert_range (size_type pos, It first, It last, std::forward_iterator_tag)
+  {
+    range_gen<It> gen (m_allocator, first);
+    insert_generated (
+        pos, static_cast<size_type> (std::distance (first, last)), gen);
+  }
+
+  /// Range insert for single-pass input iterators: one insert per element.
+  template <class It>
+  void
+  insert_range (size_type pos, It first, It last, std::input_iterator_tag)
+  {
+    if (full () && pos == 0)
+      return;
+    for (; first != last; ++first)
+      {
+        value_type item (*first);
+        value_gen<value_type> gen (m_allocator, std::move (item));
+        pos = insert_generated (pos, 1, gen) + 1;
+      }
+  }
+
+  /// Makes a new block of `new_capacity` slots from `count` elements starting
+  /// at logical index `first`, moved if their move cannot throw (or `T` cannot
+  /// be copied), copied otherwise; the old block is released. Strong.
+  void
+  reallocate (size_type new_capacity, size_type first, size_type count)
+  {
+    if (new_capacity > max_size ())
+      throw std::length_error ("circular_buffer: capacity exceeds max_size");
+    Slot *const block
+        = new_capacity != 0
+              ? slot_traits::allocate (m_slots_alloc, new_capacity)
+              : nullptr;
+    size_type built = 0;
+    try
+      {
+        for (; built < count; ++built)
+          alloc_traits::construct (
+              m_allocator, elem_in (block, built),
+              std::move_if_noexcept ((*this)[first + built]));
+      }
+    catch (...)
+      {
+        for (size_type i = 0; i < built; ++i)
+          alloc_traits::destroy (m_allocator, elem_in (block, i));
+        if (block != nullptr)
+          slot_traits::deallocate (m_slots_alloc, block, new_capacity);
+        throw;
+      }
+    destroy_elements ();
+    deallocate_storage ();
+    m_slots = block;
+    m_capacity = new_capacity;
+    m_size = count;
+    m_head = 0;
   }
 };
 
@@ -1833,40 +2659,33 @@ operator>= (circular_buffer<T, Alloc> const &lhs,
  * @brief Three-way comparison (`<=>`) of two `circular_buffer` objects
  * (C++20).
  *
- * Lexicographical comparison using `std::strong_ordering`.
+ * Lexicographical comparison with the `<=>` of the elements, then by size.
  *
+ * @tparam T Element type; must be `std::three_way_comparable`.
  * @tparam Alloc Buffer allocator type.
  * @param lhs First `circular_buffer`.
  * @param rhs Second `circular_buffer`.
- * @return Comparison result `std::strong_ordering::less`,
- * `std::strong_ordering::equal`, or `std::strong_ordering::greater`.
+ * @return `std::compare_three_way_result_t<T>`: `std::strong_ordering` for
+ * `int`, `std::partial_ordering` for `double`, ...
  * @note This operator is available only in C++20 and later.
  */
 template <class T, class Alloc>
   requires std::three_way_comparable<T>
-inline std::strong_ordering
+inline std::compare_three_way_result_t<T>
 operator<=> (circular_buffer<T, Alloc> const &lhs,
              circular_buffer<T, Alloc> const &rhs)
 {
-  // Implementation based on pairwise lexicographical element comparison
   auto it1 = lhs.begin ();
   auto end1 = lhs.end ();
   auto it2 = rhs.begin ();
   auto end2 = rhs.end ();
 
   for (; it1 != end1 && it2 != end2; ++it1, ++it2)
-    if (auto cmp = (*it1 <=> *it2); cmp != std::strong_ordering::equal)
+    if (auto cmp = (*it1 <=> *it2); cmp != 0)
       return cmp;
 
-  // After comparing the common prefix, compare sizes
-  if (it1 == end1 && it2 == end2)
-    return std::strong_ordering::equal;
-  if (it1 == end1)
-    { // lhs is shorter than rhs
-      return std::strong_ordering::less;
-    }
-  // Otherwise (it2 == end2), rhs is shorter than lhs
-  return std::strong_ordering::greater;
+  // After comparing the common prefix, the shorter buffer is less.
+  return lhs.size () <=> rhs.size ();
 }
 #endif
 } // namespace circular_buffer

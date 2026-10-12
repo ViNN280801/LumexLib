@@ -1,4 +1,4 @@
 var a00758 =
 [
-    [ "lumex::xml::writer::XmlWriterStream", "a03073.html", "a03073" ]
+    [ "main", "a00758.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

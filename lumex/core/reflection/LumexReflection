@@ -45,8 +45,11 @@
  * field by field.
  * @details Link <tt>%lumex::reflection</tt> (header-only). Works from C++11.
  * Field reflection is included only when `LUMEX_WITH_FIELD_REFLECTION` is
- * defined; it needs nlohmann/json on the include path, and its `to_json` needs
- * C++20 for the field names. The umbrella includes `var_info/LumexVarInfo.hpp`,
+ * defined; it needs nlohmann/json on the include path. It also works from
+ * C++11: `LUMEX_DEFINE_FIELD_NAMES (Type, a, b, c)` next to an aggregate
+ * registers its field names and members for `names_as_array`, `get` and
+ * `to_json`, and from C++20 an unregistered aggregate gets its names from the
+ * compiler. The umbrella includes `var_info/LumexVarInfo.hpp`,
  * `reflected_enum/LumexReflectedEnum.hpp` and, with that macro,
  * `field_reflection/LumexFieldReflection.hpp`.
  */

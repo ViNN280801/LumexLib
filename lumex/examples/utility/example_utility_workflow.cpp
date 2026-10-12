@@ -24,8 +24,8 @@ main ()
   // The three-way result works from C++11. Its types are named once:
   // strong_ordering_t for two integers, partial_ordering_t when a
   // floating-point value may be NaN. They are the classes of
-  // LumexOrdering.hpp below C++20 and std::strong_ordering and
-  // std::partial_ordering from it.
+  // LumexOrdering.hpp in every standard (from C++20 they convert to
+  // std::strong_ordering and std::partial_ordering).
   strong_ordering_t const against_limit
       = safe_three_way_compare (received.get (), max_payload);
   partial_ordering_t const against_nan = safe_three_way_compare (

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['detail_3a_3acapture_5fstacktrace_0',['capture_stacktrace',['../a01897.html#a9e21b02a35a581edc3b0183b25523c19',1,'lumex::core::exceptions::stacktrace::LumexBasicStacktrace']]]
+  ['circular_5fbuffer_0',['circular_buffer',['../a01894.html#aed32cf49ca0a75d12706bf1c3a880be6',1,'lumex::core::circular_buffer::circular_buffer::basic_iterator']]]
 ];

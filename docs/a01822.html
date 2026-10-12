@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based&lt; T &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01825.html',''); initResizable(true); });
+$(function(){initNavTree('a01822.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,315 @@ $(function(){initNavTree('a01825.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc32_jamcrc_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01819.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based&lt; T &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01825.html#a2efd3045a9d21d3ac5ba640f103d7115">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01825.html#a8c6944f71d2350951f8e996aba573387">kInit</a></td><td class="entry"><a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01825.html#abbc0ed1b68da9b3c2d82cbf439e2470c">kPoly</a></td><td class="entry"><a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01825.html#a4bad6f19c72d9bdc134f26cc03325cf5">kRefIn</a></td><td class="entry"><a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01825.html#a894e287968136f423482db6b251983e6">kRefOut</a></td><td class="entry"><a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01825.html#a11dd7f8e32af4ffe95477a48c1d27cef">kWidth</a></td><td class="entry"><a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01825.html#a810e674d0ffe4df76c3f9dc1c577a6fd">kXorOut</a></td><td class="entry"><a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01825.html#ae5d2db0502724670d2f1ae5c3b1d38b8">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01825.html">lumex::core::crc::parametric::crc32_jamcrc_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Atomic <code>std::weak_ptr&lt;T&gt;</code> over a lock (the lock-based engine).  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00284_source.html">LumexAtomicWeakPtr.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based&lt; T &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01821.png" border="0" usemap="#alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1atomic__weak__ptr__lock__based_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based&lt; T &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01820.png" border="0" usemap="#alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1atomic__weak__ptr__lock__based_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a4e74d488ed1d449e7349de9f044f022a" id="r_a4e74d488ed1d449e7349de9f044f022a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e74d488ed1d449e7349de9f044f022a">value_type</a> = typename <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">base_type::value_type</a></td></tr>
+<tr class="memdesc:a4e74d488ed1d449e7349de9f044f022a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the stored value.  <br /></td></tr>
+<tr class="separator:a4e74d488ed1d449e7349de9f044f022a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_a01818"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_types_a01818')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="a01818.html">lumex::core::atomic::smart_ptr::table_wait::Detail::basic_atomic_weak_ptr&lt; T, Detail::lock_based_cell&lt; std::weak_ptr&lt; T &gt; &gt; &gt;</a></td></tr>
+<tr class="memitem:a12a0d2be2ecadeaf7198416f0b64981d inherit pub_types_a01818" id="r_a12a0d2be2ecadeaf7198416f0b64981d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a></td></tr>
+<tr class="memdesc:a12a0d2be2ecadeaf7198416f0b64981d inherit pub_types_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the stored value.  <br /></td></tr>
+<tr class="separator:a12a0d2be2ecadeaf7198416f0b64981d inherit pub_types_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a915a595f86f227ef7084c28205f5e17a" id="r_a915a595f86f227ef7084c28205f5e17a"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a915a595f86f227ef7084c28205f5e17a">atomic_weak_ptr_lock_based</a> () noexcept</td></tr>
+<tr class="memdesc:a915a595f86f227ef7084c28205f5e17a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object that holds an empty weak pointer.  <br /></td></tr>
+<tr class="separator:a915a595f86f227ef7084c28205f5e17a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea34d568a88d3d4072b0f78a544e4594" id="r_aea34d568a88d3d4072b0f78a544e4594"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea34d568a88d3d4072b0f78a544e4594">atomic_weak_ptr_lock_based</a> (<a class="el" href="#a4e74d488ed1d449e7349de9f044f022a">value_type</a> desired) noexcept</td></tr>
+<tr class="memdesc:aea34d568a88d3d4072b0f78a544e4594"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object that holds <code class="param">desired</code>.  <br /></td></tr>
+<tr class="separator:aea34d568a88d3d4072b0f78a544e4594"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a012863e2ba6bf76ff718ecbc574b5adc" id="r_a012863e2ba6bf76ff718ecbc574b5adc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a012863e2ba6bf76ff718ecbc574b5adc">operator=</a> (<a class="el" href="a01818.html#afa03da29851d7c3ec00faf019b329400">basic_atomic_weak_ptr</a> const &amp;)=delete</td></tr>
+<tr class="separator:a012863e2ba6bf76ff718ecbc574b5adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c75ef47fa0f2c6f9125e65ba4787e49" id="r_a8c75ef47fa0f2c6f9125e65ba4787e49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c75ef47fa0f2c6f9125e65ba4787e49">operator=</a> (<a class="el" href="#a4e74d488ed1d449e7349de9f044f022a">value_type</a> desired) noexcept</td></tr>
+<tr class="memdesc:a8c75ef47fa0f2c6f9125e65ba4787e49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>store (desired)</code>.  <br /></td></tr>
+<tr class="separator:a8c75ef47fa0f2c6f9125e65ba4787e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a01818"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_a01818')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a01818.html">lumex::core::atomic::smart_ptr::table_wait::Detail::basic_atomic_weak_ptr&lt; T, Detail::lock_based_cell&lt; std::weak_ptr&lt; T &gt; &gt; &gt;</a></td></tr>
+<tr class="memitem:afa03da29851d7c3ec00faf019b329400 inherit pub_methods_a01818" id="r_afa03da29851d7c3ec00faf019b329400"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#afa03da29851d7c3ec00faf019b329400">basic_atomic_weak_ptr</a> () noexcept</td></tr>
+<tr class="memdesc:afa03da29851d7c3ec00faf019b329400 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object that holds an empty weak pointer.  <br /></td></tr>
+<tr class="separator:afa03da29851d7c3ec00faf019b329400 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a015ac87bd34e9fa43585cb409c53dcfc inherit pub_methods_a01818" id="r_a015ac87bd34e9fa43585cb409c53dcfc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a015ac87bd34e9fa43585cb409c53dcfc">basic_atomic_weak_ptr</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired) noexcept</td></tr>
+<tr class="memdesc:a015ac87bd34e9fa43585cb409c53dcfc inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object that holds <code class="param">desired</code>.  <br /></td></tr>
+<tr class="separator:a015ac87bd34e9fa43585cb409c53dcfc inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cf6440df1f01531eb620ee43af0ca2b inherit pub_methods_a01818" id="r_a9cf6440df1f01531eb620ee43af0ca2b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a9cf6440df1f01531eb620ee43af0ca2b">basic_atomic_weak_ptr</a> (<a class="el" href="a01818.html">basic_atomic_weak_ptr</a> const &amp;)=delete</td></tr>
+<tr class="separator:a9cf6440df1f01531eb620ee43af0ca2b inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1639c156ad5d09e97ac6f140c3e54767 inherit pub_methods_a01818" id="r_a1639c156ad5d09e97ac6f140c3e54767"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a1639c156ad5d09e97ac6f140c3e54767">operator=</a> (<a class="el" href="a01818.html">basic_atomic_weak_ptr</a> const &amp;)=delete</td></tr>
+<tr class="separator:a1639c156ad5d09e97ac6f140c3e54767 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a457987ebec3e25123680377b3e705e22 inherit pub_methods_a01818" id="r_a457987ebec3e25123680377b3e705e22"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a457987ebec3e25123680377b3e705e22">is_lock_free</a> () const noexcept</td></tr>
+<tr class="memdesc:a457987ebec3e25123680377b3e705e22 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells whether the operations on this object are lock-free.  <br /></td></tr>
+<tr class="separator:a457987ebec3e25123680377b3e705e22 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade0563d8bd8baa6f77d6bd46cc37a445 inherit pub_methods_a01818" id="r_ade0563d8bd8baa6f77d6bd46cc37a445"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#ade0563d8bd8baa6f77d6bd46cc37a445">store</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td></tr>
+<tr class="memdesc:ade0563d8bd8baa6f77d6bd46cc37a445 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the stored value with <code class="param">desired</code>.  <br /></td></tr>
+<tr class="separator:ade0563d8bd8baa6f77d6bd46cc37a445 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7aab2f0cfcab6495d043b53bf5f73ac inherit pub_methods_a01818" id="r_aa7aab2f0cfcab6495d043b53bf5f73ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#aa7aab2f0cfcab6495d043b53bf5f73ac">load</a> (std::memory_order order=std::memory_order_seq_cst) const noexcept</td></tr>
+<tr class="memdesc:aa7aab2f0cfcab6495d043b53bf5f73ac inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a copy of the stored value.  <br /></td></tr>
+<tr class="separator:aa7aab2f0cfcab6495d043b53bf5f73ac inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab52787817081d0c670e1aad6f9abea57 inherit pub_methods_a01818" id="r_ab52787817081d0c670e1aad6f9abea57"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#ab52787817081d0c670e1aad6f9abea57">operator value_type</a> () const noexcept</td></tr>
+<tr class="memdesc:ab52787817081d0c670e1aad6f9abea57 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>load ()</code>.  <br /></td></tr>
+<tr class="separator:ab52787817081d0c670e1aad6f9abea57 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e95564f38bcd9e06c8fd29608c39993 inherit pub_methods_a01818" id="r_a8e95564f38bcd9e06c8fd29608c39993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a8e95564f38bcd9e06c8fd29608c39993">operator=</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired) noexcept</td></tr>
+<tr class="memdesc:a8e95564f38bcd9e06c8fd29608c39993 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>store (desired)</code>.  <br /></td></tr>
+<tr class="separator:a8e95564f38bcd9e06c8fd29608c39993 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f890eb1296791869c26d1b1c8dd3e8e inherit pub_methods_a01818" id="r_a6f890eb1296791869c26d1b1c8dd3e8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a6f890eb1296791869c26d1b1c8dd3e8e">exchange</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td></tr>
+<tr class="memdesc:a6f890eb1296791869c26d1b1c8dd3e8e inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the stored value with <code class="param">desired</code> and returns the previous one.  <br /></td></tr>
+<tr class="separator:a6f890eb1296791869c26d1b1c8dd3e8e inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a868cd8197cc634c8db26c0588a0d3501 inherit pub_methods_a01818" id="r_a868cd8197cc634c8db26c0588a0d3501"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a868cd8197cc634c8db26c0588a0d3501">compare_exchange_weak</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> &amp;<a class="el" href="a06355.html">expected</a>, <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order success, std::memory_order failure) noexcept</td></tr>
+<tr class="memdesc:a868cd8197cc634c8db26c0588a0d3501 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores <code class="param">desired</code> if the stored value is equivalent to <code class="param">expected</code>, otherwise copies the stored value into <code class="param">expected</code>.  <br /></td></tr>
+<tr class="separator:a868cd8197cc634c8db26c0588a0d3501 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ab0d2cb2dc5559dcb946cfe4e3aeb0c inherit pub_methods_a01818" id="r_a1ab0d2cb2dc5559dcb946cfe4e3aeb0c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a1ab0d2cb2dc5559dcb946cfe4e3aeb0c">compare_exchange_strong</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> &amp;<a class="el" href="a06355.html">expected</a>, <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order success, std::memory_order failure) noexcept</td></tr>
+<tr class="memdesc:a1ab0d2cb2dc5559dcb946cfe4e3aeb0c inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores <code class="param">desired</code> if the stored value is equivalent to <code class="param">expected</code>, otherwise copies the stored value into <code class="param">expected</code>.  <br /></td></tr>
+<tr class="separator:a1ab0d2cb2dc5559dcb946cfe4e3aeb0c inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c8c0f1f4fa69920bccba37126ec83b3 inherit pub_methods_a01818" id="r_a8c8c0f1f4fa69920bccba37126ec83b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a8c8c0f1f4fa69920bccba37126ec83b3">compare_exchange_weak</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> &amp;<a class="el" href="a06355.html">expected</a>, <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td></tr>
+<tr class="memdesc:a8c8c0f1f4fa69920bccba37126ec83b3 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the four-argument form, with <code class="param">order</code> on success and the matching order on failure (<code>acq_rel</code> becomes <code>acquire</code>, <code>release</code> becomes <code>relaxed</code>).  <br /></td></tr>
+<tr class="separator:a8c8c0f1f4fa69920bccba37126ec83b3 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadd586a3fc6477d8426ab5836b7f5942 inherit pub_methods_a01818" id="r_aadd586a3fc6477d8426ab5836b7f5942"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#aadd586a3fc6477d8426ab5836b7f5942">compare_exchange_strong</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> &amp;<a class="el" href="a06355.html">expected</a>, <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td></tr>
+<tr class="memdesc:aadd586a3fc6477d8426ab5836b7f5942 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the four-argument form, with <code class="param">order</code> on success and the matching order on failure (<code>acq_rel</code> becomes <code>acquire</code>, <code>release</code> becomes <code>relaxed</code>).     <br /></td></tr>
+<tr class="separator:aadd586a3fc6477d8426ab5836b7f5942 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e5e1fb7e865a31ffe481dca189e4f6f inherit pub_methods_a01818" id="r_a5e5e1fb7e865a31ffe481dca189e4f6f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a5e5e1fb7e865a31ffe481dca189e4f6f">wait</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> old, std::memory_order order=std::memory_order_seq_cst) const noexcept</td></tr>
+<tr class="memdesc:a5e5e1fb7e865a31ffe481dca189e4f6f inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocks while the stored value is equivalent to <code class="param">old</code>.  <br /></td></tr>
+<tr class="separator:a5e5e1fb7e865a31ffe481dca189e4f6f inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b76afc60a7e46310a45f3ee19ff4bca inherit pub_methods_a01818" id="r_a8b76afc60a7e46310a45f3ee19ff4bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a8b76afc60a7e46310a45f3ee19ff4bca">notify_one</a> () noexcept</td></tr>
+<tr class="memdesc:a8b76afc60a7e46310a45f3ee19ff4bca inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes at least one thread blocked in <code>wait</code> on this object.  <br /></td></tr>
+<tr class="separator:a8b76afc60a7e46310a45f3ee19ff4bca inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd146e200c3f94d9cf8488a9a1d1038 inherit pub_methods_a01818" id="r_a1cd146e200c3f94d9cf8488a9a1d1038"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a1cd146e200c3f94d9cf8488a9a1d1038">notify_all</a> () noexcept</td></tr>
+<tr class="memdesc:a1cd146e200c3f94d9cf8488a9a1d1038 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes every thread blocked in <code>wait</code> on this object.  <br /></td></tr>
+<tr class="separator:a1cd146e200c3f94d9cf8488a9a1d1038 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa03da29851d7c3ec00faf019b329400 inherit pub_methods_a01818" id="r_afa03da29851d7c3ec00faf019b329400"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#afa03da29851d7c3ec00faf019b329400">basic_atomic_weak_ptr</a> () noexcept</td></tr>
+<tr class="memdesc:afa03da29851d7c3ec00faf019b329400 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object that holds an empty weak pointer.  <br /></td></tr>
+<tr class="separator:afa03da29851d7c3ec00faf019b329400 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a015ac87bd34e9fa43585cb409c53dcfc inherit pub_methods_a01818" id="r_a015ac87bd34e9fa43585cb409c53dcfc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a015ac87bd34e9fa43585cb409c53dcfc">basic_atomic_weak_ptr</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired) noexcept</td></tr>
+<tr class="memdesc:a015ac87bd34e9fa43585cb409c53dcfc inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object that holds <code class="param">desired</code>.  <br /></td></tr>
+<tr class="separator:a015ac87bd34e9fa43585cb409c53dcfc inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cf6440df1f01531eb620ee43af0ca2b inherit pub_methods_a01818" id="r_a9cf6440df1f01531eb620ee43af0ca2b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a9cf6440df1f01531eb620ee43af0ca2b">basic_atomic_weak_ptr</a> (<a class="el" href="a01818.html">basic_atomic_weak_ptr</a> const &amp;)=delete</td></tr>
+<tr class="separator:a9cf6440df1f01531eb620ee43af0ca2b inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1639c156ad5d09e97ac6f140c3e54767 inherit pub_methods_a01818" id="r_a1639c156ad5d09e97ac6f140c3e54767"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a1639c156ad5d09e97ac6f140c3e54767">operator=</a> (<a class="el" href="a01818.html">basic_atomic_weak_ptr</a> const &amp;)=delete</td></tr>
+<tr class="separator:a1639c156ad5d09e97ac6f140c3e54767 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e95564f38bcd9e06c8fd29608c39993 inherit pub_methods_a01818" id="r_a8e95564f38bcd9e06c8fd29608c39993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a8e95564f38bcd9e06c8fd29608c39993">operator=</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired) noexcept</td></tr>
+<tr class="memdesc:a8e95564f38bcd9e06c8fd29608c39993 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>store (desired)</code>.  <br /></td></tr>
+<tr class="separator:a8e95564f38bcd9e06c8fd29608c39993 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a457987ebec3e25123680377b3e705e22 inherit pub_methods_a01818" id="r_a457987ebec3e25123680377b3e705e22"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a457987ebec3e25123680377b3e705e22">is_lock_free</a> () const noexcept</td></tr>
+<tr class="memdesc:a457987ebec3e25123680377b3e705e22 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells whether the operations on this object are lock-free.  <br /></td></tr>
+<tr class="separator:a457987ebec3e25123680377b3e705e22 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade0563d8bd8baa6f77d6bd46cc37a445 inherit pub_methods_a01818" id="r_ade0563d8bd8baa6f77d6bd46cc37a445"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#ade0563d8bd8baa6f77d6bd46cc37a445">store</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td></tr>
+<tr class="memdesc:ade0563d8bd8baa6f77d6bd46cc37a445 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the stored value with <code class="param">desired</code>.  <br /></td></tr>
+<tr class="separator:ade0563d8bd8baa6f77d6bd46cc37a445 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7aab2f0cfcab6495d043b53bf5f73ac inherit pub_methods_a01818" id="r_aa7aab2f0cfcab6495d043b53bf5f73ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#aa7aab2f0cfcab6495d043b53bf5f73ac">load</a> (std::memory_order order=std::memory_order_seq_cst) const noexcept</td></tr>
+<tr class="memdesc:aa7aab2f0cfcab6495d043b53bf5f73ac inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a copy of the stored value.  <br /></td></tr>
+<tr class="separator:aa7aab2f0cfcab6495d043b53bf5f73ac inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab52787817081d0c670e1aad6f9abea57 inherit pub_methods_a01818" id="r_ab52787817081d0c670e1aad6f9abea57"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#ab52787817081d0c670e1aad6f9abea57">operator value_type</a> () const noexcept</td></tr>
+<tr class="memdesc:ab52787817081d0c670e1aad6f9abea57 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>load ()</code>.  <br /></td></tr>
+<tr class="separator:ab52787817081d0c670e1aad6f9abea57 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f890eb1296791869c26d1b1c8dd3e8e inherit pub_methods_a01818" id="r_a6f890eb1296791869c26d1b1c8dd3e8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a6f890eb1296791869c26d1b1c8dd3e8e">exchange</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td></tr>
+<tr class="memdesc:a6f890eb1296791869c26d1b1c8dd3e8e inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the stored value with <code class="param">desired</code> and returns the previous one.  <br /></td></tr>
+<tr class="separator:a6f890eb1296791869c26d1b1c8dd3e8e inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a868cd8197cc634c8db26c0588a0d3501 inherit pub_methods_a01818" id="r_a868cd8197cc634c8db26c0588a0d3501"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a868cd8197cc634c8db26c0588a0d3501">compare_exchange_weak</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> &amp;<a class="el" href="a06355.html">expected</a>, <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order success, std::memory_order failure) noexcept</td></tr>
+<tr class="memdesc:a868cd8197cc634c8db26c0588a0d3501 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores <code class="param">desired</code> if the stored value is equivalent to <code class="param">expected</code>, otherwise copies the stored value into <code class="param">expected</code>.  <br /></td></tr>
+<tr class="separator:a868cd8197cc634c8db26c0588a0d3501 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c8c0f1f4fa69920bccba37126ec83b3 inherit pub_methods_a01818" id="r_a8c8c0f1f4fa69920bccba37126ec83b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a8c8c0f1f4fa69920bccba37126ec83b3">compare_exchange_weak</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> &amp;<a class="el" href="a06355.html">expected</a>, <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td></tr>
+<tr class="memdesc:a8c8c0f1f4fa69920bccba37126ec83b3 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the four-argument form, with <code class="param">order</code> on success and the matching order on failure (<code>acq_rel</code> becomes <code>acquire</code>, <code>release</code> becomes <code>relaxed</code>).  <br /></td></tr>
+<tr class="separator:a8c8c0f1f4fa69920bccba37126ec83b3 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ab0d2cb2dc5559dcb946cfe4e3aeb0c inherit pub_methods_a01818" id="r_a1ab0d2cb2dc5559dcb946cfe4e3aeb0c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a1ab0d2cb2dc5559dcb946cfe4e3aeb0c">compare_exchange_strong</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> &amp;<a class="el" href="a06355.html">expected</a>, <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order success, std::memory_order failure) noexcept</td></tr>
+<tr class="memdesc:a1ab0d2cb2dc5559dcb946cfe4e3aeb0c inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores <code class="param">desired</code> if the stored value is equivalent to <code class="param">expected</code>, otherwise copies the stored value into <code class="param">expected</code>.  <br /></td></tr>
+<tr class="separator:a1ab0d2cb2dc5559dcb946cfe4e3aeb0c inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadd586a3fc6477d8426ab5836b7f5942 inherit pub_methods_a01818" id="r_aadd586a3fc6477d8426ab5836b7f5942"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#aadd586a3fc6477d8426ab5836b7f5942">compare_exchange_strong</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> &amp;<a class="el" href="a06355.html">expected</a>, <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> desired, std::memory_order order=std::memory_order_seq_cst) noexcept</td></tr>
+<tr class="memdesc:aadd586a3fc6477d8426ab5836b7f5942 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the four-argument form, with <code class="param">order</code> on success and the matching order on failure (<code>acq_rel</code> becomes <code>acquire</code>, <code>release</code> becomes <code>relaxed</code>).     <br /></td></tr>
+<tr class="separator:aadd586a3fc6477d8426ab5836b7f5942 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e5e1fb7e865a31ffe481dca189e4f6f inherit pub_methods_a01818" id="r_a5e5e1fb7e865a31ffe481dca189e4f6f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a5e5e1fb7e865a31ffe481dca189e4f6f">wait</a> (<a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">value_type</a> old, std::memory_order order=std::memory_order_seq_cst) const noexcept</td></tr>
+<tr class="memdesc:a5e5e1fb7e865a31ffe481dca189e4f6f inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocks while the stored value is equivalent to <code class="param">old</code>.  <br /></td></tr>
+<tr class="separator:a5e5e1fb7e865a31ffe481dca189e4f6f inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b76afc60a7e46310a45f3ee19ff4bca inherit pub_methods_a01818" id="r_a8b76afc60a7e46310a45f3ee19ff4bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a8b76afc60a7e46310a45f3ee19ff4bca">notify_one</a> () noexcept</td></tr>
+<tr class="memdesc:a8b76afc60a7e46310a45f3ee19ff4bca inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes at least one thread blocked in <code>wait</code> on this object.  <br /></td></tr>
+<tr class="separator:a8b76afc60a7e46310a45f3ee19ff4bca inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd146e200c3f94d9cf8488a9a1d1038 inherit pub_methods_a01818" id="r_a1cd146e200c3f94d9cf8488a9a1d1038"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#a1cd146e200c3f94d9cf8488a9a1d1038">notify_all</a> () noexcept</td></tr>
+<tr class="memdesc:a1cd146e200c3f94d9cf8488a9a1d1038 inherit pub_methods_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakes every thread blocked in <code>wait</code> on this object.  <br /></td></tr>
+<tr class="separator:a1cd146e200c3f94d9cf8488a9a1d1038 inherit pub_methods_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_static_attribs_a01818"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_attribs_a01818')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="a01818.html">lumex::core::atomic::smart_ptr::table_wait::Detail::basic_atomic_weak_ptr&lt; T, Detail::lock_based_cell&lt; std::weak_ptr&lt; T &gt; &gt; &gt;</a></td></tr>
+<tr class="memitem:aaf0597c45acec0713c74b38a7b3121d3 inherit pub_static_attribs_a01818" id="r_aaf0597c45acec0713c74b38a7b3121d3"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#aaf0597c45acec0713c74b38a7b3121d3">is_always_lock_free</a></td></tr>
+<tr class="memdesc:aaf0597c45acec0713c74b38a7b3121d3 inherit pub_static_attribs_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether every object of this type is lock-free.  <br /></td></tr>
+<tr class="separator:aaf0597c45acec0713c74b38a7b3121d3 inherit pub_static_attribs_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf0597c45acec0713c74b38a7b3121d3 inherit pub_static_attribs_a01818" id="r_aaf0597c45acec0713c74b38a7b3121d3"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01818.html#aaf0597c45acec0713c74b38a7b3121d3">is_always_lock_free</a></td></tr>
+<tr class="memdesc:aaf0597c45acec0713c74b38a7b3121d3 inherit pub_static_attribs_a01818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether every object of this type is lock-free.  <br /></td></tr>
+<tr class="separator:aaf0597c45acec0713c74b38a7b3121d3 inherit pub_static_attribs_a01818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+class lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based&lt; T &gt;</div><p>Atomic <code>std::weak_ptr&lt;T&gt;</code> over a lock (the lock-based engine). </p>
+<p>Keeps an ordinary <code>std::weak_ptr&lt;T&gt;</code> behind a two-bit lock. Works with any standard library from C++11 on; not lock-free (<code>is_always_lock_free</code> and <code>is_lock_free ()</code> are false). The members are those of <code>std::atomic&lt;std::weak_ptr&lt;T&gt;&gt;</code> (see the file description). </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The element type of the weak pointer. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a4e74d488ed1d449e7349de9f044f022a" name="a4e74d488ed1d449e7349de9f044f022a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e74d488ed1d449e7349de9f044f022a">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a01822.html">lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based</a>&lt; T &gt;::value_type = typename <a class="el" href="a01818.html#a12a0d2be2ecadeaf7198416f0b64981d">base_type::value_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of the stored value. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a915a595f86f227ef7084c28205f5e17a" name="a915a595f86f227ef7084c28205f5e17a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a915a595f86f227ef7084c28205f5e17a">&#9670;&#160;</a></span>atomic_weak_ptr_lock_based() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01822.html">lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based</a>&lt; T &gt;::atomic_weak_ptr_lock_based </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an object that holds an empty weak pointer. </p>
+
+</div>
+</div>
+<a id="aea34d568a88d3d4072b0f78a544e4594" name="aea34d568a88d3d4072b0f78a544e4594"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea34d568a88d3d4072b0f78a544e4594">&#9670;&#160;</a></span>atomic_weak_ptr_lock_based() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01822.html">lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based</a>&lt; T &gt;::atomic_weak_ptr_lock_based </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a4e74d488ed1d449e7349de9f044f022a">value_type</a></td>          <td class="paramname"><span class="paramname"><em>desired</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an object that holds <code class="param">desired</code>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a012863e2ba6bf76ff718ecbc574b5adc" name="a012863e2ba6bf76ff718ecbc574b5adc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a012863e2ba6bf76ff718ecbc574b5adc">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a01818.html">lumex::core::atomic::smart_ptr::table_wait::Detail::basic_atomic_weak_ptr</a>&lt; T, <a class="el" href="a01786.html">Detail::lock_based_cell</a>&lt; std::weak_ptr&lt; T &gt; &gt; &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01818.html#afa03da29851d7c3ec00faf019b329400">basic_atomic_weak_ptr</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8c75ef47fa0f2c6f9125e65ba4787e49" name="a8c75ef47fa0f2c6f9125e65ba4787e49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c75ef47fa0f2c6f9125e65ba4787e49">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a01818.html">lumex::core::atomic::smart_ptr::table_wait::Detail::basic_atomic_weak_ptr</a>&lt; T, <a class="el" href="a01786.html">Detail::lock_based_cell</a>&lt; std::weak_ptr&lt; T &gt; &gt; &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a4e74d488ed1d449e7349de9f044f022a">value_type</a></td>          <td class="paramname"><span class="paramname"><em>desired</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Same as <code>store (desired)</code>. </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a00284_source.html">LumexAtomicWeakPtr.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01312.html">atomic</a></li><li class="navelem"><a class="el" href="a01313.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a01314.html">table_wait</a></li><li class="navelem"><a class="el" href="a01822.html">atomic_weak_ptr_lock_based</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

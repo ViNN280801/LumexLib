@@ -1,4 +1,5 @@
 var a00539 =
 [
-    [ "main", "a00539.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
+    [ "lumex::core::string::text::to_case_insensitive", "a01391.html#ad8f7eb93f5a0d72fd633cee8e25bd05a", null ],
+    [ "lumex::core::string::text::to_case_insensitive", "a01391.html#af2d09555090576cec202f328fb11ddbf", null ]
 ];

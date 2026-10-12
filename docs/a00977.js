@@ -1,4 +1,4 @@
 var a00977 =
 [
-    [ "monitor", "a00978.html", "a00978" ]
+    [ "LUMEX_IMPLEMENTATION", "a00977.html#a07486181f1990291c2a348de8eb4c480", null ]
 ];

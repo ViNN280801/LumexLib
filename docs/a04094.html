@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Versioning</title>
+<title>LumexLib: lumex::core::unicode::utf::utf8_writer Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -102,57 +102,164 @@ $(function(){initNavTree('a04094.html',''); initResizable(true); });
 </div>
 </div>
 
-<div><div class="header">
-  <div class="headertitle"><div class="title">Versioning</div></div>
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a04091.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::unicode::utf::utf8_writer Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
-<p>A LumexLib version has four components, <code>MAJOR.MINOR.PATCH.TWEAK</code>, set in one place: <code>project(LumexLib VERSION ...)</code> in the root <code>CMakeLists.txt</code>. A release is a commit tagged <code>vMAJOR.MINOR.PATCH.TWEAK</code>, with a dated section in <a href="https://github.com/ViNN280801/LumexCore/blob/develop/CHANGELOG.md">CHANGELOG.md</a> and a GitHub release. These rules apply from 2026-10-03; the releases made before them are listed at the end.</p>
-<h1><a class="anchor" id="autotoc_md1"></a>
-What raises which component</h1>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Component   </th><th class="markdownTableHeadNone">Raised when a release contains   </th><th class="markdownTableHeadNone">Examples    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">MAJOR   </td><td class="markdownTableBodyNone">an incompatible change of the API: code written for the previous version may not compile, or may compile with a different meaning   </td><td class="markdownTableBodyNone">a public function, class or macro removed or renamed; a public signature changed; the documented behavior of a public function changed in a way callers must adapt to    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">MINOR   </td><td class="markdownTableBodyNone">an incompatible change of the ABI with the API unchanged: consumers have to be rebuilt, not edited   </td><td class="markdownTableBodyNone">the layout of a public class or struct changed; an exported function of a compiled module removed or changed; an inline function or template that compiled consumers instantiate changed in a way that mixes badly with old object files    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">PATCH   </td><td class="markdownTableBodyNone">a functional change that keeps the API and the ABI compatible   </td><td class="markdownTableBodyNone">a new module, class or function; a bug fix; a change of observable behavior or output; a performance improvement    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">TWEAK   </td><td class="markdownTableBodyNone">no functional change   </td><td class="markdownTableBodyNone">tests; documentation and comments; examples; build scripts, packaging and CI; refactoring that keeps the behavior   </td></tr>
+
+<p>Writing policy: stores the UTF-8 bytes of each code point.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00575_source.html">LumexUtf.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a6f9016a8f241de558de01a97e3116b20" id="r_a6f9016a8f241de558de01a97e3116b20"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a> = std::uint8_t *</td></tr>
+<tr class="separator:a6f9016a8f241de558de01a97e3116b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:aad20e6e8bb0193dece6d53010e837db8" id="r_aad20e6e8bb0193dece6d53010e837db8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad20e6e8bb0193dece6d53010e837db8">low</a> (<a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a> result, std::uint32_t chr)</td></tr>
+<tr class="separator:aad20e6e8bb0193dece6d53010e837db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff654cdc5395ad636ce3143607493b74" id="r_aff654cdc5395ad636ce3143607493b74"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff654cdc5395ad636ce3143607493b74">high</a> (<a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a> result, std::uint32_t chr)</td></tr>
+<tr class="separator:aff654cdc5395ad636ce3143607493b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae667cfbf0a28adf997342f7e9612cb75" id="r_ae667cfbf0a28adf997342f7e9612cb75"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae667cfbf0a28adf997342f7e9612cb75">any</a> (<a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a> result, std::uint32_t chr)</td></tr>
+<tr class="separator:ae667cfbf0a28adf997342f7e9612cb75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<p>When a release contains several kinds of change, the highest one decides and the components after it restart at 0: <code>1.0.2.3</code> is followed by <code>1.0.3.0</code> for a functional change, by <code>1.1.0.0</code> for an ABI change.</p>
-<p>A number belongs to a release, not to a single change: everything merged before a release goes out under that release's number. Between releases the release's section in <code>CHANGELOG.md</code> is marked "в разработке" ("in development"), and <code>CMakeLists.txt</code> already carries the number the release will have.</p>
-<h1><a class="anchor" id="autotoc_md2"></a>
-Binary compatibility</h1>
-<ul>
-<li>Linux: the SONAME of every compiled module is <code>libLumex&lt;Module&gt;.so.MAJOR.MINOR</code>. A PATCH or TWEAK release keeps it, so a consumer picks up the new library without relinking; a MINOR or MAJOR release changes it.</li>
-<li>Windows: <code>FILEVERSION</code> and <code>PRODUCTVERSION</code> of every DLL carry all four components.</li>
-<li>Header-only modules have no binary of their own; their changes are classified by the same rules, for the code that includes them.</li>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Writing policy: stores the UTF-8 bytes of each code point. </p>
+<p><code><a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a></code> is the output pointer; <code>low</code>, <code>high</code> and <code>any</code> write the bytes of one code point at <code>result</code> and return the pointer behind them. <code>any</code> picks <code>low</code> or <code>high</code> by the value. The buffer must hold the size a <code><a class="el" href="a04082.html" title="Counting policy: the size in bytes of the UTF-8 form of what a decoder yields.">utf8_counter</a></code> run over the same input returned. </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a6f9016a8f241de558de01a97e3116b20" name="a6f9016a8f241de558de01a97e3116b20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f9016a8f241de558de01a97e3116b20">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a6f9016a8f241de558de01a97e3116b20">lumex::core::unicode::utf::utf8_writer::value_type</a> = std::uint8_t *</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae667cfbf0a28adf997342f7e9612cb75" name="ae667cfbf0a28adf997342f7e9612cb75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae667cfbf0a28adf997342f7e9612cb75">&#9670;&#160;</a></span>any()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a> lumex::core::unicode::utf::utf8_writer::any </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a></td>          <td class="paramname"><span class="paramname"><em>result</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>chr</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04094_ae667cfbf0a28adf997342f7e9612cb75_cgraph.png" border="0" usemap="#aa04094_ae667cfbf0a28adf997342f7e9612cb75_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="aff654cdc5395ad636ce3143607493b74" name="aff654cdc5395ad636ce3143607493b74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff654cdc5395ad636ce3143607493b74">&#9670;&#160;</a></span>high()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a> lumex::core::unicode::utf::utf8_writer::high </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a></td>          <td class="paramname"><span class="paramname"><em>result</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>chr</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04094_aff654cdc5395ad636ce3143607493b74_icgraph.png" border="0" usemap="#aa04094_aff654cdc5395ad636ce3143607493b74_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="aad20e6e8bb0193dece6d53010e837db8" name="aad20e6e8bb0193dece6d53010e837db8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad20e6e8bb0193dece6d53010e837db8">&#9670;&#160;</a></span>low()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a> lumex::core::unicode::utf::utf8_writer::low </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a6f9016a8f241de558de01a97e3116b20">value_type</a></td>          <td class="paramname"><span class="paramname"><em>result</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>chr</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04094_aad20e6e8bb0193dece6d53010e837db8_icgraph.png" border="0" usemap="#aa04094_aad20e6e8bb0193dece6d53010e837db8_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00575_source.html">LumexUtf.hpp</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md3"></a>
-Published releases do not change</h1>
-<p>A pushed tag, its GitHub release and its dated <code>CHANGELOG.md</code> section stay as they are. A wrong version number is corrected by the next release and noted in the section of the release that got it; a defective release is noted in its section and superseded by the next one.</p>
-<h1><a class="anchor" id="autotoc_md4"></a>
-Releases made before these rules</h1>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Release   </th><th class="markdownTableHeadNone">Raised   </th><th class="markdownTableHeadNone">By these rules   </th><th class="markdownTableHeadNone">Why    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>v1.0.0.1</code>   </td><td class="markdownTableBodyNone">TWEAK   </td><td class="markdownTableBodyNone">PATCH   </td><td class="markdownTableBodyNone">a bug fix (aggregates made only of <code>std::optional</code> fields in field reflection)    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>v1.0.0.2</code>   </td><td class="markdownTableBodyNone">TWEAK   </td><td class="markdownTableBodyNone">PATCH   </td><td class="markdownTableBodyNone">new API (<code>success()</code> and <code>failure()</code> in <code>core/expected</code>)    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>v1.0.1.1</code>   </td><td class="markdownTableBodyNone">TWEAK   </td><td class="markdownTableBodyNone">PATCH   </td><td class="markdownTableBodyNone">changed behavior and performance (stack traces on POSIX without <code>addr2line</code>)   </td></tr>
-</table>
-<p>Their numbers stay. The next release, <code>v1.0.2.0</code>, follows these rules. </p>
-</div></div><!-- contents -->
-</div><!-- PageDoc -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01406.html">unicode</a></li><li class="navelem"><a class="el" href="a01408.html">utf</a></li><li class="navelem"><a class="el" href="a04094.html">utf8_writer</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

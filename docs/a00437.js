@@ -1,17 +1,19 @@
 var a00437 =
 [
-    [ "LUMEX_ARCH_64BIT", "a00437.html#aba9f0286388c892f2c1012f21268ad8e", null ],
-    [ "LUMEX_ARCH_X64", "a00437.html#a9f4673c6fbcbc274ff1b6a688d9407cd", null ],
-    [ "LUMEX_FUNC_NAME", "a00437.html#a0c4baf3f4f5fd2588a58e82aa96db0a3", null ],
-    [ "LUMEX_OS_DEBUG_INFO", "a00437.html#affdab887f85cba2c61e00d1a0c14dcd7", null ],
-    [ "LUMEX_OS_IS_ANDROID", "a00437.html#ab036e3e330c217c4a51d0bda85eb8323", null ],
-    [ "LUMEX_OS_IS_APPLE", "a00437.html#aec11ccafb07493fbaca1bbb8d60475fd", null ],
-    [ "LUMEX_OS_IS_IOS", "a00437.html#aa2dc0e4fe3a4f9ce9dee60f66c2763d5", null ],
-    [ "LUMEX_OS_IS_LINUX", "a00437.html#abce1e6a2a76e178cfa2fe8f85adc988b", null ],
-    [ "LUMEX_OS_IS_MACOS", "a00437.html#a9d6558a73f5d801a669c0833480b1f59", null ],
-    [ "LUMEX_OS_IS_POSIX", "a00437.html#af2c5ddfdff207ab30c4581c23de41f00", null ],
-    [ "LUMEX_OS_IS_UNIX", "a00437.html#a342144102cd44f85a41d7d2979147184", null ],
-    [ "LUMEX_OS_IS_WINDOWS", "a00437.html#a5a8e809e9ec63e9d2b5fb3f584c816cd", null ],
-    [ "LUMEX_OS_LINUX", "a00437.html#af9d8e5e0ea4f3f2cffda0d354f164192", null ],
-    [ "LUMEX_OS_UNIX", "a00437.html#ab697fb59cd023b00aaa4f6b2b9000367", null ]
+    [ "lumex::core::generators::number_generator::number_generator< T >", "a03038.html", "a03038" ],
+    [ "lumex::core::generators::number_generator::DoubleGenerator", "a01366.html#afb84f259b3e484d704c510a5b5e4bc43", null ],
+    [ "lumex::core::generators::number_generator::FloatGenerator", "a01366.html#a3def1efa2301a7f3c0caf1a568102476", null ],
+    [ "lumex::core::generators::number_generator::IntGenerator", "a01366.html#ab15b3c84c54f67eb18ebf767a86a4346", null ],
+    [ "lumex::core::generators::number_generator::LongGenerator", "a01366.html#aaabce596f56930337d1fcf8025e8c20c", null ],
+    [ "lumex::core::generators::number_generator::RealNumberGeneratorHost", "a01366.html#a6ac88149259432feb94531fb1307044a", null ],
+    [ "lumex::core::generators::number_generator::DistributionType", "a01366.html#ac790ad052a54165bc304a20f53f7a502", [
+      [ "lumex::core::generators::number_generator::DistributionType::UNIFORM", "a01366.html#ac790ad052a54165bc304a20f53f7a502a891f35a29c3d51d02ffd42dd6dcc69b2", null ],
+      [ "lumex::core::generators::number_generator::DistributionType::NORMAL", "a01366.html#ac790ad052a54165bc304a20f53f7a502a1e23852820b9154316c7c06e2b7ba051", null ],
+      [ "lumex::core::generators::number_generator::DistributionType::EXPONENTIAL", "a01366.html#ac790ad052a54165bc304a20f53f7a502adcd5fc33e211f31cef0cd7cb36518d31", null ],
+      [ "lumex::core::generators::number_generator::DistributionType::GAMMA", "a01366.html#ac790ad052a54165bc304a20f53f7a502a469bb22a9f1f560331b06cd6ef0da944", null ],
+      [ "lumex::core::generators::number_generator::DistributionType::BERNOULLI", "a01366.html#ac790ad052a54165bc304a20f53f7a502aa9674699627bb066f514cd655979ad14", null ],
+      [ "lumex::core::generators::number_generator::DistributionType::BINOMIAL", "a01366.html#ac790ad052a54165bc304a20f53f7a502a8e67f0715695d58f3102fe214b1d29a3", null ],
+      [ "lumex::core::generators::number_generator::DistributionType::GEOMETRIC", "a01366.html#ac790ad052a54165bc304a20f53f7a502a5202c67f624b4ec6ddd60f69394c80b5", null ],
+      [ "lumex::core::generators::number_generator::DistributionType::POISSON", "a01366.html#ac790ad052a54165bc304a20f53f7a502a92a9a9519a6a4f5edd0b2694fe1c9122", null ]
+    ] ]
 ];

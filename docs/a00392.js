@@ -1,4 +1,5 @@
 var a00392 =
 [
-    [ "lumex::core::utility::bit::count_leading_zeros", "a01078.html#a8468ef56090dda0cf81cec700a57df38", null ]
+    [ "LUMEX_IMPLEMENTATION", "a00392.html#a07486181f1990291c2a348de8eb4c480", null ],
+    [ "lumex::core::exceptions::stacktrace::detail::resolve_symbol_info", "a01349.html#a1305360782a0d1b2dede6070ae5351b4", null ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::hazard_pointer::detail::base_pair&lt; U, D &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03069.html',''); initResizable(true); });
+$(function(){initNavTree('a03066.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,64 @@ $(function(){initNavTree('a03069.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::xml::writer::XmlWriterFile Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="a03063.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::hazard_pointer::detail::base_pair&lt; U, D &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03069.html">lumex::xml::writer::XmlWriterFile</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03069.html#af974582d54823a8a8092fae83efb63fd">operator=</a>(XmlWriterFile const &amp;)=delete</td><td class="entry"><a class="el" href="a03069.html">lumex::xml::writer::XmlWriterFile</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03069.html#a7bb0f70fe54863c398648ce62b3cc9bf">operator=</a>(XmlWriterFile &amp;&amp;)=delete</td><td class="entry"><a class="el" href="a03069.html">lumex::xml::writer::XmlWriterFile</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03069.html#a359209a5efaf88fc3e4ceed5ff0b7021">write</a>(void const *data, std::size_t size) override</td><td class="entry"><a class="el" href="a03069.html">lumex::xml::writer::XmlWriterFile</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03069.html#ac001ef549adb5996d4d7adc4a1d3b860">XmlWriterFile</a>(void *file_handle)</td><td class="entry"><a class="el" href="a03069.html">lumex::xml::writer::XmlWriterFile</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03069.html#a2f3367e817012d9990d77f3dabe56135">XmlWriterFile</a>(XmlWriterFile const &amp;)=delete</td><td class="entry"><a class="el" href="a03069.html">lumex::xml::writer::XmlWriterFile</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03069.html#a9c47e009ac80dee630f2be00a12d7057">XmlWriterFile</a>(XmlWriterFile &amp;&amp;)=delete</td><td class="entry"><a class="el" href="a03069.html">lumex::xml::writer::XmlWriterFile</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03057.html#a308227b66f5e277dfa480c687133daef">~IXmlWriter</a>()=default</td><td class="entry"><a class="el" href="a03057.html">lumex::xml::writer::IXmlWriter</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03069.html#a8f556429cf7565092c35f482b93183de">~XmlWriterFile</a>() override=default</td><td class="entry"><a class="el" href="a03069.html">lumex::xml::writer::XmlWriterFile</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;<a class="el" href="a00440_source.html">LumexHazardPointerObjBase.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a71bbc21628fbad3ba4e5193a79d4f351" id="r_a71bbc21628fbad3ba4e5193a79d4f351"><td class="memItemLeft" align="right" valign="top">typedef U&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71bbc21628fbad3ba4e5193a79d4f351">object_type</a></td></tr>
+<tr class="separator:a71bbc21628fbad3ba4e5193a79d4f351"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3affa6576483dbfb37fbd88417708f8" id="r_af3affa6576483dbfb37fbd88417708f8"><td class="memItemLeft" align="right" valign="top">typedef D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3affa6576483dbfb37fbd88417708f8">deleter_type</a></td></tr>
+<tr class="separator:af3affa6576483dbfb37fbd88417708f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="af3affa6576483dbfb37fbd88417708f8" name="af3affa6576483dbfb37fbd88417708f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3affa6576483dbfb37fbd88417708f8">&#9670;&#160;</a></span>deleter_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class U, class D&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef D <a class="el" href="a03066.html">lumex::core::hazard_pointer::detail::base_pair</a>&lt; U, D &gt;::deleter_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71bbc21628fbad3ba4e5193a79d4f351" name="a71bbc21628fbad3ba4e5193a79d4f351"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71bbc21628fbad3ba4e5193a79d4f351">&#9670;&#160;</a></span>object_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class U, class D&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef U <a class="el" href="a03066.html">lumex::core::hazard_pointer::detail::base_pair</a>&lt; U, D &gt;::object_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00440_source.html">LumexHazardPointerObjBase.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01367.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="a01368.html">detail</a></li><li class="navelem"><a class="el" href="a03066.html">base_pair</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

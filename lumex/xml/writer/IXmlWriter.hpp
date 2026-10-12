@@ -108,6 +108,12 @@ public:
    */
   virtual ~IXmlWriter () = default;
 
+  /// @brief A default-constructible polymorphic interface.
+  IXmlWriter () = default;
+  // A polymorphic writer interface is not copyable.
+  IXmlWriter (IXmlWriter const &) = delete;
+  IXmlWriter &operator= (IXmlWriter const &) = delete;
+
   /**
    * @brief Writes a block of raw data to the output.
    * @param[in] data A pointer to the data buffer to write. Must not be

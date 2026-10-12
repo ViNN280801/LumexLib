@@ -1,4 +1,5 @@
 var a00209 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00209.html#a07486181f1990291c2a348de8eb4c480", null ]
+    [ "lumex::applied::settings::factory::LumexSettingsFactory", "a01718.html", "a01718" ],
+    [ "LumexSettingsFactory", "a00209.html#a90f219acff9eb90d97465a960d7a7d0f", null ]
 ];

@@ -1,0 +1,12 @@
+digraph "lumex::core::string_view::view::detail::is_char_range&lt; Range, CharT, Traits, typename std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; Range const &amp; &gt;().data()), CharT const * &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Range const &amp; &gt;().size()), std::size_t &gt;::value &amp;&amp;std::is_same&lt; typename std::remove_cv&lt; typename std::remove_pointer&lt; decltype(std::declval&lt; Range const &amp; &gt;() .data())&gt;::type &gt;::type, CharT &gt;::value &amp;&amp;traits_match&lt; Range, Traits &gt;::value &amp;&amp;!std::is_convertible&lt; Range const &amp;, CharT const * &gt;::value &amp;&amp;!std::is_convertible&lt; Range const &amp;, lumex_basic_string_view&lt; CharT, Traits &gt; &gt;::value &gt;::type &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="lumex::core::string\l_view::view::detail\l::is_char_range\< Range,\l CharT, Traits, typename\l std::enable_if\< std::is\l_convertible\< decltype(std\l::declval\< Range const & \>\l().data()), CharT const * \>\l::value &&std::is_convertible\l\< decltype(std::declval\< Range\l const & \>().size()), std::size\l_t \>::value &&std::is_same\< typename\l std::remove_cv\< typename std::remove\l_pointer\< decltype(std::declval\< Range\l const & \>() .data())\>::type \>::type, CharT\l \>::value &&traits_match\< Range, Traits \>\l::value &&!std::is_convertible\< Range const\l &, CharT const * \>::value &&!std::is_convertible\l\< Range const &, lumex_basic_string_view\< CharT,\l Traits \> \>::value \>::type \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::false_type",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node1 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="std::true_type",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

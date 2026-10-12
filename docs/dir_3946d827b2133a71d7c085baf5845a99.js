@@ -1,5 +1,5 @@
 var dir_3946d827b2133a71d7c085baf5845a99 =
 [
-    [ "LumexLogger.cpp", "a00095.html", "a00095" ],
-    [ "LumexLogger.hpp", "a00098.html", "a00098" ]
+    [ "LumexLogger.cpp", "a00125.html", "a00125" ],
+    [ "LumexLogger.hpp", "a00128.html", "a00128" ]
 ];

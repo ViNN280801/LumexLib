@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['warning_0',['Warning',['../a00976.html#ab89470b4db8a7dc224df84237c78270ca0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'lumex::applied::logging::log']]],
-  ['warning_1',['warning',['../a00964.html#acf6c250fe30b33bf20e97c6bc52ad446a7b83d3f08fa392b79e3f553b585971cd',1,'lumex::applied::json::diagnostics']]],
-  ['waste_2',['Waste',['../a00572.html#a7014ea31388ba91f40697a3b984ae081a977fe39d1cc13e3e5e6abec301be214d',1,'example_reflection_workflow.cpp']]]
+  ['validate_5fand_5fnormalize_0',['validate_and_normalize',['../a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107',1,'lumex::applied::json::schema']]],
+  ['validate_5fonly_1',['validate_only',['../a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33a6608187b13a5d6d09880f3101d20aa99',1,'lumex::applied::json::schema']]]
 ];

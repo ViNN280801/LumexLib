@@ -38,13 +38,15 @@
 #   (11 17 20) runs the .cxx11, .cxx17 and .cxx20 files of that directory.
 #   Its CTest names end in .cxx<std>, also at the lowest standard:
 #   base64.encode.Base64EncoderTest.GivenSpan_WhenEncode_...cxx20.
-#   A directory has no suite of a standard below its lowest file: the only
-#   test file of utility.cast is a .cxx20 one, so it has the suites from C++20
-#   on, as that file ran in the C++20 and higher suites of utility before the
-#   tests were split by directory.
+#   A directory has no suite of a standard below its lowest file: a directory
+#   whose lowest file is a .cxx20 one has the suites from C++20 on. Every
+#   directory of utility has a .cxx11 file now (utility.cast and
+#   utility.ranges included, since both work from C++11), so each builds all
+#   the standards of the module.
 # Variant: an extra suite on the same sources with compile definitions, at
 #   the standards declared for it here: Lumex<Component><Variant>Cxx<std>Tests
-#   and the CTest suffix .<variant>.cxx<std> (atomic: lock_based, wait_table).
+#   and the CTest suffix .<variant>.cxx<std> (atomic: lock_based, wait_table,
+#   no_lock_free).
 #   Every directory of the module builds its variants.
 # Standards above LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE (20) are built only
 #   when the compiler supports them (cxx_std_<std> in
@@ -83,6 +85,8 @@
 #          SOURCES <files...>           # extra files of every suite (headers)
 #          DEFINITIONS <defs...>        # compile definitions of every suite
 #          EXCLUDE <files...>           # scheme files left out of the build
+#          STANDARDS <stds...>          # narrows the module's row for this
+#                                       # directory (see below)
 #          DISCOVER_ARGS <args...>      # to lumex_gtest_discover_tests
 #          PLAIN_EXECUTABLE             # own main (), registered by add_test
 #          TARGETS_VAR <var>            # receives the created target names
@@ -106,7 +110,7 @@
 #        lumex_add_standard_suites(UtilityTraits MODULE utility
 #            LINK lumex::utility "$<$<PLATFORM_ID:Windows>:dbghelp>"
 #            DISCOVER_ARGS DISCOVERY_TIMEOUT 60)
-#      Variants (atomic: lock_based and wait_table, declared below; every
+#      Variants (atomic: lock_based, wait_table and no_lock_free, declared below; every
 #        directory of atomic passes them):
 #        lumex_add_standard_suites(AtomicSmartPtr MODULE atomic
 #            LINK lumex::atomic
@@ -138,6 +142,30 @@
 #    its suite (an old unsuffixed name gets .cxx<lowest>) and the directory
 #    segment of its source directory after the module key, and new suites
 #    may only add names.
+#
+# Narrowing the row of one directory (STANDARDS)
+# ----------------------------------------------
+# A directory builds the module's whole row by default. A directory whose
+# tests and code under test do not change with the standard (no __cplusplus,
+# LUMEX_HAS_* or __cpp_* branch in the files of the directory or in the
+# sources it tests, no test file of a standard between two others) names the
+# standards that matter with STANDARDS, normally 11 17 20: C++11 is the floor,
+# 17 is where the vendored GoogleTest changes (1.12.1 below, 1.18.0 from 17)
+# and 20 is the last standard every toolchain has. The sources of a suite do
+# not change: it still compiles the files of its standard and of the lower
+# ones that exist. The list must be a strictly ascending subset of the
+# module's row, start at its lowest standard and keep the standard of every
+# test file of the directory (a file of a standard left out would not be
+# built); it may not equal the row (then it only repeats the table) and it is
+# not allowed with a VARIANT. Measure before narrowing: preprocess the
+# directory's test files at the standard to drop and at the one below it
+# (the same compile command, only -std= changes) and compare the text that
+# comes from the directory's own files and from the sources it tests; when it
+# is identical the standard changes nothing there. cmake.wiring_standard_suites
+# also refuses a dropped standard that a __cplusplus threshold, a feature
+# macro or a file name of those files names. Put the reason in the
+# directory's CMakeLists.txt. Narrowing never removes a test: every test still
+# runs at the standards kept.
 #
 # Several components in one directory
 # -----------------------------------
@@ -329,6 +357,47 @@ function(lumex_test_standards_select out_var key std)
   set(${out_var} ${_selected} PARENT_SCOPE)
 endfunction()
 
+# lumex_test_standards_resolve(<out_var> <key> <override> [<file>...])
+#
+# Stores in <out_var> the standards a test directory of module <key> is built
+# at: the module's row, or - when <override> (the directory's STANDARDS list,
+# a ;-list; empty for none) is not empty - that list. A directory narrows the
+# row when its tests and the code under test do not change with the
+# standard, so the suites between the standards that matter would only run
+# the same sources again. The list must be strictly ascending, every entry a
+# standard of the module, and it must keep the standard of every given test
+# source <file>: a file whose standard was left out would not be built.
+function(lumex_test_standards_resolve out_var key override)
+  lumex_test_standards_get(_row "${key}")
+  if("${override}" STREQUAL "")
+    set(${out_var} ${_row} PARENT_SCOPE)
+    return()
+  endif()
+  string(REPLACE ";" " " _shown "${override}")
+  _lumex_test_standards_check_list("${key} STANDARDS" ${override})
+  foreach(_std IN LISTS override)
+    if(NOT _std IN_LIST _row)
+      message(FATAL_ERROR
+        "lumex/tests/LumexTestStandards.cmake: C++${_std} of STANDARDS is "
+        "not a standard of '${key}' (${_row})")
+    endif()
+  endforeach()
+  foreach(_file IN LISTS ARGN)
+    lumex_test_standards_of_file(_file_std "${_file}")
+    if(NOT _file_std STREQUAL "" AND NOT _file_std IN_LIST override)
+      message(FATAL_ERROR
+        "lumex/tests/LumexTestStandards.cmake: ${_file} is a C++${_file_std} "
+        "test source, but STANDARDS (${_shown}) does not build C++${_file_std}")
+    endif()
+  endforeach()
+  if("${override}" STREQUAL "${_row}")
+    message(FATAL_ERROR
+      "lumex/tests/LumexTestStandards.cmake: STANDARDS (${_shown}) of a "
+      "'${key}' directory is the module's row; leave STANDARDS out")
+  endif()
+  set(${out_var} ${override} PARENT_SCOPE)
+endfunction()
+
 # --- The table (user decision 2026-10-03) ---------------------------------
 
 lumex_test_standards_declare(utility 11 14 17 20 23 26)
@@ -339,27 +408,54 @@ lumex_test_standards_declare(string 11 14 17 20)
 lumex_test_standards_declare(logger 11 14 17 20)
 
 lumex_test_standards_declare(crc 11 14 17 20)
+lumex_test_standards_declare(hazard_pointer 11 14 17 20)
+lumex_test_standards_declare(contracts 11 14 17 20)
 
 lumex_test_standards_declare(atomic 11 17 20)
-lumex_test_standards_declare_variant(atomic lock_based 20)
+lumex_test_standards_declare_variant(atomic lock_based 11 20)
 lumex_test_standards_declare_variant(atomic wait_table 20)
+lumex_test_standards_declare(atomic.dwcas 11 14 17 20)
+lumex_test_standards_declare(atomic.smart_ptr.split_count 11 17 20)
+
+# The built-in backend (LUMEX_DWCAS_BACKEND=3: __atomic_* on unsigned
+# __int128) exists for ThreadSanitizer and is GCC and Clang only - MSVC has
+# neither the type nor the builtins, so the variant is not declared there.
+# The tests' CMakeLists.txt of the two modules guard their VARIANT the same
+# way: lumex_add_standard_suites fails unless the table and the call name the
+# same variants.
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  lumex_test_standards_declare_variant(atomic.dwcas builtin 11 14 17 20)
+  lumex_test_standards_declare_variant(atomic.smart_ptr.split_count builtin 11 20)
+endif()
+
+lumex_test_standards_declare_variant(atomic.dwcas msvc_wrapper 11 14 17 20)
+lumex_test_standards_declare_variant(atomic.smart_ptr.split_count wait_table 20)
+lumex_test_standards_declare_variant(atomic.smart_ptr.split_count no_split_count 11 20)
+lumex_test_standards_declare_variant(atomic.smart_ptr.split_count prefer_split_count 11 20)
+lumex_test_standards_declare_variant(atomic no_lock_free 11 20)
+lumex_test_standards_declare_variant(atomic lock_free 11 20)
+lumex_test_standards_declare_variant(atomic lock_free_deferred 11 20)
+lumex_test_standards_declare_variant(atomic std_backed 20)
 lumex_test_standards_declare(base64 11 17 20)
-lumex_test_standards_declare(expected 11 17 20)
+lumex_test_standards_declare(expected 11 14 17 20 23)
 lumex_test_standards_declare(json 11 17 20)
 lumex_test_standards_declare(xml 11 17 20)
 lumex_test_standards_declare(exceptions 11 17 20)
 lumex_test_standards_declare(math 11 17 20)
 lumex_test_standards_declare(span 11 17 20)
+lumex_test_standards_declare_variant(span checks_on 11 20)
+lumex_test_standards_declare_variant(span checks_off 11 20)
+lumex_test_standards_declare(smart_ptr 11 14 17 20)
 
 lumex_test_standards_declare(circular_buffer 11 20)
-lumex_test_standards_declare(filesystem 11 20)
+lumex_test_standards_declare(filesystem 11 17 20)
 
 lumex_test_standards_declare(resource_monitor 11)
 
 lumex_test_standards_declare(environment 11)
 lumex_test_standards_declare(generators.number_generator 11)
-lumex_test_standards_declare(optional 11)
-lumex_test_standards_declare(string_view 11)
+lumex_test_standards_declare(optional 11 14 17 20 23)
+lumex_test_standards_declare(string_view 11 14 17 20)
 lumex_test_standards_declare(temporary 11)
 lumex_test_standards_declare(time 11)
 lumex_test_standards_declare(unicode 11)

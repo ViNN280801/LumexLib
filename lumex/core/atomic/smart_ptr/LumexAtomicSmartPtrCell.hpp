@@ -39,11 +39,14 @@
 
 /**
  * @file LumexAtomicSmartPtrCell.hpp
- * @brief Storage and operations behind `atomic_shared_ptr` and
- * `atomic_weak_ptr`: a lock-based cell for every standard library, and a cell
- * over the standard atomic smart pointers.
+ * @brief Storage and operations behind `atomic_shared_ptr_lock_based`,
+ * `atomic_weak_ptr_lock_based` and the `*_std_backed` class templates: a
+ * lock-based cell for every standard library, and a cell over the standard
+ * atomic smart pointers.
  * @details The public class templates forward every operation to one of the
- * cells below; `LUMEX_ATOMIC_SMART_PTR_USES_STD` selects which.
+ * cells below (the lock-free cell is in
+ * `LumexAtomicSmartPtrLockFreeCell.hpp`); the equivalence traits are shared by
+ * all of them.
  *
  * `lock_based_cell` is the port of the lock-based method of the author's own
  * libc++ implementation (llvm-project pull request 194215; see
@@ -132,6 +135,14 @@ template <typename T> struct smart_ptr_traits_t<std::shared_ptr<T>>
     return probe_t ();
   }
 
+  /// True for a shared pointer that owns nothing and stores a null pointer
+  /// (the value of a default-constructed one).
+  static bool
+  is_plain_empty (std::shared_ptr<T> const &pointer) LUMEX_NOEXCEPT
+  {
+    return pointer.use_count () == 0 && pointer.get () == nullptr;
+  }
+
   static bool
   equivalent (std::shared_ptr<T> const &current,
               std::shared_ptr<T> const &expected, probe_t const &,
@@ -158,6 +169,15 @@ template <typename T> struct smart_ptr_traits_t<std::weak_ptr<T>>
     return pointer.lock ();
   }
 
+  /// True for a weak pointer that shares ownership with nothing (the value
+  /// of a default-constructed one); its stored pointer cannot be observed.
+  static bool
+  is_plain_empty (std::weak_ptr<T> const &pointer) LUMEX_NOEXCEPT
+  {
+    std::weak_ptr<T> const none;
+    return !pointer.owner_before (none) && !none.owner_before (pointer);
+  }
+
   static bool
   equivalent (std::weak_ptr<T> const &current,
               std::weak_ptr<T> const &expected, probe_t const &expected_probe,
@@ -179,24 +199,87 @@ template <typename T> struct smart_ptr_traits_t<std::weak_ptr<T>>
 };
 
 /**
+ * @brief The wait generation shared by every engine: `notify_*` advances a
+ * 32-bit counter and wakes the threads that sleep on it, `wait` compares the
+ * current value with the old one and sleeps on the counter only while they
+ * are equivalent.
+ * @details The counter is independent of how the value is stored, so every
+ * cell derives from this class. (Not the epoch tag of an ABA-safe design: it
+ * counts notifications, nothing else.) A notification between the comparison
+ * and the sleep changes the counter, so the sleep returns at once instead of
+ * losing the wake-up.
+ */
+class epoch_wait_base
+{
+public:
+  epoch_wait_base (epoch_wait_base const &) = delete;
+  epoch_wait_base &operator= (epoch_wait_base const &) = delete;
+
+protected:
+  LUMEX_CONSTEXPR
+  epoch_wait_base () LUMEX_NOEXCEPT : epoch_ (0u) {}
+
+  ~epoch_wait_base () = default;
+
+  /// Blocks while `still_equivalent ()` returns true; every wake-up asks
+  /// again.
+  template <typename StillEquivalent>
+  void
+  wait_while (StillEquivalent const &still_equivalent) const LUMEX_NOEXCEPT
+  {
+    for (;;)
+      {
+        // Read the counter before the value: a notification that follows a
+        // change made after this comparison then changes the counter that
+        // this thread sleeps on.
+        std::uint32_t const epoch = epoch_.load (std::memory_order_acquire);
+        if (!still_equivalent ())
+          return;
+        sync::Detail::wait_until_changed (epoch_, epoch);
+      }
+  }
+
+  void
+  notify_one () LUMEX_NOEXCEPT
+  {
+    epoch_.fetch_add (1u, std::memory_order_release);
+    sync::Detail::notify_one (epoch_);
+  }
+
+  void
+  notify_all () LUMEX_NOEXCEPT
+  {
+    epoch_.fetch_add (1u, std::memory_order_release);
+    sync::Detail::notify_all (epoch_);
+  }
+
+private:
+  std::atomic<std::uint32_t> epoch_;
+};
+
+/**
  * @brief Lock-based atomic cell over an ordinary smart pointer.
  * @tparam Pointer `std::shared_ptr<T>` or `std::weak_ptr<T>`.
  */
-template <typename Pointer> class lock_based_cell
+template <typename Pointer> class lock_based_cell : private epoch_wait_base
 {
   using traits_type = smart_ptr_traits_t<Pointer>;
   using probe_type = typename traits_type::probe_t;
   using lock_guard_type = sync::Detail::bit_lock_guard;
 
 public:
+  typedef Pointer value_type;
+
   static LUMEX_CONSTEXPR bool is_always_lock_free = false;
 
   LUMEX_CONSTEXPR
-  lock_based_cell () LUMEX_NOEXCEPT : lock_ (), epoch_ (0u), value_ () {}
+  lock_based_cell () LUMEX_NOEXCEPT : epoch_wait_base (), lock_ (), value_ ()
+  {
+  }
 
   explicit lock_based_cell (Pointer desired) LUMEX_NOEXCEPT
-      : lock_ (),
-        epoch_ (0u),
+      : epoch_wait_base (),
+        lock_ (),
         value_ (std::move (desired))
   {
   }
@@ -269,31 +352,11 @@ public:
   void
   wait (Pointer const &old, std::memory_order) const LUMEX_NOEXCEPT
   {
-    for (;;)
-      {
-        // Read the counter before the value: a notification that follows a
-        // change made after this comparison then changes the counter that
-        // this thread sleeps on.
-        std::uint32_t const epoch = epoch_.load (std::memory_order_acquire);
-        if (!holds_equivalent (old))
-          return;
-        sync::Detail::wait_until_changed (epoch_, epoch);
-      }
+    this->wait_while ([this, &old] { return holds_equivalent (old); });
   }
 
-  void
-  notify_one () LUMEX_NOEXCEPT
-  {
-    epoch_.fetch_add (1u, std::memory_order_release);
-    sync::Detail::notify_one (epoch_);
-  }
-
-  void
-  notify_all () LUMEX_NOEXCEPT
-  {
-    epoch_.fetch_add (1u, std::memory_order_release);
-    sync::Detail::notify_all (epoch_);
-  }
+  using epoch_wait_base::notify_all;
+  using epoch_wait_base::notify_one;
 
 private:
   bool
@@ -330,7 +393,6 @@ private:
   }
 
   sync::Detail::bit_lock lock_;
-  std::atomic<std::uint32_t> epoch_;
   Pointer value_;
 };
 
@@ -339,28 +401,30 @@ template <typename Pointer>
 LUMEX_CONSTEXPR bool lock_based_cell<Pointer>::is_always_lock_free;
 #endif
 
-#if LUMEX_ATOMIC_SMART_PTR_USES_STD
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
 
 /**
  * @brief Atomic cell over `std::atomic<std::shared_ptr<T>>` or
  * `std::atomic<std::weak_ptr<T>>`, with a conforming `wait`.
  * @tparam Pointer `std::shared_ptr<T>` or `std::weak_ptr<T>`.
  */
-template <typename Pointer> class std_backed_cell
+template <typename Pointer> class std_backed_cell : private epoch_wait_base
 {
   using traits_type = smart_ptr_traits_t<Pointer>;
   using probe_type = typename traits_type::probe_t;
 
 public:
+  typedef Pointer value_type;
+
   static LUMEX_CONSTEXPR bool is_always_lock_free
       = std::atomic<Pointer>::is_always_lock_free;
 
   LUMEX_CONSTEXPR
-  std_backed_cell () LUMEX_NOEXCEPT : value_ (), epoch_ (0u) {}
+  std_backed_cell () LUMEX_NOEXCEPT : epoch_wait_base (), value_ () {}
 
   explicit std_backed_cell (Pointer desired) LUMEX_NOEXCEPT
-      : value_ (std::move (desired)),
-        epoch_ (0u)
+      : epoch_wait_base (),
+        value_ (std::move (desired))
   {
   }
 
@@ -427,28 +491,12 @@ public:
   void
   wait (Pointer const &old, std::memory_order order) const LUMEX_NOEXCEPT
   {
-    for (;;)
-      {
-        std::uint32_t const epoch = epoch_.load (std::memory_order_acquire);
-        if (!holds_equivalent (old, order))
-          return;
-        sync::Detail::wait_until_changed (epoch_, epoch);
-      }
+    this->wait_while ([this, &old, order]
+                        { return holds_equivalent (old, order); });
   }
 
-  void
-  notify_one () LUMEX_NOEXCEPT
-  {
-    epoch_.fetch_add (1u, std::memory_order_release);
-    sync::Detail::notify_one (epoch_);
-  }
-
-  void
-  notify_all () LUMEX_NOEXCEPT
-  {
-    epoch_.fetch_add (1u, std::memory_order_release);
-    sync::Detail::notify_all (epoch_);
-  }
+  using epoch_wait_base::notify_all;
+  using epoch_wait_base::notify_one;
 
 private:
   bool
@@ -462,22 +510,9 @@ private:
   }
 
   std::atomic<Pointer> value_;
-  std::atomic<std::uint32_t> epoch_;
 };
 
-/**
- * @brief The cell selected by `LUMEX_ATOMIC_SMART_PTR_USES_STD`.
- */
-template <typename Pointer> using Cell = std_backed_cell<Pointer>;
-
-#else // !LUMEX_ATOMIC_SMART_PTR_USES_STD
-
-/**
- * @brief The cell selected by `LUMEX_ATOMIC_SMART_PTR_USES_STD`.
- */
-template <typename Pointer> using Cell = lock_based_cell<Pointer>;
-
-#endif // LUMEX_ATOMIC_SMART_PTR_USES_STD
+#endif // LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
 
 } // namespace Detail
 } // namespace LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE

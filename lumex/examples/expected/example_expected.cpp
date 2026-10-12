@@ -3,8 +3,14 @@
 
 #include "lumex/core/expected/Expected"
 
-// `unexpected` and `in_place` have no global alias (the MinGW runtime declares
-// its own global `unexpected`): the using-directives bring in the module's.
+// `unexpected` has no global alias in the module on purpose: the platform
+// declares its own global `unexpected()` (MSVC `eh.h` while `_HAS_CXX23` is 0,
+// MinGW), so the module's name is used through the namespace alias below and
+// the using-directives bring in the rest.
+namespace err = lumex::core::expected::error;
+
+// `in_place` has no global alias either (the MinGW runtime declares its own
+// global `in_place`): the using-directives bring in the module's.
 using namespace lumex::core::expected::result;
 using namespace lumex::core::expected::error;
 
@@ -81,7 +87,7 @@ main ()
           [] (int value) -> expected<std::string, int>
             {
               if (value > 3)
-                return unexpected<int> (value);
+                return err::unexpected<int> (value);
               return std::string ("COM") + std::to_string (value);
             });
 
@@ -102,13 +108,13 @@ main ()
   std::cout << "\n--- 7. unexpected, conversion, comparison ---\n";
   // unexpected converts implicitly, like std::unexpected.
   expected<int, std::string> const refused
-      = unexpected<std::string> (std::string ("refused"));
+      = err::unexpected<std::string> (std::string ("refused"));
   expected<long, std::string> const wide = channel; // converting constructor
   std::cout << "refused=" << refused.error () << " wide=" << wide.value ()
             << " channel==5: " << (channel == 5)
             << " wide==5L: " << (wide == 5L) << " missing==unexpected: "
             << (missing
-                == unexpected<std::string> (std::string ("not a digit")))
+                == err::unexpected<std::string> (std::string ("not a digit")))
             << '\n';
 
   std::cout << "\n=== Expected example finished ===\n";

@@ -17,6 +17,18 @@ foreach(_var LUMEX_SOURCE_DIR LIB_STD CONSUMER_STD)
     endif()
 endforeach()
 
+# The pair of this fixture needs a library built at C++11 (LIB_STD=11) and a
+# consumer at C++11 (CONSUMER_STD=11): MSVC has no C++11 mode - /std:c++14 is
+# the lowest it accepts - so the scenario cannot be built there. The C++14
+# library leg would be a different fixture (the exported signatures of the
+# modules are the same in C++14 and C++11, so the check would have to be
+# reworded), and this fixture reports itself as skipped instead.
+if(MSVC)
+    message("LUMEX_CONSUMER_SKIP: MSVC has no C++11 mode for the library and "
+            "the consumer leg of this check")
+    return()
+endif()
+
 set(LUMEX_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(LUMEX_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(LUMEX_BUILD_APPLIED OFF CACHE BOOL "" FORCE)

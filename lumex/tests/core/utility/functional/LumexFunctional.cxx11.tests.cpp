@@ -1,9 +1,10 @@
 // lumex/tests/core/utility/functional/LumexFunctional.cxx11.tests.cpp
-// identity and less of LumexFunctional.hpp. Below C++20 (identity) and C++14
-// (less) they are classes of this library, otherwise the standard function
-// objects; the tests describe the behavior both share (forwarding of the
-// argument category, transparency, the result of `<`, noexcept, constant
-// expressions, the order of pointers), so the same file runs in every suite.
+// identity and less of LumexFunctional.hpp. They are classes of this library
+// in every standard (never std::identity or std::less<void>; the conversions
+// to and from those are checked in LumexFunctional.cxx14 and .cxx20); the
+// tests describe their behavior (forwarding of the argument category,
+// transparency, the result of `<`, noexcept, constant expressions, the order
+// of pointers), so the same file runs in every suite.
 #include <algorithm>
 #include <cstddef>
 #include <map>

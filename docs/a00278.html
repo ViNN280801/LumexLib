@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexStacktraceEntry.cpp File Reference</title>
+<title>LumexLib: LumexAtomicSmartPtrLockFreeCell.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,75 +104,102 @@ $(function(){initNavTree('a00278.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexStacktraceEntry.cpp File Reference</div></div>
+<a href="#enum-members">Enumerations</a>  </div>
+  <div class="headertitle"><div class="title">LumexAtomicSmartPtrLockFreeCell.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00281_source.html">LumexStacktraceEntry.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+
+<p>The lock-free engine behind <code>atomic_shared_ptr_lock_free</code> and <code>atomic_weak_ptr_lock_free</code>: an immutable heap box behind one <code>std::atomic</code> pointer, protected by hazard pointers.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;exception&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00269_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrBox.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00272_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00275_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01208_source.html">lumex/core/hazard_pointer/LumexHazardPointer</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexStacktraceEntry.cpp:</div>
+Include dependency graph for LumexAtomicSmartPtrLockFreeCell.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00279.png" border="0" usemap="#a_lumex_stacktrace_entry_8cpp" alt=""/></div>
-<map name="a_lumex_stacktrace_entry_8cpp" id="a_lumex_stacktrace_entry_8cpp">
-<area shape="rect" title=" " alt="" coords="221,5,400,32"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,163,168,189"/>
-<area shape="poly" title=" " alt="" coords="289,35,211,82,115,155,112,150,208,78,286,30"/>
-<area shape="rect" href="a00281.html" title="Defines the LumexStacktraceEntry class, representing a single frame in a call stack." alt="" coords="221,80,400,107"/>
-<area shape="poly" title=" " alt="" coords="313,33,313,64,308,64,308,33"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="443,155,637,197"/>
-<area shape="poly" title=" " alt="" coords="334,30,413,78,504,143,500,147,410,82,332,35"/>
-<area shape="poly" title=" " alt="" coords="276,110,137,160,135,155,275,105"/>
-<area shape="rect" title=" " alt="" coords="192,163,256,189"/>
-<area shape="poly" title=" " alt="" coords="299,109,250,154,246,150,295,105"/>
-<area shape="rect" title=" " alt="" coords="280,163,341,189"/>
-<area shape="poly" title=" " alt="" coords="313,107,313,147,308,147,308,107"/>
-<area shape="rect" title=" " alt="" coords="365,163,418,189"/>
-<area shape="poly" title=" " alt="" coords="325,105,371,150,367,154,321,109"/>
-<area shape="poly" title=" " alt="" coords="347,105,467,146,465,152,345,110"/>
-</map>
+<div class="center"><img src="a00279.png" border="0" usemap="#a_lumex_atomic_smart_ptr_lock_free_cell_8hpp" alt=""/></div>
 </div>
-</div><table class="memberdecls">
+</div>
+<p><a href="a00278_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01790.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell&lt; Pointer, Reclaim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock-free atomic cell over an ordinary smart pointer.  <a href="a01790.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01032.html">lumex::core::exceptions</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01312.html">lumex::core::atomic</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01038.html">lumex::core::exceptions::stacktrace</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01313.html">lumex::core::atomic::smart_ptr</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01039.html">lumex::core::exceptions::stacktrace::detail</a></td></tr>
-<tr class="memdesc:a01039"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal detail namespace for platform-specific stacktrace functionalities. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01314.html">lumex::core::atomic::smart_ptr::table_wait</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01315.html">lumex::core::atomic::smart_ptr::table_wait::Detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b32d67a6a7c894fadf7358cd766df4d" id="r_a4b32d67a6a7c894fadf7358cd766df4d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b32d67a6a7c894fadf7358cd766df4d">LUMEX_ATOMIC_SMART_PTR_TEST_POINT</a>(id)</td></tr>
+<tr class="memdesc:a4b32d67a6a7c894fadf7358cd766df4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Named places in the lock-free engine where a test may stall a thread; empty unless <code>LUMEX_ATOMIC_SMART_PTR_TEST_HOOKS</code> is defined.  <br /></td></tr>
+<tr class="separator:a4b32d67a6a7c894fadf7358cd766df4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a1305360782a0d1b2dede6070ae5351b4" id="r_a1305360782a0d1b2dede6070ae5351b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01039.html#a1305360782a0d1b2dede6070ae5351b4">lumex::core::exceptions::stacktrace::detail::resolve_symbol_info</a> (void *address, std::string &amp;function_name, std::string &amp;source_file, std::uint32_t &amp;line_number) noexcept</td></tr>
-<tr class="memdesc:a1305360782a0d1b2dede6070ae5351b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves the description of a given address on POSIX systems.  <br /></td></tr>
-<tr class="separator:a1305360782a0d1b2dede6070ae5351b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:adb6bacd656d47fc088685836f33190d7" id="r_adb6bacd656d47fc088685836f33190d7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01315.html#adb6bacd656d47fc088685836f33190d7">lumex::core::atomic::smart_ptr::table_wait::Detail::test_point_id_t</a> { <a class="el" href="a01315.html#adb6bacd656d47fc088685836f33190d7aa06640f836d006857791f60c27b5e330">lumex::core::atomic::smart_ptr::table_wait::Detail::load_protected</a> = 1
+, <a class="el" href="a01315.html#adb6bacd656d47fc088685836f33190d7a3aedc879fb3c0b34c8402d726f81637b">lumex::core::atomic::smart_ptr::table_wait::Detail::cas_checked</a> = 2
+ }</td></tr>
+<tr class="memdesc:adb6bacd656d47fc088685836f33190d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ids of the test points (see <code>LUMEX_ATOMIC_SMART_PTR_TEST_POINT</code>).  <a href="a01315.html#adb6bacd656d47fc088685836f33190d7">More...</a><br /></td></tr>
+<tr class="separator:adb6bacd656d47fc088685836f33190d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The lock-free engine behind <code>atomic_shared_ptr_lock_free</code> and <code>atomic_weak_ptr_lock_free</code>: an immutable heap box behind one <code>std::atomic</code> pointer, protected by hazard pointers. </p>
+<p>The stored value is a <code>box_t</code> (see <code><a class="el" href="a00269.html" title="The immutable heap box of the lock-free engine, and the policies that say when a replaced box is dest...">LumexAtomicSmartPtrBox.hpp</a></code>) that holds an ordinary <code>std::shared_ptr</code> or <code>std::weak_ptr</code>. The cell is one <code>std::atomic&lt;box_t *&gt;</code> (null for the empty value, so the default and <code>nullptr</code> constructors are <code>constexpr</code>) and the 32-bit wait counter of the other engines. The user-visible type stays the standard smart pointer, so aliasing pointers, custom deleters, <code>make_shared</code> and <code>enable_shared_from_this</code> work unchanged, and no control block of this library exists.</p>
+<p>Algorithm. Hazard pointers (Michael) guard the box a thread is about to use: the reader announces the box address in a slot of the hazard domain (<code>core/hazard_pointer</code>), issues a fence and checks that the cell still holds it. The announce-validate protocol of Anderson, Blelloch and Wei for atomic reference counted pointers is the same idea applied to loading a <code>shared_ptr</code>; here the box stands for the control block, because a <code>std::shared_ptr</code> offers no way to take a reference to a control block that is only known by address.</p>
+<ul>
+<li><code>load</code>: protect the box, copy its smart pointer, drop the protection. Nothing in the cell is written; no reader waits for another thread.</li>
+<li><code>store</code>, <code>exchange</code>: allocate a box (none for the empty value), swap the pointer in, hand the old box to the reclaim policy. <code>exchange</code> returns a copy of the old box's value made before the hand-over (readers may be copying it, it cannot be moved out).</li>
+<li><code>compare_exchange_strong</code>: protect the current box, test the equivalence of its value with <code>expected</code> (same stored pointer and shared ownership, or both empty); not equivalent: <code>expected</code> receives a copy, no allocation; equivalent: build the new box once and swap it in with a pointer compare-exchange <em>from the protected box</em>. A box that is protected cannot have been freed and allocated again, so the pointer compare-exchange has no ABA problem and needs no version tag. When it fails because the cell changed, the loop protects the new box and tests again, so the strong form fails only when the value is not equivalent. The weak form makes one attempt. A caller that retries a failed strong exchange only ever retries because another thread made progress, so the operation is lock-free; <code>compare_exchange_weak</code> is the same with one attempt.</li>
+<li><code>wait</code>, <code>notify_one</code>, <code>notify_all</code>: the epoch counter shared with the other engines.</li>
+</ul>
+<p>Destruction of the replaced value. A removed box is destroyed by the policy template argument: <code>reclaim::immediate</code> scans the hazard slots for that one box (cost proportional to the number of slots) and destroys it in the call when no reader names it (the deleter of the replaced value, and <code>use_count ()</code> of everything it owned, then behave as in the lock-based engine); only a box a reader holds at that moment goes to the retired list of the hazard domain. <code>reclaim::deferred</code> always retires. The deleter of a replaced value therefore runs on the replacing thread, inside the call or (retired boxes) inside a later replacing call of any thread, never on a thread that only reads; it may use any atomic smart pointer. The number of boxes that wait is bounded by the hazard module (see its README). The destructor of the cell destroys the last box at once. With the immediate policy a cell that had to retire a box (a reader named it) also runs a pass of the hazard domain (<code>clean_up ()</code>), so everything the cell ever held is destroyed by the time the cell is, as with the other engines (a deleter may therefore refer to objects that die with the atomic). With the deferred policy boxes retired earlier stay with the domain until a pass reclaims them, and the deleters of replaced values must outlive the atomic.</p>
+<p><code>is_always_lock_free</code> and <code>is_lock_free ()</code> are true in the steady-state sense: no operation waits for another thread. The first operation of a thread takes a hazard record (a wait-free cache hit afterwards), and an operation that allocates a box may block in the allocator. An allocation failure inside a <code>noexcept</code> operation calls <code>std::terminate</code>, as does running out of hazard records.</p>
+<p>Memory orders. Every operation publishes with at least release and observes with at least acquire, because the box contents travel through the pointer; <code>seq_cst</code> requests are honoured. <code>relaxed</code> and <code>consume</code> loads are acquire loads.</p>
+<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a4b32d67a6a7c894fadf7358cd766df4d" name="a4b32d67a6a7c894fadf7358cd766df4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b32d67a6a7c894fadf7358cd766df4d">&#9670;&#160;</a></span>LUMEX_ATOMIC_SMART_PTR_TEST_POINT</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+          <td class="memname">#define LUMEX_ATOMIC_SMART_PTR_TEST_POINT</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span><span class="keyword">&gt;</span> (0)</div>
+</div><!-- fragment -->
+<p>Named places in the lock-free engine where a test may stall a thread; empty unless <code>LUMEX_ATOMIC_SMART_PTR_TEST_HOOKS</code> is defined. </p>
+<p>A test that defines the macro also defines <code>LUMEX_ATOMIC_SMART_PTR_TEST_POINT (id)</code> (a call of its own handler with one of <code>lumex::core::atomic::smart_ptr::Detail::test_point_id_t</code>), builds the engine into its own executable and stalls threads there to make a race deterministic: <code>load_protected</code> is after a <code>load</code> protected the box and before it copies the value, <code>cas_checked</code> after a compare-exchange found the current value equivalent and before it swaps the pointer. </p>
 
 </div>
 </div>
@@ -181,7 +208,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="dir_a0b23f6384dc05edfed58978996640ca.html">stacktrace</a></li><li class="navelem"><a class="el" href="a00278.html">LumexStacktraceEntry.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00278.html">LumexAtomicSmartPtrLockFreeCell.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

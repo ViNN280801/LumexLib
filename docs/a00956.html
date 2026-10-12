@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::hardware::caps::CPUIDEDXFlags Namespace Reference</title>
+<title>LumexLib: XmlDocument.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,20 +103,59 @@ $(function(){initNavTree('a00956.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::hardware::caps::CPUIDEDXFlags Namespace Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XmlDocument.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CPUID feature flags (EDX register, function 0x00000001)  
+<p><code>XmlDocument</code>, the owner of an XML tree: loading from files, streams, strings and memory buffers, and saving.  
 <a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00617_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00983_source.html">lumex/xml/node/XmlNode.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01025_source.html">lumex/xml/writer/IXmlWriter.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XmlDocument.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00957.png" border="0" usemap="#a_xml_document_8hpp" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00958.png" border="0" usemap="#a_xml_document_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00956_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04950.html">lumex::xml::document::XmlDocument</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XML document, providing methods for loading, saving, and manipulating XML data.  <a href="a04950.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01499.html">lumex::xml::document</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CPUID feature flags (EDX register, function 0x00000001) </p>
+<div class="textblock"><p><code>XmlDocument</code>, the owner of an XML tree: loading from files, streams, strings and memory buffers, and saving. </p>
+<p>An <code>XmlDocument</code> is the document node of its tree and owns all of the tree's memory. Every <code>XmlNode</code>, <code>XmlAttribute</code> and <code>XmlText</code> obtained from it is valid only until the document is destroyed, reset or loaded again. A document can be moved but not copied; <code>reset(proto)</code> makes a deep copy of another one.</p>
+<p>Each load function first resets the document, then parses with the given <code>kparse_*</code> options (<code><a class="el" href="a00950.html" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade...">XmlConstants.hpp</a></code>) and source encoding (<code>encoding_auto</code> detects it) and reports the outcome in an <code>xml_parse_result_t</code>. The buffer variants differ in ownership: <code>load_buffer</code> copies the input, <code>load_buffer_inplace</code> parses the caller's buffer, which must then outlive the document, and <code>load_buffer_inplace_own</code> also takes it over. Saving writes to an <code>IXmlWriter</code>, a narrow or wide output stream, or a file, with an indentation string, <code>kformat_*</code> flags and a target encoding. Consumers include the file through <code>lumex/xml/LumexXml</code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00950.html">hardware</a></li><li class="navelem"><a class="el" href="a00951.html">caps</a></li><li class="navelem"><a class="el" href="a00956.html">CPUIDEDXFlags</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_451e7857950ad48a5f718c2083a77540.html">document</a></li><li class="navelem"><a class="el" href="a00956.html">XmlDocument.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::utility::traits::invoke Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01441.html',''); initResizable(true); });
+$(function(){initNavTree('a01438.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,85 @@ $(function(){initNavTree('a01441.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc8_cdma2000_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::traits::invoke Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01439.html">detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04522.html">invoke_result</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04546.html">is_callable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type trait checking whether Func is Callable with Args... (Callable Named Requirement).  <a href="a04546.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04538.html">is_callable_signature</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04542.html">is_callable_signature&lt; Func(Args...)&gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04534.html">is_invocable</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04526.html">result_of</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04530.html">result_of&lt; Func(Args...)&gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a18993038d7df3aedaeeb999287ff42b2" id="r_a18993038d7df3aedaeeb999287ff42b2"><td class="memTemplParams" colspan="2">template&lt;typename Func, typename... Args&gt; </td></tr>
+<tr class="memitem:a18993038d7df3aedaeeb999287ff42b2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a18993038d7df3aedaeeb999287ff42b2">invoke_result_t</a> = typename <a class="el" href="a04522.html">invoke_result</a>&lt;Func, Args...&gt;::type</td></tr>
+<tr class="separator:a18993038d7df3aedaeeb999287ff42b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae297a2898f6459ac9ef2c4a1dd537fe8" id="r_ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memTemplParams" colspan="2">template&lt;typename Sig&gt; </td></tr>
+<tr class="memitem:ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae297a2898f6459ac9ef2c4a1dd537fe8">result_of_t</a> = typename <a class="el" href="a04526.html">result_of</a>&lt;Sig&gt;::type</td></tr>
+<tr class="separator:ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a18993038d7df3aedaeeb999287ff42b2" name="a18993038d7df3aedaeeb999287ff42b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18993038d7df3aedaeeb999287ff42b2">&#9670;&#160;</a></span>invoke_result_t</h2>
 
-<p>This is the complete list of members for <a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01441.html#a4bd3610b6fd41c19b11fabc30d658ff1">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01441.html#a40c63096aae712c073d6bf81b28a944f">kInit</a></td><td class="entry"><a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01441.html#a896d033b1e9df20c28f552be8c77734f">kPoly</a></td><td class="entry"><a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01441.html#aecd3f2b9e4f6182fae534ace789a277f">kRefIn</a></td><td class="entry"><a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01441.html#a81910c05039b4ab2ecab03025ebd4c54">kRefOut</a></td><td class="entry"><a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01441.html#a4c1e1060f472b33d423597a591c4fafd">kWidth</a></td><td class="entry"><a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01441.html#a70c9daf1b4c7b18b00c18b448b806ace">kXorOut</a></td><td class="entry"><a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01441.html#a207b13ab5b4847c719778c627319e6d6">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01441.html">lumex::core::crc::parametric::crc8_cdma2000_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Func, typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a> = typename <a class="el" href="a04522.html">invoke_result</a>&lt;Func, Args...&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae297a2898f6459ac9ef2c4a1dd537fe8" name="ae297a2898f6459ac9ef2c4a1dd537fe8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae297a2898f6459ac9ef2c4a1dd537fe8">&#9670;&#160;</a></span>result_of_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Sig&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ae297a2898f6459ac9ef2c4a1dd537fe8">lumex::core::utility::traits::invoke::result_of_t</a> = typename <a class="el" href="a04526.html">result_of</a>&lt;Sig&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01436.html">traits</a></li><li class="navelem"><a class="el" href="a01438.html">invoke</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

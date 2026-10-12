@@ -98,7 +98,7 @@
 #include <vector>
 
 #if defined(_WIN32) || defined(WIN32)
-#include <windows.h>
+#include <Windows.h>
 
 #include <iphlpapi.h>
 #include <wincrypt.h>
@@ -398,7 +398,7 @@ struct LUMEX_API hardware_info_t
    * distribution strategies throughout the framework.
    *
    * @note Includes both physical and logical cores (hyperthreading)
-   * @range Typically 1-64 for consumer systems, higher for server hardware
+   * @note Typical range: 1-64 for consumer systems, higher for server hardware
    */
   uint32_t cpu_core_count;
 
@@ -409,9 +409,9 @@ struct LUMEX_API hardware_info_t
    * performance estimation and scheduling decisions. Note that modern CPUs
    * may boost above this frequency under optimal conditions.
    *
-   * @unit MHz (Megahertz)
+   * @note Unit: MHz (megahertz)
    * @note Does not account for turbo/boost frequencies
-   * @range Typically 1000-5000 MHz for modern processors
+   * @note Typical range: 1000-5000 MHz for modern processors
    */
   uint32_t cpu_frequency_mhz;
 
@@ -422,7 +422,7 @@ struct LUMEX_API hardware_info_t
    * in megabytes. This value is critical for memory allocation strategies,
    * caching decisions, and determining appropriate buffer sizes.
    *
-   * @unit MB (Megabytes)
+   * @note Unit: MB (megabytes)
    * @note Represents physical RAM, not virtual memory
    * @see Constants::KMIN_MEMORY_MB for minimum requirements
    */
@@ -471,7 +471,7 @@ struct LUMEX_API hardware_info_t
    * characteristics. This estimation helps make informed decisions about
    * optimization strategies and compatibility requirements.
    *
-   * @unit Year (e.g., 2019, 2020, 2021)
+   * @note Unit: year (e.g., 2019, 2020, 2021)
    * @note Estimation based on model name parsing and known architecture dates
    * @see Constants CPU generation constants for reference values
    * @see estimate_cpu_generation() for calculation methodology
@@ -511,6 +511,8 @@ LUMEX_CONST_STR KMODULE_NAME = "HardwareCapabilities";
  * @see Constants namespace for threshold values and detection parameters
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * // Detect current hardware configuration
  * auto hwInfo = HardwareCapabilities::detect_hardware();
@@ -560,6 +562,8 @@ public:
    * @see Constants namespace for detection thresholds and parameters
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * auto hardware = HardwareCapabilities::detect_hardware();
    * std::cout << "CPU: " << hardware.cpu_name << std::endl;
@@ -602,6 +606,8 @@ public:
    * @see apply_optimal_rendering_settings() for automatic configuration
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * if (HardwareCapabilities::should_use_software_rendering()) {
    *     renderer.setSoftwareMode(true);
@@ -646,6 +652,8 @@ public:
    * @see detect_hardware() for underlying hardware analysis
    *
    * @par Example
+ * The snippet below shows the intended use.
+
    * @code
    * // Apply optimal settings at application startup
    * HardwareCapabilities::apply_optimal_rendering_settings();
@@ -724,8 +732,8 @@ public:
  * empty string on error.
  * @note The function returns the first found active interface.
  *       If there are no network interfaces, it returns an empty string.
- * @threadsafe The function is thread-safe, but may be slow due to system
- * calls.
+ * @note Thread safety: the function is thread-safe, but may be slow due to
+ * system calls.
  */
 LUMEX_PUBLIC_API
 std::string get_mac_address ();
@@ -737,7 +745,7 @@ std::string get_mac_address ();
  *          fallback.
  * @return 64-bit random value suitable as a seed.
  * @note Intended for unique identifiers; call once per session.
- * @threadsafe The function is thread-safe.
+ * @note Thread safety: the function is thread-safe.
  */
 LUMEX_PUBLIC_API
 std::uint64_t generate_cryptographic_seed ();

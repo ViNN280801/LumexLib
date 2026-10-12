@@ -1,5 +1,8 @@
 var a01381 =
 [
-    [ "is_valid_base64", "a01381.html#a7a9e8f1098b9482f03266947dc320d3a", null ],
-    [ "is_valid_base64", "a01381.html#adfe6300b401116112266dc79f49a2554", null ]
+    [ "detail", "a01382.html", [
+      [ "first_of", "a01382.html#a1402ab62e151b9fd9b6f014b91610bda", null ],
+      [ "last_of", "a01382.html#a479c8294a6863b2cbd9f422b77a46472", null ],
+      [ "last_of", "a01382.html#a0c69d630c21209d53656e94a55cadd7e", null ]
+    ] ]
 ];

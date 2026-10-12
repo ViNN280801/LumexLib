@@ -73,8 +73,9 @@ TEST_F (LumexTimeTest, GetCurrentDatetime_ISO8601Format_Clean)
   ASSERT_GE (datetime_str.length (), format_str.length ());
 
 // strptime is POSIX, not standard C++. Windows does not have it by default.
-// This parsing verification is specific to Unix-like systems.
-#if LUMEX_OS_IS_UNIX
+// This parsing verification is specific to Unix-like systems. The macro is
+// function-like in LumexCheckOS.hpp, hence the parentheses.
+#if LUMEX_OS_IS_UNIX ()
   std::tm tm_from_str = {};
   char *parse_result
       = strptime (datetime_str.c_str (), format_str.c_str (), &tm_from_str);
@@ -87,8 +88,9 @@ TEST_F (LumexTimeTest, GetCurrentDatetime_ISO8601Format_Clean)
   // On Windows, we cannot reliably use strptime.
   // We rely on the format string length check and manual inspection for
   // validity. No further runtime parsing validation for ISO 8601 format on
-  // Windows in tests.
-  SUCCEED () << "strptime test skipped on non-UNIX platform (Windows).";
+  // Windows in tests. No success report through a gtest macro either: the
+  // SUCCEED alias is absent in the newer gtest versions and its
+  // GTEST_SUCCEED spelling made cl.exe report C3861 for this suite.
 #endif
 }
 

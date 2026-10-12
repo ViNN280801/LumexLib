@@ -6,8 +6,7 @@
 #                                  arguments;
 #                                  LumexBase64ValidatorStringView.cxx11.tests.cpp:
 #                                  the string overload (string_type_t:
-#                                  lumex_string_view below C++17,
-#                                  std::string_view from C++17)
+#                                  lumex_string_view in every standard)
 #   LumexBase64ValidateCxx17Tests  + LumexBase64Validator.cxx17.tests.cpp:
 #                                  std::string_view arguments
 #   LumexBase64ValidateCxx20Tests  the same files at C++20

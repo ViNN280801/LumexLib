@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01845.html',''); initResizable(true); });
+$(function(){initNavTree('a01842.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,365 @@ $(function(){initNavTree('a01845.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc64_go_iso_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="a01839.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01845.html#ae896bcd7d2a02f075d7b91eeca4b3339">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01845.html#a661460e639c27e032312e136a362f530">kInit</a></td><td class="entry"><a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01845.html#a93aeb226148dd0dd8bb61dd1fb25d30b">kPoly</a></td><td class="entry"><a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01845.html#a45f060c53c3fa904a980b990ccfc5afb">kRefIn</a></td><td class="entry"><a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01845.html#aacb396502a746f03788e43281b593419">kRefOut</a></td><td class="entry"><a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01845.html#afcda13d510184ecfa3dba895c6192872">kWidth</a></td><td class="entry"><a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01845.html#a358d89676f99bc40d1cdd7c1281847c6">kXorOut</a></td><td class="entry"><a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01845.html#adc66b1119ae3d5daf9d4840541ab0771">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01845.html">lumex::core::crc::parametric::crc64_go_iso_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code><a class="el" href="a03690.html" title="A weak reference to an object owned by shared_ptr objects.">lumex::core::smart_ptr::weak_ptr</a>&lt;T&gt;</code>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00293_source.html">LumexSplitCountTraits.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a7da737060db0717b0a225f6f74f2c57f" id="r_a7da737060db0717b0a225f6f74f2c57f"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a></td></tr>
+<tr class="separator:a7da737060db0717b0a225f6f74f2c57f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2050258128eb193ea7bf3d2030e0a8d" id="r_ac2050258128eb193ea7bf3d2030e0a8d"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03690.html#a6f9feaaf406d407e24436535e9ad3f76">pointer_type::element_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a></td></tr>
+<tr class="separator:ac2050258128eb193ea7bf3d2030e0a8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba9c5e0a0ae138332b8b90cdf27440d1" id="r_aba9c5e0a0ae138332b8b90cdf27440d1"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03662.html">::lumex::core::smart_ptr::detail::ctl_base</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a></td></tr>
+<tr class="separator:aba9c5e0a0ae138332b8b90cdf27440d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa989075071c82748a8ddfff15bb208b7" id="r_aa989075071c82748a8ddfff15bb208b7"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03722.html">::lumex::core::smart_ptr::detail::access</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa989075071c82748a8ddfff15bb208b7">access_type</a></td></tr>
+<tr class="separator:aa989075071c82748a8ddfff15bb208b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52f8e97e1d591269da3c84ad8a8f2df3" id="r_a52f8e97e1d591269da3c84ad8a8f2df3"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a01830.html">split_weak_ledger_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52f8e97e1d591269da3c84ad8a8f2df3">ledger_type</a></td></tr>
+<tr class="separator:a52f8e97e1d591269da3c84ad8a8f2df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ac99bf74106453f73e2087e1d2722e7" id="r_a9ac99bf74106453f73e2087e1d2722e7"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03682.html">::lumex::core::smart_ptr::detail::ctl_weak_holder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ac99bf74106453f73e2087e1d2722e7">holder_type</a></td></tr>
+<tr class="separator:a9ac99bf74106453f73e2087e1d2722e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac4502150d762131801c47de75cc33948" id="r_ac4502150d762131801c47de75cc33948"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4502150d762131801c47de75cc33948">control</a> (<a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> const &amp;pointer) noexcept</td></tr>
+<tr class="memdesc:ac4502150d762131801c47de75cc33948"><td class="mdescLeft">&#160;</td><td class="mdescRight">The block of <code class="param">pointer</code> (null for an empty one).  <br /></td></tr>
+<tr class="separator:ac4502150d762131801c47de75cc33948"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b5a6ab3012b63037f0278d92cde0185" id="r_a3b5a6ab3012b63037f0278d92cde0185"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b5a6ab3012b63037f0278d92cde0185">stored</a> (<a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> const &amp;pointer) noexcept</td></tr>
+<tr class="memdesc:a3b5a6ab3012b63037f0278d92cde0185"><td class="mdescLeft">&#160;</td><td class="mdescRight">The stored pointer of <code class="param">pointer</code>.  <br /></td></tr>
+<tr class="separator:a3b5a6ab3012b63037f0278d92cde0185"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8838be83310ba8b4a3ce5799de8ee817" id="r_a8838be83310ba8b4a3ce5799de8ee817"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8838be83310ba8b4a3ce5799de8ee817">detach</a> (<a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> &amp;pointer) noexcept</td></tr>
+<tr class="memdesc:a8838be83310ba8b4a3ce5799de8ee817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empties <code class="param">pointer</code> without dropping its weak count.  <br /></td></tr>
+<tr class="separator:a8838be83310ba8b4a3ce5799de8ee817"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7594e803486612d16cbfa06db04079b4" id="r_a7594e803486612d16cbfa06db04079b4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7594e803486612d16cbfa06db04079b4">adopt</a> (<a class="el" href="#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> *block, <a class="el" href="#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> *stored_pointer) noexcept</td></tr>
+<tr class="separator:a7594e803486612d16cbfa06db04079b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa930ced7f6260426234cb487d86ca74" id="r_afa930ced7f6260426234cb487d86ca74"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a9ac99bf74106453f73e2087e1d2722e7">holder_type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa930ced7f6260426234cb487d86ca74">make_holder</a> (<a class="el" href="#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> *owner, <a class="el" href="#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> *stored_pointer) noexcept</td></tr>
+<tr class="separator:afa930ced7f6260426234cb487d86ca74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a647fc864439227730b7ececdd2d39066" id="r_a647fc864439227730b7ececdd2d39066"><td class="memItemLeft" align="right" valign="top">static bool const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a647fc864439227730b7ececdd2d39066">mirror_holder</a> = false</td></tr>
+<tr class="memdesc:a647fc864439227730b7ececdd2d39066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak loads do not change <code>use_count ()</code>: no mirror.  <br /></td></tr>
+<tr class="separator:a647fc864439227730b7ececdd2d39066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+struct lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;</div><p><code><a class="el" href="a03690.html" title="A weak reference to an object owned by shared_ptr objects.">lumex::core::smart_ptr::weak_ptr</a>&lt;T&gt;</code>. </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="aa989075071c82748a8ddfff15bb208b7" name="aa989075071c82748a8ddfff15bb208b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa989075071c82748a8ddfff15bb208b7">&#9670;&#160;</a></span>access_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a03722.html">::lumex::core::smart_ptr::detail::access</a> <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::access_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aba9c5e0a0ae138332b8b90cdf27440d1" name="aba9c5e0a0ae138332b8b90cdf27440d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba9c5e0a0ae138332b8b90cdf27440d1">&#9670;&#160;</a></span>block_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a03662.html">::lumex::core::smart_ptr::detail::ctl_base</a> <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::block_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac2050258128eb193ea7bf3d2030e0a8d" name="ac2050258128eb193ea7bf3d2030e0a8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2050258128eb193ea7bf3d2030e0a8d">&#9670;&#160;</a></span>element_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a03690.html#a6f9feaaf406d407e24436535e9ad3f76">pointer_type::element_type</a> <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::element_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9ac99bf74106453f73e2087e1d2722e7" name="a9ac99bf74106453f73e2087e1d2722e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ac99bf74106453f73e2087e1d2722e7">&#9670;&#160;</a></span>holder_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a03682.html">::lumex::core::smart_ptr::detail::ctl_weak_holder</a> <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::holder_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a52f8e97e1d591269da3c84ad8a8f2df3" name="a52f8e97e1d591269da3c84ad8a8f2df3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52f8e97e1d591269da3c84ad8a8f2df3">&#9670;&#160;</a></span>ledger_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a01830.html">split_weak_ledger_t</a> <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::ledger_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7da737060db0717b0a225f6f74f2c57f" name="a7da737060db0717b0a225f6f74f2c57f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7da737060db0717b0a225f6f74f2c57f">&#9670;&#160;</a></span>pointer_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt;T&gt; <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::pointer_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7594e803486612d16cbfa06db04079b4" name="a7594e803486612d16cbfa06db04079b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7594e803486612d16cbfa06db04079b4">&#9670;&#160;</a></span>adopt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::adopt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> *</td>          <td class="paramname"><span class="paramname"><em>block</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> *</td>          <td class="paramname"><span class="paramname"><em>stored_pointer</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A weak pointer that takes over one weak count of <code class="param">block</code> the caller owns (no count for a null <code class="param">block</code>). </p>
+
+</div>
+</div>
+<a id="ac4502150d762131801c47de75cc33948" name="ac4502150d762131801c47de75cc33948"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4502150d762131801c47de75cc33948">&#9670;&#160;</a></span>control()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> * <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::control </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>pointer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The block of <code class="param">pointer</code> (null for an empty one). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01842_ac4502150d762131801c47de75cc33948_cgraph.png" border="0" usemap="#aa01842_ac4502150d762131801c47de75cc33948_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a8838be83310ba8b4a3ce5799de8ee817" name="a8838be83310ba8b4a3ce5799de8ee817"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8838be83310ba8b4a3ce5799de8ee817">&#9670;&#160;</a></span>detach()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::detach </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pointer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Empties <code class="param">pointer</code> without dropping its weak count. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01842_a8838be83310ba8b4a3ce5799de8ee817_cgraph.png" border="0" usemap="#aa01842_a8838be83310ba8b4a3ce5799de8ee817_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="afa930ced7f6260426234cb487d86ca74" name="afa930ced7f6260426234cb487d86ca74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa930ced7f6260426234cb487d86ca74">&#9670;&#160;</a></span>make_holder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="#a9ac99bf74106453f73e2087e1d2722e7">holder_type</a> * <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::make_holder </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#aba9c5e0a0ae138332b8b90cdf27440d1">block_type</a> *</td>          <td class="paramname"><span class="paramname"><em>owner</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> *</td>          <td class="paramname"><span class="paramname"><em>stored_pointer</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A new holder of <code class="param">owner</code> and <code class="param">stored_pointer</code> (one weak reference on <code class="param">owner</code>). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01842_afa930ced7f6260426234cb487d86ca74_cgraph.png" border="0" usemap="#aa01842_afa930ced7f6260426234cb487d86ca74_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a3b5a6ab3012b63037f0278d92cde0185" name="a3b5a6ab3012b63037f0278d92cde0185"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b5a6ab3012b63037f0278d92cde0185">&#9670;&#160;</a></span>stored()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="#ac2050258128eb193ea7bf3d2030e0a8d">element_type</a> * <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::stored </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a7da737060db0717b0a225f6f74f2c57f">pointer_type</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>pointer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The stored pointer of <code class="param">pointer</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01842_a3b5a6ab3012b63037f0278d92cde0185_cgraph.png" border="0" usemap="#aa01842_a3b5a6ab3012b63037f0278d92cde0185_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a647fc864439227730b7ececdd2d39066" name="a647fc864439227730b7ececdd2d39066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a647fc864439227730b7ececdd2d39066">&#9670;&#160;</a></span>mirror_holder</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool const <a class="el" href="a01834.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t</a>&lt;<a class="el" href="a03690.html">::lumex::core::smart_ptr::weak_ptr</a>&lt; T &gt; &gt;::mirror_holder = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Weak loads do not change <code>use_count ()</code>: no mirror. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00293_source.html">LumexSplitCountTraits.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01312.html">atomic</a></li><li class="navelem"><a class="el" href="a01313.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a01314.html">table_wait</a></li><li class="navelem"><a class="el" href="a01315.html">Detail</a></li><li class="navelem"><a class="el" href="a01842.html">split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

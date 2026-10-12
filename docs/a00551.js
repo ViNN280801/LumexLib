@@ -1,4 +1,4 @@
 var a00551 =
 [
-    [ "main", "a00551.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
+    [ "lumex_wstring_view", "a00551.html#a173552e384fc2d1f2339f480c26e13e3", null ]
 ];

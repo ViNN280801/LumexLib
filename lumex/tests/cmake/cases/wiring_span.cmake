@@ -75,6 +75,11 @@ foreach(_file LumexSpanGlobalNames.cxx11.tests.cpp
               view/LumexSpanSubviews.cxx11.tests.cpp
               view/LumexSpanBytes.cxx11.tests.cpp
               view/LumexSpanTraits.cxx11.tests.cpp
+              view/LumexSpanChecks.cxx11.tests.cpp
+              view/LumexSpanStdIterators.cxx11.tests.cpp
+              view/LumexSpanStdIterators.cxx17.tests.cpp
+              view/LumexSpanChecksBytes.cxx17.tests.cpp
+              view/LumexSpanChecksStdSpan.cxx20.tests.cpp
               view/LumexSpan.cxx17.tests.cpp
               view/LumexSpanRanges.cxx20.tests.cpp
               view/LumexSpanStdDifferential.cxx20.tests.cpp)
@@ -82,6 +87,34 @@ foreach(_file LumexSpanGlobalNames.cxx11.tests.cpp
         message(FATAL_ERROR "lumex/tests/core/span has no ${_file}")
     endif()
 endforeach()
+
+# The precondition checks and the iterator detection: two more headers, the
+# test suites forced on and off (variants), and the fixtures. The module does
+# not link core/utility (utility links it) and the checks have a failure
+# handler of their own, so a program with only lumex::span builds and aborts.
+foreach(_header LumexSpanChecks.hpp LumexSpanStdIterators.hpp)
+    if(NOT EXISTS "${LUMEX_SOURCE_DIR}/lumex/core/span/view/${_header}")
+        message(FATAL_ERROR "lumex/core/span/view has no ${_header}")
+    endif()
+endforeach()
+_require_text("lumex/core/span/view/LumexSpanChecks.hpp"
+    "#pragma detect_mismatch(\"LUMEX_SPAN_CHECKS\", \"1\")")
+_require_text("lumex/tests/core/span/view/CMakeLists.txt"
+    "VARIANT checks_on DEFINITIONS LUMEX_SPAN_CHECKS=1")
+_require_text("lumex/tests/core/span/view/CMakeLists.txt"
+    "VARIANT checks_off DEFINITIONS LUMEX_SPAN_CHECKS=0")
+_require_text("lumex/tests/LumexTestStandards.cmake"
+    "lumex_test_standards_declare_variant(span checks_on 11 20)")
+_require_text("lumex/tests/LumexTestStandards.cmake"
+    "lumex_test_standards_declare_variant(span checks_off 11 20)")
+foreach(_file check_constexpr.cpp check_config.cpp)
+    if(NOT EXISTS
+       "${LUMEX_SOURCE_DIR}/lumex/tests/cmake/consumer/span_compile_checks/${_file}")
+        message(FATAL_ERROR "span_compile_checks has no ${_file}")
+    endif()
+endforeach()
+_require_text("lumex/tests/cmake/consumer/install_header_only_without_utility/CMakeLists.txt"
+    "LUMEX_SPAN_CHECKS=1")
 
 # The standards of the suites: C++11 (the floor), C++17 (deduction guides,
 # std::byte) and C++20 (std::span, ranges); nothing else is branched on.

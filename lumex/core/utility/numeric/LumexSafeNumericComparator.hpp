@@ -50,7 +50,6 @@
 #pragma clang diagnostic ignored "-Wexpansion-to-defined"
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #pragma clang diagnostic ignored "-Wundefined-func-template"
-#pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
 #include <atomic>
@@ -59,6 +58,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "lumex/core/math/ops/LumexMath.hpp"
 #include "lumex/core/utility/assert/LumexAssert.hpp"
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
@@ -93,9 +93,10 @@ namespace numeric
  * read its result (`is_equal`, `is_not_equal`, `is_less`, `is_less_equal`,
  * `is_greater`, `is_greater_equal`) work from C++11. The result is
  * `strong_ordering_t` for two integer types and `partial_ordering_t`
- * otherwise (NaN is unordered): the classes of `LumexOrdering.hpp` below C++20
- * and `std::strong_ordering` and `std::partial_ordering` from it, so the code
- * that names the result type with the alias compiles in every standard.
+ * otherwise (NaN is unordered): the classes of `LumexOrdering.hpp` in every
+ * standard, never `std::strong_ordering` or `std::partial_ordering`; from
+ * C++20 they convert implicitly to the `std::` orderings and compare with
+ * them.
  * @since C++11
  * @note Thread-safe, exception-safe, no-throw where possible
  *
@@ -169,6 +170,27 @@ namespace numeric
  *   // 1. Check: threshold is NaN = true
  *   // 2. Return: false (correct!)
  * }
+ * @endcode
+ *
+ * @subsection infinity_order Infinities
+ * An infinity is ordered by its sign for every pair of arithmetic types, in
+ * the three-way compare and in the six comparisons alike: -inf is below every
+ * finite value, +inf is above every finite value, +inf equals +inf and -inf
+ * equals -inf, whatever the types are (an integer against a floating-point
+ * type, a floating-point type against another one, `long double` included).
+ * An integer never equals an infinity. NaN stays unordered: every comparison
+ * with it is false except `safe_not_equal`, and the three-way result is
+ * `unordered`.
+ *
+ * @code
+ * float finf = std::numeric_limits<float>::infinity();
+ * double dinf = std::numeric_limits<double>::infinity();
+ * safe_less(7, dinf);                // true
+ * safe_greater(finf, 1.0);           // true
+ * safe_equal(finf, dinf);            // true
+ * safe_three_way_compare(7, dinf);   // less (it was unordered before 2.0.0.0)
+ * safe_three_way_compare(-finf, 1.0); // less (it was unordered before)
+ * safe_less(1.0f, dinf);             // true (it was false before)
  * @endcode
  *
  * @subsection compile_time Compile-time optimizations
@@ -268,9 +290,8 @@ namespace numeric
  *         // Safe comparison >=
  *     }
  *
- *     // Three-way comparison (from C++11; the result is strong_ordering_t:
- *     // std::strong_ordering from C++20, the class of LumexOrdering.hpp
- *     // below)
+ *     // Three-way comparison (from C++11; the result is strong_ordering_t,
+ *     // the class of LumexOrdering.hpp in every standard)
  *     auto result = safeSize.safe_three_way_compare(threshold);
  *     if (is_equal(result)) {
  *         // Values are equal
@@ -393,9 +414,8 @@ namespace numeric
  * ```
  * ACTION C.1: IF std::isnan(current) == true OR std::isnan(other) == true:
  *     ACTION C.1.1: Return false
- * ACTION C.2: IF std::isinf(current) == true OR std::isinf(other) == true:
- *     ACTION C.2.1: Compare: result = (current == other)
- *     ACTION C.2.2: Return result
+ * ACTION C.2: (no special case: an infinity keeps its sign in the common type
+ *     and the built-in comparison orders it, -inf < finite < +inf)
  * ACTION C.3: Get CommonType = std::common_type<T, U>::type
  * ACTION C.4: Convert: current_common = static_cast<CommonType>(current)
  * ACTION C.5: Convert: other_common = static_cast<CommonType>(other)
@@ -748,7 +768,7 @@ struct safe_compare_impl_helper<T, T,
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    return current == other;
+    return ::lumex::core::math::ops::exactly_equal (current, other);
   }
 
   /**
@@ -763,7 +783,7 @@ struct safe_compare_impl_helper<T, T,
   {
     if (std::isnan (current) || std::isnan (other))
       return true;
-    return current != other;
+    return !::lumex::core::math::ops::exactly_equal (current, other);
   }
 
   /**
@@ -1432,8 +1452,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return current == other;
     return static_cast<CommonType> (current)
            >= static_cast<CommonType> (other);
   }
@@ -1463,8 +1481,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return current == other;
     return static_cast<CommonType> (current)
            <= static_cast<CommonType> (other);
   }
@@ -1482,8 +1498,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return false; // infinity == infinity, not <
     return static_cast<CommonType> (current) < static_cast<CommonType> (other);
   }
 
@@ -1500,8 +1514,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return false; // infinity == infinity, not >
     return static_cast<CommonType> (current) > static_cast<CommonType> (other);
   }
 
@@ -1518,10 +1530,8 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return false;
-    if (std::isinf (current) || std::isinf (other))
-      return current == other;
-    return static_cast<CommonType> (current)
-           == static_cast<CommonType> (other);
+    return ::lumex::core::math::ops::exactly_equal (
+        static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
 
   /**
@@ -1537,10 +1547,8 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return true;
-    if (std::isinf (current) || std::isinf (other))
-      return current != other;
-    return static_cast<CommonType> (current)
-           != static_cast<CommonType> (other);
+    return !::lumex::core::math::ops::exactly_equal (
+        static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
 
   /**
@@ -1557,13 +1565,6 @@ struct safe_compare_impl_helper<
   {
     if (std::isnan (current) || std::isnan (other))
       return partial_ordering_t::unordered;
-    if (std::isinf (current) || std::isinf (other))
-      {
-        if (current == other)
-          return partial_ordering_t::equivalent;
-        return partial_ordering_t::unordered;
-      }
-
     auto const current_common = static_cast<CommonType> (current);
     auto const other_common = static_cast<CommonType> (other);
 
@@ -1747,15 +1748,16 @@ struct safe_compare_impl_helper<
           return false;
         if (std::isinf (other))
           return false;
-        return static_cast<CommonType> (current)
-               == static_cast<CommonType> (other);
+        return ::lumex::core::math::ops::exactly_equal (
+            static_cast<CommonType> (current),
+            static_cast<CommonType> (other));
       }
     if (std::isnan (current))
       return false;
     if (std::isinf (current))
       return false;
-    return static_cast<CommonType> (current)
-           == static_cast<CommonType> (other);
+    return ::lumex::core::math::ops::exactly_equal (
+        static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
 
   /**
@@ -1777,15 +1779,16 @@ struct safe_compare_impl_helper<
           return true;
         if (std::isinf (other))
           return true;
-        return static_cast<CommonType> (current)
-               != static_cast<CommonType> (other);
+        return !::lumex::core::math::ops::exactly_equal (
+            static_cast<CommonType> (current),
+            static_cast<CommonType> (other));
       }
     if (std::isnan (current))
       return true;
     if (std::isinf (current))
       return true;
-    return static_cast<CommonType> (current)
-           != static_cast<CommonType> (other);
+    return !::lumex::core::math::ops::exactly_equal (
+        static_cast<CommonType> (current), static_cast<CommonType> (other));
   }
 
   /**
@@ -1807,7 +1810,12 @@ struct safe_compare_impl_helper<
         if (std::isnan (other))
           return partial_ordering_t::unordered;
         if (std::isinf (other))
-          return partial_ordering_t::unordered;
+          {
+            // An integer is below +inf and above -inf.
+            if (other > 0)
+              return partial_ordering_t::less;
+            return partial_ordering_t::greater;
+          }
 
         auto const current_common = static_cast<CommonType> (current);
         auto const other_common = static_cast<CommonType> (other);
@@ -1822,7 +1830,12 @@ struct safe_compare_impl_helper<
     if (std::isnan (current))
       return partial_ordering_t::unordered;
     if (std::isinf (current))
-      return partial_ordering_t::unordered;
+      {
+        // +inf is above an integer and -inf below it.
+        if (current > 0)
+          return partial_ordering_t::greater;
+        return partial_ordering_t::less;
+      }
 
     auto const current_common = static_cast<CommonType> (current);
     auto const other_common = static_cast<CommonType> (other);
@@ -1844,8 +1857,8 @@ struct safe_compare_impl_helper<
  * @details Picks the most suitable ordering type for three-way comparison.
  *          Returns strong_ordering_t for integer types, partial_ordering_t for
  * floating-point. `strong_ordering_t` and `partial_ordering_t` are the classes
- * of LumexOrdering.hpp before C++20 and std::strong_ordering and
- * std::partial_ordering from it.
+ * of LumexOrdering.hpp in every standard (they convert to the `std::` ones
+ * from C++20).
  * @since C++11
  */
 template <typename T, typename U> struct three_way_comparison_result
@@ -1910,6 +1923,8 @@ using three_way_comparison_result_t =
  * - Lock-free operations for atomic versions
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * // Thread-safe version for multithreading
  * safe_comparator<int, true> atomic_counter(0);
@@ -1927,6 +1942,10 @@ using three_way_comparison_result_t =
  *
  * @since C++11
  * @note Fully C++11 compatible; uses C++20 concepts when available
+ * @note `safe_comparator<long double, true>` is a `std::atomic<long double>`,
+ * which is 16 bytes on x86-64 GCC and needs `libatomic` (`__atomic_load_16`
+ * and the like): a program that uses it links with `-latomic`. The other
+ * atomic comparators need nothing of the kind on x86-64.
  */
 template <typename T, bool Atomic = false> class safe_comparator
 {
@@ -1960,7 +1979,8 @@ private:
    * @brief SFINAE dispatcher for a plain store
    * @tparam A SFINAE parameter (equals Atomic)
    * @param[in] value Value to store
-   * @param[in] order Memory order (ignored for non-atomic operations)
+   * The unused `order` argument exists for interface parity with the
+   * atomic overload.
    * @note Specialization for Atomic=false: direct assignment for maximum
    * performance
    */
@@ -1991,14 +2011,15 @@ private:
   /**
    * @brief SFINAE dispatcher for a plain load
    * @tparam A SFINAE parameter (equals Atomic)
-   * @param[in] order Memory order (ignored for non-atomic operations)
+   * The unused `order` argument exists for interface parity with the
+   * atomic overload.
    * @return Current value
    * @note Specialization for Atomic=false: direct read for maximum performance
    */
   template <bool A = Atomic>
   typename std::enable_if<!A, clean_T>::type
-  atomic_load (LUMEX_ATTRIBUTE_MAYBE_UNUSED std::memory_order order
-               = std::memory_order_seq_cst) const LUMEX_NOEXCEPT
+  atomic_load (std::memory_order /* unused */ = std::memory_order_seq_cst)
+      const LUMEX_NOEXCEPT
   {
     return m_value;
   }
@@ -2243,8 +2264,8 @@ public:
    * value of type U. Returns strong_ordering for integer types,
    * partial_ordering for floating-point. Checks value ranges to prevent
    * overflow. `strong_ordering_t` and `partial_ordering_t` are the classes of
-   * LumexOrdering.hpp before C++20 and `std::strong_ordering` and
-   * `std::partial_ordering` from it.
+   * LumexOrdering.hpp in every standard (they convert to the `std::` ones from
+   * C++20).
    * @note Thread-safe when Atomic=true; no-throw
    * @since C++11
    */
@@ -2314,7 +2335,7 @@ private:
    * @brief SFINAE compare-and-set for atomic types
    * @param[in] expected_value Expected value (may be updated)
    * @param[in] desired_value Desired value
-   * @param[in] atomic_tag SFINAE tag (std::true_type)
+   * The `std::true_type` tag that selects this overload.
    * @return true if the value was changed
    * @details Uses std::atomic::compare_exchange_strong with memory ordering.
    *          expected_value is updated to the current value on a failed
@@ -2331,10 +2352,39 @@ private:
   }
 
   /**
+   * @brief Exact equality of two values of a floating-point type
+   * @param[in] lhs First value
+   * @param[in] rhs Second value
+   * @return true if lhs == rhs (a NaN equals nothing)
+   * @details Goes through lumex::core::math::ops::exactly_equal, which is the
+   *          one place that spells a floating-point `==`, so that
+   *          -Wfloat-equal stays quiet in the code of a consumer.
+   */
+  template <typename V>
+  static typename std::enable_if<std::is_floating_point<V>::value, bool>::type
+  same_value (V lhs, V rhs) LUMEX_NOEXCEPT
+  {
+    return ::lumex::core::math::ops::exactly_equal (lhs, rhs);
+  }
+
+  /**
+   * @brief Equality of two values of an integer type
+   * @param[in] lhs First value
+   * @param[in] rhs Second value
+   * @return true if lhs == rhs
+   */
+  template <typename V>
+  static typename std::enable_if<!std::is_floating_point<V>::value, bool>::type
+  same_value (V lhs, V rhs) LUMEX_NOEXCEPT
+  {
+    return lhs == rhs;
+  }
+
+  /**
    * @brief SFINAE compare-and-set for non-atomic types
    * @param[in] expected_value Expected value
    * @param[in] desired_value Desired value
-   * @param[in] non_atomic_tag SFINAE tag (std::false_type)
+   * The `std::false_type` tag that selects this overload.
    * @return true if the value was changed
    * @details Performs a plain check-and-set for maximum performance.
    *          Does not change expected_value on a failed compare.
@@ -2346,7 +2396,7 @@ private:
       clean_T desired_value, // NOLINT(bugprone-easily-swappable-parameters)
       std::false_type /* non-atomic */) LUMEX_NOEXCEPT
   {
-    if (m_value == expected_value)
+    if (same_value (m_value, expected_value))
       {
         m_value = desired_value;
         return true;
@@ -2502,10 +2552,8 @@ using SafeLongDoubleComparator
  * @brief Utility that converts a comparison result to bool
  * @tparam Ordering Comparison result type: `strong_ordering_t`,
  * `weak_ordering_t` or `partial_ordering_t`, which are the classes of
- * `LumexOrdering.hpp` before C++20 and `std::strong_ordering`,
- * `std::weak_ordering` and `std::partial_ordering` from it. The classes of the
- * other family are accepted too (`is_ordering`); any other type is rejected by
- * a static assertion.
+ * `LumexOrdering.hpp` in every standard. The `std::` orderings are accepted
+ * too (`is_ordering`); any other type is rejected by a static assertion.
  * @param[in] ordering Three-way comparison result
  * @return true if ordering means equal
  * @details Converts a three-way comparison result to bool equality.
@@ -2631,6 +2679,8 @@ is_not_equal (Ordering const &ordering) LUMEX_NOEXCEPT
  * @note Thread-safe, no-throw
  * @warning T and U must be safely comparable (checked at compile-time)
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * unsigned char size = 200;
  * int limit = 300;
@@ -2659,6 +2709,8 @@ safe_compare (T value1, U value2) LUMEX_NOEXCEPT
  *          Performs the same safe range check.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * float f = 3.14f;
  * int i = 3;
@@ -2687,6 +2739,8 @@ safe_greater_equal (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int i = 3;
  * float f = 3.14f;
@@ -2715,6 +2769,8 @@ safe_less_equal (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * unsigned char size = 200;
  * int limit = 300;
@@ -2743,6 +2799,8 @@ safe_less (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int threshold = 100;
  * unsigned char count = 150;
@@ -2771,6 +2829,8 @@ safe_greater (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int expected = 42;
  * float actual = 42.0f;
@@ -2799,6 +2859,8 @@ safe_equal (T value1, U value2) LUMEX_NOEXCEPT
  * types. Checks value ranges to prevent overflow.
  * @note Thread-safe, no-throw
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int threshold = 100;
  * unsigned char count = 150;
@@ -2827,11 +2889,13 @@ safe_not_equal (T value1, U value2) LUMEX_NOEXCEPT
  * @details Performs a safe three-way comparison of two values of different
  * types. Returns strong_ordering for integer types, partial_ordering for
  * floating-point. Checks value ranges to prevent overflow. `strong_ordering_t`
- * and `partial_ordering_t` are the classes of LumexOrdering.hpp before C++20
- * and `std::strong_ordering` and `std::partial_ordering` from it.
+ * and `partial_ordering_t` are the classes of LumexOrdering.hpp in every
+ * standard (they convert to the `std::` ones from C++20).
  * @note Thread-safe, no-throw
  * @since C++11
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * int a = 42;
  * float b = 42.0f;
@@ -2861,6 +2925,8 @@ safe_three_way_compare (T value1, U value2) LUMEX_NOEXCEPT
  * rejects NaN and infinities.
  * @note No-throw; compile-time type check
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * if (fits_in_type<unsigned char>(300)) {
  *   // 300 does not fit in unsigned char (0-255)

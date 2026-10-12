@@ -24,22 +24,26 @@
 
 /**
  * @file LumexFunctional.hpp
- * @brief `identity` and `less`, the function objects the standard library has
- * as `std::identity` (C++20) and `std::less<void>` (C++14).
+ * @brief `identity` and `less`, the function objects of this library that
+ * correspond to `std::identity` (C++20) and `std::less<void>` (C++14).
  * @details Both are transparent (they have a nested `is_transparent`), take
  * their arguments by forwarding reference and work in constant expressions.
- * Where the standard library has the function object (`identity` with the
- * C++20 `<functional>`, `LUMEX_HAS_STD_RANGES`; `less` from C++14,
- * `LUMEX_HAS_STD_TRANSPARENT_OPERATORS`) the name is an alias of it, so the
- * type is the standard one; elsewhere it is a class of this library with the
- * same call operator, so code that passes them to an algorithm as a default
- * projection and a default comparison compiles from C++11.
+ * They are classes of this library in every standard from C++11, never
+ * aliases of the standard ones, so code that passes them to an algorithm as a
+ * default projection and a default comparison is the same in every standard.
+ * Each converts implicitly to and from its standard twin where the twin
+ * exists (`identity` and `std::identity` with the C++20 `<functional>`,
+ * `LUMEX_HAS_STD_RANGES`; `less` and `std::less<void>` from C++14,
+ * `LUMEX_HAS_STD_TRANSPARENT_OPERATORS`), so `std::map<K, V, std::less<>> m
+ * (lumex::core::utility::functional::less ())` and a function that takes a
+ * `std::identity` accept the function objects of this library. The
+ * conversions are `constexpr` and `noexcept`; the classes stay empty.
  *
- * `less` is `std::less<void>`, not `std::ranges::less`: both compare with
- * `<`, but the ranges one also requires `std::totally_ordered_with` of its
- * operands, which a C++11 form cannot express. Both give a strict total order
- * for pointers into different objects (they compare as
- * `void const volatile *`).
+ * `less` is the counterpart of `std::less<void>`, not of `std::ranges::less`:
+ * both compare with `<`, but the ranges one also requires
+ * `std::totally_ordered_with` of its operands, which a C++11 form cannot
+ * express. Both give a strict total order for pointers into different objects
+ * (they compare as `void const volatile *`).
  */
 #ifndef LUMEX_CORE_UTILITY_FUNCTIONAL_HPP
 #define LUMEX_CORE_UTILITY_FUNCTIONAL_HPP
@@ -58,16 +62,9 @@ namespace utility
 {
 namespace functional
 {
-#if LUMEX_HAS_STD_RANGES
-/**
- * @brief `std::identity` (C++20): returns its argument unchanged, as the same
- * reference.
- */
-using identity = std::identity;
-#else
 /**
  * @brief The function object that returns its argument unchanged, as the same
- * reference (`std::identity` is C++20; this is the same class).
+ * reference (the counterpart of `std::identity`, C++20).
  * @details `identity () (value)` has the type `T &&` for an argument of type
  * `T`: an lvalue stays an lvalue, an rvalue stays an rvalue, nothing is
  * copied or moved. It is the default projection of an algorithm that takes
@@ -77,6 +74,19 @@ struct identity
 {
   /** @brief Marks the object as transparent to heterogeneous lookup. */
   using is_transparent = void;
+
+#if LUMEX_HAS_STD_RANGES
+  /** @brief The empty object; trivial, as `std::identity`. */
+  identity () = default;
+
+  /** @brief Implicit construction from `std::identity` (C++20). */
+  LUMEX_CONSTEXPR_CTOR
+  identity (std::identity /*unused*/) LUMEX_NOEXCEPT {}
+
+  /** @brief Implicit conversion to `std::identity` (C++20). */
+  LUMEX_CONSTEXPR
+  operator std::identity () const LUMEX_NOEXCEPT { return std::identity (); }
+#endif
 
   /**
    * @brief Returns `value` as it came.
@@ -90,15 +100,7 @@ struct identity
     return static_cast<T &&> (value);
   }
 };
-#endif
 
-#if LUMEX_HAS_STD_TRANSPARENT_OPERATORS
-/**
- * @brief `std::less<void>` (C++14): compares two operands of any types with
- * `<`.
- */
-using less = std::less<void>;
-#else
 namespace detail
 {
 /**
@@ -143,7 +145,7 @@ compare_less (T &&left, U &&right, std::true_type) LUMEX_NOEXCEPT
 
 /**
  * @brief The function object that compares two operands of any types with
- * `<` (`std::less<void>` is C++14; this is the same class).
+ * `<` (the counterpart of `std::less<void>`, C++14).
  * @details `less () (left, right)` is `left < right` with both operands
  * forwarded, so a mixed comparison such as `std::string` with
  * `char const *` works, and the result is whatever `<` returns. If both
@@ -156,6 +158,22 @@ struct less
 {
   /** @brief Marks the object as transparent to heterogeneous lookup. */
   using is_transparent = void;
+
+#if LUMEX_HAS_STD_TRANSPARENT_OPERATORS
+  /** @brief The empty object; trivial, as `std::less<void>`. */
+  less () = default;
+
+  /** @brief Implicit construction from `std::less<void>` (C++14). */
+  LUMEX_CONSTEXPR_CTOR
+  less (std::less<void> /*unused*/) LUMEX_NOEXCEPT {}
+
+  /** @brief Implicit conversion to `std::less<void>` (C++14). */
+  LUMEX_CONSTEXPR
+  operator std::less<void> () const LUMEX_NOEXCEPT
+  {
+    return std::less<void> ();
+  }
+#endif
 
   /**
    * @brief Compares `left` with `right`.
@@ -175,7 +193,6 @@ struct less
                                  detail::are_object_pointers<T, U> ());
   }
 };
-#endif
 } // namespace functional
 } // namespace utility
 } // namespace core

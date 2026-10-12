@@ -150,7 +150,7 @@ char_t const *
 XPathParser::alloc_string (XPathLexerString const &value) const
 {
   if (value.begin == nullptr)
-    return LUMEX_XML_TEXT ("");
+    return "";
 
   auto length = static_cast<std::size_t> (value.end - value.begin);
   auto *chr = static_cast<char_t *> (
@@ -176,49 +176,49 @@ XPathParser::
   switch (name.begin[0])
     {
     case 'b':
-      if (name == LUMEX_XML_TEXT ("boolean") && argc == 1)
+      if (name == "boolean" && argc == 1)
         return alloc_node (ast_func_boolean, xpath_type_boolean, args[0]);
 
       break;
 
     case 'c':
-      if (name == LUMEX_XML_TEXT ("count") && argc == 1)
+      if (name == "count" && argc == 1)
         {
           if (args[0]->rettype () != xpath_type_node_set)
             return error ("Function has to be applied to node set");
           return alloc_node (ast_func_count, xpath_type_number, args[0]);
         }
-      else if (name == LUMEX_XML_TEXT ("contains") && argc == 2)
+      else if (name == "contains" && argc == 2)
         return alloc_node (ast_func_contains, xpath_type_boolean, args[0],
                            args[1]);
-      else if (name == LUMEX_XML_TEXT ("concat") && argc >= 2)
+      else if (name == "concat" && argc >= 2)
         return alloc_node (ast_func_concat, xpath_type_string, args[0],
                            args[1]);
-      else if (name == LUMEX_XML_TEXT ("ceiling") && argc == 1)
+      else if (name == "ceiling" && argc == 1)
         return alloc_node (ast_func_ceiling, xpath_type_number, args[0]);
 
       break;
 
     case 'f':
-      if (name == LUMEX_XML_TEXT ("false") && argc == 0)
+      if (name == "false" && argc == 0)
         return alloc_node (ast_func_false, xpath_type_boolean);
-      else if (name == LUMEX_XML_TEXT ("floor") && argc == 1)
+      else if (name == "floor" && argc == 1)
         return alloc_node (ast_func_floor, xpath_type_number, args[0]);
 
       break;
 
     case 'i':
-      if (name == LUMEX_XML_TEXT ("id") && argc == 1)
+      if (name == "id" && argc == 1)
         return alloc_node (ast_func_id, xpath_type_node_set, args[0]);
 
       break;
 
     case 'l':
-      if (name == LUMEX_XML_TEXT ("last") && argc == 0)
+      if (name == "last" && argc == 0)
         return alloc_node (ast_func_last, xpath_type_number);
-      else if (name == LUMEX_XML_TEXT ("lang") && argc == 1)
+      else if (name == "lang" && argc == 1)
         return alloc_node (ast_func_lang, xpath_type_boolean, args[0]);
-      else if (name == LUMEX_XML_TEXT ("local-name") && argc <= 1)
+      else if (name == "local-name" && argc <= 1)
         {
           if (argc == 1 && args[0]->rettype () != xpath_type_node_set)
             return error ("Function has to be applied to node set");
@@ -230,14 +230,14 @@ XPathParser::
       break;
 
     case 'n':
-      if (name == LUMEX_XML_TEXT ("name") && argc <= 1)
+      if (name == "name" && argc <= 1)
         {
           if (argc == 1 && args[0]->rettype () != xpath_type_node_set)
             return error ("Function has to be applied to node set");
           return alloc_node (argc == 0 ? ast_func_name_0 : ast_func_name_1,
                              xpath_type_string, args[0]);
         }
-      else if (name == LUMEX_XML_TEXT ("namespace-uri") && argc <= 1)
+      else if (name == "namespace-uri" && argc <= 1)
         {
           if (argc == 1 && args[0]->rettype () != xpath_type_node_set)
             return error ("Function has to be applied to node set");
@@ -245,53 +245,52 @@ XPathParser::
                                        : ast_func_namespace_uri_1,
                              xpath_type_string, args[0]);
         }
-      else if (name == LUMEX_XML_TEXT ("normalize-space") && argc <= 1)
+      else if (name == "normalize-space" && argc <= 1)
         return alloc_node (argc == 0 ? ast_func_normalize_space_0
                                      : ast_func_normalize_space_1,
                            xpath_type_string, args[0], args[1]);
-      else if (name == LUMEX_XML_TEXT ("not") && argc == 1)
+      else if (name == "not" && argc == 1)
         return alloc_node (ast_func_not, xpath_type_boolean, args[0]);
-      else if (name == LUMEX_XML_TEXT ("number") && argc <= 1)
+      else if (name == "number" && argc <= 1)
         return alloc_node (argc == 0 ? ast_func_number_0 : ast_func_number_1,
                            xpath_type_number, args[0]);
 
       break;
 
     case 'p':
-      if (name == LUMEX_XML_TEXT ("position") && argc == 0)
+      if (name == "position" && argc == 0)
         return alloc_node (ast_func_position, xpath_type_number);
 
       break;
 
     case 'r':
-      if (name == LUMEX_XML_TEXT ("round") && argc == 1)
+      if (name == "round" && argc == 1)
         return alloc_node (ast_func_round, xpath_type_number, args[0]);
 
       break;
 
     case 's':
-      if (name == LUMEX_XML_TEXT ("string") && argc <= 1)
+      if (name == "string" && argc <= 1)
         return alloc_node (argc == 0 ? ast_func_string_0 : ast_func_string_1,
                            xpath_type_string, args[0]);
-      else if (name == LUMEX_XML_TEXT ("string-length") && argc <= 1)
+      else if (name == "string-length" && argc <= 1)
         return alloc_node (argc == 0 ? ast_func_string_length_0
                                      : ast_func_string_length_1,
                            xpath_type_number, args[0]);
-      else if (name == LUMEX_XML_TEXT ("starts-with") && argc == 2)
+      else if (name == "starts-with" && argc == 2)
         return alloc_node (ast_func_starts_with, xpath_type_boolean, args[0],
                            args[1]);
-      else if (name == LUMEX_XML_TEXT ("substring-before") && argc == 2)
+      else if (name == "substring-before" && argc == 2)
         return alloc_node (ast_func_substring_before, xpath_type_string,
                            args[0], args[1]);
-      else if (name == LUMEX_XML_TEXT ("substring-after") && argc == 2)
+      else if (name == "substring-after" && argc == 2)
         return alloc_node (ast_func_substring_after, xpath_type_string,
                            args[0], args[1]);
-      else if (name == LUMEX_XML_TEXT ("substring")
-               && (argc == 2 || argc == 3))
+      else if (name == "substring" && (argc == 2 || argc == 3))
         return alloc_node (argc == 2 ? ast_func_substring_2
                                      : ast_func_substring_3,
                            xpath_type_string, args[0], args[1]);
-      else if (name == LUMEX_XML_TEXT ("sum") && argc == 1)
+      else if (name == "sum" && argc == 1)
         {
           if (args[0]->rettype () != xpath_type_node_set)
             return error ("Function has to be applied to node set");
@@ -301,10 +300,10 @@ XPathParser::
       break;
 
     case 't':
-      if (name == LUMEX_XML_TEXT ("translate") && argc == 3)
+      if (name == "translate" && argc == 3)
         return alloc_node (ast_func_translate, xpath_type_string, args[0],
                            args[1]);
-      else if (name == LUMEX_XML_TEXT ("true") && argc == 0)
+      else if (name == "true" && argc == 0)
         return alloc_node (ast_func_true, xpath_type_boolean);
 
       break;
@@ -325,55 +324,55 @@ XPathParser::parse_axis_name (XPathLexerString const &name, bool &specified)
   switch (name.begin[0])
     {
     case 'a':
-      if (name == LUMEX_XML_TEXT ("ancestor"))
+      if (name == "ancestor")
         return axis_ancestor;
-      else if (name == LUMEX_XML_TEXT ("ancestor-or-self"))
+      else if (name == "ancestor-or-self")
         return axis_ancestor_or_self;
-      else if (name == LUMEX_XML_TEXT ("attribute"))
+      else if (name == "attribute")
         return axis_attribute;
 
       break;
 
     case 'c':
-      if (name == LUMEX_XML_TEXT ("child"))
+      if (name == "child")
         return axis_child;
 
       break;
 
     case 'd':
-      if (name == LUMEX_XML_TEXT ("descendant"))
+      if (name == "descendant")
         return axis_descendant;
-      else if (name == LUMEX_XML_TEXT ("descendant-or-self"))
+      else if (name == "descendant-or-self")
         return axis_descendant_or_self;
 
       break;
 
     case 'f':
-      if (name == LUMEX_XML_TEXT ("following"))
+      if (name == "following")
         return axis_following;
-      else if (name == LUMEX_XML_TEXT ("following-sibling"))
+      else if (name == "following-sibling")
         return axis_following_sibling;
 
       break;
 
     case 'n':
-      if (name == LUMEX_XML_TEXT ("namespace"))
+      if (name == "namespace")
         return axis_namespace;
 
       break;
 
     case 'p':
-      if (name == LUMEX_XML_TEXT ("parent"))
+      if (name == "parent")
         return axis_parent;
-      else if (name == LUMEX_XML_TEXT ("preceding"))
+      else if (name == "preceding")
         return axis_preceding;
-      else if (name == LUMEX_XML_TEXT ("preceding-sibling"))
+      else if (name == "preceding-sibling")
         return axis_preceding_sibling;
 
       break;
 
     case 's':
-      if (name == LUMEX_XML_TEXT ("self"))
+      if (name == "self")
         return axis_self;
 
       break;
@@ -393,25 +392,25 @@ XPathParser::parse_node_test_type (XPathLexerString const &name)
   switch (name.begin[0])
     {
     case 'c':
-      if (name == LUMEX_XML_TEXT ("comment"))
+      if (name == "comment")
         return nodetest_type_comment;
 
       break;
 
     case 'n':
-      if (name == LUMEX_XML_TEXT ("node"))
+      if (name == "node")
         return nodetest_type_node;
 
       break;
 
     case 'p':
-      if (name == LUMEX_XML_TEXT ("processing-instruction"))
+      if (name == "processing-instruction")
         return nodetest_type_pi;
 
       break;
 
     case 't':
-      if (name == LUMEX_XML_TEXT ("text"))
+      if (name == "text")
         return nodetest_type_text;
 
       break;
@@ -725,7 +724,7 @@ XPathParser::parse_step (
 
                   nt_name = XPathLexerString ();
                 }
-              else if (nt_name == LUMEX_XML_TEXT ("processing-instruction"))
+              else if (nt_name == "processing-instruction")
                 {
                   if (m_lexer.current () != lex_quoted_string)
                     return error ("Only literals are allowed as arguments to "
@@ -1014,13 +1013,13 @@ struct binary_op_t
     switch (lexer.current ())
       {
       case lex_string:
-        if (lexer.contents () == LUMEX_XML_TEXT ("or"))
+        if (lexer.contents () == "or")
           return { ast_op_or, xpath_type_boolean, 1 };
-        else if (lexer.contents () == LUMEX_XML_TEXT ("and"))
+        else if (lexer.contents () == "and")
           return { ast_op_and, xpath_type_boolean, 2 };
-        else if (lexer.contents () == LUMEX_XML_TEXT ("div"))
+        else if (lexer.contents () == "div")
           return { ast_op_divide, xpath_type_number, 6 };
-        else if (lexer.contents () == LUMEX_XML_TEXT ("mod"))
+        else if (lexer.contents () == "mod")
           return { ast_op_mod, xpath_type_number, 6 };
         else
           return {};

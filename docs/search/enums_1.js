@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['chartype_5ft_0',['chartype_t',['../a01143.html#a54c963b7a6def6381146ead18a8753ce',1,'lumex::xml::types::Types']]],
-  ['chartypex_5ft_1',['chartypex_t',['../a01143.html#a355198379230c3f88efbc231a9f617b3',1,'lumex::xml::types::Types']]]
+  ['byte_0',['byte',['../a01388.html#addd860fd335f762ed6b75800cf34c5ea',1,'lumex::core::span::view::byte'],['../a00857.html#addd860fd335f762ed6b75800cf34c5ea',1,'byte:&#160;LumexSpanTraits.hpp']]]
 ];

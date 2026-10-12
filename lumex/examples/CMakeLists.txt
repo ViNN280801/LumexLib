@@ -74,10 +74,28 @@ else()
     message(STATUS "Skipping optional examples (LUMEX_BUILD_CORE or LUMEX_BUILD_OPTIONAL is OFF)")
 endif()
 
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_CONTRACTS)
+    add_subdirectory(contracts)
+else()
+    message(STATUS "Skipping contracts examples (LUMEX_BUILD_CORE or LUMEX_BUILD_CONTRACTS is OFF)")
+endif()
+
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_HAZARD_POINTER)
+    add_subdirectory(hazard_pointer)
+else()
+    message(STATUS "Skipping hazard_pointer examples (LUMEX_BUILD_CORE or LUMEX_BUILD_HAZARD_POINTER is OFF)")
+endif()
+
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_REFLECTION)
     add_subdirectory(reflection)
 else()
     message(STATUS "Skipping reflection examples (LUMEX_BUILD_CORE or LUMEX_BUILD_REFLECTION is OFF)")
+endif()
+
+if(LUMEX_BUILD_CORE AND LUMEX_BUILD_SMART_PTR)
+    add_subdirectory(smart_ptr)
+else()
+    message(STATUS "Skipping smart_ptr examples (LUMEX_BUILD_CORE or LUMEX_BUILD_SMART_PTR is OFF)")
 endif()
 
 if(LUMEX_BUILD_CORE AND LUMEX_BUILD_SPAN)

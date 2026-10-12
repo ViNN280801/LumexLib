@@ -50,7 +50,10 @@
  * or dropped twice. The detectors check member availability on const objects
  * with C++11 SFINAE. The stress helpers read the thread counts, the work
  * scale and the random seed from the environment, so one binary can be run
- * with several thread counts and reproduced with a fixed seed.
+ * with several thread counts and reproduced with a fixed seed. The engine
+ * under test is named once, by the alias templates `atomic_shared_ptr` and
+ * `atomic_weak_ptr` below, so the same suites run on every engine (the
+ * checkers of the concurrency suites take the `EngineUnderTest` descriptor).
  */
 #ifndef LUMEX_TESTS_CORE_ATOMIC_ATOMIC_TEST_SUPPORT_HPP
 #define LUMEX_TESTS_CORE_ATOMIC_ATOMIC_TEST_SUPPORT_HPP
@@ -74,14 +77,156 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/atomic/LumexAtomic"
+#include "lumex/tests/support/LumexTestConfig.hpp"
+
+#define LUMEX_ATOMIC_TEST_STRINGIZE_IMPL(text) #text
+#define LUMEX_ATOMIC_TEST_STRINGIZE(text)                                     \
+  LUMEX_ATOMIC_TEST_STRINGIZE_IMPL (text)
+
+// --- The engine under test ------------------------------------------------
+//
+// The only place that names the atomic smart pointer the suites run on.
+// Every test (and every checker template) reaches it through the two alias
+// templates below, so a new engine plugs in without touching a test body: a
+// suite variant defines these macros with the template names of the engine
+// (`VARIANT lock_free DEFINITIONS
+// LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free
+// LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_free` in the
+// CMakeLists.txt of the directory, the way `lock_based` defines
+// LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED). Without them the suites run on
+// the common name `atomic_shared_ptr` / `atomic_weak_ptr`, whatever the
+// library resolves it to. An engine that destroys a replaced value later
+// than the call (a deferred reclamation) says so with
+// LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION=1 and provides the call that
+// makes it release what it holds in LUMEX_ATOMIC_TEST_ENGINE_QUIESCE (for
+// example `lumex::core::hazard_pointer::clean_up ()`).
+// A variant that names an engine a build may not have says so with
+// LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE or _REQUIRES_STD_BACKED; where
+// the engine does not exist the suite runs on the lock-based engine instead
+// (the engine still gets tested by every build that has it, and the suite
+// stays valid on the others, for example C++20 with libc++).
+#if (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE)                     \
+     && !LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE)                                \
+    || (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED)                 \
+        && !LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED)
+#undef LUMEX_ATOMIC_TEST_SHARED_ENGINE
+#undef LUMEX_ATOMIC_TEST_WEAK_ENGINE
+#undef LUMEX_ATOMIC_TEST_ENGINE_ARGS
+#undef LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION
+#define LUMEX_ATOMIC_TEST_SHARED_ENGINE atomic_shared_ptr_lock_based
+#define LUMEX_ATOMIC_TEST_WEAK_ENGINE atomic_weak_ptr_lock_based
+#define LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK 1
+#endif
+#if !defined(LUMEX_ATOMIC_TEST_SHARED_ENGINE)
+#define LUMEX_ATOMIC_TEST_SHARED_ENGINE atomic_shared_ptr
+#endif
+#if !defined(LUMEX_ATOMIC_TEST_WEAK_ENGINE)
+#define LUMEX_ATOMIC_TEST_WEAK_ENGINE atomic_weak_ptr
+#endif
+#if !defined(LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION)
+#define LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION 0
+#endif
+#if !defined(LUMEX_ATOMIC_TEST_ENGINE_QUIESCE)
+// The lock-free engine retires a replaced box that a reader holds at that
+// moment (also with the immediate policy); a pass of the hazard domain
+// destroys it. Every engine ignores the call otherwise.
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+#define LUMEX_ATOMIC_TEST_ENGINE_QUIESCE()                                    \
+  ::lumex::core::hazard_pointer::clean_up ()
+#else
+#define LUMEX_ATOMIC_TEST_ENGINE_QUIESCE() ((void)0)
+#endif
+#endif
+// Further template arguments of the engine (a leading comma), for example
+// `,lumex::core::atomic::smart_ptr::reclaim::deferred` for the policy of the
+// lock-free engine.
+#if !defined(LUMEX_ATOMIC_TEST_ENGINE_ARGS)
+#define LUMEX_ATOMIC_TEST_ENGINE_ARGS
+#endif
 
 namespace lumex_atomic_test
 {
 // LumexLib declares the templates only in their namespace. The tests use the
-// short names the way a consumer would: through these using-declarations,
-// which every test file brings in with `using namespace lumex_atomic_test`.
-using lumex::core::atomic::smart_ptr::atomic_shared_ptr;
-using lumex::core::atomic::smart_ptr::atomic_weak_ptr;
+// short names the way a consumer would: through these alias templates, which
+// every test file brings in with `using namespace lumex_atomic_test`.
+template <typename T>
+using atomic_shared_ptr
+    = lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_SHARED_ENGINE<
+        T LUMEX_ATOMIC_TEST_ENGINE_ARGS>;
+template <typename T>
+using atomic_weak_ptr
+    = lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_WEAK_ENGINE<
+        T LUMEX_ATOMIC_TEST_ENGINE_ARGS>;
+
+/// Which engine the aliases above are, for the few expectations that differ
+/// between engines (a trait of the type, so a variant needs no extra macro).
+struct EngineFacts
+{
+  /// The lock-free engine: always lock-free.
+  static LUMEX_CONSTEXPR bool
+  lock_free ()
+  {
+    return atomic_shared_ptr<int>::is_always_lock_free;
+  }
+
+  /// The wrapper of the standard library's type.
+  static LUMEX_CONSTEXPR bool
+  std_backed ()
+  {
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+    return std::is_same<atomic_shared_ptr<int>,
+                        lumex::core::atomic::smart_ptr::
+                            atomic_shared_ptr_std_backed<int>>::value;
+#else
+    return false;
+#endif
+  }
+};
+
+/// For the tests whose subject is the promptness of the destruction: a value
+/// that a store, an exchange or a successful compare-exchange replaced is
+/// destroyed before the call returns (use_count and the deleter then show it
+/// at once). An engine that defers the destruction on purpose (the lock-free
+/// engine with reclaim::deferred) says so through
+/// LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION and these tests are skipped for
+/// it; the engine-parametrized suites check the same facts after `quiesce ()`.
+#define LUMEX_ATOMIC_TEST_REQUIRE_PROMPT_DESTRUCTION()                        \
+  do                                                                          \
+    {                                                                         \
+      if (LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION != 0)                   \
+        GTEST_SKIP () << "the engine destroys a replaced value later";        \
+    }                                                                         \
+  while (false)
+
+/// The engine under test as the checkers see it (see
+/// LumexAtomicTestEngines.hpp for the descriptors of the test-side engines,
+/// which have the same shape).
+struct EngineUnderTest
+{
+  template <typename T> using shared = atomic_shared_ptr<T>;
+  template <typename T> using weak = atomic_weak_ptr<T>;
+
+  /// True when a value replaced by store, exchange or compare-exchange is
+  /// destroyed before the call returns.
+  static bool
+  replaced_value_dies_in_call ()
+  {
+    return LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION == 0;
+  }
+
+  /// Makes a deferring engine release what it holds back.
+  static void
+  quiesce ()
+  {
+    LUMEX_ATOMIC_TEST_ENGINE_QUIESCE ();
+  }
+
+  static char const *
+  name ()
+  {
+    return LUMEX_ATOMIC_TEST_STRINGIZE (LUMEX_ATOMIC_TEST_SHARED_ENGINE);
+  }
+};
 
 // --- Value types -----------------------------------------------------------
 
@@ -686,12 +831,16 @@ private:
 
 /**
  * @brief Thread counts of the stress tests.
- * @details `LUMEX_ATOMIC_STRESS_THREADS`, a comma-separated list such as
- * "2,4,8,16", overrides the default {2, 4, 8}.
+ * @details `LUMEX_TEST_THREADS` (shared with the other concurrency tests) or
+ * `LUMEX_ATOMIC_STRESS_THREADS`, a comma-separated list such as "2,4,8,16",
+ * overrides the default {2, 4, 8}.
  */
 inline std::vector<int>
 stress_thread_counts ()
 {
+  // LUMEX_TEST_THREADS (shared with the other concurrency tests) wins.
+  if (std::getenv ("LUMEX_TEST_THREADS") != nullptr)
+    return lumex_test::thread_counts (false);
   std::vector<int> counts;
   char const *env = std::getenv ("LUMEX_ATOMIC_STRESS_THREADS");
   if (env != nullptr)
@@ -721,19 +870,21 @@ stress_thread_counts ()
 }
 
 /**
- * @brief Scales an iteration count by `LUMEX_ATOMIC_STRESS_SCALE` (a
- * positive integer, default 1).
+ * @brief Scales an iteration count by `LUMEX_ATOMIC_STRESS_SCALE` and
+ * `LUMEX_TEST_SCALE` (positive integers, default 1).
  */
 inline int
 stress_iterations (int base)
 {
   char const *env = std::getenv ("LUMEX_ATOMIC_STRESS_SCALE");
-  long scale = 1;
+  // LUMEX_TEST_SCALE (shared with the other concurrency tests) multiplies on
+  // top.
+  long scale = lumex_test::scale_factor ();
   if (env != nullptr)
     {
       long const v = std::strtol (env, nullptr, 10);
       if (v >= 1 && v <= 1000)
-        scale = v;
+        scale *= v;
     }
   return static_cast<int> (base * scale);
 }
@@ -741,11 +892,15 @@ stress_iterations (int base)
 /**
  * @brief Seed of the pseudo-random choices of the stress tests.
  * @details Fixed by default (20261003) so a run is repeatable;
+ * `LUMEX_TEST_SEED` (shared with the other concurrency tests) or
  * `LUMEX_ATOMIC_STRESS_SEED` overrides it. Failure messages print it.
  */
 inline std::uint32_t
 stress_seed ()
 {
+  // LUMEX_TEST_SEED (shared with the other concurrency tests) wins.
+  if (lumex_test::seed_is_pinned ())
+    return static_cast<std::uint32_t> (lumex_test::base_seed ());
   char const *env = std::getenv ("LUMEX_ATOMIC_STRESS_SEED");
   if (env != nullptr)
     {

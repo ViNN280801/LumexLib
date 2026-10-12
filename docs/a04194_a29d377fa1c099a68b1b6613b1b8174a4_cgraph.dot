@@ -1,0 +1,26 @@
+digraph "lumex::core::utility::dump::core_dump_generator::generate_dump"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::utility\l::dump::core_dump_generator\l::generate_dump",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Manually trigger a dump generation with error code."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::utility\l::dump::dump_factory\l::create_configuration",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04190.html#afc6cdbe900e2509620b120b132847470",tooltip="Create a dump configuration for the specified type."];
+  Node2 -> Node2 [id="edge2_Node000002_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node3 [id="edge3_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::utility\l::dump::dump_factory\l::get_default_dump_type",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04190.html#a8385c6ac0f9474e9d0f7744b6d0e56c4",tooltip="Get the default dump type for the current platform."];
+  Node3 -> Node3 [id="edge4_Node000003_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node4 [id="edge5_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::utility\l::dump::dump_factory\l::get_description",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04190.html#a089569dd9d7c24e07cb8579fafae3d44",tooltip="Get a human-readable description of the dump type."];
+  Node4 -> Node4 [id="edge6_Node000004_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node5 [id="edge7_Node000001_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::utility\l::dump::dump_configuration\l::get_type",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04186.html#ab14b939f86e081be2c51420ef0e0230e",tooltip=" "];
+  Node5 -> Node5 [id="edge8_Node000005_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node6 [id="edge9_Node000001_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::utility\l::dump::dump_factory\l::is_supported",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04190.html#a202299d3ad3385faf47a8a1ba2b8e31e",tooltip="Check if a dump type is supported on the current platform."];
+  Node6 -> Node6 [id="edge10_Node000006_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node7 [id="edge11_Node000001_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::utility\l::dump::dump_configuration\l::set_directory",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04186.html#a0ff5aa176e47a23ef046f4335491bbf6",tooltip=" "];
+}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::serial::resolver::port_process_resolver Class Reference</title>
+<title>LumexLib: lumex::applied::serial::probe Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,40 +104,92 @@ $(function(){initNavTree('a01293.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01290.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::serial::resolver::port_process_resolver Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::probe Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Static facade over the platform error formatter and port-holder resolver.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00149_source.html">LumexPortProcessResolver.hpp</a>&gt;</code></p>
+<p>Bounded probing of the device behind a serial port.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:ae685f493d2c45a2730df2982e62bc22f" id="r_ae685f493d2c45a2730df2982e62bc22f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae685f493d2c45a2730df2982e62bc22f">port_process_resolver</a> (<a class="el" href="a01293.html">port_process_resolver</a> const &amp;)=delete</td></tr>
-<tr class="separator:ae685f493d2c45a2730df2982e62bc22f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9169f1b0edd5eb53a1bb875739aaee2a" id="r_a9169f1b0edd5eb53a1bb875739aaee2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01293.html">port_process_resolver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9169f1b0edd5eb53a1bb875739aaee2a">operator=</a> (<a class="el" href="a01293.html">port_process_resolver</a> const &amp;)=delete</td></tr>
-<tr class="separator:a9169f1b0edd5eb53a1bb875739aaee2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01297.html">Constants</a></td></tr>
+<tr class="memdesc:a01297"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time defaults of the probe contract. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01294.html">detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a87b46d54c13a2ae30c97f22a4e98fc7c" id="r_a87b46d54c13a2ae30c97f22a4e98fc7c"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87b46d54c13a2ae30c97f22a4e98fc7c">format_system_error</a> (int err_code) noexcept</td></tr>
-<tr class="memdesc:a87b46d54c13a2ae30c97f22a4e98fc7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format a system error code.  <br /></td></tr>
-<tr class="separator:a87b46d54c13a2ae30c97f22a4e98fc7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2176f44fbdaf7d92c2d86a43715fa45" id="r_af2176f44fbdaf7d92c2d86a43715fa45"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00326.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; <a class="el" href="a01281.html">port_holder_info_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2176f44fbdaf7d92c2d86a43715fa45">get_process_holding_port</a> (std::string const &amp;port_path, std::string const &amp;port_display_name) noexcept</td></tr>
-<tr class="memdesc:af2176f44fbdaf7d92c2d86a43715fa45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identify the process holding <code>port_path</code>.  <br /></td></tr>
-<tr class="separator:af2176f44fbdaf7d92c2d86a43715fa45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01682.html">serial_io_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code><a class="el" href="a01690.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline.">SerialProber::open</a></code> and <code><a class="el" href="a01690.html#a5d84b61824813951c20b4fed25b8cdab" title="Writes every byte of data or stops at the deadline.">SerialProber::write</a></code>.  <a href="a01682.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html">serial_port_settings_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial port settings applied when the port is opened.  <a href="a01674.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01678.html">serial_probe_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of one <code><a class="el" href="a01690.html#a845214e6e33fa487163f38e3b13ee1ec" title="Opens the port when needed, sends request and collects the response until response_complete confirms ...">SerialProber::probe</a></code> call.  <a href="a01678.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01686.html">serial_read_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code><a class="el" href="a01690.html#a2bec366a058baf6a1573254d30bce52e" title="Reads once: returns as soon as at least one byte is available or the deadline expires.">SerialProber::read</a></code>.  <a href="a01686.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01690.html">SerialProber</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RAII session that opens one serial port in bounded time, sends a request and waits for the device response.  <a href="a01690.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a35e8dd720e7d47783713bb668ff52984" id="r_a35e8dd720e7d47783713bb668ff52984"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35e8dd720e7d47783713bb668ff52984">serial_parity</a> { <br />
+&#160;&#160;<a class="el" href="#a35e8dd720e7d47783713bb668ff52984a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>
+, <a class="el" href="#a35e8dd720e7d47783713bb668ff52984aa2b6f2a6066ed8700d83335fc50a2b8e">odd</a>
+, <a class="el" href="#a35e8dd720e7d47783713bb668ff52984acc935c5faf4c8f7a0468d7552a9b8138">even</a>
+, <a class="el" href="#a35e8dd720e7d47783713bb668ff52984aea82410c7a9991816b5eeeebe195e20a">mark</a>
+, <br />
+&#160;&#160;<a class="el" href="#a35e8dd720e7d47783713bb668ff52984aff2364a0be3d20e46cc69efb36afe9a5">space</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a35e8dd720e7d47783713bb668ff52984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parity the prober configures on the port.  <a href="#a35e8dd720e7d47783713bb668ff52984">More...</a><br /></td></tr>
+<tr class="separator:a35e8dd720e7d47783713bb668ff52984"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ba3046381db5b1676afe71b6c30b8b9" id="r_a9ba3046381db5b1676afe71b6c30b8b9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ba3046381db5b1676afe71b6c30b8b9">serial_stop_bits</a> { <a class="el" href="#a9ba3046381db5b1676afe71b6c30b8b9af97c5d29941bfb1b2fdab0874906ab82">one</a>
+, <a class="el" href="#a9ba3046381db5b1676afe71b6c30b8b9a63c7d2efed06075d832f32fb99fd1fc0">one_point_five</a>
+, <a class="el" href="#a9ba3046381db5b1676afe71b6c30b8b9ab8a9f715dbb64fd5c56e7783c6820a61">two</a>
+ }</td></tr>
+<tr class="memdesc:a9ba3046381db5b1676afe71b6c30b8b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of stop bits the prober configures on the port.  <a href="#a9ba3046381db5b1676afe71b6c30b8b9">More...</a><br /></td></tr>
+<tr class="separator:a9ba3046381db5b1676afe71b6c30b8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e8605a2bfad8a67a50ee15f4825c474" id="r_a8e8605a2bfad8a67a50ee15f4825c474"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e8605a2bfad8a67a50ee15f4825c474">serial_flow_control</a> { <a class="el" href="#a8e8605a2bfad8a67a50ee15f4825c474a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>
+, <a class="el" href="#a8e8605a2bfad8a67a50ee15f4825c474af9fa10ba956cacf91d7878861139efb9">software</a>
+, <a class="el" href="#a8e8605a2bfad8a67a50ee15f4825c474a3ca14c518d1bf901acc339e7c9cd6d7f">hardware</a>
+ }</td></tr>
+<tr class="memdesc:a8e8605a2bfad8a67a50ee15f4825c474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flow control the prober configures on the port.  <a href="#a8e8605a2bfad8a67a50ee15f4825c474">More...</a><br /></td></tr>
+<tr class="separator:a8e8605a2bfad8a67a50ee15f4825c474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56c2aa18ee561595757e875c8f3a3887" id="r_a56c2aa18ee561595757e875c8f3a3887"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56c2aa18ee561595757e875c8f3a3887">serial_probe_status</a> { <br />
+&#160;&#160;<a class="el" href="#a56c2aa18ee561595757e875c8f3a3887ac73f9961000ace6c1fad4bf49de0e2b0">responded</a>
+, <a class="el" href="#a56c2aa18ee561595757e875c8f3a3887a5ed4e9858ad8d239145ef285b6210a00">incomplete</a>
+, <a class="el" href="#a56c2aa18ee561595757e875c8f3a3887a97829ffd5428c3a65d31acec100e97c3">no_response</a>
+, <a class="el" href="#a56c2aa18ee561595757e875c8f3a3887a91bb35dd8a98943a124f49b6d9ff907e">open_timeout</a>
+, <br />
+&#160;&#160;<a class="el" href="#a56c2aa18ee561595757e875c8f3a3887a93ac46772777323b172bbf1299ef96a6">open_failed</a>
+, <a class="el" href="#a56c2aa18ee561595757e875c8f3a3887acccc32f2a5f7dc7b87d2f85daea66789">io_error</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a56c2aa18ee561595757e875c8f3a3887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outcome of one <code>SerialProber::probe</code> call.  <a href="#a56c2aa18ee561595757e875c8f3a3887">More...</a><br /></td></tr>
+<tr class="separator:a56c2aa18ee561595757e875c8f3a3887"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa79b632754bb66e98b34740d10fe1108" id="r_aa79b632754bb66e98b34740d10fe1108"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa79b632754bb66e98b34740d10fe1108">serial_io_status</a> { <a class="el" href="#aa79b632754bb66e98b34740d10fe1108a444bcb3a3fcf8389296c49467f27e1d6">ok</a>
+, <a class="el" href="#aa79b632754bb66e98b34740d10fe1108a3cef844c7982c2acb28d67b35e5bacc7">deadline_exceeded</a>
+, <a class="el" href="#aa79b632754bb66e98b34740d10fe1108a26934eb377001f66e37289a5c93fe284">failed</a>
+, <a class="el" href="#aa79b632754bb66e98b34740d10fe1108a6b1a77eefb001009d87f53a6ab0f94cf">not_open</a>
+ }</td></tr>
+<tr class="memdesc:aa79b632754bb66e98b34740d10fe1108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outcome of <code>SerialProber::open</code>, <code>write</code> and <code>read</code>.  <a href="#aa79b632754bb66e98b34740d10fe1108">More...</a><br /></td></tr>
+<tr class="separator:aa79b632754bb66e98b34740d10fe1108"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Static facade over the platform error formatter and port-holder resolver. </p>
-<p>The class is not constructible. All entry points are static and delegate to a Meyers singleton of the matching platform strategy. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae685f493d2c45a2730df2982e62bc22f" name="ae685f493d2c45a2730df2982e62bc22f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae685f493d2c45a2730df2982e62bc22f">&#9670;&#160;</a></span>port_process_resolver()</h2>
+<div class="textblock"><p>Bounded probing of the device behind a serial port. </p>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a8e8605a2bfad8a67a50ee15f4825c474" name="a8e8605a2bfad8a67a50ee15f4825c474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e8605a2bfad8a67a50ee15f4825c474">&#9670;&#160;</a></span>serial_flow_control</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -146,44 +198,30 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">lumex::applied::serial::resolver::port_process_resolver::port_process_resolver </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01293.html">port_process_resolver</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">enum class <a class="el" href="#a8e8605a2bfad8a67a50ee15f4825c474">lumex::applied::serial::probe::serial_flow_control</a></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01293_ae685f493d2c45a2730df2982e62bc22f_cgraph.png" border="0" usemap="#aa01293_ae685f493d2c45a2730df2982e62bc22f_cgraph" alt=""/></div>
-<map name="aa01293_ae685f493d2c45a2730df2982e62bc22f_cgraph" id="aa01293_ae685f493d2c45a2730df2982e62bc22f_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,164,104"/>
-<area shape="poly" title=" " alt="" coords="52,28,54,19,60,10,71,5,85,3,101,5,111,13,108,17,99,10,84,8,72,10,64,14,59,21,57,29"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01293_ae685f493d2c45a2730df2982e62bc22f_icgraph.png" border="0" usemap="#aa01293_ae685f493d2c45a2730df2982e62bc22f_icgraph" alt=""/></div>
-<map name="aa01293_ae685f493d2c45a2730df2982e62bc22f_icgraph" id="aa01293_ae685f493d2c45a2730df2982e62bc22f_icgraph">
-<area shape="rect" title=" " alt="" coords="212,29,370,104"/>
-<area shape="poly" title=" " alt="" coords="323,18,310,11,291,8,274,10,263,14,257,21,255,30,250,28,252,18,260,10,273,5,291,3,312,6,325,13"/>
-<area shape="rect" href="a01293.html#a9169f1b0edd5eb53a1bb875739aaee2a" title=" " alt="" coords="5,37,164,96"/>
-<area shape="poly" title=" " alt="" coords="196,69,164,69,164,64,196,64"/>
-</map>
-</div>
+
+<p>Flow control the prober configures on the port. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8e8605a2bfad8a67a50ee15f4825c474a334c4a4c42fdb79d7ebc3e73b517e6f8" name="a8e8605a2bfad8a67a50ee15f4825c474a334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"><p>No flow control. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8e8605a2bfad8a67a50ee15f4825c474af9fa10ba956cacf91d7878861139efb9" name="a8e8605a2bfad8a67a50ee15f4825c474af9fa10ba956cacf91d7878861139efb9"></a>software&#160;</td><td class="fielddoc"><p>XON/XOFF. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8e8605a2bfad8a67a50ee15f4825c474a3ca14c518d1bf901acc339e7c9cd6d7f" name="a8e8605a2bfad8a67a50ee15f4825c474a3ca14c518d1bf901acc339e7c9cd6d7f"></a>hardware&#160;</td><td class="fielddoc"><p>RTS/CTS. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a87b46d54c13a2ae30c97f22a4e98fc7c" name="a87b46d54c13a2ae30c97f22a4e98fc7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87b46d54c13a2ae30c97f22a4e98fc7c">&#9670;&#160;</a></span>format_system_error()</h2>
+<a id="aa79b632754bb66e98b34740d10fe1108" name="aa79b632754bb66e98b34740d10fe1108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa79b632754bb66e98b34740d10fe1108">&#9670;&#160;</a></span>serial_io_status</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -192,44 +230,32 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string lumex::applied::serial::resolver::port_process_resolver::format_system_error </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>err_code</em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">enum class <a class="el" href="#aa79b632754bb66e98b34740d10fe1108">lumex::applied::serial::probe::serial_io_status</a></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Format a system error code. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">err_code</td><td><code>GetLastError</code> on Windows, <code>errno</code> on POSIX. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Diagnostic string, or empty when <code>err_code == 0</code>. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01293_a87b46d54c13a2ae30c97f22a4e98fc7c_icgraph.png" border="0" usemap="#aa01293_a87b46d54c13a2ae30c97f22a4e98fc7c_icgraph" alt=""/></div>
-<map name="aa01293_a87b46d54c13a2ae30c97f22a4e98fc7c_icgraph" id="aa01293_a87b46d54c13a2ae30c97f22a4e98fc7c_icgraph">
-<area shape="rect" title="Format a system error code." alt="" coords="212,47,414,105"/>
-<area shape="rect" href="a00988.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="6,5,163,64"/>
-<area shape="poly" title=" " alt="" coords="196,58,163,52,164,46,197,52"/>
-<area shape="rect" href="a01293.html#a9169f1b0edd5eb53a1bb875739aaee2a" title=" " alt="" coords="5,88,164,147"/>
-<area shape="poly" title=" " alt="" coords="197,100,165,106,164,100,196,94"/>
-</map>
-</div>
+<p>Outcome of <code><a class="el" href="a01690.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline.">SerialProber::open</a></code>, <code>write</code> and <code>read</code>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa79b632754bb66e98b34740d10fe1108a444bcb3a3fcf8389296c49467f27e1d6" name="aa79b632754bb66e98b34740d10fe1108a444bcb3a3fcf8389296c49467f27e1d6"></a>ok&#160;</td><td class="fielddoc"><p>The operation completed. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa79b632754bb66e98b34740d10fe1108a3cef844c7982c2acb28d67b35e5bacc7" name="aa79b632754bb66e98b34740d10fe1108a3cef844c7982c2acb28d67b35e5bacc7"></a>deadline_exceeded&#160;</td><td class="fielddoc"><p>The deadline expired first. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa79b632754bb66e98b34740d10fe1108a26934eb377001f66e37289a5c93fe284" name="aa79b632754bb66e98b34740d10fe1108a26934eb377001f66e37289a5c93fe284"></a>failed&#160;</td><td class="fielddoc"><p>The platform reported an error; see <code>system_error</code>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa79b632754bb66e98b34740d10fe1108a6b1a77eefb001009d87f53a6ab0f94cf" name="aa79b632754bb66e98b34740d10fe1108a6b1a77eefb001009d87f53a6ab0f94cf"></a>not_open&#160;</td><td class="fielddoc"><p>The port is not open; call <code>open</code> or <code>probe</code> first. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
-<a id="af2176f44fbdaf7d92c2d86a43715fa45" name="af2176f44fbdaf7d92c2d86a43715fa45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2176f44fbdaf7d92c2d86a43715fa45">&#9670;&#160;</a></span>get_process_holding_port()</h2>
+<a id="a35e8dd720e7d47783713bb668ff52984" name="a35e8dd720e7d47783713bb668ff52984"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35e8dd720e7d47783713bb668ff52984">&#9670;&#160;</a></span>serial_parity</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,48 +264,34 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00326.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; <a class="el" href="a01281.html">port_holder_info_t</a> &gt; lumex::applied::serial::resolver::port_process_resolver::get_process_holding_port </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>port_path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>port_display_name</em></span>&#160;)</td>
+          <td class="memname">enum class <a class="el" href="#a35e8dd720e7d47783713bb668ff52984">lumex::applied::serial::probe::serial_parity</a></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Identify the process holding <code>port_path</code>. </p>
-<p>Do not call this for a port the current process already has open on Windows: <code>NtQuerySystemInformation</code> can deadlock against that handle.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">port_path</td><td>Path passed to <code>CreateFile</code>/<code>open</code>. </td></tr>
-    <tr><td class="paramname">port_display_name</td><td>Short name used for matching. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Holder information, or empty when the port is free, privileges are insufficient, or the platform cannot resolve a holder. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01293_af2176f44fbdaf7d92c2d86a43715fa45_icgraph.png" border="0" usemap="#aa01293_af2176f44fbdaf7d92c2d86a43715fa45_icgraph" alt=""/></div>
-<map name="aa01293_af2176f44fbdaf7d92c2d86a43715fa45_icgraph" id="aa01293_af2176f44fbdaf7d92c2d86a43715fa45_icgraph">
-<area shape="rect" title="Identify the process holding port_path." alt="" coords="212,5,442,64"/>
-<area shape="rect" href="a01293.html#a9169f1b0edd5eb53a1bb875739aaee2a" title=" " alt="" coords="5,5,164,64"/>
-<area shape="poly" title=" " alt="" coords="196,37,164,37,164,32,196,32"/>
-</map>
-</div>
+<p>Parity the prober configures on the port. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a35e8dd720e7d47783713bb668ff52984a334c4a4c42fdb79d7ebc3e73b517e6f8" name="a35e8dd720e7d47783713bb668ff52984a334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"><p>No parity bit. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a35e8dd720e7d47783713bb668ff52984aa2b6f2a6066ed8700d83335fc50a2b8e" name="a35e8dd720e7d47783713bb668ff52984aa2b6f2a6066ed8700d83335fc50a2b8e"></a>odd&#160;</td><td class="fielddoc"><p>Odd parity. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a35e8dd720e7d47783713bb668ff52984acc935c5faf4c8f7a0468d7552a9b8138" name="a35e8dd720e7d47783713bb668ff52984acc935c5faf4c8f7a0468d7552a9b8138"></a>even&#160;</td><td class="fielddoc"><p>Even parity. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a35e8dd720e7d47783713bb668ff52984aea82410c7a9991816b5eeeebe195e20a" name="a35e8dd720e7d47783713bb668ff52984aea82410c7a9991816b5eeeebe195e20a"></a>mark&#160;</td><td class="fielddoc"><p>Mark parity: Windows; Linux only where <code>CMSPAR</code> exists. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a35e8dd720e7d47783713bb668ff52984aff2364a0be3d20e46cc69efb36afe9a5" name="a35e8dd720e7d47783713bb668ff52984aff2364a0be3d20e46cc69efb36afe9a5"></a>space&#160;</td><td class="fielddoc"><p>Space parity: Windows; Linux only where <code>CMSPAR</code> exists. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
-<a id="a9169f1b0edd5eb53a1bb875739aaee2a" name="a9169f1b0edd5eb53a1bb875739aaee2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9169f1b0edd5eb53a1bb875739aaee2a">&#9670;&#160;</a></span>operator=()</h2>
+<a id="a56c2aa18ee561595757e875c8f3a3887" name="a56c2aa18ee561595757e875c8f3a3887"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56c2aa18ee561595757e875c8f3a3887">&#9670;&#160;</a></span>serial_probe_status</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -288,46 +300,72 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a01293.html">port_process_resolver</a> &amp; lumex::applied::serial::resolver::port_process_resolver::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01293.html">port_process_resolver</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">enum class <a class="el" href="#a56c2aa18ee561595757e875c8f3a3887">lumex::applied::serial::probe::serial_probe_status</a></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01293_a9169f1b0edd5eb53a1bb875739aaee2a_cgraph.png" border="0" usemap="#aa01293_a9169f1b0edd5eb53a1bb875739aaee2a_cgraph" alt=""/></div>
-<map name="aa01293_a9169f1b0edd5eb53a1bb875739aaee2a_cgraph" id="aa01293_a9169f1b0edd5eb53a1bb875739aaee2a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,88,164,147"/>
-<area shape="rect" href="a01293.html#a87b46d54c13a2ae30c97f22a4e98fc7c" title="Format a system error code." alt="" coords="226,5,428,64"/>
-<area shape="poly" title=" " alt="" coords="163,88,223,67,225,72,165,93"/>
-<area shape="rect" href="a01293.html#af2176f44fbdaf7d92c2d86a43715fa45" title="Identify the process holding port_path." alt="" coords="212,88,442,147"/>
-<area shape="poly" title=" " alt="" coords="164,115,196,115,196,120,164,120"/>
-<area shape="rect" href="a01293.html#ae685f493d2c45a2730df2982e62bc22f" title=" " alt="" coords="248,195,406,269"/>
-<area shape="poly" title=" " alt="" coords="149,145,235,186,232,190,147,150"/>
-<area shape="poly" title=" " alt="" coords="279,194,282,184,291,175,306,170,327,168,351,171,367,178,365,183,350,176,327,173,307,175,294,180,286,186,284,195"/>
-</map>
-</div>
+
+<p>Outcome of one <code><a class="el" href="a01690.html#a845214e6e33fa487163f38e3b13ee1ec" title="Opens the port when needed, sends request and collects the response until response_complete confirms ...">SerialProber::probe</a></code> call. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a56c2aa18ee561595757e875c8f3a3887ac73f9961000ace6c1fad4bf49de0e2b0" name="a56c2aa18ee561595757e875c8f3a3887ac73f9961000ace6c1fad4bf49de0e2b0"></a>responded&#160;</td><td class="fielddoc"><p>The predicate confirmed the collected response. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a56c2aa18ee561595757e875c8f3a3887a5ed4e9858ad8d239145ef285b6210a00" name="a56c2aa18ee561595757e875c8f3a3887a5ed4e9858ad8d239145ef285b6210a00"></a>incomplete&#160;</td><td class="fielddoc"><p>Bytes arrived, but the predicate never confirmed them before the deadline or the response cap. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a56c2aa18ee561595757e875c8f3a3887a97829ffd5428c3a65d31acec100e97c3" name="a56c2aa18ee561595757e875c8f3a3887a97829ffd5428c3a65d31acec100e97c3"></a>no_response&#160;</td><td class="fielddoc"><p>The deadline expired without a single response byte. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a56c2aa18ee561595757e875c8f3a3887a91bb35dd8a98943a124f49b6d9ff907e" name="a56c2aa18ee561595757e875c8f3a3887a91bb35dd8a98943a124f49b6d9ff907e"></a>open_timeout&#160;</td><td class="fielddoc"><p>The bounded open did not return within the deadline. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a56c2aa18ee561595757e875c8f3a3887a93ac46772777323b172bbf1299ef96a6" name="a56c2aa18ee561595757e875c8f3a3887a93ac46772777323b172bbf1299ef96a6"></a>open_failed&#160;</td><td class="fielddoc"><p>The open failed: absent or busy port, unsupported settings or a configuration error; see <code>system_error</code>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a56c2aa18ee561595757e875c8f3a3887acccc32f2a5f7dc7b87d2f85daea66789" name="a56c2aa18ee561595757e875c8f3a3887acccc32f2a5f7dc7b87d2f85daea66789"></a>io_error&#160;</td><td class="fielddoc"><p>The request was not written in full, or a read failed. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="a00149_source.html">LumexPortProcessResolver.hpp</a></li>
-<li><a class="el" href="a00146.html">LumexPortProcessResolver.cpp</a></li>
-</ul>
+<a id="a9ba3046381db5b1676afe71b6c30b8b9" name="a9ba3046381db5b1676afe71b6c30b8b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ba3046381db5b1676afe71b6c30b8b9">&#9670;&#160;</a></span>serial_stop_bits</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a9ba3046381db5b1676afe71b6c30b8b9">lumex::applied::serial::probe::serial_stop_bits</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Number of stop bits the prober configures on the port. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9ba3046381db5b1676afe71b6c30b8b9af97c5d29941bfb1b2fdab0874906ab82" name="a9ba3046381db5b1676afe71b6c30b8b9af97c5d29941bfb1b2fdab0874906ab82"></a>one&#160;</td><td class="fielddoc"><p>One stop bit. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a9ba3046381db5b1676afe71b6c30b8b9a63c7d2efed06075d832f32fb99fd1fc0" name="a9ba3046381db5b1676afe71b6c30b8b9a63c7d2efed06075d832f32fb99fd1fc0"></a>one_point_five&#160;</td><td class="fielddoc"><p>1.5 stop bits: Windows only. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a9ba3046381db5b1676afe71b6c30b8b9ab8a9f715dbb64fd5c56e7783c6820a61" name="a9ba3046381db5b1676afe71b6c30b8b9ab8a9f715dbb64fd5c56e7783c6820a61"></a>two&#160;</td><td class="fielddoc"><p>Two stop bits. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00981.html">serial</a></li><li class="navelem"><a class="el" href="a00992.html">resolver</a></li><li class="navelem"><a class="el" href="a01293.html">port_process_resolver</a></li>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01287.html">serial</a></li><li class="navelem"><a class="el" href="a01293.html">probe</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -200,6 +200,11 @@ struct LUMEX_API XPathAllocatorCapture
    */
   ~XPathAllocatorCapture ();
 
+  // A capture reverts the allocator on destruction; it is a scoped guard and
+  // is not copied.
+  XPathAllocatorCapture (XPathAllocatorCapture const &) = delete;
+  XPathAllocatorCapture &operator= (XPathAllocatorCapture const &) = delete;
+
   /// @brief Pointer to the XPathAllocator whose state is being managed.
   XPathAllocator
       *_target; // NOLINT(misc-non-private-member-variables-in-classes)

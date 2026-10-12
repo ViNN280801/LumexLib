@@ -44,8 +44,9 @@
  * exception-safe call wrapper.
  * @details Link <tt>%lumex::exceptions</tt> (compiled library; it links
  * <tt>%lumex::string_view</tt>). Works from C++11; the string view
- * constructor of `lumex_base_exception` takes a `std::string_view` from C++17
- * and the `lumex_string_view` of `lumex::string_view` below it. The umbrella
+ * constructor of `lumex_base_exception` takes the `lumex_string_view` of
+ * `lumex::string_view` in every standard (a `std::string_view` converts to it
+ * from C++17). The umbrella
  * includes the crash handler with its default paths and the Windows SEH
  * translator (`crash/`), `exception/LumexException.hpp`, the stack trace
  * classes (`stacktrace/`) and `LumexExceptionWrapper.hpp` (`LUMEX_SAFE_CALL`

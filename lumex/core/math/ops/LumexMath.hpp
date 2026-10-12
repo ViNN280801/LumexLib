@@ -434,12 +434,12 @@ LUMEX_CONSTEXPR
     typename std::enable_if<std::is_floating_point<T>::value, bool>::type
     exactly_equal (T lhs, T rhs) LUMEX_NOEXCEPT
 {
-#if defined(__GNUC__)
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif
   return lhs == rhs;
-#if defined(__GNUC__)
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif
 }

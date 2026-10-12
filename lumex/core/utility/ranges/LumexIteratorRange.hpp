@@ -34,16 +34,32 @@
  * @brief `iterator_range`, a pair of iterators that lets a range-based for
  * loop walk any sequence the iterators describe.
  * @details The class template stores a begin and an end iterator and exposes
- * them through `begin()` and `end()`, plus `empty()`. It owns nothing: it is
- * valid as long as the iterators are, and the sequence they walk must outlive
- * it. Header-only, works from C++11, no dependency beyond the attribute
- * macros. The XML module returns it from `XmlNode::children` and
- * `XmlNode::attributes`.
+ * them through `begin()` and `end()`, plus `empty()`, and `size()` when the
+ * iterators are random access. It owns nothing: it is valid as long as the
+ * iterators are, and the sequence they walk must outlive it. Header-only,
+ * works from C++11, no dependency beyond the attribute macros and the
+ * standard headers. The XML module returns it from `XmlNode::children` and
+ * `XmlNode::attributes`; `core_dump_generator::get_memory_filters_range`
+ * returns it in every standard (`size()` matches the `size()` of a
+ * `std::ranges::ref_view`). With C++20 and a library that has `<ranges>` the
+ * class opts into `std::ranges::enable_borrowed_range` and
+ * `std::ranges::enable_view`, as `span` does: it is a view whose iterators
+ * outlive it, so it can be piped into views as an rvalue.
  */
 #ifndef LUMEX_CORE_UTILITY_RANGES_ITERATOR_RANGE_HPP
 #define LUMEX_CORE_UTILITY_RANGES_ITERATOR_RANGE_HPP
 
+#include <cstddef>
+#include <iterator>
+#include <type_traits>
+#if __cplusplus >= 202002L && defined(__has_include)
+#if __has_include(<ranges>)
+#include <ranges>
+#endif
+#endif
+
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
@@ -105,6 +121,39 @@ public:
   }
 
   /**
+   * @brief Returns the number of elements in the range.
+   * @details Present only when
+   * `std::iterator_traits<Iterator>::iterator_category` is
+   * `std::random_access_iterator_tag` or a tag derived from it (so a pointer,
+   * a `std::vector`, `std::deque`, `std::string` or `std::array` iterator
+   * qualifies and a `std::list`, `std::set` or `std::forward_list` iterator
+   * does not): counting the elements of any other range would walk it, which
+   * `size()` must not hide. The member does not exist for those iterators, so
+   * a call is a compile-time error and `has_size` style detection reports
+   * `false`. It makes the range usable where `std::ranges::ref_view` was used
+   * from C++20, which has `size()` for a vector.
+   * @tparam RangeIterator The iterator type of the range (always `Iterator`;
+   * a member template argument of its own keeps the constraint a
+   * substitution failure of the member instead of an error of the class).
+   * @return `end() - begin()` as `std::size_t`. The range must be valid: a
+   * range whose end lies before its beginning gives a meaningless value.
+   */
+  template <typename RangeIterator = Iterator,
+            typename std::enable_if<
+                std::is_base_of<std::random_access_iterator_tag,
+                                typename std::iterator_traits<
+                                    RangeIterator>::iterator_category>::value,
+                int>::type
+            = 0>
+  LUMEX_ATTRIBUTE_NODISCARD ("The returned value is the number of elements; "
+                             "discarding it negates the purpose of the "
+                             "getter.")
+  std::size_t size () const
+  {
+    return static_cast<std::size_t> (m_end - m_begin);
+  }
+
+  /**
    * @brief Checks if the range is empty.
    * @details The range is empty when the beginning iterator equals the end
    * iterator.
@@ -128,5 +177,30 @@ private:
 } // namespace utility
 } // namespace core
 } // namespace lumex
+
+#if LUMEX_HAS_STD_RANGES
+namespace std
+{
+namespace ranges
+{
+/**
+ * @brief An `iterator_range` is a borrowed range: its iterators outlive it.
+ */
+template <typename Iterator>
+inline constexpr bool enable_borrowed_range<
+    ::lumex::core::utility::ranges::iterator_range<Iterator>>
+    = true;
+
+/**
+ * @brief An `iterator_range` is a view: copying it copies two iterators, not
+ * the elements.
+ */
+template <typename Iterator>
+inline constexpr bool
+    enable_view<::lumex::core::utility::ranges::iterator_range<Iterator>>
+    = true;
+} // namespace ranges
+} // namespace std
+#endif
 
 #endif // !LUMEX_CORE_UTILITY_RANGES_ITERATOR_RANGE_HPP

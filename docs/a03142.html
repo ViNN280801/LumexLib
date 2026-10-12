@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::math::ops::traits::is_numeric&lt; T &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03145.html',''); initResizable(true); });
+$(function(){initNavTree('a03142.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,28 +103,36 @@ $(function(){initNavTree('a03145.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::xml::xpath::node::XPathNode Member List</div></div>
+  <div class="headertitle"><div class="title">lumex::core::math::ops::traits::is_numeric&lt; T &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03145.html#ac344e4ef6ff5cad96438d4c8c9e4eb80">attribute</a>() const</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03145.html#aab5f8620b5100f640652c56743a21b7b">node</a>() const</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03145.html#a8fb0b70067501e8356f0f2d50a203211">operator unspecified_bool_type</a>() const</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03145.html#ae16550b1e8ba03c02aafbd60020c3a75">operator!</a>() const</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03145.html#a58a56fcd3995865306615050f05f6488">operator!=</a>(XPathNode const &amp;n) const</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03145.html#a5ad7833414bb03d1908e9b97334c9e5b">operator==</a>(XPathNode const &amp;n) const</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03145.html#ada86e054e722cee63d01bab662c3f028">parent</a>() const</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03145.html#ac076247c8350904ce65535c63e9db7af">unspecified_bool_type</a> typedef</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03145.html#a6a939a81fbf7abc8fcdf54770dbd3dde">XPathNode</a>()=default</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03145.html#a7d17a71972a9200b6446cf2c03a406f2">XPathNode</a>(lumex::xml::node::XmlNode const &amp;node)</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03145.html#abfaa8cb5a6b755cf3624fff7ee2c18fd">XPathNode</a>(lumex::xml::attribute::XmlAttribute const &amp;attribute, lumex::xml::node::XmlNode const &amp;parent)</td><td class="entry"><a class="el" href="a03145.html">lumex::xml::xpath::node::XPathNode</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>A "real" numeric type: any integral type except <code>bool</code>, or any floating-point type (cv-qualifiers ignored).  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00458_source.html">LumexMath.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::math::ops::traits::is_numeric&lt; T &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03141.png" border="0" usemap="#alumex_1_1core_1_1math_1_1ops_1_1traits_1_1is__numeric_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::math::ops::traits::is_numeric&lt; T &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03140.png" border="0" usemap="#alumex_1_1core_1_1math_1_1ops_1_1traits_1_1is__numeric_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+struct lumex::core::math::ops::traits::is_numeric&lt; T &gt;</div><p>A "real" numeric type: any integral type except <code>bool</code>, or any floating-point type (cv-qualifiers ignored). </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00458_source.html">LumexMath.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01371.html">math</a></li><li class="navelem"><a class="el" href="a01372.html">ops</a></li><li class="navelem"><a class="el" href="a01373.html">traits</a></li><li class="navelem"><a class="el" href="a03142.html">is_numeric</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

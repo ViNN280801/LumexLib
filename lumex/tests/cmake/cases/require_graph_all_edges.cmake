@@ -18,7 +18,6 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_ENVIRONMENT LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_TIME LUMEX_BUILD_ENVIRONMENT)"
         "lumex_require_module(LUMEX_BUILD_FILESYSTEM LUMEX_BUILD_UTILITY)"
-        "lumex_require_module(LUMEX_BUILD_STRING_VIEW LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_FMT LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_REFLECTION LUMEX_BUILD_UTILITY)"
         "lumex_require_module(LUMEX_BUILD_SERIAL LUMEX_BUILD_UTILITY)"
@@ -27,6 +26,10 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_UNICODE)"
         "lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_MATH)"
         "lumex_require_module(LUMEX_BUILD_XML LUMEX_BUILD_STRING_VIEW)"
+        "lumex_require_module(LUMEX_BUILD_HARDWARE LUMEX_BUILD_UNICODE)"
+        "lumex_require_module(LUMEX_BUILD_RESOURCE_MONITOR LUMEX_BUILD_UNICODE)"
+        "lumex_require_module(LUMEX_BUILD_SERIAL LUMEX_BUILD_UNICODE)"
+        "lumex_require_module(LUMEX_BUILD_FILESYSTEM LUMEX_BUILD_UNICODE)"
         "lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_ENVIRONMENT)"
         "lumex_require_module(LUMEX_BUILD_TEMPORARY LUMEX_BUILD_FILESYSTEM)"
         "lumex_require_module(LUMEX_BUILD_EXCEPTIONS LUMEX_BUILD_ENVIRONMENT)"
@@ -48,7 +51,11 @@ foreach(_edge
         "lumex_require_module(LUMEX_BUILD_SETTINGS LUMEX_BUILD_TIME)"
         "lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_REFLECTION)"
         "lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_STRING_VIEW)"
-        "lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_UTILITY)")
+        "lumex_require_module(LUMEX_BUILD_JSON LUMEX_BUILD_UTILITY)"
+        "lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_UTILITY)"
+        "lumex_require_module(LUMEX_BUILD_HAZARD_POINTER LUMEX_BUILD_SPAN)"
+        "lumex_require_module(LUMEX_BUILD_CONTRACTS LUMEX_BUILD_UTILITY)"
+        "lumex_require_module(LUMEX_BUILD_SMART_PTR LUMEX_BUILD_UTILITY)")
     string(FIND "${_mod}" "${_edge}" _pos)
     if(_pos EQUAL -1)
         message(FATAL_ERROR "missing dependency edge: ${_edge}")

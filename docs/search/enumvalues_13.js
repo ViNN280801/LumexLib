@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['uniform_0',['UNIFORM',['../a01051.html#ac790ad052a54165bc304a20f53f7a502a891f35a29c3d51d02ffd42dd6dcc69b2',1,'lumex::core::generators::number_generator']]],
-  ['unknown_1',['unknown',['../a01045.html#ab64d400fe6c2cab49e4cf4c63a82cc19aad921d60486366258809553a3db49a4a',1,'lumex::core::filesystem::fs::unknown'],['../a01045.html#ab64132a6feae0925f48c883dd04ce26faad921d60486366258809553a3db49a4a',1,'lumex::core::filesystem::fs::unknown']]],
-  ['unresponsive_2',['unresponsive',['../a00982.html#a2833c2a4c2aca860a7fe8ecce5e59400a09cc203633ead318e3e8a61aeeff155d',1,'lumex::applied::serial::enumeration']]],
-  ['unsigned_5fint_3',['unsigned_int',['../a01049.html#a152e45e16adb548233bdeade6af687b3a4bc411266f0603994dc9c47c239c47b5',1,'lumex::core::fmt::Detail']]],
-  ['unsigned_5fint128_4',['unsigned_int128',['../a01049.html#a152e45e16adb548233bdeade6af687b3a35dcd427d220d9231ca7ba176eb44b00',1,'lumex::core::fmt::Detail']]]
+  ['text_0',['text',['../a01360.html#aff3ca2c04a9619a71b70141134fff438a1cb251ec0d568de6a929b520c4aed8d1',1,'lumex::core::filesystem::fs']]],
+  ['timed_5fout_1',['timed_out',['../a01294.html#a92f95b0efd4f15ba8182341d9e440978a56c27b1ab1a5a5a0eae853cabb4dc0c1',1,'lumex::applied::serial::probe::detail']]],
+  ['two_2',['two',['../a01293.html#a9ba3046381db5b1676afe71b6c30b8b9ab8a9f715dbb64fd5c56e7783c6820a61',1,'lumex::applied::serial::probe']]],
+  ['type_5fmismatch_3',['type_mismatch',['../a01269.html#a2384d12933d21396aa0daa63d43936e1a570a4fa126d94bc89332b5f610420adf',1,'lumex::applied::json::schema']]],
+  ['type_5fsorted_4',['type_sorted',['../a05110.html#adb8cd64c821b92dc30490b083e5e686ca1767b6d7e8a7b928ece841db1221b698',1,'lumex::xml::xpath::node::XPathNodeSet']]],
+  ['type_5fsorted_5freverse_5',['type_sorted_reverse',['../a05110.html#adb8cd64c821b92dc30490b083e5e686cab29a3b9227d8a8d711216890a3fc02f0',1,'lumex::xml::xpath::node::XPathNodeSet']]],
+  ['type_5funsorted_6',['type_unsorted',['../a05110.html#adb8cd64c821b92dc30490b083e5e686ca2202f12d0f042284eeda3d42555d6f2d',1,'lumex::xml::xpath::node::XPathNodeSet']]]
 ];

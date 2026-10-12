@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::contracts::detail::observe_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01917.html',''); initResizable(true); });
+$(function(){initNavTree('a01914.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,23 +103,77 @@ $(function(){initNavTree('a01917.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a01911.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::contracts::detail::observe_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01917.html#a00dd6b0e3cdd38f6b48be943bc1829cc">BadExpectedAccess</a>(ErrorType error)</td><td class="entry"><a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01917.html#a56324117856353d211752c0790f669a2">error</a>() &amp;</td><td class="entry"><a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01917.html#a8f0ff47101f7a8bb097ad52118032096">error</a>() const &amp;</td><td class="entry"><a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01917.html#a9331dd9ae2b2cecdf8c814442b00886c">error</a>() &amp;&amp;</td><td class="entry"><a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01917.html#a04b58c8813d03b41a747410dd4e8b99e">error</a>() const &amp;&amp;</td><td class="entry"><a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01917.html#a5def0fc4b00cfa6c9a1dbb02936679b0">what</a>() const noexcept override</td><td class="entry"><a class="el" href="a01917.html">lumex::core::expected::error::BadExpectedAccess&lt; ErrorType &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>The emulated semantics that check the predicate. Each has the static function <code>violated</code>, called on the failing path only (static members, one type per semantic: GCC 8 mistakes overloaded <code>noinline</code> inline functions of a namespace for redeclarations).  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00329_source.html">LumexContractsAssert.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:aab54f7f089e730f7d04344425c9d05f4" id="r_aab54f7f089e730f7d04344425c9d05f4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab54f7f089e730f7d04344425c9d05f4">violated</a> (char const *comment, <a class="el" href="a01934.html">source_location</a> const &amp;where, <a class="el" href="a01332.html#ac047405c9b47d7fbca89a44b3e927978">contracts::detection_mode</a> mode)</td></tr>
+<tr class="memdesc:aab54f7f089e730f7d04344425c9d05f4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>observe</code>: the handler runs, the program continues.  <br /></td></tr>
+<tr class="separator:aab54f7f089e730f7d04344425c9d05f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The emulated semantics that check the predicate. Each has the static function <code>violated</code>, called on the failing path only (static members, one type per semantic: GCC 8 mistakes overloaded <code>noinline</code> inline functions of a namespace for redeclarations). </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aab54f7f089e730f7d04344425c9d05f4" name="aab54f7f089e730f7d04344425c9d05f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab54f7f089e730f7d04344425c9d05f4">&#9670;&#160;</a></span>violated()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void lumex::core::contracts::detail::observe_t::violated </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>comment</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01934.html">source_location</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>where</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01332.html#ac047405c9b47d7fbca89a44b3e927978">contracts::detection_mode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>observe</code>: the handler runs, the program continues. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01914_aab54f7f089e730f7d04344425c9d05f4_cgraph.png" border="0" usemap="#aa01914_aab54f7f089e730f7d04344425c9d05f4_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00329_source.html">LumexContractsAssert.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01332.html">contracts</a></li><li class="navelem"><a class="el" href="a01333.html">detail</a></li><li class="navelem"><a class="el" href="a01914.html">observe_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

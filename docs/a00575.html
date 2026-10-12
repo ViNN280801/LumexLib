@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_resource_monitor.cpp File Reference</title>
+<title>LumexLib: LumexUtf.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,90 +105,103 @@ $(function(){initNavTree('a00575.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_resource_monitor.cpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">LumexUtf.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00881_source.html">lumex/applied/resource_monitor/LumexResourceMonitor</a>&quot;</code><br />
+
+<p>Transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>: counters, writers and decoders that combine into a conversion.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00587_source.html">lumex/core/utility/bit/LumexBit.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_resource_monitor.cpp:</div>
+Include dependency graph for LumexUtf.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00576.png" border="0" usemap="#aexample__resource__monitor_8cpp" alt=""/></div>
-<map name="aexample__resource__monitor_8cpp" id="aexample__resource__monitor_8cpp">
-<area shape="rect" title=" " alt="" coords="66,5,269,32"/>
-<area shape="rect" title=" " alt="" coords="5,253,66,280"/>
-<area shape="poly" title=" " alt="" coords="152,35,129,55,107,82,84,122,67,165,44,239,39,237,62,163,80,120,103,78,125,52,149,31"/>
-<area shape="rect" title=" " alt="" coords="370,88,442,115"/>
-<area shape="poly" title=" " alt="" coords="212,30,359,77,364,80,363,85,357,83,211,35"/>
-<area shape="rect" title=" " alt="" coords="90,253,144,280"/>
-<area shape="poly" title=" " alt="" coords="156,34,138,55,123,81,113,122,110,165,115,238,110,238,105,165,108,122,118,79,134,52,152,31"/>
-<area shape="rect" href="a00881.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="133,80,346,123"/>
-<area shape="poly" title=" " alt="" coords="181,31,213,67,209,70,177,34"/>
-<area shape="rect" href="a00113.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file." alt="" coords="133,171,364,197"/>
-<area shape="poly" title=" " alt="" coords="245,123,248,155,243,156,239,124"/>
-<area shape="poly" title=" " alt="" coords="210,200,79,248,76,249,74,244,77,243,209,195"/>
-<area shape="poly" title=" " alt="" coords="230,200,152,247,149,243,227,196"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="168,253,330,280"/>
-<area shape="poly" title=" " alt="" coords="252,198,252,238,246,238,246,198"/>
-<area shape="rect" title=" " alt="" coords="355,253,415,280"/>
-<area shape="poly" title=" " alt="" coords="271,196,352,243,349,248,269,200"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="439,245,672,288"/>
-<area shape="poly" title=" " alt="" coords="298,195,463,238,461,243,296,201"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="458,336,653,379"/>
-<area shape="poly" title=" " alt="" coords="558,288,558,321,553,321,553,288"/>
-</map>
+<div class="center"><img src="a00576.png" border="0" usemap="#a_lumex_utf_8hpp" alt=""/></div>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00577.png" border="0" usemap="#a_lumex_utf_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00575_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04093.html">LumexResourceMonitor</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts/stops a background thread that periodically samples total CPU and RAM usage and appends one formatted line per sample to a dedicated log file.  <a href="a04093.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04082.html">lumex::core::unicode::utf::utf8_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the size in bytes of the UTF-8 form of what a decoder yields.  <a href="a04082.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04086.html">lumex::core::unicode::utf::utf16_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the number of 16-bit units in the UTF-16 form (1 for a code point below U+10000, 2 for a surrogate pair).  <a href="a04086.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04090.html">lumex::core::unicode::utf::utf32_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the number of 32-bit units in the UTF-32 form, one per code point.  <a href="a04090.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04094.html">lumex::core::unicode::utf::utf8_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores the UTF-8 bytes of each code point.  <a href="a04094.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04098.html">lumex::core::unicode::utf::utf16_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores the UTF-16 units of each code point, with a surrogate pair from U+10000 on, in the byte order of the machine.  <a href="a04098.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04102.html">lumex::core::unicode::utf::utf32_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores each code point as one 32-bit unit, in the byte order of the machine.  <a href="a04102.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04106.html">lumex::core::unicode::utf::latin1_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores a code point as one Latin-1 byte, and <code>?</code> for a code point above U+00FF.  <a href="a04106.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04110.html">lumex::core::unicode::utf::utf8_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-8 buffer.  <a href="a04110.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04114.html">lumex::core::unicode::utf::utf16_decoder&lt; SwapBytes &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-16 buffer.  <a href="a04114.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04118.html">lumex::core::unicode::utf::utf32_decoder&lt; SwapBytes &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-32 buffer: <code>Traits::low</code> for a code point below U+10000 and <code>Traits::high</code> from U+10000 on. With <code>SwapBytes</code> set, every unit is byte swapped first. It does not validate the values.  <a href="a04118.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04122.html">lumex::core::unicode::utf::latin1_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a Latin-1 (ISO 8859-1) buffer: every byte is a code point, passed to <code>Traits::low</code>.  <a href="a04122.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04130.html">lumex::core::unicode::utf::wchar_selector&lt; 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04134.html">lumex::core::unicode::utf::wchar_selector&lt; 4 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04138.html">lumex::core::unicode::utf::wchar_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a <code>wchar_t</code> buffer: <code><a class="el" href="a04114.html" title="Decoder of a UTF-16 buffer.">utf16_decoder</a>&lt;false&gt;</code> where <code>wchar_t</code> has 2 bytes (Windows) and <code><a class="el" href="a04118.html" title="Decoder of a UTF-32 buffer: Traits::low for a code point below U+10000 and Traits::high from U+10000 ...">utf32_decoder</a>&lt;false&gt;</code> where it has 4.  <a href="a04138.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01406.html">lumex::core::unicode</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01408.html">lumex::core::unicode::utf</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a67b24d308b9e5a21966d2132eabc433d" id="r_a67b24d308b9e5a21966d2132eabc433d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01408.html#a67b24d308b9e5a21966d2132eabc433d">lumex::core::unicode::utf::wchar_counter</a> = <a class="el" href="a04126.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::counter</td></tr>
+<tr class="memdesc:a67b24d308b9e5a21966d2132eabc433d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy for the <code>wchar_t</code> of this platform.  <br /></td></tr>
+<tr class="separator:a67b24d308b9e5a21966d2132eabc433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8470246579d2e5c29ed54f50a8a1216" id="r_ae8470246579d2e5c29ed54f50a8a1216"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01408.html#ae8470246579d2e5c29ed54f50a8a1216">lumex::core::unicode::utf::wchar_writer</a> = <a class="el" href="a04126.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::writer</td></tr>
+<tr class="memdesc:ae8470246579d2e5c29ed54f50a8a1216"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy for the <code>wchar_t</code> of this platform.  <br /></td></tr>
+<tr class="separator:ae8470246579d2e5c29ed54f50a8a1216"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00575_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00575_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-<map name="aa00575_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00575_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
-<area shape="rect" title=" " alt="" coords="5,63,55,89"/>
-<area shape="rect" href="a01225.html#ac3ff6ba95f363349295d24096e2ff96f" title="Starts the background CPU/RAM sampler, unless it is already running." alt="" coords="103,5,328,64"/>
-<area shape="poly" title=" " alt="" coords="55,68,87,61,88,66,56,73"/>
-<area shape="rect" href="a01225.html#aa64dfaead93c3d4c6ceec66922405170" title="Stops the background sampler and joins its thread." alt="" coords="103,88,328,147"/>
-<area shape="poly" title=" " alt="" coords="56,79,88,86,87,91,55,84"/>
-</map>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and <code>wchar_t</code>: counters, writers and decoders that combine into a conversion. </p>
+<p>A conversion is a decoder run with a policy. A decoder (<code>utf8_decoder</code>, <code>utf16_decoder&lt;SwapBytes&gt;</code>, <code>utf32_decoder&lt;SwapBytes&gt;</code>, <code>latin1_decoder</code>, <code>wchar_decoder</code>) reads a buffer of its unit type and calls <code>Traits::low (result, code_point)</code> for a code point below U+10000 and <code>Traits::high (result, code_point)</code> from U+10000 on, threading <code>result</code> through the calls. With a counter (<code>utf8_counter</code>, <code>utf16_counter</code>, <code>utf32_counter</code>) <code>result</code> is the size of the output; with a writer (<code>utf8_writer</code>, <code>utf16_writer</code>, <code>utf32_writer</code>, <code>latin1_writer</code>) it is the output pointer. So a conversion runs twice: once with the counter to size the buffer, once with the writer to fill it. <code>wchar_selector&lt;Size&gt;</code> picks the UTF-16 or UTF-32 set for the <code>wchar_t</code> of the platform.</p>
+<p>Invalid input is not an error: a decoder skips what it cannot decode. Header-only, works from C++11, no allocation. <code>to_utf8</code> and <code>to_wide</code> in <code><a class="el" href="a00572.html" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF-8 and of a UTF-8 string to wchar_t,...">convert/LumexUnicodeConvert.hpp</a></code> are the ready-made string conversions. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_ffa82bf6eb4c6bc4262a6337757c7be6.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a00575.html">example_resource_monitor.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_99253d4096ffea06e09286d5da0452b9.html">unicode</a></li><li class="navelem"><a class="el" href="dir_90185779035eec3d08ad8d146096f380.html">utf</a></li><li class="navelem"><a class="el" href="a00575.html">LumexUtf.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

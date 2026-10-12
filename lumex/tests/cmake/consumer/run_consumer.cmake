@@ -2,7 +2,8 @@
 #
 # Required: CASE, LUMEX_SOURCE_DIR, WORK_DIR, GENERATOR, CXX_COMPILER.
 # Optional: BUILD_TYPE (default Release), EXTRA_ARGS (;-list of -D...),
-# CONFIGURE_ONLY (stop after a successful configure), CXX_FLAGS and
+# CONFIGURE_ONLY (stop after a successful configure), RUN_PREFIX (a ;-list put
+# in front of the command that runs the executable), CXX_FLAGS and
 # CLANG_STDLIB (the calling tree's CMAKE_CXX_FLAGS and LUMEX_CLANG_STDLIB,
 # forwarded when set), BUILD_RPATH (the directories of the compiler's own C++
 # runtime when it lies outside the system paths, forwarded as
@@ -32,7 +33,12 @@ if(WIN32 AND (_compiler_name STREQUAL "cl" OR _compiler_name STREQUAL "clang-cl"
 endif()
 
 set(_source "${CMAKE_CURRENT_LIST_DIR}/${CASE}")
-set(_binary "${WORK_DIR}/${CASE}")
+# The nested build lives in one short directory under WORK_DIR: the deepest
+# object path of the embedded library (lumexlib/lumex/core/.../x.cpp.obj)
+# passes MAX_PATH in a deep outer tree, and cl.exe then reports C1083 for an
+# empty file name. WORK_DIR itself comes from the caller and is long - the
+# test name under the build tree - so this script keeps its own part short.
+set(_binary "${WORK_DIR}/b")
 file(REMOVE_RECURSE "${_binary}")
 
 set(_forwarded "")
@@ -84,8 +90,19 @@ if(CONFIGURE_ONLY)
     return()
 endif()
 
+# What the embedded build produces: everything by default, or the single
+# target a fixture names. A deep build tree can push the longest object path
+# of the library past the MAX_PATH limit of cl.exe, which then fails with
+# C1083 for an empty file name; the consumer target still pulls in what it
+# links, so naming it builds exactly the same libraries.
+set(_build_args "")
+if(NOT "${BUILD_TARGET}" STREQUAL "")
+    list(APPEND _build_args --target "${BUILD_TARGET}")
+endif()
+
 execute_process(
     COMMAND "${CMAKE_COMMAND}" --build "${_binary}" --config "${BUILD_TYPE}"
+            ${_build_args}
     RESULT_VARIABLE _rc
     OUTPUT_VARIABLE _out
     ERROR_VARIABLE _out
@@ -127,7 +144,9 @@ endif()
 # On ELF hosts the executable finds the runtime of the compiler through the
 # RUNPATH it was linked with, not through the caller's LD_LIBRARY_PATH.
 if(UNIX)
-    set(_run "${CMAKE_COMMAND}" -E env --unset=LD_LIBRARY_PATH "${_exe}")
+    # RUN_PREFIX (a ;-list) goes before the executable, for example
+    # setarch;x86_64;-R: GCC's ThreadSanitizer needs ASLR off.
+    set(_run ${RUN_PREFIX} "${CMAKE_COMMAND}" -E env --unset=LD_LIBRARY_PATH "${_exe}")
 else()
     set(_run "${_exe}")
 endif()

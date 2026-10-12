@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt; Struct Template Reference</title>
+<title>LumexLib: lumex::core::contracts::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,111 +105,80 @@ $(function(){initNavTree('a01333.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01330.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt; Struct Template Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::contracts::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Equivalence of <code>std::shared_ptr</code>: same stored pointer and same owner (or both empty).  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00191_source.html">LumexAtomicSmartPtrCell.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01337.html">probe_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer needs no extra state to be compared.  <a href="a01337.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01918.html">enforce_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01938.html">has_violation_accessors</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detects an object with the accessors of a contract violation.  <a href="a01938.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01942.html">has_violation_accessors&lt; Violation, typename std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; Violation const &amp; &gt;().comment()), char const * &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Violation const &amp; &gt;().location().line()), std::uint_least32_t &gt;::value &amp;&amp;std::is_integral&lt; typename std::underlying_type&lt; decltype(std::declval&lt; Violation const &amp; &gt;().kind())&gt;::type &gt;::value &amp;&amp;std::is_integral&lt; typename std::underlying_type&lt; decltype(std::declval&lt; Violation const &amp; &gt;().semantic())&gt;::type &gt;::value &amp;&amp;std::is_integral&lt; typename std::underlying_type&lt; decltype(std::declval&lt; Violation const &amp; &gt;() .detection_mode())&gt;::type &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01914.html">observe_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The emulated semantics that check the predicate. Each has the static function <code>violated</code>, called on the failing path only (static members, one type per semantic: GCC 8 mistakes overloaded <code>noinline</code> inline functions of a namespace for redeclarations).  <a href="a01914.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01922.html">quick_enforce_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aa3f855dbda4758a2198ee10dda9df3b7" id="r_aa3f855dbda4758a2198ee10dda9df3b7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a01337.html">probe_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3f855dbda4758a2198ee10dda9df3b7">probe</a> (std::shared_ptr&lt; T &gt; const &amp;) noexcept</td></tr>
-<tr class="separator:aa3f855dbda4758a2198ee10dda9df3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32a301445a5fe73d5706d05a697f9106" id="r_a32a301445a5fe73d5706d05a697f9106"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32a301445a5fe73d5706d05a697f9106">equivalent</a> (std::shared_ptr&lt; T &gt; const &amp;current, std::shared_ptr&lt; T &gt; const &amp;expected, <a class="el" href="a01337.html">probe_t</a> const &amp;, <a class="el" href="a01337.html">probe_t</a> &amp;) noexcept</td></tr>
-<tr class="separator:a32a301445a5fe73d5706d05a697f9106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a6d0ebd9bd3c808173185f36dd8a61deb" id="r_a6d0ebd9bd3c808173185f36dd8a61deb"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d0ebd9bd3c808173185f36dd8a61deb">equal_texts</a> (char const *left, char const *right) noexcept</td></tr>
+<tr class="memdesc:a6d0ebd9bd3c808173185f36dd8a61deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality of two NUL-terminated strings in a constant expression (C++11 form: one return statement, recursion). Neither may be null.  <br /></td></tr>
+<tr class="separator:a6d0ebd9bd3c808173185f36dd8a61deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-struct lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt;</div><p>Equivalence of <code>std::shared_ptr</code>: same stored pointer and same owner (or both empty). </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a32a301445a5fe73d5706d05a697f9106" name="a32a301445a5fe73d5706d05a697f9106"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32a301445a5fe73d5706d05a697f9106">&#9670;&#160;</a></span>equivalent()</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a6d0ebd9bd3c808173185f36dd8a61deb" name="a6d0ebd9bd3c808173185f36dd8a61deb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d0ebd9bd3c808173185f36dd8a61deb">&#9670;&#160;</a></span>equal_texts()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool <a class="el" href="a01329.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t</a>&lt; std::shared_ptr&lt; T &gt; &gt;::equivalent </td>
+          <td class="memname">bool lumex::core::contracts::detail::equal_texts </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>left</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01337.html">probe_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01337.html">probe_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>right</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Equality of two NUL-terminated strings in a constant expression (C++11 form: one return statement, recursion). Neither may be null. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01333_a6d0ebd9bd3c808173185f36dd8a61deb_cgraph.png" border="0" usemap="#aa01333_a6d0ebd9bd3c808173185f36dd8a61deb_cgraph" alt=""/></div>
 </div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01333_a6d0ebd9bd3c808173185f36dd8a61deb_icgraph.png" border="0" usemap="#aa01333_a6d0ebd9bd3c808173185f36dd8a61deb_icgraph" alt=""/></div>
 </div>
-<a id="aa3f855dbda4758a2198ee10dda9df3b7" name="aa3f855dbda4758a2198ee10dda9df3b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3f855dbda4758a2198ee10dda9df3b7">&#9670;&#160;</a></span>probe()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="a01337.html">probe_t</a> <a class="el" href="a01329.html">lumex::core::atomic::smart_ptr::lock_based_table_wait::Detail::smart_ptr_traits_t</a>&lt; std::shared_ptr&lt; T &gt; &gt;::probe </td>
-          <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00191_source.html">LumexAtomicSmartPtrCell.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01006.html">atomic</a></li><li class="navelem"><a class="el" href="a01007.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a01008.html">lock_based_table_wait</a></li><li class="navelem"><a class="el" href="a01009.html">Detail</a></li><li class="navelem"><a class="el" href="a01333.html">smart_ptr_traits_t&lt; std::shared_ptr&lt; T &gt; &gt;</a></li>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01332.html">contracts</a></li><li class="navelem"><a class="el" href="a01333.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

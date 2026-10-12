@@ -2,8 +2,8 @@
 // strong_ordering, weak_ordering and partial_ordering of LumexOrdering.hpp:
 // every value, the named constants, the conversions, the comparisons with the
 // literal 0 in both operand orders, the comparisons between orderings,
-// is_eq .. is_gteq, constexpr use, the type traits, the alias that names the
-// ordering of the library at the standard in use, and the one-definition
+// is_eq .. is_gteq, constexpr use, the type traits, the aliases that name the
+// ordering classes, and the one-definition
 // property of the constants. Every suite compiles this file;
 // LumexOrdering.cxx20.tests.cpp compares the classes with the standard ones.
 
@@ -538,20 +538,18 @@ TEST (LumexOrderingTraits, GivenOtherTypes_WhenCheckedByIsOrdering_ThenFalse)
 
 // === The ordering of the library at the standard in use ===
 
-TEST (LumexOrderingAlias,
-      GivenStandard_WhenAliasesNamed_ThenOwnClassesBelowCxx20)
+TEST (LumexOrderingAlias, GivenAnyStandard_WhenAliasesNamed_ThenTheOwnClasses)
 {
-  // Below C++20 (or without <compare>) the aliases are the classes of this
-  // library; with <compare> they are the standard ones (the C++20 file of this
-  // suite checks that).
-  bool const own = !LUMEX_HAS_THREE_WAY_COMPARISON;
-
-  EXPECT_EQ ((std::is_same<strong_ordering_t, strong_ordering>::value), own);
-  EXPECT_EQ ((std::is_same<weak_ordering_t, weak_ordering>::value), own);
-  EXPECT_EQ ((std::is_same<partial_ordering_t, partial_ordering>::value), own);
-#if __cplusplus < 202002L
-  EXPECT_TRUE (own);
-#endif
+  // The aliases are the classes of this library in every standard, with or
+  // without <compare>; the C++20 file of this suite checks that they are
+  // never the standard ones.
+  static_assert (std::is_same<strong_ordering_t, strong_ordering>::value,
+                 "strong_ordering_t is the own class");
+  static_assert (std::is_same<weak_ordering_t, weak_ordering>::value,
+                 "weak_ordering_t is the own class");
+  static_assert (std::is_same<partial_ordering_t, partial_ordering>::value,
+                 "partial_ordering_t is the own class");
+  SUCCEED ();
 }
 
 TEST (LumexOrderingAlias,

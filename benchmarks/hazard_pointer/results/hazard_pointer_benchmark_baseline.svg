@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 535" width="900" height="535" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>Baseline: std::atomic&lt;uint64_t&gt;::compare_exchange_strong, contended</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">Baseline: std::atomic&lt;uint64_t&gt;::compare_exchange_strong, contended</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">12th Gen Intel(R) Core(TM) i7-12700K, 20 logical CPUs, governor powersave; 13.2.0, LumexLib hazard_pointer; median of 5 runs</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">Timed right before each series&#x27; block: the same code every time, so the lines should overlap; whiskers: 25th-75th percentile</text>
+<line x1="20.0" y1="91.0" x2="44.0" y2="91.0" stroke="#0072B2" stroke-width="2.5"/>
+<circle cx="32.0" cy="91.0" r="3.5" fill="#0072B2"/>
+<text x="50.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib hazard_pointer</text>
+<line x1="223.8" y1="91.0" x2="247.8" y2="91.0" stroke="#999999" stroke-width="2.5" stroke-dasharray="7 4"/>
+<circle cx="235.8" cy="91.0" r="3.5" fill="#999999"/>
+<text x="253.8" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">plain acquire load (unsafe)</text>
+<line x1="454.0" y1="91.0" x2="478.0" y2="91.0" stroke="#D55E00" stroke-width="2.5" stroke-dasharray="2 4"/>
+<circle cx="466.0" cy="91.0" r="3.5" fill="#D55E00"/>
+<text x="484.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::shared_mutex read lock</text>
+<line x1="20.0" y1="113.0" x2="44.0" y2="113.0" stroke="#E69F00" stroke-width="2.5"/>
+<circle cx="32.0" cy="113.0" r="3.5" fill="#E69F00"/>
+<text x="50.0" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::atomic_load (shared_ptr)</text>
+<line x1="263.4" y1="113.0" x2="287.4" y2="113.0" stroke="#56B4E9" stroke-width="2.5" stroke-dasharray="9 3 2 3"/>
+<circle cx="275.4" cy="113.0" r="3.5" fill="#56B4E9"/>
+<text x="293.4" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">new + delete of a small object</text>
+<line x1="80" y1="475.0" x2="870" y2="475.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="479.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">0</text>
+<line x1="80" y1="392.5" x2="870" y2="392.5" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="396.5" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">100</text>
+<line x1="80" y1="310.0" x2="870" y2="310.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="314.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">200</text>
+<line x1="80" y1="227.5" x2="870" y2="227.5" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="231.5" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">300</text>
+<line x1="80" y1="145.0" x2="870" y2="145.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="149.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">400</text>
+<line x1="100.0" y1="145" x2="100.0" y2="475" stroke="#f0f3f7" stroke-width="1"/>
+<text x="100.0" y="493.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">2</text>
+<line x1="207.1" y1="145" x2="207.1" y2="475" stroke="#f0f3f7" stroke-width="1"/>
+<text x="207.1" y="493.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">4</text>
+<line x1="421.4" y1="145" x2="421.4" y2="475" stroke="#f0f3f7" stroke-width="1"/>
+<text x="421.4" y="493.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">8</text>
+<line x1="850.0" y1="145" x2="850.0" y2="475" stroke="#f0f3f7" stroke-width="1"/>
+<text x="850.0" y="493.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">16</text>
+<line x1="80" y1="475" x2="870" y2="475" stroke="#a0aec0" stroke-width="1"/>
+<text x="475.0" y="515.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#2d3748">threads</text>
+<text x="24" y="310.0" font-size="12" text-anchor="middle" fill="#2d3748" transform="rotate(-90 24 310.0)">ns per operation and thread</text>
+<path d="M94.0 448.6 L201.1 411.7 L415.4 338.9 L844.0 206.2" fill="none" stroke="#0072B2" stroke-width="2.2"/>
+<path d="M94.0 450.1V445.9M91.0 450.1H97.0M91.0 445.9H97.0" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="94.0" cy="448.6" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 2 threads: 32.04 (30.18..35.26)</title></circle>
+<path d="M201.1 415.0V409.3M198.1 415.0H204.1M198.1 409.3H204.1" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="201.1" cy="411.7" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 4 threads: 76.74 (72.75..79.64)</title></circle>
+<path d="M415.4 345.7V328.9M412.4 345.7H418.4M412.4 328.9H418.4" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="415.4" cy="338.9" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 8 threads: 164.94 (156.75..177.05)</title></circle>
+<path d="M844.0 219.3V202.5M841.0 219.3H847.0M841.0 202.5H847.0" stroke="#0072B2" stroke-width="1.1" fill="none"/>
+<circle cx="844.0" cy="206.2" r="3.6" fill="#0072B2" stroke="#ffffff" stroke-width="1"><title>LumexLib hazard_pointer, 16 threads: 325.85 (309.95..330.31)</title></circle>
+<path d="M97.0 448.0 L204.1 413.3 L418.4 336.5 L847.0 206.0" fill="none" stroke="#999999" stroke-width="2.2" stroke-dasharray="7 4"/>
+<path d="M97.0 449.7V447.8M94.0 449.7H100.0M94.0 447.8H100.0" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="97.0" cy="448.0" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 2 threads: 32.79 (30.61..32.92)</title></circle>
+<path d="M204.1 417.4V410.7M201.1 417.4H207.1M201.1 410.7H207.1" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="204.1" cy="413.3" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 4 threads: 74.80 (69.83..77.95)</title></circle>
+<path d="M418.4 338.4V335.2M415.4 338.4H421.4M415.4 335.2H421.4" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="418.4" cy="336.5" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 8 threads: 167.90 (165.61..169.48)</title></circle>
+<path d="M847.0 235.1V198.0M844.0 235.1H850.0M844.0 198.0H850.0" stroke="#999999" stroke-width="1.1" fill="none"/>
+<circle cx="847.0" cy="206.0" r="3.6" fill="#999999" stroke="#ffffff" stroke-width="1"><title>plain acquire load (unsafe), 16 threads: 326.07 (290.79..335.77)</title></circle>
+<path d="M100.0 448.0 L207.1 413.3 L421.4 336.5 L850.0 206.0" fill="none" stroke="#D55E00" stroke-width="2.2" stroke-dasharray="2 4"/>
+<path d="M100.0 449.7V447.8M97.0 449.7H103.0M97.0 447.8H103.0" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="100.0" cy="448.0" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>std::shared_mutex read lock, 2 threads: 32.79 (30.61..32.92)</title></circle>
+<path d="M207.1 417.4V410.7M204.1 417.4H210.1M204.1 410.7H210.1" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="207.1" cy="413.3" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>std::shared_mutex read lock, 4 threads: 74.80 (69.83..77.95)</title></circle>
+<path d="M421.4 338.4V335.2M418.4 338.4H424.4M418.4 335.2H424.4" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="421.4" cy="336.5" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>std::shared_mutex read lock, 8 threads: 167.90 (165.61..169.48)</title></circle>
+<path d="M850.0 235.1V198.0M847.0 235.1H853.0M847.0 198.0H853.0" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="850.0" cy="206.0" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>std::shared_mutex read lock, 16 threads: 326.07 (290.79..335.77)</title></circle>
+<path d="M103.0 449.7 L210.1 418.5 L424.4 345.8 L853.0 230.0" fill="none" stroke="#E69F00" stroke-width="2.2"/>
+<path d="M103.0 453.0V446.3M100.0 453.0H106.0M100.0 446.3H106.0" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="103.0" cy="449.7" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic_load (shared_ptr), 2 threads: 30.65 (26.62..34.73)</title></circle>
+<path d="M210.1 419.4V415.4M207.1 419.4H213.1M207.1 415.4H213.1" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="210.1" cy="418.5" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic_load (shared_ptr), 4 threads: 68.48 (67.41..72.23)</title></circle>
+<path d="M424.4 350.5V342.1M421.4 350.5H427.4M421.4 342.1H427.4" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="424.4" cy="345.8" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic_load (shared_ptr), 8 threads: 156.63 (150.89..161.05)</title></circle>
+<path d="M853.0 230.2V207.1M850.0 230.2H856.0M850.0 207.1H856.0" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="853.0" cy="230.0" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic_load (shared_ptr), 16 threads: 296.99 (296.70..324.77)</title></circle>
+<path d="M106.0 449.8 L213.1 414.5 L427.4 347.0 L856.0 217.4" fill="none" stroke="#56B4E9" stroke-width="2.2" stroke-dasharray="9 3 2 3"/>
+<path d="M106.0 450.2V447.4M103.0 450.2H109.0M103.0 447.4H109.0" stroke="#56B4E9" stroke-width="1.1" fill="none"/>
+<circle cx="106.0" cy="449.8" r="3.6" fill="#56B4E9" stroke="#ffffff" stroke-width="1"><title>new + delete of a small object, 2 threads: 30.57 (30.07..33.50)</title></circle>
+<path d="M213.1 417.4V413.6M210.1 417.4H216.1M210.1 413.6H216.1" stroke="#56B4E9" stroke-width="1.1" fill="none"/>
+<circle cx="213.1" cy="414.5" r="3.6" fill="#56B4E9" stroke="#ffffff" stroke-width="1"><title>new + delete of a small object, 4 threads: 73.38 (69.79..74.39)</title></circle>
+<path d="M427.4 349.0V340.5M424.4 349.0H430.4M424.4 340.5H430.4" stroke="#56B4E9" stroke-width="1.1" fill="none"/>
+<circle cx="427.4" cy="347.0" r="3.6" fill="#56B4E9" stroke="#ffffff" stroke-width="1"><title>new + delete of a small object, 8 threads: 155.15 (152.67..162.98)</title></circle>
+<path d="M856.0 236.2V207.1M853.0 236.2H859.0M853.0 207.1H859.0" stroke="#56B4E9" stroke-width="1.1" fill="none"/>
+<circle cx="856.0" cy="217.4" r="3.6" fill="#56B4E9" stroke="#ffffff" stroke-width="1"><title>new + delete of a small object, 16 threads: 312.30 (289.40..324.74)</title></circle>
+</svg>

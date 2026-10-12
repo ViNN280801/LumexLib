@@ -243,6 +243,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+   * The snippet below shows the intended use.
+
    * @code
    * std::string log_stamp = lumex_time::timestamp();
    * std::string custom = lumex_time::timestamp(std::time(nullptr),
@@ -270,6 +272,8 @@ public:
    * @note Does not throw.
    *
    * @par Example
+   * The snippet below shows the intended use.
+
    * @code
    * std::string log_stamp = lumex_time::timestamp_ms();
    * @endcode

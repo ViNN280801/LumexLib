@@ -84,8 +84,8 @@ main ()
 
   std::cout << "\n--- 7. A text is hashed as its bytes ---\n";
   // A literal, a char const * and a std::string convert to the text type of
-  // the string overload: std::string_view from C++17, the lumex_string_view
-  // of lumex::string_view below it.
+  // the string overload: the lumex_string_view of lumex::string_view in every
+  // standard (a std::string_view converts to it from C++17).
   std::cout << "catalog[0](\"123456789\")="
             << compute_crc_catalog (0, "123456789") << " same_as_bytes="
             << (compute_crc_catalog (0, "123456789")

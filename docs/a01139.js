@@ -1,10 +1,13 @@
 var a01139 =
 [
-    [ "xml_parse_result_t", "a02965.html", "a02965" ],
-    [ "XmlParser", "a02961.html", "a02961" ],
-    [ "XmlText", "a02969.html", "a02969" ],
-    [ "load_buffer_impl", "a01139.html#a7355b4c5a34fafe87b02c6fd5d116775", null ],
-    [ "make_parse_result", "a01139.html#ae0bf18f6f9e0ed3936938a14c541af0c", null ],
-    [ "operator&&", "a01139.html#a98673d4a1b8b431dcfef95e6148547eb", null ],
-    [ "operator||", "a01139.html#a637cf8030dca5d7cc1d7a84daa3f1f8f", null ]
+    [ "lumex::xml::xpath::variable::XPathVariable", "a05150.html", "a05150" ],
+    [ "lumex::xml::xpath::variable::xpath_variable_boolean", "a05154.html", "a05154" ],
+    [ "lumex::xml::xpath::variable::xpath_variable_number", "a05158.html", "a05158" ],
+    [ "lumex::xml::xpath::variable::xpath_variable_string", "a05162.html", "a05162" ],
+    [ "lumex::xml::xpath::variable::xpath_variable_node_set", "a05166.html", "a05166" ],
+    [ "lumex::xml::xpath::variable::copy_xpath_variable", "a01503.html#a8c614ae14269eea0013728c7722e8f69", null ],
+    [ "lumex::xml::xpath::variable::delete_xpath_variable", "a01503.html#a0be06ec2c3c4e4250c31819d89fce85e", null ],
+    [ "lumex::xml::xpath::variable::delete_xpath_variable", "a01503.html#a10c437efc4cf016b68b63e55b2fe1672", null ],
+    [ "lumex::xml::xpath::variable::new_xpath_variable", "a01503.html#a8d071b6248d853a14d7dbc4f01968013", null ],
+    [ "lumex::xml::xpath::variable::new_xpath_variable", "a01503.html#ac00f497c2f418ba8cc3ced40dab14be2", null ]
 ];

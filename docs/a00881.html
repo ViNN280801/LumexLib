@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexResourceMonitor File Reference</title>
+<title>LumexLib: example_string_view_literals_hash.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,58 +103,56 @@ $(function(){initNavTree('a00881.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexResourceMonitor File Reference</div></div>
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_string_view_literals_hash.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01229_source.html">lumex/core/string_view/LumexStringView</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for example_string_view_literals_hash.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00882.png" border="0" usemap="#aexample__string__view__literals__hash_8cpp" alt=""/></div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
-<p>Resource monitor module: a background thread that samples the CPU and RAM usage of the system and appends one line per sample to a dated log file.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00113_source.html">monitor/LumexResourceMonitor.hpp</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexResourceMonitor:</div>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00882.png" border="0" usemap="#a_lumex_resource_monitor" alt=""/></div>
-<map name="a_lumex_resource_monitor" id="a_lumex_resource_monitor">
-<area shape="rect" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="227,5,386,32"/>
-<area shape="rect" href="a00113.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file." alt="" coords="191,80,422,107"/>
-<area shape="poly" title=" " alt="" coords="309,33,309,64,304,64,304,33"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,163,168,189"/>
-<area shape="poly" title=" " alt="" coords="273,110,136,160,134,155,271,105"/>
-<area shape="rect" title=" " alt="" coords="192,163,253,189"/>
-<area shape="poly" title=" " alt="" coords="295,109,248,154,244,150,292,105"/>
-<area shape="rect" title=" " alt="" coords="276,163,337,189"/>
-<area shape="poly" title=" " alt="" coords="309,107,309,147,304,147,304,107"/>
-<area shape="rect" title=" " alt="" coords="361,163,414,189"/>
-<area shape="poly" title=" " alt="" coords="321,105,367,150,363,154,317,109"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="438,155,671,197"/>
-<area shape="poly" title=" " alt="" coords="346,105,477,147,475,152,344,110"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="457,245,652,288"/>
-<area shape="poly" title=" " alt="" coords="557,198,557,230,552,230,552,198"/>
-</map>
+<div class="center"><img src="a00881_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00881_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00883.png" border="0" usemap="#a_lumex_resource_monitordep" alt=""/></div>
-<map name="a_lumex_resource_monitordep" id="a_lumex_resource_monitordep">
-<area shape="rect" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system and app..." alt="" coords="134,5,293,32"/>
-<area shape="rect" href="a00575.html" title=" " alt="" coords="5,88,208,115"/>
-<area shape="poly" title=" " alt="" coords="186,44,125,90,121,85,183,39"/>
-<area shape="rect" href="a00578.html" title=" " alt="" coords="231,80,408,123"/>
-<area shape="poly" title=" " alt="" coords="244,39,294,77,291,82,240,44"/>
-</map>
+
 </div>
 </div>
-<p><a href="a00881_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Resource monitor module: a background thread that samples the CPU and RAM usage of the system and appends one line per sample to a dated log file. </p>
-<p>Link <code>lumex::resource_monitor</code> (compiled library). The library itself is compiled as C++17 because its implementation uses <code>std::filesystem</code>. The umbrella includes <code><a class="el" href="a00113.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file.">monitor/LumexResourceMonitor.hpp</a></code>. </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_f9152e2f803c7072c4cc804ced04476e.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a00881.html">LumexResourceMonitor</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_bc782a393a6b988e43baa711f0e6ca41.html">string_view</a></li><li class="navelem"><a class="el" href="a00881.html">example_string_view_literals_hash.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

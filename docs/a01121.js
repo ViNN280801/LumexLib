@@ -1,4 +1,5 @@
 var a01121 =
 [
-    [ "logger", "a01122.html", "a01122" ]
+    [ "lumex::xml::xpath::query::XPathQuery", "a05138.html", "a05138" ],
+    [ "lumex::xml::xpath::XPathQueryImpl", "a05142.html", "a05142" ]
 ];

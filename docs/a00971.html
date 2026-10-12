@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::logger Namespace Reference</title>
+<title>LumexLib: XmlMemoryPage.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,121 +104,34 @@ $(function(){initNavTree('a00971.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::logger Namespace Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XmlMemoryPage.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Universal file logger, ported and kept up to date from the DChannel project's Logger.  
-<a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00972.html">logger</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a50817df5a1c7ef0cc99cfb1a2fd513e9" id="r_a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">logger_config_format_t</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55">plain_text</a> = 0
-, <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3">ini</a>
-, <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54">json</a>
-, <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f">yaml</a>
-, <br />
-&#160;&#160;<a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7">xml</a>
-<br />
- }</td></tr>
-<tr class="memdesc:a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time format of the logger enable/config file.  <a href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">More...</a><br /></td></tr>
-<tr class="separator:a50817df5a1c7ef0cc99cfb1a2fd513e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a4ff8994ab54d107e5c4077786599a415" id="r_a4ff8994ab54d107e5c4077786599a415"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">logger_config_format_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ff8994ab54d107e5c4077786599a415">configured_logger_config_format</a> () noexcept</td></tr>
-<tr class="memdesc:a4ff8994ab54d107e5c4077786599a415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the only logger config format compiled into this target.  <br /></td></tr>
-<tr class="separator:a4ff8994ab54d107e5c4077786599a415"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Universal file logger, ported and kept up to date from the DChannel project's Logger. </p>
-<p>All symbols below live in this namespace instead of the global namespace specifically to avoid name collisions in a shared library consumed by many projects (see e.g. <code>logger_stringify</code>, which would otherwise be a dangerously generic global name). </p>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a50817df5a1c7ef0cc99cfb1a2fd513e9" name="a50817df5a1c7ef0cc99cfb1a2fd513e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">&#9670;&#160;</a></span>logger_config_format_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">lumex::applied::logger::logger_config_format_t</a> : std::uint8_t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Compile-time format of the logger enable/config file. </p>
-<p>Exactly one format is selected by LUMEX_LOGGER_CONFIG_FORMAT when lumex::logger is configured. The path extension does not affect parsing. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55"></a>plain_text&#160;</td><td class="fielddoc"><p>Prefixed KEY=value lines (historical enable_logs). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3"></a>ini&#160;</td><td class="fielddoc"><p>INI via <a class="el" href="a00167.html#aa4b9184a671b4fab21d16ff231591689">LumexSettingsINI</a> ([logger] section). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54"></a>json&#160;</td><td class="fielddoc"><p>JSON via vendored nlohmann/json. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f"></a>yaml&#160;</td><td class="fielddoc"><p>Reserved; throws until LumexSettingsYAML exists. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7" name="a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7"></a>xml&#160;</td><td class="fielddoc"><p>XML via LumexXml (<code>&lt;logger&gt;</code> child elements). </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a4ff8994ab54d107e5c4077786599a415" name="a4ff8994ab54d107e5c4077786599a415"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ff8994ab54d107e5c4077786599a415">&#9670;&#160;</a></span>configured_logger_config_format()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a50817df5a1c7ef0cc99cfb1a2fd513e9">logger_config_format_t</a> lumex::applied::logger::configured_logger_config_format </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the only logger config format compiled into this target. </p>
-<dl class="section return"><dt>Returns</dt><dd>Compile-time logger config format. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>The function is constexpr and does not inspect a file name. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00974_source.html">XmlMemoryPage.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XmlMemoryPage.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00971_a4ff8994ab54d107e5c4077786599a415_icgraph.png" border="0" usemap="#aa00971_a4ff8994ab54d107e5c4077786599a415_icgraph" alt=""/></div>
-<map name="aa00971_a4ff8994ab54d107e5c4077786599a415_icgraph" id="aa00971_a4ff8994ab54d107e5c4077786599a415_icgraph">
-<area shape="rect" title="Returns the only logger config format compiled into this target." alt="" coords="314,5,487,64"/>
-<area shape="rect" href="a01122.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="103,13,266,56"/>
-<area shape="poly" title=" " alt="" coords="299,37,267,37,267,32,299,32"/>
-<area shape="rect" href="a00542.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,21,55,48"/>
-<area shape="poly" title=" " alt="" coords="87,37,55,37,55,32,87,32"/>
-</map>
+<div class="center"><img src="a00972.png" border="0" usemap="#a_xml_memory_page_8cpp" alt=""/></div>
 </div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -227,7 +140,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00971.html">logger</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_dfaff3bf0c138bf12cc91354825aa357.html">memory</a></li><li class="navelem"><a class="el" href="a00971.html">XmlMemoryPage.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

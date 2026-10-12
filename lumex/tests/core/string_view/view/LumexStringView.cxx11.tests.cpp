@@ -721,7 +721,7 @@ TEST_F (LumexStringViewTest, ThreadSafeReads)
 {
   lumex_string_view sv (test_string);
   std::vector<std::thread> threads;
-  std::vector<bool> results (10, false);
+  std::vector<int> results (10, 0);
 
   for (int i = 0; i < 10; ++i)
     {
@@ -737,8 +737,8 @@ TEST_F (LumexStringViewTest, ThreadSafeReads)
   for (auto &thread : threads)
     thread.join ();
 
-  for (bool result : results)
-    EXPECT_TRUE (result);
+  for (int result : results)
+    EXPECT_NE (result, 0);
 }
 
 /*

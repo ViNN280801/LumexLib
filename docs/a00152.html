@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSettingsFactory.cpp File Reference</title>
+<title>LumexLib: LumexResourceMonitor.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,54 +106,42 @@ $(function(){initNavTree('a00152.html',''); initResizable(true); });
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexSettingsFactory.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexResourceMonitor.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00155_source.html">LumexSettingsFactory.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00167_source.html">lumex/applied/settings/ini/LumexSettingsINI.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;sys/sysinfo.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00155_source.html">LumexResourceMonitor.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00143_source.html">detail/LumexProcFs.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00149_source.html">detail/LumexWatchLog.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01163_source.html">lumex/applied/logging/LumexLogging</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01199_source.html">lumex/core/filesystem/LumexFilesystem</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01235_source.html">lumex/core/time/LumexTime</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSettingsFactory.cpp:</div>
+Include dependency graph for LumexResourceMonitor.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00153.png" border="0" usemap="#a_lumex_settings_factory_8cpp" alt=""/></div>
-<map name="a_lumex_settings_factory_8cpp" id="a_lumex_settings_factory_8cpp">
-<area shape="rect" title=" " alt="" coords="456,5,633,32"/>
-<area shape="rect" href="a00155.html" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="591,88,767,115"/>
-<area shape="poly" title=" " alt="" coords="567,30,647,78,644,82,564,35"/>
-<area shape="rect" href="a00167.html" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="324,80,496,123"/>
-<area shape="poly" title=" " alt="" coords="525,35,459,74,456,70,522,30"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="529,269,691,296"/>
-<area shape="poly" title=" " alt="" coords="680,116,673,160,656,214,631,258,626,256,651,212,668,159,675,115"/>
-<area shape="rect" title=" " alt="" coords="717,179,785,205"/>
-<area shape="poly" title=" " alt="" coords="692,114,733,165,729,168,687,117"/>
-<area shape="rect" href="a00170.html" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="810,171,1039,213"/>
-<area shape="poly" title=" " alt="" coords="715,113,854,162,852,167,713,118"/>
-<area shape="rect" href="a00173.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="447,171,642,213"/>
-<area shape="poly" title=" " alt="" coords="661,118,590,164,587,160,658,113"/>
-<area shape="rect" title=" " alt="" coords="894,269,955,296"/>
-<area shape="poly" title=" " alt="" coords="927,214,927,254,922,254,922,214"/>
-<area shape="poly" title=" " alt="" coords="562,212,594,255,589,258,558,215"/>
-<area shape="rect" title=" " alt="" coords="451,269,504,296"/>
-<area shape="poly" title=" " alt="" coords="531,215,498,259,494,255,527,212"/>
-<area shape="poly" title=" " alt="" coords="412,123,417,167,424,191,437,212,455,225,483,238,550,262,549,267,481,243,452,229,433,215,419,193,411,168,406,123"/>
-<area shape="poly" title=" " alt="" coords="443,121,502,160,499,164,440,126"/>
-<area shape="rect" title=" " alt="" coords="5,179,116,205"/>
-<area shape="poly" title=" " alt="" coords="324,125,129,173,117,177,116,171,128,168,323,120"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="140,171,373,213"/>
-<area shape="poly" title=" " alt="" coords="375,126,307,165,304,160,373,121"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="159,261,354,304"/>
-<area shape="poly" title=" " alt="" coords="259,214,259,246,254,246,254,214"/>
-</map>
+<div class="center"><img src="a00153.png" border="0" usemap="#a_lumex_resource_monitor_8cpp" alt=""/></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01249.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00994.html">lumex::applied::settings</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html">lumex::applied::resource_monitor</a></td></tr>
+<tr class="memdesc:a01277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background system-resource (CPU/RAM) sampling utilities. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00995.html">lumex::applied::settings::factory</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01278.html">lumex::applied::resource_monitor::monitor</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -181,7 +169,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_8ff43f65a823961cb56a0ac2c17572a6.html">factory</a></li><li class="navelem"><a class="el" href="a00152.html">LumexSettingsFactory.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_f9152e2f803c7072c4cc804ced04476e.html">resource_monitor</a></li><li class="navelem"><a class="el" href="dir_2f26014b8a4714ca59eb3585df0b0957.html">monitor</a></li><li class="navelem"><a class="el" href="a00152.html">LumexResourceMonitor.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

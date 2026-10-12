@@ -49,8 +49,8 @@
 
 #include <sys/stat.h>
 #if defined(_WIN32)
-#include <shlwapi.h>
-#include <windows.h>
+#include <Shlwapi.h>
+#include <Windows.h>
 #include <winnt.h>
 #else
 #include <dirent.h>
@@ -63,9 +63,37 @@
 #endif
 
 #include "LumexFilesystem.hpp"
+#include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
 #include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 
 #if defined(_MSC_VER)
 #pragma comment(lib, "shlwapi.lib")
@@ -2068,52 +2096,18 @@ LUMEX_PUBLIC_API
 std::wstring
 lumex_filesystem::to_wide_string (std::string const &str)
 {
-#if defined(LUMEX_OS_WINDOWS)
-  if (str.empty ())
-    return {};
-  int size_needed = MultiByteToWideChar (
-      CP_UTF8, 0, str.c_str (), static_cast<int> (str.size ()), nullptr, 0);
-  std::wstring wstr (static_cast<std::size_t> (size_needed), 0);
-  MultiByteToWideChar (CP_UTF8, 0, str.c_str (),
-                       static_cast<int> (str.size ()), &wstr[0], size_needed);
-  return wstr;
-#else
-  if (str.empty ())
-    return {};
-  std::size_t len = mbstowcs (nullptr, str.c_str (), 0);
-  if (len == static_cast<std::size_t> (-1))
-    return {};
-  std::wstring wstr (len, 0);
-  mbstowcs (&wstr[0], str.c_str (), len);
-  return wstr;
-#endif
+  // The same conversion on every platform and in every C locale; a byte that
+  // does not start a complete UTF-8 sequence is skipped.
+  return unicode::convert::to_wide (str);
 }
 
 LUMEX_PUBLIC_API
 std::string
 lumex_filesystem::from_wide_string (std::wstring const &wstr)
 {
-#if defined(LUMEX_OS_WINDOWS)
-  if (wstr.empty ())
-    return {};
-  int size_needed = WideCharToMultiByte (CP_UTF8, 0, wstr.c_str (),
-                                         static_cast<int> (wstr.size ()),
-                                         nullptr, 0, nullptr, nullptr);
-  std::string str (static_cast<std::size_t> (size_needed), 0);
-  WideCharToMultiByte (CP_UTF8, 0, wstr.c_str (),
-                       static_cast<int> (wstr.size ()), &str[0], size_needed,
-                       nullptr, nullptr);
-  return str;
-#else
-  if (wstr.empty ())
-    return {};
-  std::size_t len = wcstombs (nullptr, wstr.c_str (), 0);
-  if (len == static_cast<std::size_t> (-1))
-    return {};
-  std::string str (len, 0);
-  wcstombs (&str[0], wstr.c_str (), len);
-  return str;
-#endif
+  // The same conversion on every platform and in every C locale; a unit that
+  // cannot be decoded (an unpaired surrogate) is skipped.
+  return unicode::convert::to_utf8 (wstr);
 }
 
 LUMEX_PUBLIC_API
@@ -2416,3 +2410,7 @@ sanitize_name (
 } // namespace filesystem
 } // namespace core
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

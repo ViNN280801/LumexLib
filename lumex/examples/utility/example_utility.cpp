@@ -72,7 +72,8 @@ main ()
   std::memcpy (frame, &first, sizeof (first));
   std::memcpy (frame + sizeof (first), &second, sizeof (second));
   span<unsigned char const> const bytes (frame);
-  // The result is std::optional from C++17 and lumex::optional before it.
+  // The result is lumex::optional in every standard (it converts to and from
+  // std::optional from C++17).
   auto const word = as<std::uint16_t> (bytes);
   auto const tail = as<std::uint32_t> (bytes.subspan (sizeof (first)));
   auto const too_short = as<std::uint32_t> (bytes.subspan (4));

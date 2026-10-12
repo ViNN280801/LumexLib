@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexReflection File Reference</title>
+<title>LumexLib: example_3.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,112 +103,89 @@ $(function(){initNavTree('a00926.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexReflection File Reference</div></div>
+  <div class="summary">
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">example_3.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00617_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01244_source.html">lumex/xml/LumexXml</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for example_3.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00927.png" border="0" usemap="#aexample__3_8cpp" alt=""/></div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function demonstrating various LumexXml functionalities.  <br /></td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ac8528b14d1f0eeb8d0602d37e828fae8" id="r_ac8528b14d1f0eeb8d0602d37e828fae8"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8528b14d1f0eeb8d0602d37e828fae8">constkXmlFilePath</a> = &quot;file_for_example_3.xml&quot;</td></tr>
+<tr class="separator:ac8528b14d1f0eeb8d0602d37e828fae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
-<p>Reflection module: <code>LUMEX_VARINFO</code>, which prints the name, value, type and other properties of an expression; enums with compile-time names (<code>LUMEX_DEFINE_REFLECTED_ENUM</code>); and, on request, aggregates written to JSON field by field.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00338_source.html">var_info/LumexVarInfo.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00335_source.html">reflected_enum/LumexReflectedEnum.hpp</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexReflection:</div>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Main function demonstrating various LumexXml functionalities. </p>
+<p>This example showcases loading an XML file, navigating its structure, accessing and manipulating attributes, and performing XPath queries.</p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on error. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00927.png" border="0" usemap="#a_lumex_reflection" alt=""/></div>
-<map name="a_lumex_reflection" id="a_lumex_reflection">
-<area shape="rect" title="Reflection module: LUMEX_VARINFO, which prints the name, value, type and other properties of an expre..." alt="" coords="495,5,615,32"/>
-<area shape="rect" href="a00338.html" title="Debug diagnostic printer for an arbitrary expression: name, value (if printable), demangled type,..." alt="" coords="404,80,580,107"/>
-<area shape="poly" title=" " alt="" coords="546,34,515,70,511,66,542,31"/>
-<area shape="rect" href="a00335.html" title="X&#45;macro system that generates a scoped enum together with its own compile&#45;time reflection data and a ..." alt="" coords="1782,155,1992,197"/>
-<area shape="poly" title=" " alt="" coords="616,24,1767,158,1766,163,615,30"/>
-<area shape="rect" title=" " alt="" coords="1466,253,1534,280"/>
-<area shape="poly" title=" " alt="" coords="581,96,694,103,821,114,939,130,987,140,1023,152,1039,163,1049,174,1059,185,1074,195,1127,215,1173,225,1216,229,1256,229,1341,228,1391,232,1448,243,1456,245,1455,250,1446,248,1390,237,1341,233,1256,234,1215,234,1172,230,1125,220,1071,200,1055,189,1045,178,1035,167,1021,157,985,146,938,135,821,119,694,108,581,101"/>
-<area shape="rect" title=" " alt="" coords="1085,163,1153,189"/>
-<area shape="poly" title=" " alt="" coords="581,94,681,100,803,110,935,127,1066,152,1076,155,1074,160,1065,157,934,132,802,115,681,105,581,100"/>
-<area shape="rect" title=" " alt="" coords="231,253,284,280"/>
-<area shape="poly" title=" " alt="" coords="429,110,377,128,352,141,329,157,310,176,294,197,271,240,266,237,289,194,306,172,325,153,349,136,375,123,428,105"/>
-<area shape="rect" title=" " alt="" coords="359,253,442,280"/>
-<area shape="poly" title=" " alt="" coords="488,108,417,241,412,238,483,106"/>
-<area shape="rect" title=" " alt="" coords="5,253,73,280"/>
-<area shape="poly" title=" " alt="" coords="404,103,183,123,88,139,56,147,40,157,30,175,26,196,32,238,27,239,21,196,25,173,36,153,54,142,87,133,182,118,403,98"/>
-<area shape="rect" title=" " alt="" coords="466,253,518,280"/>
-<area shape="poly" title=" " alt="" coords="495,107,495,238,490,238,490,107"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="833,336,1064,379"/>
-<area shape="poly" title=" " alt="" coords="472,109,422,142,369,187,349,212,337,238,336,263,349,286,370,298,410,308,531,326,678,339,818,348,817,353,677,344,531,331,409,314,368,303,345,290,331,264,332,237,344,210,365,184,419,138,469,105"/>
-<area shape="rect" href="a00410.html" title="Readable C++ type names: the lumDemangle macro for a type or an expression and demangle_type_name() f..." alt="" coords="50,155,258,197"/>
-<area shape="poly" title=" " alt="" coords="440,110,256,153,255,148,438,105"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1578,336,1772,379"/>
-<area shape="poly" title=" " alt="" coords="581,93,912,99,1355,111,1767,128,1916,139,2005,152,2063,165,2109,177,2130,187,2149,200,2168,219,2185,244,2194,267,2192,279,2185,290,2165,301,2131,311,2029,328,1906,342,1788,351,1787,346,1905,336,2028,323,2130,306,2163,296,2181,286,2187,277,2189,268,2181,247,2163,222,2146,204,2127,192,2108,182,2061,170,2004,157,1916,145,1766,134,1355,116,912,105,581,99"/>
-<area shape="rect" href="a00446.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="826,155,1009,197"/>
-<area shape="poly" title=" " alt="" coords="560,105,811,152,810,157,559,110"/>
-<area shape="poly" title=" " alt="" coords="180,196,233,241,230,245,176,200"/>
-<area shape="poly" title=" " alt="" coords="129,200,68,246,65,242,125,196"/>
-<area shape="rect" title=" " alt="" coords="124,253,183,280"/>
-<area shape="poly" title=" " alt="" coords="156,198,156,238,151,238,151,198"/>
-<area shape="poly" title=" " alt="" coords="1010,192,1029,195,1147,208,1239,212,1331,221,1448,243,1457,245,1456,250,1446,248,1330,226,1239,218,1146,213,1028,200,1010,197"/>
-<area shape="poly" title=" " alt="" coords="826,188,607,211,347,248,300,258,299,252,347,243,607,206,826,183"/>
-<area shape="poly" title=" " alt="" coords="826,188,652,209,552,226,454,248,446,250,444,245,453,243,551,221,651,204,825,182"/>
-<area shape="poly" title=" " alt="" coords="826,188,685,208,607,225,530,248,528,249,526,244,529,243,605,220,684,203,825,183"/>
-<area shape="poly" title=" " alt="" coords="943,196,962,218,976,244,980,265,979,285,968,323,963,321,974,284,975,265,971,246,957,221,939,199"/>
-<area shape="poly" title=" " alt="" coords="1010,192,1029,195,1086,201,1135,203,1220,203,1261,205,1303,210,1350,222,1404,243,1420,253,1431,264,1440,275,1455,286,1509,310,1565,329,1563,334,1507,315,1452,290,1437,279,1427,268,1417,257,1402,248,1349,227,1302,216,1260,210,1220,208,1135,209,1086,207,1028,200,1010,197"/>
-<area shape="rect" title=" " alt="" coords="1903,253,1954,280"/>
-<area shape="poly" title=" " alt="" coords="1010,188,1073,195,1252,202,1484,206,1715,217,1813,227,1892,243,1896,244,1894,249,1890,248,1813,232,1714,222,1484,212,1252,208,1072,200,1010,193"/>
-<area shape="rect" title=" " alt="" coords="1815,253,1879,280"/>
-<area shape="poly" title=" " alt="" coords="1010,188,1073,195,1184,203,1279,204,1441,201,1519,201,1601,206,1695,219,1804,243,1810,245,1809,250,1802,248,1694,224,1601,211,1518,206,1441,206,1279,210,1184,208,1072,200,1010,193"/>
-<area shape="rect" title=" " alt="" coords="1228,253,1306,280"/>
-<area shape="poly" title=" " alt="" coords="1010,192,1110,214,1217,243,1224,245,1222,250,1216,248,1109,219,1009,197"/>
-<area shape="rect" title=" " alt="" coords="1330,253,1391,280"/>
-<area shape="poly" title=" " alt="" coords="1010,191,1029,195,1111,206,1175,213,1239,222,1318,243,1323,244,1322,249,1317,248,1237,227,1174,218,1110,211,1028,200,1009,197"/>
-<area shape="rect" title=" " alt="" coords="542,253,594,280"/>
-<area shape="poly" title=" " alt="" coords="826,193,720,215,607,248,604,249,602,244,605,243,718,209,825,188"/>
-<area shape="rect" title=" " alt="" coords="618,253,686,280"/>
-<area shape="poly" title=" " alt="" coords="844,200,699,248,694,250,692,245,697,243,843,195"/>
-<area shape="rect" title=" " alt="" coords="710,253,760,280"/>
-<area shape="poly" title=" " alt="" coords="872,200,772,248,771,248,769,243,770,243,870,196"/>
-<area shape="rect" title=" " alt="" coords="783,253,850,280"/>
-<area shape="poly" title=" " alt="" coords="896,200,844,245,840,241,892,196"/>
-<area shape="rect" title=" " alt="" coords="874,253,961,280"/>
-<area shape="poly" title=" " alt="" coords="920,198,920,238,915,238,915,198"/>
-<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1037,245,1204,288"/>
-<area shape="poly" title=" " alt="" coords="966,196,1060,236,1058,241,964,200"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1559,245,1791,288"/>
-<area shape="poly" title=" " alt="" coords="1010,187,1073,195,1307,217,1544,242,1543,248,1306,223,1072,200,1009,192"/>
-<area shape="poly" title=" " alt="" coords="1205,283,1217,285,1399,315,1562,338,1562,344,1398,320,1216,291,1204,288"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1088,344,1251,371"/>
-<area shape="poly" title=" " alt="" coords="1134,287,1158,329,1153,332,1129,290"/>
-<area shape="poly" title=" " alt="" coords="1678,288,1678,321,1672,321,1672,288"/>
-<area shape="poly" title=" " alt="" coords="1992,183,2067,196,2133,216,2156,230,2171,247,2173,267,2160,290,2135,309,2099,324,2054,335,2003,344,1893,355,1788,359,1788,354,1893,350,2003,339,2053,330,2097,319,2132,304,2156,286,2167,266,2166,249,2153,234,2130,221,2066,201,1992,189"/>
-<area shape="poly" title=" " alt="" coords="1899,197,1919,238,1914,241,1894,199"/>
-<area shape="poly" title=" " alt="" coords="1880,199,1861,240,1857,238,1875,197"/>
-<area shape="poly" title=" " alt="" coords="1838,200,1740,241,1738,236,1836,196"/>
-<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1978,245,2146,288"/>
-<area shape="poly" title=" " alt="" coords="1929,196,2008,236,2006,240,1927,200"/>
-<area shape="poly" title=" " alt="" coords="1977,289,1966,291,1833,306,1719,314,1525,319,1329,321,1214,327,1079,338,1079,333,1214,322,1329,316,1524,313,1719,309,1832,300,1965,285,1977,284"/>
-</map>
+<div class="center"><img src="a00926_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00926_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00928.png" border="0" usemap="#a_lumex_reflectiondep" alt=""/></div>
-<map name="a_lumex_reflectiondep" id="a_lumex_reflectiondep">
-<area shape="rect" title="Reflection module: LUMEX_VARINFO, which prints the name, value, type and other properties of an expre..." alt="" coords="106,5,225,32"/>
-<area shape="rect" href="a00569.html" title=" " alt="" coords="5,88,161,115"/>
-<area shape="poly" title=" " alt="" coords="144,45,97,90,94,86,140,41"/>
-<area shape="rect" href="a00572.html" title=" " alt="" coords="184,80,315,123"/>
-<area shape="poly" title=" " alt="" coords="191,41,230,78,227,82,188,45"/>
-</map>
+
 </div>
 </div>
-<p><a href="a00926_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Reflection module: <code>LUMEX_VARINFO</code>, which prints the name, value, type and other properties of an expression; enums with compile-time names (<code>LUMEX_DEFINE_REFLECTED_ENUM</code>); and, on request, aggregates written to JSON field by field. </p>
-<p>Link <code>lumex::reflection</code> (header-only). Works from C++11. Field reflection is included only when <code>LUMEX_WITH_FIELD_REFLECTION</code> is defined; it needs nlohmann/json on the include path, and its <code>to_json</code> needs C++20 for the field names. The umbrella includes <code><a class="el" href="a00338.html" title="Debug diagnostic printer for an arbitrary expression: name, value (if printable), demangled type,...">var_info/LumexVarInfo.hpp</a></code>, <code><a class="el" href="a00335.html" title="X-macro system that generates a scoped enum together with its own compile-time reflection data and a ...">reflected_enum/LumexReflectedEnum.hpp</a></code> and, with that macro, <code><a class="el" href="a00332.html" title="Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walki...">field_reflection/LumexFieldReflection.hpp</a></code>. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ac8528b14d1f0eeb8d0602d37e828fae8" name="ac8528b14d1f0eeb8d0602d37e828fae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8528b14d1f0eeb8d0602d37e828fae8">&#9670;&#160;</a></span>constkXmlFilePath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constchar* constkXmlFilePath = &quot;file_for_example_3.xml&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="a00926.html">LumexReflection</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_e50bbef304dea4ca34611f87a713b404.html">xml</a></li><li class="navelem"><a class="el" href="a00926.html">example_3.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

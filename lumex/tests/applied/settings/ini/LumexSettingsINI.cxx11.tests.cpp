@@ -211,8 +211,8 @@ TEST_F (LumexSettingsINITest,
         GivenNonExistentFile_WhenIsIniValid_ThenReturnsFalse)
 {
   // is_ini_valid should return false for a file that doesn't exist.
-  EXPECT_FALSE (
-      LumexSettingsINI::is_ini_valid (_test_dir / "non_existent.ini"));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (
+      (_test_dir / "non_existent.ini").string ()));
 }
 
 TEST_F (LumexSettingsINITest,
@@ -223,21 +223,21 @@ TEST_F (LumexSettingsINITest,
   // directory.
   ASSERT_TRUE (
       lumex::core::filesystem::fs::lumex_filesystem::is_directory (_test_dir));
-  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_dir));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_dir.string ()));
 }
 
 TEST_F (LumexSettingsINITest, GivenEmptyFile_WhenIsIniValid_ThenReturnsTrue)
 {
   // An empty INI file is considered valid as it contains no invalid syntax.
   create_test_ini_file (_test_file, "");
-  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest, GivenValidFile_WhenIsIniValid_ThenReturnsTrue)
 {
   // A well-formed INI file should pass validation.
   create_test_ini_file (_test_file, "[section]\nkey=value\n");
-  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest,
@@ -245,7 +245,7 @@ TEST_F (LumexSettingsINITest,
 {
   // An INI file with a malformed section header should fail validation.
   create_test_ini_file (_test_file, "[section\nkey=value\n");
-  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest,
@@ -253,7 +253,7 @@ TEST_F (LumexSettingsINITest,
 {
   // An INI file with an empty key should fail validation.
   create_test_ini_file (_test_file, "[section]\n=value\n");
-  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest, GivenEmptyValue_WhenIsIniValid_ThenReturnsTrue)
@@ -261,7 +261,7 @@ TEST_F (LumexSettingsINITest, GivenEmptyValue_WhenIsIniValid_ThenReturnsTrue)
   // Empty values are permissible in INI format and should not cause validation
   // failure.
   create_test_ini_file (_test_file, "[section]\nkey=\n");
-  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest,
@@ -278,7 +278,7 @@ TEST_F (LumexSettingsINITest,
   create_test_ini_file (test_file, "[section]\nkey=value\n");
   // Set permissions to write-only (0333)
   EXPECT_EQ (chmod (test_file.c_str (), 0333), 0);
-  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (test_file));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (test_file.string ()));
   // Restore permissions for TearDown
   EXPECT_EQ (chmod (test_file.c_str (), 0777), 0);
 #else
@@ -294,7 +294,7 @@ TEST_F (LumexSettingsINITest,
   // The parser now implicitly validates balanced quotes due to stricter regex
   // for values. Therefore, this malformed input should correctly return false.
   create_test_ini_file (_test_file, "[section]\nkey=\"value\n");
-  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest,
@@ -303,7 +303,7 @@ TEST_F (LumexSettingsINITest,
   // The current parser doesn't support array-like values explicitly, should
   // fail.
   create_test_ini_file (_test_file, "[section]\nkey=1,2,3\n");
-  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest, GivenUtf8Chars_WhenIsIniValid_ThenReturnsTrue)
@@ -311,7 +311,7 @@ TEST_F (LumexSettingsINITest, GivenUtf8Chars_WhenIsIniValid_ThenReturnsTrue)
   // Platform Compatibility Engineer: Test Unicode support.
   // UTF-8 characters in sections and keys should be handled correctly.
   create_test_ini_file (_test_file, "[секция]\nключ=значение\n[节]\n键=值\n");
-  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest,
@@ -320,7 +320,7 @@ TEST_F (LumexSettingsINITest,
   // Platform Compatibility Engineer: Test cross-platform line endings.
   // Windows-style line endings (\r\n) should be correctly parsed.
   create_test_ini_file (_test_file, "[section]\r\nkey=value\r\n");
-  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest, GivenLineTooLong_WhenIsIniValid_ThenReturnsTrue)
@@ -332,7 +332,7 @@ TEST_F (LumexSettingsINITest, GivenLineTooLong_WhenIsIniValid_ThenReturnsTrue)
   create_test_ini_file (_test_file, "[section]\n" + long_line + "=value\n");
   // Assuming the regex will still match for a very long line, as long as
   // format is correct.
-  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_TRUE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest,
@@ -342,7 +342,7 @@ TEST_F (LumexSettingsINITest,
   // found.
   create_test_ini_file (_test_file, "[section]\nkey=value\n");
   lumex::core::filesystem::fs::lumex_filesystem::remove (_test_file);
-  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest, GivenBinaryData_WhenIsIniValid_ThenReturnsFalse)
@@ -353,7 +353,7 @@ TEST_F (LumexSettingsINITest, GivenBinaryData_WhenIsIniValid_ThenReturnsFalse)
   unsigned char binary_data[] = { 0x01, 0x02, 0x03, 0x00, 0xFF, 0xFE, 0xFD };
   file.write (reinterpret_cast<char *> (binary_data), sizeof (binary_data));
   file.close ();
-  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file));
+  EXPECT_FALSE (LumexSettingsINI::is_ini_valid (_test_file.string ()));
 }
 
 TEST_F (LumexSettingsINITest,
@@ -403,7 +403,7 @@ TEST_F (LumexSettingsINITest,
   std::string output;
   {
     StdoutCapture capture;
-    result = ini_settings.load (_test_file);
+    result = ini_settings.load (_test_file.string ());
     output = capture.text ();
   }
 
@@ -433,14 +433,15 @@ TEST_F (LumexSettingsINITest, GivenNonExistentFile_WhenLoad_ThenReturnsFalse)
 {
   // Loading from a non-existent file should fail.
   LumexSettingsINI ini_settings;
-  EXPECT_FALSE (ini_settings.load (_test_dir / "non_existent_file.ini"));
+  EXPECT_FALSE (
+      ini_settings.load ((_test_dir / "non_existent_file.ini").string ()));
 }
 
 TEST_F (LumexSettingsINITest, GivenDirectory_WhenLoad_ThenReturnsFalse)
 {
   // Attempting to load a directory as an INI file should fail.
   LumexSettingsINI ini_settings;
-  EXPECT_FALSE (ini_settings.load (_test_dir));
+  EXPECT_FALSE (ini_settings.load (_test_dir.string ()));
 }
 
 TEST_F (LumexSettingsINITest, GivenEmptyFile_WhenLoad_ThenReturnsFalse)
@@ -452,7 +453,7 @@ TEST_F (LumexSettingsINITest, GivenEmptyFile_WhenLoad_ThenReturnsFalse)
       = _test_dir / "GivenEmptyFile_WhenLoad_ThenReturnsFalse.test.ini";
   create_test_ini_file (test_file, "");
   LumexSettingsINI ini_settings;
-  EXPECT_FALSE (ini_settings.load (test_file));
+  EXPECT_FALSE (ini_settings.load (test_file.string ()));
   EXPECT_EQ (ini_settings.get ("any", "key"), "");
 }
 
@@ -464,7 +465,7 @@ TEST_F (LumexSettingsINITest,
   // loading.
   create_test_ini_file (_test_file, "[section]\nkey=value\n");
   LumexSettingsINI ini_settings;
-  EXPECT_TRUE (ini_settings.load (_test_file));
+  EXPECT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "value");
 }
 
@@ -474,7 +475,7 @@ TEST_F (LumexSettingsINITest, GivenBadFormat_WhenLoad_ThenReturnsFalse)
   // CoVe: Verify no data is loaded into the settings object.
   create_test_ini_file (_test_file, "[section\nkey=value\n");
   LumexSettingsINI ini_settings;
-  EXPECT_FALSE (ini_settings.load (_test_file));
+  EXPECT_FALSE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "");
 }
 
@@ -484,7 +485,7 @@ TEST_F (LumexSettingsINITest, GivenUtf8Chars_WhenLoad_ThenLoadsCorrectly)
   // correctly. Unicode characters in section/key/value should be preserved.
   create_test_ini_file (_test_file, "[секция]\nключ=значение\n");
   LumexSettingsINI ini_settings;
-  EXPECT_TRUE (ini_settings.load (_test_file));
+  EXPECT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("секция", "ключ"), "значение");
 }
 
@@ -495,7 +496,7 @@ TEST_F (LumexSettingsINITest,
   // The parser should correctly interpret \r\n as line breaks.
   create_test_ini_file (_test_file, "[section]\r\nkey=value\r\n");
   LumexSettingsINI ini_settings;
-  EXPECT_TRUE (ini_settings.load (_test_file));
+  EXPECT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "value");
 }
 
@@ -510,7 +511,7 @@ TEST_F (LumexSettingsINITest, GivenFileWithBOM_WhenLoad_ThenLoadsCorrectly)
   file.close ();
 
   LumexSettingsINI ini_settings;
-  EXPECT_TRUE (ini_settings.load (_test_file));
+  EXPECT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "value");
 }
 
@@ -520,7 +521,7 @@ TEST_F (LumexSettingsINITest, GivenQuotedValues_WhenLoad_ThenUnquotesCorrectly)
   create_test_ini_file (_test_file,
                         "[section]\nkey=\"quoted value\"\nkey2=\"\"\n");
   LumexSettingsINI ini_settings;
-  EXPECT_TRUE (ini_settings.load (_test_file));
+  EXPECT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "quoted value");
   EXPECT_EQ (ini_settings.get ("section", "key2"), "");
 }
@@ -532,7 +533,7 @@ TEST_F (LumexSettingsINITest, GivenInlineComments_WhenLoad_ThenIgnoresComments)
                         "[section]\nkey=value ; this is a "
                         "comment\nkey2=value2 # another comment\n");
   LumexSettingsINI ini_settings;
-  EXPECT_TRUE (ini_settings.load (_test_file));
+  EXPECT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "value");
   EXPECT_EQ (ini_settings.get ("section", "key2"), "value2");
 }
@@ -544,7 +545,7 @@ TEST_F (LumexSettingsINITest, GivenMultipleSections_WhenLoad_ThenLoadsAll)
   create_test_ini_file (_test_file,
                         "[section1]\nkey1=value1\n[section2]\nkey2=value2\n");
   LumexSettingsINI ini_settings;
-  EXPECT_TRUE (ini_settings.load (_test_file));
+  EXPECT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section1", "key1"), "value1");
   EXPECT_EQ (ini_settings.get ("section2", "key2"), "value2");
 }
@@ -555,7 +556,7 @@ TEST_F (LumexSettingsINITest, GivenEmptySections_WhenLoad_ThenHandlesCorrectly)
   create_test_ini_file (_test_file,
                         "[empty_section]\n[another_section]\nkey=value\n");
   LumexSettingsINI ini_settings;
-  EXPECT_TRUE (ini_settings.load (_test_file));
+  EXPECT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("empty_section", "any_key"),
              ""); // Empty section, no keys
   EXPECT_EQ (ini_settings.get ("another_section", "key"), "value");
@@ -568,7 +569,7 @@ TEST_F (LumexSettingsINITest, GivenExistingKey_WhenGet_ThenReturnsValue)
   // After loading, an existing key should return its associated value.
   create_test_ini_file (_test_file, "[section]\nkey=value\n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "value");
 }
 
@@ -577,7 +578,7 @@ TEST_F (LumexSettingsINITest, GivenEmptyValue_WhenGet_ThenReturnsEmptyString)
   // An empty value should be returned as an empty string.
   create_test_ini_file (_test_file, "[section]\nkey=\n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "");
 }
 
@@ -587,7 +588,7 @@ TEST_F (LumexSettingsINITest,
   // Requesting a non-existent key should return an empty string.
   create_test_ini_file (_test_file, "[section]\nkey=value\n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "nonexistent"), "");
 }
 
@@ -597,7 +598,7 @@ TEST_F (LumexSettingsINITest,
   // Requesting from a non-existent section should return an empty string.
   create_test_ini_file (_test_file, "[section]\nkey=value\n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("nonexistent_section", "key"), "");
 }
 
@@ -619,7 +620,7 @@ TEST_F (LumexSettingsINITest,
   create_test_ini_file (_test_file,
                         "[section]\nkey=   value with spaces   \n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("section", "key"), "value with spaces");
 }
 
@@ -638,7 +639,7 @@ TEST_F (LumexSettingsINITest,
   // section name.
   create_test_ini_file (_test_file, "[parent.child]\nkey=nested_value\n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("parent.child", "key"), "nested_value");
 }
 
@@ -649,7 +650,7 @@ TEST_F (LumexSettingsINITest, ThreadSafety_ConcurrentGets)
   // instance should not crash or return incorrect data.
   create_test_ini_file (_test_file, "[section]\nkey=value\nkey2=value2\n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
 
   int const num_threads = 10;
   std::vector<std::future<std::string>> futures;
@@ -817,7 +818,7 @@ TEST_F (LumexSettingsINITest, GivenEmptyContext_WhenSave_ThenCreatesEmptyFile)
 {
   // Saving an empty settings object should create an empty INI file.
   LumexSettingsINI ini_settings; // Empty by default
-  EXPECT_TRUE (ini_settings.save (_test_file));
+  EXPECT_TRUE (ini_settings.save (_test_file.string ()));
   EXPECT_TRUE (
       lumex::core::filesystem::fs::lumex_filesystem::exists (_test_file));
   EXPECT_TRUE (
@@ -831,7 +832,7 @@ TEST_F (LumexSettingsINITest,
   // CoVe: Compare the generated file content with expected content.
   LumexSettingsINI ini_settings;
   ini_settings.add ("section", "key", "value");
-  EXPECT_TRUE (ini_settings.save (_test_file));
+  EXPECT_TRUE (ini_settings.save (_test_file.string ()));
 
   lumex::path expected_file = _test_dir / "expected_simple.ini";
   create_test_ini_file (expected_file, "[section]\nkey=value\n");
@@ -848,7 +849,7 @@ TEST_F (LumexSettingsINITest,
   LumexSettingsINI ini_settings;
   ini_settings.add ("parent", "key1", "value1");
   ini_settings.add ("parent.child", "key2", "value2");
-  EXPECT_TRUE (ini_settings.save (test_file));
+  EXPECT_TRUE (ini_settings.save (test_file.string ()));
 
   lumex::path expected_file = _test_dir / "expected_subsections.ini";
   // Note: The saving order of sections/keys in unordered_map is not
@@ -881,10 +882,10 @@ TEST_F (LumexSettingsINITest,
   // The directory name is already the test name. Repeating it in the file
   // name exceeds the 259-character ANSI path limit on Windows.
   lumex::path test_file = _test_dir / "quotes.ini";
-  EXPECT_TRUE (ini_settings.save (test_file));
+  EXPECT_TRUE (ini_settings.save (test_file.string ()));
 
   LumexSettingsINI loaded_settings;
-  ASSERT_TRUE (loaded_settings.load (test_file));
+  ASSERT_TRUE (loaded_settings.load (test_file.string ()));
 
   EXPECT_EQ (loaded_settings.get ("section", "key1"), "value with spaces");
   EXPECT_EQ (loaded_settings.get ("section", "key2"), "value;with;semicolon");
@@ -901,7 +902,7 @@ TEST_F (LumexSettingsINITest, GivenNonEmptyValues_WhenSave_ThenSavesCorrectly)
   ini_settings.add ("section", "key2", "25.23");
   lumex::path test_file
       = _test_dir / "GivenNonEmptyValues_WhenSave_ThenSavesCorrectly.test.ini";
-  EXPECT_TRUE (ini_settings.save (test_file));
+  EXPECT_TRUE (ini_settings.save (test_file.string ()));
 
   lumex::path expected_file = _test_dir / "expected_empty_values.ini";
   create_test_ini_file (expected_file, "[section]\nkey1=56\nkey2=25.23\n");
@@ -922,10 +923,10 @@ TEST_F (LumexSettingsINITest, GivenUnicode_WhenSave_ThenSavesCorrectly)
   ini_settings.add ("секция", "ключ", "значение");
   ini_settings.add ("节", "键", "值");
 
-  EXPECT_TRUE (ini_settings.save (_test_file));
+  EXPECT_TRUE (ini_settings.save (_test_file.string ()));
 
   LumexSettingsINI loaded_settings;
-  ASSERT_TRUE (loaded_settings.load (_test_file));
+  ASSERT_TRUE (loaded_settings.load (_test_file.string ()));
   EXPECT_EQ (loaded_settings.get ("секция", "ключ"), "значение");
   EXPECT_EQ (loaded_settings.get ("节", "键"), "值");
 }
@@ -939,7 +940,7 @@ TEST_F (LumexSettingsINITest,
   LumexSettingsINI ini_settings;
   ini_settings.add ("section", "key", "two words");
 
-  ASSERT_TRUE (ini_settings.save (_test_file));
+  ASSERT_TRUE (ini_settings.save (_test_file.string ()));
   EXPECT_EQ (read_file_content (_test_file), expected);
 }
 
@@ -951,7 +952,7 @@ TEST_F (LumexSettingsINITest, GivenExistingFile_WhenSave_ThenOverwritesContent)
 
   LumexSettingsINI ini_settings;
   ini_settings.add ("new_section", "new_key", "new_value");
-  EXPECT_TRUE (ini_settings.save (_test_file));
+  EXPECT_TRUE (ini_settings.save (_test_file.string ()));
 
   std::string file_content = read_file_content (_test_file);
   EXPECT_TRUE (file_content.find ("old content")
@@ -977,7 +978,7 @@ TEST_F (LumexSettingsINITest, Perf_SaveLargeFile)
     }
 
   auto start = std::chrono::high_resolution_clock::now ();
-  EXPECT_TRUE (ini_settings.save (_test_file));
+  EXPECT_TRUE (ini_settings.save (_test_file.string ()));
   auto end = std::chrono::high_resolution_clock::now ();
   auto duration
       = std::chrono::duration_cast<std::chrono::milliseconds> (end - start);
@@ -1024,7 +1025,7 @@ TEST_F (LumexSettingsINITest, Get_WhenFound_ThenReturnsStoredValue)
 {
   create_test_ini_file (_test_file, "[pump]\nflow=1.0\n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("pump", "flow"), "1.0");
 }
 
@@ -1032,7 +1033,7 @@ TEST_F (LumexSettingsINITest, Get_WhenUnfound_ThenReturnsEmpty)
 {
   create_test_ini_file (_test_file, "[pump]\nflow=1.0\n");
   LumexSettingsINI ini_settings;
-  ASSERT_TRUE (ini_settings.load (_test_file));
+  ASSERT_TRUE (ini_settings.load (_test_file.string ()));
   EXPECT_EQ (ini_settings.get ("pump", "missing"), "");
   EXPECT_EQ (ini_settings.get ("oven", "flow"), "");
 }

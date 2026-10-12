@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::settings::factory::LumexSettingsFactory Class Reference</title>
+<title>LumexLib: lumex::applied::serial::probe::Constants Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,29 +104,28 @@ $(function(){initNavTree('a01297.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01294.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::settings::factory::LumexSettingsFactory Class Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::probe::Constants Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Factory class for creating <code><a class="el" href="a01313.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instances.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00155_source.html">LumexSettingsFactory.hpp</a>&gt;</code></p>
+<p>Compile-time defaults of the probe contract.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a309046eb225dab34d5578b0174e711ab" id="r_a309046eb225dab34d5578b0174e711ab"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="a01313.html">ILumexSettings</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a309046eb225dab34d5578b0174e711ab">create</a> (<a class="el" href="a00998.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">LumexSettingsExtensions</a> ext)</td></tr>
-<tr class="memdesc:a309046eb225dab34d5578b0174e711ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a settings object for the specified file format.  <br /></td></tr>
-<tr class="separator:a309046eb225dab34d5578b0174e711ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a9e0fd1a76f5f73871121c1cb4ba1881d" id="r_a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e0fd1a76f5f73871121c1cb4ba1881d">KDEFAULT_PROBE_DEADLINE_MS</a> = 500U</td></tr>
+<tr class="memdesc:a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default overall probe deadline in milliseconds.  <br /></td></tr>
+<tr class="separator:a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a986ffb1746dc1de359d5f8d07b163b1d" id="r_a986ffb1746dc1de359d5f8d07b163b1d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a986ffb1746dc1de359d5f8d07b163b1d">KDEFAULT_PROBE_MAX_RESPONSE_BYTES</a> = 8192U</td></tr>
+<tr class="memdesc:a986ffb1746dc1de359d5f8d07b163b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default cap of the collected response, in bytes.  <br /></td></tr>
+<tr class="separator:a986ffb1746dc1de359d5f8d07b163b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Factory class for creating <code><a class="el" href="a01313.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instances. </p>
-<p>Provides a static method to instantiate settings objects based on the desired configuration file format (INI, XML when <code>LUMEX_SETTINGS_WITH_XML</code> is defined, JSON when <code>LUMEX_SETTINGS_WITH_JSON</code> is defined). For a format the build does not provide, <code><a class="el" href="#a309046eb225dab34d5578b0174e711ab" title="Creates a settings object for the specified file format.">create()</a></code> returns a null pointer. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe: The factory method is stateless and can be called concurrently. </dd></dl>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a309046eb225dab34d5578b0174e711ab" name="a309046eb225dab34d5578b0174e711ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a309046eb225dab34d5578b0174e711ab">&#9670;&#160;</a></span>create()</h2>
+<div class="textblock"><p>Compile-time defaults of the probe contract. </p>
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a9e0fd1a76f5f73871121c1cb4ba1881d" name="a9e0fd1a76f5f73871121c1cb4ba1881d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e0fd1a76f5f73871121c1cb4ba1881d">&#9670;&#160;</a></span>KDEFAULT_PROBE_DEADLINE_MS</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,62 +134,52 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="a01313.html">ILumexSettings</a> &gt; lumex::applied::settings::factory::LumexSettingsFactory::create </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00998.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">LumexSettingsExtensions</a></td>          <td class="paramname"><span class="paramname"><em>ext</em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::probe::Constants::KDEFAULT_PROBE_DEADLINE_MS = 500U</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a settings object for the specified file format. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ext</td><td>The configuration file format (e.g., <code>SupportedConfigExtensions::INI</code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <code>std::unique_ptr</code> to the new <code><a class="el" href="a01313.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instance, or a null pointer when the format is not available: <code>XML</code> in a build without <code>LUMEX_SETTINGS_WITH_XML</code>, <code>JSON</code> in a build without <code>LUMEX_SETTINGS_WITH_JSON</code>, or a value that is not an enumerator of <code>SupportedConfigExtensions</code>. Check the result before using it. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>If the new object cannot be allocated. An unsupported format is reported by the null pointer, not by an exception. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section warning"><dt>Warning</dt><dd>The caller assumes ownership of the returned pointer, which means:<ul>
-<li>The caller is responsible for the lifetime of the returned object.</li>
-<li>The pointer must not be manually deleted! It is managed by <code>std::unique_ptr</code>.</li>
-<li>Ownership is non-shared, see <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr">https://en.cppreference.com/w/cpp/memory/unique_ptr</a>. </li>
-</ul>
-</dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01297_a309046eb225dab34d5578b0174e711ab_icgraph.png" border="0" usemap="#aa01297_a309046eb225dab34d5578b0174e711ab_icgraph" alt=""/></div>
-<map name="aa01297_a309046eb225dab34d5578b0174e711ab_icgraph" id="aa01297_a309046eb225dab34d5578b0174e711ab_icgraph">
-<area shape="rect" title="Creates a settings object for the specified file format." alt="" coords="103,5,311,64"/>
-<area shape="rect" href="a00587.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,21,55,48"/>
-<area shape="poly" title=" " alt="" coords="87,37,55,37,55,32,87,32"/>
-</map>
-</div>
+<p>Default overall probe deadline in milliseconds. </p>
+<p>Shared by the open and the exchange of one <code>probe</code> call; every method takes the deadline as a parameter and falls back to this value. </p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="a00155_source.html">LumexSettingsFactory.hpp</a></li>
-<li><a class="el" href="a00152.html">LumexSettingsFactory.cpp</a></li>
-</ul>
+<a id="a986ffb1746dc1de359d5f8d07b163b1d" name="a986ffb1746dc1de359d5f8d07b163b1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a986ffb1746dc1de359d5f8d07b163b1d">&#9670;&#160;</a></span>KDEFAULT_PROBE_MAX_RESPONSE_BYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::size_t lumex::applied::serial::probe::Constants::KDEFAULT_PROBE_MAX_RESPONSE_BYTES = 8192U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default cap of the collected response, in bytes. </p>
+<p>A response that reaches the cap stops the read loop with the <code>incomplete</code> outcome when the predicate has not confirmed it. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00994.html">settings</a></li><li class="navelem"><a class="el" href="a00995.html">factory</a></li><li class="navelem"><a class="el" href="a01297.html">LumexSettingsFactory</a></li>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01287.html">serial</a></li><li class="navelem"><a class="el" href="a01293.html">probe</a></li><li class="navelem"><a class="el" href="a01297.html">Constants</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

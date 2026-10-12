@@ -49,6 +49,33 @@
 
 #include "XmlParser.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
 using namespace lumex::xml::utility;
 using namespace lumex::xml::text;
 using namespace lumex::xml::constants;
@@ -158,13 +185,8 @@ strconv_escape (char_t *s, gap &g)
             ++stre;
           }
 
-#ifdef LUMEX_XML_WCHAR_MODE
-        s = reinterpret_cast<char_t *> (utf::wchar_writer::any (
-            reinterpret_cast<utf::wchar_writer::value_type> (s), ucsc));
-#else
         s = reinterpret_cast<char_t *> (
             utf::utf8_writer::any (reinterpret_cast<uint8_t *> (s), ucsc));
-#endif
 
         g.push (s, static_cast<std::size_t> (stre - s));
         return stre;
@@ -1311,21 +1333,12 @@ XmlParser::parse_tree (char_t *str, XmlNodeBase *root, unsigned int optmsk,
 }
 
 LUMEX_PUBLIC_API
-#ifdef LUMEX_XML_WCHAR_MODE
-char_t *
-XmlParser::parse_skip_bom (char_t *str)
-{
-  unsigned int bom = 0xfeff;
-  return (str[0] == static_cast<wchar_t> (bom)) ? str + 1 : str;
-}
-#else
 char_t *
 XmlParser::parse_skip_bom (char_t *str)
 {
   return (str[0] == '\xef' && str[1] == '\xbb' && str[2] == '\xbf') ? str + 3
                                                                     : str;
 }
-#endif
 
 LUMEX_PUBLIC_API
 bool
@@ -1409,3 +1422,7 @@ XmlParser::parse (char_t *buffer, std::size_t length,
   return result;
 }
 // NOLINTEND
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

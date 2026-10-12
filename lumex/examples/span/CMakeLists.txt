@@ -20,3 +20,26 @@ lumex_example_executable(
   REQUIRE_TARGET lumex::span
   CXX_STANDARD 11
 )
+lumex_example_executable(
+  NAME LumexSpanExampleIterators
+  SOURCE example_span_iterators.cpp
+  LINK lumex::span
+  REQUIRE_TARGET lumex::span
+  CXX_STANDARD 11
+)
+# The conversions to and from std::span exist from C++20; the source prints a
+# note and returns 0 where <span> is missing (GCC 8 at -std=c++2a).
+lumex_example_executable(
+  NAME LumexSpanExampleStdConversion
+  SOURCE example_span_std_conversion.cpp
+  LINK lumex::span
+  REQUIRE_TARGET lumex::span
+  CXX_STANDARD 20
+)
+lumex_example_executable(
+  NAME LumexSpanExampleBasic
+  SOURCE example_span_basic.cpp
+  LINK lumex::span
+  REQUIRE_TARGET lumex::span
+  CXX_STANDARD 11
+)

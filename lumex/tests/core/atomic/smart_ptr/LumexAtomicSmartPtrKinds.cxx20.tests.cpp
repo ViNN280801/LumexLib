@@ -29,7 +29,9 @@
 // Kinds of smart pointers held by atomic_shared_ptr and atomic_weak_ptr that
 // need C++20: std::make_shared for an array type (__cpp_lib_shared_ptr_arrays
 // 201707). The feature check stays because a standard library may lack it at
-// C++20 (libstdc++ 8); the test is then skipped.
+// C++20 (libstdc++ 8); the test is then skipped. Also the one difference
+// between the engines and the wrapper of the standard library's type: the
+// comparison of expired weak pointers made from aliasing shared pointers.
 
 #include <memory>
 
@@ -39,6 +41,8 @@
 #include "lumex/tests/core/atomic/LumexAtomicTestSupport.hpp"
 
 using namespace lumex_atomic_test;
+
+namespace smart_ptr = lumex::core::atomic::smart_ptr;
 
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenMakeSharedForAnArray_WhenStored_ThenElementsAreReachable)
@@ -54,5 +58,51 @@ TEST (LumexAtomicSharedPtrKindsTest,
 #else
   GTEST_SKIP ()
       << "make_shared for arrays needs __cpp_lib_shared_ptr_arrays >= 201707";
+#endif
+}
+
+namespace
+{
+struct Pair
+{
+  int a;
+  int b;
+};
+
+/// Two expired weak pointers with one owner and different stored pointers.
+template <typename Atomic>
+bool
+exchanges_expired_aliases ()
+{
+  std::weak_ptr<int> wa;
+  std::weak_ptr<int> wb;
+  {
+    std::shared_ptr<Pair> const owner
+        = std::make_shared<Pair> (Pair{ 10, 20 });
+    wa = std::shared_ptr<int> (owner, &owner->a);
+    wb = std::shared_ptr<int> (owner, &owner->b);
+  }
+  Atomic atom (wa);
+  std::weak_ptr<int> expected = wb;
+  return atom.compare_exchange_strong (expected, std::weak_ptr<int> ());
+}
+} // namespace
+
+TEST (LumexAtomicWeakPtrKindsTest,
+      GivenExpiredAliasesWithDifferentPointers_WhenCompare_ThenPerEngine)
+{
+  // std::weak_ptr does not expose the stored pointer once the object is
+  // gone: the library's engines compare ownership only, the wrapper of the
+  // standard library's type still sees the hidden stored pointers.
+  EXPECT_TRUE (exchanges_expired_aliases<smart_ptr::atomic_weak_ptr<int>> ());
+  EXPECT_TRUE (exchanges_expired_aliases<
+               smart_ptr::atomic_weak_ptr_lock_based<int>> ());
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+  EXPECT_TRUE (
+      exchanges_expired_aliases<smart_ptr::atomic_weak_ptr_lock_free<int>> ());
+#endif
+#if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
+  EXPECT_FALSE (exchanges_expired_aliases<
+                smart_ptr::atomic_weak_ptr_std_backed<int>> ());
 #endif
 }

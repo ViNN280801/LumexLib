@@ -49,7 +49,7 @@
 // Platform headers are gated on compiler macros so they can precede the
 // project headers (the code below still branches on LUMEX_OS_*).
 #if defined(_WIN32)
-#include <windows.h>
+#include <Windows.h>
 
 #include <intrin.h>
 
@@ -61,8 +61,38 @@
 
 #include "LumexHardwareCapabilities.hpp"
 #include "lumex/applied/logging/LumexLogging"
+#if defined(_WIN32)
+#include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
+#endif
 #include "lumex/core/utility/LumexUtility"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 
 #if defined(_MSC_VER)
 #pragma comment(lib, "d3d11.lib")
@@ -138,8 +168,15 @@ HardwareCapabilities::detect_hardware ()
   // Check for discrete GPU using DXGI
   info.has_discrete_gpu = false;
   IDXGIFactory *pFactory = nullptr;
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wlanguage-extension-token"
+#endif
   if (SUCCEEDED (CreateDXGIFactory (__uuidof (IDXGIFactory),
                                     reinterpret_cast<void **> (&pFactory))))
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
     {
       IDXGIAdapter *pAdapter = nullptr;
       UINT adapterIndex = 0;
@@ -149,17 +186,9 @@ HardwareCapabilities::detect_hardware ()
           DXGI_ADAPTER_DESC desc;
           if (SUCCEEDED (pAdapter->GetDesc (&desc)))
             {
-              // Convert wide string to narrow string properly
-              std::string gpu_name;
-              int len = WideCharToMultiByte (CP_UTF8, 0, desc.Description, -1,
-                                             nullptr, 0, nullptr, nullptr);
-              if (len > 0)
-                {
-                  std::vector<char> buffer (static_cast<std::size_t> (len));
-                  WideCharToMultiByte (CP_UTF8, 0, desc.Description, -1,
-                                       buffer.data (), len, nullptr, nullptr);
-                  gpu_name = std::string (buffer.data ());
-                }
+              // The adapter name is UTF-16; invalid units are skipped
+              std::string const gpu_name
+                  = lumex::core::unicode::convert::to_utf8 (desc.Description);
 
               // Check if it's not Microsoft Basic Render Driver or similar
               if (gpu_name.find (Constants::KMICROSOFT_GPU_IDENTIFIER)
@@ -695,3 +724,7 @@ generate_cryptographic_seed ()
 } // namespace hardware
 } // namespace applied
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

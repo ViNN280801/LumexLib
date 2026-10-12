@@ -43,6 +43,15 @@
 #if defined(__clang__)
 #endif
 
+// `unexpected` has no global alias in the module on purpose, and the
+// platform declares its own global `unexpected()`: MSVC `eh.h` while
+// `_HAS_CXX23` is 0, MinGW always. Unqualified use in the global namespace
+// is therefore ambiguous there, so the using-declaration brings the name
+// into this namespace, where it is the only candidate, and the directives
+// stay with the code they serve.
+namespace
+{
+using lumex::core::expected::error::unexpected;
 using namespace lumex::core::expected::result;
 using namespace lumex::core::expected::error;
 
@@ -884,6 +893,28 @@ TYPED_TEST (ExpectedTest,
 
 // === Modifiers and monadic operations ==========================
 
+namespace
+{
+// emplace () is constrained like std::expected::emplace: only a value whose
+// construction cannot throw ([expected.object.assign]/18). The others are
+// replaced with an expected built in place, which is what the standard tells
+// to write; the first overload is the C++11 form of an if constexpr on the
+// type.
+template <typename Uut, typename Value>
+void
+emplace_value (Uut &uut, Value &value, std::true_type /* nothrow */)
+{
+  uut.emplace (value);
+}
+
+template <typename Uut, typename Value>
+void
+emplace_value (Uut &uut, Value &value, std::false_type /* may throw */)
+{
+  uut = Uut (in_place, value);
+}
+} // namespace
+
 // Check emplace() for a success value. It must construct a new value in place.
 // Assert that has_value() stays true and the value is updated.
 TYPED_TEST (ExpectedTest, Emplace_ConstructsNewValueInPlace)
@@ -897,7 +928,8 @@ TYPED_TEST (ExpectedTest, Emplace_ConstructsNewValueInPlace)
 
   // Act: emplace a new value
   SuccessType new_s_val = this->s_val2;
-  uut.emplace (new_s_val);
+  using nothrow_t = std::is_nothrow_constructible<SuccessType, SuccessType &>;
+  emplace_value (uut, new_s_val, nothrow_t ());
   // Assert
   EXPECT_TRUE (uut.has_value ());
   EXPECT_EQ (uut.value (), new_s_val);
@@ -907,7 +939,7 @@ TYPED_TEST (ExpectedTest, Emplace_ConstructsNewValueInPlace)
   EXPECT_TRUE (uut2.has_value ());
 
   // Act: emplace another value
-  uut2.emplace (new_s_val);
+  emplace_value (uut2, new_s_val, nothrow_t ());
   // Assert
   EXPECT_TRUE (uut2.has_value ());
   EXPECT_EQ (uut2.value (), new_s_val);
@@ -1437,3 +1469,5 @@ TEST (ExpectedDeathTest, Arrow_WhenErrorPresent_AbortsWithMessage)
   GTEST_SKIP () << "death tests are not supported on this platform";
 #endif
 }
+
+} // namespace

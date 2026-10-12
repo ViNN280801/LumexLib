@@ -28,8 +28,8 @@ section_implementation ()
 {
   std::cout << "=== 1. Selected implementation ===\n";
   atomic_shared_ptr<int> probe;
-  std::cout << "wraps the standard type: "
-            << (LUMEX_ATOMIC_SMART_PTR_USES_STD ? "yes" : "no")
+  std::cout << "lock-free engine: "
+            << (LUMEX_ATOMIC_SMART_PTR_COMMON_IS_LOCK_FREE ? "yes" : "no")
             << ", is_lock_free: " << (probe.is_lock_free () ? "yes" : "no")
             << ", is_always_lock_free: "
             << (atomic_shared_ptr<int>::is_always_lock_free ? "yes" : "no")

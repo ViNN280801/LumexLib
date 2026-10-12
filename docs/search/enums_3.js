@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['examplerunstate_0',['ExampleRunState',['../a00569.html#aeb7847cea4b979856b66b9ec73dede8e',1,'example_reflection.cpp']]],
-  ['examplevalve_1',['ExampleValve',['../a00572.html#a7014ea31388ba91f40697a3b984ae081',1,'example_reflection_workflow.cpp']]]
+  ['detection_5fmode_0',['detection_mode',['../a01332.html#ac047405c9b47d7fbca89a44b3e927978',1,'lumex::core::contracts']]],
+  ['distributiontype_1',['DistributionType',['../a01366.html#ac790ad052a54165bc304a20f53f7a502',1,'lumex::core::generators::number_generator']]],
+  ['dumptype_2',['DumpType',['../a01418.html#a8ccf1bd2864104aaf2e850d72d393c19',1,'lumex::core::utility::dump']]]
 ];

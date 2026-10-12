@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathLexerString.hpp File Reference</title>
+<title>LumexLib: example_field_reflection.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,92 +105,193 @@ $(function(){initNavTree('a00818.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">XPathLexerString.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_field_reflection.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>XPathLexerString</code>, the begin and end of a token inside the text of an XPath expression.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00728_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01214_source.html">lumex/core/optional/LumexOptional</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01217_source.html">lumex/core/reflection/LumexReflection</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathLexerString.hpp:</div>
+Include dependency graph for example_field_reflection.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00819.png" border="0" usemap="#a_x_path_lexer_string_8hpp" alt=""/></div>
-<map name="a_x_path_lexer_string_8hpp" id="a_x_path_lexer_string_8hpp">
-<area shape="rect" title="XPathLexerString, the begin and end of a token inside the text of an XPath expression." alt="" coords="116,5,265,32"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,80,168,107"/>
-<area shape="poly" title=" " alt="" coords="174,35,118,73,115,69,171,30"/>
-<area shape="rect" href="a00728.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="192,80,397,107"/>
-<area shape="poly" title=" " alt="" coords="210,30,266,69,263,73,207,35"/>
-<area shape="rect" title=" " alt="" coords="183,155,243,181"/>
-<area shape="poly" title=" " alt="" coords="282,109,240,146,237,142,279,105"/>
-<area shape="rect" title=" " alt="" coords="268,155,321,181"/>
-<area shape="poly" title=" " alt="" coords="297,107,297,139,292,139,292,107"/>
-<area shape="rect" href="a00734.html" title="Preprocessor macros of the XML module: the character mode, the declaration of constants,..." alt="" coords="345,155,556,181"/>
-<area shape="poly" title=" " alt="" coords="323,105,411,145,408,150,321,110"/>
-<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="253,229,421,272"/>
-<area shape="poly" title=" " alt="" coords="434,184,380,222,377,218,431,180"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="448,229,680,272"/>
-<area shape="poly" title=" " alt="" coords="470,180,524,218,521,222,467,184"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="215,320,446,363"/>
-<area shape="poly" title=" " alt="" coords="338,273,336,305,331,304,333,272"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="471,320,665,363"/>
-<area shape="poly" title=" " alt="" coords="567,272,569,304,564,305,562,273"/>
-</map>
+<div class="center"><img src="a00819.png" border="0" usemap="#aexample__field__reflection_8cpp" alt=""/></div>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00820.png" border="0" usemap="#a_x_path_lexer_string_8hppdep" alt=""/></div>
-<map name="a_x_path_lexer_string_8hppdep" id="a_x_path_lexer_string_8hppdep">
-<area shape="rect" title="XPathLexerString, the begin and end of a token inside the text of an XPath expression." alt="" coords="136,5,285,32"/>
-<area shape="rect" href="a00812.html" title="XPathLexer, the tokenizer that splits an XPath expression into lexemes for XPathParser." alt="" coords="76,80,190,107"/>
-<area shape="poly" title=" " alt="" coords="188,45,148,82,145,78,184,41"/>
-<area shape="rect" href="a00815.html" title=" " alt="" coords="215,80,363,107"/>
-<area shape="poly" title=" " alt="" coords="237,41,277,78,274,82,234,45"/>
-<area shape="rect" href="a00809.html" title=" " alt="" coords="5,155,120,181"/>
-<area shape="poly" title=" " alt="" coords="112,120,77,156,73,152,108,116"/>
-<area shape="rect" href="a00824.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="144,155,264,181"/>
-<area shape="poly" title=" " alt="" coords="158,116,194,152,190,156,154,120"/>
-<area shape="rect" href="a00821.html" title=" " alt="" coords="72,229,192,256"/>
-<area shape="poly" title=" " alt="" coords="182,194,146,231,142,227,179,191"/>
-<area shape="rect" href="a00833.html" title=" " alt="" coords="216,229,333,256"/>
-<area shape="poly" title=" " alt="" coords="229,191,264,227,260,231,225,194"/>
-</map>
-</div>
-</div>
-<p><a href="a00818_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03161.html">lumex::xml::xpath::parser::lexer::XPathLexerString</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a string view used by the XPath lexer.  <a href="a03161.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04886.html">ExamplePoint</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04890.html">ExampleVolume</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04894.html">ExampleRun</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04898.html">ExampleUnregistered</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01126.html">lumex::xml</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01135.html">lumex::xml::xpath</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01153.html">lumex::xml::xpath::parser</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01154.html">lumex::xml::xpath::parser::lexer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a592dc7076e922868e4d0c58c2cc483e7" id="r_a592dc7076e922868e4d0c58c2cc483e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a592dc7076e922868e4d0c58c2cc483e7">LUMEX_DEFINE_FIELD_NAMES</a> (<a class="el" href="a04886.html">ExamplePoint</a>, x, y)</td></tr>
+<tr class="separator:a592dc7076e922868e4d0c58c2cc483e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab86c7df2198a8156c8f7b6430f6caafa" id="r_ab86c7df2198a8156c8f7b6430f6caafa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab86c7df2198a8156c8f7b6430f6caafa">LUMEX_DEFINE_FIELD_NAMES</a> (<a class="el" href="a04890.html">ExampleVolume</a>, microliters)</td></tr>
+<tr class="separator:ab86c7df2198a8156c8f7b6430f6caafa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21ea9d0d053d3e8dac0b7a0333af7e4a" id="r_a21ea9d0d053d3e8dac0b7a0333af7e4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21ea9d0d053d3e8dac0b7a0333af7e4a">to_json</a> (nlohmann::json &amp;j, <a class="el" href="a04890.html">ExampleVolume</a> const &amp;volume)</td></tr>
+<tr class="separator:a21ea9d0d053d3e8dac0b7a0333af7e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a224002319f4b10a23f0e45ff75eee2e5" id="r_a224002319f4b10a23f0e45ff75eee2e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a224002319f4b10a23f0e45ff75eee2e5">LUMEX_DEFINE_FIELD_NAMES</a> (<a class="el" href="a04894.html">ExampleRun</a>, name, origin, trail, volume, note)</td></tr>
+<tr class="separator:a224002319f4b10a23f0e45ff75eee2e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>XPathLexerString</code>, the begin and end of a token inside the text of an XPath expression. </p>
-<p>The view does not own its characters and is not terminated. The parser compares it with null-terminated names (axes, node types, functions) through <code>operator==</code>, and copies it with <code>XPathParser::alloc_string</code> when the text must be kept. The file is internal to the XPath engine. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a592dc7076e922868e4d0c58c2cc483e7" name="a592dc7076e922868e4d0c58c2cc483e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a592dc7076e922868e4d0c58c2cc483e7">&#9670;&#160;</a></span>LUMEX_DEFINE_FIELD_NAMES() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LUMEX_DEFINE_FIELD_NAMES </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04886.html">ExamplePoint</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">x</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">y</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a224002319f4b10a23f0e45ff75eee2e5" name="a224002319f4b10a23f0e45ff75eee2e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a224002319f4b10a23f0e45ff75eee2e5">&#9670;&#160;</a></span>LUMEX_DEFINE_FIELD_NAMES() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LUMEX_DEFINE_FIELD_NAMES </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04894.html">ExampleRun</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">name</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">origin</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">trail</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">volume</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">note</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab86c7df2198a8156c8f7b6430f6caafa" name="ab86c7df2198a8156c8f7b6430f6caafa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab86c7df2198a8156c8f7b6430f6caafa">&#9670;&#160;</a></span>LUMEX_DEFINE_FIELD_NAMES() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LUMEX_DEFINE_FIELD_NAMES </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04890.html">ExampleVolume</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">microliters</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00818_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00818_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a21ea9d0d053d3e8dac0b7a0333af7e4a" name="a21ea9d0d053d3e8dac0b7a0333af7e4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21ea9d0d053d3e8dac0b7a0333af7e4a">&#9670;&#160;</a></span>to_json()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void to_json </td>
+          <td>(</td>
+          <td class="paramtype">nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>j</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04890.html">ExampleVolume</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>volume</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="dir_2f8488fdbf169117866699aa1d08d080.html">lexer</a></li><li class="navelem"><a class="el" href="a00818.html">XPathLexerString.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_960426362f7813f6a0fb068c7ad54318.html">reflection</a></li><li class="navelem"><a class="el" href="a00818.html">example_field_reflection.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -15,10 +15,9 @@
 #                       LumexXmlParserOptions.cxx11.tests.cpp (the parse
 #                       options that select a string conversion of the parser)
 #                       and LumexXmlStringView.cxx11.tests.cpp (the
-#                       string_view_t overloads: lumex_string_view below
-#                       C++17, std::basic_string_view from C++17, so
-#                       std::string and sized-view arguments work in every
-#                       suite)
+#                       string_view_t overloads: lumex_string_view in
+#                       every standard, so std::string and sized-view
+#                       arguments work in every suite)
 #   LumexXmlCxx17Tests  + LumexXml.cxx17.tests.cpp: std::string_view
 #                       arguments
 #   LumexXmlCxx20Tests  the same files at C++20. LumexXml is a C++11 library,

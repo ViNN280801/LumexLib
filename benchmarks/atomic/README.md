@@ -22,21 +22,26 @@ In short, on the machine below: under contention LumexLib's lock-based implement
 
 | Series | What it is | Selected implementation |
 | --- | --- | --- |
-| LumexLib lock-based, C++11 | `atomic_shared_ptr<int>` in a translation unit built at C++11: the lock-based implementation, sleeping on the striped wait table | `lock_based_table_wait` |
-| LumexLib lock-based, C++20 | the lock-based implementation forced at C++20 (`LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED`), sleeping in `std::atomic::wait` | `lock_based_std_wait` |
-| LumexLib default, C++20 | what a C++20 build gets with nothing forced: it wraps the standard library's `std::atomic<std::shared_ptr<T>>` (libstdc++ 13 in the charts above, the MSVC STL in the [Windows series](#msvc-stl)) and adds its own conforming `wait` | `std_backed_std_wait` |
+| LumexLib lock-based, C++11 | `atomic_shared_ptr_lock_based<int>` in a translation unit built at C++11, sleeping on the striped wait table | `lock_based_table_wait` |
+| LumexLib lock-based, C++20 | the same class at C++20, sleeping in `std::atomic::wait` | `lock_based_std_wait` |
+| LumexLib lock-free, C++11 | `atomic_shared_ptr_lock_free<int>`: the hazard-protected box engine, the replaced value destroyed immediately (the default policy) | `lock_free_table_wait` |
+| LumexLib lock-free, C++20 | the same class at C++20 | `lock_free_std_wait` |
+| LumexLib lock-free, C++20, deferred | `atomic_shared_ptr_lock_free<int, reclaim::deferred>`: the replaced box is retired, a pass of the hazard domain destroys it later | `lock_free_deferred_std_wait` |
+| LumexLib common name, C++20 | `atomic_shared_ptr<int>` with nothing forced: the lock-free engine where the build has it (a `static_assert` in the unit checks it), the lock-based one otherwise | `common_std_wait` |
+| LumexLib std-backed, C++20 | `atomic_shared_ptr_std_backed<int>`: the wrapper of the standard library's `std::atomic<std::shared_ptr<T>>` with a conforming `wait`; it was the C++20 default before the lock-free engine and is an explicit name now | `std_backed_std_wait` |
 | std::atomic, libstdc++ 13 | `std::atomic<std::shared_ptr<int>>` of the standard library | - |
+| boost::atomic_shared_ptr | only when CMake finds Boost: a spinlock around a `boost::shared_ptr` (another smart pointer family, a lock-based competitor, not a lock-free one) | `boost` |
 
 The harness checks which implementation each series measured: the units fail to compile when a forcing switch did not take effect, `--list` prints the selected inline namespace of every series, and `run_benchmark.py` stops when a LumexLib series measured something else.
 
 Not measured here:
 
-- **A LumexLib lock-free series.** LumexLib ports only the lock-based method of the libc++ implementation; the lock-free method works on libc++'s own control block and cannot run over another library's `std::shared_ptr` (see `lumex/core/atomic/README.md`). The author's measurements of the two libc++ methods are summarized [below](#the-libc-implementation-reference) for reference.
+- **The libc++ lock-free method.** It works on libc++'s own control block and cannot run over another library's `std::shared_ptr` (see `lumex/core/atomic/README.md`); the lock-free series above is a different algorithm, the hazard-protected box. The author's measurements of the two libc++ methods are summarized [below](#the-libc-implementation-reference) for reference. Folly, just::thread and Daniel Anderson's repository are not offline-buildable and are not measured.
 - **The MSVC STL** is a separate series, on another machine: [MSVC STL](#msvc-stl). The `std` series there is MSVC's `std::atomic<std::shared_ptr<T>>`.
 
 ## Method
 
-- **Operations**, as in the libc++ benchmark: `load ()`; `store ()` of the same value every time; `exchange ()` of the same value; and `load (relaxed)` followed by `compare_exchange_strong ()` towards the other of two values, the client pattern that exposed the livelock of the libc++ lock-free method.
+- **Operations**, as in the libc++ benchmark: `load ()`; `store ()` of the same value every time; `exchange ()` of the same value; and `load (relaxed)` followed by `compare_exchange_strong ()` towards the other of two values, the client pattern that exposed the livelock of the libc++ lock-free method. A fifth, `load_one_writer`: one thread stores alternating values in a loop while all the others `load ()` (the readers-heavy pattern in which the libc++ double-width method crashed); the time is per load of a reader.
 - **Contention**: 1, 2, 4, 6, ..., 20 threads on one shared object (1 and every even count up to the logical CPUs), plus an uncontended run: one thread on an object of its own.
 - **One measurement**: the threads start together, run the operation for 100 ms and stop together; the result is the wall time per operation and thread, the figure Google Benchmark reports for `Threads (N)->UseRealTime ()`.
 - **Normalization**: every block (one implementation at one thread count) starts with the baseline loop of the libc++ benchmark, `std::atomic<std::uint64_t>` `load (relaxed)` + `compare_exchange_strong` on one shared word with the same threads; each operation of the block is divided by it. Raw nanoseconds are only compared within one process.
@@ -55,6 +60,42 @@ python benchmarks/atomic/run_benchmark.py --exe build-bench/bin/LumexAtomicBench
 ```
 
 `--quick` (3 runs, no pause, 20 ms windows) checks the setup in a few seconds; its numbers are not results, so it writes into the build directory (`--out-dir`) and leaves the committed `results/` alone. Without it the sweep uses the defaults above and takes about an hour and a half on 20 hardware threads. `run_benchmark.py` writes `results/atomic_benchmark.csv` and calls `plot_results.py`, which needs only the Python standard library and writes the SVG charts and the Markdown table next to the CSV. The target `LumexAtomicBenchmarkRun` does all of it and rewrites `results/`. Other options: `--repetitions`, `--settle-seconds`, `--duration-ms`, `--threads 1,2,4,8`, `--raw-csv FILE` (every row of every run).
+
+## The lock-free engine: a reduced run
+
+The charts and tables above are the full sweep of 2026-10-03 (100 runs), made before the lock-free engine existed; their "LumexLib default, C++20" series is what `atomic_shared_ptr_std_backed` is now. The lock-free engine and the new operation were measured with a reduced run (7 runs, 3 s pauses, 100 ms windows, threads 1, 2, 4, 8, 12, 16, 20, the same machine and GCC 13.2 as above, `python benchmarks/atomic/run_benchmark.py --repetitions 7 --settle-seconds 3 --threads 1,2,4,8,12,16,20`): the data is in [results/lock_free_reduced/](results/lock_free_reduced/atomic_benchmark.md), the CSV next to it. Reduced means fewer repetitions, and the machine was shared with the builds of other jobs (load average 8.5 at the start and 16.4 at the end, the benchmark's own threads included): read it as a measurement of the order of magnitude, not as a result with the confidence of the full sweep. Ratios to the uint64 compare-exchange at 2 / 8 / 20 threads (medians; lower is better), and nanoseconds uncontended:
+
+| Operation | lock-based C++20 | lock-free C++20 (immediate) | lock-free C++20 (deferred) | std-backed C++20 | boost (spinlock) | uncontended ns: lock-based / lock-free / deferred / std-backed |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `load ()` | 4.0 / 5.9 / 10.5 | 2.1 / 2.0 / 2.3 | 2.1 / 2.0 / 2.2 | 3.4 / 14.7 / 31.3 | 1.1 / 0.9 / 1.1 | 17 / 20 / 20 / 17 |
+| `store ()` | 3.7 / 7.9 / 11.9 | 5.9 / 4.1 / 3.9 | 9.4 / 4.7 / 4.5 | 2.3 / 8.0 / 18.4 | 2.5 / 2.8 / 3.7 | 19 / 45 / 65 / 20 |
+| `exchange ()` | 3.4 / 7.6 / 11.9 | 6.3 / 5.9 / 5.8 | 10.3 / 6.9 / 6.1 | 2.8 / 11.4 / 21.9 | 2.3 / 2.5 / 3.5 | 18 / 53 / 73 / 20 |
+| `compare_exchange_strong ()` | 11.6 / 18.1 / 27.3 | 9.8 / 9.9 / 8.5 | 10.4 / 8.4 / 8.2 | 8.5 / 27.6 / 57.5 | 3.4 / 2.9 / 4.0 | 44 / 74 / 95 / 57 |
+| `load_one_writer` | 2.7 / 5.4 / 10.4 | 4.9 / 2.1 / 2.1 | 2.3 / 1.7 / 2.1 | 4.4 / 13.9 / 25.7 | 0.6 / 0.8 / 1.2 | 17 / 20 / 20 / 17 |
+
+What it shows:
+
+- **Scaling.** The lock-free engine's `load ()` stays at 2.0-2.3 times the baseline from 2 to 20 threads, against 10.5 for the lock-based engine and 31 for the standard library's type; at 20 threads `store ()` costs 3.9 against 11.9 and 18.4, `exchange ()` 5.8 against 11.9 and 21.9, `compare_exchange_strong ()` 8.5 against 27.3 and 57.5. The lock-free `compare_exchange_strong ()` and `store ()` are the first to beat the lock-based engine, from 4 threads on.
+- **Price.** Uncontended, a replacing operation allocates a box and scans the hazard slots for it: `store ()` 45 ns against 19 ns lock-based, `exchange ()` 53 against 18, `compare_exchange_strong ()` 74 against 44, `load ()` 20 against 17. The scan reads every hazard slot ever created (about 160 here after the 20-thread blocks, one cache line each), which is why the immediate policy costs more than a plain lock uncontended but nothing like what the lock costs under contention.
+- **Immediate against deferred.** The deferred policy is not cheaper: uncontended it is slower (`store ()` 65 ns against 45 ns, `exchange ()` 73 against 53), because retiring costs more than scanning one address, and at 8 to 20 threads the two agree within 15 %. The deferred policy also lets up to `max (1000, 2 * R) - 1 + R` replaced values live on. The immediate scan is therefore not too slow, and the common names pick the lock-free engine with the immediate policy.
+- **Boost.** `boost::atomic_shared_ptr` is a spinlock and, for this short critical section on this machine, it is the fastest series for `load ()` (0.9-1.1 times the baseline at 20 threads) and for the readers-heavy pattern; the lock-free engine is within two times of it for `load ()` and loses to it on every replacing operation. Neither is wait-free; a preempted lock holder is not a problem the benchmark can show.
+- **Readers with one writer.** No series crashes or hangs (the libc++ double-width method did); the lock-free engine's reader time at 8 to 20 threads, 2.1, is the same as without the writer.
+
+The charts of the reduced run, in the same form as the charts of the full sweep above, one per operation with the ratios to the uint64 compare-exchange of the same block (nine series: the lock-based and the lock-free engine at C++11 and at C++20, the lock-free engine with the deferred policy, the common name, the std-backed wrapper, libstdc++ 13 and Boost). The files carry the `lock_free_reduced_` prefix so the Doxygen image names stay unique: `python benchmarks/atomic/plot_results.py --prefix lock_free_reduced_ benchmarks/atomic/results/lock_free_reduced/atomic_benchmark.csv` writes them from the CSV, and the same Markdown table next to it.
+
+![Baseline of the reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_baseline.svg)
+
+![load () under contention, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_load.svg)
+
+![store () under contention, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_store.svg)
+
+![exchange () under contention, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_exchange.svg)
+
+![compare_exchange_strong () under contention, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_compare_exchange_strong.svg)
+
+![load () with one writer, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_load_one_writer.svg)
+
+![Uncontended, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_uncontended.svg)
 
 ## Machine and build of these results
 
@@ -104,7 +145,7 @@ Uncontended, in nanoseconds (lock-free / lock-based): `load ()` 36.1 / 20.5, `st
 
 ## MSVC STL
 
-The same four series on Windows. The charts above stay the libstdc++ run; these are only the MSVC run. The files carry the `msvc_` prefix so the Doxygen image names stay unique.
+The same four series on Windows. The charts above stay the libstdc++ run; these are only the MSVC run. The files carry the `msvc_` prefix so the Doxygen image names stay unique (`plot_results.py --prefix msvc_ results/msvc/atomic_benchmark.csv` writes them under that name).
 
 ![Baseline](results/msvc/msvc_atomic_benchmark_baseline.svg)
 
@@ -187,3 +228,46 @@ python benchmarks\atomic\plot_results.py benchmarks\atomic\results\atomic_benchm
 ```
 
 On MSVC the C++11 unit of the benchmark builds at C++14 (MSVC's lowest mode), the default series wraps MSVC's `std::atomic<std::shared_ptr<T>>`, and the `std` series measures it directly.
+
+## Compile time
+
+What it costs to include one atomic shared pointer and use it, measured the way the other benchmarks of this directory tree measure it: `compile_time.cpp` is compiled with `-fsyntax-only -O0` (median of 7, CPU 3, under the build lock of the workstation) per compiler and variant by `run_benchmark.py --compile-time-only`, which writes `results/compile_time.csv` and calls `plot_results.py` for `results/atomic_compile_time.svg` and the table in `results/atomic_benchmark.md`. The `include` unit declares one object; the `use` unit calls `load`, `store`, `exchange`, `compare_exchange_strong` and `is_lock_free`. The variants are the common name, the lock-based and the lock-free engine (C++11 and C++20), the std-backed wrapper, `std::atomic<std::shared_ptr<int>>` and `boost::atomic_shared_ptr<int>`, against a stub (a `std::shared_ptr` behind a `std::mutex`), which is the cost of the headers every variant shares. The units of the LumexLib variants define `LUMEX_ATOMIC_HAS_HAZARD_POINTER=1`, as the CMake target `lumex::atomic` does when the hazard pointer library is built, so the common name is the lock-free engine; the benchmark executable's own reduced and full runs are not affected.
+
+```sh
+python benchmarks/atomic/run_benchmark.py --compile-time-only --cpu 3 --compile-repeats 7 \
+       --compiler "gcc=g++" --compiler "clang=clang++ -stdlib=libc++" \
+       --boost-include /opt/boost-1.92.0/include
+```
+
+![Compile time](results/atomic_compile_time.svg)
+
+Wall time in milliseconds (`include` unit / `use` unit; the table of every cell is in [results/atomic_benchmark.md](results/atomic_benchmark.md), the raw medians in [results/compile_time.csv](results/compile_time.csv)):
+
+| | stub | LumexLib common name | lock-based | lock-free | std-backed | `std::atomic<std::shared_ptr>` | `boost::atomic_shared_ptr` |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| GCC 13.2, C++11 | 93 / 95 | 184 / 190 | 183 / 190 | 184 / 190 | n/a | n/a | 171 / 172 |
+| GCC 13.2, C++20 | 262 / 264 | 370 / 380 | 372 / 381 | 374 / 380 | 376 / 384 | 263 / 267 | 388 / 392 |
+| Clang 23.1 (libc++), C++11 | 98 / 99 | 219 / 226 | 219 / 224 | 220 / 228 | n/a | n/a | 233 / 235 |
+| Clang 23.1 (libc++), C++20 | 142 / 146 | 376 / 383 | 376 / 377 | 383 / 385 | not built | not built | 425 / 423 |
+
+At C++11 the three LumexLib variants are within 1 ms of each other in the `include` unit with both compilers (183 to 184 ms with GCC, 219 to 220 ms with Clang), about 90 ms (GCC) and 121 ms (Clang) over the stub, and `boost::atomic_shared_ptr` costs 171 ms (GCC) and 233 ms (Clang). At C++20 they are within 4 ms with GCC (370 to 374 ms, the std-backed wrapper 376 ms) and within 7 ms with Clang (376 to 383 ms), 108 to 114 ms (GCC) and 234 to 241 ms (Clang) over the stub, and `boost::atomic_shared_ptr` costs 388 ms (GCC) and 425 ms (Clang). `std::atomic<std::shared_ptr>` costs 263 ms (GCC) over a stub of 262 ms. With the libc++ of Clang 23.1 there is no `std::atomic<std::shared_ptr>`, so the std-backed wrapper and the standard variant could not be built there (the compiler's message is printed by `run_benchmark.py`, and the variant is left out). The unit uses the interface the benchmark measures, not `wait` and `notify` or the weak pointer. An earlier full run of the same units, discarded because of this, gave every GCC cell 13 to 15 % higher (stub 106 and 300 ms, common name 210 and 426 ms at C++11 and C++20) and the Clang stub cells 14 to 17 % higher, while the other Clang cells were within 3 % of this run except the common name at C++11 (254 and 239 ms against 219 and 226 ms): the absolute times move by that much from run to run on this machine, and the differences between variants should be read within one run.
+
+## 128-bit compare-and-swap (dwcas)
+
+`LumexDwcasBenchmark` (`bench_dwcas.cpp`, built with `LUMEX_BUILD_BENCHMARKS=ON` next to `LumexAtomicBenchmark`) measures the cost of the 128-bit compare-and-swap of `lumex/core/atomic/dwcas` against a 64-bit one on one shared word. Every thread repeats "read a guess, try to swap in the guess plus one" for the length of the window and counts every attempt, successful or not (each is one locked instruction); the figure is the wall time per attempt and thread, as above. The 64-bit and the 128-bit measurement of one repetition run one after the other in the same process, in alternating order, and the table gives the medians and the median of the per-repetition ratios.
+
+```sh
+cmake --build build-bench --target LumexDwcasBenchmark
+build-bench/bin/LumexDwcasBenchmark --threads 1,2,4,8 --duration-ms 100 --repetitions 5
+```
+
+Reduced run of 2026-10-09 (GCC 13.2 Release, Intel Core i7-12700K, 20 logical CPUs, assembly backend, 5 repetitions of 100 ms; the machine was shared with other builds, so read the ratios, not the nanoseconds):
+
+| Threads | 64-bit, ns | 128-bit, ns | Ratio |
+| ---: | ---: | ---: | ---: |
+| 1 | 7.6 | 10.0 | 1.31 |
+| 2 | 33.3 | 33.7 | 1.01 |
+| 4 | 69.8 | 88.9 | 1.34 |
+| 8 | 144.2 | 207.4 | 1.44 |
+
+The 128-bit attempt costs 1.0 to 1.4 times the 64-bit one up to 8 threads: both are one locked instruction on one cache line, and the second half is the difference. This is a reduced run, not a sweep: it is one machine, one compiler and five short windows per point.

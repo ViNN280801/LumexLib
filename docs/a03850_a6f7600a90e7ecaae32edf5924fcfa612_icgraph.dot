@@ -1,0 +1,39 @@
+digraph "lumex::core::span::view::span::span"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::span::\lview::span::span",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Constructs an empty span."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::span::\lview::span::first",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#aa847f85780dba4fa954740d7d9fd0f27",tooltip="The first Count elements as a span of static extent."];
+  Node2 -> Node2 [id="edge2_Node000002_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node3 [id="edge3_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::span::\lview::span::first",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#a519fb6bdd570183c039547be2ea18b6b",tooltip="The first count elements."];
+  Node2 -> Node4 [id="edge4_Node000002_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="main",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00698.html#ae66f6b31b5ad750f1fe042a706a4e3d4",tooltip=" "];
+  Node2 -> Node5 [id="edge5_Node000002_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::span::\lview::span::span",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#a46fb58083be5feae8d267eb313db196e",tooltip="Constructs a span of the range [first, last)."];
+  Node2 -> Node6 [id="edge6_Node000002_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::span::\lview::span::span",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#a7036a71b9b1d63512b727049faeda0d6",tooltip="Constructs a span of count elements starting at first."];
+  Node1 -> Node3 [id="edge7_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node7 [id="edge8_Node000001_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::span::\lview::span::last",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#ad4abbc4006bca1e6fce5d5a980de958f",tooltip="The last Count elements as a span of static extent."];
+  Node7 -> Node7 [id="edge9_Node000007_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 -> Node8 [id="edge10_Node000007_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::span::\lview::span::last",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#a2456551f8bf7066e034d58694f358ceb",tooltip="The last count elements."];
+  Node7 -> Node4 [id="edge11_Node000007_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 -> Node5 [id="edge12_Node000007_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node8 [id="edge13_Node000001_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node9 [id="edge14_Node000001_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::core::span::\lview::span::span",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#a3277fda4553402d6b23e566af45e22cf",tooltip="Converts a span of another element type or extent."];
+  Node1 -> Node10 [id="edge15_Node000001_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="lumex::core::span::\lview::span::subspan",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#a13a83ffe79d91fd182648cca8911f850",tooltip="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..."];
+  Node10 -> Node11 [id="edge16_Node000010_Node000011",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node11 [id="Node000011",label="main",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00668.html#ae66f6b31b5ad750f1fe042a706a4e3d4",tooltip=" "];
+  Node10 -> Node10 [id="edge17_Node000010_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node10 -> Node12 [id="edge18_Node000010_Node000012",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node12 [id="Node000012",label="lumex::core::span::\lview::span::subspan",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03850.html#aa817167818526a7824a3312aee8b8c46",tooltip="The elements from offset on, count of them or all the rest."];
+  Node1 -> Node12 [id="edge19_Node000001_Node000012",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

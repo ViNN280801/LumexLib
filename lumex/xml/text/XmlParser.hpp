@@ -64,6 +64,33 @@
 #include "lumex/xml/text/XmlParseResult.hpp"
 #include "lumex/xml/types/XmlTypes.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
 {
 namespace xml
@@ -71,7 +98,6 @@ namespace xml
 namespace text
 {
 using namespace lumex::xml::document;
-using namespace lumex::xml::text;
 using namespace lumex::xml::node;
 using namespace lumex::xml::types;
 using namespace lumex::xml::types::Types;
@@ -199,14 +225,9 @@ struct LUMEX_API XmlParser
    * @param[in] str A pointer to the beginning of the XML buffer.
    * @return A pointer to the position immediately after the BOM if present,
    * otherwise the original pointer.
-   * @note This function is overloaded for `char_t` (UTF-8) and `wchar_t`
-   * (UTF-16) modes.
+   * @note The BOM is the three UTF-8 bytes `EF BB BF`.
    */
-#ifdef LUMEX_XML_WCHAR_MODE
   static char_t *parse_skip_bom (char_t *str);
-#else
-  static char_t *parse_skip_bom (char_t *str);
-#endif
 
   /**
    * @brief Checks if any of the given node's siblings (including itself) are
@@ -239,5 +260,9 @@ struct LUMEX_API XmlParser
 } // namespace text
 } // namespace xml
 } // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !LUMEX_XML_TEXT_XML_PARSER_HPP

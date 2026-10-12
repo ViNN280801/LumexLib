@@ -1,10 +1,9 @@
 var a00419 =
 [
-    [ "LUMEX_BASE_CONSTANT", "a00419.html#ab6144301899a06d23751755672c5a3f7", null ],
-    [ "LUMEX_CONST", "a00419.html#aa63e4a30676d4f67d808597f321f416a", null ],
-    [ "LUMEX_CONST_NUM", "a00419.html#a294baa8c8ad4246130f881cd1da7cbe1", null ],
-    [ "LUMEX_CONST_STR", "a00419.html#a79c537c78fd40b18154a50845e28fb61", null ],
-    [ "LUMEX_CONSTEVAL_FUNCTION", "a00419.html#aea059f2206580c771f0e532c0102a708", null ],
-    [ "LUMEX_CONSTINIT_CONSTANT", "a00419.html#ac8388d271f79d02f47b20cfae244900a", null ],
-    [ "LUMEX_STRING_CONSTANT", "a00419.html#a05ab07d7450e90785790f33e19a37763", null ]
+    [ "lumex::core::expected::result::success_t< ValueType >", "a02746.html", "a02746" ],
+    [ "lumex::core::expected::result::success_t< void >", "a02750.html", "a02750" ],
+    [ "lumex::core::expected::result::failure_t< ErrorType >", "a02754.html", "a02754" ],
+    [ "lumex::core::expected::result::failure", "a01355.html#a8af150230768426fd35e631a6134e162", null ],
+    [ "lumex::core::expected::result::success", "a01355.html#acf582366ba9e45e54dfb712995539ba3", null ],
+    [ "lumex::core::expected::result::success", "a01355.html#a33ae257796f0a87a9dd7dfc572762b8c", null ]
 ];

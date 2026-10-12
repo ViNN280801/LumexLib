@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['wchar_5fcounter_0',['wchar_counter',['../a01128.html#a3746e86157e541d51f76a69038657333',1,'lumex::xml::utility']]],
-  ['wchar_5fwriter_1',['wchar_writer',['../a01128.html#a246aea38ccb5b0cf2f6ed3077ab7e637',1,'lumex::xml::utility']]],
-  ['wformatargs_2',['WFormatArgs',['../a01048.html#a0db0b953d35b69ceb4cd92cd7bca9ba5',1,'lumex::core::fmt']]],
-  ['wformatcontext_3',['WFormatContext',['../a01048.html#a2f51215270e61c5f9b54863fc7d4d4f9',1,'lumex::core::fmt']]],
-  ['wformatparsecontext_4',['WFormatParseContext',['../a01048.html#a6a688d2cae4c44e83f38a8f675e45520',1,'lumex::core::fmt']]],
-  ['wformatstring_5',['WFormatString',['../a01048.html#a692dc0ce936e7c4a2a5e4f3917be24b3',1,'lumex::core::fmt']]],
-  ['write_5fmode_6',['write_mode',['../a00948.html#a047133438b431876e19f1fb9a35be223',1,'lumex']]],
-  ['writer_7',['writer',['../a03041.html#a5947ccfb9cb6c5dd1ea242cdca06f3b8',1,'lumex::xml::utility::wchar_selector&lt; 2 &gt;::writer'],['../a03045.html#a40d5c6db9f064a17d2b1499983df2290',1,'lumex::xml::utility::wchar_selector&lt; 4 &gt;::writer']]]
+  ['unexpected_5ftype_0',['unexpected_type',['../a02522.html#a0fe04b52b944cd23fc8d34d463b89ca4',1,'lumex::core::expected::result::expected::unexpected_type'],['../a02742.html#a767c79317b959b86f61e9486ae2ba63f',1,'lumex::core::expected::result::expected&lt; void, ErrorType &gt;::unexpected_type'],['../a06355.html#a0fe04b52b944cd23fc8d34d463b89ca4',1,'lumex::core::expected::result::expected&lt; void, ErrorType &gt;::unexpected_type'],['../a06355.html#a0fe04b52b944cd23fc8d34d463b89ca4',1,'expected::unexpected_type'],['../a02522.html#a0fe04b52b944cd23fc8d34d463b89ca4',1,'lumex::core::expected::result::expected&lt; void, ErrorType &gt;::unexpected_type'],['../a06355.html#a0fe04b52b944cd23fc8d34d463b89ca4',1,'lumex::core::expected::result::expected&lt; void, ErrorType &gt;::unexpected_type']]],
+  ['union_5ftype_1',['union_type',['../a02670.html#ab8fbb9a4948a5b1372971a8ae197c88a',1,'lumex::core::expected::result::detail::storage::expected_storage']]],
+  ['unspecified_5fbool_5ftype_2',['unspecified_bool_type',['../a04938.html#ae6de052414d8de2416bfda106ca51d8d',1,'lumex::xml::attribute::XmlAttribute::unspecified_bool_type'],['../a04966.html#a70ecfca0409e49b802e91f25ec380874',1,'lumex::xml::node::XmlNode::unspecified_bool_type'],['../a05010.html#a751770dc12882d0f06c4294f01de9a86',1,'lumex::xml::text::XmlText::unspecified_bool_type'],['../a05106.html#ac076247c8350904ce65535c63e9db7af',1,'lumex::xml::xpath::node::XPathNode::unspecified_bool_type'],['../a05138.html#a50b7111504bda83ae18173ccc2f228c6',1,'lumex::xml::xpath::query::XPathQuery::unspecified_bool_type']]]
 ];

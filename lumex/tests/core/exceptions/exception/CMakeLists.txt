@@ -7,8 +7,7 @@
 #                                       LumexExceptionStringView (the string
 #                                       view constructor, an inline wrapper
 #                                       over the exported std::string one:
-#                                       lumex_string_view below C++17,
-#                                       std::string_view from C++17)
+#                                       lumex_string_view in every standard)
 #   LumexExceptionsExceptionCxx17Tests  + LumexException.cxx17.tests.cpp:
 #                                       std::string_view arguments
 #   LumexExceptionsExceptionCxx20Tests  the same files at C++20

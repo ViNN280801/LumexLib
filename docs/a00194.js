@@ -1,8 +1,4 @@
 var a00194 =
 [
-    [ "LUMEX_ATOMIC_SMART_PTR_ABI_NAMESPACE", "a00194.html#a9be53a42a0b6b53bcfd084ff60e871bc", null ],
-    [ "LUMEX_ATOMIC_SMART_PTR_CHECK_FAILURE_ORDER", "a00194.html#ab3ae82014165ed18f66e176029cfa054", null ],
-    [ "LUMEX_ATOMIC_SMART_PTR_CHECK_LOAD_ORDER", "a00194.html#a6210e9365ae142be6a0511f324aee02d", null ],
-    [ "LUMEX_ATOMIC_SMART_PTR_CHECK_STORE_ORDER", "a00194.html#a4df38d759b3b75a0c2eb43df1680cb61", null ],
-    [ "LUMEX_ATOMIC_SMART_PTR_USES_STD", "a00194.html#af19bd8e04b3f3c9c2e688b87eb4d74b5", null ]
+    [ "lumex::applied::serial::probe::SerialProber::Impl", "a01670.html", "a01670" ]
 ];

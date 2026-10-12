@@ -1,7 +1,7 @@
 var dir_d44df35ae1ff921f3f5bbaddfc0f5b6e =
 [
-    [ "LumexCPUVectorizationCapabilities.cpp", "a00056.html", "a00056" ],
-    [ "LumexCPUVectorizationCapabilities.hpp", "a00059.html", "a00059" ],
-    [ "LumexHardwareCapabilities.cpp", "a00062.html", "a00062" ],
-    [ "LumexHardwareCapabilities.hpp", "a00065.html", "a00065" ]
+    [ "LumexCPUVectorizationCapabilities.cpp", "a00086.html", "a00086" ],
+    [ "LumexCPUVectorizationCapabilities.hpp", "a00089.html", "a00089" ],
+    [ "LumexHardwareCapabilities.cpp", "a00092.html", "a00092" ],
+    [ "LumexHardwareCapabilities.hpp", "a00095.html", "a00095" ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSettingsINI.hpp File Reference</title>
+<title>LumexLib: LumexProcessMonitor.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -107,135 +107,96 @@ $(function(){initNavTree('a00167.html',''); initResizable(true); });
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">LumexSettingsINI.hpp File Reference</div></div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexProcessMonitor.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> over INI files, parsed and written by the library itself.  
+<p>CPU and RAM of single processes, by process ID or by executable name, with the processes they started.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00641_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;unordered_map&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00173_source.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00419_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01196_source.html">lumex/core/expected/Expected</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01214_source.html">lumex/core/optional/LumexOptional</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSettingsINI.hpp:</div>
+Include dependency graph for LumexProcessMonitor.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00168.png" border="0" usemap="#a_lumex_settings_i_n_i_8hpp" alt=""/></div>
-<map name="a_lumex_settings_i_n_i_8hpp" id="a_lumex_settings_i_n_i_8hpp">
-<area shape="rect" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="122,5,273,32"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,179,168,205"/>
-<area shape="poly" title=" " alt="" coords="122,33,79,51,60,64,45,81,38,102,42,124,53,146,66,165,62,168,48,148,37,125,33,101,40,79,56,60,76,46,120,28"/>
-<area shape="rect" title=" " alt="" coords="54,88,164,115"/>
-<area shape="poly" title=" " alt="" coords="185,34,136,80,132,76,182,31"/>
-<area shape="rect" href="a00173.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="189,80,384,123"/>
-<area shape="poly" title=" " alt="" coords="213,31,254,68,251,72,209,34"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="408,80,640,123"/>
-<area shape="poly" title=" " alt="" coords="249,30,425,73,424,78,248,35"/>
-<area shape="poly" title=" " alt="" coords="241,126,130,174,128,169,239,121"/>
-<area shape="rect" title=" " alt="" coords="260,179,313,205"/>
-<area shape="poly" title=" " alt="" coords="289,123,289,163,284,163,284,123"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="427,171,621,213"/>
-<area shape="poly" title=" " alt="" coords="526,123,526,155,521,155,521,123"/>
-</map>
+<div class="center"><img src="a00168.png" border="0" usemap="#a_lumex_process_monitor_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00169.png" border="0" usemap="#a_lumex_settings_i_n_i_8hppdep" alt=""/></div>
-<map name="a_lumex_settings_i_n_i_8hppdep" id="a_lumex_settings_i_n_i_8hppdep">
-<area shape="rect" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="466,5,618,32"/>
-<area shape="rect" href="a00887.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="321,80,430,107"/>
-<area shape="poly" title=" " alt="" coords="500,41,406,82,404,77,498,36"/>
-<area shape="rect" href="a00152.html" title=" " alt="" coords="454,80,630,107"/>
-<area shape="poly" title=" " alt="" coords="545,48,545,80,540,80,540,48"/>
-<area shape="rect" href="a00164.html" title=" " alt="" coords="654,80,806,107"/>
-<area shape="poly" title=" " alt="" coords="590,35,698,77,696,82,588,40"/>
-<area shape="rect" href="a00587.html" title=" " alt="" coords="5,155,154,181"/>
-<area shape="poly" title=" " alt="" coords="309,114,132,157,131,151,308,108"/>
-<area shape="rect" href="a00590.html" title=" " alt="" coords="178,155,357,181"/>
-<area shape="poly" title=" " alt="" coords="346,118,288,156,285,152,343,113"/>
-<area shape="rect" href="a00593.html" title=" " alt="" coords="382,155,588,181"/>
-<area shape="poly" title=" " alt="" coords="409,113,467,152,464,156,406,118"/>
-<area shape="rect" href="a00596.html" title=" " alt="" coords="613,155,789,181"/>
-<area shape="poly" title=" " alt="" coords="446,107,645,152,644,157,445,113"/>
-</map>
+<div class="center"><img src="a00169.png" border="0" usemap="#a_lumex_process_monitor_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00167_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01309.html">lumex::applied::settings::ini::LumexSettingsINI</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lightweight, C++11-based INI settings manager.  <a href="a01309.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01634.html">lumex::applied::resource_monitor::process::process_member_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One process inside a sum: what <a class="el" href="a01638.html#afba7e7c9fe27e350384f39e713d01948">process_usage_t::members</a> lists.  <a href="a01634.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01638.html">lumex::applied::resource_monitor::process::process_usage_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One sample of one process, the sum of a process and the processes below it, or the sum of several (see <a class="el" href="a01283.html#a765661df16a1d68eca933c5943f17427">total</a>).  <a href="a01638.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01642.html">lumex::applied::resource_monitor::process::watch_list_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes to follow: by ID, and by executable name (every process with that name).  <a href="a01642.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01646.html">lumex::applied::resource_monitor::process::LumexProcessMonitor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Samples the CPU and RAM of processes on request.  <a href="a01646.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00949.html">lumex::applied</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01249.html">lumex::applied</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00994.html">lumex::applied::settings</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html">lumex::applied::resource_monitor</a></td></tr>
+<tr class="memdesc:a01277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background system-resource (CPU/RAM) sampling utilities. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00998.html">lumex::applied::settings::ini</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html">lumex::applied::settings::ini::Constants</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01283.html">lumex::applied::resource_monitor::process</a></td></tr>
+<tr class="memdesc:a01283"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPU and RAM of single processes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:aa4b9184a671b4fab21d16ff231591689" id="r_aa4b9184a671b4fab21d16ff231591689"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4b9184a671b4fab21d16ff231591689">LumexSettingsINI</a> = <a class="el" href="a01309.html">lumex::applied::settings::ini::LumexSettingsINI</a></td></tr>
-<tr class="separator:aa4b9184a671b4fab21d16ff231591689"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebb1d3ca32183ed3a945b592f024e2da" id="r_aebb1d3ca32183ed3a945b592f024e2da"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01283.html#aebb1d3ca32183ed3a945b592f024e2da">lumex::applied::resource_monitor::process::process_id_t</a> = std::uint32_t</td></tr>
+<tr class="memdesc:aebb1d3ca32183ed3a945b592f024e2da"><td class="mdescLeft">&#160;</td><td class="mdescRight">A process ID (<code>DWORD</code> on Windows, <code>pid_t</code> on POSIX).  <br /></td></tr>
+<tr class="separator:aebb1d3ca32183ed3a945b592f024e2da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:aa18449bc96f7bd5804e8447c03120e80" id="r_aa18449bc96f7bd5804e8447c03120e80"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html#aa18449bc96f7bd5804e8447c03120e80">lumex::applied::settings::ini::Constants::constINI_FILE_EXTENSION</a> = &quot;.ini&quot;</td></tr>
-<tr class="memdesc:aa18449bc96f7bd5804e8447c03120e80"><td class="mdescLeft">&#160;</td><td class="mdescRight">INI file extension.  <br /></td></tr>
-<tr class="separator:aa18449bc96f7bd5804e8447c03120e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a009497e5f5d3e4d3c76320b3234ea36d" id="r_a009497e5f5d3e4d3c76320b3234ea36d"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html#a009497e5f5d3e4d3c76320b3234ea36d">lumex::applied::settings::ini::Constants::constREGEX_SECTION</a> = &quot;^\\s*\\[([^\\]]+)\\]\\s*$&quot;</td></tr>
-<tr class="memdesc:a009497e5f5d3e4d3c76320b3234ea36d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regex for section headers.  <br /></td></tr>
-<tr class="separator:a009497e5f5d3e4d3c76320b3234ea36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac95d67b8609bff0d7abb6c11ee2fcce7" id="r_ac95d67b8609bff0d7abb6c11ee2fcce7"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html#ac95d67b8609bff0d7abb6c11ee2fcce7">lumex::applied::settings::ini::Constants::constREGEX_KEY_VALUE</a> = &quot;^\\s*([^=\\s]+)\\s*=\\s*(?:\\\&quot;((?:[^\\\&quot;\\\\]|\\\\.)*)\\\&quot;|([^,\&quot;#;]*))\\s*(?:[#;].*)?$&quot;</td></tr>
-<tr class="memdesc:ac95d67b8609bff0d7abb6c11ee2fcce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">pairs.  <br /></td></tr>
-<tr class="separator:ac95d67b8609bff0d7abb6c11ee2fcce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59643899f141f82cbd7f2f5e44178a9b" id="r_a59643899f141f82cbd7f2f5e44178a9b"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html#a59643899f141f82cbd7f2f5e44178a9b">lumex::applied::settings::ini::Constants::UTF8_BOM_SIZE</a> = 3</td></tr>
-<tr class="memdesc:a59643899f141f82cbd7f2f5e44178a9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the UTF-8 BOM in bytes.  <br /></td></tr>
-<tr class="separator:a59643899f141f82cbd7f2f5e44178a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf3415d3845c4ea235f627a3df924205" id="r_adf3415d3845c4ea235f627a3df924205"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html#adf3415d3845c4ea235f627a3df924205">lumex::applied::settings::ini::Constants::UTF8_BOM_0</a> = 0xEF</td></tr>
-<tr class="memdesc:adf3415d3845c4ea235f627a3df924205"><td class="mdescLeft">&#160;</td><td class="mdescRight">First byte of UTF-8 BOM.  <br /></td></tr>
-<tr class="separator:adf3415d3845c4ea235f627a3df924205"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f8ea731325aad3daa70bac3b24be9ee" id="r_a2f8ea731325aad3daa70bac3b24be9ee"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html#a2f8ea731325aad3daa70bac3b24be9ee">lumex::applied::settings::ini::Constants::UTF8_BOM_1</a> = 0xBB</td></tr>
-<tr class="memdesc:a2f8ea731325aad3daa70bac3b24be9ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second byte of UTF-8 BOM.  <br /></td></tr>
-<tr class="separator:a2f8ea731325aad3daa70bac3b24be9ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb9d88a513b1206987f43f086ca6bdf3" id="r_aeb9d88a513b1206987f43f086ca6bdf3"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01000.html#aeb9d88a513b1206987f43f086ca6bdf3">lumex::applied::settings::ini::Constants::UTF8_BOM_2</a> = 0xBF</td></tr>
-<tr class="memdesc:aeb9d88a513b1206987f43f086ca6bdf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Third byte of UTF-8 BOM.  <br /></td></tr>
-<tr class="separator:aeb9d88a513b1206987f43f086ca6bdf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:af49604584ed6aa442796033b29ca03f4" id="r_af49604584ed6aa442796033b29ca03f4"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01283.html#af49604584ed6aa442796033b29ca03f4">lumex::applied::resource_monitor::process::process_query_error</a> : std::uint8_t { <a class="el" href="a01283.html#af49604584ed6aa442796033b29ca03f4a7500611bf7030bc99d25c354e7b64714">lumex::applied::resource_monitor::process::not_found</a>
+, <a class="el" href="a01283.html#af49604584ed6aa442796033b29ca03f4ab24a6ab23d67f96f6a159138102dbe62">lumex::applied::resource_monitor::process::access_denied</a>
+, <a class="el" href="a01283.html#af49604584ed6aa442796033b29ca03f4a4920d79da8527164a88bbeb03c2c698a">lumex::applied::resource_monitor::process::read_failed</a>
+, <a class="el" href="a01283.html#af49604584ed6aa442796033b29ca03f4a723c25877a86786664edc4b643c08a6f">lumex::applied::resource_monitor::process::unsupported</a>
+ }</td></tr>
+<tr class="memdesc:af49604584ed6aa442796033b29ca03f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Why a process could not be sampled.  <a href="a01283.html#af49604584ed6aa442796033b29ca03f4">More...</a><br /></td></tr>
+<tr class="separator:af49604584ed6aa442796033b29ca03f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a765661df16a1d68eca933c5943f17427" id="r_a765661df16a1d68eca933c5943f17427"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01638.html">process_usage_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01283.html#a765661df16a1d68eca933c5943f17427">lumex::applied::resource_monitor::process::total</a> (std::vector&lt; <a class="el" href="a01638.html">process_usage_t</a> &gt; const &amp;usages)</td></tr>
+<tr class="memdesc:a765661df16a1d68eca933c5943f17427"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds samples up, for example every process of one name.  <br /></td></tr>
+<tr class="separator:a765661df16a1d68eca933c5943f17427"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code><a class="el" href="a00173.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> over INI files, parsed and written by the library itself. </p>
-<p>Declares <code><a class="el" href="#aa4b9184a671b4fab21d16ff231591689">LumexSettingsINI</a></code>, which keeps the sections and keys in memory, and the <code>Constants</code> it parses with: the <code>.ini</code> extension, the regular expressions for a <code>[section]</code> header and a <code>key=value</code> line (a value may be quoted, and <code>#</code> or <code>;</code> starts a comment), and the UTF-8 byte order mark. The INI reader needs no other module, so it is the one format the settings factory always provides. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="aa4b9184a671b4fab21d16ff231591689" name="aa4b9184a671b4fab21d16ff231591689"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4b9184a671b4fab21d16ff231591689">&#9670;&#160;</a></span>LumexSettingsINI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#aa4b9184a671b4fab21d16ff231591689">LumexSettingsINI</a> = <a class="el" href="a01309.html">lumex::applied::settings::ini::LumexSettingsINI</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>CPU and RAM of single processes, by process ID or by executable name, with the processes they started. </p>
+<p><code><a class="el" href="a06415.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code> samples processes on request: each sample gives the process's resident and private memory, its total CPU time, and its share of the whole machine's CPU since the monitor's previous sample of the same process. By default the processes below the asked one (its children, their children, ...) are added to the sample, and the breakdown by process can be asked for. Windows and Linux; elsewhere every query reports <code>process_query_error::unsupported</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_780820ccea529b587a25c1a0f8b66936.html">ini</a></li><li class="navelem"><a class="el" href="a00167.html">LumexSettingsINI.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_f9152e2f803c7072c4cc804ced04476e.html">resource_monitor</a></li><li class="navelem"><a class="el" href="dir_7e4aa1d3c3df06d6268652f90de54db3.html">process</a></li><li class="navelem"><a class="el" href="a00167.html">LumexProcessMonitor.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

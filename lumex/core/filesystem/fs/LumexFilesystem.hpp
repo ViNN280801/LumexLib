@@ -64,6 +64,18 @@
  * e.path().string() << std::endl;
  *     }
  *     @endcode
+ *
+ * From C++17, where `<filesystem>` exists, `path` converts implicitly to and
+ * from `std::filesystem::path` and `LUMEX_HAS_STD_PATH_CONVERSION` is 1 (0
+ * otherwise). The conversions are inline member templates that accept exactly
+ * the standard path, so they are not part of the exported interface and the
+ * library built at C++11 serves a C++17 consumer. `==`, `!=`, `<`, `<=`, `>`,
+ * `>=` and `/` between the two classes are constrained templates (a
+ * comparison uses the rules of `path`, `/` yields the type of the left
+ * operand). `std_path = lumex_path;`, `std::filesystem::path p (lumex_path);`
+ * and copy initialization work on every platform and with every supported
+ * compiler, libstdc++ 8 included, because `path` converts to `std::string`
+ * only explicitly (`p.string ()`, `std::string (p)`).
  */
 #ifndef LUMEX_CORE_FILESYSTEM_FS_HPP
 #define LUMEX_CORE_FILESYSTEM_FS_HPP
@@ -103,10 +115,23 @@
 #include <ostream> // std::ostream
 #include <string>  // std::string, std::wstring
 #include <vector>  // std::vector
+#if __cplusplus >= 201703L
+#include <type_traits> // std::enable_if, std::is_same
+#endif
 
 #include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/compiler/LumexCheckFeatures.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+// The conversions to and from std::filesystem::path exist where the standard
+// library has <filesystem> (C++17); the header itself stays C++11.
+#if __cplusplus >= 201703L && LUMEX_HAS_STD_FILESYSTEM
+#define LUMEX_HAS_STD_PATH_CONVERSION 1
+#include <filesystem>
+#else
+#define LUMEX_HAS_STD_PATH_CONVERSION 0
+#endif
 
 // C++11 compatible nested namespaces
 namespace lumex // NOLINT(modernize-concat-nested-namespaces)
@@ -150,6 +175,16 @@ LUMEX_CONST_STR KTEMPORARY_FILE_SUFFIX = ".tmp";
 
 // Forward declarations
 class path;
+#if LUMEX_HAS_STD_PATH_CONVERSION
+namespace detail
+{
+// Defined after lumex_filesystem, which the Windows conversion needs. The
+// calls are qualified names with dependent arguments, so they are resolved
+// when a conversion is instantiated.
+template <class StdPath> path path_from_standard (StdPath const &source);
+template <class StdPath> StdPath path_to_standard (path const &source);
+} // namespace detail
+#endif
 class directory_entry;
 class directory_iterator;
 class file_status;
@@ -633,6 +668,26 @@ public:
    * @return A reference to the modified `*this` object.
    */
   path &operator/= (char const *path_arg);
+#if LUMEX_HAS_STD_PATH_CONVERSION
+  /**
+   * @brief Appends a `std::filesystem::path` as a sub-path (C++17).
+   * @details Exact for the standard path, so the call is not ambiguous
+   * between the overloads for `path` and for `std::string` that the standard
+   * path converts to.
+   * @tparam StdPath Only `std::filesystem::path` is accepted.
+   * @param path_arg The path to append.
+   * @return A reference to the modified `*this` object.
+   */
+  template <class StdPath,
+            typename std::enable_if<
+                std::is_same<StdPath, std::filesystem::path>::value, int>::type
+            = 0>
+  path &
+  operator/= (StdPath const &path_arg)
+  {
+    return *this /= path (path_arg);
+  }
+#endif
 
   /**
    * @brief Concatenates another `path_arg` object directly to the end of the
@@ -663,6 +718,23 @@ public:
    * @return A reference to the modified `*this` object.
    */
   path &operator+= (value_type chr);
+#if LUMEX_HAS_STD_PATH_CONVERSION
+  /**
+   * @brief Concatenates a `std::filesystem::path` directly (C++17).
+   * @tparam StdPath Only `std::filesystem::path` is accepted.
+   * @param path_arg The path to append.
+   * @return A reference to the modified `*this` object.
+   */
+  template <class StdPath,
+            typename std::enable_if<
+                std::is_same<StdPath, std::filesystem::path>::value, int>::type
+            = 0>
+  path &
+  operator+= (StdPath const &path_arg)
+  {
+    return *this += path (path_arg);
+  }
+#endif
 
   // =================== Modifiers ===================
   /**
@@ -769,10 +841,64 @@ public:
     return m_path.c_str ();
   }
   /**
-   * @brief Implicit conversion to `std::string`.
+   * @brief Explicit conversion to `std::string`.
+   * @details Explicit since 2.0.0.0: an implicit conversion to a string made
+   * `std_path = lumex_path;` ambiguous on POSIX and, with libstdc++ 8, every
+   * direct initialization of a `std::filesystem::path` from a `path`. Write
+   * `p.string ()`, `std::string (p)` or `static_cast<std::string> (p)`; a
+   * `std::string` still converts to a `path` implicitly.
    * @return A copy of the internal path string.
    */
-  operator string_type () const { return m_path; }
+  explicit
+  operator string_type () const
+  {
+    return m_path;
+  }
+
+#if LUMEX_HAS_STD_PATH_CONVERSION
+  // =================== std::filesystem::path (C++17) ===================
+  /**
+   * @brief Implicit conversion to `std::filesystem::path` (C++17).
+   * @details A member template that accepts exactly `std::filesystem::path`.
+   * A template is instantiated by its user and is never part of the exported
+   * interface of this class, so the library built at C++11 serves a C++17
+   * consumer. The characters are kept as they are: the narrow path is UTF-8
+   * and is the native narrow string of `std::filesystem::path` on POSIX; on
+   * Windows the conversion goes through `wstring()`.
+   * @tparam StdPath Deduced from the target; only `std::filesystem::path` is
+   * accepted.
+   * @return A `std::filesystem::path` with the same path.
+   */
+  template <class StdPath,
+            typename std::enable_if<
+                std::is_same<StdPath, std::filesystem::path>::value,
+                int>::type
+            = 0>
+  operator StdPath () const // NOLINT(google-explicit-constructor)
+  {
+    return detail::path_to_standard<StdPath> (*this);
+  }
+
+  /**
+   * @brief Implicit construction from a `std::filesystem::path` (C++17).
+   * @details A constructor template that accepts exactly
+   * `std::filesystem::path`, inline and never exported. It is the better
+   * match than the constructor from `std::string` that the standard path
+   * would reach through its own conversion to a string on POSIX.
+   * @tparam StdPath Deduced from the argument; only `std::filesystem::path`
+   * is accepted.
+   * @param source The standard path to copy.
+   */
+  template <class StdPath,
+            typename std::enable_if<
+                std::is_same<StdPath, std::filesystem::path>::value,
+                int>::type
+            = 0>
+  path (StdPath const &source) // NOLINT(google-explicit-constructor)
+      : path (detail::path_from_standard (source))
+  {
+  }
+#endif
 
   // Generic format observers
   /**
@@ -786,6 +912,11 @@ public:
   }
   /**
    * @brief Converts and returns the path as a `std::wstring`.
+   * @details The narrow path is read as UTF-8 and written as UTF-16 where
+   * `wchar_t` has 2 bytes (Windows) and as UTF-32 where it has 4. The
+   * conversion is `lumex::core::unicode::convert::to_wide`: it does not depend
+   * on the C locale, and a byte that does not start a complete UTF-8 sequence
+   * is skipped.
    * @return A `std::wstring` representation of the path.
    */
   std::wstring wstring () const;
@@ -1059,7 +1190,7 @@ public:
    * @brief Constructs a `directory_entry` from a `path`.
    * @param path_arg The path object representing the directory entry.
    */
-  explicit directory_entry (fs::path const &);
+  explicit directory_entry (fs::path const &path_arg);
 
   /**
    * @brief Retrieves the path of this directory entry.
@@ -1356,54 +1487,54 @@ public:
    * @param path_arg The `path_arg` object representing the file or directory.
    * @return True if the file or directory exists, false otherwise.
    */
-  static bool exists (path const &);
+  static bool exists (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a regular file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg exists and refers to a regular file, false
    * otherwise.
    */
-  static bool is_regular_file (path const &);
+  static bool is_regular_file (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a directory.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg exists and refers to a directory, false
    * otherwise.
    */
-  static bool is_directory (path const &);
+  static bool is_directory (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a symbolic link.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a symbolic link, false otherwise.
    */
-  static bool is_symlink (path const &);
+  static bool is_symlink (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a block device file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a block device file, false
    * otherwise.
    */
-  static bool is_block_file (path const &);
+  static bool is_block_file (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a character device file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a character device file, false
    * otherwise.
    */
-  static bool is_character_file (path const &);
+  static bool is_character_file (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a FIFO (named pipe)
    * file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a FIFO file, false otherwise.
    */
-  static bool is_fifo (path const &);
+  static bool is_fifo (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a socket file.
    * @param path_arg The `path_arg` object representing the file system entry.
    * @return True if the path_arg refers to a socket file, false otherwise.
    */
-  static bool is_socket (path const &);
+  static bool is_socket (path const &path_arg);
   /**
    * @brief Checks if the specified path_arg refers to a file type other than
    * regular file or directory.
@@ -1411,14 +1542,14 @@ public:
    * @return True if the path_arg exists and is neither a regular file nor a
    * directory, false otherwise.
    */
-  static bool is_other (path const &);
+  static bool is_other (path const &path_arg);
   /**
    * @brief Checks if a file is empty or a directory is empty.
    * @param path_arg The `path_arg` object representing the file or directory.
    * @return True if the path_arg exists and refers to an empty file (size 0)
    * or an empty directory, false otherwise.
    */
-  static bool is_empty (path const &);
+  static bool is_empty (path const &path_arg);
 
   // =================== File operations ===================
   /**
@@ -1430,7 +1561,7 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> copy (path const &, path const &);
+  static filesystem_result<void> copy (path const &from, path const &to_);
 
   /**
    * @brief Copies a single file from one location to another.
@@ -1439,7 +1570,7 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> copy_file (path const &, path const &);
+  static filesystem_result<void> copy_file (path const &from, path const &to_);
 
   /**
    * @brief Creates a new symbolic link `to_` that points to `from`.
@@ -1450,7 +1581,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> copy_symlink (path const &, path const &);
+  static filesystem_result<void> copy_symlink (path const &from,
+                                               path const &to_);
 
   /**
    * @brief Creates a new directory at the specified path.
@@ -1459,7 +1591,7 @@ public:
    * @return A `filesystem_result<bool>`: `ok(true)` if created, `ok(false)` if
    * already exists, `err` on failure.
    */
-  static filesystem_result<bool> create_directory (path const &);
+  static filesystem_result<bool> create_directory (path const &path_arg);
 
   /**
    * @brief Creates all directories in the specified path_arg, including any
@@ -1469,7 +1601,7 @@ public:
    * @return A `filesystem_result<bool>`: `ok(true)` if created, `ok(false)` if
    * all existed, `err` on failure.
    */
-  static filesystem_result<bool> create_directories (path const &);
+  static filesystem_result<bool> create_directories (path const &path_arg);
 
   /**
    * @brief Creates a new symbolic link `link` that points to `target`.
@@ -1480,7 +1612,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> create_symlink (path const &, path const &);
+  static filesystem_result<void> create_symlink (path const &target,
+                                                 path const &link);
 
   /**
    * @brief Creates a new symbolic link `link` that points to a directory
@@ -1492,8 +1625,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> create_directory_symlink (path const &,
-                                                           path const &);
+  static filesystem_result<void> create_directory_symlink (path const &target,
+                                                           path const &link);
 
   /**
    * @brief Retrieves the current working directory.
@@ -1509,7 +1642,7 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> current_path (path const &);
+  static filesystem_result<void> current_path (path const &path_arg);
 
   /**
    * @brief Checks if two paths refer to the same file system entity.
@@ -1525,7 +1658,7 @@ public:
    * @return A `filesystem_result<std::uintmax_t>`: `ok(size)` on success,
    * `err` on failure.
    */
-  static filesystem_result<std::uintmax_t> file_size (path const &);
+  static filesystem_result<std::uintmax_t> file_size (path const &path_arg);
 
   /**
    * @brief Retrieves the last write time of a file or directory.
@@ -1533,7 +1666,7 @@ public:
    * @return A `filesystem_result<std::time_t>`: `ok(time)` on success, `err`
    * on failure.
    */
-  static filesystem_result<std::time_t> last_write_time (path const &);
+  static filesystem_result<std::time_t> last_write_time (path const &path_arg);
 
   /**
    * @brief Sets the last write time of a file or directory.
@@ -1542,7 +1675,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> last_write_time (path const &, std::time_t);
+  static filesystem_result<void> last_write_time (path const &path_arg,
+                                                  std::time_t new_time);
 
   /**
    * @brief Sets the permissions of a file or directory.
@@ -1552,7 +1686,8 @@ public:
    * on failure.
    */
 
-  static filesystem_result<void> permissions (path const &, perms);
+  static filesystem_result<void> permissions (path const &path_arg,
+                                              perms prms);
   /**
    * @brief Reads the target of a symbolic link.
    * @param path_arg The `path_arg` object representing the symbolic link.
@@ -1560,7 +1695,7 @@ public:
    * on failure.
    */
 
-  static filesystem_result<path> read_symlink (path const &);
+  static filesystem_result<path> read_symlink (path const &path_arg);
 
   /**
    * @brief Removes a file or an empty directory at the specified path_arg.
@@ -1569,7 +1704,7 @@ public:
    * @return A `filesystem_result<bool>`: `ok(true)` if removed, `ok(false)` if
    * not found, `err` on failure.
    */
-  static filesystem_result<bool> remove (path const &);
+  static filesystem_result<bool> remove (path const &path_arg);
 
   /**
    * @brief Recursively removes a file or a directory and all its contents.
@@ -1578,7 +1713,7 @@ public:
    * @return A `filesystem_result<std::uintmax_t>`: `ok(count)` of removed
    * items, `err` on failure.
    */
-  static filesystem_result<std::uintmax_t> remove_all (path const &);
+  static filesystem_result<std::uintmax_t> remove_all (path const &path_arg);
 
   /**
    * @brief Renames or moves a file or directory.
@@ -1588,7 +1723,7 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> rename (path const &, path const &);
+  static filesystem_result<void> rename (path const &from, path const &to_);
 
   /**
    * @brief Replaces the content of a file without ever leaving it truncated.
@@ -1623,7 +1758,8 @@ public:
    * @return A `filesystem_result<void>`: `ok()` on success, `err(error_code)`
    * on failure.
    */
-  static filesystem_result<void> resize_file (path const &, std::uintmax_t);
+  static filesystem_result<void> resize_file (path const &path_arg,
+                                              std::uintmax_t new_size);
 
   /**
    * @brief Moves a file from one location to another.
@@ -1655,7 +1791,7 @@ public:
    * @return A `filesystem_result<space_info>`: `ok(space_info)` on success,
    * `err` on failure.
    */
-  static filesystem_result<space_info> space (path const &);
+  static filesystem_result<space_info> space (path const &path_arg);
 
   /**
    * @brief Returns the status of the file or directory at the specified
@@ -1663,7 +1799,7 @@ public:
    * @param path_arg The `path_arg` object of the file or directory.
    * @return A `filesystem_result<file_status>` containing the file status.
    */
-  static filesystem_result<file_status> status (path const &);
+  static filesystem_result<file_status> status (path const &path_arg);
 
   /**
    * @brief Returns the status of the file or directory at the specified
@@ -1671,7 +1807,7 @@ public:
    * @param path_arg The `path_arg` object of the file or directory.
    * @return A `filesystem_result<file_status>` containing the file status.
    */
-  static filesystem_result<file_status> symlink_status (path const &);
+  static filesystem_result<file_status> symlink_status (path const &path_arg);
 
   /**
    * @brief Retrieves the path_arg to the system's temporary directory.
@@ -1682,17 +1818,27 @@ public:
 
   /**
    * @brief Converts a `std::string` (UTF-8 encoded) to a `std::wstring`.
+   * @details The same on every platform and in every C locale
+   * (`lumex::core::unicode::convert::to_wide`; UTF-16 where `wchar_t` has 2
+   * bytes, UTF-32 where it has 4). Invalid input is not an error: a byte that
+   * does not start a complete UTF-8 sequence is skipped, whereas
+   * `MultiByteToWideChar` writes U+FFFD for it.
    * @param str The `std::string` to convert.
    * @return A `std::wstring` representation.
    */
-  static std::wstring to_wide_string (std::string const &);
+  static std::wstring to_wide_string (std::string const &str);
 
   /**
    * @brief Converts a `std::wstring` to a `std::string` (UTF-8 encoded).
+   * @details The same on every platform and in every C locale
+   * (`lumex::core::unicode::convert::to_utf8`). Invalid input is not an
+   * error: a unit that cannot be decoded (an unpaired surrogate where
+   * `wchar_t` has 2 bytes) is skipped, whereas `WideCharToMultiByte` writes
+   * U+FFFD for it.
    * @param wstr The `std::wstring` to convert.
    * @return A `std::string` representation.
    */
-  static std::string from_wide_string (std::wstring const &);
+  static std::string from_wide_string (std::wstring const &wstr);
 
   // =================== path operations ===================
   /**
@@ -1700,21 +1846,21 @@ public:
    * @param path_arg The `path_arg` object to convert.
    * @return An absolute `path_arg` object.
    */
-  static path absolute (path const &);
+  static path absolute (path const &path_arg);
 
   /**
    * @brief Returns the canonical (absolute, resolved) form of a path_arg.
    * @param path_arg The `path_arg` object to canonicalize.
    * @return A canonical `path_arg` object.
    */
-  static path canonical (path const &);
+  static path canonical (path const &path_arg);
 
   /**
    * @brief Returns the weakly canonical form of a path_arg.
    * @param path_arg The `path_arg` object to process.
    * @return A weakly canonical `path_arg` object.
    */
-  static path weakly_canonical (path const &);
+  static path weakly_canonical (path const &path_arg);
 
   /**
    * @brief Constructs a relative path_arg from `path_arg` to `base`.
@@ -1722,7 +1868,7 @@ public:
    * @param base The `path_arg` object to make `path_arg` relative to.
    * @return A `path_arg` object representing the relative path_arg.
    */
-  static path relative (path const &, path const &);
+  static path relative (path const &path_arg, path const &base);
 
   /**
    * @brief Constructs a proximate path_arg from `path_arg` to `base`.
@@ -1730,7 +1876,7 @@ public:
    * @param base The `path_arg` object to make `path_arg` proximate to.
    * @return A `path_arg` object representing the proximate path_arg.
    */
-  static path proximate (path const &, path const &);
+  static path proximate (path const &path_arg, path const &base);
 
   // =================== Convenience directory iteration ===================
   /**
@@ -1739,7 +1885,8 @@ public:
    * @param path_arg The `path_arg` object representing the directory.
    * @return A `std::vector` of `directory_entry` objects.
    */
-  static std::vector<directory_entry> directory_contents (path const &);
+  static std::vector<directory_entry>
+  directory_contents (path const &path_arg);
 
   /**
    * @brief Retrieves a vector of all `path_arg` objects within the specified
@@ -1748,7 +1895,8 @@ public:
    * @return A `filesystem_result<std::vector<path>>` containing paths of all
    * entries, or an error.
    */
-  static filesystem_result<std::vector<path>> directory_paths (path const &);
+  static filesystem_result<std::vector<path>>
+  directory_paths (path const &path_arg);
 
   // =================== Custom own methods (not from standard)
   // ===================
@@ -2026,6 +2174,276 @@ operator/ (char const *lhs, path const &rhs)
 {
   return path (lhs) / rhs;
 }
+
+#if LUMEX_HAS_STD_PATH_CONVERSION
+// =================== std::filesystem::path (C++17) ===================
+// The two path classes convert to each other, so an operator with one of each
+// would be ambiguous between the operators of this library and those of the
+// standard library (and, for `/`, between the overloads for `path` and for
+// `std::string`, which the standard path converts to on POSIX). These
+// templates accept exactly `std::filesystem::path` and are the better match.
+namespace detail
+{
+/// @brief Builds a `path` from a `std::filesystem::path` (see `path`).
+template <class StdPath>
+inline path
+path_from_standard (StdPath const &source)
+{
+#if defined(LUMEX_OS_WINDOWS)
+  return path (lumex_filesystem::from_wide_string (source.wstring ()));
+#else
+  return path (source.string ());
+#endif
+}
+
+/// @brief Builds a `std::filesystem::path` from a `path` (see `path`).
+template <class StdPath>
+inline StdPath
+path_to_standard (path const &source)
+{
+#if defined(LUMEX_OS_WINDOWS)
+  return StdPath (source.wstring ());
+#else
+  return StdPath (source.string ());
+#endif
+}
+} // namespace detail
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs == rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator== (path const &lhs, StdPath const &rhs)
+{
+  return lhs == path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs == rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator== (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) == rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs != rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is not equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator!= (path const &lhs, StdPath const &rhs)
+{
+  return lhs != path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs != rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is not equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator!= (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) != rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs < rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is less than the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator< (path const &lhs, StdPath const &rhs)
+{
+  return lhs < path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs < rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is less than the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator< (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) < rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs <= rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is less than or equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator<= (path const &lhs, StdPath const &rhs)
+{
+  return lhs <= path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs <= rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is less than or equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator<= (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) <= rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs > rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is greater than the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator> (path const &lhs, StdPath const &rhs)
+{
+  return lhs > path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs > rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is greater than the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator> (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) > rhs;
+}
+
+/**
+ * @brief Compares a `path` with a `std::filesystem::path`: `lhs >= rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is greater than or equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator>= (path const &lhs, StdPath const &rhs)
+{
+  return lhs >= path (rhs);
+}
+
+/**
+ * @brief Compares a `std::filesystem::path` with a `path`: `lhs >= rhs`.
+ * @details The standard path is converted to a `path` and the comparison is
+ * the one of this library, in both orders of the operands.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return `true` if the left path is greater than or equal to the right one.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline bool
+operator>= (StdPath const &lhs, path const &rhs)
+{
+  return path (lhs) >= rhs;
+}
+
+/**
+ * @brief Concatenation of a `path` and a `std::filesystem::path`: `lhs / rhs`.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return A `path`: the result has the type of the left operand.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline path
+operator/ (path const &lhs, StdPath const &rhs)
+{
+  return lhs / path (rhs);
+}
+
+/**
+ * @brief Concatenation of a `std::filesystem::path` and a `path`: `lhs / rhs`.
+ * @tparam StdPath Only `std::filesystem::path` is accepted.
+ * @return A `std::filesystem::path`: the result has the type of the left
+ * operand, and the standard `/` does the concatenation.
+ */
+template <class StdPath,
+          typename std::enable_if<
+              std::is_same<StdPath, std::filesystem::path>::value, int>::type
+          = 0>
+inline StdPath
+operator/ (StdPath const &lhs, path const &rhs)
+{
+  return lhs / detail::path_to_standard<StdPath> (rhs);
+}
+#endif
 
 /**
  * @brief Checks if a file exists at the specified path

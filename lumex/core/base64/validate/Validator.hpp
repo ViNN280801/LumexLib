@@ -45,8 +45,9 @@
  * Base64 without decoding it: alphabet characters followed by at most two `=`,
  * with or without padding. The pointer and size overload is compiled into the
  * library and has the same signature in every C++ standard; the string
- * overload is an inline wrapper over it (`std::string_view` from C++17, the
- * `lumex_string_view` of `lumex::string_view` below). Like the other Base64
+ * overload is an inline wrapper over it (it takes the `lumex_string_view` of
+ * `lumex::string_view` in every standard; a `std::string_view` converts to
+ * it). Like the other Base64
  * headers, it brings the names of the codec's `Types` namespace into the
  * global namespace with a using-directive.
  */
@@ -100,9 +101,9 @@ using namespace lumex::core::base64::codec::Types;
  * @brief Base64 syntax check.
  * @details The pointer and size overload is exported and has the same
  * signature in every C++ standard; the string overload is an inline wrapper
- * over it (`string_type_t` is `std::string_view` from C++17 and
- * `lumex_string_view` below; a string literal, a `char const *` and a
- * `std::string` convert to either). The class itself is not exported: a
+ * over it (`string_type_t` is `lumex_string_view` in every standard; a
+ * string literal, a `char const *`, a `std::string` and, from C++17, a
+ * `std::string_view` convert to it). The class itself is not exported: a
  * dllimport class makes clang-cl emit an import for an inline member it
  * does not inline, and the library does not provide the standard-dependent
  * overload.

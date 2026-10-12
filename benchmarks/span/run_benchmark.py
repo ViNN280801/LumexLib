@@ -63,10 +63,11 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 # Order of the variants in tables and charts.
-VARIANT_ORDER = ["lumex_cxx11", "lumex_cxx20", "std_cxx20", "boost_cxx11",
+VARIANT_ORDER = ["lumex_cxx11", "lumex_cxx20", "lumex_checks_cxx11",
+                 "lumex_checks_cxx20", "std_cxx20", "boost_cxx11",
                  "boost_cxx20"]
 DEFAULT_BOOST = "/opt/boost-1.92.0/include"
-IMPL_IDS = {"lumex": 1, "std": 2, "boost": 3}
+IMPL_IDS = {"lumex": 1, "std": 2, "boost": 3}  # lumex_checks is 4
 
 
 def log(message):

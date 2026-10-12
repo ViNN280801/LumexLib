@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::string::text::Detail Namespace Reference</title>
+<title>LumexLib: XPathAllocator.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,60 +104,36 @@ $(function(){initNavTree('a01067.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::string::text::Detail Namespace Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XPathAllocator.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a32d6d763661d76d87d32100556e13793" id="r_a32d6d763661d76d87d32100556e13793"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
-<tr class="memitem:a32d6d763661d76d87d32100556e13793"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a02669.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a02629.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a32d6d763661d76d87d32100556e13793">quote_each</a> (Range const &amp;range, Separator const &amp;separator, char mark)</td></tr>
-<tr class="memdesc:a32d6d763661d76d87d32100556e13793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joins <code>range</code>, wrapping each element (converted to <code>std::string const &amp;</code>) in <code>mark</code>.  <br /></td></tr>
-<tr class="separator:a32d6d763661d76d87d32100556e13793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01070_source.html">XPathAllocator.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XPathAllocator.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01068.png" border="0" usemap="#a_x_path_allocator_8cpp" alt=""/></div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a32d6d763661d76d87d32100556e13793" name="a32d6d763661d76d87d32100556e13793"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32d6d763661d76d87d32100556e13793">&#9670;&#160;</a></span>quote_each()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Range, typename Separator&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a02669.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a02629.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type lumex::core::string::text::Detail::quote_each </td>
-          <td>(</td>
-          <td class="paramtype">Range const &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Separator const &amp;</td>          <td class="paramname"><span class="paramname"><em>separator</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char</td>          <td class="paramname"><span class="paramname"><em>mark</em></span>&#160;)</td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Joins <code>range</code>, wrapping each element (converted to <code>std::string const &amp;</code>) in <code>mark</code>. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01067_a32d6d763661d76d87d32100556e13793_icgraph.png" border="0" usemap="#aa01067_a32d6d763661d76d87d32100556e13793_icgraph" alt=""/></div>
-<map name="aa01067_a32d6d763661d76d87d32100556e13793_icgraph" id="aa01067_a32d6d763661d76d87d32100556e13793_icgraph">
-<area shape="rect" title="Joins range, wrapping each element (converted to std::string const &amp;) in mark." alt="" coords="370,39,538,81"/>
-<area shape="rect" href="a01066.html#aae6445322407323613ef63ab3d415d0e" title="join with every element wrapped in double quotes (&quot;element&quot;), C++11 to C++17." alt="" coords="191,5,320,48"/>
-<area shape="poly" title=" " alt="" coords="355,46,320,40,321,35,356,41"/>
-<area shape="rect" href="a01066.html#a9bf415e00fbac5e4e52b81fe02659546" title="join with every element wrapped in single quotes (‘&#39;element’`), C++11 to C++17." alt="" coords="190,72,322,115"/>
-<area shape="poly" title=" " alt="" coords="355,79,323,85,322,80,354,74"/>
-<area shape="rect" href="a01066.html#a151d3e147d42afb9d3c34da8b1386821" title="Same as quote; named for symmetry with quote_single." alt="" coords="5,5,142,48"/>
-<area shape="poly" title=" " alt="" coords="176,29,142,29,142,24,176,24"/>
-</map>
-</div>
 
 </div>
 </div>
@@ -166,7 +142,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01065.html">string</a></li><li class="navelem"><a class="el" href="a01066.html">text</a></li><li class="navelem"><a class="el" href="a01067.html">Detail</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_19857d72d820dc03d02d27eca0dc23fe.html">memory</a></li><li class="navelem"><a class="el" href="a01067.html">XPathAllocator.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

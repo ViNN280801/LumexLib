@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexXml Source File</title>
+<title>LumexLib: XmlAttributeBase.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00944_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexXml</div></div>
+  <div class="headertitle"><div class="title">XmlAttributeBase.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00944.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,67 +145,147 @@ $(function(){initNavTree('a00944_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#ifndef LUMEX_XML_HPP</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#define LUMEX_XML_HPP</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">// Core XML classes</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &quot;<a class="code" href="a00647.html">attribute/XmlAttribute.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#include &quot;<a class="code" href="a00665.html">document/XmlDocument.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#include &quot;<a class="code" href="a00692.html">node/XmlNode.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#include &quot;<a class="code" href="a00722.html">text/XmlText.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="comment">// XML Writer interface and implementations</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#include &quot;<a class="code" href="a00740.html">writer/IXmlWriter.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#include &quot;<a class="code" href="a00752.html">writer/XmlWriterFile.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#include &quot;<a class="code" href="a00758.html">writer/XmlWriterStream.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">// Parsing results</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#include &quot;<a class="code" href="a00716.html">text/XmlParseResult.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment">// XPath related classes</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#include &quot;<a class="code" href="a00779.html">xpath/exception/XPathException.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#include &quot;<a class="code" href="a00800.html">xpath/node/XPathNode.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#include &quot;<a class="code" href="a00806.html">xpath/node/XPathNodeSet.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#include &quot;<a class="code" href="a00836.html">xpath/query/XPathQuery.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#include &quot;<a class="code" href="a00854.html">xpath/variable/XPathVariable.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#include &quot;<a class="code" href="a00860.html">xpath/variable/XPathVariableSet.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment">// Common types and constants</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#include &quot;<a class="code" href="a00659.html">constants/XmlConstants.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#include &quot;<a class="code" href="a00728.html">types/XmlTypes.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#include &quot;<a class="code" href="a00767.html">xpath/constants/XPathConstants.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment">// While not strictly necessary for every public function, these provide</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment">// fundamental utilities that might be exposed or used by exported classes.</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#include &quot;<a class="code" href="a00731.html">utility/XmlCleaner.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#include &quot;<a class="code" href="a00737.html">utility/XmlUtils.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_HPP</span></div>
-<div class="ttc" id="aa00647_html"><div class="ttname"><a href="a00647.html">XmlAttribute.hpp</a></div><div class="ttdoc">XmlAttribute, the handle to one attribute of an element: read its name and value, convert the value t...</div></div>
-<div class="ttc" id="aa00659_html"><div class="ttname"><a href="a00659.html">XmlConstants.hpp</a></div><div class="ttdoc">Constants of the XML module: parse and format option flags, the masks of the node and attribute heade...</div></div>
-<div class="ttc" id="aa00665_html"><div class="ttname"><a href="a00665.html">XmlDocument.hpp</a></div><div class="ttdoc">XmlDocument, the owner of an XML tree: loading from files, streams, strings and memory buffers,...</div></div>
-<div class="ttc" id="aa00692_html"><div class="ttname"><a href="a00692.html">XmlNode.hpp</a></div><div class="ttdoc">XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes...</div></div>
-<div class="ttc" id="aa00716_html"><div class="ttname"><a href="a00716.html">XmlParseResult.hpp</a></div><div class="ttdoc">xml_parse_result_t, the outcome of loading XML or appending a fragment, and the internal entry point ...</div></div>
-<div class="ttc" id="aa00722_html"><div class="ttname"><a href="a00722.html">XmlText.hpp</a></div><div class="ttdoc">XmlText, typed access to the text content of a node.</div></div>
-<div class="ttc" id="aa00728_html"><div class="ttname"><a href="a00728.html">XmlTypes.hpp</a></div><div class="ttdoc">The basic types and enumerations of the XML module: character and string types, node types,...</div></div>
-<div class="ttc" id="aa00731_html"><div class="ttname"><a href="a00731.html">XmlCleaner.hpp</a></div><div class="ttdoc">XmlCleaner, a scope guard that frees a pointer with a given deleter function unless it is released.</div></div>
-<div class="ttc" id="aa00737_html"><div class="ttname"><a href="a00737.html">XmlUtils.hpp</a></div><div class="ttdoc">Header-only helpers of the XML implementation: transcoding, encoding detection, conversions between t...</div></div>
-<div class="ttc" id="aa00740_html"><div class="ttname"><a href="a00740.html">IXmlWriter.hpp</a></div><div class="ttdoc">IXmlWriter, the output interface that XML serialization writes bytes to.</div></div>
-<div class="ttc" id="aa00752_html"><div class="ttname"><a href="a00752.html">XmlWriterFile.hpp</a></div><div class="ttdoc">XmlWriterFile, an IXmlWriter that writes to a C FILE stream opened by the caller.</div></div>
-<div class="ttc" id="aa00758_html"><div class="ttname"><a href="a00758.html">XmlWriterStream.hpp</a></div><div class="ttdoc">XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream.</div></div>
-<div class="ttc" id="aa00767_html"><div class="ttname"><a href="a00767.html">XPathConstants.hpp</a></div><div class="ttdoc">Size limits and alignment of the XPath engine.</div></div>
-<div class="ttc" id="aa00779_html"><div class="ttname"><a href="a00779.html">XPathException.hpp</a></div><div class="ttdoc">XPathException, thrown when an XPath expression cannot be compiled, or is evaluated as a node set alt...</div></div>
-<div class="ttc" id="aa00800_html"><div class="ttname"><a href="a00800.html">XPathNode.hpp</a></div><div class="ttdoc">XPathNode, an item of an XPath result: either an XML node or an attribute together with its element.</div></div>
-<div class="ttc" id="aa00806_html"><div class="ttname"><a href="a00806.html">XPathNodeSet.hpp</a></div><div class="ttdoc">XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while...</div></div>
-<div class="ttc" id="aa00836_html"><div class="ttname"><a href="a00836.html">XPathQuery.hpp</a></div><div class="ttdoc">XPathQuery, a compiled XPath expression that can be evaluated many times, and its private implementat...</div></div>
-<div class="ttc" id="aa00854_html"><div class="ttname"><a href="a00854.html">XPathVariable.hpp</a></div><div class="ttdoc">XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea...</div></div>
-<div class="ttc" id="aa00860_html"><div class="ttname"><a href="a00860.html">XPathVariableSet.hpp</a></div><div class="ttdoc">XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par...</div></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#ifndef LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_BASE_HPP</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#define LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_BASE_HPP</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#if defined(__clang__)</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#pragma clang diagnostic push</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wpadded&quot;</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage&quot;</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#if __has_warning(&quot;-Wunsafe-buffer-usage-in-libc-call&quot;)</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage-in-libc-call&quot;</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wswitch-enum&quot;</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#if __has_warning(&quot;-Wnrvo&quot;)</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wnrvo&quot;</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wheader-hygiene&quot;</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wused-but-marked-unused&quot;</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-var-template&quot;</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wdeprecated-redundant-constexpr-static-def&quot;</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#if __has_warning(&quot;-Wvariadic-macro-arguments-omitted&quot;)</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wvariadic-macro-arguments-omitted&quot;</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunused-result&quot;</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wextra-semi-stmt&quot;</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexpansion-to-defined&quot;</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexit-time-destructors&quot;</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-func-template&quot;</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wfloat-equal&quot;</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#include &quot;<a class="code" href="a00932.html">lumex/LumexExport.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#include &quot;<a class="code" href="a00968.html">lumex/xml/memory/XmlAllocator.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#include &quot;<a class="code" href="a00974.html">lumex/xml/memory/XmlMemoryPage.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01248.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>{</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01492.html">xml</a></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>{</div>
+<div class="foldopen" id="foldopen00095" data-start="{" data-end="}">
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="a01495.html">   95</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01495.html">node</a></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>{</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="keyword">struct </span><a class="code hl_struct" href="a04982.html">XmlNodeBase</a>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>}</div>
+</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01493.html">attribute</a></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>{</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01500.html">lumex::xml::memory</a>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01507.html">lumex::xml::types</a>;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01508.html">lumex::xml::types::Types</a>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
+<div class="foldopen" id="foldopen00116" data-start="{" data-end="};">
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="a04942.html">  116</a></span><span class="keyword">struct </span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_function" href="a04942.html#ab6ccf1b0050f9ee4fdb03f9280225d94">XmlAttributeBase</a></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>{</div>
+<div class="foldopen" id="foldopen00126" data-start="{" data-end="}">
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="a04942.html#ab6ccf1b0050f9ee4fdb03f9280225d94">  126</a></span>  <a class="code hl_function" href="a04942.html#ab6ccf1b0050f9ee4fdb03f9280225d94">XmlAttributeBase</a> (<a class="code hl_struct" href="a04962.html">XmlMemoryPage</a> *page)</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  {</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <a class="code hl_variable" href="a04942.html#ae18d67ec445f1179b1034b4c0ccb8dd2">header</a> = <a class="code hl_define" href="a01019.html#a329b1c53e66ebee947f7b4b82656ad04">LUMEX_XML_GETHEADER_IMPL</a> (</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="keyword">this</span>, page, 0); <span class="comment">// NOLINT(cppcoreguidelines-prefer-member-initializer)</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  }</div>
+</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="a04942.html#ae18d67ec445f1179b1034b4c0ccb8dd2">  140</a></span>  uintptr_t <a class="code hl_variable" href="a04942.html#ae18d67ec445f1179b1034b4c0ccb8dd2">header</a>; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="a04942.html#a4e4aa56391a38168c0b3d007c9518d32">  150</a></span>  <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *<a class="code hl_variable" href="a04942.html#a4e4aa56391a38168c0b3d007c9518d32">name</a>{}; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="a04942.html#a74f61bd273ce0c26bc39638645291338">  159</a></span>  <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *<a class="code hl_variable" href="a04942.html#a74f61bd273ce0c26bc39638645291338">value</a>{}; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>  <a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="a04942.html#af15b886c36726ec675576f98a831b781">  169</a></span>      <a class="code hl_variable" href="a04942.html#af15b886c36726ec675576f98a831b781">prev_attribute_c</a>{}; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>  <a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="a04942.html#aa47074083f71aa800b2b23df2b597eee">  178</a></span>      <a class="code hl_variable" href="a04942.html#aa47074083f71aa800b2b23df2b597eee">next_attribute</a>{}; <span class="comment">// NOLINT(misc-non-private-member-variables-in-classes)</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>};</div>
+</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *<a class="code hl_function" href="a01493.html#a9574910c1eb199b109e5ef6a75692053">allocate_attribute</a> (<a class="code hl_struct" href="a04958.html">XmlAllocator</a> &amp;alloc);</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span><span class="keywordtype">void</span> <a class="code hl_function" href="a01493.html#a39c4f1cfa1cc6b95363c620f8c07bdea">destroy_attribute</a> (<a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *attr, <a class="code hl_struct" href="a04958.html">XmlAllocator</a> &amp;alloc);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="keywordtype">void</span> <a class="code hl_function" href="a01493.html#a6b10ebb9351cdb4dcfb426ab944fa515">prepend_attribute</a> (<a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *attr, <a class="code hl_struct" href="a04982.html">node::XmlNodeBase</a> *<a class="code hl_namespace" href="a01495.html">node</a>);</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="keywordtype">void</span> <a class="code hl_function" href="a01493.html#ac009a781687ac1b076eb5408390597a9">insert_attribute_after</a> (<a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *attr, <a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *place,</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                             <a class="code hl_struct" href="a04982.html">node::XmlNodeBase</a> *<a class="code hl_namespace" href="a01495.html">node</a>);</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span><span class="keywordtype">void</span> <a class="code hl_function" href="a01493.html#ad8536805f9faefc21c231e0cb9dfdf5a">insert_attribute_before</a> (<a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *attr, <a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *place,</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>                              <a class="code hl_struct" href="a04982.html">node::XmlNodeBase</a> *<a class="code hl_namespace" href="a01495.html">node</a>);</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="keywordtype">void</span> <a class="code hl_function" href="a01493.html#afa881ac8bc7844492c7dbf561cc2480c">remove_attribute</a> (<a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *attr, <a class="code hl_struct" href="a04982.html">node::XmlNodeBase</a> *<a class="code hl_namespace" href="a01495.html">node</a>);</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span><span class="keywordtype">void</span> <a class="code hl_function" href="a01493.html#a05babdf187dfa6292de80d86d7470a11">node_copy_attribute</a> (<a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *da_, <a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *sa_);</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>}</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>}</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>}</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="preprocessor">#if defined(__clang__)</span></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="preprocessor">#pragma clang diagnostic pop</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_BASE_HPP</span></div>
+<div class="ttc" id="aa00932_html"><div class="ttname"><a href="a00932.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
+<div class="ttc" id="aa00932_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:96</div></div>
+<div class="ttc" id="aa00968_html"><div class="ttname"><a href="a00968.html">XmlAllocator.hpp</a></div><div class="ttdoc">The page allocator that holds the nodes, attributes and strings of one XML document.</div></div>
+<div class="ttc" id="aa00974_html"><div class="ttname"><a href="a00974.html">XmlMemoryPage.hpp</a></div><div class="ttdoc">The header of a memory page of the XML allocator, and the default page size.</div></div>
+<div class="ttc" id="aa01019_html_a329b1c53e66ebee947f7b4b82656ad04"><div class="ttname"><a href="a01019.html#a329b1c53e66ebee947f7b4b82656ad04">LUMEX_XML_GETHEADER_IMPL</a></div><div class="ttdeci">#define LUMEX_XML_GETHEADER_IMPL(object, page, flags)</div><div class="ttdef"><b>Definition</b> XmlMacros.hpp:65</div></div>
+<div class="ttc" id="aa01248_html"><div class="ttname"><a href="a01248.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01492_html"><div class="ttname"><a href="a01492.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:102</div></div>
+<div class="ttc" id="aa01493_html"><div class="ttname"><a href="a01493.html">lumex::xml::attribute</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:104</div></div>
+<div class="ttc" id="aa01493_html_a05babdf187dfa6292de80d86d7470a11"><div class="ttname"><a href="a01493.html#a05babdf187dfa6292de80d86d7470a11">lumex::xml::attribute::node_copy_attribute</a></div><div class="ttdeci">void node_copy_attribute(XmlAttributeBase *da_, XmlAttributeBase *sa_)</div><div class="ttdoc">Copies the name and value strings from a source XmlAttributeBase to a destination XmlAttributeBase.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.cpp:189</div></div>
+<div class="ttc" id="aa01493_html_a39c4f1cfa1cc6b95363c620f8c07bdea"><div class="ttname"><a href="a01493.html#a39c4f1cfa1cc6b95363c620f8c07bdea">lumex::xml::attribute::destroy_attribute</a></div><div class="ttdeci">void destroy_attribute(XmlAttributeBase *attr, XmlAllocator &amp;alloc)</div><div class="ttdoc">Destroys and deallocates an XmlAttributeBase object.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.cpp:95</div></div>
+<div class="ttc" id="aa01493_html_a6b10ebb9351cdb4dcfb426ab944fa515"><div class="ttname"><a href="a01493.html#a6b10ebb9351cdb4dcfb426ab944fa515">lumex::xml::attribute::prepend_attribute</a></div><div class="ttdeci">void prepend_attribute(XmlAttributeBase *attr, node::XmlNodeBase *node)</div><div class="ttdoc">Prepends an XmlAttributeBase to the beginning of a node&#39;s attribute list.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.cpp:112</div></div>
+<div class="ttc" id="aa01493_html_a9574910c1eb199b109e5ef6a75692053"><div class="ttname"><a href="a01493.html#a9574910c1eb199b109e5ef6a75692053">lumex::xml::attribute::allocate_attribute</a></div><div class="ttdeci">XmlAttributeBase * allocate_attribute(XmlAllocator &amp;alloc)</div><div class="ttdoc">Allocates a new XmlAttributeBase object using the provided allocator.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.cpp:82</div></div>
+<div class="ttc" id="aa01493_html_ac009a781687ac1b076eb5408390597a9"><div class="ttname"><a href="a01493.html#ac009a781687ac1b076eb5408390597a9">lumex::xml::attribute::insert_attribute_after</a></div><div class="ttdeci">void insert_attribute_after(XmlAttributeBase *attr, XmlAttributeBase *place, node::XmlNodeBase *node)</div><div class="ttdoc">Inserts an XmlAttributeBase after a specified existing attribute.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.cpp:131</div></div>
+<div class="ttc" id="aa01493_html_ad8536805f9faefc21c231e0cb9dfdf5a"><div class="ttname"><a href="a01493.html#ad8536805f9faefc21c231e0cb9dfdf5a">lumex::xml::attribute::insert_attribute_before</a></div><div class="ttdeci">void insert_attribute_before(XmlAttributeBase *attr, XmlAttributeBase *place, node::XmlNodeBase *node)</div><div class="ttdoc">Inserts an XmlAttributeBase before a specified existing attribute.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.cpp:149</div></div>
+<div class="ttc" id="aa01493_html_afa881ac8bc7844492c7dbf561cc2480c"><div class="ttname"><a href="a01493.html#afa881ac8bc7844492c7dbf561cc2480c">lumex::xml::attribute::remove_attribute</a></div><div class="ttdeci">void remove_attribute(XmlAttributeBase *attr, node::XmlNodeBase *node)</div><div class="ttdoc">Removes an XmlAttributeBase from its parent node&#39;s attribute list.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.cpp:167</div></div>
+<div class="ttc" id="aa01495_html"><div class="ttname"><a href="a01495.html">lumex::xml::node</a></div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:96</div></div>
+<div class="ttc" id="aa01500_html"><div class="ttname"><a href="a01500.html">lumex::xml::memory</a></div><div class="ttdef"><b>Definition</b> XmlAllocator.hpp:73</div></div>
+<div class="ttc" id="aa01507_html"><div class="ttname"><a href="a01507.html">lumex::xml::types</a></div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:74</div></div>
+<div class="ttc" id="aa01508_html"><div class="ttname"><a href="a01508.html">lumex::xml::types::Types</a></div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:76</div></div>
+<div class="ttc" id="aa01508_html_af5c331138f914028e4642100ea3e7a24"><div class="ttname"><a href="a01508.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a></div><div class="ttdeci">char char_t</div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:77</div></div>
+<div class="ttc" id="aa04942_html"><div class="ttname"><a href="a04942.html">lumex::xml::attribute::XmlAttributeBase</a></div><div class="ttdoc">Base structure for representing an XML attribute.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:117</div></div>
+<div class="ttc" id="aa04942_html_a4e4aa56391a38168c0b3d007c9518d32"><div class="ttname"><a href="a04942.html#a4e4aa56391a38168c0b3d007c9518d32">lumex::xml::attribute::XmlAttributeBase::name</a></div><div class="ttdeci">char_t * name</div><div class="ttdoc">Pointer to the null-terminated C-style string representing the attribute&#39;s name.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:150</div></div>
+<div class="ttc" id="aa04942_html_a74f61bd273ce0c26bc39638645291338"><div class="ttname"><a href="a04942.html#a74f61bd273ce0c26bc39638645291338">lumex::xml::attribute::XmlAttributeBase::value</a></div><div class="ttdeci">char_t * value</div><div class="ttdoc">Pointer to the null-terminated C-style string representing the attribute&#39;s value.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:159</div></div>
+<div class="ttc" id="aa04942_html_aa47074083f71aa800b2b23df2b597eee"><div class="ttname"><a href="a04942.html#aa47074083f71aa800b2b23df2b597eee">lumex::xml::attribute::XmlAttributeBase::next_attribute</a></div><div class="ttdeci">XmlAttributeBase * next_attribute</div><div class="ttdoc">Pointer to the next attribute in the doubly-linked list of attributes belonging to a parent node.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:178</div></div>
+<div class="ttc" id="aa04942_html_ab6ccf1b0050f9ee4fdb03f9280225d94"><div class="ttname"><a href="a04942.html#ab6ccf1b0050f9ee4fdb03f9280225d94">lumex::xml::attribute::XmlAttributeBase::XmlAttributeBase</a></div><div class="ttdeci">XmlAttributeBase(XmlMemoryPage *page)</div><div class="ttdoc">Constructs an XmlAttributeBase and initializes its header.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:126</div></div>
+<div class="ttc" id="aa04942_html_ae18d67ec445f1179b1034b4c0ccb8dd2"><div class="ttname"><a href="a04942.html#ae18d67ec445f1179b1034b4c0ccb8dd2">lumex::xml::attribute::XmlAttributeBase::header</a></div><div class="ttdeci">uintptr_t header</div><div class="ttdoc">Header containing memory page information and allocation flags.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:140</div></div>
+<div class="ttc" id="aa04942_html_af15b886c36726ec675576f98a831b781"><div class="ttname"><a href="a04942.html#af15b886c36726ec675576f98a831b781">lumex::xml::attribute::XmlAttributeBase::prev_attribute_c</a></div><div class="ttdeci">XmlAttributeBase * prev_attribute_c</div><div class="ttdoc">Pointer to the previous attribute in the doubly-linked list of attributes belonging to a parent node.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:169</div></div>
+<div class="ttc" id="aa04958_html"><div class="ttname"><a href="a04958.html">lumex::xml::memory::XmlAllocator</a></div><div class="ttdoc">Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.</div><div class="ttdef"><b>Definition</b> XmlAllocator.hpp:92</div></div>
+<div class="ttc" id="aa04962_html"><div class="ttname"><a href="a04962.html">lumex::xml::memory::XmlMemoryPage</a></div><div class="ttdoc">Represents a single fixed-size memory page used by the XmlAllocator.</div><div class="ttdef"><b>Definition</b> XmlMemoryPage.hpp:84</div></div>
+<div class="ttc" id="aa04982_html"><div class="ttname"><a href="a04982.html">lumex::xml::node::XmlNodeBase</a></div><div class="ttdoc">Base structure representing an XML node in the document tree.</div><div class="ttdef"><b>Definition</b> XmlNodeBase.hpp:116</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="a00944.html">LumexXml</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_67864fa9b126ea0c63c4a33fb4799790.html">attribute</a></li><li class="navelem"><a class="el" href="a00944.html">XmlAttributeBase.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

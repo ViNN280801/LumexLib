@@ -9,11 +9,14 @@ repository web view and the Doxygen documentation.
 Usage:
     python plot_results.py results/format_benchmark.csv
 
-Writes next to the CSV:
+Reads compile_time.csv from the directory of the CSV when it exists (written
+by compile_time.py). Writes next to the CSV:
     format_benchmark.svg           median ns per call (log scale), with the
                                    min..max range of the repetitions
     format_benchmark_relative.svg  time relative to LumexFormat (1.0 = same)
-    format_benchmark.md            the numbers as a Markdown table
+    format_compile_time.svg        the compile times, when given
+    format_benchmark.md            the numbers as a Markdown table, and the
+                                   compile times when given
 """
 
 import csv
@@ -29,6 +32,9 @@ COLORS = {
     "ostringstream": "#999999",
     "snprintf": "#009E73",
     "to_string": "#CC79A7",
+    "LumexFormat C++11": "#0072B2",
+    "LumexFormat C++20": "#56B4E9",
+    "<string> only": "#B0B0B0",
 }
 FALLBACK_COLORS = ["#D55E00", "#56B4E9", "#F0E442"]
 
@@ -269,7 +275,96 @@ def relative_to_lumex(by_scenario):
             row["relative"] = row["median_ns"] / base if base else 0.0
 
 
-def markdown_table(header, scenarios, by_scenario):
+# The compile-time variants of compile_time.py and what the chart calls them.
+COMPILE_LABEL = [("none_cxx20", "<string> only"),
+                 ("lumex_cxx11", "LumexFormat C++11"),
+                 ("lumex_cxx20", "LumexFormat C++20"),
+                 ("std_cxx20", "std::format"),
+                 ("ostringstream_cxx20", "ostringstream"),
+                 ("snprintf_cxx20", "snprintf")]
+COMPILE_MODES = [("include", "the header is included and one int is "
+                  "formatted"),
+                 ("use", "what the scenarios format: an int, an int as "
+                  "padded hex, a double, a padded string, a line of three "
+                  "fields, and `format_to` into a `std::string`")]
+
+
+def read_compile(path):
+    """Returns (comment lines, rows) of compile_time.csv."""
+    comments = []
+    lines = []
+    with open(path, newline="", encoding="utf-8") as stream:
+        for line in stream:
+            if line.startswith("#"):
+                comments.append(line[1:].strip())
+            else:
+                lines.append(line)
+    rows = list(csv.DictReader(lines))
+    for row in rows:
+        row["median_ms"] = float(row["median_ms"])
+    return comments, rows
+
+
+def compile_groups(rows):
+    """({group name: [row with `method` and `scenario`]}, group names) of
+    the compile-time rows: a group per compiler and unit."""
+    names = []
+    groups = {}
+    toolchains = []
+    for row in rows:
+        if row["toolchain"] not in toolchains:
+            toolchains.append(row["toolchain"])
+    for toolchain in toolchains:
+        for mode, _ in COMPILE_MODES:
+            name = "%s: %s" % (toolchain, mode)
+            members = []
+            for variant, label in COMPILE_LABEL:
+                for row in rows:
+                    if (row["toolchain"] == toolchain
+                            and row["mode"] == mode
+                            and row["variant"] == variant):
+                        members.append(dict(row, method=label, scenario=name))
+            if members:
+                names.append(name)
+                groups[name] = members
+    return names, groups
+
+
+def compile_markdown(rows, comments):
+    lines = ["", "## Compile time", ""]
+    for comment in comments:
+        lines.append("- " + comment)
+    lines.append("")
+    lines.append("Wall time of `-fsyntax-only -O0` of `compile_time.cpp`, "
+                 "median of the repeats, in milliseconds. `<string> only` is "
+                 "the same unit without a formatting facility: the cost of "
+                 "`<string>` and `<iterator>`. All variants are compiled at "
+                 "C++20 except `LumexFormat C++11`.")
+    lines.append("")
+    toolchains = []
+    for row in rows:
+        if row["toolchain"] not in toolchains:
+            toolchains.append(row["toolchain"])
+    for mode, text_of_mode in COMPILE_MODES:
+        lines.append("Unit `%s`: %s." % (mode, text_of_mode))
+        lines.append("")
+        lines.append("| toolchain | " + " | ".join(
+            "`%s`" % label if "<" in label else label
+            for _, label in COMPILE_LABEL) + " |")
+        lines.append("| --- |" + " ---: |" * len(COMPILE_LABEL))
+        for toolchain in toolchains:
+            cells = []
+            for variant, _ in COMPILE_LABEL:
+                match = [r for r in rows if r["toolchain"] == toolchain
+                         and r["mode"] == mode and r["variant"] == variant]
+                cells.append("%.0f" % match[0]["median_ms"] if match else "")
+            lines.append("| %s | %s |" % (toolchain, " | ".join(cells)))
+        lines.append("")
+    return lines
+
+
+def markdown_table(header, scenarios, by_scenario, compile_rows=(),
+                   compile_comments=()):
     lines = ["# LumexFormat benchmark results", "",
              "Environment: `%s`." % header, "",
              "Median ns per call over the repetitions (lower is better); "
@@ -288,6 +383,8 @@ def markdown_table(header, scenarios, by_scenario):
         lines.append("- `%s`: %s"
                      % (scenario, by_scenario[scenario][0]["description"]))
     lines.append("")
+    if compile_rows:
+        lines.extend(compile_markdown(compile_rows, compile_comments))
     return "\n".join(lines)
 
 
@@ -316,9 +413,28 @@ def main(argv):
             "time / LumexFormat time (lower is faster)",
             scenarios, by_scenario, lambda row: row["relative"],
             reference_line=1.0, value_format="%.2f", unit="x"))
+    compile_rows, compile_comments = [], []
+    compile_path = os.path.join(os.path.dirname(os.path.abspath(path)),
+                                "compile_time.csv")
+    written = "%s.svg, %s_relative.svg" % (stem, stem)
+    if os.path.exists(compile_path):
+        compile_comments, compile_rows = read_compile(compile_path)
+        names, groups = compile_groups(compile_rows)
+        with open(stem.replace("format_benchmark", "format_compile_time")
+                  + ".svg", "w", encoding="utf-8", newline="\n") as stream:
+            stream.write(bar_chart(
+                "Compile time of one translation unit: %s" % "formatting",
+                "; ".join(c.replace("compiler ", "") for c in compile_comments)
+                + "   |   -fsyntax-only -O0, median of the repeats",
+                "milliseconds per translation unit (lower is faster)",
+                names, groups, lambda row: row["median_ms"],
+                value_format="%.0f", unit=" ms"))
+        written += ", %s" % stem.replace("format_benchmark",
+                                         "format_compile_time") + ".svg"
     with open(stem + ".md", "w", encoding="utf-8", newline="\n") as stream:
-        stream.write(markdown_table(header, scenarios, by_scenario))
-    print("written %s.svg, %s_relative.svg, %s.md" % (stem, stem, stem))
+        stream.write(markdown_table(header, scenarios, by_scenario,
+                                    compile_rows, compile_comments))
+    print("written %s, %s.md" % (written, stem))
     return 0
 
 

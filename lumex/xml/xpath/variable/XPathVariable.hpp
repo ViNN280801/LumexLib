@@ -191,7 +191,7 @@ public:
   /**
    * @brief Gets the string value of the variable.
    * @details If the variable's actual type is `xpath_type_string`, its value
-   * is returned. Otherwise, an empty string (`LUMEX_XML_TEXT("")`) is returned
+   * is returned. Otherwise, an empty string (`""`) is returned
    * without type conversion.
    * @return A `char_t const*` pointing to the string value if the type
    * matches, or an empty string literal otherwise. The pointer is valid for

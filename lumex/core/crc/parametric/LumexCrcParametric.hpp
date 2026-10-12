@@ -83,6 +83,7 @@
 #include "lumex/core/utility/attr/LumexAttributes.hpp"
 #include "lumex/core/utility/macros/LumexConstantMacros.hpp"
 #include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/sequence/LumexIndexSequence.hpp"
 
 namespace lumex
 {
@@ -268,7 +269,8 @@ lookup_table_entry () LUMEX_NOEXCEPT
 
 template <typename Spec, std::size_t... I>
 LUMEX_CONSTEXPR_FUNCTION std::array<std::uint64_t, kTableByteCount>
-make_lookup_table_impl (std::index_sequence<I...>) LUMEX_NOEXCEPT
+make_lookup_table_impl (lumex::core::utility::sequence::index_sequence<I...>)
+    LUMEX_NOEXCEPT
 {
   return std::array<std::uint64_t, kTableByteCount>{
     { lookup_table_entry<Spec, I> ()... }
@@ -283,7 +285,7 @@ make_lookup_table () LUMEX_NOEXCEPT
   validate_spec<Spec> ();
 #if __cplusplus >= 201402L
   return make_lookup_table_impl<Spec> (
-      std::make_index_sequence<kTableByteCount>{});
+      lumex::core::utility::sequence::make_index_sequence<kTableByteCount>{});
 #else
   std::array<std::uint64_t, kTableByteCount> lookupTable{};
   for (int tableIndex = 0; tableIndex < static_cast<int> (kTableByteCount);

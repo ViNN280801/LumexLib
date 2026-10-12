@@ -1,5 +1,8 @@
 var a01357 =
 [
-    [ "waiter_table_t", "a01357.html#acece4ed37350a81045dd68451b7f676b", null ],
-    [ "stripes", "a01357.html#ac47b8d2c7877fae7fa499f31fa8d1b32", null ]
+    [ "is_class_object", "a02626.html", null ],
+    [ "is_pointer_object", "a02634.html", null ],
+    [ "is_reference_wrapper", "a02618.html", null ],
+    [ "is_reference_wrapper< std::reference_wrapper< U > >", "a02622.html", null ],
+    [ "is_wrapped_object", "a02630.html", null ]
 ];

@@ -349,17 +349,24 @@ TEST_F (CircularBufferIntTest,
 }
 
 /**
- * @brief Verifies that a zero capacity throws
- * @details Asserts: The constructor throws std::length_error when capacity ==
- * 0
- * @details Method: Try to construct a buffer with zero capacity
+ * @brief Verifies that a zero capacity makes a valid empty buffer
+ * @details Asserts: The constructor accepts capacity 0 (as Boost does); the
+ * buffer is empty and full, and std::length_error is thrown only for a
+ * capacity above max_size ()
+ * @details Method: Construct a buffer with zero capacity
  */
-TEST_F (CircularBufferIntTest, Constructor_ZeroCapacity_ThrowsLengthError)
+TEST_F (CircularBufferIntTest,
+        Constructor_ZeroCapacity_CreatesValidEmptyBuffer)
 {
-  using BufferType = circular_buffer<int>;
+  // Act
+  BufferType buffer (0);
 
-  // Act & Assert
-  EXPECT_THROW (BufferType buffer (0), std::length_error);
+  // Assert
+  EXPECT_EQ (buffer.capacity (), 0U);
+  EXPECT_TRUE (buffer.empty ());
+  EXPECT_TRUE (buffer.full ());
+  EXPECT_THROW (BufferType too_large (buffer.max_size () + 1),
+                std::length_error);
 }
 
 /**

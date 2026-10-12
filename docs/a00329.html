@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexAggregateFields.hpp File Reference</title>
+<title>LumexLib: LumexContractsAssert.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,269 +106,283 @@ $(function(){initNavTree('a00329.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">LumexAggregateFields.hpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexContractsAssert.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Non-intrusive field count, indexed access, and (from C++20) field names for simple aggregates.  
+<p><code>LUMEX_CONTRACT_ASSERT (expr)</code>, the contract assertion of C++26 (<code>contract_assert</code>, P2900) on every standard, and the macros that choose its evaluation semantic.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;array&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00386_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00389_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00425_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00428_source.html">lumex/core/utility/macros/LumexMacros.hpp</a>&quot;</code><br />
-<code>#include &lt;tuple&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00335_source.html">lumex/core/contracts/handler/LumexContractsHandler.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00338_source.html">lumex/core/contracts/location/LumexContractsSourceLocation.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00341_source.html">lumex/core/contracts/violation/LumexContractsViolation.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00626_source.html">lumex/core/utility/macros/LumexMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexAggregateFields.hpp:</div>
+Include dependency graph for LumexContractsAssert.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00330.png" border="0" usemap="#a_lumex_aggregate_fields_8hpp" alt=""/></div>
-<map name="a_lumex_aggregate_fields_8hpp" id="a_lumex_aggregate_fields_8hpp">
-<area shape="rect" title="Non&#45;intrusive field count, indexed access, and (from C++20) field names for simple aggregates." alt="" coords="362,5,542,32"/>
-<area shape="rect" title=" " alt="" coords="5,88,56,115"/>
-<area shape="poly" title=" " alt="" coords="362,28,222,46,144,61,69,83,66,84,64,79,67,77,143,56,221,40,361,23"/>
-<area shape="rect" title=" " alt="" coords="80,88,144,115"/>
-<area shape="poly" title=" " alt="" coords="364,35,263,54,157,83,152,84,150,79,155,77,262,49,363,30"/>
-<area shape="rect" title=" " alt="" coords="168,88,237,115"/>
-<area shape="poly" title=" " alt="" coords="404,35,331,56,250,83,245,84,244,79,248,77,329,51,403,30"/>
-<area shape="rect" title=" " alt="" coords="261,88,344,115"/>
-<area shape="poly" title=" " alt="" coords="430,35,340,83,338,78,427,30"/>
-<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="368,80,536,123"/>
-<area shape="poly" title=" " alt="" coords="454,32,454,65,449,65,449,32"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="417,171,612,213"/>
-<area shape="poly" title=" " alt="" coords="490,30,523,49,538,63,550,79,556,99,555,120,540,158,535,156,550,118,551,99,545,81,534,66,520,54,487,35"/>
-<area shape="rect" href="a00389.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="610,80,779,123"/>
-<area shape="poly" title=" " alt="" coords="491,30,619,72,617,77,489,35"/>
-<area shape="rect" href="a00428.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="802,80,982,123"/>
-<area shape="poly" title=" " alt="" coords="526,30,787,77,786,82,525,35"/>
-<area shape="rect" title=" " alt="" coords="1006,88,1055,115"/>
-<area shape="poly" title=" " alt="" coords="542,17,637,20,751,30,874,48,994,77,998,79,996,84,992,83,873,53,751,35,637,26,542,22"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="231,179,393,205"/>
-<area shape="poly" title=" " alt="" coords="420,126,346,172,343,168,418,121"/>
-<area shape="poly" title=" " alt="" coords="469,122,493,156,489,159,464,125"/>
-<area shape="rect" href="a00404.html" title="C++ language, library and attribute feature availability." alt="" coords="636,171,868,213"/>
-<area shape="poly" title=" " alt="" coords="710,122,733,156,728,159,706,125"/>
-</map>
+<div class="center"><img src="a00330.png" border="0" usemap="#a_lumex_contracts_assert_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00331.png" border="0" usemap="#a_lumex_aggregate_fields_8hppdep" alt=""/></div>
-<map name="a_lumex_aggregate_fields_8hppdep" id="a_lumex_aggregate_fields_8hppdep">
-<area shape="rect" title="Non&#45;intrusive field count, indexed access, and (from C++20) field names for simple aggregates." alt="" coords="5,5,185,32"/>
-<area shape="rect" href="a00332.html" title="Serializes a simple aggregate (no constructors, no private members, no base classes) to JSON by walki..." alt="" coords="9,80,181,107"/>
-<area shape="poly" title=" " alt="" coords="98,48,98,80,92,80,92,48"/>
-</map>
+<div class="center"><img src="a00331.png" border="0" usemap="#a_lumex_contracts_assert_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="a00329_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02361.html">lumex::core::reflection::field_reflection::detail::index_sequence&lt; I &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01914.html">lumex::core::contracts::detail::observe_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The emulated semantics that check the predicate. Each has the static function <code>violated</code>, called on the failing path only (static members, one type per semantic: GCC 8 mistakes overloaded <code>noinline</code> inline functions of a namespace for redeclarations).  <a href="a01914.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02365.html">lumex::core::reflection::field_reflection::detail::any_field&lt; I &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01918.html">lumex::core::contracts::detail::enforce_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02369.html">lumex::core::reflection::field_reflection::detail::can_construct_n&lt; Aggregate, N &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02377.html">lumex::core::reflection::field_reflection::detail::count_fields_impl&lt; Aggregate, Lo, Hi, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02381.html">lumex::core::reflection::field_reflection::detail::count_fields_impl&lt; Aggregate, Lo, Hi, false &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02385.html">lumex::core::reflection::field_reflection::detail::aggregate_traits&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02389.html">lumex::core::reflection::field_reflection::detail::fake_object_wrapper_t&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02397.html">lumex::core::reflection::field_reflection::detail::names_builder&lt; Agg, index_sequence&lt; I... &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02401.html">lumex::core::reflection::field_reflection::detail::names_builder&lt; Agg, index_sequence&lt;&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02405.html">lumex::core::reflection::field_reflection::tuple_size&lt; Aggregate &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01922.html">lumex::core::contracts::detail::quick_enforce_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00948.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01005.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01058.html">lumex::core::reflection</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01332.html">lumex::core::contracts</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01059.html">lumex::core::reflection::field_reflection</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01060.html">lumex::core::reflection::field_reflection::detail</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01333.html">lumex::core::contracts::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a89770ba9e5eec4affabea691368b7a3c" id="r_a89770ba9e5eec4affabea691368b7a3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89770ba9e5eec4affabea691368b7a3c">LUMEX_AGGREGATE_FIELDS_USE_SB</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a89770ba9e5eec4affabea691368b7a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad16692a7a8afa476f07b2bd8e8aa2f30" id="r_ad16692a7a8afa476f07b2bd8e8aa2f30"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad16692a7a8afa476f07b2bd8e8aa2f30">LUMEX_AF_TIE</a>(N, ...)</td></tr>
-<tr class="separator:ad16692a7a8afa476f07b2bd8e8aa2f30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:aceb68afc866ef9a65e29384c63d03bac" id="r_aceb68afc866ef9a65e29384c63d03bac"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate, std::size_t... I&gt; </td></tr>
-<tr class="memitem:aceb68afc866ef9a65e29384c63d03bac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#aceb68afc866ef9a65e29384c63d03bac">lumex::core::reflection::field_reflection::detail::can_construct_fn</a> (<a class="el" href="a02361.html">index_sequence</a>&lt; I... &gt;) -&gt; decltype(Aggregate{ <a class="el" href="a02365.html">any_field</a>&lt; I &gt;{}... }, std::true_type{})</td></tr>
-<tr class="separator:aceb68afc866ef9a65e29384c63d03bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4ad9c78afee19bb51090917267383f5" id="r_ae4ad9c78afee19bb51090917267383f5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ae4ad9c78afee19bb51090917267383f5"><td class="memTemplItemLeft" align="right" valign="top">std::false_type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#ae4ad9c78afee19bb51090917267383f5">lumex::core::reflection::field_reflection::detail::can_construct_fn</a> (...)</td></tr>
-<tr class="separator:ae4ad9c78afee19bb51090917267383f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f3e456deefe393955ca7ecdd2bc14bd" id="r_a4f3e456deefe393955ca7ecdd2bc14bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01060.html#a4f3e456deefe393955ca7ecdd2bc14bd">lumex::core::reflection::field_reflection::detail::is_ident_char</a> (char ch) noexcept</td></tr>
-<tr class="separator:a4f3e456deefe393955ca7ecdd2bc14bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af95c622ddb01303f143c861215726cf2" id="r_af95c622ddb01303f143c861215726cf2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01060.html#af95c622ddb01303f143c861215726cf2">lumex::core::reflection::field_reflection::detail::copy_parsed_name</a> (char *dest, std::size_t dest_size, char const *pretty) noexcept</td></tr>
-<tr class="separator:af95c622ddb01303f143c861215726cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4267bbe4c002bf9161d0966b40e2eb6f" id="r_a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::tuple&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a4267bbe4c002bf9161d0966b40e2eb6f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;, std::integral_constant&lt; std::size_t, 0 &gt;) noexcept</td></tr>
-<tr class="separator:a4267bbe4c002bf9161d0966b40e2eb6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aded523a605caa6cfe8d50b58a1a0f11c" id="r_aded523a605caa6cfe8d50b58a1a0f11c"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aded523a605caa6cfe8d50b58a1a0f11c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#aded523a605caa6cfe8d50b58a1a0f11c">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 1 &gt;) noexcept</td></tr>
-<tr class="separator:aded523a605caa6cfe8d50b58a1a0f11c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a912eba9f95e61654c8b933985baa3dc3" id="r_a912eba9f95e61654c8b933985baa3dc3"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a912eba9f95e61654c8b933985baa3dc3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a912eba9f95e61654c8b933985baa3dc3">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 2 &gt;) noexcept</td></tr>
-<tr class="separator:a912eba9f95e61654c8b933985baa3dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad11a5438edefb2a0bb2d9925c83b3b02" id="r_ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#ad11a5438edefb2a0bb2d9925c83b3b02">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 3 &gt;) noexcept</td></tr>
-<tr class="separator:ad11a5438edefb2a0bb2d9925c83b3b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acad575146ddc07f284dde57c0b9109c9" id="r_acad575146ddc07f284dde57c0b9109c9"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:acad575146ddc07f284dde57c0b9109c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#acad575146ddc07f284dde57c0b9109c9">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 4 &gt;) noexcept</td></tr>
-<tr class="separator:acad575146ddc07f284dde57c0b9109c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385505884887f9eb655569e19e56ff4f" id="r_a385505884887f9eb655569e19e56ff4f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a385505884887f9eb655569e19e56ff4f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a385505884887f9eb655569e19e56ff4f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 5 &gt;) noexcept</td></tr>
-<tr class="separator:a385505884887f9eb655569e19e56ff4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab95ef2fa6d12aa7cb29350878be69aa8" id="r_ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#ab95ef2fa6d12aa7cb29350878be69aa8">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 6 &gt;) noexcept</td></tr>
-<tr class="separator:ab95ef2fa6d12aa7cb29350878be69aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4db1b12c528a5049bbb5a943ce5953e" id="r_ae4db1b12c528a5049bbb5a943ce5953e"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ae4db1b12c528a5049bbb5a943ce5953e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#ae4db1b12c528a5049bbb5a943ce5953e">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 7 &gt;) noexcept</td></tr>
-<tr class="separator:ae4db1b12c528a5049bbb5a943ce5953e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47d46b4d49e708f6de92811f3fb5e830" id="r_a47d46b4d49e708f6de92811f3fb5e830"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a47d46b4d49e708f6de92811f3fb5e830"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a47d46b4d49e708f6de92811f3fb5e830">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 8 &gt;) noexcept</td></tr>
-<tr class="separator:a47d46b4d49e708f6de92811f3fb5e830"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82728cefdf5c455716dc20652d5f3943" id="r_a82728cefdf5c455716dc20652d5f3943"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a82728cefdf5c455716dc20652d5f3943"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a82728cefdf5c455716dc20652d5f3943">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 9 &gt;) noexcept</td></tr>
-<tr class="separator:a82728cefdf5c455716dc20652d5f3943"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e6e73dbebb61b103857b7ddf8490d4f" id="r_a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a3e6e73dbebb61b103857b7ddf8490d4f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 10 &gt;) noexcept</td></tr>
-<tr class="separator:a3e6e73dbebb61b103857b7ddf8490d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e02960255c1e37fd0b8333eefae5ef" id="r_ab8e02960255c1e37fd0b8333eefae5ef"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ab8e02960255c1e37fd0b8333eefae5ef"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#ab8e02960255c1e37fd0b8333eefae5ef">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 11 &gt;) noexcept</td></tr>
-<tr class="separator:ab8e02960255c1e37fd0b8333eefae5ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fc355207dd559f31b72b36539965e46" id="r_a0fc355207dd559f31b72b36539965e46"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0fc355207dd559f31b72b36539965e46"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a0fc355207dd559f31b72b36539965e46">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 12 &gt;) noexcept</td></tr>
-<tr class="separator:a0fc355207dd559f31b72b36539965e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a125412c6679b87475afdcd39ee146320" id="r_a125412c6679b87475afdcd39ee146320"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a125412c6679b87475afdcd39ee146320"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a125412c6679b87475afdcd39ee146320">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 13 &gt;) noexcept</td></tr>
-<tr class="separator:a125412c6679b87475afdcd39ee146320"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf63cffdfbe4d7419721d35f8d1ae201" id="r_aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#aaf63cffdfbe4d7419721d35f8d1ae201">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 14 &gt;) noexcept</td></tr>
-<tr class="separator:aaf63cffdfbe4d7419721d35f8d1ae201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7f2859533a14448e2b1f034426272d5" id="r_ac7f2859533a14448e2b1f034426272d5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:ac7f2859533a14448e2b1f034426272d5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#ac7f2859533a14448e2b1f034426272d5">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 15 &gt;) noexcept</td></tr>
-<tr class="separator:ac7f2859533a14448e2b1f034426272d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e3964179dc73c8e3ad39448c554ae4c" id="r_a1e3964179dc73c8e3ad39448c554ae4c"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a1e3964179dc73c8e3ad39448c554ae4c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a1e3964179dc73c8e3ad39448c554ae4c">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 16 &gt;) noexcept</td></tr>
-<tr class="separator:a1e3964179dc73c8e3ad39448c554ae4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10a17d9f5e7eb688c36136acac1cff24" id="r_a10a17d9f5e7eb688c36136acac1cff24"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a10a17d9f5e7eb688c36136acac1cff24"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a10a17d9f5e7eb688c36136acac1cff24">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 17 &gt;) noexcept</td></tr>
-<tr class="separator:a10a17d9f5e7eb688c36136acac1cff24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64f222c162a6cfe9f67c91b61ae14efb" id="r_a64f222c162a6cfe9f67c91b61ae14efb"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a64f222c162a6cfe9f67c91b61ae14efb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a64f222c162a6cfe9f67c91b61ae14efb">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 18 &gt;) noexcept</td></tr>
-<tr class="separator:a64f222c162a6cfe9f67c91b61ae14efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2244df144c0daef5938e73d8d240433d" id="r_a2244df144c0daef5938e73d8d240433d"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2244df144c0daef5938e73d8d240433d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a2244df144c0daef5938e73d8d240433d">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 19 &gt;) noexcept</td></tr>
-<tr class="separator:a2244df144c0daef5938e73d8d240433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa17e21437a765edfd55b8ad1f00b2c76" id="r_aa17e21437a765edfd55b8ad1f00b2c76"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:aa17e21437a765edfd55b8ad1f00b2c76"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#aa17e21437a765edfd55b8ad1f00b2c76">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 20 &gt;) noexcept</td></tr>
-<tr class="separator:aa17e21437a765edfd55b8ad1f00b2c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22b38dd653cb880c753508e4491fc363" id="r_a22b38dd653cb880c753508e4491fc363"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a22b38dd653cb880c753508e4491fc363"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a22b38dd653cb880c753508e4491fc363">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 21 &gt;) noexcept</td></tr>
-<tr class="separator:a22b38dd653cb880c753508e4491fc363"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27b5e81a3cb103132463ff12c0df95bf" id="r_a27b5e81a3cb103132463ff12c0df95bf"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a27b5e81a3cb103132463ff12c0df95bf"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a27b5e81a3cb103132463ff12c0df95bf">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 22 &gt;) noexcept</td></tr>
-<tr class="separator:a27b5e81a3cb103132463ff12c0df95bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51c02610ccb480c165f066d095fcf23b" id="r_a51c02610ccb480c165f066d095fcf23b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a51c02610ccb480c165f066d095fcf23b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a51c02610ccb480c165f066d095fcf23b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 23 &gt;) noexcept</td></tr>
-<tr class="separator:a51c02610ccb480c165f066d095fcf23b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48a4300d36d120d6c2d90f338f71fdb2" id="r_a48a4300d36d120d6c2d90f338f71fdb2"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a48a4300d36d120d6c2d90f338f71fdb2"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a48a4300d36d120d6c2d90f338f71fdb2">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 24 &gt;) noexcept</td></tr>
-<tr class="separator:a48a4300d36d120d6c2d90f338f71fdb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2440e77d71df4498c398f9d5c792fe18" id="r_a2440e77d71df4498c398f9d5c792fe18"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2440e77d71df4498c398f9d5c792fe18"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a2440e77d71df4498c398f9d5c792fe18">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 25 &gt;) noexcept</td></tr>
-<tr class="separator:a2440e77d71df4498c398f9d5c792fe18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aaadcbed462d14db431d2803840971a" id="r_a8aaadcbed462d14db431d2803840971a"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a8aaadcbed462d14db431d2803840971a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a8aaadcbed462d14db431d2803840971a">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 26 &gt;) noexcept</td></tr>
-<tr class="separator:a8aaadcbed462d14db431d2803840971a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0756d6a05c6dff5124151c29b3f2ec0b" id="r_a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a0756d6a05c6dff5124151c29b3f2ec0b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 27 &gt;) noexcept</td></tr>
-<tr class="separator:a0756d6a05c6dff5124151c29b3f2ec0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d5d2dba687cacb9dd2f72f10500f51b" id="r_a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a2d5d2dba687cacb9dd2f72f10500f51b">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 28 &gt;) noexcept</td></tr>
-<tr class="separator:a2d5d2dba687cacb9dd2f72f10500f51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12e9775a18d15a731bfab5807259c09f" id="r_a12e9775a18d15a731bfab5807259c09f"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a12e9775a18d15a731bfab5807259c09f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a12e9775a18d15a731bfab5807259c09f">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 29 &gt;) noexcept</td></tr>
-<tr class="separator:a12e9775a18d15a731bfab5807259c09f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cf7a26adc5d167e43dbeb8a7fa4e971" id="r_a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a2cf7a26adc5d167e43dbeb8a7fa4e971">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 30 &gt;) noexcept</td></tr>
-<tr class="separator:a2cf7a26adc5d167e43dbeb8a7fa4e971"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e86feeeb022466c719ff90ccb0028c9" id="r_a9e86feeeb022466c719ff90ccb0028c9"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a9e86feeeb022466c719ff90ccb0028c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a9e86feeeb022466c719ff90ccb0028c9">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 31 &gt;) noexcept</td></tr>
-<tr class="separator:a9e86feeeb022466c719ff90ccb0028c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1d88b75c54f534ea6b01d58c4b59dd5" id="r_af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#af1d88b75c54f534ea6b01d58c4b59dd5">lumex::core::reflection::field_reflection::detail::as_tied</a> (Aggregate &amp;&amp;value, std::integral_constant&lt; std::size_t, 32 &gt;) noexcept</td></tr>
-<tr class="separator:af1d88b75c54f534ea6b01d58c4b59dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b1a477a75ded890ec1241ec7224dcd6" id="r_a0b1a477a75ded890ec1241ec7224dcd6"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a0b1a477a75ded890ec1241ec7224dcd6"><td class="memTemplItemLeft" align="right" valign="top">constexpr T const &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a0b1a477a75ded890ec1241ec7224dcd6">lumex::core::reflection::field_reflection::detail::fake_object</a> () noexcept</td></tr>
-<tr class="separator:a0b1a477a75ded890ec1241ec7224dcd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59621e102782b53ef14881c60a98b270" id="r_a59621e102782b53ef14881c60a98b270"><td class="memTemplParams" colspan="2">template&lt;typename Agg, auto Pointer&gt; </td></tr>
-<tr class="memitem:a59621e102782b53ef14881c60a98b270"><td class="memTemplItemLeft" align="right" valign="top">char const *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a59621e102782b53ef14881c60a98b270">lumex::core::reflection::field_reflection::detail::nttp_pretty</a> () noexcept</td></tr>
-<tr class="separator:a59621e102782b53ef14881c60a98b270"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47c782817ce4d8502fea02a9f0da512b" id="r_a47c782817ce4d8502fea02a9f0da512b"><td class="memTemplParams" colspan="2">template&lt;typename Agg, std::size_t I&gt; </td></tr>
-<tr class="memitem:a47c782817ce4d8502fea02a9f0da512b"><td class="memTemplItemLeft" align="right" valign="top">char const *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#a47c782817ce4d8502fea02a9f0da512b">lumex::core::reflection::field_reflection::detail::field_name</a> () noexcept</td></tr>
-<tr class="separator:a47c782817ce4d8502fea02a9f0da512b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affc4125f1c661b62d9a1011d7c589dc9" id="r_affc4125f1c661b62d9a1011d7c589dc9"><td class="memTemplParams" colspan="2">template&lt;std::size_t Index, typename Aggregate&gt; </td></tr>
-<tr class="memitem:affc4125f1c661b62d9a1011d7c589dc9"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01059.html#affc4125f1c661b62d9a1011d7c589dc9">lumex::core::reflection::field_reflection::get</a> (Aggregate &amp;value) noexcept</td></tr>
-<tr class="separator:affc4125f1c661b62d9a1011d7c589dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af734b0fe3e627e210ec21f71e86e7d5f" id="r_af734b0fe3e627e210ec21f71e86e7d5f"><td class="memTemplParams" colspan="2">template&lt;std::size_t Index, typename Aggregate&gt; </td></tr>
-<tr class="memitem:af734b0fe3e627e210ec21f71e86e7d5f"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01059.html#af734b0fe3e627e210ec21f71e86e7d5f">lumex::core::reflection::field_reflection::get</a> (Aggregate const &amp;value) noexcept</td></tr>
-<tr class="separator:af734b0fe3e627e210ec21f71e86e7d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a8d34c9fd7381d1fb19e20251b0c67a" id="r_a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memTemplItemLeft" align="right" valign="top">std::array&lt; char const *, <a class="el" href="a02405.html">tuple_size</a>&lt; Aggregate &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01059.html#a0a8d34c9fd7381d1fb19e20251b0c67a">lumex::core::reflection::field_reflection::names_as_array</a> () noexcept</td></tr>
-<tr class="separator:a0a8d34c9fd7381d1fb19e20251b0c67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a75d3fb078865f1adb49edd60c7e02fb8" id="r_a75d3fb078865f1adb49edd60c7e02fb8"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01060.html#a75d3fb078865f1adb49edd60c7e02fb8">lumex::core::reflection::field_reflection::detail::k_max_aggregate_fields</a> = 32</td></tr>
-<tr class="separator:a75d3fb078865f1adb49edd60c7e02fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2df78cf2b0b28d9e1cbcb717591f276" id="r_ac2df78cf2b0b28d9e1cbcb717591f276"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:ac2df78cf2b0b28d9e1cbcb717591f276"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02389.html">fake_object_wrapper_t</a>&lt; T &gt; const&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01060.html#ac2df78cf2b0b28d9e1cbcb717591f276">lumex::core::reflection::field_reflection::detail::fake_object_storage</a></td></tr>
-<tr class="separator:ac2df78cf2b0b28d9e1cbcb717591f276"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ce0ada95e71ecd52eaedeff52d0a902" id="r_a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memTemplParams" colspan="2">template&lt;typename Aggregate&gt; </td></tr>
-<tr class="memitem:a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01059.html#a3ce0ada95e71ecd52eaedeff52d0a902">lumex::core::reflection::field_reflection::tuple_size_v</a> = <a class="el" href="a02405.html">tuple_size</a>&lt;Aggregate&gt;::value</td></tr>
-<tr class="separator:a3ce0ada95e71ecd52eaedeff52d0a902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a133994066bd2f18c62aae4195a0c4bac" id="r_a133994066bd2f18c62aae4195a0c4bac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a133994066bd2f18c62aae4195a0c4bac">LUMEX_CONTRACTS_HAS_NATIVE</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a133994066bd2f18c62aae4195a0c4bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the compiler implements P2900 (<code>contract_assert</code> as a keyword), otherwise 0. <code>__cpp_contracts</code> of 201906L is the withdrawn contracts of the C++20 draft (GCC <code>-fcontracts</code>), which has no <code>contract_assert</code>, and does not count. May be defined by the user to 0 or 1 before the first include.  <br /></td></tr>
+<tr class="separator:a133994066bd2f18c62aae4195a0c4bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed4c6046d4ec40e4947c0c6665d73e25" id="r_aed4c6046d4ec40e4947c0c6665d73e25"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed4c6046d4ec40e4947c0c6665d73e25">LUMEX_CONTRACTS_CATCH_EXCEPTIONS</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:aed4c6046d4ec40e4947c0c6665d73e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac58936873bb931dc70f6011068f29d1a" id="r_ac58936873bb931dc70f6011068f29d1a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac58936873bb931dc70f6011068f29d1a">LUMEX_CONTRACTS_SEMANTIC_ID_ignore</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:ac58936873bb931dc70f6011068f29d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5db304f9d3a528285cba0d9ddf140f1" id="r_aa5db304f9d3a528285cba0d9ddf140f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5db304f9d3a528285cba0d9ddf140f1">LUMEX_CONTRACTS_SEMANTIC_ID_observe</a>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:aa5db304f9d3a528285cba0d9ddf140f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9be03df9c570c1517f5af589f2f5462a" id="r_a9be03df9c570c1517f5af589f2f5462a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9be03df9c570c1517f5af589f2f5462a">LUMEX_CONTRACTS_SEMANTIC_ID_enforce</a>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:a9be03df9c570c1517f5af589f2f5462a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa520440948268a8bab55d177a1b57360" id="r_aa520440948268a8bab55d177a1b57360"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa520440948268a8bab55d177a1b57360">LUMEX_CONTRACTS_SEMANTIC_ID_quick_enforce</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:aa520440948268a8bab55d177a1b57360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8a7334201fa40a2a5efd9e282e0769b" id="r_ab8a7334201fa40a2a5efd9e282e0769b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8a7334201fa40a2a5efd9e282e0769b">LUMEX_CONTRACTS_SEMANTIC_ID_p2900</a>&#160;&#160;&#160;5</td></tr>
+<tr class="separator:ab8a7334201fa40a2a5efd9e282e0769b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a561ccf0b8888d3953e6c3c9475e36131" id="r_a561ccf0b8888d3953e6c3c9475e36131"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a561ccf0b8888d3953e6c3c9475e36131">LUMEX_CONTRACTS_DETAIL_PASTE_</a>(a,  b)</td></tr>
+<tr class="separator:a561ccf0b8888d3953e6c3c9475e36131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61f3f06b777a89856e0e623b69239364" id="r_a61f3f06b777a89856e0e623b69239364"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61f3f06b777a89856e0e623b69239364">LUMEX_CONTRACTS_DETAIL_PASTE</a>(a,  b)</td></tr>
+<tr class="separator:a61f3f06b777a89856e0e623b69239364"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaea47991ac4c13697154e96b9b921859" id="r_aaea47991ac4c13697154e96b9b921859"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaea47991ac4c13697154e96b9b921859">LUMEX_CONTRACTS_DETAIL_REQUESTED</a>&#160;&#160;&#160;enforce</td></tr>
+<tr class="separator:aaea47991ac4c13697154e96b9b921859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f69b9ec431a0e087878b9dd57742a2b" id="r_a5f69b9ec431a0e087878b9dd57742a2b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f69b9ec431a0e087878b9dd57742a2b">LUMEX_CONTRACTS_REQUESTED_SEMANTIC</a></td></tr>
+<tr class="memdesc:a5f69b9ec431a0e087878b9dd57742a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The semantic that was asked for, as a number: 1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 p2900.  <br /></td></tr>
+<tr class="separator:a5f69b9ec431a0e087878b9dd57742a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae51e201cd1cb1fcc79e3d595713921f6" id="r_ae51e201cd1cb1fcc79e3d595713921f6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae51e201cd1cb1fcc79e3d595713921f6">LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC</a>&#160;&#160;&#160;<a class="el" href="#a5f69b9ec431a0e087878b9dd57742a2b">LUMEX_CONTRACTS_REQUESTED_SEMANTIC</a></td></tr>
+<tr class="memdesc:ae51e201cd1cb1fcc79e3d595713921f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The semantic <code>LUMEX_CONTRACT_ASSERT</code> has in this translation unit: 1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 the compiler's own <code>contract_assert</code>.  <br /></td></tr>
+<tr class="separator:ae51e201cd1cb1fcc79e3d595713921f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02bdeb98d2b4154e70633e4346653855" id="r_a02bdeb98d2b4154e70633e4346653855"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02bdeb98d2b4154e70633e4346653855">LUMEX_CONTRACTS_DETAIL_LIKELY</a>(condition)</td></tr>
+<tr class="separator:a02bdeb98d2b4154e70633e4346653855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9489fb820e489fafab4cf992b414be5d" id="r_a9489fb820e489fafab4cf992b414be5d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9489fb820e489fafab4cf992b414be5d">LUMEX_CONTRACTS_DETAIL_LOCATION</a></td></tr>
+<tr class="separator:a9489fb820e489fafab4cf992b414be5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed8a134aa35a758ff27b5d9b9732180f" id="r_aed8a134aa35a758ff27b5d9b9732180f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a>(tag,  comment, ...)</td></tr>
+<tr class="separator:aed8a134aa35a758ff27b5d9b9732180f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e9e06a2ed250581b8a23efecc432cbc" id="r_a0e9e06a2ed250581b8a23efecc432cbc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e9e06a2ed250581b8a23efecc432cbc">LUMEX_CONTRACT_ASSERT_IGNORE</a>(...)</td></tr>
+<tr class="memdesc:a0e9e06a2ed250581b8a23efecc432cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>ignore</code> semantic: the predicate is compiled, never evaluated.  <br /></td></tr>
+<tr class="separator:a0e9e06a2ed250581b8a23efecc432cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25042bd23d9291dadecd2a3bb096802c" id="r_a25042bd23d9291dadecd2a3bb096802c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25042bd23d9291dadecd2a3bb096802c">LUMEX_CONTRACT_ASSERT_OBSERVE</a>(...)</td></tr>
+<tr class="memdesc:a25042bd23d9291dadecd2a3bb096802c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>observe</code> semantic: report a false predicate, then continue.  <br /></td></tr>
+<tr class="separator:a25042bd23d9291dadecd2a3bb096802c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8018d5c8562a08df0c9fc69dfe368025" id="r_a8018d5c8562a08df0c9fc69dfe368025"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8018d5c8562a08df0c9fc69dfe368025">LUMEX_CONTRACT_ASSERT_ENFORCE</a>(...)</td></tr>
+<tr class="memdesc:a8018d5c8562a08df0c9fc69dfe368025"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>enforce</code> semantic: report a false predicate, then abort.  <br /></td></tr>
+<tr class="separator:a8018d5c8562a08df0c9fc69dfe368025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ce3a58051666b8451141648b5fb8b66" id="r_a6ce3a58051666b8451141648b5fb8b66"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ce3a58051666b8451141648b5fb8b66">LUMEX_CONTRACT_ASSERT_QUICK_ENFORCE</a>(...)</td></tr>
+<tr class="memdesc:a6ce3a58051666b8451141648b5fb8b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>quick_enforce</code> semantic: stop at once on a false predicate.  <br /></td></tr>
+<tr class="separator:a6ce3a58051666b8451141648b5fb8b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeec66ab42c1cb092875d3e0e92accfd0" id="r_aeec66ab42c1cb092875d3e0e92accfd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeec66ab42c1cb092875d3e0e92accfd0">LUMEX_CONTRACT_ASSERT_P2900</a>(...)</td></tr>
+<tr class="memdesc:aeec66ab42c1cb092875d3e0e92accfd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The compiler's <code>contract_assert</code> where <code>LUMEX_CONTRACTS_HAS_NATIVE</code> is 1, otherwise <code>LUMEX_CONTRACT_ASSERT_ENFORCE</code>. Use as a statement.  <br /></td></tr>
+<tr class="separator:aeec66ab42c1cb092875d3e0e92accfd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6f18f840949f3be564cc8c46c5800fb" id="r_aa6f18f840949f3be564cc8c46c5800fb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6f18f840949f3be564cc8c46c5800fb">LUMEX_CONTRACT_ASSERT</a>(...)</td></tr>
+<tr class="memdesc:aa6f18f840949f3be564cc8c46c5800fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The contract assertion, with the semantic of the translation unit (see the file description).  <br /></td></tr>
+<tr class="separator:aa6f18f840949f3be564cc8c46c5800fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Non-intrusive field count, indexed access, and (from C++20) field names for simple aggregates. </p>
-<p>Replaces the three Boost.PFR calls FieldReflection used (<code>tuple_size</code>, <code>get</code>, <code>names_as_array</code>). This header is original Lumex code (MIT), not a relicensed Boost dump.</p>
-<p>Field count is C++11: aggregate initialization against a converting placeholder, binary-searched up to 32 members. Indexed <code>get</code> is C++14: friend-injected field types (ADL <code>friend auto</code> on the tag, Boost.PFR shape) plus sequential layout offsets. Structured bindings are not used for access. C++11 has count only: a friend return type cannot be deduced without <code>auto</code>.</p>
-<p>Field names need C++20. <code>LUMEX_FUNCTION_NAME</code> embeds an identifier only when that identifier is a template argument. C++11 pointer NTTPs accept <code>&amp;Class::member</code> (the name is already known) or the address of a complete object, not a pointer to the I-th member of a static instance. C++20 <code>template&lt;auto&gt;</code> plus a structured binding into a declared- but-undefined phantom aggregate (<code>fake_object</code>) is what puts the real member name into the pretty string. A defined <code>inline T</code> instance fails on MSVC: a local reference into it is not a constant expression for the NTTP.</p>
-<p>Limit: 32 public data members. No base classes, no bit-fields, no reference members. From C++17, indexed <code>get</code> uses structured bindings (Boost.PFR core17 shape) so optional-only aggregates never hit the CWG 2118 loophole. The loophole remains for C++14 only: once-only friend body + <code>operator U&amp;() const&amp;&amp;</code> (plain <code>operator U()</code> redefines the friend for both the wrapper and the contained type -&gt; C2084; locking the contained type first then fails the layout sizeof check). </p>
+<div class="textblock"><p><code>LUMEX_CONTRACT_ASSERT (expr)</code>, the contract assertion of C++26 (<code>contract_assert</code>, P2900) on every standard, and the macros that choose its evaluation semantic. </p>
+<p>Use <code>LUMEX_CONTRACT_ASSERT (predicate);</code> where C++26 would write <code>contract_assert (predicate);</code>: in a function body, as a statement. The predicate is contextually converted to <code>bool</code> ([stmt.contract.assert]); an expression that does not convert does not compile. The macro is variadic, so a comma in a template argument list needs no extra parentheses (<code>LUMEX_CONTRACT_ASSERT (std::is_same&lt;A, B&gt;::value)</code>), and the text of the predicate as written (before macro expansion) is what a violation reports as its <code>comment ()</code>. Outside C++26 the macro expands to an expression, so it also works in a <code>constexpr</code> function body from C++11 (an assertion that holds adds nothing at run time and nothing at compile time; one that fails during constant evaluation is a compile error) and in <code>if (...) ...; else</code> without braces.</p>
+<p>Evaluation semantic ([basic.contract.eval]). Exactly one of five is in force for a translation unit, chosen by the first of these that exists:</p><ol type="1">
+<li>the macro <code>LUMEX_CONTRACTS_SEMANTIC</code> defined before this header is first included (<code>#define LUMEX_CONTRACTS_SEMANTIC observe</code>, or <code>-DLUMEX_CONTRACTS_SEMANTIC=observe</code>);</li>
+<li>the macro <code>LUMEX_CONTRACTS_BUILD_SEMANTIC</code> that the CMake option <code>LUMEX_CONTRACTS_SEMANTIC</code> puts on the target <code>lumex::contracts</code> (the choice of the build);</li>
+<li><code>enforce</code>. The values are written as the bare words <code>ignore</code>, <code>observe</code>, <code>enforce</code>, <code>quick_enforce</code> and <code>p2900</code>; anything else is an error. They mean:</li>
+</ol>
+<ul>
+<li><code>ignore</code>: the predicate is compiled and checked for syntax and types but never evaluated, and nothing is reported.</li>
+<li><code>observe</code>: the predicate is evaluated once; a false one is reported to the violation handler, and the program continues after the handler returns.</li>
+<li><code>enforce</code> (the default, as [basic.contract.eval] recommends): the same, then <code>std::abort ()</code> when the handler returns. A handler that throws lets the exception out instead.</li>
+<li><code>quick_enforce</code>: the predicate is evaluated once; a false one stops the program at once (a trap instruction) without calling a handler.</li>
+<li><code>p2900</code>: the macro is the compiler's own <code>contract_assert</code> where it exists (<code>__cpp_contracts</code> of 202502L or more, which is <code>LUMEX_CONTRACTS_HAS_NATIVE</code>), and the compiler's own flags and handler then decide the semantic; where it does not exist the semantic is <code>enforce</code>. <code>LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC</code> is 1, 2, 3, 4 for the four emulated ones and 5 when the native <code>contract_assert</code> is used. <code>LUMEX_CONTRACT_ASSERT_IGNORE</code>, <code>_OBSERVE</code>, <code>_ENFORCE</code>, <code>_QUICK_ENFORCE</code> and <code>_P2900</code> are the same macro with the semantic fixed, whatever the choice above. The first four are always the emulation of this header; the library handler slot is used by <code>observe</code> and <code>enforce</code> only.</li>
+</ul>
+<p>The predicate is evaluated exactly once with <code>observe</code>, <code>enforce</code> and <code>quick_enforce</code>, and zero times with <code>ignore</code>, never twice, and <code>NDEBUG</code> has no effect on any of this (a contract assertion is not <code>assert</code>; to switch the checks off in a release build choose <code>ignore</code> for it). An exception that leaves the predicate propagates as any exception would ([basic.contract.eval] would report it as a violation of detection mode <code>evaluation_exception</code>); defining <code>LUMEX_CONTRACTS_CATCH_EXCEPTIONS</code> to 1 before the first include does that instead, at the price of a lambda in every expansion (so no use inside <code>constexpr</code> functions before C++17) and the code size of a try block. The violation path is not <code>noexcept</code>: the handler may throw. The <code>observe</code> and <code>enforce</code> paths build a <code>contract_violation</code> of kind <code>assert</code> and call <code>invoke_violation_handler</code>.</p>
+<p><code>LUMEX_ASSERT</code> of the utility module is a different facility and is not touched: it is always active and its handler is fixed. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ad16692a7a8afa476f07b2bd8e8aa2f30" name="ad16692a7a8afa476f07b2bd8e8aa2f30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad16692a7a8afa476f07b2bd8e8aa2f30">&#9670;&#160;</a></span>LUMEX_AF_TIE</h2>
+<a id="aa6f18f840949f3be564cc8c46c5800fb" name="aa6f18f840949f3be564cc8c46c5800fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6f18f840949f3be564cc8c46c5800fb">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_AF_TIE</td>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT</td>
           <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>N</em></span>, </td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (enforce_t, #__VA_ARGS__, __VA_ARGS__)</div>
+<div class="ttc" id="aa00329_html_aed8a134aa35a758ff27b5d9b9732180f"><div class="ttname"><a href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_CHECK(tag, comment,...)</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:297</div></div>
+</div><!-- fragment -->
+<p>The contract assertion, with the semantic of the translation unit (see the file description). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">...</td><td>The predicate, contextually converted to <code>bool</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8018d5c8562a08df0c9fc69dfe368025" name="a8018d5c8562a08df0c9fc69dfe368025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8018d5c8562a08df0c9fc69dfe368025">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_ENFORCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_ENFORCE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (enforce_t, #__VA_ARGS__, __VA_ARGS__)</div>
+</div><!-- fragment -->
+<p>The <code>enforce</code> semantic: report a false predicate, then abort. </p>
+
+</div>
+</div>
+<a id="a0e9e06a2ed250581b8a23efecc432cbc" name="a0e9e06a2ed250581b8a23efecc432cbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e9e06a2ed250581b8a23efecc432cbc">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_IGNORE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_IGNORE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span><span class="keyword">&gt;</span> (<span class="keyword">false</span> &amp;&amp; <span class="keyword">static_cast&lt;</span><span class="keywordtype">bool</span><span class="keyword">&gt;</span> ((__VA_ARGS__)))</div>
+</div><!-- fragment -->
+<p>The <code>ignore</code> semantic: the predicate is compiled, never evaluated. </p>
+
+</div>
+</div>
+<a id="a25042bd23d9291dadecd2a3bb096802c" name="a25042bd23d9291dadecd2a3bb096802c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25042bd23d9291dadecd2a3bb096802c">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_OBSERVE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_OBSERVE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (observe_t, #__VA_ARGS__, __VA_ARGS__)</div>
+</div><!-- fragment -->
+<p>The <code>observe</code> semantic: report a false predicate, then continue. </p>
+
+</div>
+</div>
+<a id="aeec66ab42c1cb092875d3e0e92accfd0" name="aeec66ab42c1cb092875d3e0e92accfd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeec66ab42c1cb092875d3e0e92accfd0">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_P2900</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_P2900</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (enforce_t, #__VA_ARGS__, __VA_ARGS__)</div>
+</div><!-- fragment -->
+<p>The compiler's <code>contract_assert</code> where <code>LUMEX_CONTRACTS_HAS_NATIVE</code> is 1, otherwise <code>LUMEX_CONTRACT_ASSERT_ENFORCE</code>. Use as a statement. </p>
+
+</div>
+</div>
+<a id="a6ce3a58051666b8451141648b5fb8b66" name="a6ce3a58051666b8451141648b5fb8b66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce3a58051666b8451141648b5fb8b66">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_QUICK_ENFORCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_QUICK_ENFORCE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (quick_enforce_t, #__VA_ARGS__, __VA_ARGS__)</div>
+</div><!-- fragment -->
+<p>The <code>quick_enforce</code> semantic: stop at once on a false predicate. </p>
+
+</div>
+</div>
+<a id="aed4c6046d4ec40e4947c0c6665d73e25" name="aed4c6046d4ec40e4947c0c6665d73e25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed4c6046d4ec40e4947c0c6665d73e25">&#9670;&#160;</a></span>LUMEX_CONTRACTS_CATCH_EXCEPTIONS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_CATCH_EXCEPTIONS&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed8a134aa35a758ff27b5d9b9732180f" name="aed8a134aa35a758ff27b5d9b9732180f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed8a134aa35a758ff27b5d9b9732180f">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_CHECK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_CHECK</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>tag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>comment</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -377,27 +391,232 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Aggregate&gt;                                               \</div>
-<div class="line">  <a class="code hl_define" href="a00425.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keyword">auto</span> as_tied (Aggregate &amp;&amp;value,                            \</div>
-<div class="line">                                std::integral_constant&lt;std::size_t, N&gt;)       \</div>
-<div class="line">      <a class="code hl_define" href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>                                                          \</div>
-<div class="line">  {                                                                           \</div>
-<div class="line">    <span class="keyword">auto</span> &amp;&amp;[__VA_ARGS__] = value;                                             \</div>
-<div class="line">    <span class="keywordflow">return</span> std::tie (__VA_ARGS__);                                            \</div>
-<div class="line">  }</div>
-<div class="ttc" id="aa00425_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00425.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-<div class="ttc" id="aa00425_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00425.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<b>Value:</b><div class="fragment"><div class="line">  (<a class="code hl_define" href="#a02bdeb98d2b4154e70633e4346653855">LUMEX_CONTRACTS_DETAIL_LIKELY</a> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">bool</span><span class="keyword">&gt;</span> ((__VA_ARGS__)))          \</div>
+<div class="line">       ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span><span class="keyword">&gt;</span> (0)                                                \</div>
+<div class="line">       : ::<a class="code hl_namespace" href="a01248.html">lumex</a>::core::<a class="code hl_namespace" href="a01332.html">contracts</a>::detail::tag::violated (                    \</div>
+<div class="line">             comment, <a class="code hl_define" href="#a9489fb820e489fafab4cf992b414be5d">LUMEX_CONTRACTS_DETAIL_LOCATION</a>,                        \</div>
+<div class="line">             ::<a class="code hl_namespace" href="a01248.html">lumex</a>::core::<a class="code hl_namespace" href="a01332.html">contracts</a>::detection_mode::predicate_false))</div>
+<div class="ttc" id="aa00329_html_a02bdeb98d2b4154e70633e4346653855"><div class="ttname"><a href="#a02bdeb98d2b4154e70633e4346653855">LUMEX_CONTRACTS_DETAIL_LIKELY</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_LIKELY(condition)</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:198</div></div>
+<div class="ttc" id="aa00329_html_a9489fb820e489fafab4cf992b414be5d"><div class="ttname"><a href="#a9489fb820e489fafab4cf992b414be5d">LUMEX_CONTRACTS_DETAIL_LOCATION</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_LOCATION</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:201</div></div>
+<div class="ttc" id="aa01248_html"><div class="ttname"><a href="a01248.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01332_html"><div class="ttname"><a href="a01332.html">lumex::core::contracts</a></div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:212</div></div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a89770ba9e5eec4affabea691368b7a3c" name="a89770ba9e5eec4affabea691368b7a3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89770ba9e5eec4affabea691368b7a3c">&#9670;&#160;</a></span>LUMEX_AGGREGATE_FIELDS_USE_SB</h2>
+<a id="a02bdeb98d2b4154e70633e4346653855" name="a02bdeb98d2b4154e70633e4346653855"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02bdeb98d2b4154e70633e4346653855">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_LIKELY</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_AGGREGATE_FIELDS_USE_SB&#160;&#160;&#160;1</td>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_LIKELY</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>condition</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(condition)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9489fb820e489fafab4cf992b414be5d" name="a9489fb820e489fafab4cf992b414be5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9489fb820e489fafab4cf992b414be5d">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_LOCATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_LOCATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_class" href="a01934.html">::lumex::core::contracts::source_location</a> (                                 \</div>
+<div class="line">      __FILE__, <a class="code hl_define" href="a00626.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a>,                                          \</div>
+<div class="line">      <span class="keyword">static_cast&lt;</span>std::uint_least32_t<span class="keyword">&gt;</span> (__LINE__),                            \</div>
+<div class="line">      <span class="keyword">static_cast&lt;</span>std::uint_least32_t<span class="keyword">&gt;</span> (<a class="code hl_define" href="a00338.html#a9a981869722fa42e2a913bb8105422b6">LUMEX_CONTRACTS_BUILTIN_COLUMN</a>))</div>
+<div class="ttc" id="aa00338_html_a9a981869722fa42e2a913bb8105422b6"><div class="ttname"><a href="a00338.html#a9a981869722fa42e2a913bb8105422b6">LUMEX_CONTRACTS_BUILTIN_COLUMN</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_BUILTIN_COLUMN</div><div class="ttdoc">The column of the place where the macro is expanded (__builtin_COLUMN ()), or 0 where the compiler ha...</div><div class="ttdef"><b>Definition</b> LumexContractsSourceLocation.hpp:127</div></div>
+<div class="ttc" id="aa00626_html_aaae5674dd2d0d351d585e646e72118fd"><div class="ttname"><a href="a00626.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a></div><div class="ttdeci">#define LUMEX_FUNCTION_NAME</div><div class="ttdef"><b>Definition</b> LumexMacros.hpp:44</div></div>
+<div class="ttc" id="aa01934_html"><div class="ttname"><a href="a01934.html">lumex::core::contracts::source_location</a></div><div class="ttdoc">File, function, line and column of a place in the program text.</div><div class="ttdef"><b>Definition</b> LumexContractsSourceLocation.hpp:171</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a61f3f06b777a89856e0e623b69239364" name="a61f3f06b777a89856e0e623b69239364"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61f3f06b777a89856e0e623b69239364">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_PASTE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_PASTE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#a561ccf0b8888d3953e6c3c9475e36131">LUMEX_CONTRACTS_DETAIL_PASTE_</a> (a, b)</div>
+<div class="ttc" id="aa00329_html_a561ccf0b8888d3953e6c3c9475e36131"><div class="ttname"><a href="#a561ccf0b8888d3953e6c3c9475e36131">LUMEX_CONTRACTS_DETAIL_PASTE_</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_PASTE_(a, b)</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:151</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a561ccf0b8888d3953e6c3c9475e36131" name="a561ccf0b8888d3953e6c3c9475e36131"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a561ccf0b8888d3953e6c3c9475e36131">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_PASTE_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_PASTE_</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">a##b</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aaea47991ac4c13697154e96b9b921859" name="aaea47991ac4c13697154e96b9b921859"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaea47991ac4c13697154e96b9b921859">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_REQUESTED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_REQUESTED&#160;&#160;&#160;enforce</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae51e201cd1cb1fcc79e3d595713921f6" name="ae51e201cd1cb1fcc79e3d595713921f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae51e201cd1cb1fcc79e3d595713921f6">&#9670;&#160;</a></span>LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC&#160;&#160;&#160;<a class="el" href="#a5f69b9ec431a0e087878b9dd57742a2b">LUMEX_CONTRACTS_REQUESTED_SEMANTIC</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The semantic <code>LUMEX_CONTRACT_ASSERT</code> has in this translation unit: 1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 the compiler's own <code>contract_assert</code>. </p>
+
+</div>
+</div>
+<a id="a133994066bd2f18c62aae4195a0c4bac" name="a133994066bd2f18c62aae4195a0c4bac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a133994066bd2f18c62aae4195a0c4bac">&#9670;&#160;</a></span>LUMEX_CONTRACTS_HAS_NATIVE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_HAS_NATIVE&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when the compiler implements P2900 (<code>contract_assert</code> as a keyword), otherwise 0. <code>__cpp_contracts</code> of 201906L is the withdrawn contracts of the C++20 draft (GCC <code>-fcontracts</code>), which has no <code>contract_assert</code>, and does not count. May be defined by the user to 0 or 1 before the first include. </p>
+
+</div>
+</div>
+<a id="a5f69b9ec431a0e087878b9dd57742a2b" name="a5f69b9ec431a0e087878b9dd57742a2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f69b9ec431a0e087878b9dd57742a2b">&#9670;&#160;</a></span>LUMEX_CONTRACTS_REQUESTED_SEMANTIC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_REQUESTED_SEMANTIC</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#a61f3f06b777a89856e0e623b69239364">LUMEX_CONTRACTS_DETAIL_PASTE</a> (LUMEX_CONTRACTS_SEMANTIC_ID_,                 \</div>
+<div class="line">                                <a class="code hl_define" href="#aaea47991ac4c13697154e96b9b921859">LUMEX_CONTRACTS_DETAIL_REQUESTED</a>)</div>
+<div class="ttc" id="aa00329_html_a61f3f06b777a89856e0e623b69239364"><div class="ttname"><a href="#a61f3f06b777a89856e0e623b69239364">LUMEX_CONTRACTS_DETAIL_PASTE</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_PASTE(a, b)</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:152</div></div>
+<div class="ttc" id="aa00329_html_aaea47991ac4c13697154e96b9b921859"><div class="ttname"><a href="#aaea47991ac4c13697154e96b9b921859">LUMEX_CONTRACTS_DETAIL_REQUESTED</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_REQUESTED</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:159</div></div>
+</div><!-- fragment -->
+<p>The semantic that was asked for, as a number: 1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 p2900. </p>
+
+</div>
+</div>
+<a id="a9be03df9c570c1517f5af589f2f5462a" name="a9be03df9c570c1517f5af589f2f5462a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9be03df9c570c1517f5af589f2f5462a">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_enforce</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_enforce&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac58936873bb931dc70f6011068f29d1a" name="ac58936873bb931dc70f6011068f29d1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac58936873bb931dc70f6011068f29d1a">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_ignore</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_ignore&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa5db304f9d3a528285cba0d9ddf140f1" name="aa5db304f9d3a528285cba0d9ddf140f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5db304f9d3a528285cba0d9ddf140f1">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_observe</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_observe&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab8a7334201fa40a2a5efd9e282e0769b" name="ab8a7334201fa40a2a5efd9e282e0769b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8a7334201fa40a2a5efd9e282e0769b">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_p2900</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_p2900&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa520440948268a8bab55d177a1b57360" name="aa520440948268a8bab55d177a1b57360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa520440948268a8bab55d177a1b57360">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_quick_enforce</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_quick_enforce&#160;&#160;&#160;4</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -409,7 +628,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9f19d952725811a71a1277575cb881df.html">reflection</a></li><li class="navelem"><a class="el" href="dir_4183182a33530d5b48cdb15290070151.html">field_reflection</a></li><li class="navelem"><a class="el" href="a00329.html">LumexAggregateFields.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_77a8419351938abae08e7136cdf99e60.html">contracts</a></li><li class="navelem"><a class="el" href="dir_551ab2c9fb2f7dec6c5fc94023ed0957.html">assert</a></li><li class="navelem"><a class="el" href="a00329.html">LumexContractsAssert.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

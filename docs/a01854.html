@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::atomic::sync::table_wait::Detail::bit_lock Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01857.html',''); initResizable(true); });
+$(function(){initNavTree('a01854.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,309 @@ $(function(){initNavTree('a01857.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc64_redis_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01851.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::sync::table_wait::Detail::bit_lock Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01857.html#a8677085e7eedfbdf62aaf3b19029e122">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01857.html#a69084e4ea443c44e45f99dd4e1f282a0">kInit</a></td><td class="entry"><a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01857.html#ab5ad83d729eac6172dc086f7dc9175a9">kPoly</a></td><td class="entry"><a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01857.html#a19c1b2b17d663f232684b35c26e3374c">kRefIn</a></td><td class="entry"><a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01857.html#af704904213a3048fdf2610521595dcc7">kRefOut</a></td><td class="entry"><a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01857.html#af470acabdb1434920347f4638e329859">kWidth</a></td><td class="entry"><a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01857.html#af2f4907b90229db032779f987b68be6e">kXorOut</a></td><td class="entry"><a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01857.html#aeb69dde65e8f21d46571c7c71d1ad251">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01857.html">lumex::core::crc::parametric::crc64_redis_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Lock in one 32-bit word that puts contended threads to sleep.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00302_source.html">LumexBitLock.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a69d7f0dd9b13f459843e827520f538a1" id="r_a69d7f0dd9b13f459843e827520f538a1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: std::uint32_t { <a class="el" href="#a69d7f0dd9b13f459843e827520f538a1a6473fb672e522e12dc4ed37bfe761dbf">lock_bit</a> = 1u
+, <a class="el" href="#a69d7f0dd9b13f459843e827520f538a1abf631b0701c956c9d3897bea8a99d5a9">notify_bit</a> = 2u
+ }</td></tr>
+<tr class="memdesc:a69d7f0dd9b13f459843e827520f538a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bits of the lock word.  <a href="#a69d7f0dd9b13f459843e827520f538a1">More...</a><br /></td></tr>
+<tr class="separator:a69d7f0dd9b13f459843e827520f538a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a40657763c79212d4cee8dd50a0391dc7" id="r_a40657763c79212d4cee8dd50a0391dc7"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40657763c79212d4cee8dd50a0391dc7">bit_lock</a> () noexcept</td></tr>
+<tr class="memdesc:a40657763c79212d4cee8dd50a0391dc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a released lock.  <br /></td></tr>
+<tr class="separator:a40657763c79212d4cee8dd50a0391dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af444d20f503a404518e061e30a7cbf1d" id="r_af444d20f503a404518e061e30a7cbf1d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af444d20f503a404518e061e30a7cbf1d">~bit_lock</a> ()</td></tr>
+<tr class="memdesc:af444d20f503a404518e061e30a7cbf1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the lock. It must not be taken.  <br /></td></tr>
+<tr class="separator:af444d20f503a404518e061e30a7cbf1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a11bd927dc006b54e6881e33290618b" id="r_a7a11bd927dc006b54e6881e33290618b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a11bd927dc006b54e6881e33290618b">bit_lock</a> (<a class="el" href="a01854.html">bit_lock</a> const &amp;)=delete</td></tr>
+<tr class="separator:a7a11bd927dc006b54e6881e33290618b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d9dc437ee1d83efbb55f001291730c7" id="r_a3d9dc437ee1d83efbb55f001291730c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01854.html">bit_lock</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d9dc437ee1d83efbb55f001291730c7">operator=</a> (<a class="el" href="a01854.html">bit_lock</a> const &amp;)=delete</td></tr>
+<tr class="separator:a3d9dc437ee1d83efbb55f001291730c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae648a43fbb445ff49b32ce6409112165" id="r_ae648a43fbb445ff49b32ce6409112165"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae648a43fbb445ff49b32ce6409112165">lock</a> () const noexcept</td></tr>
+<tr class="memdesc:ae648a43fbb445ff49b32ce6409112165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes the lock, sleeping while another thread holds it.  <br /></td></tr>
+<tr class="separator:ae648a43fbb445ff49b32ce6409112165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd9c9f6d0d6a4ddb3cca44080efd0df7" id="r_acd9c9f6d0d6a4ddb3cca44080efd0df7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd9c9f6d0d6a4ddb3cca44080efd0df7">unlock</a> () const noexcept</td></tr>
+<tr class="memdesc:acd9c9f6d0d6a4ddb3cca44080efd0df7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the lock and wakes the threads that sleep on it.  <br /></td></tr>
+<tr class="separator:acd9c9f6d0d6a4ddb3cca44080efd0df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00f6a128dd620d777dbf53b1ccdb553b" id="r_a00f6a128dd620d777dbf53b1ccdb553b"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00f6a128dd620d777dbf53b1ccdb553b">state</a> () const noexcept</td></tr>
+<tr class="memdesc:a00f6a128dd620d777dbf53b1ccdb553b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current lock word (<code>lock_bit</code>, <code>notify_bit</code>).  <br /></td></tr>
+<tr class="separator:a00f6a128dd620d777dbf53b1ccdb553b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Lock in one 32-bit word that puts contended threads to sleep. </p>
+<p><code>lock ()</code> and <code>unlock ()</code> are <code>const</code>, so a <code>const</code> member function of the owner (such as <code>load ()</code>) can take the lock. </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a69d7f0dd9b13f459843e827520f538a1" name="a69d7f0dd9b13f459843e827520f538a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69d7f0dd9b13f459843e827520f538a1">&#9670;&#160;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum : std::uint32_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Bits of the lock word. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a69d7f0dd9b13f459843e827520f538a1a6473fb672e522e12dc4ed37bfe761dbf" name="a69d7f0dd9b13f459843e827520f538a1a6473fb672e522e12dc4ed37bfe761dbf"></a>lock_bit&#160;</td><td class="fielddoc"><p>The lock is taken. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a69d7f0dd9b13f459843e827520f538a1abf631b0701c956c9d3897bea8a99d5a9" name="a69d7f0dd9b13f459843e827520f538a1abf631b0701c956c9d3897bea8a99d5a9"></a>notify_bit&#160;</td><td class="fielddoc"><p>At least one thread sleeps until the lock is released. Set only while <code>lock_bit</code> is set. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a40657763c79212d4cee8dd50a0391dc7" name="a40657763c79212d4cee8dd50a0391dc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40657763c79212d4cee8dd50a0391dc7">&#9670;&#160;</a></span>bit_lock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::atomic::sync::table_wait::Detail::bit_lock::bit_lock </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a released lock. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01854_a40657763c79212d4cee8dd50a0391dc7_icgraph.png" border="0" usemap="#aa01854_a40657763c79212d4cee8dd50a0391dc7_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="af444d20f503a404518e061e30a7cbf1d" name="af444d20f503a404518e061e30a7cbf1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af444d20f503a404518e061e30a7cbf1d">&#9670;&#160;</a></span>~bit_lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::atomic::sync::table_wait::Detail::bit_lock::~bit_lock </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destroys the lock. It must not be taken. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01854_af444d20f503a404518e061e30a7cbf1d_cgraph.png" border="0" usemap="#aa01854_af444d20f503a404518e061e30a7cbf1d_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a7a11bd927dc006b54e6881e33290618b" name="a7a11bd927dc006b54e6881e33290618b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a11bd927dc006b54e6881e33290618b">&#9670;&#160;</a></span>bit_lock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::atomic::sync::table_wait::Detail::bit_lock::bit_lock </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01854.html">bit_lock</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01854_a7a11bd927dc006b54e6881e33290618b_cgraph.png" border="0" usemap="#aa01854_a7a11bd927dc006b54e6881e33290618b_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae648a43fbb445ff49b32ce6409112165" name="ae648a43fbb445ff49b32ce6409112165"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae648a43fbb445ff49b32ce6409112165">&#9670;&#160;</a></span>lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::bit_lock::lock </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Takes the lock, sleeping while another thread holds it. </p>
+<p>Acquire ordering: the protected accesses of the previous holder happen before those of the caller. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01854_ae648a43fbb445ff49b32ce6409112165_cgraph.png" border="0" usemap="#aa01854_ae648a43fbb445ff49b32ce6409112165_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a3d9dc437ee1d83efbb55f001291730c7" name="a3d9dc437ee1d83efbb55f001291730c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d9dc437ee1d83efbb55f001291730c7">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01854.html">bit_lock</a> &amp; lumex::core::atomic::sync::table_wait::Detail::bit_lock::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01854.html">bit_lock</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01854_a3d9dc437ee1d83efbb55f001291730c7_cgraph.png" border="0" usemap="#aa01854_a3d9dc437ee1d83efbb55f001291730c7_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a00f6a128dd620d777dbf53b1ccdb553b" name="a00f6a128dd620d777dbf53b1ccdb553b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00f6a128dd620d777dbf53b1ccdb553b">&#9670;&#160;</a></span>state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint32_t lumex::core::atomic::sync::table_wait::Detail::bit_lock::state </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the current lock word (<code>lock_bit</code>, <code>notify_bit</code>). </p>
+<p>For diagnostics and tests; the value may be stale as soon as it is returned. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01854_a00f6a128dd620d777dbf53b1ccdb553b_icgraph.png" border="0" usemap="#aa01854_a00f6a128dd620d777dbf53b1ccdb553b_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="acd9c9f6d0d6a4ddb3cca44080efd0df7" name="acd9c9f6d0d6a4ddb3cca44080efd0df7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd9c9f6d0d6a4ddb3cca44080efd0df7">&#9670;&#160;</a></span>unlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::sync::table_wait::Detail::bit_lock::unlock </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Releases the lock and wakes the threads that sleep on it. </p>
+<p>Release ordering. Both bits are cleared in one exchange, so the woken threads and the threads that arrive later all see a released lock without the sleeper bit. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01854_acd9c9f6d0d6a4ddb3cca44080efd0df7_cgraph.png" border="0" usemap="#aa01854_acd9c9f6d0d6a4ddb3cca44080efd0df7_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a00302_source.html">LumexBitLock.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01312.html">atomic</a></li><li class="navelem"><a class="el" href="a01317.html">sync</a></li><li class="navelem"><a class="el" href="a01318.html">table_wait</a></li><li class="navelem"><a class="el" href="a01319.html">Detail</a></li><li class="navelem"><a class="el" href="a01854.html">bit_lock</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

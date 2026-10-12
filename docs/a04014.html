@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::string_view::view::detail::tier_traits::search&lt; Traits &gt;::match_at Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a04017.html',''); initResizable(true); });
+$(function(){initNavTree('a04014.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,24 +103,127 @@ $(function(){initNavTree('a04017.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">hardware_info_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a04011.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::string_view::view::detail::tier_traits::search&lt; Traits &gt;::match_at Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a04017.html">hardware_info_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a04017.html#a746a33fe428ecc68641d6807292694d2">cpu_core_count</a></td><td class="entry"><a class="el" href="a04017.html">hardware_info_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04017.html#ab38d984c734feb52892eb580cffbeb13">cpu_frequency_mhz</a></td><td class="entry"><a class="el" href="a04017.html">hardware_info_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04017.html#a5479f29816446c85b122a6b68bbd8124">cpu_generation</a></td><td class="entry"><a class="el" href="a04017.html">hardware_info_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04017.html#a4eafec39633f8c3a5e596c13c86aebf3">cpu_name</a></td><td class="entry"><a class="el" href="a04017.html">hardware_info_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04017.html#ad25f2a59a1dcab8a231ac1169bc3d9ab">gpu_name</a></td><td class="entry"><a class="el" href="a04017.html">hardware_info_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04017.html#a7a3f925ce6a4fec8fa3f46b0c4cfdef1">has_discrete_gpu</a></td><td class="entry"><a class="el" href="a04017.html">hardware_info_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04017.html#a5951b3c9677bc9491fc08c68e65f085c">total_memory_mb</a></td><td class="entry"><a class="el" href="a04017.html">hardware_info_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>data[idx..idx + count)</code> equals <code>needle[0..count)</code>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00545_source.html">LumexBasicStringView.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a040b4c9ab42b4c30029d1e7f6d54d1d4" id="r_a040b4c9ab42b4c30029d1e7f6d54d1d4"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a040b4c9ab42b4c30029d1e7f6d54d1d4">operator()</a> (std::size_t idx) const noexcept</td></tr>
+<tr class="separator:a040b4c9ab42b4c30029d1e7f6d54d1d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a2f918b3c8cf447876f0937bc6f081019" id="r_a2f918b3c8cf447876f0937bc6f081019"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a04010.html#aec73674e5c94648c7613eaece55d2960">char_type</a> const  *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f918b3c8cf447876f0937bc6f081019">data</a></td></tr>
+<tr class="separator:a2f918b3c8cf447876f0937bc6f081019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1896f8db0dad78278d3f1d323eac4f9d" id="r_a1896f8db0dad78278d3f1d323eac4f9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a04010.html#aec73674e5c94648c7613eaece55d2960">char_type</a> const  *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1896f8db0dad78278d3f1d323eac4f9d">needle</a></td></tr>
+<tr class="separator:a1896f8db0dad78278d3f1d323eac4f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a396c48e4bcd84666328e925ad31613e6" id="r_a396c48e4bcd84666328e925ad31613e6"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a396c48e4bcd84666328e925ad31613e6">count</a></td></tr>
+<tr class="separator:a396c48e4bcd84666328e925ad31613e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;class Traits&gt;<br />
+struct lumex::core::string_view::view::detail::tier_traits::search&lt; Traits &gt;::match_at</div><p><code>data[idx..idx + count)</code> equals <code>needle[0..count)</code>. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a040b4c9ab42b4c30029d1e7f6d54d1d4" name="a040b4c9ab42b4c30029d1e7f6d54d1d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a040b4c9ab42b4c30029d1e7f6d54d1d4">&#9670;&#160;</a></span>operator()()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Traits&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a04010.html">lumex::core::string_view::view::detail::tier_traits::search</a>&lt; Traits &gt;::match_at::operator() </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04014_a040b4c9ab42b4c30029d1e7f6d54d1d4_cgraph.png" border="0" usemap="#aa04014_a040b4c9ab42b4c30029d1e7f6d54d1d4_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a396c48e4bcd84666328e925ad31613e6" name="a396c48e4bcd84666328e925ad31613e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a396c48e4bcd84666328e925ad31613e6">&#9670;&#160;</a></span>count</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Traits&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="a04010.html">lumex::core::string_view::view::detail::tier_traits::search</a>&lt; Traits &gt;::match_at::count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2f918b3c8cf447876f0937bc6f081019" name="a2f918b3c8cf447876f0937bc6f081019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f918b3c8cf447876f0937bc6f081019">&#9670;&#160;</a></span>data</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Traits&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04010.html#aec73674e5c94648c7613eaece55d2960">char_type</a> const* <a class="el" href="a04010.html">lumex::core::string_view::view::detail::tier_traits::search</a>&lt; Traits &gt;::match_at::data</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1896f8db0dad78278d3f1d323eac4f9d" name="a1896f8db0dad78278d3f1d323eac4f9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1896f8db0dad78278d3f1d323eac4f9d">&#9670;&#160;</a></span>needle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Traits&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04010.html#aec73674e5c94648c7613eaece55d2960">char_type</a> const* <a class="el" href="a04010.html">lumex::core::string_view::view::detail::tier_traits::search</a>&lt; Traits &gt;::match_at::needle</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00545_source.html">LumexBasicStringView.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01395.html">string_view</a></li><li class="navelem"><a class="el" href="a01396.html">view</a></li><li class="navelem"><a class="el" href="a01397.html">detail</a></li><li class="navelem"><a class="el" href="a01398.html">tier_traits</a></li><li class="navelem"><a class="el" href="a04010.html">search</a></li><li class="navelem"><a class="el" href="a04014.html">match_at</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

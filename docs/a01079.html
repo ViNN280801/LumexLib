@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::callback Namespace Reference</title>
+<title>LumexLib: XPathStack.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,48 +105,58 @@ $(function(){initNavTree('a01079.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::callback Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XPathStack.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>The memory an XPath evaluation runs on: <code>XPathStack</code>, a pair of allocators, and <code>XPathStackData</code>, which owns them.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01070_source.html">XPathAllocator.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XPathStack.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01080.png" border="0" usemap="#a_x_path_stack_8hpp" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01081.png" border="0" usemap="#a_x_path_stack_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a01079_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02437.html">LumexCallbackSlot</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Primary template; only the function-type specialization below is defined.  <a href="a02437.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05098.html">lumex::xml::xpath::memory::XPathStack</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a pair of XPath allocators for managing expression evaluation memory.  <a href="a05098.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02441.html">LumexCallbackSlot&lt; Tag, Result(Args...)&gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05102.html">lumex::xml::xpath::memory::XPathStackData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages the memory for XPath evaluation, providing dedicated allocators.  <a href="a05102.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:aae9a86eeace996140fe4d3d2e2e9ed82" id="r_aae9a86eeace996140fe4d3d2e2e9ed82"><td class="memTemplParams" colspan="2">template&lt;typename Tag, typename Result, typename... Args&gt; </td></tr>
-<tr class="memitem:aae9a86eeace996140fe4d3d2e2e9ed82"><td class="memTemplItemLeft" align="right" valign="top">std::atomic&lt; Result(*)(Args...)&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aae9a86eeace996140fe4d3d2e2e9ed82">LumexCallbackSlot&lt; Tag, Result(Args...)&gt;::m_slot</a> { nullptr }</td></tr>
-<tr class="separator:aae9a86eeace996140fe4d3d2e2e9ed82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01501.html">lumex::xml::xpath</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01517.html">lumex::xml::xpath::memory</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="aae9a86eeace996140fe4d3d2e2e9ed82" name="aae9a86eeace996140fe4d3d2e2e9ed82"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae9a86eeace996140fe4d3d2e2e9ed82">&#9670;&#160;</a></span>LumexCallbackSlot&lt; Tag, Result(Args...)&gt;::m_slot</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Tag, typename Result, typename... Args&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">std::atomic&lt;Result (*) (Args...)&gt; <a class="el" href="a02437.html">lumex::core::utility::callback::LumexCallbackSlot</a>&lt; Tag, Result(Args...)&gt;::m_slot { nullptr }</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The memory an XPath evaluation runs on: <code>XPathStack</code>, a pair of allocators, and <code>XPathStackData</code>, which owns them. </p>
+<p>The <code>result</code> allocator holds the values a subexpression returns to its caller, and the <code>temp</code> allocator holds intermediate data that is dropped when the subexpression finishes. <code>XPathStackData</code> embeds the first block of each, frees the others on destruction and records an allocation failure in <code>oom</code>. Each <code>XPathQuery</code> evaluation creates its own <code>XPathStackData</code> on the stack. The file is internal to the XPath engine. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01077.html">utility</a></li><li class="navelem"><a class="el" href="a01079.html">callback</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_19857d72d820dc03d02d27eca0dc23fe.html">memory</a></li><li class="navelem"><a class="el" href="a01079.html">XPathStack.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

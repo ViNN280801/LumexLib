@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::base64::encode::Encoder Class Reference</title>
+<title>LumexLib: lumex::core::optional::opt::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,197 +104,793 @@ $(function(){initNavTree('a01377.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01374.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::base64::encode::Encoder Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::optional::opt::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Base64 encoder.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00218_source.html">Encoder.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ab4a27450b24de1f2b93f9147af8d8688" id="r_ab4a27450b24de1f2b93f9147af8d8688"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4a27450b24de1f2b93f9147af8d8688">encode</a> (void const *data, std::size_t size)</td></tr>
-<tr class="memdesc:ab4a27450b24de1f2b93f9147af8d8688"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encodes raw binary data into a Base64 string.  <br /></td></tr>
-<tr class="separator:ab4a27450b24de1f2b93f9147af8d8688"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a9d2bda3548d1d1fa006d182b009443" id="r_a5a9d2bda3548d1d1fa006d182b009443"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a9d2bda3548d1d1fa006d182b009443">encode</a> (std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; const &amp;data)</td></tr>
-<tr class="memdesc:a5a9d2bda3548d1d1fa006d182b009443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encodes binary data from a <code>std::vector&lt;<a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a>&gt;</code> into a Base64 string.  <br /></td></tr>
-<tr class="separator:a5a9d2bda3548d1d1fa006d182b009443"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac40e65af555a00fb916a0ed0ef33e59" id="r_aac40e65af555a00fb916a0ed0ef33e59"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac40e65af555a00fb916a0ed0ef33e59">encode</a> (std::string_view data)</td></tr>
-<tr class="memdesc:aac40e65af555a00fb916a0ed0ef33e59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encodes binary data from a <code>std::string_view</code> into a Base64 string.  <br /></td></tr>
-<tr class="separator:aac40e65af555a00fb916a0ed0ef33e59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03458.html">and_then_result</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code>and_then</code>: <code>remove_cvref_t</code> of the call, which must be a specialization of <code>optional</code>; absent otherwise.  <a href="a03458.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03462.html">and_then_result&lt; typename std::enable_if&lt; is_optional_specialization&lt; remove_cvref_t&lt; invoke_result_t&lt; Fn, Arg &gt; &gt; &gt;::value &gt;::type, Fn, Arg &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03294.html">assigns_from_any_cvref</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is assignable from <code>W</code> of any of the four forms ([optional.assign]/21).  <a href="a03294.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03274.html">conjunction</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::conjunction</code> of C++17: the first false trait ends the evaluation, so a later trait is not instantiated. The constraints of the converting operations name the cheap exclusions first (<code>T</code> is <code>U</code>, <code>U</code> is <code>optional</code>) so that a <code>T</code> whose constructor template tests <code>is_copy_constructible&lt;optional&lt;T&gt;&gt;</code> (such as <code>std::any</code>) is not asked about <code>optional&lt;T&gt;</code> while <code>optional&lt;T&gt;</code> is being declared.  <a href="a03274.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03278.html">conjunction&lt; B &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03282.html">conjunction&lt; B, Rest... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03290.html">converts_from_any_cvref</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>converts-from-any-cvref&lt;T, W&gt;</code> of [optional.ctor]/1: <code>T</code> is constructible or convertible from <code>W</code> of any of the four forms.  <a href="a03290.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03418.html">copy_assign_kind</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03378.html">copy_ctor_kind</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">0 deleted, 1 trivial, 2 written out ([optional.ctor]/6).  <a href="a03378.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03322.html">empty_member</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The member of the union that is active while no value is held.  <a href="a03322.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03326.html">has_nonconst_copy_assign</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> has a copy assignment that takes a non-const reference (<code>T &amp;operator= (T &amp;)</code>, as <code>std::auto_ptr</code>) and none that takes a const one.  <a href="a03326.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03330.html">has_nonconst_copy_ctor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> has a copy constructor that takes a non-const reference and none that takes a const one.  <a href="a03330.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03310.html">invoke_result_impl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03314.html">invoke_result_impl&lt; void_t&lt; decltype(detail::invoke(std::declval&lt; Fn &gt;(), std::declval&lt; Args &gt;()...))&gt;, Fn, Args... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03318.html">invoke_tag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: build the value from the result of a call.  <a href="a03318.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03298.html">is_cv_bool</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is <code>bool</code>, with or without <code>const</code> and <code>volatile</code>.  <a href="a03298.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03262.html">is_optional_specialization</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is a specialization of <code>optional</code> (no cv, no reference).  <a href="a03262.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03266.html">is_optional_specialization&lt; optional&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03302.html">is_reference_wrapper</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03306.html">is_reference_wrapper&lt; std::reference_wrapper&lt; U &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03222.html">is_std_optional</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is a specialization of <code>std::optional</code>.  <a href="a03222.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03226.html">is_std_optional&lt; std::optional&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03270.html">is_tag_type</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is <code><a class="el" href="a03498.html" title="A tag type used to indicate in-place construction of the contained value.">in_place_t</a></code> or <code><a class="el" href="a03490.html" title="A tag type used to indicate the absence of a value in optional.">nullopt_t</a></code>, cv-qualified or not: the types an <code>optional</code> may not hold.  <a href="a03270.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03466.html">is_transform_target</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>U</code> can be held by an <code>optional</code> and constructed from the call result <code>R</code>. From C++17 a prvalue result of the type <code>U</code> itself is built in place (guaranteed elision), so <code>U</code> need not be movable.  <a href="a03466.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03258.html">make_void</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CWG 1558 safe <code>void_t</code>.  <a href="a03258.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03438.html">move_assign_kind</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03398.html">move_ctor_kind</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03286.html">negation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::negation</code> of C++17.  <a href="a03286.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03422.html">opt_copy_assign_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03434.html">opt_copy_assign_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03426.html">opt_copy_assign_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03430.html">opt_copy_assign_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03382.html">opt_copy_ctor_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03394.html">opt_copy_ctor_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03386.html">opt_copy_ctor_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03390.html">opt_copy_ctor_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03370.html">opt_destruct_base</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The union, the flag and the destructor; this form is for a trivially destructible <code>T</code>, so the destructor is trivial.  <a href="a03370.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03374.html">opt_destruct_base&lt; T, false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The same for a <code>T</code> with a non-trivial destructor.  <a href="a03374.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03442.html">opt_move_assign_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03454.html">opt_move_assign_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03446.html">opt_move_assign_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03450.html">opt_move_assign_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03402.html">opt_move_ctor_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03414.html">opt_move_ctor_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03406.html">opt_move_ctor_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03410.html">opt_move_ctor_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03334.html">optional_union</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>{ dummy, value }</code>, the union of [optional.optional.general]. The value is stored without <code>const</code> (as both standard libraries do), so that an <code>optional&lt;const U&gt;</code> can be re-emplaced in a constant expression.  <a href="a03334.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03354.html">optional_union&lt; T, false, false, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03362.html">optional_union&lt; T, false, false, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03358.html">optional_union&lt; T, false, true, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03366.html">optional_union&lt; T, false, true, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03338.html">optional_union&lt; T, true, false, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03346.html">optional_union&lt; T, true, false, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03342.html">optional_union&lt; T, true, true, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03350.html">optional_union&lt; T, true, true, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03486.html">or_else_enabled</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>or_else</code> is viable: <code>Fn ()</code> returns <code>Opt</code> and the value can be copied or moved (<code>Allowed</code>, computed from <code>T</code> by the caller).  <a href="a03486.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03478.html">or_else_result_is</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>Fn ()</code> is a valid call whose result, without cv and reference, is <code>Opt</code>.  <a href="a03478.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03482.html">or_else_result_is&lt; void_t&lt; invoke_result_t&lt; Fn &gt; &gt;, Fn, Opt &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03470.html">transform_result</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code>transform</code>: <code>optional&lt;remove_cv_t&lt;call result&gt;&gt;</code>; absent when the call is ill-formed or its result cannot be held.  <a href="a03470.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03474.html">transform_result&lt; typename std::enable_if&lt; is_transform_target&lt; typename std::remove_cv&lt; invoke_result_t&lt; Fn, Arg &gt; &gt;::type, invoke_result_t&lt; Fn, Arg &gt; &gt;::value &gt;::type, Fn, Arg &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a7decd168ca183c20f3213e7261c33134" id="r_a7decd168ca183c20f3213e7261c33134"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a7decd168ca183c20f3213e7261c33134"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7decd168ca183c20f3213e7261c33134">remove_cvref_t</a></td></tr>
+<tr class="memdesc:a7decd168ca183c20f3213e7261c33134"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::remove_cvref_t</code> of C++20.  <br /></td></tr>
+<tr class="separator:a7decd168ca183c20f3213e7261c33134"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3220550a0b98aa55e21baf378674adaa" id="r_a3220550a0b98aa55e21baf378674adaa"><td class="memTemplParams" colspan="2">template&lt;typename... Ts&gt; </td></tr>
+<tr class="memitem:a3220550a0b98aa55e21baf378674adaa"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3220550a0b98aa55e21baf378674adaa">void_t</a> = typename <a class="el" href="a03258.html">make_void</a>&lt;Ts...&gt;::type</td></tr>
+<tr class="memdesc:a3220550a0b98aa55e21baf378674adaa"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::void_t</code> of C++17.  <br /></td></tr>
+<tr class="separator:a3220550a0b98aa55e21baf378674adaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78a8245a75aa534b73cd7ef1aa21440f" id="r_a78a8245a75aa534b73cd7ef1aa21440f"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a78a8245a75aa534b73cd7ef1aa21440f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a78a8245a75aa534b73cd7ef1aa21440f">is_swappable</a> = std::is_swappable&lt;T&gt;</td></tr>
+<tr class="separator:a78a8245a75aa534b73cd7ef1aa21440f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3e57f08475c1637c5be5a848574f3e" id="r_a8a3e57f08475c1637c5be5a848574f3e"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a8a3e57f08475c1637c5be5a848574f3e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8a3e57f08475c1637c5be5a848574f3e">is_nothrow_swappable</a> = std::is_nothrow_swappable&lt;T&gt;</td></tr>
+<tr class="separator:a8a3e57f08475c1637c5be5a848574f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81da0389c44b87c6405b12fee881fea0" id="r_a81da0389c44b87c6405b12fee881fea0"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:a81da0389c44b87c6405b12fee881fea0"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a81da0389c44b87c6405b12fee881fea0">invoke_result_t</a> = typename <a class="el" href="a03310.html">invoke_result_impl</a>&lt;void, Fn, Args...&gt;::type</td></tr>
+<tr class="memdesc:a81da0389c44b87c6405b12fee881fea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of <code>INVOKE (declval&lt;Fn&gt; (), declval&lt;Args&gt; ()...)</code>; absent (a substitution failure) when the call is ill-formed.  <br /></td></tr>
+<tr class="separator:a81da0389c44b87c6405b12fee881fea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a082ca03541f76bc3739cf1d6618c70e8" id="r_a082ca03541f76bc3739cf1d6618c70e8"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a082ca03541f76bc3739cf1d6618c70e8"><td class="memTemplItemLeft" align="right" valign="top">constexpr T &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a082ca03541f76bc3739cf1d6618c70e8">fwd</a> (typename std::remove_reference&lt; T &gt;::type &amp;t) noexcept</td></tr>
+<tr class="memdesc:a082ca03541f76bc3739cf1d6618c70e8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast&lt;T &amp;&amp;&gt; (t)</code>: <code>std::forward</code> is not <code>constexpr</code> in C++11.  <br /></td></tr>
+<tr class="separator:a082ca03541f76bc3739cf1d6618c70e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9d8ef4b7c161c6d9f3b76e79f498671" id="r_ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::remove_reference&lt; T &gt;::type &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad9d8ef4b7c161c6d9f3b76e79f498671">mv</a> (T &amp;&amp;t) noexcept</td></tr>
+<tr class="memdesc:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t)</code>: <code>std::move</code> is not <code>constexpr</code> in C++11.  <br /></td></tr>
+<tr class="separator:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2accfaa04f297a6e4c12a36448e19ef" id="r_ae2accfaa04f297a6e4c12a36448e19ef"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ae2accfaa04f297a6e4c12a36448e19ef"><td class="memTemplItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae2accfaa04f297a6e4c12a36448e19ef">address_of</a> (T &amp;object) noexcept</td></tr>
+<tr class="memdesc:ae2accfaa04f297a6e4c12a36448e19ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of <code>object</code> also when <code>T</code> overloads <code>operator&amp;</code>, usable in a constant expression from C++11.  <br /></td></tr>
+<tr class="separator:ae2accfaa04f297a6e4c12a36448e19ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ebf297c5727c955b66997cc5db2918a" id="r_a3ebf297c5727c955b66997cc5db2918a"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a3ebf297c5727c955b66997cc5db2918a"><td class="memTemplItemLeft" align="right" valign="top">void *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3ebf297c5727c955b66997cc5db2918a">voidify</a> (T &amp;object) noexcept</td></tr>
+<tr class="memdesc:a3ebf297c5727c955b66997cc5db2918a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of <code>object</code> as a <code>void *</code>, also for a <code>const</code> object.  <br /></td></tr>
+<tr class="separator:a3ebf297c5727c955b66997cc5db2918a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d4cf60aacd9a54ae35907dc79d7a005" id="r_a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2d4cf60aacd9a54ae35907dc79d7a005">construct_at</a> (T *where, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::construct_at</code>: <code>constexpr</code> from C++20, a placement new before. <code>T</code> is not <code>const</code>: the union stores the value without it.  <br /></td></tr>
+<tr class="separator:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97bb07d234b056ff0d820f562d7ae2d9" id="r_a97bb07d234b056ff0d820f562d7ae2d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97bb07d234b056ff0d820f562d7ae2d9">throw_bad_optional_access</a> ()</td></tr>
+<tr class="memdesc:a97bb07d234b056ff0d820f562d7ae2d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throws <code><a class="el" href="a03506.html" title="Exception thrown when attempting to access the value of an empty optional.">lumex_bad_optional_access</a></code>; a function, so that the <code>constexpr</code> observers of C++11 can name it in a conditional expression.  <br /></td></tr>
+<tr class="separator:a97bb07d234b056ff0d820f562d7ae2d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac50c233dd99e0fa65e3082c86c9c226b" id="r_ac50c233dd99e0fa65e3082c86c9c226b"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:ac50c233dd99e0fa65e3082c86c9c226b"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, Obj &amp;&amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac50c233dd99e0fa65e3082c86c9c226b">member_target</a> (Obj &amp;&amp;obj) noexcept</td></tr>
+<tr class="memdesc:ac50c233dd99e0fa65e3082c86c9c226b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is an object of the class (or derived from it).  <br /></td></tr>
+<tr class="separator:ac50c233dd99e0fa65e3082c86c9c226b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5b2b7d6080ebd656edfb4bc77f9de2f" id="r_ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a03302.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(std::declval&lt; Obj &gt;().get())&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae5b2b7d6080ebd656edfb4bc77f9de2f">member_target</a> (Obj &amp;&amp;obj) noexcept</td></tr>
+<tr class="memdesc:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is a <code>std::reference_wrapper</code>.  <br /></td></tr>
+<tr class="separator:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a481def8468f96f311ba579b656bdc84d" id="r_a481def8468f96f311ba579b656bdc84d"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:a481def8468f96f311ba579b656bdc84d"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt;!<a class="el" href="a03302.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(*std::declval&lt; Obj &gt;())&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a481def8468f96f311ba579b656bdc84d">member_target</a> (Obj &amp;&amp;obj)</td></tr>
+<tr class="memdesc:a481def8468f96f311ba579b656bdc84d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is a pointer-like object.  <br /></td></tr>
+<tr class="separator:a481def8468f96f311ba579b656bdc84d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bc25abebadae33c51fef4b1338ff576" id="r_a5bc25abebadae33c51fef4b1338ff576"><td class="memTemplParams" colspan="2">template&lt;typename Member, typename Class, typename Obj, typename... Args&gt; </td></tr>
+<tr class="memitem:a5bc25abebadae33c51fef4b1338ff576"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5bc25abebadae33c51fef4b1338ff576">invoke</a> (Member Class::*pmf, Obj &amp;&amp;obj, Args &amp;&amp;...args) -&gt; typename std::enable_if&lt; std::is_function&lt; Member &gt;::value, decltype((detail::member_target&lt; Class &gt;(detail::fwd&lt; Obj &gt;(obj)) .*pmf)(detail::fwd&lt; Args &gt;(args)...))&gt;::type</td></tr>
+<tr class="memdesc:a5bc25abebadae33c51fef4b1338ff576"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a pointer to a member function.  <br /></td></tr>
+<tr class="separator:a5bc25abebadae33c51fef4b1338ff576"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2425032f49c0a1e321a29743d8cb1e0b" id="r_a2425032f49c0a1e321a29743d8cb1e0b"><td class="memTemplParams" colspan="2">template&lt;typename Member, typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:a2425032f49c0a1e321a29743d8cb1e0b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2425032f49c0a1e321a29743d8cb1e0b">invoke</a> (Member Class::*pmd, Obj &amp;&amp;obj) -&gt; typename std::enable_if&lt; !std::is_function&lt; Member &gt;::value, decltype(detail::member_target&lt; Class &gt;(detail::fwd&lt; Obj &gt;(obj)) .*pmd)&gt;::type</td></tr>
+<tr class="memdesc:a2425032f49c0a1e321a29743d8cb1e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a pointer to a data member.  <br /></td></tr>
+<tr class="separator:a2425032f49c0a1e321a29743d8cb1e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e079a46148550bb63fe6ff5249f2989" id="r_a6e079a46148550bb63fe6ff5249f2989"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:a6e079a46148550bb63fe6ff5249f2989"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a6e079a46148550bb63fe6ff5249f2989">invoke</a> (Fn &amp;&amp;fn, Args &amp;&amp;...args) -&gt; decltype(detail::fwd&lt; Fn &gt;(fn)(detail::fwd&lt; Args &gt;(args)...))</td></tr>
+<tr class="memdesc:a6e079a46148550bb63fe6ff5249f2989"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a function object or a function pointer.  <br /></td></tr>
+<tr class="separator:a6e079a46148550bb63fe6ff5249f2989"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base64 encoder. </p>
-<p><code>encode (void const *, std::size_t)</code> and <code>encode (std::vector&lt;<a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a>&gt; const &amp;)</code> are exported and have the same signature in every C++ standard, so a consumer built at another standard than the library links. The <code>std::string_view</code> (C++17) and <code>std::span</code> (C++20) overloads are inline wrappers over the pointer and size one. The class itself is not exported: a dllimport class makes clang-cl emit an import for an inline member it does not inline, and the library does not provide the standard-dependent overload. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aac40e65af555a00fb916a0ed0ef33e59" name="aac40e65af555a00fb916a0ed0ef33e59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac40e65af555a00fb916a0ed0ef33e59">&#9670;&#160;</a></span>encode() <span class="overload">[1/3]</span></h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a81da0389c44b87c6405b12fee881fea0" name="a81da0389c44b87c6405b12fee881fea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81da0389c44b87c6405b12fee881fea0">&#9670;&#160;</a></span>invoke_result_t</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Fn, typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::invoke_result_t = typename <a class="el" href="a03310.html">invoke_result_impl</a>&lt;void, Fn, Args...&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of <code>INVOKE (declval&lt;Fn&gt; (), declval&lt;Args&gt; ()...)</code>; absent (a substitution failure) when the call is ill-formed. </p>
+
+</div>
+</div>
+<a id="a8a3e57f08475c1637c5be5a848574f3e" name="a8a3e57f08475c1637c5be5a848574f3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a3e57f08475c1637c5be5a848574f3e">&#9670;&#160;</a></span>is_nothrow_swappable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::is_nothrow_swappable = std::is_nothrow_swappable&lt;T&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78a8245a75aa534b73cd7ef1aa21440f" name="a78a8245a75aa534b73cd7ef1aa21440f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78a8245a75aa534b73cd7ef1aa21440f">&#9670;&#160;</a></span>is_swappable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::is_swappable = std::is_swappable&lt;T&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7decd168ca183c20f3213e7261c33134" name="a7decd168ca183c20f3213e7261c33134"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7decd168ca183c20f3213e7261c33134">&#9670;&#160;</a></span>remove_cvref_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::remove_cvref_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> </div>
+<div class="line">    <span class="keyword">typename</span> std::remove_cv&lt;typename std::remove_reference&lt;T&gt;::type&gt;::type</div>
+</div><!-- fragment -->
+<p><code>std::remove_cvref_t</code> of C++20. </p>
+
+</div>
+</div>
+<a id="a3220550a0b98aa55e21baf378674adaa" name="a3220550a0b98aa55e21baf378674adaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3220550a0b98aa55e21baf378674adaa">&#9670;&#160;</a></span>void_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Ts&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::void_t = typename <a class="el" href="a03258.html">make_void</a>&lt;Ts...&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>std::void_t</code> of C++17. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae2accfaa04f297a6e4c12a36448e19ef" name="ae2accfaa04f297a6e4c12a36448e19ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2accfaa04f297a6e4c12a36448e19ef">&#9670;&#160;</a></span>address_of()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::string lumex::core::base64::encode::Encoder::encode </td>
+          <td class="memname">T * lumex::core::optional::opt::detail::address_of </td>
           <td>(</td>
-          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
+          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Encodes binary data from a <code>std::string_view</code> into a Base64 string. </p>
-<p>This overload provides an efficient way to encode string data without copying, leveraging <code>std::string_view</code> for read-only access to character sequences.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>A <code>std::string_view</code> containing the binary data to be encoded. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <code>std::string</code> containing the Base64-encoded representation of the input data. Returns an empty string if the input <code><a class="el" href="a01069.html" title="Core library components.">string_view</a></code> is empty. </dd></dl>
+<p>The address of <code>object</code> also when <code>T</code> overloads <code>operator&amp;</code>, usable in a constant expression from C++11. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01377_aac40e65af555a00fb916a0ed0ef33e59_cgraph.png" border="0" usemap="#aa01377_aac40e65af555a00fb916a0ed0ef33e59_cgraph" alt=""/></div>
-<map name="aa01377_aac40e65af555a00fb916a0ed0ef33e59_cgraph" id="aa01377_aac40e65af555a00fb916a0ed0ef33e59_cgraph">
-<area shape="rect" title="Encodes binary data from a std::string_view into a Base64 string." alt="" coords="5,5,183,48"/>
-<area shape="rect" href="a01377.html#ab4a27450b24de1f2b93f9147af8d8688" title="Encodes raw binary data into a Base64 string." alt="" coords="231,5,408,48"/>
-<area shape="poly" title=" " alt="" coords="183,24,215,24,215,29,183,29"/>
-<area shape="rect" href="a01017.html#abda97488987b0b151816d6cc1ee24873" title="Internal helper to encode binary data into a Base64 string from a view&#45;like type." alt="" coords="456,5,647,48"/>
-<area shape="poly" title=" " alt="" coords="408,24,440,24,440,29,408,29"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a5a9d2bda3548d1d1fa006d182b009443" name="a5a9d2bda3548d1d1fa006d182b009443"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a9d2bda3548d1d1fa006d182b009443">&#9670;&#160;</a></span>encode() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string Encoder::encode </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Encodes binary data from a <code>std::vector&lt;<a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a>&gt;</code> into a Base64 string. </p>
-<p>This is an overloaded function that provides a convenient way to encode binary data stored in a <code>std::vector&lt;<a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a>&gt;</code>. It internally calls the <code>encode</code> function that takes a pointer and size.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>A <code>std::vector&lt;<a class="el" href="a01015.html#a5e9a9660b44f2279e84d63cbdb62ffd1">byte_type</a>&gt;</code> containing the binary data to be encoded. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <code>std::string</code> containing the Base64-encoded representation of the input vector's data. Returns an empty string if the input vector is empty. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01377_a5a9d2bda3548d1d1fa006d182b009443_cgraph.png" border="0" usemap="#aa01377_a5a9d2bda3548d1d1fa006d182b009443_cgraph" alt=""/></div>
-<map name="aa01377_a5a9d2bda3548d1d1fa006d182b009443_cgraph" id="aa01377_a5a9d2bda3548d1d1fa006d182b009443_cgraph">
-<area shape="rect" title="Encodes binary data from a std::vector&lt;byte_type&gt; into a Base64 string." alt="" coords="5,5,183,48"/>
-<area shape="rect" href="a01017.html#abda97488987b0b151816d6cc1ee24873" title="Internal helper to encode binary data into a Base64 string from a view&#45;like type." alt="" coords="231,5,422,48"/>
-<area shape="poly" title=" " alt="" coords="183,24,215,24,215,29,183,29"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ab4a27450b24de1f2b93f9147af8d8688" name="ab4a27450b24de1f2b93f9147af8d8688"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4a27450b24de1f2b93f9147af8d8688">&#9670;&#160;</a></span>encode() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string Encoder::encode </td>
-          <td>(</td>
-          <td class="paramtype">void const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Encodes raw binary data into a Base64 string. </p>
-<p>This function takes a pointer to raw binary data and its size, then converts it into a Base64-encoded string. The resulting string can be safely used for transmission or storage in text-based formats.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Pointer to the binary data to be encoded. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The size of the binary data in bytes. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <code>std::string</code> containing the Base64-encoded representation of the input data. Returns an empty string if <code>data</code> is <code>nullptr</code> or <code>size</code> is <code>0</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01377_ab4a27450b24de1f2b93f9147af8d8688_cgraph.png" border="0" usemap="#aa01377_ab4a27450b24de1f2b93f9147af8d8688_cgraph" alt=""/></div>
-<map name="aa01377_ab4a27450b24de1f2b93f9147af8d8688_cgraph" id="aa01377_ab4a27450b24de1f2b93f9147af8d8688_cgraph">
-<area shape="rect" title="Encodes raw binary data into a Base64 string." alt="" coords="5,5,183,48"/>
-<area shape="rect" href="a01017.html#abda97488987b0b151816d6cc1ee24873" title="Internal helper to encode binary data into a Base64 string from a view&#45;like type." alt="" coords="231,5,422,48"/>
-<area shape="poly" title=" " alt="" coords="183,24,215,24,215,29,183,29"/>
-</map>
+<div class="center"><img src="a01377_ae2accfaa04f297a6e4c12a36448e19ef_cgraph.png" border="0" usemap="#aa01377_ae2accfaa04f297a6e4c12a36448e19ef_cgraph" alt=""/></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01377_ab4a27450b24de1f2b93f9147af8d8688_icgraph.png" border="0" usemap="#aa01377_ab4a27450b24de1f2b93f9147af8d8688_icgraph" alt=""/></div>
-<map name="aa01377_ab4a27450b24de1f2b93f9147af8d8688_icgraph" id="aa01377_ab4a27450b24de1f2b93f9147af8d8688_icgraph">
-<area shape="rect" title="Encodes raw binary data into a Base64 string." alt="" coords="231,35,408,77"/>
-<area shape="rect" href="a01377.html#aac40e65af555a00fb916a0ed0ef33e59" title="Encodes binary data from a std::string_view into a Base64 string." alt="" coords="5,5,183,48"/>
-<area shape="poly" title=" " alt="" coords="215,45,183,41,184,36,216,40"/>
-<area shape="rect" href="a00458.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="69,72,119,99"/>
-<area shape="poly" title=" " alt="" coords="216,72,120,85,119,80,216,67"/>
-</map>
+<div class="center"><img src="a01377_ae2accfaa04f297a6e4c12a36448e19ef_icgraph.png" border="0" usemap="#aa01377_ae2accfaa04f297a6e4c12a36448e19ef_icgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="a00218_source.html">Encoder.hpp</a></li>
-<li><a class="el" href="a00215.html">Encoder.cpp</a></li>
-</ul>
+<a id="a2d4cf60aacd9a54ae35907dc79d7a005" name="a2d4cf60aacd9a54ae35907dc79d7a005"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d4cf60aacd9a54ae35907dc79d7a005">&#9670;&#160;</a></span>construct_at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T * lumex::core::optional::opt::detail::construct_at </td>
+          <td>(</td>
+          <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>where</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>std::construct_at</code>: <code>constexpr</code> from C++20, a placement new before. <code>T</code> is not <code>const</code>: the union stores the value without it. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a2d4cf60aacd9a54ae35907dc79d7a005_cgraph.png" border="0" usemap="#aa01377_a2d4cf60aacd9a54ae35907dc79d7a005_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a2d4cf60aacd9a54ae35907dc79d7a005_icgraph.png" border="0" usemap="#aa01377_a2d4cf60aacd9a54ae35907dc79d7a005_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a082ca03541f76bc3739cf1d6618c70e8" name="a082ca03541f76bc3739cf1d6618c70e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a082ca03541f76bc3739cf1d6618c70e8">&#9670;&#160;</a></span>fwd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp;&amp; lumex::core::optional::opt::detail::fwd </td>
+          <td>(</td>
+          <td class="paramtype">typename std::remove_reference&lt; T &gt;::type &amp;</td>          <td class="paramname"><span class="paramname"><em>t</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>static_cast&lt;T &amp;&amp;&gt; (t)</code>: <code>std::forward</code> is not <code>constexpr</code> in C++11. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a082ca03541f76bc3739cf1d6618c70e8_cgraph.png" border="0" usemap="#aa01377_a082ca03541f76bc3739cf1d6618c70e8_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a082ca03541f76bc3739cf1d6618c70e8_icgraph.png" border="0" usemap="#aa01377_a082ca03541f76bc3739cf1d6618c70e8_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a6e079a46148550bb63fe6ff5249f2989" name="a6e079a46148550bb63fe6ff5249f2989"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e079a46148550bb63fe6ff5249f2989">&#9670;&#160;</a></span>invoke() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Fn, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::optional::opt::detail::invoke </td>
+          <td>(</td>
+          <td class="paramtype">Fn &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>fn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt; decltype (detail::fwd&lt;Fn&gt; (fn) (detail::fwd&lt;Args&gt; (args)...))
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>INVOKE</code> of a function object or a function pointer. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a6e079a46148550bb63fe6ff5249f2989_cgraph.png" border="0" usemap="#aa01377_a6e079a46148550bb63fe6ff5249f2989_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a2425032f49c0a1e321a29743d8cb1e0b" name="a2425032f49c0a1e321a29743d8cb1e0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2425032f49c0a1e321a29743d8cb1e0b">&#9670;&#160;</a></span>invoke() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Member, typename Class, typename Obj&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::optional::opt::detail::invoke </td>
+          <td>(</td>
+          <td class="paramtype">Member Class::*</td>          <td class="paramname"><span class="paramname"><em>pmd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>&#160;) -&gt; typename std::enable_if&lt;
+    !std::is_function&lt;Member&gt;::value,
+    decltype (detail::member_target&lt;Class&gt; (detail::fwd&lt;Obj&gt; (obj))
+              .*pmd)&gt;::type
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>INVOKE</code> of a pointer to a data member. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a2425032f49c0a1e321a29743d8cb1e0b_cgraph.png" border="0" usemap="#aa01377_a2425032f49c0a1e321a29743d8cb1e0b_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a5bc25abebadae33c51fef4b1338ff576" name="a5bc25abebadae33c51fef4b1338ff576"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bc25abebadae33c51fef4b1338ff576">&#9670;&#160;</a></span>invoke() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Member, typename Class, typename Obj, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::optional::opt::detail::invoke </td>
+          <td>(</td>
+          <td class="paramtype">Member Class::*</td>          <td class="paramname"><span class="paramname"><em>pmf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt; typename std::enable_if&lt;
+        std::is_function&lt;Member&gt;::value,
+        decltype ((detail::member_target&lt;Class&gt; (detail::fwd&lt;Obj&gt; (obj))
+                   .*pmf) (detail::fwd&lt;Args&gt; (args)...))&gt;::type
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>INVOKE</code> of a pointer to a member function. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a5bc25abebadae33c51fef4b1338ff576_cgraph.png" border="0" usemap="#aa01377_a5bc25abebadae33c51fef4b1338ff576_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a5bc25abebadae33c51fef4b1338ff576_icgraph.png" border="0" usemap="#aa01377_a5bc25abebadae33c51fef4b1338ff576_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a481def8468f96f311ba579b656bdc84d" name="a481def8468f96f311ba579b656bdc84d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a481def8468f96f311ba579b656bdc84d">&#9670;&#160;</a></span>member_target() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Class, typename Obj&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;!<a class="el" href="a03302.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(*std::declval&lt; Obj &gt;())&gt;::type lumex::core::optional::opt::detail::member_target </td>
+          <td>(</td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The object of a pointer to member, when the first argument is a pointer-like object. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a481def8468f96f311ba579b656bdc84d_cgraph.png" border="0" usemap="#aa01377_a481def8468f96f311ba579b656bdc84d_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ac50c233dd99e0fa65e3082c86c9c226b" name="ac50c233dd99e0fa65e3082c86c9c226b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac50c233dd99e0fa65e3082c86c9c226b">&#9670;&#160;</a></span>member_target() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Class, typename Obj&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, Obj &amp;&amp; &gt;::type lumex::core::optional::opt::detail::member_target </td>
+          <td>(</td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The object of a pointer to member, when the first argument is an object of the class (or derived from it). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_ac50c233dd99e0fa65e3082c86c9c226b_cgraph.png" border="0" usemap="#aa01377_ac50c233dd99e0fa65e3082c86c9c226b_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_ac50c233dd99e0fa65e3082c86c9c226b_icgraph.png" border="0" usemap="#aa01377_ac50c233dd99e0fa65e3082c86c9c226b_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ae5b2b7d6080ebd656edfb4bc77f9de2f" name="ae5b2b7d6080ebd656edfb4bc77f9de2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5b2b7d6080ebd656edfb4bc77f9de2f">&#9670;&#160;</a></span>member_target() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Class, typename Obj&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="a03302.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(std::declval&lt; Obj &gt;().get())&gt;::type lumex::core::optional::opt::detail::member_target </td>
+          <td>(</td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The object of a pointer to member, when the first argument is a <code>std::reference_wrapper</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_ae5b2b7d6080ebd656edfb4bc77f9de2f_cgraph.png" border="0" usemap="#aa01377_ae5b2b7d6080ebd656edfb4bc77f9de2f_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ad9d8ef4b7c161c6d9f3b76e79f498671" name="ad9d8ef4b7c161c6d9f3b76e79f498671"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9d8ef4b7c161c6d9f3b76e79f498671">&#9670;&#160;</a></span>mv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::remove_reference&lt; T &gt;::type &amp;&amp; lumex::core::optional::opt::detail::mv </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>t</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t)</code>: <code>std::move</code> is not <code>constexpr</code> in C++11. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_ad9d8ef4b7c161c6d9f3b76e79f498671_cgraph.png" border="0" usemap="#aa01377_ad9d8ef4b7c161c6d9f3b76e79f498671_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_ad9d8ef4b7c161c6d9f3b76e79f498671_icgraph.png" border="0" usemap="#aa01377_ad9d8ef4b7c161c6d9f3b76e79f498671_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a97bb07d234b056ff0d820f562d7ae2d9" name="a97bb07d234b056ff0d820f562d7ae2d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97bb07d234b056ff0d820f562d7ae2d9">&#9670;&#160;</a></span>throw_bad_optional_access()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::optional::opt::detail::throw_bad_optional_access </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Throws <code><a class="el" href="a03506.html" title="Exception thrown when attempting to access the value of an empty optional.">lumex_bad_optional_access</a></code>; a function, so that the <code>constexpr</code> observers of C++11 can name it in a conditional expression. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a97bb07d234b056ff0d820f562d7ae2d9_cgraph.png" border="0" usemap="#aa01377_a97bb07d234b056ff0d820f562d7ae2d9_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a97bb07d234b056ff0d820f562d7ae2d9_icgraph.png" border="0" usemap="#aa01377_a97bb07d234b056ff0d820f562d7ae2d9_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a3ebf297c5727c955b66997cc5db2918a" name="a3ebf297c5727c955b66997cc5db2918a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ebf297c5727c955b66997cc5db2918a">&#9670;&#160;</a></span>voidify()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * lumex::core::optional::opt::detail::voidify </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The address of <code>object</code> as a <code>void *</code>, also for a <code>const</code> object. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a3ebf297c5727c955b66997cc5db2918a_cgraph.png" border="0" usemap="#aa01377_a3ebf297c5727c955b66997cc5db2918a_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01377_a3ebf297c5727c955b66997cc5db2918a_icgraph.png" border="0" usemap="#aa01377_a3ebf297c5727c955b66997cc5db2918a_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01013.html">base64</a></li><li class="navelem"><a class="el" href="a01021.html">encode</a></li><li class="navelem"><a class="el" href="a01377.html">Encoder</a></li>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01375.html">optional</a></li><li class="navelem"><a class="el" href="a01376.html">opt</a></li><li class="navelem"><a class="el" href="a01377.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

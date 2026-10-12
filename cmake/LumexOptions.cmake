@@ -34,6 +34,7 @@ option(LUMEX_BUILD_XML "Build Xml" ON)
 option(LUMEX_BUILD_ATOMIC "Build core/atomic (header-only atomic_shared_ptr / atomic_weak_ptr)" ON)
 option(LUMEX_BUILD_BASE64 "Build core/base64" ON)
 option(LUMEX_BUILD_CIRCULAR_BUFFER "Build core/circular_buffer" ON)
+option(LUMEX_BUILD_CONTRACTS "Build core/contracts (LUMEX_CONTRACT_ASSERT, the contract assertion of C++26, from C++11)" ON)
 option(LUMEX_BUILD_CRC "Build core/crc" ON)
 option(LUMEX_BUILD_ENVIRONMENT "Build core/environment" ON)
 option(LUMEX_BUILD_EXCEPTIONS "Build core/exceptions" ON)
@@ -41,9 +42,11 @@ option(LUMEX_BUILD_EXPECTED "Build core/expected" ON)
 option(LUMEX_BUILD_FILESYSTEM "Build core/filesystem" ON)
 option(LUMEX_BUILD_FMT "Build core/fmt (std::format-style formatting)" ON)
 option(LUMEX_BUILD_GENERATORS "Build core/generators" ON)
+option(LUMEX_BUILD_HAZARD_POINTER "Build core/hazard_pointer (hazard pointers from C++11, the interface of C++26 <hazard_pointer>)" ON)
 option(LUMEX_BUILD_MATH "Build core/math" ON)
 option(LUMEX_BUILD_OPTIONAL "Build core/optional" ON)
 option(LUMEX_BUILD_REFLECTION "Build core/reflection" ON)
+option(LUMEX_BUILD_SMART_PTR "Build core/smart_ptr (header-only shared_ptr / weak_ptr family with the own split-count control block, from C++11)" ON)
 option(LUMEX_BUILD_SPAN "Build core/span (header-only C++11 backport of std::span)" ON)
 option(LUMEX_BUILD_STRING "Build core/string" ON)
 option(LUMEX_BUILD_STRING_VIEW "Build core/string_view" ON)
@@ -70,7 +73,18 @@ set(LUMEX_LOGGER_CONFIG_FORMAT "PLAIN_TEXT" CACHE STRING
 set_property(CACHE LUMEX_LOGGER_CONFIG_FORMAT PROPERTY STRINGS
     PLAIN_TEXT INI JSON YAML XML)
 
-option(LUMEX_XML_WCHAR_MODE "Build Xml with wchar_t mode" OFF)
+# The evaluation semantic of LUMEX_CONTRACT_ASSERT for the whole build (target
+# lumex::contracts passes it to every translation unit that links the target;
+# a translation unit may override it with the macro LUMEX_CONTRACTS_SEMANTIC).
+# IGNORE never evaluates the predicate; OBSERVE reports a false predicate to the
+# violation handler and continues; ENFORCE (default) reports and aborts;
+# QUICK_ENFORCE stops at once without a handler; P2900 uses the compiler's own
+# contract_assert where the compiler has one (enforce otherwise).
+set(LUMEX_CONTRACTS_SEMANTIC "ENFORCE" CACHE STRING
+    "Evaluation semantic of LUMEX_CONTRACT_ASSERT: IGNORE, OBSERVE, ENFORCE, QUICK_ENFORCE, or P2900")
+set_property(CACHE LUMEX_CONTRACTS_SEMANTIC PROPERTY STRINGS
+    IGNORE OBSERVE ENFORCE QUICK_ENFORCE P2900)
+
 option(LUMEX_WITH_FIELD_REFLECTION "Enable field reflection to_json via LumexAggregateFields + vendored nlohmann/json" ON)
 
 # ==============================================================================
@@ -80,6 +94,7 @@ option(LUMEX_BUILD_DOCUMENTATION "Build Doxygen documentation" OFF)
 option(LUMEX_BUILD_EXAMPLES "Build the examples for the LumexLib (also implied by LUMEX_BUILD_TESTS)" OFF)
 option(LUMEX_BUILD_TESTS "Build the tests for LumexCore (also compiles and runs lumex/examples)" OFF)
 option(LUMEX_BUILD_BENCHMARKS "Build the benchmarks under benchmarks/ (Release builds only make sense)" OFF)
+option(LUMEX_BUILD_SOAK_TESTS "Register the long soak and ThreadSanitizer runs (CTest labels soak and tsan: core/hazard_pointer and the concurrency tests of core/atomic; not in the default run; needs LUMEX_BUILD_TESTS; the soak registration of the atomic tests needs CMake 3.22 or later; LUMEX_TEST_SOAK_SECONDS sets their length)" OFF)
 
 # ==============================================================================
 # INSTALL

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_hardware_workflow.cpp File Reference</title>
+<title>LumexLib: LumexSpanTraits.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,114 +104,310 @@ $(function(){initNavTree('a00530.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_hardware_workflow.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexSpanTraits.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00869_source.html">lumex/applied/hardware/LumexHardware</a>&quot;</code><br />
+
+<p>Constants, the byte type and the traits behind <code>span</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;initializer_list&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00527_source.html">lumex/core/span/view/LumexSpanStdIterators.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_hardware_workflow.cpp:</div>
+Include dependency graph for LumexSpanTraits.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00531.png" border="0" usemap="#aexample__hardware__workflow_8cpp" alt=""/></div>
-<map name="aexample__hardware__workflow_8cpp" id="aexample__hardware__workflow_8cpp">
-<area shape="rect" title=" " alt="" coords="494,5,708,32"/>
-<area shape="rect" title=" " alt="" coords="496,88,568,115"/>
-<area shape="poly" title=" " alt="" coords="592,34,554,78,550,75,588,31"/>
-<area shape="rect" href="a00869.html" title="Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the ..." alt="" coords="591,80,750,123"/>
-<area shape="poly" title=" " alt="" coords="614,31,645,67,641,70,610,34"/>
-<area shape="rect" href="a00059.html" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="202,171,398,213"/>
-<area shape="poly" title=" " alt="" coords="592,124,402,169,401,164,590,119"/>
-<area shape="rect" href="a00065.html" title="Hardware inventory (processor, memory, graphics adapter) and the decision whether an application shou..." alt="" coords="919,179,1160,205"/>
-<area shape="poly" title=" " alt="" coords="751,119,973,172,972,177,750,124"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="357,269,520,296"/>
-<area shape="poly" title=" " alt="" coords="334,212,407,258,404,263,331,216"/>
-<area shape="rect" title=" " alt="" coords="5,269,56,296"/>
-<area shape="poly" title=" " alt="" coords="215,216,143,237,69,264,67,265,65,260,67,259,141,232,213,211"/>
-<area shape="rect" title=" " alt="" coords="544,269,605,296"/>
-<area shape="poly" title=" " alt="" coords="382,211,456,233,533,259,537,260,535,265,531,264,454,238,381,217"/>
-<area shape="rect" title=" " alt="" coords="189,269,242,296"/>
-<area shape="poly" title=" " alt="" coords="282,216,240,260,236,256,278,212"/>
-<area shape="rect" title=" " alt="" coords="80,269,165,296"/>
-<area shape="poly" title=" " alt="" coords="259,216,163,264,160,260,257,212"/>
-<area shape="rect" title=" " alt="" coords="266,269,334,296"/>
-<area shape="poly" title=" " alt="" coords="302,214,302,254,297,254,297,214"/>
-<area shape="poly" title=" " alt="" coords="927,209,741,232,532,264,509,268,508,263,531,259,741,227,926,203"/>
-<area shape="poly" title=" " alt="" coords="919,206,774,227,695,243,618,264,613,265,612,260,616,259,694,238,773,222,919,201"/>
-<area shape="poly" title=" " alt="" coords="919,201,753,209,562,222,383,240,311,251,255,264,251,265,250,260,254,259,310,246,383,235,561,217,752,204,919,195"/>
-<area shape="poly" title=" " alt="" coords="919,196,798,201,653,212,498,232,346,264,339,266,338,261,345,259,497,227,653,207,797,196,918,191"/>
-<area shape="rect" title=" " alt="" coords="1815,269,1880,296"/>
-<area shape="poly" title=" " alt="" coords="1161,197,1507,220,1679,238,1803,259,1810,261,1808,266,1802,264,1678,243,1506,225,1161,202"/>
-<area shape="rect" title=" " alt="" coords="1904,269,1970,296"/>
-<area shape="poly" title=" " alt="" coords="1161,195,1552,217,1750,235,1832,246,1894,259,1900,261,1899,266,1893,264,1831,252,1750,241,1552,222,1161,200"/>
-<area shape="rect" title=" " alt="" coords="1994,269,2059,296"/>
-<area shape="poly" title=" " alt="" coords="1161,194,1360,202,1597,215,1821,233,1913,245,1983,259,1990,261,1988,266,1982,264,1912,250,1820,239,1596,220,1360,207,1161,199"/>
-<area shape="rect" title=" " alt="" coords="2083,269,2151,296"/>
-<area shape="poly" title=" " alt="" coords="1161,194,1378,201,1640,213,1890,232,1993,244,2071,259,2079,261,2077,266,2070,264,1992,250,1889,238,1640,219,1378,206,1161,199"/>
-<area shape="rect" title=" " alt="" coords="628,269,686,296"/>
-<area shape="poly" title=" " alt="" coords="940,209,823,230,760,245,698,264,694,265,692,260,696,259,758,240,822,225,939,203"/>
-<area shape="rect" title=" " alt="" coords="709,269,792,296"/>
-<area shape="poly" title=" " alt="" coords="993,208,805,264,798,266,796,261,803,259,991,203"/>
-<area shape="rect" title=" " alt="" coords="816,269,888,296"/>
-<area shape="poly" title=" " alt="" coords="1014,208,893,265,891,260,1012,204"/>
-<area shape="rect" title=" " alt="" coords="912,269,973,296"/>
-<area shape="poly" title=" " alt="" coords="1028,208,969,261,966,257,1024,204"/>
-<area shape="rect" title=" " alt="" coords="997,269,1082,296"/>
-<area shape="poly" title=" " alt="" coords="1042,206,1042,254,1037,254,1037,206"/>
-<area shape="rect" title=" " alt="" coords="1107,269,1239,296"/>
-<area shape="poly" title=" " alt="" coords="1060,204,1143,258,1140,263,1057,208"/>
-<area shape="rect" title=" " alt="" coords="1263,269,1363,296"/>
-<area shape="poly" title=" " alt="" coords="1080,203,1253,259,1261,262,1260,267,1251,264,1078,208"/>
-<area shape="rect" title=" " alt="" coords="1388,269,1484,296"/>
-<area shape="poly" title=" " alt="" coords="1116,203,1239,227,1376,259,1387,262,1386,267,1375,264,1238,232,1115,209"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1558,261,1791,304"/>
-<area shape="poly" title=" " alt="" coords="1136,203,1540,259,1543,259,1542,264,1539,264,1135,209"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1500,352,1694,395"/>
-<area shape="poly" title=" " alt="" coords="1161,200,1351,222,1437,238,1497,259,1534,291,1574,338,1570,341,1530,295,1494,264,1435,243,1350,227,1160,205"/>
-<area shape="poly" title=" " alt="" coords="1659,306,1627,342,1623,339,1655,303"/>
-</map>
+<div class="center"><img src="a00531.png" border="0" usemap="#a_lumex_span_traits_8hpp" alt=""/></div>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00532.png" border="0" usemap="#a_lumex_span_traits_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00530_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03854.html">lumex::core::span::view::is_contiguous_iterator&lt; It &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells whether a type is an iterator over contiguous storage.  <a href="a03854.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03858.html">lumex::core::span::view::is_contiguous_iterator&lt; T * &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointers to objects are contiguous iterators; pointers to <code>void</code> and to functions are not.  <a href="a03858.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03862.html">lumex::core::span::view::detail::remove_cvref&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type with its reference and top-level cv qualifiers removed.  <a href="a03862.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03866.html">lumex::core::span::view::detail::is_array_convertible&lt; From, To, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code>From (*)[]</code> converts to <code>To (*)[]</code>.  <a href="a03866.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03870.html">lumex::core::span::view::detail::is_array_convertible&lt; From, To, typename std::enable_if&lt; std::is_convertible&lt; From(*)[], To(*)[]&gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03874.html">lumex::core::span::view::detail::copy_cv&lt; Like, Type &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Type</code> with the <code>const</code> and <code>volatile</code> qualifiers of <code>Like</code>.  <a href="a03874.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03878.html">lumex::core::span::view::detail::byte_twin&lt; T, Plain &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The other byte type, with the qualifiers of <code>T</code>: <code>std::byte</code> for <code>byte</code> and <code>byte</code> for <code>std::byte</code>. No <code>type</code> for any other <code>T</code>.  <a href="a03878.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03882.html">lumex::core::span::view::detail::byte_twin&lt; T, byte &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03886.html">lumex::core::span::view::detail::byte_twin&lt; T, std::byte &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03890.html">lumex::core::span::view::detail::is_byte_twin_convertible&lt; From, To, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code>From</code> and <code>To</code> are the two byte types (<code>byte</code> and <code>std::byte</code>, in either order) and a pointer to <code>From</code> becomes a pointer to <code>To</code> by the exchange of the byte type plus a qualification conversion (<code>std::byte const</code> to <code>byte const</code> or to <code>byte const volatile</code>, never to <code>byte</code>).  <a href="a03890.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03894.html">lumex::core::span::view::detail::is_byte_twin_convertible&lt; From, To, typename std::enable_if&lt; is_array_convertible&lt; typename byte_twin&lt; From &gt;::type, To &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03898.html">lumex::core::span::view::detail::is_span&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for every <code>span&lt;T, Extent&gt;</code>.  <a href="a03898.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03902.html">lumex::core::span::view::detail::is_span&lt; span&lt; T, Extent &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03906.html">lumex::core::span::view::detail::is_std_array&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for every <code>std::array&lt;T, N&gt;</code>.  <a href="a03906.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03910.html">lumex::core::span::view::detail::is_std_array&lt; std::array&lt; T, N &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03914.html">lumex::core::span::view::detail::is_extent_compatible&lt; Extent, Other &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when a view of <code>Extent</code> elements may be made from <code>Other</code> elements: at least one of the two is dynamic, or they are equal.  <a href="a03914.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03918.html">lumex::core::span::view::detail::span_storage&lt; T, Extent &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pointer and the element count of a <code>span</code>; the count is stored only when it is not part of the type.  <a href="a03918.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03922.html">lumex::core::span::view::detail::span_storage&lt; T, dynamic_extent &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03926.html">lumex::core::span::view::detail::subspan_extent&lt; Extent, Offset, Count &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The extent of <code><a class="el" href="a03850.html#a13a83ffe79d91fd182648cca8911f850" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size...">span::subspan</a>&lt;Offset, Count&gt;()</code>.  <a href="a03926.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03930.html">lumex::core::span::view::detail::bytes_extent&lt; T, Extent &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The extent of the byte view of a <code>span&lt;T, Extent&gt;</code>.  <a href="a03930.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03934.html">lumex::core::span::view::detail::range_element&lt; Range, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element type of a range with a pointer-returning <code>data ()</code>.  <a href="a03934.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03938.html">lumex::core::span::view::detail::range_element&lt; Range, typename std::enable_if&lt; std::is_pointer&lt; decltype(range_data(std::declval&lt; Range &amp; &gt;()))&gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03942.html">lumex::core::span::view::detail::range_has_size&lt; Range, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when the range has a <code>size ()</code> convertible to <code>std::size_t</code>.  <a href="a03942.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03946.html">lumex::core::span::view::detail::range_has_size&lt; Range, typename std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; Range &amp; &gt;().size()), std::size_t &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03950.html">lumex::core::span::view::detail::is_borrowed_range&lt; Range &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when a range passed as <code>Range &amp;&amp;</code> outlives its view: an lvalue, or a type that opted into <code>std::ranges::enable_borrowed_range</code>.  <a href="a03950.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03954.html">lumex::core::span::view::detail::range_declared_extent&lt; Range, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of elements a range type declares in its type through a static member <code>extent</code> (<code>std::span</code>, <code>boost::span</code>), <code>dynamic_extent</code> for a range that does not.  <a href="a03954.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03958.html">lumex::core::span::view::detail::range_declared_extent&lt; Range, typename std::enable_if&lt; std::is_convertible&lt; decltype(remove_cvref&lt; Range &gt;::type::extent), std::size_t &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03962.html">lumex::core::span::view::detail::is_compatible_range&lt; Range, T, Extent, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code>Range</code> may initialize a <code>span&lt;T, Extent&gt;</code>: the stand-in for <code>contiguous_range &amp;&amp; sized_range &amp;&amp; (borrowed_range || is_const_v&lt;T&gt;)</code> with an element type that converts to <code>T</code>, excluding arrays, <code>std::array</code> and <code>span</code>, which have constructors of their own. A range that declares an extent in its type (another library's span) must declare one compatible with <code>Extent</code>, as a <code>span</code> source must.  <a href="a03962.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03966.html">lumex::core::span::view::detail::is_compatible_range&lt; Range, T, Extent, typename std::enable_if&lt; !is_span&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!is_std_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!std::is_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;(std::is_const&lt; T &gt;::value||is_borrowed_range&lt; Range &gt;::value) &amp;&amp;is_extent_compatible&lt; Extent, range_declared_extent&lt; Range &gt;::value &gt;::value &amp;&amp;range_has_size&lt; Range &gt;::value &amp;&amp;is_array_convertible&lt; typename range_element&lt; Range &gt;::type, T &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03970.html">lumex::core::span::view::detail::is_compatible_iterator&lt; Iterator, T, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code>Iterator</code> is a contiguous iterator whose elements convert to <code>T</code>.  <a href="a03970.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03974.html">lumex::core::span::view::detail::is_compatible_iterator&lt; Iterator, T, typename std::enable_if&lt; is_contiguous_iterator&lt; Iterator &gt;::value &amp;&amp;is_array_convertible&lt; typename std::remove_reference&lt; decltype(*std::declval&lt; Iterator &amp; &gt;())&gt;::type, T &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03978.html">lumex::core::span::view::detail::is_sized_sentinel&lt; Sentinel, Iterator, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code>Sentinel</code> ends a range of <code>Iterator</code> in a known number of steps and is not a count: the stand-in for <code>std::sized_sentinel_for</code>.  <a href="a03978.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03982.html">lumex::core::span::view::detail::is_sized_sentinel&lt; Sentinel, Iterator, typename std::enable_if&lt; !std::is_convertible&lt; Sentinel, std::size_t &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Sentinel &amp; &gt;() - std::declval&lt; Iterator &amp; &gt;()), std::ptrdiff_t &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01387.html">lumex::core::span</a></td></tr>
+<tr class="memdesc:a01387"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>span</code> module: a non-owning view of a contiguous sequence. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html">lumex::core::span::view</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01389.html">lumex::core::span::view::detail</a></td></tr>
+<tr class="memdesc:a01389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helpers of the module. Not part of the public interface. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a521f400ebcb24a7acfeb17f6ed552ab0" id="r_a521f400ebcb24a7acfeb17f6ed552ab0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a521f400ebcb24a7acfeb17f6ed552ab0">LUMEX_SPAN_HAS_CONCEPTS</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a521f400ebcb24a7acfeb17f6ed552ab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the C++20 iterator concepts (<code>std::contiguous_iterator</code>, <code>std::sized_sentinel_for</code>) are available, 0 otherwise.  <br /></td></tr>
+<tr class="separator:a521f400ebcb24a7acfeb17f6ed552ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a897e402bdcad87bae41ed90985ee3b00" id="r_a897e402bdcad87bae41ed90985ee3b00"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a897e402bdcad87bae41ed90985ee3b00">LUMEX_SPAN_HAS_RANGES</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a897e402bdcad87bae41ed90985ee3b00"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>std::ranges::enable_borrowed_range</code> and <code>std::ranges::enable_view</code> exist, 0 otherwise.  <br /></td></tr>
+<tr class="separator:a897e402bdcad87bae41ed90985ee3b00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7961feadcd0da355413e784f2fdad40a" id="r_a7961feadcd0da355413e784f2fdad40a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7961feadcd0da355413e784f2fdad40a">LUMEX_SPAN_HAS_STD_SPAN</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a7961feadcd0da355413e784f2fdad40a"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>std::span</code> and <code>std::byte</code> both exist (C++20 with <code>&lt;span&gt;</code>), 0 otherwise.  <br /></td></tr>
+<tr class="separator:a7961feadcd0da355413e784f2fdad40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c8bfb19cc4b4c72fe74b73809022f51" id="r_a6c8bfb19cc4b4c72fe74b73809022f51"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c8bfb19cc4b4c72fe74b73809022f51">LUMEX_SPAN_MAY_ALIAS</a></td></tr>
+<tr class="memdesc:a6c8bfb19cc4b4c72fe74b73809022f51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the own <code>byte</code> as a type that may alias any object, as the standard allows <code>std::byte</code> to.  <br /></td></tr>
+<tr class="separator:a6c8bfb19cc4b4c72fe74b73809022f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:addd860fd335f762ed6b75800cf34c5ea" id="r_addd860fd335f762ed6b75800cf34c5ea"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">lumex::core::span::view::byte</a> : unsigned char </td></tr>
+<tr class="memdesc:addd860fd335f762ed6b75800cf34c5ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element type of the byte views <code>as_bytes</code> and <code>as_writable_bytes</code> return: an own scoped enumeration with the underlying type <code>unsigned char</code>, the operators and <code>to_integer</code> of <code>std::byte</code>.  <a href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">More...</a><br /></td></tr>
+<tr class="separator:addd860fd335f762ed6b75800cf34c5ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af33736c685d14d2b787a7ff15f5437f9" id="r_af33736c685d14d2b787a7ff15f5437f9"><td class="memTemplParams" colspan="2">template&lt;typename IntegerType&gt; </td></tr>
+<tr class="memitem:af33736c685d14d2b787a7ff15f5437f9"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_integral&lt; IntegerType &gt;::value, IntegerType &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01388.html#af33736c685d14d2b787a7ff15f5437f9">lumex::core::span::view::to_integer</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> value) noexcept</td></tr>
+<tr class="memdesc:af33736c685d14d2b787a7ff15f5437f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a <code>byte</code> to an integer type.  <br /></td></tr>
+<tr class="separator:af33736c685d14d2b787a7ff15f5437f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac24bcd4b5697e9eb68f46a356c586541" id="r_ac24bcd4b5697e9eb68f46a356c586541"><td class="memTemplParams" colspan="2">template&lt;typename IntegerType&gt; </td></tr>
+<tr class="memitem:ac24bcd4b5697e9eb68f46a356c586541"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_integral&lt; IntegerType &gt;::value, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01388.html#ac24bcd4b5697e9eb68f46a356c586541">lumex::core::span::view::operator&lt;&lt;</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> value, IntegerType shift) noexcept</td></tr>
+<tr class="memdesc:ac24bcd4b5697e9eb68f46a356c586541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shifts a <code>byte</code> to the left.  <br /></td></tr>
+<tr class="separator:ac24bcd4b5697e9eb68f46a356c586541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70e8abe000970df950944840b1406640" id="r_a70e8abe000970df950944840b1406640"><td class="memTemplParams" colspan="2">template&lt;typename IntegerType&gt; </td></tr>
+<tr class="memitem:a70e8abe000970df950944840b1406640"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_integral&lt; IntegerType &gt;::value, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01388.html#a70e8abe000970df950944840b1406640">lumex::core::span::view::operator&gt;&gt;</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> value, IntegerType shift) noexcept</td></tr>
+<tr class="memdesc:a70e8abe000970df950944840b1406640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shifts a <code>byte</code> to the right.  <br /></td></tr>
+<tr class="separator:a70e8abe000970df950944840b1406640"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab53e35921f5c22b3cec7718bc262c6ba" id="r_ab53e35921f5c22b3cec7718bc262c6ba"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#ab53e35921f5c22b3cec7718bc262c6ba">lumex::core::span::view::operator|</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> lhs, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> rhs) noexcept</td></tr>
+<tr class="memdesc:ab53e35921f5c22b3cec7718bc262c6ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise or of two bytes.  <br /></td></tr>
+<tr class="separator:ab53e35921f5c22b3cec7718bc262c6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a929287abb8994e31fb701c9e50aeb3db" id="r_a929287abb8994e31fb701c9e50aeb3db"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#a929287abb8994e31fb701c9e50aeb3db">lumex::core::span::view::operator&amp;</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> lhs, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a929287abb8994e31fb701c9e50aeb3db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise and of two bytes.  <br /></td></tr>
+<tr class="separator:a929287abb8994e31fb701c9e50aeb3db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2099c0b8638b792c265fccd865456ca" id="r_af2099c0b8638b792c265fccd865456ca"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#af2099c0b8638b792c265fccd865456ca">lumex::core::span::view::operator^</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> lhs, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> rhs) noexcept</td></tr>
+<tr class="memdesc:af2099c0b8638b792c265fccd865456ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise exclusive or of two bytes.  <br /></td></tr>
+<tr class="separator:af2099c0b8638b792c265fccd865456ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4afe0910905bf4312aa570bdef76afb" id="r_ac4afe0910905bf4312aa570bdef76afb"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#ac4afe0910905bf4312aa570bdef76afb">lumex::core::span::view::operator~</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> value) noexcept</td></tr>
+<tr class="memdesc:ac4afe0910905bf4312aa570bdef76afb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise complement of a byte.  <br /></td></tr>
+<tr class="separator:ac4afe0910905bf4312aa570bdef76afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a087db4e428dd9e5348e407e3a61530" id="r_a0a087db4e428dd9e5348e407e3a61530"><td class="memTemplParams" colspan="2">template&lt;typename IntegerType&gt; </td></tr>
+<tr class="memitem:a0a087db4e428dd9e5348e407e3a61530"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_integral&lt; IntegerType &gt;::value, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01388.html#a0a087db4e428dd9e5348e407e3a61530">lumex::core::span::view::operator&lt;&lt;=</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp;value, IntegerType shift) noexcept</td></tr>
+<tr class="memdesc:a0a087db4e428dd9e5348e407e3a61530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shifts a <code>byte</code> to the left in place.  <br /></td></tr>
+<tr class="separator:a0a087db4e428dd9e5348e407e3a61530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700355531a8ebdcde856ef6d10084b70" id="r_a700355531a8ebdcde856ef6d10084b70"><td class="memTemplParams" colspan="2">template&lt;typename IntegerType&gt; </td></tr>
+<tr class="memitem:a700355531a8ebdcde856ef6d10084b70"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_integral&lt; IntegerType &gt;::value, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01388.html#a700355531a8ebdcde856ef6d10084b70">lumex::core::span::view::operator&gt;&gt;=</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp;value, IntegerType shift) noexcept</td></tr>
+<tr class="memdesc:a700355531a8ebdcde856ef6d10084b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shifts a <code>byte</code> to the right in place.  <br /></td></tr>
+<tr class="separator:a700355531a8ebdcde856ef6d10084b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13d4d4c0a6e683d71adf1723383037d1" id="r_a13d4d4c0a6e683d71adf1723383037d1"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#a13d4d4c0a6e683d71adf1723383037d1">lumex::core::span::view::operator|=</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp;lhs, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a13d4d4c0a6e683d71adf1723383037d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise or of two bytes in place.  <br /></td></tr>
+<tr class="separator:a13d4d4c0a6e683d71adf1723383037d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822b34cc05ca891988dac9c032ec6953" id="r_a822b34cc05ca891988dac9c032ec6953"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#a822b34cc05ca891988dac9c032ec6953">lumex::core::span::view::operator&amp;=</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp;lhs, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a822b34cc05ca891988dac9c032ec6953"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise and of two bytes in place.  <br /></td></tr>
+<tr class="separator:a822b34cc05ca891988dac9c032ec6953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea7f63d619a185eab23d5ae9fc2e549e" id="r_aea7f63d619a185eab23d5ae9fc2e549e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#aea7f63d619a185eab23d5ae9fc2e549e">lumex::core::span::view::operator^=</a> (<a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> &amp;lhs, <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a> rhs) noexcept</td></tr>
+<tr class="memdesc:aea7f63d619a185eab23d5ae9fc2e549e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise exclusive or of two bytes in place.  <br /></td></tr>
+<tr class="separator:aea7f63d619a185eab23d5ae9fc2e549e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aeff79089621667da4b6131d3548e5a" id="r_a7aeff79089621667da4b6131d3548e5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01389.html#a7aeff79089621667da4b6131d3548e5a">lumex::core::span::view::detail::throw_out_of_range</a> (char const *what)</td></tr>
+<tr class="memdesc:a7aeff79089621667da4b6131d3548e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throws <code>std::out_of_range</code>; keeps the throw out of the inline accessors.  <br /></td></tr>
+<tr class="separator:a7aeff79089621667da4b6131d3548e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07dd8478c0e5afece2b1d8149782d3f5" id="r_a07dd8478c0e5afece2b1d8149782d3f5"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
+<tr class="memitem:a07dd8478c0e5afece2b1d8149782d3f5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01389.html#a07dd8478c0e5afece2b1d8149782d3f5">lumex::core::span::view::detail::range_data</a> (Range &amp;range) noexcept(noexcept(range.data())) -&gt; decltype(range.data())</td></tr>
+<tr class="memdesc:a07dd8478c0e5afece2b1d8149782d3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pointer of a contiguous range: the member <code>data ()</code>.  <br /></td></tr>
+<tr class="separator:a07dd8478c0e5afece2b1d8149782d3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaff1f2d3fdef5f4c91bd2fdf1bd2435" id="r_adaff1f2d3fdef5f4c91bd2fdf1bd2435"><td class="memTemplParams" colspan="2">template&lt;typename Element&gt; </td></tr>
+<tr class="memitem:adaff1f2d3fdef5f4c91bd2fdf1bd2435"><td class="memTemplItemLeft" align="right" valign="top">constexpr Element const *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01389.html#adaff1f2d3fdef5f4c91bd2fdf1bd2435">lumex::core::span::view::detail::range_data</a> (std::initializer_list&lt; Element &gt; list) noexcept</td></tr>
+<tr class="memdesc:adaff1f2d3fdef5f4c91bd2fdf1bd2435"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pointer of a <code>std::initializer_list</code>, which has no <code>data ()</code>.  <br /></td></tr>
+<tr class="separator:adaff1f2d3fdef5f4c91bd2fdf1bd2435"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f9d694e508422a021a582b77a2be2a1" id="r_a9f9d694e508422a021a582b77a2be2a1"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a9f9d694e508422a021a582b77a2be2a1"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01389.html#a9f9d694e508422a021a582b77a2be2a1">lumex::core::span::view::detail::address_of</a> (T &amp;object) noexcept</td></tr>
+<tr class="memdesc:a9f9d694e508422a021a582b77a2be2a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of an object, ignoring an overloaded <code>operator&amp;</code>: what <code>std::addressof</code> does, without including <code>&lt;memory&gt;</code> (which costs a translation unit as much as the whole module).  <br /></td></tr>
+<tr class="separator:a9f9d694e508422a021a582b77a2be2a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd4e4aab281dfa2240fd5006c31265fa" id="r_afd4e4aab281dfa2240fd5006c31265fa"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:afd4e4aab281dfa2240fd5006c31265fa"><td class="memTemplItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01389.html#afd4e4aab281dfa2240fd5006c31265fa">lumex::core::span::view::detail::iterator_address</a> (T *iterator, std::size_t) noexcept</td></tr>
+<tr class="memdesc:afd4e4aab281dfa2240fd5006c31265fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of the first element of a contiguous range given by a pointer; the count is not needed.  <br /></td></tr>
+<tr class="separator:afd4e4aab281dfa2240fd5006c31265fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cd5de0c8ebed8aeb690c38d3505507f" id="r_a7cd5de0c8ebed8aeb690c38d3505507f"><td class="memTemplParams" colspan="2">template&lt;typename Iterator&gt; </td></tr>
+<tr class="memitem:a7cd5de0c8ebed8aeb690c38d3505507f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt;!std::is_pointer&lt; Iterator &gt;::value, typenamestd::add_pointer&lt; typenamestd::remove_reference&lt; decltype(*std::declval&lt; Iterator &amp; &gt;())&gt;::type &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01389.html#a7cd5de0c8ebed8aeb690c38d3505507f">lumex::core::span::view::detail::iterator_address</a> (Iterator iterator, std::size_t count) noexcept</td></tr>
+<tr class="memdesc:a7cd5de0c8ebed8aeb690c38d3505507f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of the first element of a contiguous range given by an iterator class.  <br /></td></tr>
+<tr class="separator:a7cd5de0c8ebed8aeb690c38d3505507f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a8a475214931cb276cb375e3e0b30e9c5" id="r_a8a475214931cb276cb375e3e0b30e9c5"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html#a8a475214931cb276cb375e3e0b30e9c5">lumex::core::span::view::dynamic_extent</a> = static_cast&lt;std::size_t&gt; (-1)</td></tr>
+<tr class="memdesc:a8a475214931cb276cb375e3e0b30e9c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The extent of a <code>span</code> whose number of elements is known at run time.  <br /></td></tr>
+<tr class="separator:a8a475214931cb276cb375e3e0b30e9c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Constants, the byte type and the traits behind <code>span</code>. </p>
+<p>Holds everything that <code>span</code> and the free functions around it share: <code>dynamic_extent</code>, <code>byte</code> (an own scoped enumeration with the operators of <code>std::byte</code>, in every standard), the customization trait <code>is_contiguous_iterator</code> and the detection traits of the C++11 stand-ins for the concepts the C++20 <code>std::span</code> constrains its constructors with (<code>contiguous_range</code>, <code>sized_range</code>, <code>borrowed_range</code>, <code>contiguous_iterator</code>, <code>sized_sentinel_for</code>). The header also defines the configuration macros <code>LUMEX_SPAN_HAS_CONCEPTS</code> and <code>LUMEX_SPAN_HAS_RANGES</code>. Nothing here allocates or throws. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a521f400ebcb24a7acfeb17f6ed552ab0" name="a521f400ebcb24a7acfeb17f6ed552ab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a521f400ebcb24a7acfeb17f6ed552ab0">&#9670;&#160;</a></span>LUMEX_SPAN_HAS_CONCEPTS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">#define LUMEX_SPAN_HAS_CONCEPTS&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00530_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00530_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-<map name="aa00530_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00530_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
-<area shape="rect" title=" " alt="" coords="5,200,55,227"/>
-<area shape="rect" href="a01165.html#a0c41e02b6d1e0710680d86766b4732a1" title="Performs comprehensive CPU vectorization capabilities detection." alt="" coords="103,5,322,64"/>
-<area shape="poly" title=" " alt="" coords="32,199,55,140,74,105,101,74,104,71,108,75,105,78,79,108,59,142,37,201"/>
-<area shape="rect" href="a04021.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="140,88,285,131"/>
-<area shape="poly" title=" " alt="" coords="40,198,66,169,101,140,124,129,126,134,104,145,69,173,44,201"/>
-<area shape="rect" href="a04021.html#ae7ff4b9ce7d8a1f9749c1f01a0e2d182" title="Estimates CPU generation year based on processor model name analysis." alt="" coords="125,155,300,197"/>
-<area shape="poly" title=" " alt="" coords="55,206,109,194,110,200,56,211"/>
-<area shape="rect" href="a01165.html#a3714f0eda41c0d71a8a52e5c2a1c6e43" title="Gets a human&#45;readable summary of supported vectorization technologies." alt="" coords="103,221,322,280"/>
-<area shape="poly" title=" " alt="" coords="56,216,88,222,87,228,55,221"/>
-<area shape="rect" href="a04021.html#a2947a856c7b322f8ed0f3135d34b389f" title="Determines if CPU belongs to legacy/outdated processor family." alt="" coords="140,304,285,347"/>
-<area shape="poly" title=" " alt="" coords="42,225,68,258,104,290,126,301,124,306,101,294,64,261,38,229"/>
-<area shape="rect" href="a04021.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="136,371,288,429"/>
-<area shape="poly" title=" " alt="" coords="37,226,58,288,78,325,104,357,124,371,121,375,101,361,74,328,53,291,32,228"/>
-</map>
+
+<p>1 when the C++20 iterator concepts (<code>std::contiguous_iterator</code>, <code>std::sized_sentinel_for</code>) are available, 0 otherwise. </p>
+<p>Tested on the library feature (<code>__cpp_lib_concepts</code>) together with the language one, not on <code>__cplusplus</code> alone: GCC 8 accepts <code>-std=c++2a</code> without concepts. </p>
+
 </div>
+</div>
+<a id="a897e402bdcad87bae41ed90985ee3b00" name="a897e402bdcad87bae41ed90985ee3b00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a897e402bdcad87bae41ed90985ee3b00">&#9670;&#160;</a></span>LUMEX_SPAN_HAS_RANGES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SPAN_HAS_RANGES&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when <code>std::ranges::enable_borrowed_range</code> and <code>std::ranges::enable_view</code> exist, 0 otherwise. </p>
+<p>When it is 1, <code>span</code> opts into both and accepts the rvalues of every standard borrowed range (for example <code>std::span</code>) in its range constructor. </p>
+
+</div>
+</div>
+<a id="a7961feadcd0da355413e784f2fdad40a" name="a7961feadcd0da355413e784f2fdad40a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7961feadcd0da355413e784f2fdad40a">&#9670;&#160;</a></span>LUMEX_SPAN_HAS_STD_SPAN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SPAN_HAS_STD_SPAN&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when <code>std::span</code> and <code>std::byte</code> both exist (C++20 with <code>&lt;span&gt;</code>), 0 otherwise. </p>
+<p>When it is 1, <code>span</code> converts to and from a <code>std::span</code> of the other byte type (<code>byte</code> and <code>std::byte</code>). </p>
+
+</div>
+</div>
+<a id="a6c8bfb19cc4b4c72fe74b73809022f51" name="a6c8bfb19cc4b4c72fe74b73809022f51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c8bfb19cc4b4c72fe74b73809022f51">&#9670;&#160;</a></span>LUMEX_SPAN_MAY_ALIAS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SPAN_MAY_ALIAS</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Marks the own <code>byte</code> as a type that may alias any object, as the standard allows <code>std::byte</code> to. </p>
+<p>GCC and Clang do not treat a scoped enumeration with an <code>unsigned char</code> base as a character type, so without the attribute a write through a <code>span&lt;byte&gt;</code> is not seen by a read of the viewed object. </p>
 
 </div>
 </div>
@@ -220,7 +416,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_4dd30098bfbd5f3058c90a2baa527711.html">hardware</a></li><li class="navelem"><a class="el" href="a00530.html">example_hardware_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_0b9d47685954fb3c729094f86312e9aa.html">span</a></li><li class="navelem"><a class="el" href="dir_b10b7088fa2a9965451f9973f18a4684.html">view</a></li><li class="navelem"><a class="el" href="a00530.html">LumexSpanTraits.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

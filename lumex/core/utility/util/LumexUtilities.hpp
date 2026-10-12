@@ -80,6 +80,8 @@
  * null. A Windows `HANDLE` is assigned to the `void *` member directly.
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * #if LUMEX_OS_WINDOWS
  *   m_hInputFile = m_serialPort.native_handle(); // HANDLE is a void *
@@ -112,6 +114,8 @@ fd_to_ptr (int fileDescriptor) LUMEX_NOEXCEPT
  * @return The POSIX file descriptor; 0 for a null pointer.
  *
  * @par Example
+ * The snippet below shows the intended use.
+
  * @code
  * void *stored_ptr = fd_to_ptr(5); // fd 5 as a void *
  * int fd = ptr_to_fd(stored_ptr);  // 5 again

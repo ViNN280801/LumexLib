@@ -110,6 +110,16 @@ function(lumex_test_use_gtest target)
         /external:W0
         /external:anglebrackets)
     endif()
+    # The tests are written for the C++11 preprocessor: the traditional one
+    # of cl.exe mangles an empty argument list and a stringized empty
+    # expansion (C2059 in LumexAttributes, LumexStringifyV2 and
+    # LumexStreamTraits), and every other compiler in the build - clang-cl
+    # included - has a conformant preprocessor already. MSVC's own is
+    # selected by the compiler id, not by the MSVC variable (which is also
+    # true for clang-cl, and clang-cl does not know the switch).
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+      target_compile_options(${target} PRIVATE /Zc:preprocessor)
+    endif()
   elseif(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(${target} PRIVATE -Wa,-mbig-obj)
   endif()
@@ -162,7 +172,8 @@ endfunction()
 # lumex_add_standard_suites(<Component> MODULE <key>
 #     [LINK <item>...] [SOURCES <file>...] [DEFINITIONS <definition>...]
 #     [EXCLUDE <file>...] [DISCOVER_ARGS <argument>...] [PLAIN_EXECUTABLE]
-#     [TARGETS_VAR <out_var>]
+#     [TARGETS_VAR <out_var>] [SOAK_FILTER <gtest filter>]
+#     [STANDARDS <std>...]
 #     [VARIANT <name> [DEFINITIONS <definition>...]]...)
 #
 # The common DEFINITIONS go before the first VARIANT: after VARIANT <name>,
@@ -198,6 +209,15 @@ endfunction()
 # - A standard above LUMEX_TEST_STANDARDS_OPTIONAL_ABOVE is built only when
 #   CMAKE_CXX_COMPILE_FEATURES has cxx_std_<std>; otherwise it is skipped
 #   with a STATUS message.
+# - STANDARDS <std>... narrows the module's row for this directory: the suites
+#   are built at those standards only (normally 11 17 20 for a directory whose
+#   tests and code under test do not change between 11 and 17 or between 17
+#   and 20 apart from the GoogleTest version). The list is a strictly
+#   ascending subset of the module's row, it keeps the standard of every
+#   test file of the directory, and it is not the row itself
+#   (lumex_test_standards_resolve in LumexTestStandards.cmake; the
+#   explanation is there). It is not allowed with VARIANT. Without STANDARDS
+#   the directory builds the module's row.
 # - VARIANT <name> adds suites on the same sources at the standards the table
 #   declares for that variant, with DEFINITIONS on top of the common ones:
 #   Lumex<Component><Name in CamelCase>Cxx<std>Tests, CTest suffix
@@ -208,6 +228,14 @@ endfunction()
 # - PLAIN_EXECUTABLE is for a suite with its own main () and no GoogleTest
 #   test list: each executable is one CTest test named
 #   <prefix>Lumex<Component>Tests<suffix>.
+# - SOAK_FILTER <gtest filter> names the long soak tests of the directory
+#   (for example *Soak*). They are left out of the ordinary registration
+#   (TEST_FILTER, CMake 3.22 and later; on an older CMake they stay and skip
+#   themselves unless LUMEX_TEST_SOAK is set in the environment). When the
+#   tree is configured with -DLUMEX_BUILD_SOAK_TESTS=ON they are registered
+#   once more under the CTest label soak, with LUMEX_TEST_SOAK=1 in their
+#   environment and the name <directory prefix>soak.<Suite>.<Test><suffix>:
+#   `ctest -L soak`. LUMEX_TEST_SOAK_SECONDS sets their length.
 # - TARGETS_VAR receives the names of the created targets, for options the
 #   helper does not cover (compile or link flags of one module). Add sources
 #   through SOURCES, not afterwards: lumex_test_use_gtest silences warnings
@@ -240,7 +268,7 @@ function(lumex_add_standard_suites component)
   # helper ends it, so the common arguments may also follow the variants
   # (except DEFINITIONS, which inside a group belongs to the variant).
   set(_common_keywords MODULE LINK SOURCES EXCLUDE DISCOVER_ARGS
-    PLAIN_EXECUTABLE TARGETS_VAR)
+    PLAIN_EXECUTABLE TARGETS_VAR SOAK_FILTER STANDARDS)
   set(_group _main)
   set(_args__main "")
   set(_variants "")
@@ -276,8 +304,8 @@ function(lumex_add_standard_suites component)
       "lumex_add_standard_suites(${component}): VARIANT without a name")
   endif()
 
-  cmake_parse_arguments(ARG "PLAIN_EXECUTABLE" "MODULE;TARGETS_VAR"
-    "LINK;SOURCES;DEFINITIONS;EXCLUDE;DISCOVER_ARGS" ${_args__main})
+  cmake_parse_arguments(ARG "PLAIN_EXECUTABLE" "MODULE;TARGETS_VAR;SOAK_FILTER"
+    "LINK;SOURCES;DEFINITIONS;EXCLUDE;DISCOVER_ARGS;STANDARDS" ${_args__main})
   if(ARG_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR
       "lumex_add_standard_suites(${component}): unexpected arguments: "
@@ -319,9 +347,14 @@ function(lumex_add_standard_suites component)
     set(_definitions_${_variant} ${_VAR_DEFINITIONS})
   endforeach()
 
-  # The table decides the standards; check that the call and the table name
-  # the same variants.
-  lumex_test_standards_get(_module_standards "${ARG_MODULE}")
+  if(ARG_STANDARDS AND _variants)
+    message(FATAL_ERROR
+      "lumex_add_standard_suites(${component}): STANDARDS narrows the main "
+      "suites and is not allowed with VARIANT (${_variants})")
+  endif()
+
+  # The table decides the standards (STANDARDS narrows them, see below); check
+  # that the call and the table name the same variants.
   set(_declared ${LUMEX_TEST_STANDARD_VARIANTS_${ARG_MODULE}})
   foreach(_variant IN LISTS _declared)
     if(NOT _variant IN_LIST _variants)
@@ -349,6 +382,14 @@ function(lumex_add_standard_suites component)
         "'${_excluded}', which is not a *.tests.cpp of this directory")
     endif()
   endforeach()
+
+  # The standards of this directory: the module's row, or the STANDARDS list.
+  set(_scheme_files ${_found})
+  if(ARG_EXCLUDE)
+    list(REMOVE_ITEM _scheme_files ${ARG_EXCLUDE})
+  endif()
+  lumex_test_standards_resolve(_module_standards "${ARG_MODULE}"
+    "${ARG_STANDARDS}" ${_scheme_files})
 
   set(_targets "")
   set(_unsupported 0)
@@ -411,9 +452,27 @@ function(lumex_add_standard_suites component)
         lumex_test_name(_ctest_name "Lumex${component}Tests${_suffix}")
         add_test(NAME ${_ctest_name} COMMAND ${_target})
       else()
+        # The soak tests (SOAK_FILTER) leave the ordinary registration where
+        # gtest_discover_tests can filter (CMake 3.22) and are registered
+        # again under the label soak when LUMEX_BUILD_SOAK_TESTS is ON.
+        set(_filter_args "")
+        if(ARG_SOAK_FILTER AND NOT CMAKE_VERSION VERSION_LESS 3.22)
+          set(_filter_args TEST_FILTER "-${ARG_SOAK_FILTER}")
+        endif()
         lumex_gtest_discover_tests(${_target}
           TEST_SUFFIX "${_suffix}"
+          ${_filter_args}
           ${ARG_DISCOVER_ARGS})
+        if(ARG_SOAK_FILTER AND LUMEX_BUILD_SOAK_TESTS
+           AND NOT CMAKE_VERSION VERSION_LESS 3.22)
+          lumex_test_name(_soak_prefix "soak.")
+          lumex_gtest_discover_tests(${_target}
+            TEST_PREFIX "${_soak_prefix}"
+            TEST_SUFFIX "${_suffix}"
+            TEST_FILTER "${ARG_SOAK_FILTER}"
+            TEST_LIST ${_target}_soak_tests
+            PROPERTIES LABELS soak ENVIRONMENT LUMEX_TEST_SOAK=1 TIMEOUT 3600)
+        endif()
       endif()
       list(APPEND _targets ${_target})
     endforeach()

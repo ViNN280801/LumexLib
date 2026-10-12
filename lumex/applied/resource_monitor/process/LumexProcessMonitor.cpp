@@ -36,13 +36,11 @@
 #ifndef PSAPI_VERSION
 #define PSAPI_VERSION 2
 #endif
-#include <cwchar>
-
-#include <windows.h>
+#include <Windows.h>
 
 // MinGW's psapi.h and tlhelp32.h need the types of windows.h declared first.
-#include <psapi.h>
-#include <tlhelp32.h>
+#include <Psapi.h>
+#include <TlHelp32.h>
 #elif defined(__linux__)
 #include <cerrno>
 
@@ -52,7 +50,9 @@
 
 #include "LumexProcessMonitor.hpp"
 #include "detail/LumexProcessDetail.hpp"
-#if defined(__linux__)
+#if defined(_WIN32) || defined(_WIN64)
+#include "lumex/core/unicode/convert/LumexUnicodeConvert.hpp"
+#elif defined(__linux__)
 #include "lumex/applied/resource_monitor/monitor/detail/LumexProcFs.hpp"
 #include "lumex/core/filesystem/LumexFilesystem"
 #endif
@@ -98,20 +98,6 @@ file_time_value (FILETIME const &time)
   return value.QuadPart;
 }
 
-std::string
-to_utf8 (wchar_t const *text, int length)
-{
-  if (length <= 0)
-    return std::string ();
-  int const size = WideCharToMultiByte (CP_UTF8, 0, text, length, nullptr, 0,
-                                        nullptr, nullptr);
-  std::string out (static_cast<std::size_t> (size > 0 ? size : 0), '\0');
-  if (size > 0)
-    WideCharToMultiByte (CP_UTF8, 0, text, length, &out[0], size, nullptr,
-                         nullptr);
-  return out;
-}
-
 process_query_error
 error_of_last_call ()
 {
@@ -137,7 +123,6 @@ logical_processors ()
 struct handle_t
 {
   HANDLE value{ nullptr };
-  handle_t () = default;
   explicit handle_t (HANDLE h) : value (h) {}
   handle_t (handle_t const &) = delete;
   handle_t &operator= (handle_t const &) = delete;
@@ -188,7 +173,8 @@ read_process (process_id_t pid)
   std::string name;
   if (QueryFullProcessImageNameW (process.value, 0, path, &length) != 0)
     {
-      std::string const full = to_utf8 (path, static_cast<int> (length));
+      std::string const full
+          = lumex::core::unicode::convert::to_utf8 (path, length);
       std::size_t const slash = full.find_last_of ("\\/");
       name = slash == std::string::npos ? full : full.substr (slash + 1);
     }
@@ -219,8 +205,8 @@ find_processes (std::string const &name)
   for (BOOL more = Process32FirstW (snapshot.value, &entry); more != 0;
        more = Process32NextW (snapshot.value, &entry))
     {
-      std::string const exe = to_utf8 (
-          entry.szExeFile, static_cast<int> (wcslen (entry.szExeFile)));
+      std::string const exe
+          = lumex::core::unicode::convert::to_utf8 (entry.szExeFile);
       if (detail::windows_name_matches (name, exe))
         found.push_back (entry.th32ProcessID);
     }
@@ -603,6 +589,10 @@ LumexProcessMonitor::sample_tree (process_id_t pid,
                                   std::vector<process_id_t> const &below,
                                   bool breakdown)
 {
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
   result_t top = sample_one (pid);
   if (!top.has_value () || below.empty ())
     return top;
@@ -623,6 +613,9 @@ LumexProcessMonitor::sample_tree (process_id_t pid,
     for (process_usage_t const &usage : usages)
       sum.members.push_back (member_of (usage));
   return sum;
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 }
 
 LUMEX_PUBLIC_API LumexProcessMonitor::result_t

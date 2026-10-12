@@ -480,13 +480,27 @@ TEST (LumexSpanStdDifferentialTest,
                dynamic_own.subspan<1, 2> ());
   same_result (dynamic_standard.first (2), dynamic_own.first (2));
   same_result (dynamic_standard.subspan (1, 2), dynamic_own.subspan (1, 2));
-  same_result (std::as_bytes (fixed_standard), own::as_bytes (fixed_own));
-  same_result (std::as_bytes (dynamic_standard), own::as_bytes (dynamic_own));
-  same_result (std::as_writable_bytes (fixed_standard),
-               own::as_writable_bytes (fixed_own));
-  same_result (std::as_writable_bytes (dynamic_standard),
-               own::as_writable_bytes (dynamic_own));
-  static_assert (std::is_same_v<own::byte, std::byte>);
+  // The byte views have the same extent; the element is the byte of the span
+  // module, not std::byte, and the span converts to the standard view.
+  auto same_bytes = [] (auto standard, auto own_span)
+    {
+      using s = decltype (standard);
+      using o = decltype (own_span);
+      static_assert (s::extent == o::extent);
+      static_assert (
+          std::is_same_v<std::remove_const_t<typename o::element_type>,
+                         own::byte>);
+      static_assert (std::is_const_v<typename s::element_type>
+                     == std::is_const_v<typename o::element_type>);
+      static_assert (std::is_convertible_v<o, s>);
+    };
+  same_bytes (std::as_bytes (fixed_standard), own::as_bytes (fixed_own));
+  same_bytes (std::as_bytes (dynamic_standard), own::as_bytes (dynamic_own));
+  same_bytes (std::as_writable_bytes (fixed_standard),
+              own::as_writable_bytes (fixed_own));
+  same_bytes (std::as_writable_bytes (dynamic_standard),
+              own::as_writable_bytes (dynamic_own));
+  static_assert (!std::is_same_v<own::byte, std::byte>);
   SUCCEED ();
 }
 
@@ -637,10 +651,13 @@ TEST (LumexSpanStdDifferentialTest, GivenSameStorage_WhenAsBytes_ThenSameBytes)
   auto standard = std::as_bytes (std::span<std::int32_t> (values));
   auto mine = own::as_bytes (own::span<std::int32_t> (values));
   ASSERT_EQ (standard.size (), mine.size ());
-  EXPECT_EQ (standard.data (), mine.data ());
+  EXPECT_EQ (static_cast<void const *> (standard.data ()),
+             static_cast<void const *> (mine.data ()));
   for (std::size_t index = 0; index < standard.size (); ++index)
     {
-      EXPECT_EQ (standard[index], mine[index]);
+      // The byte of the span module is its own enumeration, not std::byte.
+      EXPECT_EQ (std::to_integer<int> (standard[index]),
+                 own::to_integer<int> (mine[index]));
     }
   auto standard_writable
       = std::as_writable_bytes (std::span<std::int32_t, 3> (values));
@@ -648,7 +665,8 @@ TEST (LumexSpanStdDifferentialTest, GivenSameStorage_WhenAsBytes_ThenSameBytes)
       = own::as_writable_bytes (own::span<std::int32_t, 3> (values));
   static_assert (decltype (standard_writable)::extent
                  == decltype (mine_writable)::extent);
-  EXPECT_EQ (standard_writable.data (), mine_writable.data ());
+  EXPECT_EQ (static_cast<void *> (standard_writable.data ()),
+             static_cast<void *> (mine_writable.data ()));
 }
 
 TEST (LumexSpanStdDifferentialTest, GivenCtadInputs_WhenDeduced_ThenSameType)

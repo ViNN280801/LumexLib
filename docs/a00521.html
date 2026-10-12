@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_generators_workflow.cpp File Reference</title>
+<title>LumexLib: LumexSpan.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,91 +104,81 @@ $(function(){initNavTree('a00521.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_generators_workflow.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexSpan.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00917_source.html">lumex/core/generators/LumexGenerators</a>&quot;</code><br />
+
+<p>C++11 implementation of <code>std::span</code> (C++20): a non-owning view of a contiguous sequence of objects.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;initializer_list&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00524_source.html">lumex/core/span/view/LumexSpanChecks.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00530_source.html">lumex/core/span/view/LumexSpanTraits.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_generators_workflow.cpp:</div>
+Include dependency graph for LumexSpan.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00522.png" border="0" usemap="#aexample__generators__workflow_8cpp" alt=""/></div>
-<map name="aexample__generators__workflow_8cpp" id="aexample__generators__workflow_8cpp">
-<area shape="rect" title=" " alt="" coords="60,5,198,48"/>
-<area shape="rect" title=" " alt="" coords="5,285,77,312"/>
-<area shape="poly" title=" " alt="" coords="125,49,52,271,47,270,120,47"/>
-<area shape="rect" title=" " alt="" coords="100,285,158,312"/>
-<area shape="poly" title=" " alt="" coords="132,48,132,270,126,270,126,48"/>
-<area shape="rect" href="a00917.html" title="Generators module: NumberGenerator, random integral and floating&#45;point numbers from the uniform,..." alt="" coords="304,96,455,139"/>
-<area shape="poly" title=" " alt="" coords="189,46,308,88,306,93,187,51"/>
-<area shape="rect" href="a00317.html" title="Defines the NumberGenerator template class for versatile random number generation." alt="" coords="412,187,627,229"/>
-<area shape="poly" title=" " alt="" coords="414,137,476,176,473,180,411,142"/>
-<area shape="poly" title=" " alt="" coords="412,221,258,243,172,259,88,280,82,282,80,277,87,275,171,254,257,237,412,216"/>
-<area shape="poly" title=" " alt="" coords="413,228,299,249,178,280,171,282,170,277,176,275,297,244,412,222"/>
-<area shape="rect" title=" " alt="" coords="490,285,550,312"/>
-<area shape="poly" title=" " alt="" coords="522,230,522,270,517,270,517,230"/>
-<area shape="rect" title=" " alt="" coords="574,285,628,312"/>
-<area shape="poly" title=" " alt="" coords="540,228,581,272,577,276,537,232"/>
-<area shape="rect" title=" " alt="" coords="652,285,716,312"/>
-<area shape="poly" title=" " alt="" coords="559,228,648,275,646,280,557,232"/>
-<area shape="rect" title=" " alt="" coords="740,285,822,312"/>
-<area shape="poly" title=" " alt="" coords="586,227,729,275,735,277,733,282,727,280,584,232"/>
-<area shape="rect" title=" " alt="" coords="847,285,899,312"/>
-<area shape="poly" title=" " alt="" coords="628,223,729,244,835,275,838,276,837,281,833,280,728,249,627,228"/>
-<area shape="rect" href="a00386.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="923,277,1090,320"/>
-<area shape="poly" title=" " alt="" coords="628,224,908,274,907,279,627,230"/>
-<area shape="rect" href="a00425.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="252,368,446,411"/>
-<area shape="poly" title=" " alt="" coords="412,222,354,231,298,244,251,260,235,269,223,279,217,289,216,298,223,319,243,341,268,359,265,363,239,345,219,321,210,298,212,287,219,276,231,264,249,255,296,238,353,226,411,217"/>
-<area shape="rect" href="a00419.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="233,277,465,320"/>
-<area shape="poly" title=" " alt="" coords="481,232,403,272,401,268,478,228"/>
-<area shape="rect" href="a00641.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="925,376,1088,403"/>
-<area shape="poly" title=" " alt="" coords="1009,320,1009,360,1004,360,1004,320"/>
-<area shape="poly" title=" " alt="" coords="923,321,912,323,672,357,462,380,461,375,671,351,911,317,922,316"/>
-<area shape="poly" title=" " alt="" coords="352,320,352,353,346,353,346,320"/>
-</map>
+<div class="center"><img src="a00522.png" border="0" usemap="#a_lumex_span_8hpp" alt=""/></div>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00523.png" border="0" usemap="#a_lumex_span_8hppdep" alt=""/></div>
+</div>
+</div>
+<p><a href="a00521_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03850.html">lumex::core::span::view::span&lt; ElementType, Extent &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning view of a contiguous sequence of objects.  <a href="a03850.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01387.html">lumex::core::span</a></td></tr>
+<tr class="memdesc:a01387"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>span</code> module: a non-owning view of a contiguous sequence. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01388.html">lumex::core::span::view</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1057d64ff5f47361ae80276a4f2cab85" id="r_a1057d64ff5f47361ae80276a4f2cab85"><td class="memTemplParams" colspan="2">template&lt;typename T, std::size_t Extent&gt; </td></tr>
+<tr class="memitem:a1057d64ff5f47361ae80276a4f2cab85"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_volatile&lt; T &gt;::value, <a class="el" href="a03850.html">span</a>&lt; byteconst, <a class="el" href="a03930.html">detail::bytes_extent</a>&lt; T, Extent &gt;::value &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01388.html#a1057d64ff5f47361ae80276a4f2cab85">lumex::core::span::view::as_bytes</a> (<a class="el" href="a03850.html">span</a>&lt; T, Extent &gt; view) noexcept</td></tr>
+<tr class="memdesc:a1057d64ff5f47361ae80276a4f2cab85"><td class="mdescLeft">&#160;</td><td class="mdescRight">The bytes of a span as a read-only span of <code>byte</code>.  <br /></td></tr>
+<tr class="separator:a1057d64ff5f47361ae80276a4f2cab85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4387d88ffa0f7f69644053877d05f3e" id="r_aa4387d88ffa0f7f69644053877d05f3e"><td class="memTemplParams" colspan="2">template&lt;typename T, std::size_t Extent&gt; </td></tr>
+<tr class="memitem:aa4387d88ffa0f7f69644053877d05f3e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_const&lt; T &gt;::value &amp;&amp;!std::is_volatile&lt; T &gt;::value, <a class="el" href="a03850.html">span</a>&lt; <a class="el" href="a01388.html#addd860fd335f762ed6b75800cf34c5ea">byte</a>, <a class="el" href="a03930.html">detail::bytes_extent</a>&lt; T, Extent &gt;::value &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01388.html#aa4387d88ffa0f7f69644053877d05f3e">lumex::core::span::view::as_writable_bytes</a> (<a class="el" href="a03850.html">span</a>&lt; T, Extent &gt; view) noexcept</td></tr>
+<tr class="memdesc:aa4387d88ffa0f7f69644053877d05f3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The bytes of a span as a writable span of <code>byte</code>.  <br /></td></tr>
+<tr class="separator:aa4387d88ffa0f7f69644053877d05f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00521_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00521_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-<map name="aa00521_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00521_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
-<area shape="rect" title=" " alt="" coords="5,21,55,48"/>
-<area shape="rect" href="a02245.html#af01d623fe341896abc84f2f67075c1b8" title="Generates a sequence (vector) of random numbers." alt="" coords="103,5,347,64"/>
-<area shape="poly" title=" " alt="" coords="55,32,87,32,87,37,55,37"/>
-</map>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>C++11 implementation of <code>std::span</code> (C++20): a non-owning view of a contiguous sequence of objects. </p>
+<p><code>span&lt;T, Extent&gt;</code> refers to <code>Extent</code> consecutive objects of type <code>T</code>, or to a run-time number of them when <code>Extent</code> is <code>dynamic_extent</code>. It has the interface of the C++20 <code>std::span</code> plus the later additions: the member types <code>const_iterator</code> and <code>const_reverse_iterator</code>, <code>cbegin</code>, <code>cend</code>, <code>crbegin</code> and <code>crend</code> (C++23) and <code>at</code> (C++26). It compiles from C++11. A static extent costs no storage: <code>sizeof (span&lt;T, N&gt;)</code> is the size of a pointer.</p>
+<p>The C++20 concepts the standard constrains the constructors with are replaced before C++20 by detection of the members they imply. A range is accepted when it has <code>data ()</code> returning a pointer, <code>size ()</code>, is not an array, <code>std::array</code> or <code>span</code> (those have constructors of their own), has an element type that converts to the element type of the span by a qualification conversion, and is an lvalue or the element type is const (the borrowed-range rule). An iterator is accepted when it is a pointer or <code>is_contiguous_iterator</code> is true for it; see that trait.</p>
+<p>With C++20 and a library that has <code>&lt;ranges&gt;</code> the class opts into <code>std::ranges::enable_borrowed_range</code> and <code>std::ranges::enable_view</code>, and its iterators are pointers, so it is a contiguous range. It converts to and from <code>std::span</code> through the range constructors of both: a <code>lumex</code> span initializes a <code>std::span</code>, and a <code>std::span</code> (also an rvalue) initializes a <code>lumex</code> span, with the explicit rules of the standard for static extents. There is one class for every standard; it is never an alias of <code>std::span</code>, so overload sets and types do not change with the standard.</p>
+<p>Deliberate differences from <code>std::span</code>: the iterator is a pointer; a braced list does not convert to a span (the constructor from a <code>std::initializer_list</code> of C++26 is not provided, because it makes a call such as <code>f ({1, 2, 3})</code> ambiguous between a <code>std::vector</code> overload and a <code>span</code> overload, which existing code has); a <code>std::initializer_list</code> object does convert, like any range, to a span of const elements; before C++20 the iterator classes of the standard containers are recognized by name and any other iterator class has to be named by <code>is_contiguous_iterator</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>A span does not own what it views. Using one after the viewed storage is destroyed is undefined behavior. The preconditions of the members are checked when <code>LUMEX_SPAN_CHECKS</code> is 1 (the default without <code>NDEBUG</code>, see <code><a class="el" href="a00524.html" title="The switch of the precondition checks of span: the macro LUMEX_SPAN_CHECKS and the macro LUMEX_SPAN_C...">LumexSpanChecks.hpp</a></code>): a violated one prints the condition, the file and the line and aborts (a handler of that header); with the checks off breaking one is undefined behavior and only <code>at</code> checks. </dd></dl>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_e8d6585c0a3ccc095622008e70435a51.html">generators</a></li><li class="navelem"><a class="el" href="a00521.html">example_generators_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_0b9d47685954fb3c729094f86312e9aa.html">span</a></li><li class="navelem"><a class="el" href="dir_b10b7088fa2a9965451f9973f18a4684.html">view</a></li><li class="navelem"><a class="el" href="a00521.html">LumexSpan.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

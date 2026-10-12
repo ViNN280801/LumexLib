@@ -1,9 +1,8 @@
 // lumex/tests/core/utility/functional/LumexFunctional.cxx14.tests.cpp
-// From C++14 `less` is std::less<void>, and a transparent comparator makes the
-// associative containers look up a key by a value of another type. The header
-// decides by LUMEX_HAS_STD_TRANSPARENT_OPERATORS; a toolchain that reports
-// C++14 without them uses the own class and the identity test skips (the
-// lookup tests still hold: the own class is transparent too).
+// From C++14 `less` still is the class of this library, never std::less<void>:
+// it converts implicitly to and from std::less<void>, and, being transparent
+// like it, makes the associative containers look up a key by a value of
+// another type.
 #include <functional>
 #include <set>
 #include <string>
@@ -43,15 +42,43 @@ operator< (std::string const &left, person_t const &right)
 }
 } // namespace
 
-TEST (LumexFunctionalStdTest, GivenCxx14_WhenLess_ThenStdLessVoid)
+TEST (LumexFunctionalStdTest, GivenCxx14_WhenLess_ThenNotStdLessVoid)
 {
-#if LUMEX_HAS_STD_TRANSPARENT_OPERATORS
-  static_assert (std::is_same<functional::less, std::less<void>>::value,
-                 "less is std::less<void>");
+  static_assert (!std::is_same<functional::less, std::less<void>>::value,
+                 "less is not std::less<void>");
+  static_assert (
+      std::is_empty<functional::less>::value
+          && std::is_trivially_default_constructible<functional::less>::value,
+      "still an empty trivial class");
   SUCCEED ();
-#else
-  GTEST_SKIP () << "the standard library has no transparent operators";
-#endif
+}
+
+TEST (LumexFunctionalStdTest, GivenStdLessVoid_WhenConverted_ThenBothWays)
+{
+  static_assert (std::is_convertible<functional::less, std::less<void>>::value,
+                 "own to std");
+  static_assert (std::is_convertible<std::less<void>, functional::less>::value,
+                 "std to own");
+  static_assert (!std::is_convertible<functional::less, std::less<int>>::value,
+                 "std::less<int> is another class");
+  static_assert (
+      std::is_nothrow_constructible<std::less<void>, functional::less>::value
+          && std::is_nothrow_constructible<functional::less,
+                                           std::less<void>>::value,
+      "the conversions are noexcept");
+  constexpr std::less<void> toStd = functional::less ();
+  constexpr functional::less fromStd = std::less<void> ();
+  static_assert (toStd (1, 2) && fromStd (1, 2),
+                 "usable in constant expressions");
+  // A container whose comparator is the standard one takes the own object.
+  std::set<std::string, std::less<void>> words ((functional::less ()));
+  words.insert ("b");
+  words.insert ("a");
+  EXPECT_EQ (*words.begin (), "a");
+  EXPECT_TRUE (words.find ("b") != words.end ());
+  std::set<std::string, functional::less> back ((std::less<void> ()));
+  back.insert ("x");
+  EXPECT_EQ (back.size (), 1U);
 }
 
 TEST (LumexFunctionalStdTest, GivenTransparentLess_WhenFind_ThenKeyOfOtherType)

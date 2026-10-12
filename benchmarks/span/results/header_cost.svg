@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="302" viewBox="0 0 900 302" font-family="Segoe UI, Arial, sans-serif" font-size="11">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20" y="24" font-size="15" font-weight="bold">Cost of the headers of the span at C++20 (-fsyntax-only -O0), ms</text>
+<text x="20" y="42" fill="#555">one unit per header: &lt;array&gt; and &lt;vector&gt; plus the header named; in brackets the difference to the unit without it</text>
+<text x="20" y="72" font-weight="bold">gcc</text>
+<text x="214" y="71" text-anchor="end">none (only &lt;array&gt;, &lt;vector&gt;)</text>
+<rect x="220" y="60" width="177.2" height="12" fill="#bbbbbb"/>
+<text x="402.2" y="71">112</text>
+<text x="214" y="85" text-anchor="end">&lt;memory&gt;</text>
+<rect x="220" y="74" width="468.3" height="12" fill="#8a5cc2"/>
+<text x="693.3" y="85">296 (+184)</text>
+<text x="214" y="99" text-anchor="end">&lt;ranges&gt;</text>
+<rect x="220" y="88" width="401.9" height="12" fill="#c7a9e8"/>
+<text x="626.9" y="99">254 (+142)</text>
+<text x="214" y="113" text-anchor="end">&lt;memory&gt; and &lt;ranges&gt;</text>
+<rect x="220" y="102" width="522.1" height="12" fill="#8c564b"/>
+<text x="747.1" y="113">330 (+218)</text>
+<text x="214" y="127" text-anchor="end">&lt;span&gt;</text>
+<rect x="220" y="116" width="181.9" height="12" fill="#d9822b"/>
+<text x="406.9" y="127">115 (+3)</text>
+<text x="214" y="141" text-anchor="end">span of this library</text>
+<rect x="220" y="130" width="530.0" height="12" fill="#1b6ca8"/>
+<text x="755.0" y="141">335 (+223)</text>
+<text x="20" y="178" font-weight="bold">clang</text>
+<text x="214" y="177" text-anchor="end">none (only &lt;array&gt;, &lt;vector&gt;)</text>
+<rect x="220" y="166" width="270.5" height="12" fill="#bbbbbb"/>
+<text x="495.5" y="177">171</text>
+<text x="214" y="191" text-anchor="end">&lt;memory&gt;</text>
+<rect x="220" y="180" width="322.7" height="12" fill="#8a5cc2"/>
+<text x="547.7" y="191">204 (+33)</text>
+<text x="214" y="205" text-anchor="end">&lt;ranges&gt;</text>
+<rect x="220" y="194" width="425.6" height="12" fill="#c7a9e8"/>
+<text x="650.6" y="205">269 (+98)</text>
+<text x="214" y="219" text-anchor="end">&lt;memory&gt; and &lt;ranges&gt;</text>
+<rect x="220" y="208" width="469.9" height="12" fill="#8c564b"/>
+<text x="694.9" y="219">297 (+126)</text>
+<text x="214" y="233" text-anchor="end">&lt;span&gt;</text>
+<rect x="220" y="222" width="273.7" height="12" fill="#d9822b"/>
+<text x="498.7" y="233">173 (+2)</text>
+<text x="214" y="247" text-anchor="end">span of this library</text>
+<rect x="220" y="236" width="485.7" height="12" fill="#1b6ca8"/>
+<text x="710.7" y="247">307 (+136)</text>
+</svg>

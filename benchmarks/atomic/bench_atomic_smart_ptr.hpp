@@ -42,13 +42,18 @@
  * @brief Measurement core of LumexAtomicBenchmark.
  *
  * The benchmark compares atomic shared pointers that cannot share one
- * translation unit: LumexLib's lock-based implementation built at C++11
- * (sleeping on the striped wait table) and at C++20 (sleeping in
- * std::atomic::wait), LumexLib's default selection at C++20, and the standard
- * library's std::atomic<std::shared_ptr<T>>. Each unit instantiates the
+ * translation unit: LumexLib's lock-based engine built at C++11 (sleeping on
+ * the striped wait table) and at C++20 (sleeping in std::atomic::wait),
+ * LumexLib's lock-free engine at C++11 and C++20 (the replaced value
+ * destroyed immediately, and deferred), the common name at C++20, the
+ * wrapper of the standard library's type, the standard library's
+ * std::atomic<std::shared_ptr<T>> and, where Boost is found, its
+ * boost::atomic_shared_ptr (a spinlock). Each unit instantiates the
  * templates below for its own type and hands main () an implementation_t:
  * plain data and a function pointer, so units built with different standards
- * meet only through types that mean the same in every standard.
+ * meet only through types that mean the same in every standard. An engine
+ * that a build does not have is handed over as an implementation_t with a
+ * null `measure`, and main () leaves it out.
  *
  * The method is the one the author used for the libc++ implementation of
  * llvm-project pull request 194215: N threads run one operation on one
@@ -83,14 +88,21 @@
 
 namespace lumex_atomic_bench
 {
-/** The four timed operations, in the order of the CSV. */
+/** The timed operations, in the order of the CSV. */
 enum operation_t
 {
   operation_load = 0,
   operation_store = 1,
   operation_exchange = 2,
   operation_compare_exchange_strong = 3,
-  operation_count = 4
+  /**
+   * load () on all threads but one while that one thread stores in a loop:
+   * the readers-heavy pattern in which the libc++ double-width method
+   * crashed. The time is per load of a reader thread. One thread: plain
+   * load (); two threads: one reader and the writer.
+   */
+  operation_load_one_writer = 4,
+  operation_count = 5
 };
 
 /** One timed run of one operation. */
@@ -119,17 +131,46 @@ struct implementation_t
   char const *path;  ///< what the build selected: ABI namespace or library
   long standard;     ///< __cplusplus (MSVC: _MSVC_LANG) of the unit
   bool lock_free;    ///< is_lock_free () of the measured object
-  measure_fn measure;
+  measure_fn measure; ///< null: the build has no such engine, leave it out
 };
 
-/** LumexLib's default selection, built at C++20. */
+/** The common name atomic_shared_ptr, built at C++20. */
 implementation_t lumex_default_implementation ();
 
-/** LumexLib's lock-based implementation, forced, built at C++20. */
+/** LumexLib's lock-based engine, the common name forced, built at C++20. */
 implementation_t lumex_lock_based_implementation ();
 
-/** LumexLib's lock-based implementation built at C++11 (MSVC: C++14). */
+/** LumexLib's lock-based engine built at C++11 (MSVC: C++14). */
 implementation_t lumex_lock_based_cxx11_implementation ();
+
+/** LumexLib's lock-free engine, immediate destruction, built at C++11. */
+implementation_t lumex_lock_free_cxx11_implementation ();
+
+/** LumexLib's lock-free engine, immediate destruction, built at C++20. */
+implementation_t lumex_lock_free_implementation ();
+
+/** LumexLib's lock-free engine, deferred destruction, built at C++20. */
+implementation_t lumex_lock_free_deferred_implementation ();
+
+/** The wrapper of the standard library's atomic smart pointer, C++20. */
+implementation_t lumex_std_backed_implementation ();
+
+/** boost::atomic_shared_ptr (a spinlock), when Boost is found. */
+implementation_t boost_implementation ();
+
+/**
+ * Runs a reclamation pass of the hazard domain when the build has one (a
+ * no-op otherwise): what the lock-free engine replaced is destroyed by then.
+ */
+void settle_hazard_domain ();
+
+/** An implementation_t for an engine the build does not have. */
+inline implementation_t
+unavailable_implementation ()
+{
+  implementation_t const none = { "", "", "", 0, false, nullptr };
+  return none;
+}
 
 namespace detail
 {
@@ -216,6 +257,33 @@ timed_run (int threads, double seconds, Body const &body)
     measurement.valid = false;
   return measurement;
 }
+
+/**
+ * The value type of an atomic and how to make a value. The default suits the
+ * atomics over std::shared_ptr; an adapter over another shared pointer
+ * specializes it.
+ */
+template <typename Atomic> struct atomic_traits_t
+{
+  typedef typename Atomic::value_type value_type;
+
+  static value_type
+  make (int value)
+  {
+    return std::make_shared<int> (value);
+  }
+
+  /**
+   * Called after the atomic is gone, before the reference counts are checked:
+   * an engine that destroys what it replaced later (the deferred lock-free
+   * engine, or a box a reader held) runs its reclamation pass here.
+   */
+  static void
+  settle ()
+  {
+    settle_hazard_domain ();
+  }
+};
 
 /** Storage for one object on a cache line of its own. */
 template <typename T> class padded_storage_t
@@ -332,6 +400,46 @@ template <typename Atomic> struct compare_exchange_body_t
   }
 };
 
+/**
+ * The readers-heavy pattern: the thread with index 0 stores in a loop and
+ * counts nothing, the others load and count. `stop` ends all of them.
+ */
+template <typename Atomic> struct readers_and_writer_body_t
+{
+  Atomic *atom;
+  typename atomic_traits_t<Atomic>::value_type const *keep_a;
+  typename atomic_traits_t<Atomic>::value_type const *keep_b;
+  std::atomic<int> *next_index;
+
+  void
+  operator() (std::atomic<bool> const &stop, thread_result_t &out) const
+  {
+    int const index = next_index->fetch_add (1);
+    unsigned long long operations = 0u;
+    std::uintptr_t checksum = 0u;
+    if (index == 0)
+      {
+        // The writer: alternating values, so that every store replaces a box.
+        bool flip = false;
+        while (!stop.load (std::memory_order_relaxed))
+          {
+            atom->store (flip ? *keep_a : *keep_b);
+            flip = !flip;
+          }
+        out.operations = 0u;
+        return;
+      }
+    while (!stop.load (std::memory_order_relaxed))
+      {
+        typename Atomic::value_type const snapshot = atom->load ();
+        checksum += reinterpret_cast<std::uintptr_t> (snapshot.get ());
+        ++operations;
+      }
+    out.operations = operations;
+    out.checksum = checksum;
+  }
+};
+
 /** Placement-constructs an Atomic on its own cache line; destroys it. */
 template <typename Atomic> class atomic_holder_t
 {
@@ -366,11 +474,12 @@ template <typename Atomic>
 measurement_t
 measure (int operation, int threads, double seconds, bool contended)
 {
-  typedef typename Atomic::value_type pointer_t;
+  typedef atomic_traits_t<Atomic> traits_t;
+  typedef typename traits_t::value_type pointer_t;
   if (!contended)
     threads = 1;
-  pointer_t const keep_a (std::make_shared<int> (1));
-  pointer_t const keep_b (std::make_shared<int> (2));
+  pointer_t const keep_a (traits_t::make (1));
+  pointer_t const keep_b (traits_t::make (2));
   measurement_t measurement = { 0.0, 0u, 0u, 0.0, false };
   {
     atomic_holder_t<Atomic> const holder (keep_a);
@@ -402,11 +511,34 @@ measure (int operation, int threads, double seconds, bool contended)
           measurement = timed_run (threads, seconds, body);
           break;
         }
+      case operation_load_one_writer:
+        {
+          if (threads < 2)
+            {
+              load_body_t<Atomic> const body = { atom };
+              measurement = timed_run (threads, seconds, body);
+              break;
+            }
+          std::atomic<int> next_index (0);
+          readers_and_writer_body_t<Atomic> const body
+              = { atom, &keep_a, &keep_b, &next_index };
+          measurement = timed_run (threads, seconds, body);
+          // The time per load of a reader thread: the writer is one of the
+          // threads that timed_run divided by.
+          if (measurement.operations != 0u)
+            measurement.ns_per_op = measurement.seconds * 1e9
+                                    * static_cast<double> (threads - 1)
+                                    / static_cast<double> (
+                                        measurement.operations);
+          break;
+        }
       default:
         return measurement;
       }
   }
-  // The atomic is gone: each value must be back to its own reference.
+  // The atomic is gone: each value must be back to its own reference, after
+  // the engine settled what it still held back.
+  traits_t::settle ();
   measurement.valid = measurement.valid && keep_a.use_count () == 1
                       && keep_b.use_count () == 1;
   return measurement;

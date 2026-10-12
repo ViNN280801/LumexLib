@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['xorout_0',['xorOut',['../a01405.html#ad274e477a4b1f7269b2bb8d9d736cdfe',1,'lumex::core::crc::catalog::crc_params_t']]]
+  ['x_0',['x',['../a04886.html#abbf302980516682d18d697ac14fc798d',1,'ExamplePoint']]],
+  ['xorout_1',['xorOut',['../a01954.html#ad274e477a4b1f7269b2bb8d9d736cdfe',1,'lumex::core::crc::catalog::crc_params_t']]]
 ];

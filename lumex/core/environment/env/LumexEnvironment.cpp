@@ -219,7 +219,14 @@ LUMEX_PUBLIC_API
 lumex_environment &
 lumex_environment::instance ()
 {
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
   static lumex_environment instance;
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
   return instance;
 }
 

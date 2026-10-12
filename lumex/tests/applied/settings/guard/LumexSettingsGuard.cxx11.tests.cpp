@@ -685,7 +685,7 @@ TEST_F (
   create_test_file (_test_file, "[section]\nkey=\n");
 
   auto ini = std::make_shared<LumexSettingsINI> ();
-  ASSERT_TRUE (ini->load (_test_file));
+  ASSERT_TRUE (ini->load (_test_file.string ()));
 
   LumexSettingsGuard guard (ini, _test_file.string ());
   std::vector<lumex_settings_key_spec_t> specs{
@@ -695,7 +695,7 @@ TEST_F (
   EXPECT_TRUE (guard.ensure_keys_with_defaults (specs));
 
   LumexSettingsINI reloaded;
-  ASSERT_TRUE (reloaded.load (_test_file));
+  ASSERT_TRUE (reloaded.load (_test_file.string ()));
   EXPECT_EQ (reloaded.get ("section", "key"), "restored_default");
 }
 

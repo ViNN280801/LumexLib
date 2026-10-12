@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::applied::serial::probe::serial_io_result_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01685.html',''); initResizable(true); });
+$(function(){initNavTree('a01682.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,90 @@ $(function(){initNavTree('a01685.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc16_gsm_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a01679.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::probe::serial_io_result_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01685.html#a373ab67e4e23206765c26c2ce5834832">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01685.html#a2cf900baef9fe03973140d9d9e2b19ce">kInit</a></td><td class="entry"><a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01685.html#afc90624cccb66946672d597cf69da81c">kPoly</a></td><td class="entry"><a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01685.html#a52b7fb4440a9fff5eb2e096de7d663e1">kRefIn</a></td><td class="entry"><a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01685.html#a7b71423020dfcafb14454a16e0396b65">kRefOut</a></td><td class="entry"><a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01685.html#a500305532190d3811dc81985fc805645">kWidth</a></td><td class="entry"><a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01685.html#a983a90730466fed37c599212124f3d41">kXorOut</a></td><td class="entry"><a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01685.html#a706e239869bf40189aa835ef63132644">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01685.html">lumex::core::crc::parametric::crc16_gsm_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Result of <code><a class="el" href="a01690.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline.">SerialProber::open</a></code> and <code><a class="el" href="a01690.html#a5d84b61824813951c20b4fed25b8cdab" title="Writes every byte of data or stops at the deadline.">SerialProber::write</a></code>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00197_source.html">LumexSerialProber.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ad8912d6ffe5583b0e141ba6ed95ce8bf" id="r_ad8912d6ffe5583b0e141ba6ed95ce8bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01293.html#aa79b632754bb66e98b34740d10fe1108">serial_io_status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8912d6ffe5583b0e141ba6ed95ce8bf">status</a> = <a class="el" href="a01293.html#aa79b632754bb66e98b34740d10fe1108a26934eb377001f66e37289a5c93fe284">serial_io_status::failed</a></td></tr>
+<tr class="memdesc:ad8912d6ffe5583b0e141ba6ed95ce8bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">What happened.  <br /></td></tr>
+<tr class="separator:ad8912d6ffe5583b0e141ba6ed95ce8bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3322f6172f0fd111eb1248a7c6a3cb43" id="r_a3322f6172f0fd111eb1248a7c6a3cb43"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3322f6172f0fd111eb1248a7c6a3cb43">bytes_transferred</a> = 0U</td></tr>
+<tr class="memdesc:a3322f6172f0fd111eb1248a7c6a3cb43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bytes written; 0 for <code>open</code>.  <br /></td></tr>
+<tr class="separator:a3322f6172f0fd111eb1248a7c6a3cb43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a55a9955978464d3fb8c072b9e03f00" id="r_a1a55a9955978464d3fb8c072b9e03f00"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a55a9955978464d3fb8c072b9e03f00">system_error</a></td></tr>
+<tr class="memdesc:a1a55a9955978464d3fb8c072b9e03f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formatted platform error; empty when none.  <br /></td></tr>
+<tr class="separator:a1a55a9955978464d3fb8c072b9e03f00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Result of <code><a class="el" href="a01690.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline.">SerialProber::open</a></code> and <code><a class="el" href="a01690.html#a5d84b61824813951c20b4fed25b8cdab" title="Writes every byte of data or stops at the deadline.">SerialProber::write</a></code>. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a3322f6172f0fd111eb1248a7c6a3cb43" name="a3322f6172f0fd111eb1248a7c6a3cb43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3322f6172f0fd111eb1248a7c6a3cb43">&#9670;&#160;</a></span>bytes_transferred</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::applied::serial::probe::serial_io_result_t::bytes_transferred = 0U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Bytes written; 0 for <code>open</code>. </p>
+
+</div>
+</div>
+<a id="ad8912d6ffe5583b0e141ba6ed95ce8bf" name="ad8912d6ffe5583b0e141ba6ed95ce8bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8912d6ffe5583b0e141ba6ed95ce8bf">&#9670;&#160;</a></span>status</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01293.html#aa79b632754bb66e98b34740d10fe1108">serial_io_status</a> lumex::applied::serial::probe::serial_io_result_t::status = <a class="el" href="a01293.html#aa79b632754bb66e98b34740d10fe1108a26934eb377001f66e37289a5c93fe284">serial_io_status::failed</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>What happened. </p>
+
+</div>
+</div>
+<a id="a1a55a9955978464d3fb8c072b9e03f00" name="a1a55a9955978464d3fb8c072b9e03f00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a55a9955978464d3fb8c072b9e03f00">&#9670;&#160;</a></span>system_error</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::serial::probe::serial_io_result_t::system_error</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Formatted platform error; empty when none. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00197_source.html">LumexSerialProber.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01287.html">serial</a></li><li class="navelem"><a class="el" href="a01293.html">probe</a></li><li class="navelem"><a class="el" href="a01682.html">serial_io_result_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

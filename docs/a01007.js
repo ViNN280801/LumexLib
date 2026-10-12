@@ -1,7 +1,5 @@
 var a01007 =
 [
-    [ "Detail", "a01009.html", "a01009" ],
-    [ "lock_based_table_wait", "a01008.html", "a01008" ],
-    [ "atomic_shared_ptr", "a01325.html", "a01325" ],
-    [ "atomic_weak_ptr", "a01349.html", "a01349" ]
+    [ "LUMEX_IMPLEMENTATION", "a01007.html#a07486181f1990291c2a348de8eb4c480", null ],
+    [ "unspecified_bool_xml_text", "a01007.html#ad954eb5934abfa9b54d3615137e4f49b", null ]
 ];

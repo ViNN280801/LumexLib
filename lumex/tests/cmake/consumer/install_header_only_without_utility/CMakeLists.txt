@@ -2,12 +2,12 @@
 #
 # While configuring, installs LumexLib into a prefix under this build tree
 # with LUMEX_BUILD_UTILITY OFF, every module that requires utility OFF and the
-# six header-only modules (string, math, generators, optional, atomic, span) ON.
+# seven header-only modules (string, string_view, math, generators, optional, atomic, span) ON.
 # Then finds that prefix with find_package(LumexLib) and builds main.cpp
 # against the installed targets only: at C++11 (the executable that runs) and,
 # when the compiler has it, at C++20.
 #
-# The six modules are INTERFACE targets, so the nested LumexLib tree is
+# The seven modules are INTERFACE targets, so the nested LumexLib tree is
 # configured and installed without a build: building it would also run its
 # ALL targets that write into the LumexLib checkout (publish_distr,
 # lumex_copy_compile_commands).
@@ -20,12 +20,13 @@ if(NOT LUMEX_SOURCE_DIR)
 endif()
 
 set(_header_only_modules ATOMIC GENERATORS MATH OPTIONAL SPAN STRING)
+list(APPEND _header_only_modules STRING_VIEW)
 # Every other core module: UTILITY itself, and the modules that require it
 # directly or through another module (cmake/LumexModules.cmake). The applied
 # and XML groups are switched off as a whole.
 set(_other_core_modules
-    BASE64 CIRCULAR_BUFFER CRC ENVIRONMENT EXCEPTIONS EXPECTED FILESYSTEM FMT
-    REFLECTION STRING_VIEW TEMPORARY TIME UNICODE UTILITY)
+    BASE64 CIRCULAR_BUFFER CONTRACTS CRC ENVIRONMENT EXCEPTIONS EXPECTED FILESYSTEM FMT
+    HAZARD_POINTER REFLECTION SMART_PTR TEMPORARY TIME UNICODE UTILITY)
 
 set(_lumex_build "${CMAKE_BINARY_DIR}/lumexlib-build")
 set(_lumex_prefix "${CMAKE_BINARY_DIR}/lumexlib-prefix")
@@ -95,7 +96,7 @@ endif()
 
 set(_targets
     lumex::atomic lumex::math lumex::number_generator lumex::optional
-    lumex::span lumex::string)
+    lumex::span lumex::string lumex::string_view)
 foreach(_target IN LISTS _targets)
     if(NOT TARGET ${_target})
         message(FATAL_ERROR "find_package(LumexLib) did not provide ${_target}")
@@ -104,6 +105,12 @@ endforeach()
 
 add_executable(install_header_only_without_utility_consumer main.cpp)
 target_link_libraries(install_header_only_without_utility_consumer PRIVATE ${_targets})
+# The precondition checks of span are forced on (a build type without NDEBUG
+# would do the same): the span module has its own failure handler, so the
+# prefix without utility links and a violation aborts. main.cpp runs itself
+# with --violate to see it (SIGABRT and the message).
+target_compile_definitions(install_header_only_without_utility_consumer
+    PRIVATE LUMEX_SPAN_CHECKS=1)
 set_target_properties(install_header_only_without_utility_consumer PROPERTIES
     CXX_STANDARD 11
     CXX_STANDARD_REQUIRED ON
@@ -113,6 +120,8 @@ set_target_properties(install_header_only_without_utility_consumer PROPERTIES
 if("cxx_std_20" IN_LIST CMAKE_CXX_COMPILE_FEATURES)
     add_executable(install_header_only_without_utility_cxx20 main.cpp)
     target_link_libraries(install_header_only_without_utility_cxx20 PRIVATE ${_targets})
+    target_compile_definitions(install_header_only_without_utility_cxx20
+        PRIVATE LUMEX_SPAN_CHECKS=1)
     set_target_properties(install_header_only_without_utility_cxx20 PROPERTIES
         CXX_STANDARD 20
         CXX_STANDARD_REQUIRED ON

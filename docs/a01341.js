@@ -1,6 +1,6 @@
 var a01341 =
 [
-    [ "probe_t", "a01341.html#a3f92a0b1895c601a5f248bde6e6c8e4a", null ],
-    [ "equivalent", "a01341.html#ae3b1d2f03777ce9b48c06fc7649951c7", null ],
-    [ "probe", "a01341.html#a7df09fa3a888cd5892f9dc5b2d46f9cc", null ]
+    [ "lumex_environment", "a02422.html", "a02422" ],
+    [ "is_env_set", "a01341.html#a133dac804e9421baedf88340deadad5b", null ],
+    [ "is_env_truthy", "a01341.html#a4773a4875c22bf328b9834b55316947e", null ]
 ];

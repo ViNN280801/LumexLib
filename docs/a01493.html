@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc4_g704_spec_t Struct Reference</title>
+<title>LumexLib: lumex::xml::attribute Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,222 +104,386 @@ $(function(){initNavTree('a01493.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01490.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc4_g704_spec_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::attribute Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>CRC-4/G-704: width=4 poly=0x3 init=0x0 refin=true refout=true xorout=0x0.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a36aa4551bf86d4c8a73c74d5ca5b9e4d" id="r_a36aa4551bf86d4c8a73c74d5ca5b9e4d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36aa4551bf86d4c8a73c74d5ca5b9e4d">ValueType</a> = std::uint8_t</td></tr>
-<tr class="separator:a36aa4551bf86d4c8a73c74d5ca5b9e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04938.html">XmlAttribute</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XML attribute, providing a safe and convenient interface for accessing and modifying its name and value.  <a href="a04938.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04942.html">XmlAttributeBase</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base structure for representing an XML attribute.  <a href="a04942.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04978.html">XmlAttributeIterator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bidirectional iterator for traversing attributes of an <code>XmlNode</code>.  <a href="a04978.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:aa771dfc950950a116eee8a73c75351fb" id="r_aa771dfc950950a116eee8a73c75351fb"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa771dfc950950a116eee8a73c75351fb">kWidth</a> = 4</td></tr>
-<tr class="separator:aa771dfc950950a116eee8a73c75351fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3c545d32ada58bf1677c04679d22654" id="r_ae3c545d32ada58bf1677c04679d22654"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3c545d32ada58bf1677c04679d22654">kPoly</a> = 0x3U</td></tr>
-<tr class="separator:ae3c545d32ada58bf1677c04679d22654"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a616d09c3905903d9eff48e2cc4a3b6e5" id="r_a616d09c3905903d9eff48e2cc4a3b6e5"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a616d09c3905903d9eff48e2cc4a3b6e5">kInit</a> = 0x0U</td></tr>
-<tr class="separator:a616d09c3905903d9eff48e2cc4a3b6e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a950f00e60962b4abc54d2ddf5b556a4c" id="r_a950f00e60962b4abc54d2ddf5b556a4c"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a950f00e60962b4abc54d2ddf5b556a4c">kRefIn</a> = true</td></tr>
-<tr class="separator:a950f00e60962b4abc54d2ddf5b556a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aef3aa1c52697c020fb94240f2c53bf" id="r_a8aef3aa1c52697c020fb94240f2c53bf"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8aef3aa1c52697c020fb94240f2c53bf">kRefOut</a> = true</td></tr>
-<tr class="separator:a8aef3aa1c52697c020fb94240f2c53bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab20f26950191e808f857507ee4257297" id="r_ab20f26950191e808f857507ee4257297"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab20f26950191e808f857507ee4257297">kXorOut</a> = 0x0U</td></tr>
-<tr class="separator:ab20f26950191e808f857507ee4257297"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10a55b760120d48d06a9e66d160e6ef3" id="r_a10a55b760120d48d06a9e66d160e6ef3"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10a55b760120d48d06a9e66d160e6ef3">kCatalogCheck</a> = 0x7U</td></tr>
-<tr class="separator:a10a55b760120d48d06a9e66d160e6ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a4731c6a775ba12fa3d101ef50312b095" id="r_a4731c6a775ba12fa3d101ef50312b095"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4731c6a775ba12fa3d101ef50312b095">operator&amp;&amp;</a> (<a class="el" href="a04938.html">XmlAttribute</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="separator:a4731c6a775ba12fa3d101ef50312b095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7e6c3ff5c5fe38df2d5ccd66aa37f84" id="r_ad7e6c3ff5c5fe38df2d5ccd66aa37f84"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7e6c3ff5c5fe38df2d5ccd66aa37f84">operator||</a> (<a class="el" href="a04938.html">XmlAttribute</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="separator:ad7e6c3ff5c5fe38df2d5ccd66aa37f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9574910c1eb199b109e5ef6a75692053" id="r_a9574910c1eb199b109e5ef6a75692053"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a04942.html">XmlAttributeBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9574910c1eb199b109e5ef6a75692053">allocate_attribute</a> (<a class="el" href="a04958.html">XmlAllocator</a> &amp;alloc)</td></tr>
+<tr class="memdesc:a9574910c1eb199b109e5ef6a75692053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates a new <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object using the provided allocator.  <br /></td></tr>
+<tr class="separator:a9574910c1eb199b109e5ef6a75692053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39c4f1cfa1cc6b95363c620f8c07bdea" id="r_a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39c4f1cfa1cc6b95363c620f8c07bdea">destroy_attribute</a> (<a class="el" href="a04942.html">XmlAttributeBase</a> *attr, <a class="el" href="a04958.html">XmlAllocator</a> &amp;alloc)</td></tr>
+<tr class="memdesc:a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys and deallocates an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object.  <br /></td></tr>
+<tr class="separator:a39c4f1cfa1cc6b95363c620f8c07bdea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b10ebb9351cdb4dcfb426ab944fa515" id="r_a6b10ebb9351cdb4dcfb426ab944fa515"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b10ebb9351cdb4dcfb426ab944fa515">prepend_attribute</a> (<a class="el" href="a04942.html">XmlAttributeBase</a> *attr, <a class="el" href="a04982.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:a6b10ebb9351cdb4dcfb426ab944fa515"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepends an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to the beginning of a node's attribute list.  <br /></td></tr>
+<tr class="separator:a6b10ebb9351cdb4dcfb426ab944fa515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac009a781687ac1b076eb5408390597a9" id="r_ac009a781687ac1b076eb5408390597a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac009a781687ac1b076eb5408390597a9">insert_attribute_after</a> (<a class="el" href="a04942.html">XmlAttributeBase</a> *attr, <a class="el" href="a04942.html">XmlAttributeBase</a> *place, <a class="el" href="a04982.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:ac009a781687ac1b076eb5408390597a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> after a specified existing attribute.  <br /></td></tr>
+<tr class="separator:ac009a781687ac1b076eb5408390597a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8536805f9faefc21c231e0cb9dfdf5a" id="r_ad8536805f9faefc21c231e0cb9dfdf5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8536805f9faefc21c231e0cb9dfdf5a">insert_attribute_before</a> (<a class="el" href="a04942.html">XmlAttributeBase</a> *attr, <a class="el" href="a04942.html">XmlAttributeBase</a> *place, <a class="el" href="a04982.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:ad8536805f9faefc21c231e0cb9dfdf5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> before a specified existing attribute.  <br /></td></tr>
+<tr class="separator:ad8536805f9faefc21c231e0cb9dfdf5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa881ac8bc7844492c7dbf561cc2480c" id="r_afa881ac8bc7844492c7dbf561cc2480c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa881ac8bc7844492c7dbf561cc2480c">remove_attribute</a> (<a class="el" href="a04942.html">XmlAttributeBase</a> *attr, <a class="el" href="a04982.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="memdesc:afa881ac8bc7844492c7dbf561cc2480c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> from its parent node's attribute list.  <br /></td></tr>
+<tr class="separator:afa881ac8bc7844492c7dbf561cc2480c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05babdf187dfa6292de80d86d7470a11" id="r_a05babdf187dfa6292de80d86d7470a11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05babdf187dfa6292de80d86d7470a11">node_copy_attribute</a> (<a class="el" href="a04942.html">XmlAttributeBase</a> *da_, <a class="el" href="a04942.html">XmlAttributeBase</a> *sa_)</td></tr>
+<tr class="memdesc:a05babdf187dfa6292de80d86d7470a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the name and value strings from a source <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to a destination <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code>.  <br /></td></tr>
+<tr class="separator:a05babdf187dfa6292de80d86d7470a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-4/G-704: width=4 poly=0x3 init=0x0 refin=true refout=true xorout=0x0. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-4/G-704 </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a36aa4551bf86d4c8a73c74d5ca5b9e4d" name="a36aa4551bf86d4c8a73c74d5ca5b9e4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36aa4551bf86d4c8a73c74d5ca5b9e4d">&#9670;&#160;</a></span>ValueType</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a9574910c1eb199b109e5ef6a75692053" name="a9574910c1eb199b109e5ef6a75692053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9574910c1eb199b109e5ef6a75692053">&#9670;&#160;</a></span>allocate_attribute()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#a36aa4551bf86d4c8a73c74d5ca5b9e4d">lumex::core::crc::parametric::crc4_g704_spec_t::ValueType</a> = std::uint8_t</td>
+          <td class="memname"><a class="el" href="a04942.html">XmlAttributeBase</a> * lumex::xml::attribute::allocate_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04958.html">XmlAllocator</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocates a new <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object using the provided allocator. </p>
+<p>This function allocates memory for an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> structure from the given <code><a class="el" href="a04958.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> and constructs it in-place. It's the primary way to create new attribute objects within the XML memory model. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">alloc</td><td>The <code><a class="el" href="a04958.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> to use for memory allocation. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly allocated <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object, or <code>nullptr</code> if memory allocation fails. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The returned pointer is owned by the <code><a class="el" href="a04958.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> and must not be <code>delete</code>d directly. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>If the allocator runs out of memory (though the current implementation returns <code>nullptr</code> on failure). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a39c4f1cfa1cc6b95363c620f8c07bdea" title="Destroys and deallocates an XmlAttributeBase object.">destroy_attribute</a> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_a9574910c1eb199b109e5ef6a75692053_cgraph.png" border="0" usemap="#aa01493_a9574910c1eb199b109e5ef6a75692053_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_a9574910c1eb199b109e5ef6a75692053_icgraph.png" border="0" usemap="#aa01493_a9574910c1eb199b109e5ef6a75692053_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a39c4f1cfa1cc6b95363c620f8c07bdea" name="a39c4f1cfa1cc6b95363c620f8c07bdea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39c4f1cfa1cc6b95363c620f8c07bdea">&#9670;&#160;</a></span>destroy_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::destroy_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04958.html">XmlAllocator</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys and deallocates an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object. </p>
+<p>This function deallocates the attribute's name and value strings if they were separately allocated, and then deallocates the <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> structure itself using the provided allocator. It is crucial for proper memory cleanup within the XML memory model. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">attr</td><td>A pointer to the <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> object to destroy. This pointer must have been allocated via <code>allocate_attribute</code>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">alloc</td><td>The <code><a class="el" href="a04958.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> that was used to allocate <code>attr</code> and its associated strings. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function handles checking the <code>header</code> flags to determine if name/value strings need separate deallocation. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Calling this on an <code>attr</code> not allocated by <code>alloc</code> or already deallocated leads to undefined behavior. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a9574910c1eb199b109e5ef6a75692053" title="Allocates a new XmlAttributeBase object using the provided allocator.">allocate_attribute</a> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_a39c4f1cfa1cc6b95363c620f8c07bdea_cgraph.png" border="0" usemap="#aa01493_a39c4f1cfa1cc6b95363c620f8c07bdea_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_a39c4f1cfa1cc6b95363c620f8c07bdea_icgraph.png" border="0" usemap="#aa01493_a39c4f1cfa1cc6b95363c620f8c07bdea_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ac009a781687ac1b076eb5408390597a9" name="ac009a781687ac1b076eb5408390597a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac009a781687ac1b076eb5408390597a9">&#9670;&#160;</a></span>insert_attribute_after()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::insert_attribute_after </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>place</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04982.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inserts an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> after a specified existing attribute. </p>
+<p>This function inserts <code>attr</code> immediately after <code>place</code> in the attribute list of <code>node</code>. It updates the <code>next_attribute</code> and <code>prev_attribute_c</code> pointers to maintain the doubly-linked list integrity. If <code>place</code> is the last attribute, <code>attr</code> becomes the new last attribute, updating the circular link. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">attr</td><td>The <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to insert. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">place</td><td>The existing <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> after which <code>attr</code> will be inserted. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code><a class="el" href="a04982.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> whose attribute list is being modified. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>It is assumed that <code>attr</code> is not currently linked in any list and that <code>place</code> belongs to <code>node</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_ac009a781687ac1b076eb5408390597a9_icgraph.png" border="0" usemap="#aa01493_ac009a781687ac1b076eb5408390597a9_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ad8536805f9faefc21c231e0cb9dfdf5a" name="ad8536805f9faefc21c231e0cb9dfdf5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8536805f9faefc21c231e0cb9dfdf5a">&#9670;&#160;</a></span>insert_attribute_before()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::insert_attribute_before </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>place</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04982.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inserts an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> before a specified existing attribute. </p>
+<p>This function inserts <code>attr</code> immediately before <code>place</code> in the attribute list of <code>node</code>. It updates the <code>next_attribute</code> and <code>prev_attribute_c</code> pointers to maintain the doubly-linked list integrity. If <code>place</code> is the first attribute, <code>attr</code> becomes the new first attribute of the node. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">attr</td><td>The <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to insert. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">place</td><td>The existing <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> before which <code>attr</code> will be inserted. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code><a class="el" href="a04982.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> whose attribute list is being modified. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>It is assumed that <code>attr</code> is not currently linked in any list and that <code>place</code> belongs to <code>node</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_ad8536805f9faefc21c231e0cb9dfdf5a_icgraph.png" border="0" usemap="#aa01493_ad8536805f9faefc21c231e0cb9dfdf5a_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a05babdf187dfa6292de80d86d7470a11" name="a05babdf187dfa6292de80d86d7470a11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05babdf187dfa6292de80d86d7470a11">&#9670;&#160;</a></span>node_copy_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::xml::attribute::node_copy_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>da_</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>sa_</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies the name and value strings from a source <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to a destination <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code>. </p>
+<p>This utility function handles the string copying, taking into account whether the strings are stored in-situ or require separate memory allocation. It also optimizes by detecting if source and destination attributes share the same allocator to avoid unnecessary reallocations. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">da_</td><td>The destination <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> whose name and value will be set. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sa_</td><td>The source <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> from which name and value will be copied. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on internal utility functions (<code>node_copy_string</code>) for actual string manipulation. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>This function only copies the string content; it does not handle linking <code>da_</code> into an attribute list. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_a05babdf187dfa6292de80d86d7470a11_cgraph.png" border="0" usemap="#aa01493_a05babdf187dfa6292de80d86d7470a11_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_a05babdf187dfa6292de80d86d7470a11_icgraph.png" border="0" usemap="#aa01493_a05babdf187dfa6292de80d86d7470a11_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a4731c6a775ba12fa3d101ef50312b095" name="a4731c6a775ba12fa3d101ef50312b095"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4731c6a775ba12fa3d101ef50312b095">&#9670;&#160;</a></span>operator&amp;&amp;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::xml::attribute::operator&amp;&amp; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04938.html">XmlAttribute</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a10a55b760120d48d06a9e66d160e6ef3" name="a10a55b760120d48d06a9e66d160e6ef3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10a55b760120d48d06a9e66d160e6ef3">&#9670;&#160;</a></span>kCatalogCheck</h2>
+<a id="ad7e6c3ff5c5fe38df2d5ccd66aa37f84" name="ad7e6c3ff5c5fe38df2d5ccd66aa37f84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7e6c3ff5c5fe38df2d5ccd66aa37f84">&#9670;&#160;</a></span>operator||()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint8_t lumex::core::crc::parametric::crc4_g704_spec_t::kCatalogCheck = 0x7U</td>
+          <td class="memname">bool lumex::xml::attribute::operator|| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04938.html">XmlAttribute</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a616d09c3905903d9eff48e2cc4a3b6e5" name="a616d09c3905903d9eff48e2cc4a3b6e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a616d09c3905903d9eff48e2cc4a3b6e5">&#9670;&#160;</a></span>kInit</h2>
+<a id="a6b10ebb9351cdb4dcfb426ab944fa515" name="a6b10ebb9351cdb4dcfb426ab944fa515"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b10ebb9351cdb4dcfb426ab944fa515">&#9670;&#160;</a></span>prepend_attribute()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc4_g704_spec_t::kInit = 0x0U</td>
+          <td class="memname">void lumex::xml::attribute::prepend_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04982.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Prepends an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to the beginning of a node's attribute list. </p>
+<p>This function inserts <code>attr</code> as the new first attribute of <code>node</code>. It correctly updates the <code>first_attribute</code> pointer of the node and maintains the doubly-linked list structure. If the node previously had attributes, <code>attr</code> becomes the new head, and the old head's <code>prev_attribute_c</code> is updated to point to <code>attr</code>. If the node had no attributes, <code>attr</code> becomes both the first and the "previous" (circularly linked) attribute to itself. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">attr</td><td>The <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to prepend. Must not be <code>nullptr</code>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code><a class="el" href="a04982.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> to which the attribute will be added. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function assumes <code>attr</code> is already allocated and not currently part of any other attribute list. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_a6b10ebb9351cdb4dcfb426ab944fa515_icgraph.png" border="0" usemap="#aa01493_a6b10ebb9351cdb4dcfb426ab944fa515_icgraph" alt=""/></div>
+</div>
 
 </div>
 </div>
-<a id="ae3c545d32ada58bf1677c04679d22654" name="ae3c545d32ada58bf1677c04679d22654"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3c545d32ada58bf1677c04679d22654">&#9670;&#160;</a></span>kPoly</h2>
+<a id="afa881ac8bc7844492c7dbf561cc2480c" name="afa881ac8bc7844492c7dbf561cc2480c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa881ac8bc7844492c7dbf561cc2480c">&#9670;&#160;</a></span>remove_attribute()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc4_g704_spec_t::kPoly = 0x3U</td>
+          <td class="memname">void lumex::xml::attribute::remove_attribute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04942.html">XmlAttributeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>attr</em></span>, </td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a950f00e60962b4abc54d2ddf5b556a4c" name="a950f00e60962b4abc54d2ddf5b556a4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a950f00e60962b4abc54d2ddf5b556a4c">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc4_g704_spec_t::kRefIn = true</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04982.html">node::XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
+<p>Removes an <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> from its parent node's attribute list. </p>
+<p>This function unlinks <code>attr</code> from the doubly-linked list of attributes belonging to <code>node</code>. It correctly updates the <code>next_attribute</code> and <code>prev_attribute_c</code> pointers of its neighbors, as well as the <code>first_attribute</code> and circular <code>prev_attribute_c</code> pointers of the node if <code>attr</code> was the first or last. After removal, <code>attr</code>'s linking pointers are set to <code>nullptr</code>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">attr</td><td>The <code><a class="el" href="a04942.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code> to remove. Must not be <code>nullptr</code> and must be part of <code>node</code>'s attribute list. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">node</td><td>The <code><a class="el" href="a04982.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code> from which the attribute will be removed. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>The memory for <code>attr</code> itself is NOT deallocated by this function. It must be explicitly destroyed via <code>destroy_attribute</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01493_afa881ac8bc7844492c7dbf561cc2480c_icgraph.png" border="0" usemap="#aa01493_afa881ac8bc7844492c7dbf561cc2480c_icgraph" alt=""/></div>
 </div>
-</div>
-<a id="a8aef3aa1c52697c020fb94240f2c53bf" name="a8aef3aa1c52697c020fb94240f2c53bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8aef3aa1c52697c020fb94240f2c53bf">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc4_g704_spec_t::kRefOut = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
-<a id="aa771dfc950950a116eee8a73c75351fb" name="aa771dfc950950a116eee8a73c75351fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa771dfc950950a116eee8a73c75351fb">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc4_g704_spec_t::kWidth = 4</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab20f26950191e808f857507ee4257297" name="ab20f26950191e808f857507ee4257297"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab20f26950191e808f857507ee4257297">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc4_g704_spec_t::kXorOut = 0x0U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01493.html">crc4_g704_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01492.html">xml</a></li><li class="navelem"><a class="el" href="a01493.html">attribute</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

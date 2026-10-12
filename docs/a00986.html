@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::serial::port::Constants Namespace Reference</title>
+<title>LumexLib: XmlNodeBase.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,126 +104,64 @@ $(function(){initNavTree('a00986.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::serial::port::Constants Namespace Reference</div></div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XmlNodeBase.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Numeric channel-type identifiers this module understands.  
-<a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a78a9905c515b8e1e4efd4cdb738b67f3" id="r_a78a9905c515b8e1e4efd4cdb738b67f3"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78a9905c515b8e1e4efd4cdb738b67f3">KSERIAL_PORT_CHANNEL_TYPE</a> = 0x100</td></tr>
-<tr class="memdesc:a78a9905c515b8e1e4efd4cdb738b67f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asynchronous serial port.  <br /></td></tr>
-<tr class="separator:a78a9905c515b8e1e4efd4cdb738b67f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade27fc46c3a7e81d4b4282ecb789e043" id="r_ade27fc46c3a7e81d4b4282ecb789e043"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade27fc46c3a7e81d4b4282ecb789e043">KSERIAL_PORT_SYNC_CHANNEL_TYPE</a> = 0x101</td></tr>
-<tr class="memdesc:ade27fc46c3a7e81d4b4282ecb789e043"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronous serial port.  <br /></td></tr>
-<tr class="separator:ade27fc46c3a7e81d4b4282ecb789e043"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60c1583bdbe97272bebce16500252428" id="r_a60c1583bdbe97272bebce16500252428"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60c1583bdbe97272bebce16500252428">KNET_TCP_CHANNEL_TYPE</a> = 0x810</td></tr>
-<tr class="memdesc:a60c1583bdbe97272bebce16500252428"><td class="mdescLeft">&#160;</td><td class="mdescRight">TCP network channel.  <br /></td></tr>
-<tr class="separator:a60c1583bdbe97272bebce16500252428"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e84e78c1d605a4e97a9690581795555" id="r_a8e84e78c1d605a4e97a9690581795555"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e84e78c1d605a4e97a9690581795555">KNET_UDP_CHANNEL_TYPE</a> = 0x820</td></tr>
-<tr class="memdesc:a8e84e78c1d605a4e97a9690581795555"><td class="mdescLeft">&#160;</td><td class="mdescRight">UDP network channel.  <br /></td></tr>
-<tr class="separator:a8e84e78c1d605a4e97a9690581795555"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00950_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01022_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00989_source.html">XmlNodeBase.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XmlNodeBase.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00987.png" border="0" usemap="#a_xml_node_base_8cpp" alt=""/></div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aa38a9602c7c4f223839ce428a8655f17" id="r_aa38a9602c7c4f223839ce428a8655f17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa38a9602c7c4f223839ce428a8655f17">destroy_node</a> (<a class="el" href="a04982.html">XmlNodeBase</a> *n, <a class="el" href="a04958.html">XmlAllocator</a> &amp;alloc)</td></tr>
+<tr class="separator:aa38a9602c7c4f223839ce428a8655f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Numeric channel-type identifiers this module understands. </p>
-<p>These mirror the values a serial/network communication library (such as Lumex's own DChannel) typically assigns to its channel types. This module does not depend on any particular communication library - it only needs to tell a serial channel apart from a TCP/UDP one, so the values are duplicated here rather than pulled in via a dependency. If the values below and DChannel's own <code>DCT_*</code> macros ever drift apart, callers that bridge the two should pass their own channel-type constant through instead of relying on these. </p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a60c1583bdbe97272bebce16500252428" name="a60c1583bdbe97272bebce16500252428"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60c1583bdbe97272bebce16500252428">&#9670;&#160;</a></span>KNET_TCP_CHANNEL_TYPE</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::port::Constants::KNET_TCP_CHANNEL_TYPE = 0x810</td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>TCP network channel. </p>
-
 </div>
 </div>
-<a id="a8e84e78c1d605a4e97a9690581795555" name="a8e84e78c1d605a4e97a9690581795555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e84e78c1d605a4e97a9690581795555">&#9670;&#160;</a></span>KNET_UDP_CHANNEL_TYPE</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="aa38a9602c7c4f223839ce428a8655f17" name="aa38a9602c7c4f223839ce428a8655f17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa38a9602c7c4f223839ce428a8655f17">&#9670;&#160;</a></span>destroy_node()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::port::Constants::KNET_UDP_CHANNEL_TYPE = 0x820</td>
+          <td class="memname">void destroy_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>UDP network channel. </p>
-
-</div>
-</div>
-<a id="a78a9905c515b8e1e4efd4cdb738b67f3" name="a78a9905c515b8e1e4efd4cdb738b67f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78a9905c515b8e1e4efd4cdb738b67f3">&#9670;&#160;</a></span>KSERIAL_PORT_CHANNEL_TYPE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::port::Constants::KSERIAL_PORT_CHANNEL_TYPE = 0x100</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a04958.html">XmlAllocator</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Asynchronous serial port. </p>
-
-</div>
-</div>
-<a id="ade27fc46c3a7e81d4b4282ecb789e043" name="ade27fc46c3a7e81d4b4282ecb789e043"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade27fc46c3a7e81d4b4282ecb789e043">&#9670;&#160;</a></span>KSERIAL_PORT_SYNC_CHANNEL_TYPE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::port::Constants::KSERIAL_PORT_SYNC_CHANNEL_TYPE = 0x101</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Synchronous serial port. </p>
 
 </div>
 </div>
@@ -232,7 +170,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a00949.html">applied</a></li><li class="navelem"><a class="el" href="a00981.html">serial</a></li><li class="navelem"><a class="el" href="a00984.html">port</a></li><li class="navelem"><a class="el" href="a00986.html">Constants</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_29d6ff05bf0fbfd630b35569eea8b892.html">node</a></li><li class="navelem"><a class="el" href="a00986.html">XmlNodeBase.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

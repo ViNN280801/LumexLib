@@ -196,6 +196,25 @@ TEST (LumexTypeTraitsTopicsTest,
   EXPECT_FALSE (traits::meta::is_extractible<void (*) ()>::value);
 }
 
+TEST (LumexTypeTraitsTopicsTest,
+      GivenCvQualifiedTypes_WhenIsExtractible_ThenRejected)
+{
+  // The bytes cannot be copied into an object of a const or volatile type.
+  EXPECT_FALSE (traits::meta::is_extractible<int const>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<int volatile>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<int const volatile>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<double const>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<extractible_pair_t const>::value);
+  EXPECT_FALSE (
+      traits::meta::is_extractible<extractible_pair_t volatile>::value);
+  EXPECT_FALSE (traits::meta::is_extractible<extractible_enum_t const>::value);
+  EXPECT_FALSE (
+      (traits::meta::is_extractible<std::array<char, 4> const>::value));
+  // The unqualified types stay extractible.
+  EXPECT_TRUE (traits::meta::is_extractible<int>::value);
+  EXPECT_TRUE (traits::meta::is_extractible<extractible_pair_t>::value);
+}
+
 TEST (LumexTypeTraitsTopicsTest, GivenTypes_WhenIsByteLike_ThenOnlyByteTypes)
 {
   EXPECT_TRUE (traits::meta::is_byte_like<char>::value);
