@@ -10,7 +10,9 @@
 #   LumexDwcasBuiltinCxx<std>Tests      LUMEX_DWCAS_BACKEND=3: __atomic_*
 #                                       builtins on a 128-bit integer (links
 #                                       libatomic; the backend ThreadSanitizer
-#                                       can see)
+#                                       can see). GCC and Clang only: MSVC has
+#                                       no __int128 and no __atomic_*, so the
+#                                       variant is not registered there.
 #   LumexDwcasMsvcWrapperCxx<std>Tests  LUMEX_DWCAS_BACKEND=2: the MSVC
 #                                       wrapper. Where the compiler is not MSVC
 #                                       the directory msvc_stand_in/ supplies
@@ -42,6 +44,18 @@ else()
     set(_dwcas_default_definitions "")
 endif()
 
+# The built-in backend needs __atomic_* on unsigned __int128 (GCC and Clang)
+# and exists for ThreadSanitizer; MSVC has neither the type nor the builtins,
+# so a tree that registered the variant would stop at the #error of
+# LumexDwcasConfig.hpp. The wrapper variant is the MSVC backend itself, so
+# nothing is lost there.
+set(_dwcas_builtin_variant "")
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(_dwcas_builtin_variant
+        VARIANT builtin
+        DEFINITIONS LUMEX_DWCAS_BACKEND=3 LUMEX_TEST_DWCAS_BACKEND_EXPECTED=3)
+endif()
+
 lumex_add_standard_suites(Dwcas
     MODULE atomic.dwcas
     LINK lumex::atomic
@@ -49,8 +63,7 @@ lumex_add_standard_suites(Dwcas
     DEFINITIONS ${_dwcas_default_definitions}
     DISCOVER_ARGS PROPERTIES TIMEOUT 300 LABELS tsan
     TARGETS_VAR _dwcas_targets
-    VARIANT builtin
-        DEFINITIONS LUMEX_DWCAS_BACKEND=3 LUMEX_TEST_DWCAS_BACKEND_EXPECTED=3
+    ${_dwcas_builtin_variant}
     VARIANT msvc_wrapper
         DEFINITIONS LUMEX_DWCAS_BACKEND=2 LUMEX_TEST_DWCAS_BACKEND_EXPECTED=2
 )
