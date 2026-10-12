@@ -3251,3 +3251,12 @@ Digits: текст раскрытого макроса (`#x` через два �
 - Вариант `LumexDwcasBuiltinCxx<std>Tests` задает `LUMEX_DWCAS_BACKEND=3` (`__atomic_*` на `unsigned __int128`), а у MSVC нет ни типа, ни builtins: `LumexDwcasConfig.hpp` останавливал 16 объектных файлов с `fatal error C1189` в первой же полной сборке дерева cl.exe. Бэкенд существует для ThreadSanitizer, которого на MSVC нет, а бэкенд-обертка MSVC и есть вариант `msvc_wrapper`.
 - Вариант регистрируется, только когда компилятор не MSVC (`CMAKE_CXX_COMPILER_ID`): clang-cl - это Clang, его вариант (с `-mcx16`) сохраняется. Проверено на дереве clang-cl: `atomic.dwcas` 600 тестов, из них 200 `builtin` и 200 `msvc_wrapper`, цель `LumexDwcasBuiltinCxx11Tests` собирается.
 
+##### split_count: тот же вариант builtin на MSVC
+
+**Файлы:**
+
+- `lumex/tests/core/atomic/smart_ptr/split_count/CMakeLists.txt`
+
+- Полная сборка дерева cl.exe показала ту же ошибку в `LumexAtomicSplitCountBuiltinCxx<std>Tests` (вариант задает `LUMEX_DWCAS_BACKEND=3`): движок split-count работает поверх 128-битного слова, а builtins на `unsigned __int128` у MSVC нет.
+- Вариант регистрируется по тому же условию; на дереве clang-cl сохранены 521 `builtin` из 2155 тестов `atomic.smart_ptr.split_count`, цель `LumexAtomicSplitCountBuiltinCxx11Tests` собирается.
+
