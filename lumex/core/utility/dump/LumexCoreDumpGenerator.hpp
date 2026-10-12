@@ -149,11 +149,11 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#include <Windows.h>
+#include <windows.h>
 
-#include <AclAPI.h>
-#include <DbgHelp.h>
-#include <Shlwapi.h>
+#include <aclapi.h>
+#include <dbghelp.h>
+#include <shlwapi.h>
 #include <direct.h>
 #include <io.h>
 #include <process.h>

@@ -49,9 +49,9 @@
 #include <vector>
 
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 
-#include <SetupAPI.h>
+#include <setupapi.h>
 #else
 #include <dirent.h>
 #include <fcntl.h>
