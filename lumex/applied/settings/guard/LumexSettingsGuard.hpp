@@ -1,0 +1,290 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
+/**
+ * @file LumexSettingsGuard.hpp
+ * @brief Format-agnostic backup/repair/validation layer built on top of
+ * `ILumexSettings`.
+ * @details Keeps a settings file usable: restores default keys, backs up and
+ * regenerates a corrupted file, and validates single keys. It works with any
+ * `ILumexSettings` implementation (INI, JSON, XML or one of your own) because
+ * it drives everything through the interface's `load`/`save`/`get`/`add`
+ * contract instead of a concrete parser.
+ */
+#ifndef LUMEX_APPLIED_SETTINGS_GUARD_HPP
+#define LUMEX_APPLIED_SETTINGS_GUARD_HPP
+
+#include "lumex/LumexExport.hpp"
+
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <vector>
+
+#include "lumex/applied/settings/interface/ILumexSettings.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace applied
+{
+namespace settings
+{
+namespace guard
+{
+/**
+ * @brief Validation callback for a single settings key.
+ * @details Receives the key's current raw string value, exactly as returned by
+ *          `ILumexSettings::get()`, and returns `true` if that value is
+ * acceptable as-is, `false` if it must be overwritten with the key's
+ * configured default.
+ * @note Must not throw; if it does, `LumexSettingsGuard` catches the exception
+ * and treats it the same as returning `false` (value rejected, default
+ * restored).
+ */
+using LumexSettingsValidateFn = std::function<bool (std::string const &)>;
+
+/**
+ * @brief Callback that (re)creates a settings file's default content from
+ * scratch.
+ * @details Invoked when the guarded file is missing, unreadable, or fails the
+ * underlying `ILumexSettings::load()` call. A typical implementation populates
+ * a fresh `ILumexSettings` instance with an application's default key/value
+ * pairs and persists them via `save()` to the same path the guard was
+ * constructed with.
+ * @return `true` if defaults were written successfully, `false` otherwise.
+ */
+using LumexSettingsCreateFn = std::function<bool (void)>;
+
+/**
+ * @brief Describes a single settings key that
+ * `LumexSettingsGuard::ensure_keys_with_defaults` must keep present and valid.
+ * @details Section, key, default value and an optional validator, in the flat
+ * string-value model of `ILumexSettings`. The interface cannot tell "key
+ * absent" from "key present with an empty value" - `get()` returns an empty
+ * string for both - so both states are treated identically here: a key needs
+ * its default whenever `validate` rejects its current value or, when no
+ * `validate` is supplied, whenever that value is an empty string.
+ */
+struct lumex_settings_key_spec_t
+{
+  std::string section; ///< Section name; the implementations in this library
+                       ///< ignore an empty one (`get()` returns an empty
+                       ///< string, `add()` does nothing).
+  std::string key;     ///< Key name within the section.
+  std::string default_value; ///< Value written when the key is missing, empty,
+                             ///< or invalid.
+  LumexSettingsValidateFn
+      validate; ///< Optional; `nullptr` => validated only against "not empty".
+};
+
+/**
+ * @brief Format-agnostic backup/repair/validation guard for an
+ * `ILumexSettings` instance.
+ * @details Adds three behaviors on top of any settings file, working through
+ * `ILumexSettings` alone:
+ *            - `ensure_exists_with_defaults` / `repair_if_corrupted`: if the
+ * guarded file is missing or fails to `load()`, back it up (when it exists)
+ * and regenerate it via a caller-supplied `LumexSettingsCreateFn`, then
+ * re-validate.
+ *            - `backup`: a static, format-independent file-level copy to
+ *              `<filename>.bak.<YYYYMMDD-HHMMSS>`, implemented purely against
+ *              `lumex::filesystem`/`lumex::path` (no dependency on any
+ * concrete `ILumexSettings` implementation).
+ *            - `ensure_keys_with_defaults`: walks a list of
+ * `lumex_settings_key_spec_t` and restores each key's default value whenever
+ * it is missing, empty, or fails its own `validate` callback. The class owns
+ * no settings storage itself - it composes an existing
+ *          `std::shared_ptr<ILumexSettings>` (INI, JSON, XML or any other
+ * implementation of the interface) plus the filesystem path that instance
+ * loads from and saves to.
+ * @note Thread-safety: an internal `std::recursive_mutex` serializes
+ * concurrent calls made through the *same* `LumexSettingsGuard` instance, not
+ * every access to the file in the process, by design: a `LumexSettingsGuard`
+ * composes a caller-owned `ILumexSettings` instance rather than a global
+ * file-access chokepoint.
+ * If the same underlying file is also touched by other `ILumexSettings`
+ * instances, other `LumexSettingsGuard`s, or unrelated code, callers remain
+ * responsible for their own synchronization, as with any `ILumexSettings`
+ * instance.
+ * @note Exception safety: every public member function is `noexcept`.
+ * Exceptions raised by a caller-supplied
+ * `LumexSettingsValidateFn`/`LumexSettingsCreateFn` are caught and treated as
+ * failure (validation rejected / default-creation failed), and `backup()`
+ * catches everything. An exception from the guarded `ILumexSettings` itself
+ * (its `load()`, `get()`, `add()` or `save()`; `LumexSettingsJSON::save()`
+ * throws for a value that is not valid UTF-8) ends the call: it is logged
+ * with its `what()` message and the call returns `false`. Values already
+ * changed in memory before the exception stay changed.
+ */
+class LUMEX_API LumexSettingsGuard final
+{
+public:
+  /**
+   * @brief Constructs a guard around an existing settings object and the path
+   * it persists to.
+   * @param settings The `ILumexSettings` instance to guard. May be any
+   * concrete implementation (`LumexSettingsINI`, `LumexSettingsJSON`,
+   * `LumexSettingsXML`). A `nullptr` is
+   * accepted defensively - every operation below then simply fails (returns
+   * `false`) instead of crashing.
+   * @param filename The filesystem path this guard loads from, saves to, and
+   * backs up.
+   */
+  explicit LumexSettingsGuard (std::shared_ptr<ILumexSettings> settings,
+                               std::string filename) LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Ensures the guarded file exists and is loadable; repairs it via
+   * `createDefault` otherwise.
+   * @details If `ILumexSettings::load(filename)` fails (file missing,
+   * unreadable, or fails the implementation's own parse/validity check), the
+   * current file is backed up first (when present), `createDefault` is invoked
+   * to regenerate it, and `load()` is retried once. Logs at error level if the
+   * file is still not loadable afterward. If the guarded settings object
+   * throws, the call logs the exception at error level and returns `false`
+   * without regenerating the file.
+   * @param createDefault Functor that (re)writes default content to
+   * `filename`. A `nullptr` or a callback returning `false` is treated as
+   * repair failure.
+   * @return `true` if the file exists and loads successfully after this call,
+   * `false` otherwise, including when the settings object threw.
+   */
+  bool ensure_exists_with_defaults (LumexSettingsCreateFn const &createDefault)
+      LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Identical repair behavior to `ensure_exists_with_defaults`, without
+   * the final error-level log.
+   * @details Provided as a separate entry point for callers that want to
+   * probe/repair a file without that
+   * failure being logged as an application error (e.g. a caller that will
+   * itself report a more specific message). An exception from the guarded
+   * settings object is still logged, at warning level, because the caller
+   * cannot learn its message otherwise.
+   * @param createDefault Functor that (re)writes default content to
+   * `filename`.
+   * @return `true` if the file exists and loads successfully after this call,
+   * `false` otherwise, including when the settings object threw.
+   */
+  bool repair_if_corrupted (LumexSettingsCreateFn const &createDefault)
+      LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Ensures every key in `specs` is present and valid, restoring
+   * `default_value` otherwise.
+   * @details Loads no file itself - it validates/repairs whatever is currently
+   * held by the guarded `ILumexSettings` instance (typically populated by a
+   * prior `load()` or by `ensure_exists_with_defaults`), then persists the
+   * result via `save(filename)` if, and only if, at least one key needed its
+   * default. A key needs its default when `validate` rejects its current value
+   * or, with no `validate`, when that value is empty; the default is then
+   * passed to `add()`, which the implementations in this library ignore for an
+   * empty section, key or default. If the guarded settings object throws from
+   * `get()`, `add()` or `save()`, the call logs the exception at warning
+   * level, the same level as a failed save, and returns `false`; nothing is
+   * saved after the exception.
+   * @param specs The key specifications to enforce, in order.
+   * @return `true` if at least one key needed its default and the save
+   * succeeded; `false` if no key needed it, if saving failed, or if the
+   * settings object threw.
+   */
+  bool ensure_keys_with_defaults (
+      std::vector<lumex_settings_key_spec_t> const &specs) LUMEX_NOEXCEPT;
+
+  /**
+   * @brief Copies `filename` to a sibling `<filename>.bak.<YYYYMMDD-HHMMSS>`
+   * backup file.
+   * @details Pure filesystem operation - independent of any `ILumexSettings`
+   * implementation, so it works identically for INI, JSON, or any future
+   * format. Does nothing (and returns `false`) if `filename` does not exist or
+   * is not a regular file.
+   * @param filename The path to back up.
+   * @return `true` if the backup file was created successfully, `false`
+   * otherwise.
+   */
+  static bool backup (std::string const &filename) LUMEX_NOEXCEPT;
+
+  /// @return The guarded `ILumexSettings` instance (may be `nullptr` if
+  /// constructed as such).
+  std::shared_ptr<ILumexSettings> const &
+  settings () const LUMEX_NOEXCEPT
+  {
+    return m_settings;
+  }
+
+  /// @return The filesystem path this guard loads from, saves to, and backs
+  /// up.
+  std::string const &
+  filename () const LUMEX_NOEXCEPT
+  {
+    return m_filename;
+  }
+
+private:
+  /**
+   * @brief Shared implementation for
+   * `ensure_exists_with_defaults`/`repair_if_corrupted`.
+   * @details Takes the guard's mutex. An exception from the guarded settings
+   * object is logged (at error level when `logOnFinalFailure` is `true`, at
+   * warning level otherwise) and ends the call with `false`.
+   * @param createDefault Functor that (re)writes default content to
+   * `m_filename`.
+   * @param logOnFinalFailure Whether to emit an error-level log if the file is
+   * still not loadable after the repair attempt.
+   * @return `true` if the file loads successfully by the end of this call,
+   * `false` otherwise.
+   */
+  bool _ensure_or_repair_impl (LumexSettingsCreateFn const &createDefault,
+                               bool logOnFinalFailure) LUMEX_NOEXCEPT;
+
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4251) // Suppress C4251 for STL/shared_ptr members in
+                                // DLL interface
+#endif
+  std::shared_ptr<ILumexSettings>
+      m_settings;         ///< The guarded settings object; may be null.
+  std::string m_filename; ///< Path this guard loads/saves/backs up.
+  std::recursive_mutex
+      m_mutex; ///< Serializes calls made through this instance.
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+};
+} // namespace guard
+} // namespace settings
+} // namespace applied
+} // namespace lumex
+
+using LumexSettingsGuard = lumex::applied::settings::guard::LumexSettingsGuard;
+using lumex_settings_key_spec_t
+    = lumex::applied::settings::guard::lumex_settings_key_spec_t;
+using LumexSettingsValidateFn
+    = lumex::applied::settings::guard::LumexSettingsValidateFn;
+using LumexSettingsCreateFn
+    = lumex::applied::settings::guard::LumexSettingsCreateFn;
+
+#endif // !LUMEX_APPLIED_SETTINGS_GUARD_HPP

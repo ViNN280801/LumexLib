@@ -1,0 +1,6 @@
+# hang_diag.lldb - batch snapshot via hang_diag_helpers.py
+# Environment: HANG_LLDB_DIR, HANG_LOG, HANG_SOLIB, HANG_VERBOSE, HANG_BT_DEPTH, HANG_MODE
+
+script import importlib.util as _u, os as _o; _p=_o.path.join(_o.environ.get("HANG_LLDB_DIR","."), "hang_diag_helpers.py"); _s=_u.spec_from_file_location("hang_diag_helpers", _p); _m=_u.module_from_spec(_s); _s.loader.exec_module(_m); _m.run_snapshot()
+
+quit

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 603" width="940" height="603" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>Uncontended: one thread, private object</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">Uncontended: one thread, private object</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">Intel64 Family 6 Model 154 Stepping 3, GenuineIntel, 20 logical CPUs, governor unknown; MSVC 1951, MSVC STL; median of 100 runs</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">Median ns per operation, ratio to the uncontended uint64 CAS in brackets; whiskers: 25th-75th percentile</text>
+<line x1="20.0" y1="91.0" x2="44.0" y2="91.0" stroke="#0072B2" stroke-width="2.5"/>
+<circle cx="32.0" cy="91.0" r="3.5" fill="#0072B2"/>
+<text x="50.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib lock-based, C++11</text>
+<line x1="243.6" y1="91.0" x2="267.6" y2="91.0" stroke="#56B4E9" stroke-width="2.5" stroke-dasharray="7 4"/>
+<circle cx="255.6" cy="91.0" r="3.5" fill="#56B4E9"/>
+<text x="273.6" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib lock-based, C++20</text>
+<line x1="467.2" y1="91.0" x2="491.2" y2="91.0" stroke="#009E73" stroke-width="2.5" stroke-dasharray="2 4"/>
+<circle cx="479.2" cy="91.0" r="3.5" fill="#009E73"/>
+<text x="497.2" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib default, C++20 (wraps std)</text>
+<line x1="20.0" y1="113.0" x2="44.0" y2="113.0" stroke="#E69F00" stroke-width="2.5"/>
+<circle cx="32.0" cy="113.0" r="3.5" fill="#E69F00"/>
+<text x="50.0" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::atomic, MSVC STL (MSVC 1951)</text>
+<rect x="20" y="145.0" width="900" height="100.0" fill="#f7fafc"/>
+<text x="24.0" y="199.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">load()</text>
+<text x="24.0" y="299.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">store()</text>
+<rect x="20" y="345.0" width="900" height="100.0" fill="#f7fafc"/>
+<text x="24.0" y="399.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">exchange()</text>
+<text x="24.0" y="499.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">compare_exchange_strong()</text>
+<line x1="210.0" y1="145" x2="210.0" y2="545.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="210.0" y="563.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">0</text>
+<line x1="350.0" y1="145" x2="350.0" y2="545.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="350.0" y="563.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">20</text>
+<line x1="490.0" y1="145" x2="490.0" y2="545.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="490.0" y="563.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">40</text>
+<line x1="630.0" y1="145" x2="630.0" y2="545.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="630.0" y="563.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">60</text>
+<line x1="770.0" y1="145" x2="770.0" y2="545.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="770.0" y="563.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">80</text>
+<line x1="210.0" y1="145" x2="210.0" y2="545.0" stroke="#a0aec0" stroke-width="1"/>
+<text x="490.0" y="585.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#2d3748">nanoseconds per operation (lower is better)</text>
+<rect x="210.0" y="157.0" width="185.1" height="16" rx="2" fill="#0072B2"><title>LumexLib lock-based, C++11: 26.4 ns (2.4x CAS)</title></rect>
+<path d="M391.2 165.0H399.2M391.2 161.0V169.0M399.2 161.0V169.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="405.2" y="169.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">26.4 ns (2.4x CAS)</text>
+<rect x="210.0" y="177.0" width="182.5" height="16" rx="2" fill="#56B4E9"><title>LumexLib lock-based, C++20: 26.1 ns (2.4x CAS)</title></rect>
+<path d="M389.3 185.0H396.4M389.3 181.0V189.0M396.4 181.0V189.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="402.4" y="189.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">26.1 ns (2.4x CAS)</text>
+<rect x="210.0" y="197.0" width="176.5" height="16" rx="2" fill="#009E73"><title>LumexLib default, C++20 (wraps std): 25.2 ns (2.3x CAS)</title></rect>
+<path d="M382.5 205.0H391.0M382.5 201.0V209.0M391.0 201.0V209.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="397.0" y="209.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">25.2 ns (2.3x CAS)</text>
+<rect x="210.0" y="217.0" width="175.9" height="16" rx="2" fill="#E69F00"><title>std::atomic, MSVC STL (MSVC 1951): 25.1 ns (2.3x CAS)</title></rect>
+<path d="M383.7 225.0H388.8M383.7 221.0V229.0M388.8 221.0V229.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="394.8" y="229.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">25.1 ns (2.3x CAS)</text>
+<rect x="210.0" y="257.0" width="205.7" height="16" rx="2" fill="#0072B2"><title>LumexLib lock-based, C++11: 29.4 ns (2.7x CAS)</title></rect>
+<path d="M411.4 265.0H421.9M411.4 261.0V269.0M421.9 261.0V269.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="427.9" y="269.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">29.4 ns (2.7x CAS)</text>
+<rect x="210.0" y="277.0" width="199.8" height="16" rx="2" fill="#56B4E9"><title>LumexLib lock-based, C++20: 28.5 ns (2.6x CAS)</title></rect>
+<path d="M406.2 285.0H415.9M406.2 281.0V289.0M415.9 281.0V289.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="421.9" y="289.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">28.5 ns (2.6x CAS)</text>
+<rect x="210.0" y="297.0" width="191.0" height="16" rx="2" fill="#009E73"><title>LumexLib default, C++20 (wraps std): 27.3 ns (2.5x CAS)</title></rect>
+<path d="M397.0 305.0H405.0M397.0 301.0V309.0M405.0 301.0V309.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="411.0" y="309.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">27.3 ns (2.5x CAS)</text>
+<rect x="210.0" y="317.0" width="191.1" height="16" rx="2" fill="#E69F00"><title>std::atomic, MSVC STL (MSVC 1951): 27.3 ns (2.5x CAS)</title></rect>
+<path d="M398.5 325.0H403.8M398.5 321.0V329.0M403.8 321.0V329.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="409.8" y="329.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">27.3 ns (2.5x CAS)</text>
+<rect x="210.0" y="357.0" width="205.4" height="16" rx="2" fill="#0072B2"><title>LumexLib lock-based, C++11: 29.3 ns (2.6x CAS)</title></rect>
+<path d="M411.5 365.0H419.5M411.5 361.0V369.0M419.5 361.0V369.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="425.5" y="369.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">29.3 ns (2.6x CAS)</text>
+<rect x="210.0" y="377.0" width="199.6" height="16" rx="2" fill="#56B4E9"><title>LumexLib lock-based, C++20: 28.5 ns (2.6x CAS)</title></rect>
+<path d="M406.4 385.0H414.2M406.4 381.0V389.0M414.2 381.0V389.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="420.2" y="389.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">28.5 ns (2.6x CAS)</text>
+<rect x="210.0" y="397.0" width="192.7" height="16" rx="2" fill="#009E73"><title>LumexLib default, C++20 (wraps std): 27.5 ns (2.5x CAS)</title></rect>
+<path d="M399.2 405.0H406.8M399.2 401.0V409.0M406.8 401.0V409.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="412.8" y="409.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">27.5 ns (2.5x CAS)</text>
+<rect x="210.0" y="417.0" width="193.5" height="16" rx="2" fill="#E69F00"><title>std::atomic, MSVC STL (MSVC 1951): 27.6 ns (2.5x CAS)</title></rect>
+<path d="M400.1 425.0H410.6M400.1 421.0V429.0M410.6 421.0V429.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="416.6" y="429.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">27.6 ns (2.5x CAS)</text>
+<rect x="210.0" y="457.0" width="488.4" height="16" rx="2" fill="#0072B2"><title>LumexLib lock-based, C++11: 69.8 ns (6.3x CAS)</title></rect>
+<path d="M689.4 465.0H712.5M689.4 461.0V469.0M712.5 461.0V469.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="718.5" y="469.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">69.8 ns (6.3x CAS)</text>
+<rect x="210.0" y="477.0" width="494.7" height="16" rx="2" fill="#56B4E9"><title>LumexLib lock-based, C++20: 70.7 ns (6.4x CAS)</title></rect>
+<path d="M693.4 485.0H718.1M693.4 481.0V489.0M718.1 481.0V489.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="724.1" y="489.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">70.7 ns (6.4x CAS)</text>
+<rect x="210.0" y="497.0" width="476.4" height="16" rx="2" fill="#009E73"><title>LumexLib default, C++20 (wraps std): 68.1 ns (6.1x CAS)</title></rect>
+<path d="M677.1 505.0H692.7M677.1 501.0V509.0M692.7 501.0V509.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="698.7" y="509.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">68.1 ns (6.1x CAS)</text>
+<rect x="210.0" y="517.0" width="467.8" height="16" rx="2" fill="#E69F00"><title>std::atomic, MSVC STL (MSVC 1951): 66.8 ns (6.1x CAS)</title></rect>
+<path d="M672.4 525.0H694.1M672.4 521.0V529.0M694.1 521.0V529.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="700.1" y="529.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">66.8 ns (6.1x CAS)</text>
+</svg>

@@ -1,0 +1,94 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file LumexXml
+ * @brief XML module: a DOM tree of nodes, attributes and text, loading and
+ * saving with writers for files and streams, and XPath queries with variables.
+ * @details Link <tt>%lumex::xml</tt> (shared library). Works from C++11; the
+ * `string_view_t` overloads exist in every standard as inline wrappers over
+ * the exported functions: they take the `lumex_string_view` of
+ * `lumex::string_view` in every standard (a string literal, a `char const *`
+ * and a `std::string` convert to it, and from C++17 so does a
+ * `std::string_view`).
+ * The umbrella includes the DOM classes, the writer interface and its file and
+ * stream implementations, the parse result, the XPath classes, the common
+ * types and constants, and `XmlUtils`. Linking it also links
+ * <tt>%lumex::unicode</tt>, whose UTF transcoders the parser and the buffer
+ * conversions use, and <tt>%lumex::string_view</tt>.
+ *
+ * The module is derived from pugixml (https://github.com/zeux/pugixml,
+ * MIT, Copyright (c) 2006-2026 Arseny Kapoulkine); its notice is in
+ * `THIRD-PARTY-NOTICES.md`, installed with the library.
+ */
+#ifndef LUMEX_XML_HPP
+#define LUMEX_XML_HPP
+
+// Core XML classes
+#include "attribute/XmlAttribute.hpp"
+#include "document/XmlDocument.hpp"
+#include "node/XmlNode.hpp"
+#include "text/XmlText.hpp"
+
+// XML Writer interface and implementations
+#include "writer/IXmlWriter.hpp"
+#include "writer/XmlWriterFile.hpp"
+#include "writer/XmlWriterStream.hpp"
+
+// Parsing results
+#include "text/XmlParseResult.hpp"
+
+// XPath related classes
+#include "xpath/exception/XPathException.hpp"
+#include "xpath/node/XPathNode.hpp"
+#include "xpath/node/XPathNodeSet.hpp"
+#include "xpath/query/XPathQuery.hpp"
+#include "xpath/variable/XPathVariable.hpp"
+#include "xpath/variable/XPathVariableSet.hpp"
+
+// Common types and constants
+#include "constants/XmlConstants.hpp"
+#include "types/XmlTypes.hpp"
+#include "xpath/constants/XPathConstants.hpp"
+
+// While not strictly necessary for every public function, these provide
+// fundamental utilities that might be exposed or used by exported classes.
+#include "utility/XmlUtils.hpp"
+
+#endif // !LUMEX_XML_HPP

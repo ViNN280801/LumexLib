@@ -43,8 +43,21 @@
 # Build dirs
 out/
 output/
-build/
-build-*/
+# Exception: vendored trees must not be swept by build-output globs.
+# nlohmann's multi-header layout uses detail/output/; a future vendor of that
+# layout (this tree currently ships the amalgamated json.hpp) would vanish
+# from the index the same way PeakExpertWeb's copy did under Output/.
+!3rdparty/
+!3rdparty/**
+build*
+build-*
+build_*
+
+# Distr publish folders (<platform>/Distr<Config>)
+**/DistrDebug/
+**/DistrRelease/
+**/DistrRelWithDebInfo/
+**/DistrMinSizeRel/
 
 # IDE dirs and files
 .vs/
@@ -55,9 +68,39 @@ build-*/
 # CodeQL dirs and files (also, build dirs)
 codeql-build/
 results*/
+# Benchmark results are committed on purpose (CSV, SVG charts, Markdown
+# table); re-include them after the CodeQL rule above.
+!benchmarks/**/results/
 
 # Conan files
 CMakeUserPresets.json
+test_package/build/
 
 # Any Python environment
 *venv*/
+
+# Compile commands
+compile_commands.json
+
+# Any cache files
+cache*/
+.cache*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Cwd leftovers from aborted test processes. Fixtures TearDown these
+# directories; ignore them if a run is killed before cleanup.
+test_settings_guard*/
+test_ini_settings*/
+test_filesystem_*/
+lumex_xml_test_*.xml
+
+# The Doxyfile CMake configures from Doxyfile.in, when the build directory
+# is the source directory.
+/Doxyfile
+
+# create_release.sh packages (default --output-dir)
+/release/

@@ -1,0 +1,159 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#define LUMEX_IMPLEMENTATION
+#include <cstddef>
+#include <vector>
+
+#include "Decoder.hpp"
+#include "lumex/core/base64/validate/Validator.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
+using namespace lumex::core::base64::decode;
+using namespace lumex::core::base64::validate;
+using namespace lumex::core::base64::codec;
+using namespace lumex::core::base64::codec::Types;
+using namespace lumex::core::base64::codec::detail;
+
+namespace
+{
+/// @brief Six-bit value of an alphabet character (the validator already
+/// rejected every other character).
+byte_type
+sextet (char chr)
+{
+  return detail::_decode_table.at (static_cast<byte_type> (chr));
+}
+} // namespace
+
+LUMEX_PUBLIC_API
+bool
+decoder::decode (char const *encoded, std::size_t size,
+                 std::vector<byte_type> &out)
+{
+  out.clear ();
+  if (encoded == nullptr)
+    return false;
+  if (size == 0)
+    return true;
+
+  // Length, invalid characters, and padding position and amount.
+  if (!validator::is_valid_base64 (encoded, size))
+    return false;
+
+  // Padding only ends the input, so the data characters are a prefix. The
+  // padding may also be omitted, which leaves a last group of two or three
+  // characters (never one: the validator rejects that length).
+  std::size_t data_length = size;
+  while (data_length > 0 && encoded[data_length - 1] == '=')
+    --data_length;
+
+  out.reserve (data_length * 3 / 4);
+
+  // Each step keeps the low 8 bits of the combined sextets.
+  std::size_t pos = 0;
+  for (; pos + 4 <= data_length; pos += 4)
+    {
+      byte_type const byte1 = sextet (encoded[pos]);
+      byte_type const byte2 = sextet (encoded[pos + 1]);
+      byte_type const byte3 = sextet (encoded[pos + 2]);
+      byte_type const byte4 = sextet (encoded[pos + 3]);
+      out.push_back (static_cast<byte_type> ((byte1 << 2) | (byte2 >> 4)));
+      out.push_back (static_cast<byte_type> ((byte2 << 4) | (byte3 >> 2)));
+      out.push_back (static_cast<byte_type> (
+          (byte3 << 6) // NOLINT(cppcoreguidelines-avoid-magic-numbers,
+                       // readability-magic-numbers)
+          | byte4));
+    }
+
+  // Last group of two or three data characters: one or two bytes.
+  std::size_t const rest = data_length - pos;
+  if (rest >= 2)
+    {
+      byte_type const byte1 = sextet (encoded[pos]);
+      byte_type const byte2 = sextet (encoded[pos + 1]);
+      out.push_back (static_cast<byte_type> ((byte1 << 2) | (byte2 >> 4)));
+      if (rest == 3)
+        {
+          byte_type const byte3 = sextet (encoded[pos + 2]);
+          out.push_back (static_cast<byte_type> ((byte2 << 4) | (byte3 >> 2)));
+        }
+    }
+
+  return true;
+}
+
+LUMEX_PUBLIC_API
+std::vector<byte_type>
+decoder::decode (char const *encoded, std::size_t size)
+{
+  std::vector<byte_type> result;
+  decode (encoded, size, result);
+  return result;
+}
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

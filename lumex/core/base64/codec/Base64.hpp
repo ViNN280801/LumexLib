@@ -1,0 +1,263 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file  Base64.hpp
+ * @brief Cross-platform Base64 encoding and decoding utilities.
+ *
+ * @see https://en.wikipedia.org/wiki/Base64
+ * @see
+ * https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp/
+ *
+ * This header provides a set of functions for converting binary data to its
+ * Base64 string representation and vice versa. The implementation adheres to
+ * standard Base64 principles, suitable for various data serialization and
+ * transmission needs. It supports encoding from raw pointers,
+ * `std::vector<byte>`, a `span` of bytes and text (`string_type_t`), and
+ * decoding into `std::vector<byte>`.
+ *
+ * IMPORTANT: If the user wants to encode/decode text in a specific encoding,
+ * the task of converting this encoding (e.g., from UTF-8 to UTF-16 or vice
+ * versa, or from std::wstring to UTF-8 bytes) must be solved before calling
+ * the Base64 encoding functions and after calling the Base64 decoding
+ * functions. This is a separate layer of logic that should not be part of the
+ * Base64 library itself. Base64 is a low-level utility for bytes.
+ */
+
+#ifndef LUMEX_CORE_BASE64_CODEC_HPP
+#define LUMEX_CORE_BASE64_CODEC_HPP
+
+#include <array>
+#include <string>
+#include <type_traits>
+
+#include "lumex/core/string_view/view/LumexStringView.hpp"
+#include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/core/utility/traits/LumexTypeTraits.hpp"
+
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace core
+{
+namespace base64
+{
+namespace codec
+{
+namespace Types
+{
+using byte_type = unsigned char;
+
+/// @brief Type of the Base64 text the string overloads take: the
+/// `lumex_string_view` of `lumex::string_view` in every C++ standard (a plain
+/// alias of the library's own view, not of a standard type). A literal, a
+/// `char const *`, a `std::string` and, from C++17, a `std::string_view`
+/// convert to it.
+using string_type_t = lumex::core::string_view::view::lumex_string_view;
+} // namespace Types
+
+namespace Constants
+{
+LUMEX_CONSTEXPR Types::byte_type kBase64DecodeInvalidChar
+    = 0xFF; // Represents 0b11111111 for invalid characters
+LUMEX_CONSTEXPR Types::byte_type kBase64MaskSixBits
+    = 0x3F; // Represents 0b00111111 for masking 6 bits
+LUMEX_CONSTEXPR Types::byte_type kBase64MaskFourBits
+    = 0x0F; // Represents 0b00001111 for masking 4 bits
+LUMEX_CONSTEXPR Types::byte_type kBase64MaskTwoBits
+    = 0x03; // Represents 0b00000011 for masking 2 bits
+LUMEX_CONSTEXPR Types::byte_type kBase64RightShiftSixBits
+    = 0x06; // Represents 0b00000110 for right shifting 6 bits
+} // namespace Constants
+
+namespace detail
+{
+/// @brief Base64 alphabet.
+std::array<char, 64> const _base64_chars
+    = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/' };
+
+/// @brief Decode table - maps ASCII chars to base64 values.
+std::array<Types::byte_type, 256> const _decode_table = {
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0x3E, 0xFF, 0xFF, 0xFF, 0x3F, 0x34, 0x35, 0x36, 0x37,
+  0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C,
+  0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20,
+  0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D,
+  0x2E, 0x2F, 0x30, 0x31, 0x32, 0x33, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+};
+
+/**
+ * @brief Internal helper to check if a character is a valid Base64 *alphabet*
+ * character. This excludes the padding '=' character.
+ *
+ * @param chr The character to check.
+ * @return true if the character is a valid Base64 alphabet character, false
+ * otherwise.
+ */
+inline bool
+_is_base64_char_impl (Types::byte_type chr) LUMEX_NOEXCEPT
+{
+  // A character is a valid Base64 alphabet character if its decoded value is
+  // not kBase64DecodeInvalidChar. This function specifically excludes '=' as a
+  // valid alphabet character, as '=' is padding.
+  return _decode_table.at (chr) != Constants::kBase64DecodeInvalidChar;
+}
+
+/**
+ * @brief Internal helper to encode binary data into a Base64 string from a
+ * view-like type.
+ * @tparam T A type that provides `operator[]` for byte access and `size()` for
+ * length.
+ * @param data_view The view-like object containing binary data.
+ * @return A `std::string` containing the Base64-encoded representation.
+ */
+template <typename T>
+std::string
+_encode_impl (T const &data_view)
+{
+  LUMEX_STATIC_ASSERT_MSG (
+      lumex::core::utility::traits::range::has_convertible_size<T>::value,
+      "Encoding data requires a type with a .size() method whose "
+      "return type is convertible to std::size_t.");
+  LUMEX_STATIC_ASSERT_MSG (
+      lumex::core::utility::traits::range::has_convertible_indexed_access<
+          T, Types::byte_type>::value,
+      "Encoding data requires a type with an operator[] that "
+      "accepts std::size_t as an index and returns "
+      "a type convertible to byte_type.");
+
+  if (data_view.empty ())
+    return {};
+
+  // Calculate output length and reserve space
+  std::string result;
+  std::size_t out_length{ 4 * ((data_view.size () + 2) / 3) };
+  result.reserve (out_length);
+
+  // 1. Process 3-byte chunks
+  std::size_t pos{};
+  while (pos + 2 < data_view.size ())
+    {
+      // 1.1. Get the first 6 bits of the first byte
+      result += detail::_base64_chars.at ((data_view[pos] >> 2)
+                                          & Constants::kBase64MaskSixBits);
+
+      // 1.2. Get the last 2 bits of the first byte and the first 4 bits of the
+      // second byte
+      result += detail::_base64_chars.at (static_cast<std::size_t> (
+          ((data_view[pos] & Constants::kBase64MaskTwoBits) << 4)
+          | ((data_view[pos + 1] >> 4) & Constants::kBase64MaskFourBits)));
+
+      // 1.3. Get the last 4 bits of the second byte and the first 2 bits of
+      // the third byte
+      result += detail::_base64_chars.at (static_cast<std::size_t> (
+          ((data_view[pos + 1] & Constants::kBase64MaskFourBits) << 2)
+          | ((data_view[pos + 2] >> Constants::kBase64RightShiftSixBits)
+             & Constants::kBase64MaskTwoBits)));
+
+      // 1.4. Get the last 6 bits of the third byte
+      result += detail::_base64_chars.at (data_view[pos + 2]
+                                          & Constants::kBase64MaskSixBits);
+
+      // 1.5. Move to the next 3 bytes to process
+      pos += 3;
+    }
+
+  // 2. Handle remaining bytes
+  if (pos < data_view.size ())
+    {
+      // 2.1. Get the first 6 bits of the first byte
+      result += detail::_base64_chars.at ((data_view[pos] >> 2)
+                                          & Constants::kBase64MaskSixBits);
+
+      if (pos + 1 < data_view.size ())
+        {
+          // 2.1.1. Get the last 2 bits of the first byte and the first 4 bits
+          // of the second byte
+          result += detail::_base64_chars.at (static_cast<std::size_t> (
+              ((data_view[pos] & Constants::kBase64MaskTwoBits) << 4)
+              | ((data_view[pos + 1] >> 4) & Constants::kBase64MaskFourBits)));
+
+          // 2.1.2. Get the last 4 bits of the second byte
+          result += detail::_base64_chars.at (static_cast<std::size_t> (
+              (data_view[pos + 1] & Constants::kBase64MaskFourBits) << 2));
+
+          // 2.1.3. Add padding
+          result += '=';
+        }
+      else
+        {
+          // 2.2.1. Get the last 2 bits of the first byte and the first 4 bits
+          // of the second byte
+          result += detail::_base64_chars.at (static_cast<std::size_t> (
+              (data_view[pos] & Constants::kBase64MaskTwoBits) << 4));
+
+          // 2.2.2. Add double padding, because there is only one byte left
+          result += "==";
+        }
+    }
+
+  // 3. Return the result
+  return result;
+}
+} // namespace detail
+} // namespace codec
+} // namespace base64
+} // namespace core
+} // namespace lumex
+
+#endif // !LUMEX_CORE_BASE64_CODEC_HPP

@@ -1,0 +1,331 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#define LUMEX_IMPLEMENTATION
+
+#include "lumex/core/utility/assert/LumexAssert.hpp"
+#include "lumex/xml/utility/XmlUtils.hpp"
+
+#include "XmlBufferedWriter.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
+using namespace lumex::xml::writer;
+using namespace lumex::xml::utility;
+
+LUMEX_PUBLIC_API
+XmlBufferedWriter::XmlBufferedWriter (
+    IXmlWriter &writer_, // NOLINT(cppcoreguidelines-pro-type-member-init)
+    xml_encoding user_encoding)
+    : buffer (), scratch (), writer (writer_),
+      encoding (utility::get_write_encoding (user_encoding))
+{
+  LUMEX_STATIC_ASSERT (bufcapacity >= kBufCapacity8);
+}
+
+LUMEX_PUBLIC_API
+std::size_t
+XmlBufferedWriter::flush ()
+{
+  flush (buffer.data (), bufsize);
+  bufsize = 0;
+  return 0;
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::flush (char_t const *data, std::size_t size)
+{
+  if (size == 0)
+    return;
+
+  // fast path, just write data
+  if (encoding == get_write_native_encoding ())
+    writer.write (data, size * sizeof (char_t));
+  else
+    {
+      // convert chunk
+      std::size_t result = utility::convert_buffer_output (
+          scratch.data_char
+              .data (), // NOLINT(cppcoreguidelines-pro-type-union-access)
+          scratch.data_u8
+              .data (), // NOLINT(cppcoreguidelines-pro-type-union-access)
+          scratch.data_u16
+              .data (), // NOLINT(cppcoreguidelines-pro-type-union-access)
+          scratch.data_u32
+              .data (), // NOLINT(cppcoreguidelines-pro-type-union-access)
+          data, size, encoding);
+      LUMEX_ASSERT (result <= sizeof (scratch));
+
+      // write data
+      writer.write (scratch.data_u8.data (),
+                    result); // NOLINT(cppcoreguidelines-pro-type-union-access)
+    }
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write_direct (char_t const *data, std::size_t length)
+{
+  // flush the remaining buffer contents
+  flush ();
+
+  // handle large chunks
+  if (length > bufcapacity)
+    {
+      if (encoding == get_write_native_encoding ())
+        {
+          // fast path, can just write data chunk
+          writer.write (data, length * sizeof (char_t));
+          return;
+        }
+
+      // need to convert in suitable chunks
+      while (length > bufcapacity)
+        {
+          // get chunk size by selecting such number of characters that are
+          // guaranteed to fit into scratch buffer and form a complete
+          // codepoint sequence (i.e. discard start of last codepoint if
+          // necessary)
+          std::size_t chunk_size = get_valid_length (data, bufcapacity);
+          LUMEX_ASSERT (chunk_size);
+
+          // convert chunk and write
+          flush (data, chunk_size);
+
+          // iterate
+          data += chunk_size;
+          length -= chunk_size;
+        }
+
+      // small tail is copied below
+      bufsize = 0;
+    }
+
+  memcpy (buffer.data () + bufsize, data, length * sizeof (char_t));
+  bufsize += length;
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write_buffer (char_t const *data, std::size_t length)
+{
+  std::size_t offset = bufsize;
+
+  if (offset + length <= bufcapacity)
+    {
+      memcpy (buffer.data () + offset, data, length * sizeof (char_t));
+      bufsize = offset + length;
+    }
+  else
+    {
+      write_direct (data, length);
+    }
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write_string (char_t const *data)
+{
+  // write the part of the string that fits in the buffer
+  std::size_t offset = bufsize;
+
+  while ((*data != 0) && offset < bufcapacity)
+    buffer.at (offset++) = *data++;
+
+  // write the rest
+  if (offset < bufcapacity)
+    {
+      bufsize = offset;
+    }
+  else
+    {
+      // backtrack a bit if we have split the codepoint
+      std::size_t length = offset - bufsize;
+      std::size_t extra = length - get_valid_length (data - length, length);
+
+      bufsize = offset - extra;
+
+      write_direct (data - extra, utility::strlength (data) + extra);
+    }
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write (char_t d0_)
+{
+  std::size_t offset = bufsize;
+  if (offset > bufcapacity - 1)
+    {
+      flush ();
+      offset = 0;
+    }
+
+  buffer.at (offset + 0) = d0_;
+  bufsize = offset + 1;
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write (
+    char_t d0_, char_t d1_) // NOLINT(bugprone-easily-swappable-parameters)
+{
+  std::size_t offset = bufsize;
+  if (offset > bufcapacity - 2)
+    {
+      flush ();
+      offset = 0;
+    }
+
+  buffer.at (offset + 0) = d0_;
+  buffer.at (offset + 1) = d1_;
+  bufsize = offset + 2;
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write (
+    char_t d0_, char_t d1_,
+    char_t d2_) // NOLINT(bugprone-easily-swappable-parameters)
+{
+  std::size_t offset = bufsize;
+  if (offset > bufcapacity - 3)
+    {
+      flush ();
+      offset = 0;
+    }
+
+  buffer.at (offset + 0) = d0_;
+  buffer.at (offset + 1) = d1_;
+  buffer.at (offset + 2) = d2_;
+  bufsize = offset + 3;
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write (
+    char_t d0_, char_t d1_, // NOLINT(bugprone-easily-swappable-parameters)
+    char_t d2_, char_t d3_)
+{
+  std::size_t offset = bufsize;
+  if (offset > bufcapacity - 4)
+    {
+      flush ();
+      offset = 0;
+    }
+
+  buffer.at (offset + 0) = d0_;
+  buffer.at (offset + 1) = d1_;
+  buffer.at (offset + 2) = d2_;
+  buffer.at (offset + 3) = d3_;
+  bufsize = offset + 4;
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write (
+    char_t d0_, char_t d1_, // NOLINT(bugprone-easily-swappable-parameters)
+    char_t d2_, char_t d3_, char_t d4_)
+{
+  std::size_t offset = bufsize;
+  if (offset > bufcapacity - kShift5)
+    {
+      flush ();
+      offset = 0;
+    }
+
+  buffer.at (offset + 0) = d0_;
+  buffer.at (offset + 1) = d1_;
+  buffer.at (offset + 2) = d2_;
+  buffer.at (offset + 3) = d3_;
+  buffer.at (offset + 4) = d4_;
+  bufsize = offset + kShift5;
+}
+
+LUMEX_PUBLIC_API
+void
+XmlBufferedWriter::write (
+    char_t d0_, char_t d1_,
+    char_t d2_, // NOLINT(bugprone-easily-swappable-parameters)
+    char_t d3_, char_t d4_, char_t d5_)
+{
+  std::size_t offset = bufsize;
+  if (offset > bufcapacity - kShift6)
+    {
+      flush ();
+      offset = 0;
+    }
+
+  buffer.at (offset + 0) = d0_;
+  buffer.at (offset + 1) = d1_;
+  buffer.at (offset + 2) = d2_;
+  buffer.at (offset + 3) = d3_;
+  buffer.at (offset + 4) = d4_;
+  buffer.at (offset + kShift5) = d5_;
+  bufsize = offset + kShift6;
+}
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

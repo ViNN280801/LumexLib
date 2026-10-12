@@ -1,0 +1,357 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#define LUMEX_IMPLEMENTATION
+
+#include <limits>
+#include <memory>
+#include <new>
+
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+#include "lumex/xml/xpath/exception/XPathException.hpp"
+
+#include "lumex/xml/xpath/parser/XPathParser.hpp"
+#include "lumex/xml/xpath/variable/XPathVariableSet.hpp"
+
+#include "XPathQuery.hpp"
+
+using namespace lumex::xml::utility;
+using namespace lumex::xml::xpath;
+
+using namespace lumex::xml::xpath::exception;
+using namespace lumex::xml::xpath::parser;
+using namespace lumex::xml::xpath::query;
+using namespace lumex::xml::xpath::variable;
+
+namespace
+{
+inline void
+unspecified_bool_xpath_query (XPathQuery *** /* unused */)
+{
+}
+
+inline XPathAstNode *
+evaluate_node_set_prepare (XPathQueryImpl *impl)
+{
+  if (impl == nullptr)
+    return nullptr;
+
+  if (impl->root->rettype () != xpath_type_node_set)
+    {
+      xpath_parse_result_t res;
+      res.error = "Expression does not evaluate to node set";
+
+      throw XPathException (res);
+    }
+
+  return impl->root;
+}
+}
+
+XPathQueryImpl *
+XPathQueryImpl::create ()
+{
+  void *memory = malloc ( // NOLINT(cppcoreguidelines-owning-memory,
+                          // cppcoreguidelines-no-malloc)
+      sizeof (XPathQueryImpl));
+  if (memory == nullptr)
+    return nullptr;
+
+  return new (memory)
+      XPathQueryImpl (); // NOLINT(cppcoreguidelines-owning-memory)
+}
+
+void
+XPathQueryImpl::destroy (XPathQueryImpl *impl)
+{
+  // free all allocated pages
+  impl->alloc.release ();
+
+  // free allocator memory (with the first page)
+  free (impl); // NOLINT(cppcoreguidelines-owning-memory,
+               // cppcoreguidelines-no-malloc)
+}
+
+XPathQueryImpl::XPathQueryImpl () : alloc (&block, &oom)
+{
+  block.next = nullptr;
+  block.capacity
+      = sizeof (block.data); // NOLINT(cppcoreguidelines-pro-type-union-access)
+}
+
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace xml
+{
+namespace xpath
+{
+namespace query
+{
+
+LUMEX_PUBLIC_API
+XPathQuery::XPathQuery (char_t const *query,
+                        variable::XPathVariableSet *variables)
+    : m_impl (nullptr)
+{
+  XPathQueryImpl *qimpl = XPathQueryImpl::create ();
+  if (qimpl == nullptr)
+    throw std::bad_alloc ();
+
+  std::unique_ptr<XPathQueryImpl, void (*) (XPathQueryImpl *)> impl (
+      qimpl, &XPathQueryImpl::destroy);
+
+  qimpl->root
+      = XPathParser::parse (query, variables, &qimpl->alloc, &m_result);
+  if (qimpl->root != nullptr)
+    {
+      qimpl->root->optimize (&qimpl->alloc);
+
+      m_impl = impl.release ();
+      m_result.error = nullptr;
+    }
+  else
+    {
+      if (qimpl->oom)
+        throw std::bad_alloc ();
+      throw XPathException (m_result);
+    }
+}
+
+LUMEX_PUBLIC_API
+XPathQuery::XPathQuery () : m_impl (nullptr) {}
+
+LUMEX_PUBLIC_API
+XPathQuery::~XPathQuery ()
+{
+  if (m_impl != nullptr)
+    XPathQueryImpl::destroy (static_cast<XPathQueryImpl *> (m_impl));
+}
+
+LUMEX_PUBLIC_API
+XPathQuery::XPathQuery (XPathQuery &&rhs) LUMEX_NOEXCEPT
+    : m_impl (rhs.m_impl),
+      m_result (rhs.m_result)
+{
+  rhs.m_impl = nullptr;
+  rhs.m_result = xpath_parse_result_t ();
+}
+
+LUMEX_PUBLIC_API
+XPathQuery &
+XPathQuery::operator= (XPathQuery &&rhs) LUMEX_NOEXCEPT
+{
+  if (this == &rhs)
+    return *this;
+
+  if (m_impl != nullptr)
+    XPathQueryImpl::destroy (static_cast<XPathQueryImpl *> (m_impl));
+
+  m_impl = rhs.m_impl;
+  m_result = rhs.m_result;
+  rhs.m_impl = nullptr;
+  rhs.m_result = xpath_parse_result_t ();
+
+  return *this;
+}
+
+LUMEX_PUBLIC_API
+xpath_value_type
+XPathQuery::return_type () const
+{
+  if (m_impl == nullptr)
+    return xpath_type_none;
+
+  return static_cast<XPathQueryImpl *> (m_impl)->root->rettype ();
+}
+
+LUMEX_PUBLIC_API
+bool
+XPathQuery::evaluate_boolean (XPathNode const &n) const
+{
+  if (m_impl == nullptr)
+    return false;
+
+  XPathContext ctx (n, 1, 1);
+  XPathStackData stack_data;
+
+  bool tmp = static_cast<XPathQueryImpl *> (m_impl)->root->eval_boolean (
+      ctx, stack_data.stack);
+
+  if (stack_data.oom)
+    throw std::bad_alloc ();
+
+  return tmp;
+}
+
+LUMEX_PUBLIC_API
+double
+XPathQuery::evaluate_number (XPathNode const &n) const
+{
+  if (m_impl == nullptr)
+    return std::numeric_limits<double>::quiet_NaN ();
+
+  XPathContext ctx (n, 1, 1);
+  XPathStackData stack_data;
+
+  double tmp = static_cast<XPathQueryImpl *> (m_impl)->root->eval_number (
+      ctx, stack_data.stack);
+
+  if (stack_data.oom)
+    throw std::bad_alloc ();
+
+  return tmp;
+}
+
+LUMEX_PUBLIC_API
+string_t
+XPathQuery::evaluate_string (node::XPathNode const &n) const
+{
+  if (m_impl == nullptr)
+    return {};
+
+  XPathContext ctx (n, 1, 1);
+  XPathStackData stack_data;
+
+  XPathString tmp = static_cast<XPathQueryImpl *> (m_impl)->root->eval_string (
+      ctx, stack_data.stack);
+
+  if (stack_data.oom)
+    throw std::bad_alloc ();
+
+  return { tmp.c_str (), tmp.length () };
+}
+
+LUMEX_PUBLIC_API
+std::size_t
+XPathQuery::evaluate_string (char_t *buffer, std::size_t capacity,
+                             node::XPathNode const &n) const
+{
+  XPathContext ctx (n, 1, 1);
+  XPathStackData stack_data;
+
+  XPathString tmp
+      = (m_impl != nullptr)
+            ? static_cast<XPathQueryImpl *> (m_impl)->root->eval_string (
+                  ctx, stack_data.stack)
+            : XPathString ();
+
+  if (stack_data.oom)
+    throw std::bad_alloc ();
+
+  std::size_t full_size = tmp.length () + 1;
+
+  if (capacity > 0)
+    {
+      std::size_t size = (full_size < capacity) ? full_size : capacity;
+      LUMEX_ASSERT (size > 0);
+
+      std::memcpy (buffer, tmp.c_str (), (size - 1) * sizeof (char_t));
+      buffer[size - 1] = 0;
+    }
+
+  return full_size;
+}
+
+LUMEX_PUBLIC_API
+XPathNodeSet
+XPathQuery::evaluate_node_set (XPathNode const &n) const
+{
+  XPathAstNode *root
+      = evaluate_node_set_prepare (static_cast<XPathQueryImpl *> (m_impl));
+  if (root == nullptr)
+    return {};
+
+  XPathContext ctx (n, 1, 1);
+  XPathStackData stack_data;
+
+  XPathNodeSetRaw node_set_raw
+      = root->eval_node_set (ctx, stack_data.stack, nodeset_eval_all);
+
+  if (stack_data.oom)
+    throw std::bad_alloc ();
+
+  return { node_set_raw.begin (), node_set_raw.end (), node_set_raw.type () };
+}
+
+LUMEX_PUBLIC_API
+XPathNode
+XPathQuery::evaluate_node (XPathNode const &n) const
+{
+  XPathAstNode *root
+      = evaluate_node_set_prepare (static_cast<XPathQueryImpl *> (m_impl));
+  if (root == nullptr)
+    return {};
+
+  XPathContext ctx (n, 1, 1);
+  XPathStackData stack_data;
+
+  XPathNodeSetRaw node_set_raw
+      = root->eval_node_set (ctx, stack_data.stack, nodeset_eval_first);
+
+  if (stack_data.oom)
+    throw std::bad_alloc ();
+
+  return node_set_raw.first ();
+}
+
+LUMEX_PUBLIC_API
+xpath_parse_result_t const &
+XPathQuery::result () const
+{
+  return m_result;
+}
+
+LUMEX_PUBLIC_API
+XPathQuery::
+operator XPathQuery::unspecified_bool_type () const
+{
+  return (m_impl != nullptr) ? unspecified_bool_xpath_query : nullptr;
+}
+
+LUMEX_PUBLIC_API
+bool
+XPathQuery::operator!() const
+{
+  return m_impl == nullptr;
+}
+
+} // namespace query
+} // namespace xpath
+} // namespace xml
+} // namespace lumex

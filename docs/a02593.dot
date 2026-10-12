@@ -1,0 +1,11 @@
+digraph "lumex::core::expected::result::detail::value_from_expected&lt; ValueType, U, G &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::expected\l::result::detail::value\l_from_expected\< ValueType,\l U, G \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="ValueType can be built from, or converted from, an expected<U, / G> in any of its four value categori..."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::integral_constant\l\< bool, std::is_constructible\l\< ValueType, expected\< U, G\l \> & \>::value\|\|std::is_constructible\l\< ValueType, expected\< U, G \> \>::\lvalue\|\|std::is_constructible\< ValueType,\l expected\< U, G \> const & \>::value\|\|std\l::is_constructible\< ValueType, expected\l\< U, G \> const \>::value\|\|std::is_convertible\l\< expected\< U, G \> &, ValueType \>::value\|\|std\l::is_convertible\< expected\< U, G \>, ValueType\l \>::value\|\|std::is_convertible\< expected\< U, G\l \> const &, ValueType \>::value\|\|std::is_convertible\l\< expected\< U, G \> const, ValueType \>::value \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

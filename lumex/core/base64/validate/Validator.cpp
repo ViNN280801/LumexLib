@@ -1,0 +1,162 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#define LUMEX_IMPLEMENTATION
+
+#include <cstddef>
+
+#include "Validator.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
+using namespace lumex::core::base64::validate;
+using namespace lumex::core::base64::codec;
+using namespace lumex::core::base64::codec::Types;
+using namespace lumex::core::base64::codec::Constants;
+
+namespace
+{
+bool
+validate_base64_characters (char const *str, std::size_t data_length)
+{
+  for (std::size_t i = 0; i < data_length; ++i)
+    {
+      auto current_char = static_cast<byte_type> (str[i]);
+      if (detail::_decode_table.at (current_char)
+          == Constants::kBase64DecodeInvalidChar)
+        return false;
+    }
+  return true;
+}
+
+bool
+validate_padding_format (char const *str, std::size_t size,
+                         std::size_t padding_start)
+{
+  if (size % 4 != 0)
+    return false;
+
+  std::size_t padding_count = size - padding_start;
+  if (padding_count > 2)
+    return false;
+
+  for (std::size_t i = padding_start; i < size; ++i)
+    if (str[i] != '=')
+      return false;
+
+  return true;
+}
+
+bool
+validate_padding_correctness (
+    std::size_t data_length,
+    std::size_t padding_count) // NOLINT(bugprone-easily-swappable-parameters)
+{
+  std::size_t remainder = data_length % 4;
+  if (remainder == 0 && padding_count > 0)
+    return false;
+  if (remainder == 1)
+    return false;
+  if (remainder == 2 && padding_count != 2)
+    return false;
+  if (remainder == 3 && padding_count != 1)
+    return false;
+  return true;
+}
+} // namespace
+
+LUMEX_PUBLIC_API
+bool
+validator::is_valid_base64 (char const *str, std::size_t size)
+{
+  if (str == nullptr)
+    return false;
+  if (size == 0)
+    return true;
+
+  // The first '=' inside the range; `size` when there is none.
+  std::size_t padding_start = 0;
+  while (padding_start < size && str[padding_start] != '=')
+    ++padding_start;
+  std::size_t const data_length = padding_start;
+
+  if (!validate_base64_characters (str, data_length))
+    return false;
+
+  if (padding_start != size)
+    {
+      if (!validate_padding_format (str, size, padding_start))
+        return false;
+      std::size_t padding_count = size - padding_start;
+      return validate_padding_correctness (data_length, padding_count);
+    }
+
+  // No padding - validate unpadded Base64
+  std::size_t remainder = data_length % 4;
+  return remainder != 1; // Only remainder == 1 is invalid for unpadded Base64
+}
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

@@ -1,0 +1,301 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file XmlBufferedWriter.hpp
+ * @brief Internal output buffer of the serializer: it collects characters,
+ * converts them to the target encoding and passes blocks to an `IXmlWriter`.
+ * @details `XmlBufferedWriter` keeps its buffers inside the object (10 KiB in
+ * total for the characters and the conversion scratch area), so buffering
+ * allocates no memory. Its `write` overloads for one to six characters let the
+ * serializer (`node_output` in `XmlNode.hpp`) emit markup without measuring
+ * strings. The owner calls `flush()` after the last write; `XmlDocument::save`
+ * and `XmlNode::print` do.
+ */
+#ifndef LUMEX_XML_WRITER_XML_BUFFERED_WRITER_HPP
+#define LUMEX_XML_WRITER_XML_BUFFERED_WRITER_HPP
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
+#include "lumex/LumexExport.hpp"
+
+#include <array>
+#include <cstddef>
+
+#include "IXmlWriter.hpp"
+#include "lumex/core/utility/macros/LumexConstantMacros.hpp"
+#include "lumex/xml/types/XmlTypes.hpp"
+
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace xml
+{
+namespace writer
+{
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+
+/**
+ * @brief A buffered writer for XML output, optimizing write operations by
+ * accumulating data in a buffer.
+ * @details `XmlBufferedWriter` acts as an intermediary between the XML
+ * serialization logic and a raw `IXmlWriter` interface. It collects characters
+ * in an internal buffer and flushes them to the underlying writer when the
+ * buffer is full or explicitly requested. This significantly reduces the
+ * number of system calls for small write operations, improving performance. It
+ * also handles character encoding conversions if necessary.
+ * @note This class is not copyable and manages its own internal buffers.
+ * @see IXmlWriter
+ */
+class LUMEX_API
+    XmlBufferedWriter // NOLINT(cppcoreguidelines-special-member-functions)
+{
+public:
+  /// @brief Constant for buffer capacity related to UTF-8 character expansion.
+  LUMEX_CONST_NUM short kBufCapacity8 = 8;
+  /// @brief Constant for bit shift operation, often used in character
+  /// encoding.
+  LUMEX_CONST_NUM short kShift5 = 5;
+  /// @brief Constant for bit shift operation, often used in character
+  /// encoding.
+  LUMEX_CONST_NUM short kShift6 = 6;
+
+  /// @brief Enumeration defining buffer capacities in bytes and characters.
+  enum : std::uint16_t
+  {
+    bufcapacitybytes
+    = 10240, ///< @brief Total capacity of the buffer in bytes.
+    bufcapacity = bufcapacitybytes
+                  / (sizeof (char_t)
+                     + 4) ///< @brief Capacity of the buffer in `char_t` units.
+  };
+
+  /// @brief The main buffer for accumulating characters before writing.
+  std::array<char_t, bufcapacity>
+      buffer; // NOLINT(misc-non-private-member-variables-in-classes)
+
+  /// @brief Union for scratch space, used for temporary conversions, optimized
+  /// for different character sizes.
+  union
+  {
+    // Details, not a brief: Doxygen 1.8 links the brief of an anonymous union
+    // member to a page it does not generate.
+
+    std::array<std::uint8_t, static_cast<std::size_t> (4U * bufcapacity)>
+        data_u8; ///< @details Scratch buffer for 8-bit characters (UTF-8).
+    std::array<std::uint16_t, static_cast<std::size_t> (2U * bufcapacity)>
+        data_u16; ///< @details Scratch buffer for 16-bit characters (UTF-16).
+    std::array<std::uint32_t, bufcapacity>
+        data_u32; ///< @details Scratch buffer for 32-bit characters (UTF-32).
+    std::array<char_t, bufcapacity>
+        data_char; ///< @details Scratch buffer for generic `char_t`.
+  } scratch;       // NOLINT(misc-non-private-member-variables-in-classes)
+
+  /// @brief Reference to the underlying `IXmlWriter` to which buffered data is
+  /// flushed.
+  IXmlWriter &writer; // NOLINT(misc-non-private-member-variables-in-classes,
+                      // cppcoreguidelines-avoid-const-or-ref-data-members)
+  /// @brief Current size of the data in the buffer.
+  std::size_t
+      bufsize{}; // NOLINT(misc-non-private-member-variables-in-classes)
+  /// @brief The character encoding to use for output.
+  xml_encoding
+      encoding; // NOLINT(misc-non-private-member-variables-in-classes)
+
+  /**
+   * @brief Deleted copy constructor.
+   * @details `XmlBufferedWriter` is not copyable to prevent issues with buffer
+   * ownership and state.
+   */
+  XmlBufferedWriter (XmlBufferedWriter const &) = delete;
+  /**
+   * @brief Deleted copy assignment operator.
+   * @details `XmlBufferedWriter` is not copy-assignable.
+   */
+  XmlBufferedWriter &operator= (XmlBufferedWriter const &) = delete;
+
+  /**
+   * @brief Constructs an `XmlBufferedWriter`.
+   * @param[in,out] writer_ The underlying `IXmlWriter` to which data will be
+   * flushed.
+   * @param[in] user_encoding The character encoding to use for the output.
+   */
+  XmlBufferedWriter (IXmlWriter &writer_, xml_encoding user_encoding);
+
+  /**
+   * @brief Flushes the current buffer content to the underlying writer.
+   * @return The number of bytes successfully written.
+   * @details Empties the internal buffer by writing its contents to the
+   * `writer` and resets `bufsize`.
+   */
+  std::size_t flush ();
+
+  /**
+   * @brief Writes a block of data directly to the underlying writer after
+   * flushing the buffer.
+   * @param[in] data A pointer to the data to write.
+   * @param[in] size The number of bytes to write.
+   * @details This function first flushes any data currently in the internal
+   * buffer, then writes the provided `data` directly.
+   */
+  void flush (char_t const *data, std::size_t size);
+
+  /**
+   * @brief Writes a block of characters directly to the buffer, bypassing
+   * encoding.
+   * @param[in] data A pointer to the character data to write.
+   * @param[in] length The number of characters to write.
+   * @details This function attempts to append `length` characters from `data`
+   * to the internal buffer. If the buffer is too small, it flushes and
+   * retries.
+   */
+  void write_direct (char_t const *data, std::size_t length);
+
+  /**
+   * @brief Writes a block of characters to the buffer, handling encoding
+   * conversions if necessary.
+   * @param[in] data A pointer to the character data to write.
+   * @param[in] length The number of characters to write.
+   * @details This function performs character encoding conversion from the
+   * internal `char_t` representation to the `encoding` specified during
+   * construction, then writes to the buffer.
+   */
+  void write_buffer (char_t const *data, std::size_t length);
+
+  /**
+   * @brief Writes a null-terminated string to the buffer.
+   * @param[in] data A pointer to the null-terminated string to write.
+   * @details This function calculates the string length and calls
+   * `write_buffer`.
+   */
+  void write_string (char_t const *data);
+
+  /**
+   * @brief Writes a single character to the buffer.
+   * @param[in] d0_ The character to write.
+   * @details This is an optimized function for writing a single character.
+   */
+  void write (char_t d0_);
+
+  /**
+   * @brief Writes two characters to the buffer.
+   * @param[in] d0_ The first character.
+   * @param[in] d1_ The second character.
+   */
+  void write (char_t d0_,
+              char_t d1_); // NOLINT(bugprone-easily-swappable-parameters)
+
+  /**
+   * @brief Writes three characters to the buffer.
+   * @param[in] d0_ The first character.
+   * @param[in] d1_ The second character.
+   * @param[in] d2_ The third character.
+   */
+  void write (char_t d0_, char_t d1_,
+              char_t d2_); // NOLINT(bugprone-easily-swappable-parameters)
+
+  /**
+   * @brief Writes four characters to the buffer.
+   * @param[in] d0_ The first character.
+   * @param[in] d1_ The second character.
+   * @param[in] d2_ The third character.
+   * @param[in] d3_ The fourth character.
+   */
+  void write (char_t d0_, char_t d1_, char_t d2_,
+              char_t d3_); // NOLINT(bugprone-easily-swappable-parameters)
+
+  /**
+   * @brief Writes five characters to the buffer.
+   * @param[in] d0_ The first character.
+   * @param[in] d1_ The second character.
+   * @param[in] d2_ The third character.
+   * @param[in] d3_ The fourth character.
+   * @param[in] d4_ The fifth character.
+   */
+  void write (char_t d0_,
+              char_t d1_, // NOLINT(bugprone-easily-swappable-parameters)
+              char_t d2_, char_t d3_, char_t d4_);
+
+  /**
+   * @brief Writes six characters to the buffer.
+   * @param[in] d0_ The first character.
+   * @param[in] d1_ The second character.
+   * @param[in] d2_ The third character.
+   * @param[in] d3_ The fourth character.
+   * @param[in] d4_ The fifth character.
+   * @param[in] d5_ The sixth character.
+   */
+  void write (char_t d0_, char_t d1_,
+              char_t d2_, // NOLINT(bugprone-easily-swappable-parameters)
+              char_t d3_, char_t d4_, char_t d5_);
+};
+} // namespace writer
+} // namespace xml
+} // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
+
+#endif // !LUMEX_XML_WRITER_XML_BUFFERED_WRITER_HPP

@@ -1,0 +1,15 @@
+digraph "lumex::core::string_view::view::lumex_basic_string_view::ends_with"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::string\l_view::view::lumex_basic\l_string_view::ends_with",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The view ends with suffix."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::ends_with",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a1c8322b4f34036ac8221590b6a96bae0",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::applied::resource\l_monitor::process::detail\l::executable_name",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01284.html#a338216e93dcc183c0b94bcc5f00f0579",tooltip="The file name of a /proc/<pid>/exe link target."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="main",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00878.html#ae66f6b31b5ad750f1fe042a706a4e3d4",tooltip=" "];
+}

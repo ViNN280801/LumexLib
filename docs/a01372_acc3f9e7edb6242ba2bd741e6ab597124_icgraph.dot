@@ -1,0 +1,41 @@
+digraph "lumex::core::math::ops::exactly_equal"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::math::\lops::exactly_equal",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Exact comparison of two floating-point numbers, as == defines it."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::xml::utility\l::convert_number_to\l_boolean",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01494.html#a9e9f9a1cd88cb3d97e3141f4231e439c",tooltip=" "];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::xml::xpath::\last::XPathAstNode::eval\l_boolean",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a05062.html#a22fd4b0b8128783c9615823bebff036c",tooltip="Evaluates the XPath expression represented by this AST node to a boolean value."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::xml::xpath::\last::XPathAstNode::eval\l_number",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a05062.html#aefd15ccbea8cfa84dcf96d758e336650",tooltip="Evaluates the XPath expression represented by this AST node to a numeric value."];
+  Node4 -> Node3 [id="edge4_Node000004_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 -> Node5 [id="edge5_Node000004_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::xml::xpath::\last::XPathAstNode::eval\l_string",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a05062.html#a65b0bbe9cb7bb56b63909808fd092948",tooltip="Evaluates the XPath expression represented by this AST node to a string value."];
+  Node5 -> Node3 [id="edge6_Node000005_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 -> Node4 [id="edge7_Node000005_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 -> Node6 [id="edge8_Node000005_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::xml::xpath::\lquery::XPathQuery::evaluate\l_string",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a05138.html#a246d7958d05f4d033bc4cbdd45f652d1",tooltip="Evaluates the XPath query to a string value, writing to a provided buffer."];
+  Node3 -> Node5 [id="edge9_Node000003_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node7 [id="edge10_Node000001_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::xml::utility\l::convert_number_to\l_string_special",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01494.html#a3f7ab7d3c4299df5401b1b426d5bb3d5",tooltip=" "];
+  Node7 -> Node8 [id="edge11_Node000007_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::xml::xpath::\lstring::convert_number\l_to_string",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01521.html#a09b352423a07394eefab94c87fa06b09",tooltip="Converts a double-precision floating-point number to an XPath string representation."];
+  Node8 -> Node5 [id="edge12_Node000008_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node1 [id="edge13_Node000001_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node9 [id="edge14_Node000001_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::core::utility\l::numeric::safe_compare\l_impl_helper\< T, T, typename\l std::enable_if\< std::is_floating\l_point\< traits::meta::CleanType\l\< T \> \>::value \>::type \>::not_equal",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04274.html#a577ae19bdbe77f5d28588f003c682770",tooltip="Safe comparison != for identical floating-point types."];
+  Node1 -> Node10 [id="edge15_Node000001_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="lumex::core::utility\l::numeric::safe_compare\l_impl_helper\< T, U, typename\l std::enable_if\< std::is_floating\l_point\< traits::meta::CleanType\l\< T \> \>::value &&std::is_floating\l_point\< traits::meta::CleanType\< U\l \> \>::value &&!std::is_same\< traits\l::meta::CleanType\< T \>, traits::meta\l::CleanType\< U \> \>::value \>::type \>::not_equal",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04282.html#a1c8f8938b9f747e8d4f4b3c64fef28dc",tooltip="Safe comparison != for floating-point types."];
+  Node1 -> Node11 [id="edge16_Node000001_Node000011",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node11 [id="Node000011",label="lumex::core::utility\l::numeric::safe_compare\l_impl_helper\< T, U, typename\l std::enable_if\<(std::is_integral\l\< traits::meta::CleanType\< T \>\l \>::value &&std::is_floating_point\l\< traits::meta::CleanType\< U \> \>::\lvalue)\|\|(std::is_floating_point\< traits\l::meta::CleanType\< T \> \>::value &&std\l::is_integral\< traits::meta::CleanType\l\< U \> \>::value)\>::type \>::not_equal",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04286.html#a52aa90aa9785d4df795e1b347900d507",tooltip="Safe comparison != for mixed types."];
+  Node1 -> Node12 [id="edge17_Node000001_Node000012",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node12 [id="Node000012",label="lumex::xml::xpath::\last::XPathAstNode::optimize_self",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a05062.html#a68b6e186d0a0947e77944e5fb045835a",tooltip="Optimizes this specific XPath AST node by applying various rewrite rules."];
+  Node12 -> Node13 [id="edge18_Node000012_Node000013",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node13 [id="Node000013",label="lumex::xml::xpath::\last::XPathAstNode::optimize",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a05062.html#a6c6c7cd42887546c1ecedf4b10f8247b",tooltip="Optimizes the XPath AST by applying various rewrite rules recursively."];
+  Node13 -> Node14 [id="edge19_Node000013_Node000014",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node14 [id="Node000014",label="lumex::xml::xpath::\lquery::XPathQuery::XPathQuery",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a05138.html#a2a56412faeaeb1eebca754f5e970c9e4",tooltip="Constructs an XPathQuery by parsing the given query string."];
+}

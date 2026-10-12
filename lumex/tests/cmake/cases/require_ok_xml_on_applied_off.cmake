@@ -1,0 +1,5 @@
+include("${LUMEX_SOURCE_DIR}/lumex/tests/cmake/setup_all_on.cmake")
+set(LUMEX_BUILD_APPLIED OFF)
+set(LUMEX_BUILD_XML ON)
+include("${LUMEX_SOURCE_DIR}/cmake/LumexModules.cmake")
+lumex_check_module_dependencies()

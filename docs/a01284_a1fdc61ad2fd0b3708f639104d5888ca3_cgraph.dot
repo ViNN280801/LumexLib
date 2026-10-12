@@ -1,0 +1,13 @@
+digraph "lumex::applied::resource_monitor::process::detail::first_argument_name"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::applied::resource\l_monitor::process::detail\l::first_argument_name",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The file name of the first argument in a /proc/<pid>/cmdline text."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::string\l_view::view::lumex_basic\l_string_view::find",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#add66982ae60be5e4553a6d7b349ad6b0",tooltip="The first occurrence of needle at an index >= pos."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::string\l_view::view::lumex_basic\l_string_view::substr",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a8d676f0effc9e9215bc48dc8b4895d25",tooltip="The view of min(n, size() - pos) characters from pos."];
+}

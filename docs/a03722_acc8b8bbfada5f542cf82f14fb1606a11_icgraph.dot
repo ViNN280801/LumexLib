@@ -1,0 +1,15 @@
+digraph "lumex::core::smart_ptr::detail::access::stored"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::smart\l_ptr::detail::access\l::stored",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::atomic\l::smart_ptr::table_wait\l::Detail::smart_ptr_traits\l_t\<::lumex::core::smart_ptr\l::weak_ptr\< T \> \>::equivalent",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01810.html#ab7bec5e7535be60be3da17c068047ea1",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::atomic\l::smart_ptr::table_wait\l::Detail::smart_ptr_traits\l_t\<::lumex::core::smart_ptr\l::weak_ptr\< T \> \>::is_plain_empty",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01810.html#a5a9dc371582c8a7af83af9480e1e41b1",tooltip="True for a weak pointer that observes nothing and stores null."];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::atomic\l::smart_ptr::table_wait\l::Detail::split_pointer\l_traits_t\<::lumex::core\l::smart_ptr::weak_ptr\< T\l \> \>::stored",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01842.html#a3b5a6ab3012b63037f0278d92cde0185",tooltip="The stored pointer of pointer."];
+}

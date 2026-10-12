@@ -1,0 +1,13 @@
+digraph "lumex::applied::serial::probe::detail::bounded_open_serial_port"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::applied::serial\l::probe::detail::bounded\l_open_serial_port",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Opens open_path so the caller never waits past deadline."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::applied::serial\l::resolver::port_process\l_resolver::format_system_error",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01714.html#a87b46d54c13a2ae30c97f22a4e98fc7c",tooltip="Format a system error code."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::applied::serial\l::probe::detail::invalid\l_native_serial_handle",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01294.html#a2cf67f171039ab45a5ec960d36c054c6",tooltip="The platform value that means \"no handle\"."];
+}

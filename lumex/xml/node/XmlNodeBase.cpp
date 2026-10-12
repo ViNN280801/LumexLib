@@ -1,0 +1,391 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#define LUMEX_IMPLEMENTATION
+
+#include "lumex/xml/constants/XmlConstants.hpp"
+#include "lumex/xml/utility/XmlUtils.hpp"
+
+#include "XmlNodeBase.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
+using namespace lumex::xml::attribute;
+using namespace lumex::xml::constants;
+using namespace lumex::xml::constants::Constants;
+using namespace lumex::xml::node;
+using namespace lumex::xml::memory;
+using namespace lumex::xml::types;
+using namespace lumex::xml::types::Types;
+using namespace lumex::xml::utility;
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::destroy_node (
+    XmlNodeBase *n, // NOLINT(misc-use-internal-linkage, misc-no-recursion)
+    XmlAllocator &alloc)
+{
+  if ((n->header & kxml_memory_page_name_allocated_mask) != 0)
+    alloc.deallocate_string (n->name);
+
+  if ((n->header & kxml_memory_page_value_allocated_mask) != 0)
+    alloc.deallocate_string (n->value);
+
+  for (XmlAttributeBase *attr = n->first_attribute; attr != nullptr;)
+    {
+      XmlAttributeBase *next = attr->next_attribute;
+
+      destroy_attribute (attr, alloc);
+
+      attr = next;
+    }
+
+  for (XmlNodeBase *child = n->first_child; child != nullptr;)
+    {
+      XmlNodeBase *next = child->next_sibling;
+
+      lumex::xml::node::destroy_node (child, alloc);
+
+      child = next;
+    }
+
+  alloc.deallocate_memory (
+      n, sizeof (XmlNodeBase),
+      LUMEX_XML_GETPAGE (n)); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+}
+
+LUMEX_PUBLIC_API
+XmlNodeBase *
+lumex::xml::node::allocate_node (XmlAllocator &alloc, xml_node_type type)
+{
+  XmlMemoryPage *page{};
+  void *memory = alloc.allocate_object (sizeof (XmlNodeBase), page);
+  if (memory == nullptr)
+    return nullptr;
+
+  return new (memory)
+      XmlNodeBase (page, type); // NOLINT(cppcoreguidelines-owning-memory)
+}
+
+LUMEX_PUBLIC_API void destroy_node (XmlNodeBase *n, XmlAllocator &alloc);
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::append_node (XmlNodeBase *child, XmlNodeBase *node)
+{
+  child->parent = node;
+
+  XmlNodeBase *head = node->first_child;
+
+  if (head != nullptr)
+    {
+      XmlNodeBase *tail = head->prev_sibling_c;
+
+      tail->next_sibling = child;
+      child->prev_sibling_c = tail;
+      head->prev_sibling_c = child;
+    }
+  else
+    {
+      node->first_child = child;
+      child->prev_sibling_c = child;
+    }
+}
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::prepend_node (XmlNodeBase *child, XmlNodeBase *node)
+{
+  child->parent = node;
+
+  XmlNodeBase *head = node->first_child;
+
+  if (head != nullptr)
+    {
+      child->prev_sibling_c = head->prev_sibling_c;
+      head->prev_sibling_c = child;
+    }
+  else
+    child->prev_sibling_c = child;
+
+  child->next_sibling = head;
+  node->first_child = child;
+}
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::insert_node_after (XmlNodeBase *child, XmlNodeBase *node)
+{
+  XmlNodeBase *parent = node->parent;
+
+  child->parent = parent;
+
+  XmlNodeBase *next = node->next_sibling;
+
+  if (next != nullptr)
+    next->prev_sibling_c = child;
+  else
+    parent->first_child->prev_sibling_c = child;
+
+  child->next_sibling = next;
+  child->prev_sibling_c = node;
+
+  node->next_sibling = child;
+}
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::insert_node_before (XmlNodeBase *child, XmlNodeBase *node)
+{
+  XmlNodeBase *parent = node->parent;
+
+  child->parent = parent;
+
+  XmlNodeBase *prev = node->prev_sibling_c;
+
+  if (prev->next_sibling != nullptr)
+    prev->next_sibling = child;
+  else
+    parent->first_child = child;
+
+  child->prev_sibling_c = prev;
+  child->next_sibling = node;
+
+  node->prev_sibling_c = child;
+}
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::remove_node (XmlNodeBase *node)
+{
+  XmlNodeBase *parent = node->parent;
+
+  XmlNodeBase *next = node->next_sibling;
+  XmlNodeBase *prev = node->prev_sibling_c;
+
+  if (next != nullptr)
+    next->prev_sibling_c = prev;
+  else
+    parent->first_child->prev_sibling_c = prev;
+
+  if (prev->next_sibling != nullptr)
+    prev->next_sibling = next;
+  else
+    parent->first_child = next;
+
+  node->parent = nullptr;
+  node->prev_sibling_c = nullptr;
+  node->next_sibling = nullptr;
+}
+
+LUMEX_PUBLIC_API
+XmlNodeBase *
+lumex::xml::node::append_new_node (XmlNodeBase *node, XmlAllocator &alloc,
+                                   xml_node_type type)
+{
+  XmlNodeBase *child = lumex::xml::node::allocate_node (alloc, type);
+  if (child == nullptr)
+    return nullptr;
+
+  lumex::xml::node::append_node (child, node);
+
+  return child;
+}
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::append_attribute (XmlAttributeBase *attr, XmlNodeBase *node)
+{
+  XmlAttributeBase *head = node->first_attribute;
+
+  if (head != nullptr)
+    {
+      XmlAttributeBase *tail = head->prev_attribute_c;
+
+      tail->next_attribute = attr;
+      attr->prev_attribute_c = tail;
+      head->prev_attribute_c = attr;
+    }
+  else
+    {
+      node->first_attribute = attr;
+      attr->prev_attribute_c = attr;
+    }
+}
+
+LUMEX_PUBLIC_API
+XmlAttributeBase *
+lumex::xml::node::append_new_attribute (XmlNodeBase *node, XmlAllocator &alloc)
+{
+  XmlAttributeBase *attr = lumex::xml::attribute::allocate_attribute (alloc);
+  if (attr == nullptr)
+    return nullptr;
+
+  lumex::xml::node::append_attribute (attr, node);
+
+  return attr;
+}
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::node_copy_contents (XmlNodeBase *dn_, XmlNodeBase *sn_,
+                                      XmlAllocator *shared_alloc)
+{
+  lumex::xml::utility::node_copy_string (dn_->name, dn_->header,
+                                         kxml_memory_page_name_allocated_mask,
+                                         sn_->name, sn_->header, shared_alloc);
+  lumex::xml::utility::node_copy_string (
+      dn_->value, dn_->header, kxml_memory_page_value_allocated_mask,
+      sn_->value, sn_->header, shared_alloc);
+
+  for (XmlAttributeBase *sa = sn_->first_attribute; sa != nullptr;
+       sa = sa->next_attribute)
+    {
+      XmlAttributeBase *da_ = append_new_attribute (dn_, get_allocator (dn_));
+
+      if (da_ != nullptr)
+        {
+          lumex::xml::utility::node_copy_string (
+              da_->name, da_->header, kxml_memory_page_name_allocated_mask,
+              sa->name, sa->header, shared_alloc);
+          lumex::xml::utility::node_copy_string (
+              da_->value, da_->header, kxml_memory_page_value_allocated_mask,
+              sa->value, sa->header, shared_alloc);
+        }
+    }
+}
+
+LUMEX_PUBLIC_API
+void
+lumex::xml::node::node_copy_tree (XmlNodeBase *dn_, XmlNodeBase *sn_)
+{
+  XmlAllocator &alloc = get_allocator (dn_);
+  XmlAllocator *shared_alloc
+      = (&alloc == &get_allocator (sn_)) ? &alloc : nullptr;
+
+  lumex::xml::node::node_copy_contents (dn_, sn_, shared_alloc);
+
+  XmlNodeBase *dit = dn_;
+  XmlNodeBase *sit = sn_->first_child;
+
+  while ((sit != nullptr) && sit != sn_)
+    {
+      // loop invariant: dit is inside the subtree rooted at dn
+      LUMEX_ASSERT (dit);
+
+      // when a tree is copied into one of the descendants, we need to skip
+      // that subtree to avoid an infinite loop
+      if (sit != dn_)
+        {
+          XmlNodeBase *copy = lumex::xml::node::append_new_node (
+              dit, alloc, LUMEX_XML_NODETYPE (sit));
+
+          if (copy != nullptr)
+            {
+              lumex::xml::node::node_copy_contents (copy, sit, shared_alloc);
+
+              if (sit->first_child != nullptr)
+                {
+                  dit = copy;
+                  sit = sit->first_child;
+                  continue;
+                }
+            }
+        }
+
+      // continue to the next node
+      do
+        { // NOLINT(cppcoreguidelines-avoid-do-while)
+          if (sit->next_sibling != nullptr)
+            {
+              sit = sit->next_sibling;
+              break;
+            }
+
+          sit = sit->parent;
+          dit = dit->parent;
+
+          // loop invariant: dit is inside the subtree rooted at dn while sit
+          // is inside sn
+          LUMEX_ASSERT ((sit == sn_) || (dit != nullptr));
+        }
+      while (sit != sn_);
+    }
+
+  LUMEX_ASSERT ((sit == nullptr) || (dit == dn_->parent));
+}
+
+LUMEX_PUBLIC_API
+bool
+lumex::xml::node::node_is_ancestor (XmlNodeBase *parent, XmlNodeBase *node)
+{
+  while ((node != nullptr) && node != parent)
+    node = node->parent;
+
+  return (parent != nullptr) && (node == parent);
+}
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif

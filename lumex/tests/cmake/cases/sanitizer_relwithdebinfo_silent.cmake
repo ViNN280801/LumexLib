@@ -1,0 +1,7 @@
+set(LUMEX_USE_ASAN ON)
+set(LUMEX_USE_UBSAN ON)
+set(LUMEX_USE_TSAN ON)
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+unset(CMAKE_CONFIGURATION_TYPES)
+include("${CMAKE_CURRENT_LIST_DIR}/_sanitizer_build_type.cmake")
+lumex_run_sanitizer_build_type_check(FALSE)

@@ -1,0 +1,3 @@
+[submodule "CMakeRoutines"]
+	path = CMakeRoutines
+	url = https://github.com/ViNN280801/cmake

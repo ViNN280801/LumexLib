@@ -1,0 +1,191 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
+/**
+ * @file Encoder.hpp
+ * @brief Base64 encoding: the `encoder` class of the `lumex::base64` library.
+ * @details `encoder::encode()` turns bytes into Base64 text in the standard
+ * alphabet (with `+` and `/`), padded with `=` to a multiple of four
+ * characters. The pointer and size overload and the `std::vector` overload are
+ * compiled into the library and have the same signature in every C++ standard;
+ * the overload for `lumex::core::span::view::span` (every standard; a
+ * `std::span` converts to it) and the string overload (`lumex_string_view` in
+ * every standard; a `std::string_view` converts to it) are inline wrappers
+ * over the pointer one.
+ * Like the other Base64 headers, it brings the names of the codec's `Types`
+ * namespace (`byte_type`, `string_type_t`) into the global namespace with a
+ * using-directive.
+ */
+#ifndef LUMEX_CORE_BASE64_ENCODE_HPP
+#define LUMEX_CORE_BASE64_ENCODE_HPP
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
+#include "lumex/LumexExport.hpp"
+
+#include <cstddef>
+#include <string>
+#include <vector>
+
+#include "lumex/core/base64/codec/Base64.hpp"
+#include "lumex/core/span/LumexSpan"
+
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace core
+{
+/**
+ * @brief Provides Base64 encoding functionalities.
+ *
+ * This namespace encapsulates functions for converting binary data to Base64
+ * strings.
+ */
+namespace base64
+{
+namespace encode
+{
+using namespace lumex::core::base64::codec::Types;
+
+/**
+ * @brief Base64 encoder.
+ * @details `encode (void const *, std::size_t)` and
+ * `encode (std::vector<byte_type> const &)` are exported and have the same
+ * signature in every C++ standard, so a consumer built at another standard
+ * than the library links. The `span` overload and the string overload
+ * (`string_type_t`, that is `lumex_string_view` in every standard)
+ * are inline wrappers over the pointer and size one, in every standard.
+ * The class itself is not exported: a dllimport class makes clang-cl emit
+ * an import for an inline member it does not inline, and the library does
+ * not provide the standard-dependent overload.
+ */
+class encoder final
+{
+public:
+  /**
+   * @brief Encodes raw binary data into a Base64 string.
+   *
+   * This function takes a pointer to raw binary data and its size, then
+   * converts it into a Base64-encoded string. The resulting string can be
+   * safely used for transmission or storage in text-based formats.
+   *
+   * @param[in] data Pointer to the binary data to be encoded.
+   * @param[in] size The size of the binary data in bytes.
+   * @return A `std::string` containing the Base64-encoded representation of
+   * the input data. Returns an empty string if `data` is `nullptr` or `size`
+   * is `0`.
+   */
+  LUMEX_API static std::string encode (void const *data, std::size_t size);
+
+  /**
+   * @brief Encodes binary data from a `std::vector<byte_type>` into a Base64
+   * string.
+   *
+   * This is an overloaded function that provides a convenient way to encode
+   * binary data stored in a `std::vector<byte_type>`. It internally calls the
+   * `encode` function that takes a pointer and size.
+   *
+   * @param[in] data A `std::vector<byte_type>` containing the binary data to
+   * be encoded.
+   * @return A `std::string` containing the Base64-encoded representation of
+   * the input vector's data. Returns an empty string if the input vector is
+   * empty.
+   */
+  LUMEX_API static std::string encode (std::vector<byte_type> const &data);
+
+  /**
+   * @brief Encodes the characters of a string view into a Base64 string.
+   *
+   * This overload provides an efficient way to encode string data without
+   * copying. `string_type_t` is the `lumex_string_view` of
+   * `lumex::string_view` in every standard; a string literal, a `char const
+   * *`, a `std::string` and, from C++17, a `std::string_view` convert to it.
+   * The view is sized: a NUL character inside it is a byte of the input.
+   * Available in every C++ standard.
+   *
+   * @param[in] data A string view of the binary data to be encoded.
+   * @return A `std::string` containing the Base64-encoded representation of
+   * the input data. Returns an empty string if the input view is empty.
+   */
+  static std::string
+  encode (string_type_t data)
+  {
+    return encode (data.data (), data.size ());
+  }
+
+  /**
+   * @brief Encodes binary data from a `span<byte_type const>` into a Base64
+   * string.
+   *
+   * This overload takes any contiguous bytes without ownership: a
+   * `std::array`, a built-in array, a `std::vector` (when no better overload
+   * exists), a subview of another span, and, from C++20, a `std::span`
+   * (it converts to the `span` of this library implicitly). It is available
+   * in every C++ standard.
+   *
+   * @param[in] data A `lumex::core::span::view::span<byte_type const>`
+   * containing the binary data to be encoded.
+   * @return A `std::string` containing the Base64-encoded representation of
+   * the input data. Returns an empty string if the input `span` is empty.
+   */
+  static std::string
+  encode (lumex::core::span::view::span<byte_type const> data)
+  {
+    return encode (data.data (), data.size ());
+  }
+};
+} // namespace encode
+} // namespace base64
+} // namespace core
+} // namespace lumex
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
+
+#endif // !LUMEX_CORE_BASE64_ENCODE_HPP

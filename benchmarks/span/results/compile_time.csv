@@ -1,0 +1,17 @@
+# compiler gcc: g++ (GCC) 13.2.0
+# compiler clang: clang version 23.1.0
+toolchain,variant,median_ms,min_ms,repeats
+gcc,none_cxx11,56.1,55.2,7
+gcc,none_cxx20,118.9,115.9,7
+gcc,lumex_cxx11,135.8,134.1,7
+gcc,lumex_cxx20,355.3,347.9,7
+gcc,std_cxx20,141.1,138.5,7
+gcc,boost_cxx11,133.1,129.8,7
+gcc,boost_cxx20,233.4,227.7,7
+clang,none_cxx11,130.2,124.7,7
+clang,none_cxx20,180.6,178.9,7
+clang,lumex_cxx11,157.0,152.8,7
+clang,lumex_cxx20,325.9,324.0,7
+clang,std_cxx20,239.4,237.9,7
+clang,boost_cxx11,151.0,147.1,7
+clang,boost_cxx20,234.2,229.8,7

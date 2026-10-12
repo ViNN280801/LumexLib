@@ -1,0 +1,21 @@
+digraph "lumex::core::contracts::invoke_violation_handler"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::contracts\l::invoke_violation_handler",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Reports violation to the installed handler, or to the default handler when none is installed (or when..."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::contracts\l::invoke_default_violation\l_handler",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01332.html#a9b050992206d89033462d7c9b7eb8c78",tooltip="The default handler: writes one line about violation to standard error and returns."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::contracts\l::source_location::column",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01934.html#afded073cef13c26cf4770505404f7fa3",tooltip="The column; 0 when unknown."];
+  Node2 -> Node4 [id="edge3_Node000002_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::contracts\l::source_location::file_name",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01934.html#a94bb11107320de43ffd8218ee84f5a0e",tooltip="The file name; never null."];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::contracts\l::source_location::function_name",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01934.html#a67099ea89fd04d8b6533ab6232b310c5",tooltip="The function name; never null."];
+  Node2 -> Node6 [id="edge5_Node000002_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::contracts\l::source_location::line",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01934.html#a32a7de5a3c08143dc13c818fcba2bfae",tooltip="The line; 0 when unknown."];
+  Node2 -> Node7 [id="edge6_Node000002_Node000007",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::contracts\l::to_string",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01332.html#a247400ce4aad3c5074547001c49e3c86",tooltip="The enumerator name of kind; \"unknown\" for a stray value."];
+}

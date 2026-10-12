@@ -1,0 +1,240 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file LumexTemporary.hpp
+ * @brief Temporary files and directories that delete themselves:
+ * `temporary_file`, `temporary_directory` and the factory `lumex_temporary`.
+ * @details `lumex_temporary::create_temp_file()` and `create_temp_directory()`
+ * create an entry with a unique name (prefix, time, process id, random
+ * hexadecimal digits and a counter) and return it in a `filesystem_result`.
+ * The returned object can be moved but not copied, and it deletes the entry
+ * when destroyed unless `release()` was called. Entries are created in a
+ * `Lumex` directory: in the system temporary directory on Windows and when
+ * running as an AppImage, otherwise in the home directory, where an unset
+ * `HOME` makes `get_temp_directory_path()` throw `std::runtime_error`. The
+ * implementation is compiled into `lumex::temporary`; the classes are also
+ * visible at global scope.
+ */
+#ifndef LUMEX_CORE_TEMPORARY_TMP_HPP
+#define LUMEX_CORE_TEMPORARY_TMP_HPP
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+#if __has_warning("-Wunsafe-buffer-usage-in-libc-call")
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#if __has_warning("-Wnrvo")
+#pragma clang diagnostic ignored "-Wnrvo"
+#endif
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#pragma clang diagnostic ignored "-Wdeprecated-redundant-constexpr-static-def"
+#if __has_warning("-Wvariadic-macro-arguments-omitted")
+#pragma clang diagnostic ignored "-Wvariadic-macro-arguments-omitted"
+#endif
+#pragma clang diagnostic ignored "-Wunused-result"
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma clang diagnostic ignored "-Wexpansion-to-defined"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+
+#include "lumex/LumexExport.hpp"
+
+#include <string>
+
+#include "lumex/core/environment/LumexEnvironment"
+#include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/core/utility/LumexUtility"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
+
+namespace lumex // NOLINT(modernize-concat-nested-namespaces)
+{
+namespace core
+{
+namespace temporary
+{
+namespace tmp
+{
+/**
+ * @brief RAII wrapper for temporary directory management
+ * @details Automatically removes temporary directory when destroyed
+ */
+class LUMEX_API temporary_directory
+{
+public:
+  temporary_directory () : m_valid (false) {}
+  explicit temporary_directory (lumex::path const &path);
+  ~temporary_directory ();
+
+  // Non-copyable, movable
+  temporary_directory (temporary_directory const &) = delete;
+  temporary_directory &operator= (temporary_directory const &) = delete;
+
+  temporary_directory (temporary_directory &&other) LUMEX_NOEXCEPT;
+  temporary_directory &operator= (temporary_directory &&other) LUMEX_NOEXCEPT;
+
+  lumex::path const &
+  path () const
+  {
+    return m_path;
+  }
+  bool
+  is_valid () const
+  {
+    return m_valid;
+  }
+  void release (); // Don't auto-remove on destruction
+
+private:
+  lumex::path m_path; ///< Path to the temporary directory.
+  bool m_valid;       ///< Flag indicating if the temporary directory is valid.
+};
+
+/**
+ * @brief RAII wrapper for temporary file management
+ * @details Automatically removes temporary file when destroyed
+ */
+class LUMEX_API temporary_file
+{
+public:
+  temporary_file () : m_valid (false) {}
+  explicit temporary_file (lumex::path const &path);
+  ~temporary_file ();
+
+  // Non-copyable, movable
+  temporary_file (temporary_file const &) = delete;
+  temporary_file &operator= (temporary_file const &) = delete;
+
+  temporary_file (temporary_file &&other) LUMEX_NOEXCEPT;
+  temporary_file &operator= (temporary_file &&other) LUMEX_NOEXCEPT;
+
+  lumex::path const &
+  path () const
+  {
+    return m_path;
+  }
+  bool
+  is_valid () const
+  {
+    return m_valid;
+  }
+  void release (); // Don't auto-remove on destruction
+
+private:
+  lumex::path m_path;
+  bool m_valid;
+};
+
+class LUMEX_API lumex_temporary
+{
+public:
+  /**
+   * @brief Returns the path to the temporary directory.
+   * @return The path to the temporary directory.
+   */
+  static lumex::path get_temp_directory_path ();
+
+  /**
+   * @brief Creates a temporary directory with optional name prefix
+   * @param name Prefix for directory name (can be empty)
+   * @return filesystem_result containing temporary_directory on success
+   */
+  static lumex::filesystem_result<temporary_directory>
+  create_temp_directory (std::string const &name = std::string ());
+
+  /**
+   * @brief Removes a temporary directory
+   * @param path Path to directory to remove
+   * @return filesystem_result indicating success/failure
+   */
+  static lumex::filesystem_result<void>
+  remove_temp_directory (lumex::path const &path);
+
+  /**
+   * @brief Creates a temporary file with optional name prefix
+   * @param name Prefix for file name (can be empty)
+   * @return filesystem_result containing temporary_file on success
+   */
+  static lumex::filesystem_result<temporary_file>
+  create_temp_file (std::string const &name = std::string ());
+
+  /**
+   * @brief Removes a temporary file
+   * @param path Path to file to remove
+   * @return filesystem_result indicating success/failure
+   */
+  static lumex::filesystem_result<void>
+  remove_temp_file (lumex::path const &path);
+
+  /**
+   * @brief Generate unique temporary name with prefix
+   * @param prefix Optional prefix for the name
+   * @return Unique string suitable for temporary files/directories
+   */
+  static std::string generate_temp_name (std::string const &prefix
+                                         = std::string ());
+
+private:
+  // Helper methods
+  static std::string _generate_random_suffix ();
+  static bool _ensure_temp_directory_exists (lumex::path const &temp_dir);
+};
+} // namespace core
+} // namespace tmp
+} // namespace temporary
+} // namespace lumex
+
+using temporary_file = lumex::core::temporary::tmp::temporary_file;
+using temporary_directory = lumex::core::temporary::tmp::temporary_directory;
+
+using lumex_temporary = lumex::core::temporary::tmp::lumex_temporary;
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
+
+#endif // !LUMEX_CORE_TEMPORARY_TMP_HPP

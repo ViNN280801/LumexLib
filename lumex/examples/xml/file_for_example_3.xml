@@ -1,0 +1,1419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemGroup Label="ProjectConfigurations">
+        <ProjectConfiguration Include="Debug|ARM64">
+            <Configuration>Debug</Configuration>
+            <Platform>ARM64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|Win32">
+            <Configuration>Debug</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|ARM64">
+            <Configuration>Release</Configuration>
+            <Platform>ARM64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|Win32">
+            <Configuration>Release</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|x64">
+            <Configuration>Debug</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|x64">
+            <Configuration>Release</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+    </ItemGroup>
+    <PropertyGroup Label="Globals">
+        <VCProjectVersion>16.0</VCProjectVersion>
+        <Keyword>Win32Proj</Keyword>
+        <ProjectGuid>{efe8ddda-def8-4d4a-bee6-bf52a34ad270}</ProjectGuid>
+        <RootNamespace>PeakExpertNoGUI</RootNamespace>
+        <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <UseDebugLibraries>true</UseDebugLibraries>
+        <PlatformToolset>v142</PlatformToolset>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <UseDebugLibraries>true</UseDebugLibraries>
+        <PlatformToolset>v142</PlatformToolset>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <UseDebugLibraries>false</UseDebugLibraries>
+        <PlatformToolset>v142</PlatformToolset>
+        <WholeProgramOptimization>true</WholeProgramOptimization>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <UseDebugLibraries>false</UseDebugLibraries>
+        <PlatformToolset>v143</PlatformToolset>
+        <WholeProgramOptimization>true</WholeProgramOptimization>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <UseDebugLibraries>true</UseDebugLibraries>
+        <PlatformToolset>v143</PlatformToolset>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <UseDebugLibraries>false</UseDebugLibraries>
+        <PlatformToolset>v143</PlatformToolset>
+        <WholeProgramOptimization>true</WholeProgramOptimization>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+    <ImportGroup Label="ExtensionSettings">
+    </ImportGroup>
+    <ImportGroup Label="Shared">
+    </ImportGroup>
+    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    </ImportGroup>
+    <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    </ImportGroup>
+    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    </ImportGroup>
+    <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    </ImportGroup>
+    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    </ImportGroup>
+    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    </ImportGroup>
+    <PropertyGroup Label="UserMacros" />
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+        <LinkIncremental>false</LinkIncremental>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+        <LinkIncremental>false</LinkIncremental>
+        <LibraryPath>D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\PxCalc;.;$(LibraryPath)</LibraryPath>
+    </PropertyGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <SDLCheck>true</SDLCheck>
+            <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <ConformanceMode>true</ConformanceMode>
+            <AdditionalIncludeDirectories>.;../;F:\vcpkg\vcpkg\installed\x86-windows\include;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <LanguageStandard>stdcpp20</LanguageStandard>
+            <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+        </ClCompile>
+        <Link>
+            <SubSystem>Console</SubSystem>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>InstrumentBase\DChannel.lib;PXCalc\PXCalc.lib;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\lib\rabbitmq.4.lib;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\lib\SimpleAmqpClient.7.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <AdditionalOptions>/sdl /w34996 %(AdditionalOptions)</AdditionalOptions>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <SDLCheck>true</SDLCheck>
+            <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <ConformanceMode>true</ConformanceMode>
+            <AdditionalIncludeDirectories>.;../;F:\vcpkg\vcpkg\installed\x86-windows\include;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <LanguageStandard>stdcpp20</LanguageStandard>
+            <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+        </ClCompile>
+        <Link>
+            <SubSystem>Console</SubSystem>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>InstrumentBase\DChannel.lib;PXCalc\PXCalc.lib;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\lib\rabbitmq.4.lib;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\lib\SimpleAmqpClient.7.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <AdditionalOptions>/sdl /w34996 %(AdditionalOptions)</AdditionalOptions>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <FunctionLevelLinking>true</FunctionLevelLinking>
+            <IntrinsicFunctions>true</IntrinsicFunctions>
+            <SDLCheck>
+            </SDLCheck>
+            <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <ConformanceMode>true</ConformanceMode>
+            <AdditionalIncludeDirectories>.;F:\vcpkg\vcpkg\installed\x86-windows\include;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+            <LanguageStandard>stdcpp20</LanguageStandard>
+        </ClCompile>
+        <Link>
+            <SubSystem>Console</SubSystem>
+            <EnableCOMDATFolding>true</EnableCOMDATFolding>
+            <OptimizeReferences>true</OptimizeReferences>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>InstrumentBase\DChannel.lib;PXCalc\PXCalc.lib;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\lib\rabbitmq.4.lib;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\lib\SimpleAmqpClient.7.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <AdditionalOptions>/sdl /w34996 %(AdditionalOptions)</AdditionalOptions>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <FunctionLevelLinking>true</FunctionLevelLinking>
+            <IntrinsicFunctions>true</IntrinsicFunctions>
+            <SDLCheck>
+            </SDLCheck>
+            <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <ConformanceMode>true</ConformanceMode>
+            <AdditionalIncludeDirectories>.;F:\vcpkg\vcpkg\installed\x86-windows\include;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+            <LanguageStandard>stdcpp20</LanguageStandard>
+        </ClCompile>
+        <Link>
+            <SubSystem>Console</SubSystem>
+            <EnableCOMDATFolding>true</EnableCOMDATFolding>
+            <OptimizeReferences>true</OptimizeReferences>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>InstrumentBase\DChannel.lib;PXCalc\PXCalc.lib;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\lib\rabbitmq.4.lib;D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\lib\SimpleAmqpClient.7.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <AdditionalOptions>/sdl /w34996 %(AdditionalOptions)</AdditionalOptions>
+            <AdditionalLibraryDirectories>D:\Develop\LIMS_NewPickExpertWeb\ProgectFiles\PEAK_EXPERT_WEB\BusinessLogic\PeakExpertNoGUI\PeakExpertNoGUI\PxCalc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <SDLCheck>true</SDLCheck>
+            <PreprocessorDefinitions>_DEBUG;_CONSOLE; _CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <ConformanceMode>true</ConformanceMode>
+            <LanguageStandard>stdcpp20</LanguageStandard>
+            <LanguageStandard_C>stdc17</LanguageStandard_C>
+            <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\spdlog;$(BOOST_ROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <MultiProcessorCompilation>true</MultiProcessorCompilation>
+            <PrecompiledHeader>NotUsing</PrecompiledHeader>
+        </ClCompile>
+        <Link>
+            <SubSystem>Console</SubSystem>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>$(ProjectDir)\InstrumentBase\DChannel.lib;$(ProjectDir)\PxCalc\PXCalc.lib;$(ProjectDir)\lib\SimpleAmqpClient.7.lib;$(ProjectDir)\lib\rabbitmq.4.lib;$(ProjectDir)\libiconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <AdditionalLibraryDirectories>C:\local\boost_1_85_0\lib64-msvc-14.3;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <FunctionLevelLinking>true</FunctionLevelLinking>
+            <IntrinsicFunctions>true</IntrinsicFunctions>
+            <SDLCheck>true</SDLCheck>
+            <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <ConformanceMode>true</ConformanceMode>
+            <LanguageStandard>stdcpp20</LanguageStandard>
+            <LanguageStandard_C>stdc17</LanguageStandard_C>
+            <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\spdlog;$(BOOST_ROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <MultiProcessorCompilation>true</MultiProcessorCompilation>
+            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+            <SupportJustMyCode>false</SupportJustMyCode>
+            <Optimization>MaxSpeed</Optimization>
+            <WholeProgramOptimization>true</WholeProgramOptimization>
+            <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+            <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+            <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+        </ClCompile>
+        <Link>
+            <SubSystem>Console</SubSystem>
+            <EnableCOMDATFolding>true</EnableCOMDATFolding>
+            <OptimizeReferences>true</OptimizeReferences>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>$(ProjectDir)\InstrumentBase\DChannel.lib;$(ProjectDir)\PxCalc\PXCalc.lib;$(ProjectDir)\lib\SimpleAmqpClient.7.lib;$(ProjectDir)\lib\rabbitmq.4.lib;$(ProjectDir)\lib\libiconv.lib;$(ProjectDir)\lib\fmt.lib;$(ProjectDir)\lib\spdlog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+        </Link>
+        <PreBuildEvent>
+            <Command>call "$(ProjectDir)generate_build_date.bat"</Command>
+        </PreBuildEvent>
+    </ItemDefinitionGroup>
+    <ItemGroup>
+        <ClCompile Include="AsyncTaskQueue.cpp" />
+        <ClCompile Include="AutosamplerProgramHelper.cpp" />
+        <ClCompile Include="AuxiliaryCurve.cpp" />
+        <ClCompile Include="CalibrationAddPointHelper.cpp" />
+        <ClCompile Include="CalibrationCheckPanel.cpp" />
+        <ClCompile Include="CalibrationCreateAMQP.cpp" />
+        <ClCompile Include="CalibrationCurve.cpp" />
+        <ClCompile Include="CalibrationDataDocument.cpp" />
+        <ClCompile Include="CalibrationDataController.cpp" />
+        <ClCompile Include="CalibrationDataView.cpp" />
+        <ClCompile Include="CalibrationInfo.cpp" />
+        <ClCompile Include="CalibrationParametersCheckAMQP.cpp" />
+        <ClCompile Include="CalibrationPassportPanel.cpp" />
+        <ClCompile Include="CalibrationPointsPanel.cpp" />
+        <ClCompile Include="CalibrationReportPanel.cpp" />
+        <ClCompile Include="CalibrationSubstanceInfo.cpp" />
+        <ClCompile Include="CalibrationSubstancesPanel.cpp" />
+        <ClCompile Include="CheckSumAMQP.cpp" />
+        <ClCompile Include="ChromatographControlPanel.cpp" />
+        <ClCompile Include="ChromatographicCalculatedCurve.cpp" />
+        <ClCompile Include="ChromatographicController.cpp" />
+        <ClCompile Include="ChromatographicDocument.cpp" />
+        <ClCompile Include="ChromatographicProgramPanel.cpp" />
+        <ClCompile Include="ChromatographicProgramPanelFluorat.cpp" />
+        <ClCompile Include="ChromatographicProgramPanelSimple.cpp" />
+        <ClCompile Include="ChromatographicProgramPanelSpFl.cpp" />
+        <ClCompile Include="ChromatographicProgramPanelSpPh.cpp" />
+        <ClCompile Include="ChromatographicView.cpp" />
+        <ClCompile Include="ChromatographStatePanel.cpp" />
+        <ClCompile Include="CollectionCurve.cpp" />
+        <ClCompile Include="CollectionCurveArray.cpp" />
+        <ClCompile Include="CollectionDocument.cpp" />
+        <ClCompile Include="CollectionFrame.cpp" />
+        <ClCompile Include="CollectionResultsPanel.cpp" />
+        <ClCompile Include="CollectionView.cpp" />
+        <ClCompile Include="ComboBoxToolbar.cpp" />
+        <ClCompile Include="ConcentrationParametersAMQP.cpp" />
+        <ClCompile Include="Controls\BitmaskListBox.cpp" />
+        <ClCompile Include="Controls\ColorStatic.cpp" />
+        <ClCompile Include="Controls\CurveListBox.cpp" />
+        <ClCompile Include="Controls\CurveStyleComboBox.cpp" />
+        <ClCompile Include="Controls\DropDownButton.cpp" />
+        <ClCompile Include="Controls\EditableGridCtrl.cpp" />
+        <ClCompile Include="Controls\FilesListCtrl.cpp" />
+        <ClCompile Include="Controls\FilterEdit.cpp" />
+        <ClCompile Include="Controls\FloatSpinButton.cpp" />
+        <ClCompile Include="Controls\FloatValidator.cpp" />
+        <ClCompile Include="Controls\GridComboBox.cpp" />
+        <ClCompile Include="Controls\GridComboBoxChildEdit.cpp" />
+        <ClCompile Include="Controls\GridCtrl.cpp" />
+        <ClCompile Include="Controls\GridCtrlExt.cpp" />
+        <ClCompile Include="Controls\GridEdit.cpp" />
+        <ClCompile Include="Controls\HeaderCtrlExt.cpp" />
+        <ClCompile Include="Controls\ImageComboBox.cpp" />
+        <ClCompile Include="Controls\IntegerValidator.cpp" />
+        <ClCompile Include="Controls\IpAddressValidator.cpp" />
+        <ClCompile Include="Controls\ListBoxExt.cpp" />
+        <ClCompile Include="Controls\NumberValidator.cpp" />
+        <ClCompile Include="Controls\SmartComboBox.cpp" />
+        <ClCompile Include="Controls\TabbedPaneExt.cpp" />
+        <ClCompile Include="Controls\TextValidator.cpp" />
+        <ClCompile Include="Controls\ToolBarExtended.cpp" />
+        <ClCompile Include="Controls\TrackingToolTip.cpp" />
+        <ClCompile Include="CPreviewFrame.cpp" />
+        <ClCompile Include="CTimerCP.cpp" />
+        <ClCompile Include="DialogsAPI\BrokenConnectionAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\ChromatogramPreviewAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\ComOpenErrorAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\CurvePropertiesAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\CustomFileAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\DataChannelStatisticAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\DialogExt.cpp" />
+        <ClCompile Include="DialogsAPI\OperatorAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\ProgressAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\SelectFoldersAMQP.cpp" />
+        <ClCompile Include="DialogsAPI\SerialPortAMQP.cpp" />
+        <ClCompile Include="Document.cpp" />
+        <ClCompile Include="FilesListPanel.cpp" />
+        <ClCompile Include="FiltrationParametersAMQP.cpp" />
+        <ClCompile Include="FindFile.cpp" />
+        <ClCompile Include="FluoratFiltersDialog.cpp" />
+        <ClCompile Include="GlobalSettingsAMQP.cpp" />
+        <ClCompile Include="IdentificationHelper.cpp" />
+        <ClCompile Include="IdentificationParametersAMQP.cpp" />
+        <ClCompile Include="Instrument\Autosampler.cpp" />
+        <ClCompile Include="Instrument\AutosamplerAMQP.cpp" />
+        <ClCompile Include="Instrument\AutosamplerLAS3620.cpp" />
+        <ClCompile Include="Instrument\ChromatographicFilesRW_AMQP.cpp" />
+        <ClCompile Include="Instrument\ChromatographicMeasurementAMQP.cpp" />
+        <ClCompile Include="Instrument\ChromatographicProgramFluorat.cpp" />
+        <ClCompile Include="Instrument\ChromatographicProgramSpFl.cpp" />
+        <ClCompile Include="Instrument\Degasser.cpp" />
+        <ClCompile Include="Instrument\DetectorAMQP.cpp" />
+        <ClCompile Include="Instrument\ExternalMonochromator.cpp" />
+        <ClCompile Include="Instrument\FluorimetricDetector.cpp" />
+        <ClCompile Include="Instrument\MainAMQP.cpp" />
+        <ClCompile Include="Instrument\Panorama1.cpp" />
+        <ClCompile Include="Instrument\Panorama2.cpp" />
+        <ClCompile Include="Instrument\PhotometricDetector.cpp" />
+        <ClCompile Include="Instrument\PitonAMQP.cpp" />
+        <ClCompile Include="Instrument\ProgramData.cpp" />
+        <ClCompile Include="Instrument\SpectroscopicCurve.cpp" />
+        <ClCompile Include="Instrument\SpectroscopicProgramSpFl.cpp" />
+        <ClCompile Include="Instrument\SpectroscopicProgramSpPh.cpp" />
+        <ClCompile Include="Instrument\ThermostatAMQP.cpp" />
+        <ClCompile Include="IntegrationParametersAMQP.cpp" />
+        <ClCompile Include="JsonChromatogramPassportHandler.cpp" />
+        <ClCompile Include="LicenseAgreement.cpp" />
+        <ClCompile Include="LoggerManager.cpp" />
+        <ClCompile Include="Math\ExpressionParameter.cpp" />
+        <ClCompile Include="Math\ExpressionParser.cpp" />
+        <ClCompile Include="Math\LinearSystemSolver.cpp" />
+        <ClCompile Include="Math\NormalizedCurve.cpp" />
+        <ClCompile Include="Math\WaveletTool.cpp" />
+        <ClCompile Include="MeasurementResultsPanel.cpp" />
+        <ClCompile Include="NodesConnectionAMQP.cpp" />
+        <ClCompile Include="PanoramaDiagnosticsPanel.cpp" />
+        <ClCompile Include="PdfWriter.cpp" />
+        <ClCompile Include="PeakExpertDocTemplate.cpp" />
+        <ClCompile Include="DialogsAPI\InstrumentErrorAMQP.cpp" />
+        <ClCompile Include="FirmwareAMQP.cpp" />
+        <ClCompile Include="InstrumentBase\InclomigMessage.cpp" />
+        <ClCompile Include="InstrumentBase\Instrument.cpp" />
+        <ClCompile Include="InstrumentBase\MasterInstrument.cpp" />
+        <ClCompile Include="InstrumentBase\MeasuredData.cpp" />
+        <ClCompile Include="InstrumentBase\MeasurementProgram.cpp" />
+        <ClCompile Include="InstrumentBase\OutgoingMessage.cpp" />
+        <ClCompile Include="Instrument\Chromatograph.cpp" />
+        <ClCompile Include="Instrument\ChromatographicCurve.cpp" />
+        <ClCompile Include="Instrument\ChromatographicProgram.cpp" />
+        <ClCompile Include="Instrument\ChromatographicProgramSpPh.cpp" />
+        <ClCompile Include="Instrument\ChromatographicProgramStage.cpp" />
+        <ClCompile Include="Instrument\ChromatographStateData.cpp" />
+        <ClCompile Include="Instrument\GradientProgramData.cpp" />
+        <ClCompile Include="Instrument\GradientProgramStage.cpp" />
+        <ClCompile Include="Instrument\Piton.cpp" />
+        <ClCompile Include="Instrument\PumpController.cpp" />
+        <ClCompile Include="Instrument\Spectrofluorimeter.cpp" />
+        <ClCompile Include="Instrument\Spectrophotometer.cpp" />
+        <ClCompile Include="Instrument\SpectrophotometricDetector.cpp" />
+        <ClCompile Include="Instrument\SpectrophotometricDetector2.cpp" />
+        <ClCompile Include="Instrument\SpectroscopicProgram.cpp" />
+        <ClCompile Include="Instrument\Thermostat.cpp" />
+        <ClCompile Include="Instrument\ThreeChannelData.cpp" />
+        <ClCompile Include="Instrument\VirtualPump.cpp" />
+        <ClCompile Include="Math\CalculatedCurve.cpp" />
+        <ClCompile Include="Math\CalculatedCurveExt.cpp" />
+        <ClCompile Include="Math\ParabolicCurve.cpp" />
+        <ClCompile Include="MeasurementTemplate.cpp" />
+        <ClCompile Include="PassportLiquidPanel.cpp" />
+        <ClCompile Include="PassportPanel.cpp" />
+        <ClCompile Include="PeakExpertApp.cpp" />
+        <ClCompile Include="PeakExpertHTMLDoc.cpp" />
+        <ClCompile Include="PeakExpertHTMLView.cpp" />
+        <ClCompile Include="PeakExpertNoGUI.cpp" />
+        <ClCompile Include="MainController.cpp" />
+        <ClCompile Include="PeakInfo.cpp" />
+        <ClCompile Include="PeakIntegrator.cpp" />
+        <ClCompile Include="PeakLabelsDialog.cpp" />
+        <ClCompile Include="PeaksArray.cpp" />
+        <ClCompile Include="PeaksTablePanel.cpp" />
+        <ClCompile Include="Plot\DataPointArray.cpp" />
+        <ClCompile Include="Plot\DataValueArray.cpp" />
+        <ClCompile Include="Plot\Grids.cpp" />
+        <ClCompile Include="Plot\HorizontalAxis.cpp" />
+        <ClCompile Include="Plot\PlotAxis.cpp" />
+        <ClCompile Include="Plot\PlotController.cpp" />
+        <ClCompile Include="Plot\PlotCurve.cpp" />
+        <ClCompile Include="Plot\PlotDocument.cpp" />
+        <ClCompile Include="Plot\PlotMark.cpp" />
+        <ClCompile Include="Plot\PlotMarkerWindow.cpp" />
+        <ClCompile Include="Plot\PlotView.cpp" />
+        <ClCompile Include="Plot\VerticalAxis.cpp" />
+        <ClCompile Include="PreviewChromatographicFrame.cpp" />
+        <ClCompile Include="ProjectListCtrl.cpp" />
+        <ClCompile Include="ProjFilesArray.cpp" />
+        <ClCompile Include="Pump\BrokenUnitConnectionAMQP.cpp" />
+        <ClCompile Include="Pump\CommonProgramAMQP.cpp" />
+        <ClCompile Include="Pump\DegasserAMQP.cpp" />
+        <ClCompile Include="Pump\GradientParametersAMQP.cpp" />
+        <ClCompile Include="Pump\GradientProgramAMQP.cpp" />
+        <ClCompile Include="Pump\IsocraticDoubleAMQP.cpp" />
+        <ClCompile Include="Pump\IsocraticParametersAMQP.cpp" />
+        <ClCompile Include="Pump\PumpBaseAMQP.cpp" />
+        <ClCompile Include="Pump\PumpGradientAMQP.cpp" />
+        <ClCompile Include="Pump\PumpIsocraticAMQP.cpp" />
+        <ClCompile Include="Pump\PumpParametersAMQP.cpp" />
+        <ClCompile Include="Pump\SelectPumpConnectionAMQP.cpp" />
+        <ClCompile Include="Pump\ThermostatDialog.cpp" />
+        <ClCompile Include="ReportDocument.cpp" />
+        <ClCompile Include="ReportPanel.cpp" />
+        <ClCompile Include="ReportSettingsAMQP.cpp" />
+        <ClCompile Include="ReportView.cpp" />
+        <ClCompile Include="RtfFileExt.cpp" />
+        <ClCompile Include="SampleInfoAMQP.cpp" />
+        <ClCompile Include="SelectInstrumentTypeAMQP.cpp" />
+        <ClCompile Include="Service.cpp" />
+        <ClCompile Include="SignalPanel.cpp" />
+        <ClCompile Include="SmoothingParametersAMQP.cpp" />
+        <ClCompile Include="ConfigureAMQP.cpp" />
+        <ClCompile Include="SpectrophotometerDiagnosticsPanel.cpp" />
+        <ClCompile Include="SpectroscopicDocument.cpp" />
+        <ClCompile Include="SpectroscopicController.cpp" />
+        <ClCompile Include="SpectroscopicMeasurementPanel.cpp" />
+        <ClCompile Include="SpectroscopicResultsPanel.cpp" />
+        <ClCompile Include="StartMeasurementAMQP.cpp" />
+        <ClCompile Include="TemplatePropertySheet.cpp" />
+        <ClCompile Include="User\BorlandReader.cpp" />
+        <ClCompile Include="User\Clipboard.cpp" />
+        <ClCompile Include="User\Journal.cpp" />
+        <ClCompile Include="User\MeasurementController.cpp" />
+        <ClCompile Include="User\MeasurementDocument.cpp" />
+        <ClCompile Include="User\MeasurementPanel.cpp" />
+        <ClCompile Include="User\ProcessingCurveArray.cpp" />
+        <ClCompile Include="User\RtfFile.cpp" />
+        <ClCompile Include="User\UniversalDataFile.cpp" />
+    </ItemGroup>
+    <ItemGroup>
+        <ClInclude Include="AsyncTaskQueue.h" />
+        <ClInclude Include="AutosamplerProgramHelper.h" />
+        <ClInclude Include="AuxiliaryCurve.h" />
+        <ClInclude Include="BuildDate.h" />
+        <ClInclude Include="CalibrationAddPointHelper.h" />
+        <ClInclude Include="CalibrationCheckPanel.h" />
+        <ClInclude Include="CalibrationCreateAMQP.h" />
+        <ClInclude Include="CalibrationCurve.h" />
+        <ClInclude Include="CalibrationDataDocument.h" />
+        <ClInclude Include="CalibrationDataController.h" />
+        <ClInclude Include="CalibrationDataView.h" />
+        <ClInclude Include="CalibrationInfo.h" />
+        <ClInclude Include="CalibrationParametersCheckAMQP.h" />
+        <ClInclude Include="CalibrationPassportPanel.h" />
+        <ClInclude Include="CalibrationPointsPanel.h" />
+        <ClInclude Include="CalibrationReportPanel.h" />
+        <ClInclude Include="CalibrationSubstanceInfo.h" />
+        <ClInclude Include="CalibrationSubstancesPanel.h" />
+        <ClInclude Include="CArchiveCPFW.h" />
+        <ClInclude Include="CheckSumAMQP.h" />
+        <ClInclude Include="ChromatographControlPanel.h" />
+        <ClInclude Include="ChromatographicCalculatedCurve.h" />
+        <ClInclude Include="ChromatographicController.h" />
+        <ClInclude Include="ChromatographicDocument.h" />
+        <ClInclude Include="ChromatographicProgramPanel.h" />
+        <ClInclude Include="ChromatographicProgramPanelFluorat.h" />
+        <ClInclude Include="ChromatographicProgramPanelSimple.h" />
+        <ClInclude Include="ChromatographicProgramPanelSpFl.h" />
+        <ClInclude Include="ChromatographicProgramPanelSpPh.h" />
+        <ClInclude Include="ChromatographicView.h" />
+        <ClInclude Include="ChromatographStatePanel.h" />
+        <ClInclude Include="ClassPlaceholders.h" />
+        <ClInclude Include="CollectionCurve.h" />
+        <ClInclude Include="CollectionCurveArray.h" />
+        <ClInclude Include="CollectionDocument.h" />
+        <ClInclude Include="CollectionController.h" />
+        <ClInclude Include="CollectionResultsPanel.h" />
+        <ClInclude Include="CollectionView.h" />
+        <ClInclude Include="Colors.h" />
+        <ClInclude Include="ComboBoxToolbar.h" />
+        <ClInclude Include="ConcentrationParametersAMQP.h" />
+        <ClInclude Include="ConfigureAMQP.h" />
+        <ClInclude Include="Controls\BitmaskListBox.h" />
+        <ClInclude Include="Controls\ColorStatic.h" />
+        <ClInclude Include="Controls\CurveListBox.h" />
+        <ClInclude Include="Controls\CurveStyleComboBox.h" />
+        <ClInclude Include="Controls\DropDownButton.h" />
+        <ClInclude Include="Controls\EditableGridCtrl.h" />
+        <ClInclude Include="Controls\FilesListCtrl.h" />
+        <ClInclude Include="Controls\FilterEdit.h" />
+        <ClInclude Include="Controls\FloatSpinButton.h" />
+        <ClInclude Include="Controls\FloatValidator.h" />
+        <ClInclude Include="Controls\GridComboBox.h" />
+        <ClInclude Include="Controls\GridComboBoxChildEdit.h" />
+        <ClInclude Include="Controls\GridCtrl.h" />
+        <ClInclude Include="Controls\GridCtrlExt.h" />
+        <ClInclude Include="Controls\GridEdit.h" />
+        <ClInclude Include="Controls\HeaderCtrlExt.h" />
+        <ClInclude Include="Controls\ImageComboBox.h" />
+        <ClInclude Include="Controls\IntegerValidator.h" />
+        <ClInclude Include="Controls\IpAddressValidator.h" />
+        <ClInclude Include="Controls\ListBoxExt.h" />
+        <ClInclude Include="Controls\NumberValidator.h" />
+        <ClInclude Include="Controls\SmartComboBox.h" />
+        <ClInclude Include="Controls\TabbedPaneExt.h" />
+        <ClInclude Include="Controls\TextValidator.h" />
+        <ClInclude Include="Controls\ToolBarExtended.h" />
+        <ClInclude Include="Controls\TrackingToolTip.h" />
+        <ClInclude Include="Controls\Validator.h" />
+        <ClInclude Include="CPreviewController.h" />
+        <ClInclude Include="CTimeCP.h" />
+        <ClInclude Include="CTimerCP.h" />
+        <ClInclude Include="DetectorAMQP.h" />
+        <ClInclude Include="DialogsAPI\BrokenConnectionAMQP.h" />
+        <ClInclude Include="DialogsAPI\ChromatogramPreviewAMQP.h" />
+        <ClInclude Include="DialogsAPI\ComOpenErrorAMQP.h" />
+        <ClInclude Include="DialogsAPI\CurvePropertiesAMQP.h" />
+        <ClInclude Include="DialogsAPI\CustomFileAMQP.h" />
+        <ClInclude Include="DialogsAPI\DataChannelStatisticAMQP.h" />
+        <ClInclude Include="DialogsAPI\DialogExt.h" />
+        <ClInclude Include="DialogsAPI\OperatorAMQP.h" />
+        <ClInclude Include="DialogsAPI\ProgressAMQP.h" />
+        <ClInclude Include="DialogsAPI\SelectFoldersAMQP.h" />
+        <ClInclude Include="DialogsAPI\SerialPortAMQP.h" />
+        <ClInclude Include="Document.h" />
+        <ClInclude Include="FilesListPanel.h" />
+        <ClInclude Include="FiltrationParametersAMQP.h" />
+        <ClInclude Include="FindFile.h" />
+        <ClInclude Include="Firmware.h" />
+        <ClInclude Include="FluoratFiltersDialog.h" />
+        <ClInclude Include="FstreamMfc.h" />
+        <ClInclude Include="GlobalSettingsAMQP.h" />
+        <ClInclude Include="Configure.h" />
+        <ClInclude Include="Instrument\AutosamplerAMQP.h" />
+        <ClInclude Include="Instrument\Capel3ErrorsStringsConstans.h" />
+        <ClInclude Include="Instrument\ChromatographicProgramFluorat.h" />
+        <ClInclude Include="Instrument\ChromatographicProgramSpFl.h" />
+        <ClInclude Include="Instrument\ExternalMonochromator.h" />
+        <ClInclude Include="Instrument\FluoratConstants.h" />
+        <ClInclude Include="Instrument\Panorama1Constants.h" />
+        <ClInclude Include="Instrument\Panorama2Constants.h" />
+        <ClInclude Include="Instrument\Panorama2ErrorsStringContainer.h" />
+        <ClInclude Include="LoggerManager.h" />
+        <ClInclude Include="NodesConnectionAMQP.h" />
+        <ClInclude Include="IdentificationHelper.h" />
+        <ClInclude Include="IdentificationParametersAMQP.h" />
+        <ClInclude Include="include\amqp.h" />
+        <ClInclude Include="include\amqp_framing.h" />
+        <ClInclude Include="include\amqp_ssl_socket.h" />
+        <ClInclude Include="include\amqp_tcp_socket.h" />
+        <ClInclude Include="include\rabbitmq-c\amqp.h" />
+        <ClInclude Include="include\rabbitmq-c\export.h" />
+        <ClInclude Include="include\rabbitmq-c\framing.h" />
+        <ClInclude Include="include\rabbitmq-c\ssl_socket.h" />
+        <ClInclude Include="include\rabbitmq-c\tcp_socket.h" />
+        <ClInclude Include="include\SimpleAmqpClient\AmqpException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\AmqpLibraryException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\AmqpResponseLibraryException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\BadUriException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\BasicMessage.h" />
+        <ClInclude Include="include\SimpleAmqpClient\Bytes.h" />
+        <ClInclude Include="include\SimpleAmqpClient\Channel.h" />
+        <ClInclude Include="include\SimpleAmqpClient\ChannelImpl.h" />
+        <ClInclude Include="include\SimpleAmqpClient\ConnectionClosedException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\ConsumerCancelledException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\ConsumerTagNotFoundException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\Envelope.h" />
+        <ClInclude Include="include\SimpleAmqpClient\MessageRejectedException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\MessageReturnedException.h" />
+        <ClInclude Include="include\SimpleAmqpClient\SimpleAmqpClient.h" />
+        <ClInclude Include="include\SimpleAmqpClient\Table.h" />
+        <ClInclude Include="include\SimpleAmqpClient\TableImpl.h" />
+        <ClInclude Include="include\SimpleAmqpClient\Util.h" />
+        <ClInclude Include="include\SimpleAmqpClient\Version.h" />
+        <ClInclude Include="Instrument\Autosampler.h" />
+        <ClInclude Include="Instrument\AutosamplerLAS3620.h" />
+        <ClInclude Include="Instrument\ChromatographicFilesRW_AMQP.h" />
+        <ClInclude Include="Instrument\ChromatographicMeasurementAMQP.h" />
+        <ClInclude Include="Instrument\Degasser.h" />
+        <ClInclude Include="Instrument\DetectorAMQP.h" />
+        <ClInclude Include="Instrument\FluorimetricDetector.h" />
+        <ClInclude Include="Instrument\MainAMQP.h" />
+        <ClInclude Include="Instrument\Panorama1.h" />
+        <ClInclude Include="Instrument\Panorama2.h" />
+        <ClInclude Include="Instrument\PhotometricDetector.h" />
+        <ClInclude Include="Instrument\PitonAMQP.h" />
+        <ClInclude Include="Instrument\ProgramData.h" />
+        <ClInclude Include="Instrument\SpectroscopicCurve.h" />
+        <ClInclude Include="Instrument\SpectroscopicProgramSpFl.h" />
+        <ClInclude Include="Instrument\SpectroscopicProgramSpPh.h" />
+        <ClInclude Include="Instrument\ThermostatAMQP.h" />
+        <ClInclude Include="IntegrationParametersAMQP.h" />
+        <ClInclude Include="JsonChromatogramMeasurementHandler.h" />
+        <ClInclude Include="JsonChromatogramPassportHandler.h" />
+        <ClInclude Include="LicenseAgreement.h" />
+        <ClInclude Include="Math\ExpressionParameter.h" />
+        <ClInclude Include="Math\ExpressionParser.h" />
+        <ClInclude Include="Math\LinearSystemSolver.h" />
+        <ClInclude Include="Math\NormalizedCurve.h" />
+        <ClInclude Include="Math\WaveletTool.h" />
+        <ClInclude Include="MeasurementResultsPanel.h" />
+        <ClInclude Include="MFCApplicationHTMLView.h" />
+        <ClInclude Include="PanoramaDiagnosticsPanel.h" />
+        <ClInclude Include="PdfWriter.h" />
+        <ClInclude Include="PeakExpertDocTemplate.h" />
+        <ClInclude Include="PeakExpertApp.h" />
+        <ClInclude Include="DialogsAPI\DialogsResource.h" />
+        <ClInclude Include="DialogsAPI\InstrumentErrorAMQP.h" />
+        <ClInclude Include="FirmwareAMQP.h" />
+        <ClInclude Include="InstrumentBase\asio.hpp" />
+        <ClInclude Include="InstrumentBase\asio\any_completion_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\any_completion_handler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\any_io_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\append.hpp" />
+        <ClInclude Include="InstrumentBase\asio\associated_allocator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\associated_cancellation_slot.hpp" />
+        <ClInclude Include="InstrumentBase\asio\associated_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\associated_immediate_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\associator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\async_result.hpp" />
+        <ClInclude Include="InstrumentBase\asio\as_tuple.hpp" />
+        <ClInclude Include="InstrumentBase\asio\awaitable.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_datagram_socket.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_deadline_timer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_file.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_io_object.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_random_access_file.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_raw_socket.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_readable_pipe.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_seq_packet_socket.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_serial_port.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_signal_set.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_socket.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_socket_acceptor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_socket_iostream.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_socket_streambuf.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_streambuf.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_streambuf_fwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_stream_file.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_stream_socket.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_waitable_timer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\basic_writable_pipe.hpp" />
+        <ClInclude Include="InstrumentBase\asio\bind_allocator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\bind_cancellation_slot.hpp" />
+        <ClInclude Include="InstrumentBase\asio\bind_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\bind_immediate_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffered_read_stream.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffered_read_stream_fwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffered_stream.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffered_stream_fwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffered_write_stream.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffered_write_stream_fwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffers_iterator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\buffer_registration.hpp" />
+        <ClInclude Include="InstrumentBase\asio\cancellation_signal.hpp" />
+        <ClInclude Include="InstrumentBase\asio\cancellation_state.hpp" />
+        <ClInclude Include="InstrumentBase\asio\cancellation_type.hpp" />
+        <ClInclude Include="InstrumentBase\asio\completion_condition.hpp" />
+        <ClInclude Include="InstrumentBase\asio\compose.hpp" />
+        <ClInclude Include="InstrumentBase\asio\connect.hpp" />
+        <ClInclude Include="InstrumentBase\asio\connect_pipe.hpp" />
+        <ClInclude Include="InstrumentBase\asio\consign.hpp" />
+        <ClInclude Include="InstrumentBase\asio\coroutine.hpp" />
+        <ClInclude Include="InstrumentBase\asio\co_spawn.hpp" />
+        <ClInclude Include="InstrumentBase\asio\deadline_timer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\defer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\deferred.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detached.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\array.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\array_fwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\assert.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\atomic_count.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\base_from_cancellation_state.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\base_from_completion_cond.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\bind_handler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\blocking_executor_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\buffered_stream_storage.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\buffer_resize_guard.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\buffer_sequence_adapter.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\bulk_executor_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\call_stack.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\chrono.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\chrono_time_traits.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\completion_handler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\composed_work.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\concurrency_hint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\conditionally_enabled_event.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\conditionally_enabled_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\config.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\consuming_buffers.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\cstddef.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\cstdint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\date_time_fwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\deadline_timer_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\dependent_type.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\descriptor_ops.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\descriptor_read_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\descriptor_write_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\dev_poll_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\epoll_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\event.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\eventfd_select_interrupter.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\exception.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\executor_function.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\executor_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\fd_set_adapter.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\functional.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\future.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\gcc_arm_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\gcc_hppa_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\gcc_sync_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\gcc_x86_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\global.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\handler_alloc_helpers.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\handler_cont_helpers.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\handler_invoke_helpers.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\handler_tracking.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\handler_type_requirements.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\handler_work.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\hash_map.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\buffer_sequence_adapter.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\descriptor_ops.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\dev_poll_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\dev_poll_reactor.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\epoll_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\epoll_reactor.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\eventfd_select_interrupter.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\handler_tracking.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\io_uring_descriptor_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\io_uring_file_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\io_uring_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\io_uring_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\io_uring_socket_service_base.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\kqueue_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\kqueue_reactor.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\null_event.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\pipe_select_interrupter.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\posix_event.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\posix_mutex.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\posix_serial_port_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\posix_thread.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\posix_tss_ptr.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\reactive_descriptor_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\reactive_socket_service_base.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\resolver_service_base.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\scheduler.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\select_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\select_reactor.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\service_registry.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\service_registry.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\signal_set_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\socket_ops.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\socket_select_interrupter.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\strand_executor_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\strand_executor_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\strand_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\strand_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\thread_context.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\throw_error.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\timer_queue_ptime.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\timer_queue_set.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\winrt_ssocket_service_base.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\winrt_timer_scheduler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\winrt_timer_scheduler.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\winsock_init.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_event.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_iocp_file_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_iocp_handle_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_iocp_io_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_iocp_io_context.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_iocp_serial_port_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_iocp_socket_service_base.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_mutex.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_object_handle_service.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_static_mutex.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_thread.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\impl\win_tss_ptr.ipp" />
+        <ClInclude Include="InstrumentBase\asio\detail\initiate_defer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\initiate_dispatch.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\initiate_post.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_control.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_object_impl.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_descriptor_read_at_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_descriptor_read_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_descriptor_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_descriptor_write_at_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_descriptor_write_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_file_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_null_buffers_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_operation.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_accept_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_connect_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_recvfrom_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_recvmsg_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_recv_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_sendto_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_send_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_socket_service_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\io_uring_wait_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\is_buffer_sequence.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\is_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\keyword_tss_ptr.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\kqueue_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\limits.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\local_free_on_block_exit.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\macos_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\memory.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\noncopyable.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\non_const_lvalue.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_event.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_global.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_signal_blocker.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_socket_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_static_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_thread.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\null_tss_ptr.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\object_pool.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\old_win_sdk_compat.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\operation.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\op_queue.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\pipe_select_interrupter.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\pop_options.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_event.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_fd_set_adapter.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_global.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_serial_port_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_signal_blocker.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_static_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_thread.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\posix_tss_ptr.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\push_options.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_descriptor_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_null_buffers_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_accept_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_connect_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_recvfrom_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_recvmsg_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_recv_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_sendto_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_send_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_socket_service_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactive_wait_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactor_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\reactor_op_queue.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\recycling_allocator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\regex_fwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\resolver_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\resolver_service_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\resolve_endpoint_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\resolve_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\resolve_query_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\scheduler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\scheduler_operation.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\scheduler_task.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\scheduler_thread_info.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\scoped_lock.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\scoped_ptr.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\select_interrupter.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\select_reactor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\service_registry.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\signal_blocker.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\signal_handler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\signal_init.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\signal_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\signal_set_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\socket_holder.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\socket_ops.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\socket_option.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\socket_select_interrupter.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\socket_types.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\solaris_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\source_location.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\static_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\std_event.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\std_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\std_global.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\std_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\std_static_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\std_thread.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\strand_executor_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\strand_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\string_view.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\thread.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\thread_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\thread_group.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\thread_info_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\throw_error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\throw_exception.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\timer_queue.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\timer_queue_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\timer_queue_ptime.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\timer_queue_set.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\timer_scheduler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\timer_scheduler_fwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\tss_ptr.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\type_traits.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\utility.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\variadic_templates.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\wait_handler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\wait_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winapp_thread.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\wince_thread.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_async_manager.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_async_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_resolver_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_resolve_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_socket_connect_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_socket_recv_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_socket_send_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_ssocket_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_ssocket_service_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_timer_scheduler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winrt_utils.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\winsock_init.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_event.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_fd_set_adapter.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_fenced_block.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_global.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_file_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_handle_read_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_handle_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_handle_write_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_io_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_null_buffers_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_operation.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_overlapped_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_overlapped_ptr.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_serial_port_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_socket_accept_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_socket_connect_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_socket_recvfrom_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_socket_recvmsg_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_socket_recv_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_socket_send_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_socket_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_socket_service_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_thread_info.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_iocp_wait_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_object_handle_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_static_mutex.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_thread.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\win_tss_ptr.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\work_dispatcher.hpp" />
+        <ClInclude Include="InstrumentBase\asio\detail\wrapped_handler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\dispatch.hpp" />
+        <ClInclude Include="InstrumentBase\asio\error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\error_code.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\allocator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\any_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\bad_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\blocking.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\blocking_adaptation.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\bulk_execute.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\bulk_guarantee.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\connect.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\context_as.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\detail\as_invocable.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\detail\as_operation.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\detail\as_receiver.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\detail\bulk_sender.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\detail\submit_receiver.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\detail\void_receiver.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\execute.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\impl\bad_executor.ipp" />
+        <ClInclude Include="InstrumentBase\asio\execution\impl\receiver_invocation_error.ipp" />
+        <ClInclude Include="InstrumentBase\asio\execution\invocable_archetype.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\mapping.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\occupancy.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\operation_state.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\outstanding_work.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\prefer_only.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\receiver.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\receiver_invocation_error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\relationship.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\schedule.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\scheduler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\sender.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\set_done.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\set_error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\set_value.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\start.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution\submit.hpp" />
+        <ClInclude Include="InstrumentBase\asio\execution_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\executor_work_guard.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\append.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\as_single.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\as_tuple.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\awaitable_operators.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\basic_channel.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\basic_concurrent_channel.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\cancellation_condition.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\channel.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\channel_error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\channel_traits.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\concurrent_channel.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\coro.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\coro_traits.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\co_composed.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\co_spawn.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\deferred.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\channel_handler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\channel_message.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\channel_operation.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\channel_payload.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\channel_receive_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\channel_send_functions.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\channel_send_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\channel_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\coro_completion_handler.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\coro_promise_allocator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\has_signature.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\impl\channel_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\detail\partial_promise.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\impl\as_single.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\impl\channel_error.ipp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\impl\coro.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\impl\co_composed.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\impl\parallel_group.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\impl\promise.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\impl\use_coro.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\impl\use_promise.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\parallel_group.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\prepend.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\promise.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\use_coro.hpp" />
+        <ClInclude Include="InstrumentBase\asio\experimental\use_promise.hpp" />
+        <ClInclude Include="InstrumentBase\asio\file_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\generic\basic_endpoint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\generic\datagram_protocol.hpp" />
+        <ClInclude Include="InstrumentBase\asio\generic\detail\endpoint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\generic\detail\impl\endpoint.ipp" />
+        <ClInclude Include="InstrumentBase\asio\generic\raw_protocol.hpp" />
+        <ClInclude Include="InstrumentBase\asio\generic\seq_packet_protocol.hpp" />
+        <ClInclude Include="InstrumentBase\asio\generic\stream_protocol.hpp" />
+        <ClInclude Include="InstrumentBase\asio\handler_alloc_hook.hpp" />
+        <ClInclude Include="InstrumentBase\asio\handler_continuation_hook.hpp" />
+        <ClInclude Include="InstrumentBase\asio\handler_invoke_hook.hpp" />
+        <ClInclude Include="InstrumentBase\asio\high_resolution_timer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\any_completion_executor.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\any_io_executor.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\append.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\as_tuple.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\awaitable.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\buffered_read_stream.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\buffered_write_stream.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\cancellation_signal.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\connect.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\connect_pipe.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\connect_pipe.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\consign.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\co_spawn.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\deferred.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\detached.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\error.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\error_code.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\execution_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\execution_context.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\executor.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\handler_alloc_hook.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\io_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\io_context.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\multiple_exceptions.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\prepend.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\read.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\read_at.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\read_until.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\redirect_error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\serial_port_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\serial_port_base.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\spawn.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\src.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\system_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\system_context.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\system_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\thread_pool.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\thread_pool.ipp" />
+        <ClInclude Include="InstrumentBase\asio\impl\use_awaitable.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\use_future.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\write.hpp" />
+        <ClInclude Include="InstrumentBase\asio\impl\write_at.hpp" />
+        <ClInclude Include="InstrumentBase\asio\io_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\io_context_strand.hpp" />
+        <ClInclude Include="InstrumentBase\asio\io_service.hpp" />
+        <ClInclude Include="InstrumentBase\asio\io_service_strand.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\address.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\address_v4.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\address_v4_iterator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\address_v4_range.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\address_v6.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\address_v6_iterator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\address_v6_range.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\bad_address_cast.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\basic_endpoint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\basic_resolver.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\basic_resolver_entry.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\basic_resolver_iterator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\basic_resolver_query.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\basic_resolver_results.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\detail\endpoint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\detail\impl\endpoint.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ip\detail\socket_option.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\host_name.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\icmp.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\address.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\address.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\address_v4.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\address_v4.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\address_v6.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\address_v6.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\basic_endpoint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\host_name.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\network_v4.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\network_v4.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\network_v6.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\impl\network_v6.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ip\multicast.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\network_v4.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\network_v6.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\resolver_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\resolver_query_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\tcp.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\udp.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\unicast.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ip\v6_only.hpp" />
+        <ClInclude Include="InstrumentBase\asio\is_applicable_property.hpp" />
+        <ClInclude Include="InstrumentBase\asio\is_contiguous_iterator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\is_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\is_read_buffered.hpp" />
+        <ClInclude Include="InstrumentBase\asio\is_write_buffered.hpp" />
+        <ClInclude Include="InstrumentBase\asio\local\basic_endpoint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\local\connect_pair.hpp" />
+        <ClInclude Include="InstrumentBase\asio\local\datagram_protocol.hpp" />
+        <ClInclude Include="InstrumentBase\asio\local\detail\endpoint.hpp" />
+        <ClInclude Include="InstrumentBase\asio\local\detail\impl\endpoint.ipp" />
+        <ClInclude Include="InstrumentBase\asio\local\seq_packet_protocol.hpp" />
+        <ClInclude Include="InstrumentBase\asio\local\stream_protocol.hpp" />
+        <ClInclude Include="InstrumentBase\asio\multiple_exceptions.hpp" />
+        <ClInclude Include="InstrumentBase\asio\packaged_task.hpp" />
+        <ClInclude Include="InstrumentBase\asio\placeholders.hpp" />
+        <ClInclude Include="InstrumentBase\asio\posix\basic_descriptor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\posix\basic_stream_descriptor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\posix\descriptor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\posix\descriptor_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\posix\stream_descriptor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\post.hpp" />
+        <ClInclude Include="InstrumentBase\asio\prefer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\prepend.hpp" />
+        <ClInclude Include="InstrumentBase\asio\query.hpp" />
+        <ClInclude Include="InstrumentBase\asio\random_access_file.hpp" />
+        <ClInclude Include="InstrumentBase\asio\read.hpp" />
+        <ClInclude Include="InstrumentBase\asio\readable_pipe.hpp" />
+        <ClInclude Include="InstrumentBase\asio\read_at.hpp" />
+        <ClInclude Include="InstrumentBase\asio\read_until.hpp" />
+        <ClInclude Include="InstrumentBase\asio\recycling_allocator.hpp" />
+        <ClInclude Include="InstrumentBase\asio\redirect_error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\registered_buffer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\require.hpp" />
+        <ClInclude Include="InstrumentBase\asio\require_concept.hpp" />
+        <ClInclude Include="InstrumentBase\asio\serial_port.hpp" />
+        <ClInclude Include="InstrumentBase\asio\serial_port_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\signal_set.hpp" />
+        <ClInclude Include="InstrumentBase\asio\signal_set_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\socket_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\spawn.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\context_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\buffered_handshake_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\engine.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\handshake_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\impl\engine.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\impl\openssl_init.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\io.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\openssl_init.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\openssl_types.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\password_callback.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\read_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\shutdown_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\stream_core.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\verify_callback.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\detail\write_op.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\host_name_verification.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\impl\context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\impl\context.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\impl\error.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\impl\host_name_verification.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\impl\rfc2818_verification.ipp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\impl\src.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\rfc2818_verification.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\stream.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\stream_base.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\verify_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ssl\verify_mode.hpp" />
+        <ClInclude Include="InstrumentBase\asio\static_thread_pool.hpp" />
+        <ClInclude Include="InstrumentBase\asio\steady_timer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\strand.hpp" />
+        <ClInclude Include="InstrumentBase\asio\streambuf.hpp" />
+        <ClInclude Include="InstrumentBase\asio\stream_file.hpp" />
+        <ClInclude Include="InstrumentBase\asio\system_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\system_error.hpp" />
+        <ClInclude Include="InstrumentBase\asio\system_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\system_timer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\this_coro.hpp" />
+        <ClInclude Include="InstrumentBase\asio\thread.hpp" />
+        <ClInclude Include="InstrumentBase\asio\thread_pool.hpp" />
+        <ClInclude Include="InstrumentBase\asio\time_traits.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\bulk_execute_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\bulk_execute_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\connect_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\connect_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\equality_comparable.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\execute_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\execute_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\prefer_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\prefer_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\query_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\query_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\query_static_constexpr_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\require_concept_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\require_concept_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\require_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\require_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\schedule_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\schedule_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\set_done_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\set_done_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\set_error_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\set_error_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\set_value_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\set_value_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\start_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\start_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\static_query.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\static_require.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\static_require_concept.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\submit_free.hpp" />
+        <ClInclude Include="InstrumentBase\asio\traits\submit_member.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ts\buffer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ts\executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ts\internet.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ts\io_context.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ts\net.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ts\netfwd.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ts\socket.hpp" />
+        <ClInclude Include="InstrumentBase\asio\ts\timer.hpp" />
+        <ClInclude Include="InstrumentBase\asio\unyield.hpp" />
+        <ClInclude Include="InstrumentBase\asio\uses_executor.hpp" />
+        <ClInclude Include="InstrumentBase\asio\use_awaitable.hpp" />
+        <ClInclude Include="InstrumentBase\asio\use_future.hpp" />
+        <ClInclude Include="InstrumentBase\asio\version.hpp" />
+        <ClInclude Include="InstrumentBase\asio\wait_traits.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\basic_object_handle.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\basic_overlapped_handle.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\basic_random_access_handle.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\basic_stream_handle.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\object_handle.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\overlapped_handle.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\overlapped_ptr.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\random_access_handle.hpp" />
+        <ClInclude Include="InstrumentBase\asio\windows\stream_handle.hpp" />
+        <ClInclude Include="InstrumentBase\asio\writable_pipe.hpp" />
+        <ClInclude Include="InstrumentBase\asio\write.hpp" />
+        <ClInclude Include="InstrumentBase\asio\write_at.hpp" />
+        <ClInclude Include="InstrumentBase\asio\yield.hpp" />
+        <ClInclude Include="InstrumentBase\CyclicArray.h" />
+        <ClInclude Include="InstrumentBase\DChannel.h" />
+        <ClInclude Include="InstrumentBase\IncomingMessage.h" />
+        <ClInclude Include="InstrumentBase\Instrument.h" />
+        <ClInclude Include="InstrumentBase\MasterInstrument.h" />
+        <ClInclude Include="InstrumentBase\MeasuredData.h" />
+        <ClInclude Include="InstrumentBase\MeasurementProgram.h" />
+        <ClInclude Include="InstrumentBase\OutgoingMessage.h" />
+        <ClInclude Include="Instrument\Capel3Errors.h" />
+        <ClInclude Include="Instrument\Chromatograph.h" />
+        <ClInclude Include="Instrument\ChromatographicCurve.h" />
+        <ClInclude Include="Instrument\ChromatographicProgram.h" />
+        <ClInclude Include="Instrument\ChromatographicProgramSpPh.h" />
+        <ClInclude Include="Instrument\ChromatographicProgramStage.h" />
+        <ClInclude Include="Instrument\ChromatographStateData.h" />
+        <ClInclude Include="Instrument\GradientProgramData.h" />
+        <ClInclude Include="Instrument\GradientProgramStage.h" />
+        <ClInclude Include="Instrument\InstrumentResource.h" />
+        <ClInclude Include="Instrument\InstrumentResourceContainer.h" />
+        <ClInclude Include="Instrument\Panorama2Errors.h" />
+        <ClInclude Include="Instrument\Piton.h" />
+        <ClInclude Include="Instrument\PitonConstants.h" />
+        <ClInclude Include="Instrument\PitonErrors.h" />
+        <ClInclude Include="Instrument\PumpController.h" />
+        <ClInclude Include="Instrument\PythonStringContainer.h" />
+        <ClInclude Include="Instrument\ResourceStringLoader.h" />
+        <ClInclude Include="Instrument\Spectrofluorimeter.h" />
+        <ClInclude Include="Instrument\Spectrophotometer.h" />
+        <ClInclude Include="Instrument\SpectrophotometricDetector.h" />
+        <ClInclude Include="Instrument\SpectrophotometricDetector2.h" />
+        <ClInclude Include="Instrument\SpectrophotometricDetectorConstants.h" />
+        <ClInclude Include="Instrument\SpectroscopicProgram.h" />
+        <ClInclude Include="Instrument\Thermostat.h" />
+        <ClInclude Include="Instrument\ThreeChannelData.h" />
+        <ClInclude Include="Instrument\UsbDevices.h" />
+        <ClInclude Include="Instrument\VirtualPump.h" />
+        <ClInclude Include="Math\CalculatedCurve.h" />
+        <ClInclude Include="Math\CalculatedCurveExt.h" />
+        <ClInclude Include="Math\ParabolicCurve.h" />
+        <ClInclude Include="MeasurementTemplate.h" />
+        <ClInclude Include="PassportLiquidPanel.h" />
+        <ClInclude Include="PassportPanel.h" />
+        <ClInclude Include="PeakExpertHTMLDoc.h" />
+        <ClInclude Include="PeakExpertHTMLView.h" />
+        <ClInclude Include="PeakExpertNoGUI.h" />
+        <ClInclude Include="Constants.h" />
+        <ClInclude Include="MainController.h" />
+        <ClInclude Include="PeakExpertNoGUI_RC.h" />
+        <ClInclude Include="PeakInfo.h" />
+        <ClInclude Include="PeakIntegrator.h" />
+        <ClInclude Include="PeakLabelsAMQP.h" />
+        <ClInclude Include="PeaksArray.h" />
+        <ClInclude Include="PeaksTablePanel.h" />
+        <ClInclude Include="Plot\DataPointArray.h" />
+        <ClInclude Include="Plot\DataValueArray.h" />
+        <ClInclude Include="Plot\Grids.h" />
+        <ClInclude Include="Plot\HorizontalAxis.h" />
+        <ClInclude Include="Plot\PlotAxis.h" />
+        <ClInclude Include="Plot\PlotConstants.h" />
+        <ClInclude Include="Plot\PlotController.h" />
+        <ClInclude Include="Plot\PlotCurve.h" />
+        <ClInclude Include="Plot\PlotDocument.h" />
+        <ClInclude Include="Plot\PlotMark.h" />
+        <ClInclude Include="Plot\PlotMarkerWindow.h" />
+        <ClInclude Include="Plot\PlotResource.h" />
+        <ClInclude Include="Plot\PlotSettings.h" />
+        <ClInclude Include="Plot\PlotView.h" />
+        <ClInclude Include="Plot\VerticalAxis.h" />
+        <ClInclude Include="PreviewChromatographicController.h" />
+        <ClInclude Include="ProjectListCtrl.h" />
+        <ClInclude Include="ProjFilesArray.h" />
+        <ClInclude Include="Pump\BrokenUnitConnectionAMQP.h" />
+        <ClInclude Include="Pump\CommonProgramAMQP.h" />
+        <ClInclude Include="Pump\DegasserAMQP.h" />
+        <ClInclude Include="Pump\GradientParametersAMQP.h" />
+        <ClInclude Include="Pump\GradientProgramAMQP.h" />
+        <ClInclude Include="Pump\IsocraticDoubleAMQP.h" />
+        <ClInclude Include="Pump\IsocraticParametersAMQP.h" />
+        <ClInclude Include="Pump\PumpBaseAMQP.h" />
+        <ClInclude Include="Pump\PumpGradientAMQP.h" />
+        <ClInclude Include="Pump\PumpIsocraticAMQP.h" />
+        <ClInclude Include="Pump\PumpParametersAMQP.h" />
+        <ClInclude Include="Pump\SelectPumpConnectionAMQP.h" />
+        <ClInclude Include="Pump\ThermostatDialog.h" />
+        <ClInclude Include="ReportDocument.h" />
+        <ClInclude Include="ReportPanel.h" />
+        <ClInclude Include="ReportSettingsAMQP.h" />
+        <ClInclude Include="ReportView.h" />
+        <ClInclude Include="RtfFileExt.h" />
+        <ClInclude Include="SampleInfoAMQP.h" />
+        <ClInclude Include="SelectInstrumentTypeAMQP.h" />
+        <ClInclude Include="Service.h" />
+        <ClInclude Include="SignalPanel.h" />
+        <ClInclude Include="SmoothingParametersAMQP.h" />
+        <ClInclude Include="SpectrophotometerDiagnosticsPanel.h" />
+        <ClInclude Include="SpectroscopicDocument.h" />
+        <ClInclude Include="SpectroscopicController.h" />
+        <ClInclude Include="SpectroscopicMeasurementPanel.h" />
+        <ClInclude Include="SpectroscopicResultsPanel.h" />
+        <ClInclude Include="StartMeasurementAMQP.h" />
+        <ClInclude Include="stdafx.h" />
+        <ClInclude Include="TaskQueue.h" />
+        <ClInclude Include="TemplatePropertySheet.h" />
+        <ClInclude Include="ThreadSafeQueue.h" />
+        <ClInclude Include="User\BorlandReader.h" />
+        <ClInclude Include="User\Clipboard.h" />
+        <ClInclude Include="User\Journal.h" />
+        <ClInclude Include="User\MeasurementController.h" />
+        <ClInclude Include="User\MeasurementDocument.h" />
+        <ClInclude Include="User\MeasurementPanel.h" />
+        <ClInclude Include="User\ProcessingCurveArray.h" />
+        <ClInclude Include="User\RtfFile.h" />
+        <ClInclude Include="User\UniversalDataFile.h" />
+    </ItemGroup>
+    <ItemGroup>
+        <Library Include="InstrumentBase\DChannel.lib" />
+    </ItemGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+    <ImportGroup Label="ExtensionTargets">
+    </ImportGroup>
+</Project>

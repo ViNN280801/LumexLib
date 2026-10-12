@@ -1,0 +1,15 @@
+digraph "lumex::core::hazard_pointer::detail::node_base::node"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::hazard\l_pointer::detail::node\l_base::node",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::hazard\l_pointer::detail::node\l_base::from_node",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03046.html#a1a23a3bddef868071c9882a3066d00eb",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::hazard\l_pointer::hazard_pointer\l_obj_base\< typename pair\l_type::object_type, typename\l pair_type::deleter_type \>::\lreclaim_or_retire",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03042.html#ae679dcd412ee0d0837c4431f69d7a588",tooltip=" "];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::hazard\l_pointer::hazard_pointer\l_obj_base\< typename pair\l_type::object_type, typename\l pair_type::deleter_type \>::retire",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03042.html#a01a483099cff9e1e30e7e2b105bf9bef",tooltip=" "];
+}

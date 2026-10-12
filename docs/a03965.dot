@@ -1,0 +1,12 @@
+digraph "lumex::core::span::view::detail::is_compatible_range&lt; Range, T, Extent, typename std::enable_if&lt; !is_span&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!is_std_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;!std::is_array&lt; typename remove_cvref&lt; Range &gt;::type &gt;::value &amp;&amp;(std::is_const&lt; T &gt;::value||is_borrowed_range&lt; Range &gt;::value) &amp;&amp;is_extent_compatible&lt; Extent, range_declared_extent&lt; Range &gt;::value &gt;::value &amp;&amp;range_has_size&lt; Range &gt;::value &amp;&amp;is_array_convertible&lt; typename range_element&lt; Range &gt;::type, T &gt;::value &gt;::type &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="lumex::core::span::\lview::detail::is_compatible\l_range\< Range, T, Extent,\l typename std::enable_if\<\l !is_span\< typename remove\l_cvref\< Range \>::type \>::value\l &&!is_std_array\< typename remove\l_cvref\< Range \>::type \>::value &&!std\l::is_array\< typename remove_cvref\< Range\l \>::type \>::value &&(std::is_const\< T \>\l::value\|\|is_borrowed_range\< Range \>::value)\l &&is_extent_compatible\< Extent, range_declared\l_extent\< Range \>::value \>::value &&range_has_size\l\< Range \>::value &&is_array_convertible\< typename\l range_element\< Range \>::type, T \>::value \>::type \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::false_type",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node1 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="std::true_type",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

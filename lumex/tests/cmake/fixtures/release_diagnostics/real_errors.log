@@ -1,0 +1,12 @@
+[1/3] Building CXX object c/E.cpp.o
+FAILED: [code=1] c/E.cpp.o
+/src/lumex/c/E.cpp:7:3: error: 'foo' was not declared in this scope
+    7 |   foo ();
+      |   ^~~
+<built-in>: warning: redundant redeclaration of 'unsigned int __builtin_ia32_crc32qi(unsigned int, unsigned char)' in same scope [-Wredundant-decls]
+/usr/share/mingw-w64/include/intrin.h:59:23: note: previous declaration of 'unsigned int __builtin_ia32_crc32qi(unsigned int, unsigned char)'
+[2/3] Linking CXX executable bin/x
+FAILED: [code=1] bin/x
+/usr/bin/ld: x.o: in function `main':
+x.cpp:(.text+0x5): undefined reference to `bar()'
+collect2: error: ld returned 1 exit status

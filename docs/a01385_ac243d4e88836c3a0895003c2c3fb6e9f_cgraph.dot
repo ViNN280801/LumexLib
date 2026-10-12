@@ -1,0 +1,15 @@
+digraph "lumex::core::smart_ptr::allocate_shared"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::smart\l_ptr::allocate_shared",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Creates a T constructed from args in one allocation made with a copy of alloc."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::smart\l_ptr::detail::access\l::adopt",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03722.html#a0273cd4b435d7c8c421e980b917d825c",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::smart\l_ptr::detail::esft_dispatch\l::apply",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03714.html#aa794cb650f97219949bfd448413dbefb",tooltip=" "];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::smart\l_ptr::detail::check\l_std_enable_shared_from_this",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01386.html#abecc8c6fa95e845e1c541c78b2bbb129",tooltip="Rejects, with a static_assert, a class that derives from std::enable_shared_from_this and not from th..."];
+}

@@ -1,0 +1,10 @@
+digraph "lumex::core::span::view::detail::is_borrowed_range&lt; Range &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="lumex::core::span::\lview::detail::is_borrowed\l_range\< Range \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="True when a range passed as Range && outlives its view: an lvalue, or a type that opted into std::ran..."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::integral_constant\l\< bool, std::is_lvalue\l_reference\< Range \>::value \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

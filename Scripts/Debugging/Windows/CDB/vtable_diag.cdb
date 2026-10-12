@@ -1,0 +1,51 @@
+$$ vtable_diag.cdb - Dump vtable layout of the object at @rcx and disassemble
+$$ the virtual dispatch method in the base class DLL.
+$$
+$$ Run after the crash stops (STATUS_BREAKPOINT / pure-virtual trap).
+$$ @rcx must still hold 'this' - verify with the call stack first.
+$$
+$$ Required CDB aliases (set in crash_diag.ps1 -ExtraCmd, or manually in CDB):
+$$   as BaseModule  <dll_name>       e.g.  teuchoscore
+$$   as BaseMethod  <class::method>  e.g.  Teuchos::UnitTestBase::runUnitTest
+$$
+$$ Quick manual alias setup inside CDB before sourcing this file:
+$$   as BaseModule teuchoscore
+$$   as BaseMethod Teuchos::UnitTestBase::runUnitTest
+$$   $$<D:\Develop\Trilinos\Scripts\CDB\vtable_diag.cdb
+$$
+$$ If aliases are not set, commands that reference ${BaseModule} / ${BaseMethod}
+$$ produce an error which is harmless - the rest of the script still runs.
+
+.echo ===== restore exception context so @rcx holds 'this' =====
+.ecxr
+
+.echo ===== base-class virtual dispatch (shows which vtable slot is called) =====
+uf ${BaseModule}!${BaseMethod}
+
+.echo ===== vtable pointer from 'this' (rcx at crash) =====
+dq @rcx L2
+
+.echo ===== vtable contents (16 slots) =====
+dqs poi(@rcx) L16
+
+.echo ===== vtable slot names (slots 0-15, offset +0x00 to +0x78) =====
+ln poi(poi(@rcx)+0x00)
+ln poi(poi(@rcx)+0x08)
+ln poi(poi(@rcx)+0x10)
+ln poi(poi(@rcx)+0x18)
+ln poi(poi(@rcx)+0x20)
+ln poi(poi(@rcx)+0x28)
+ln poi(poi(@rcx)+0x30)
+ln poi(poi(@rcx)+0x38)
+ln poi(poi(@rcx)+0x40)
+ln poi(poi(@rcx)+0x48)
+ln poi(poi(@rcx)+0x50)
+ln poi(poi(@rcx)+0x58)
+ln poi(poi(@rcx)+0x60)
+ln poi(poi(@rcx)+0x68)
+ln poi(poi(@rcx)+0x70)
+ln poi(poi(@rcx)+0x78)
+
+.echo ===== DONE vtable_diag =====
+.logclose
+q

@@ -1,0 +1,11 @@
+digraph "lumex::core::utility::traits::stream::is_streamable&lt; T, Enable &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="lumex::core::utility\l::traits::stream::is\l_streamable\< T, Enable \>",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="std::true_type when std::declval<std::ostream &>() << std::declval<T>() is well-formed (or,..."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="std::integral_constant\l\< bool, detail::is_streamable\l_expression\< T \>::value\|\|detail\l::is_address_streamed\< T \>::value \>",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+}

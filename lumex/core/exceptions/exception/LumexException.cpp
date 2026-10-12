@@ -1,71 +1,161 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #define LUMEX_IMPLEMENTATION
-#include "lumex/core/filesystem/LumexFilesystem"
-#include "lumex/core/filesystem/LumexFilesystem.hpp"
-#include "lumex/core/time/LumexTime"
-
-#include "lumex/core/exceptions/crash/DefaultPaths.hpp"
-
-#include "LumexException.hpp"
-
 #include <fstream>
 #include <iostream>
+#include <mutex>
+#include <sstream>
 
-LUMEX_PUBLIC_API
-LumexBaseException::LumexBaseException(std::string message)
-    : m_message(std::move(message)), m_stacktrace(LumexStacktrace::current(1))
-{}
+#include "LumexException.hpp"
+#include "lumex/core/exceptions/crash/DefaultPaths.hpp"
+#include "lumex/core/filesystem/LumexFilesystem"
+#include "lumex/core/time/LumexTime"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
+#include "lumex/core/utility/macros/LumexKeywords.hpp"
 
-LUMEX_PUBLIC_API
-void
-LumexBaseException::to_stderr() const noexcept
+namespace lumex
 {
-  std::cerr << "[" << lumDemangle(*this) << "]:" << what() << "\n";
+namespace core
+{
+namespace exceptions
+{
+namespace exception
+{
+LUMEX_PUBLIC_API
+lumex_base_exception::lumex_base_exception (char const *message)
+    : m_message (message), m_stacktrace (lumex_stacktrace::current (1))
+{
+}
+
+LUMEX_PUBLIC_API
+lumex_base_exception::lumex_base_exception (std::string const &message)
+    : m_message (message), m_stacktrace (lumex_stacktrace::current (1))
+{
+}
+
+LUMEX_PUBLIC_API
+lumex_base_exception::lumex_base_exception (std::string &&message)
+    : m_message (std::move (message)),
+      m_stacktrace (lumex_stacktrace::current (1))
+{
 }
 
 LUMEX_PUBLIC_API
 void
-LumexBaseException::to_crash_report() const
+lumex_base_exception::to_stderr () const LUMEX_NOEXCEPT
+{
+  std::cerr << "[" << lumDemangle (*this) << "]:" << what () << "\n";
+}
+
+LUMEX_PUBLIC_API
+void
+lumex_base_exception::to_crash_report () const
 {
   // Single initialization: creating a folder, a file and locking the directory
   static std::once_flag initFlag;
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
   static std::string s_reportFile;
   static std::mutex s_fileMutex;
-  static Lumex::Path s_crashDir;
+  static lumex::path s_crashDir;
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
-  std::call_once(
-    initFlag,
-    [&]()
-    {
-      // 1. Get the executable path to create a folder 'KDEFAULT_CRASHES_DIR_PATH' in the same directory
-      auto exePath = Lumex::Filesystem::get_exe_path();
-      auto exeDir  = exePath.parent_path();
+  std::call_once (
+      initFlag,
+      [] ()
+        {
+          // 1. Get the executable path to create a folder
+          // 'KDEFAULT_CRASHES_DIR_PATH' in the same directory
+          auto exePath
+              = lumex::core::filesystem::fs::lumex_filesystem::get_exe_path ();
+          auto exeDir = exePath.parent_path ();
 
-      // 2. Create a folder KDEFAULT_CRASHES_DIR_PATH if it doesn't exist
-      s_crashDir = exeDir / KDEFAULT_CRASHES_DIR_PATH;
-      Lumex::Filesystem::create_directory(s_crashDir);
+          // 2. Create a folder KDEFAULT_CRASHES_DIR_PATH if it doesn't exist
+          s_crashDir = exeDir / KDEFAULT_CRASHES_DIR_PATH;
+          lumex::core::filesystem::fs::lumex_filesystem::create_directory (
+              s_crashDir);
 
-      // 3. Generate a file name once
-      auto tsEpoch = LumexTime::get_timestamp_ns();
-      s_reportFile
-        = (s_crashDir / ("crash_report_" + tsEpoch + ".txt")).string();
+          // 3. Generate a file name once
+          auto tsEpoch = lumex_time::get_timestamp_ns ();
+          s_reportFile
+              = (s_crashDir / ("crash_report_" + tsEpoch + ".txt")).string ();
 
-      // 4. Lock the directory from deletion during operation
-      Lumex::Filesystem::lock_directory(s_crashDir);
-    });
+          // 4. Lock the directory from deletion during operation
+          lumex::core::filesystem::fs::lumex_filesystem::lock_directory (
+              s_crashDir);
+        });
 
   // 5. Form the text of the report
   std::ostringstream oss;
   oss << "\n========== Crash Report ==========\n"
-      << "Time         : " << LumexTime::get_current_datetime()
-      << "\nMessage    : " << what() << "\nStack trace:\n";
-  for(size_t i = 0; i < m_stacktrace.size(); ++i)
+      << "Time         : " << lumex_time::get_current_datetime ()
+      << "\nMessage    : " << what () << "\nStack trace:\n";
+  for (std::size_t i = 0; i < m_stacktrace.size (); ++i)
     {
       auto const &entry = m_stacktrace[i];
-      oss << " #" << i << " " << entry.description() << "\n";
+      oss << " #" << i << " " << entry.description () << "\n";
     }
 
   // 6. Append to the file safely
-  std::lock_guard<std::mutex> lock(s_fileMutex);
-  std::ofstream file(s_reportFile.c_str(), std::ios::app);
-  file << oss.str();
+  std::lock_guard<std::mutex> lock (s_fileMutex);
+  std::ofstream file (s_reportFile.c_str (), std::ios::app);
+  file << oss.str ();
+  file.flush (); // Ensure data is written to disk immediately
 }
+
+LUMEX_PUBLIC_API
+LUMEX_ATTRIBUTE_NOINLINE
+lumex_stacktrace
+lumex_exception_get_stack_trace_trampoline (int skip_frames)
+{
+  // This function acts as a trampoline to get a consistent stack trace.
+  // It skips its own frame (the trampoline) and then adjusts for the requested
+  // skip.
+  return lumex_stacktrace::current (static_cast<lumex_stacktrace::size_type> (
+      skip_frames + 1)); // +1 to skip this trampoline function itself
+}
+} // namespace exception
+} // namespace exceptions
+} // namespace core
+} // namespace lumex

@@ -1,3 +1,91 @@
-#include "LumexAttributes.hpp"
-#include "LumexCheckOS.hpp"
-#include "LumexDemangle.hpp"
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file LumexUtility
+ * @brief Utility module, the foundation of the library: assertion, attribute,
+ * keyword and constant macros, compiler, feature and OS checks, type traits,
+ * stack text and core dumps, demangling, safe numeric comparison (with the
+ * ordering classes of its three-way result), bit and byte order helpers, the
+ * iterator range, the process id, a callback slot, the `identity` and `less`
+ * function objects and the `index_sequence` family.
+ * @details Link <tt>%lumex::utility</tt> (compiled library; it links
+ * <tt>%lumex::math</tt>, <tt>%lumex::optional</tt> and <tt>%lumex::span</tt>).
+ * Works from C++11. The umbrella also includes `bit/`, `cast/`, `mem/` and
+ * `ranges/`. In them `count_leading_zeros`, `byte_swap`, `is_little_endian`,
+ * `downcast`, `downcast_noexcept` and `bad_down_cast`, `get_nearest_to`,
+ * `iterator_range` and `mem::as` (reads a value out of raw bytes; the result
+ * is the optional of `lumex::optional` in every standard, `mem::optional_t`,
+ * which converts to and from `std::optional` from C++17) work from C++11.
+ * `functional/` (`functional::identity`, `functional::less`) and `sequence/`
+ * (`sequence::integer_sequence`, `index_sequence`, `make_integer_sequence`,
+ * `make_index_sequence`, `index_sequence_for`) work from C++11: they are the
+ * classes of this library in every standard, never aliases of `std::identity`,
+ * `std::less<void>` or the standard integer sequences (they convert to and
+ * from those where the standard has them). `traits::meta` has the C++11 forms
+ * `is_pointer_to_class`, `is_lvalue_ref_to_class`, `is_complete_type`,
+ * `preserves_cv`, `is_derived_from`, `is_extractible` and `is_byte_like` of
+ * its concepts, and `traits::string::is_string_convertible` the form of
+ * `StringLike`.
+ */
+#include "assert/LumexAssert.hpp"
+#include "attr/LumexAttributes.hpp"
+#include "callback/LumexCallbackSlot.hpp"
+#include "compiler/LumexCheckCompiler.hpp"
+#include "compiler/LumexCheckFeatures.hpp"
+#include "debug/LumexDebug.hpp"
+#include "demangle/LumexDemangle.hpp"
+#include "dump/LumexCoreDumpGenerator.hpp"
+#include "functional/LumexFunctional.hpp"
+#include "macros/LumexConstantMacros.hpp"
+#include "macros/LumexKeywords.hpp"
+#include "macros/LumexMacros.hpp"
+#include "numeric/LumexOrdering.hpp"
+#include "numeric/LumexSafeNumericComparator.hpp"
+#include "os/LumexCheckOS.hpp"
+#include "process/LumexProcess.hpp"
+#include "sequence/LumexIndexSequence.hpp"
+#include "traits/LumexTypeTraits.hpp"
+#include "util/LumexUtilities.hpp"
+
+#include "bit/LumexBit.hpp"
+#include "cast/LumexCast.hpp"
+#include "mem/LumexMemRead.hpp"
+#include "ranges/LumexIteratorRange.hpp"
+#include "ranges/LumexRanges.hpp"

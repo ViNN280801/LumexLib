@@ -1,0 +1,57 @@
+/*
+ * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
+ *
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of
+ * charge, to any person obtaining a copy
+ * of this software and associated
+ * documentation files (the "Software"), to deal
+ * in the Software without
+ * restriction, including without limitation the rights
+ * to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the
+ * Software, and to permit persons to whom the Software is
+ * furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice
+ * and this permission notice shall be included in
+ * all copies or substantial
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file LumexAtomic
+ * @brief Atomic module: `atomic_shared_ptr<T>` and `atomic_weak_ptr<T>`, the
+ * interface of the C++20 `std::atomic<std::shared_ptr<T>>` and
+ * `std::atomic<std::weak_ptr<T>>` from C++11 on.
+ * @details Link <tt>%lumex::atomic</tt> (header-only; it brings
+ * `Threads::Threads`). Works from C++11. Where the standard library has the
+ * C++20 atomic smart pointers, the classes wrap them; elsewhere they use a
+ * lock-based implementation. The umbrella includes
+ * `smart_ptr/LumexAtomicSharedPtr.hpp` and `smart_ptr/LumexAtomicWeakPtr.hpp`,
+ * and `dwcas/LumexDwcasWord.hpp`, the 16-byte atomic word with a 128-bit
+ * compare-and-swap (x86-64 only; `LUMEX_ATOMIC_HAS_DWCAS` tells whether it is
+ * declared).
+ * @see The `README.md` page next to this umbrella (part of the documentation).
+ */
+#include "dwcas/LumexDwcasWord.hpp"
+#include "smart_ptr/LumexAtomicSharedPtr.hpp"
+#include "smart_ptr/LumexAtomicWeakPtr.hpp"

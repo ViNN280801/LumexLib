@@ -1,0 +1,34 @@
+[  6%] Building CXX object lumex/core/utility/CMakeFiles/LumexCore_utility.dir/assert/LumexAssert.cpp.o
+[ 13%] Building CXX object lumex/core/utility/CMakeFiles/LumexCore_utility.dir/dump/LumexCoreDumpGenerator.cpp.o
+In file included from /src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.cpp:41:
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:580:15: error: padding struct to align 'lumex::core::utility::dump::dump_configuration::m_filename' [-Werror=padded]
+   std::string m_filename;  ///< Custom filename (empty for auto-generated)
+               ^~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:587:27: error: padding struct to align 'lumex::core::utility::dump::dump_configuration::m_maxSizeBytes' [-Werror=padded]
+   size_t m_maxSizeBytes = 0; ///< Maximum size in bytes (0 = unlimited)
+                           ^
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:421:7: error: padding struct size to alignment boundary [-Werror=padded]
+ class dump_configuration
+       ^~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1642:10: error: padding struct size to alignment boundary [-Werror=padded]
+   struct PerformanceMetrics
+          ^~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1442:22: error: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_instanceMutex' [-Werror=padded]
+   mutable std::mutex m_instanceMutex;
+                      ^~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1446:23: error: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_cachedDumpDirectory' [-Werror=padded]
+   mutable std::string m_cachedDumpDirectory;
+                       ^~~~~~~~~~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1456:22: error: padding struct to align 'lumex::core::utility::dump::core_dump_generator::m_sharedMutex' [-Werror=padded]
+   mutable std::mutex m_sharedMutex;
+                      ^~~~~~~~~~~~~
+/src/LumexLib/lumex/core/utility/dump/LumexCoreDumpGenerator.hpp:1007:28: error: padding struct size to alignment boundary [-Werror=padded]
+ class LUMEX_DUMP_CLASS_API core_dump_generator
+                            ^~~~~~~~~~~~~~~~~~~
+cc1plus: all warnings being treated as errors
+make[3]: *** [lumex/core/utility/CMakeFiles/LumexCore_utility.dir/build.make:93: lumex/core/utility/CMakeFiles/LumexCore_utility.dir/dump/LumexCoreDumpGenerator.cpp.o] Error 1
+make[3]: Target 'lumex/core/utility/CMakeFiles/LumexCore_utility.dir/build' not remade because of errors.
+make[2]: *** [CMakeFiles/Makefile2:857: lumex/core/utility/CMakeFiles/LumexCore_utility.dir/all] Error 2
+make[2]: Target 'lumex/applied/hardware/CMakeFiles/LumexApplied_hardware.dir/all' not remade because of errors.
+make[1]: *** [CMakeFiles/Makefile2:1229: lumex/applied/hardware/CMakeFiles/LumexApplied_hardware.dir/rule] Error 2
+make[1]: Target 'LumexApplied_hardware' not remade because of errors.

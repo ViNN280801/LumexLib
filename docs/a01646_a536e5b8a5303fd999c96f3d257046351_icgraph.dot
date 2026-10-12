@@ -1,0 +1,16 @@
+digraph "lumex::applied::resource_monitor::process::LumexProcessMonitor::find_descendants"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::applied::resource\l_monitor::process::LumexProcess\lMonitor::find_descendants",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Finds every process below one process: its children, their children, and so on."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::applied::resource\l_monitor::process::LumexProcess\lMonitor::operator=",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01646.html#a6dab1e927389c40d7ef02763946f8643",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::applied::resource\l_monitor::process::LumexProcess\lMonitor::sample",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a01646.html#af7f3caf609e5155aa7f5245fc231101f",tooltip="Samples one process, with the processes below it."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="main",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a00827.html#ae66f6b31b5ad750f1fe042a706a4e3d4",tooltip=" "];
+  Node3 -> Node2 [id="edge4_Node000003_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

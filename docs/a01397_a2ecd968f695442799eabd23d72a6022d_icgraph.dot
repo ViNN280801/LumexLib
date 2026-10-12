@@ -1,0 +1,29 @@
+digraph "lumex::core::string_view::view::detail::min_size"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="lumex::core::string\l_view::view::detail\l::min_size",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::compare",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#aed3dc0a97328de954474f41db2f02a3c",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::copy",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a3990d0496cc8e63b8d61a7616766399b",tooltip=" "];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::find\l_last_not_of",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a047d96459376d44c20d7b8163fea27dc",tooltip=" "];
+  Node1 -> Node5 [id="edge4_Node000001_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::find\l_last_not_of",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a2f91f451399f89fd0102db18f6b14fb6",tooltip=" "];
+  Node1 -> Node6 [id="edge5_Node000001_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::find\l_last_of",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a2dfea22772558242d229eb7a5cfd6a85",tooltip=" "];
+  Node1 -> Node7 [id="edge6_Node000001_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::remove_prefix",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a108889107a9e2c251a76bd69281a4b1d",tooltip=" "];
+  Node1 -> Node8 [id="edge7_Node000001_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::remove_suffix",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a9f1e8d50a3b9e51a05fd9d0c0fdd0332",tooltip=" "];
+  Node1 -> Node9 [id="edge8_Node000001_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::rfind",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a4e858407f51e5ca2d6d88331fe57e7de",tooltip=" "];
+  Node1 -> Node10 [id="edge9_Node000001_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::rfind",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a86410bb27673095af0bd68d87a6bce96",tooltip=" "];
+  Node1 -> Node11 [id="edge10_Node000001_Node000011",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node11 [id="Node000011",label="lumex::core::string\l_view::view::lumex_basic\l_string_view\< char \>::substr",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a03990.html#a8d676f0effc9e9215bc48dc8b4895d25",tooltip=" "];
+}
