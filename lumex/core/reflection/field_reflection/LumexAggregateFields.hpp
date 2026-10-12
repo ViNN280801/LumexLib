@@ -710,10 +710,32 @@ LUMEX_AF_TIE (32, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13,
 #endif
 
 #if __cplusplus >= 202002L
-// Phantom storage for name extraction only: declared, never defined. Taking
-// the address of a member is enough for a pointer NTTP; constructing a real
-// `inline T fake{}` fails on MSVC (C2672) because a local reference into
-// that object is not a constant expression for `template <auto>`.
+// Phantom storage for name extraction only. Taking the address of a member is
+// enough for a pointer NTTP; constructing a real `inline T fake{}` fails on
+// MSVC (C2672) because a local reference into that object is not a constant
+// expression for `template <auto>`.
+//
+// On the Microsoft toolchain the object also has to exist: an instantiation
+// whose template argument has no linkage (a class local to a function, a type
+// of an unnamed namespace) is an internal-linkage variable, and MSVC reports
+// one that is declared but not defined as C7631 - the never-emitted address
+// is not enough for it (Clang, with the same toolchain, only warns
+// -Wundefined-internal). The union below carries a second member with a
+// default initializer, so `storage{}` initializes that one and T is never
+// constructed: every aggregate stays reflectable, trivial or not. The empty
+// destructor keeps the union destructible for a T with a non-trivial one -
+// `= default` would be deleted there - and destroys nothing.
+#if defined(_MSC_VER)
+template <typename T> union fake_object_wrapper_t
+{
+  T value;
+  char none = 0;
+  ~fake_object_wrapper_t () LUMEX_NOEXCEPT {}
+};
+
+template <typename T>
+fake_object_wrapper_t<T> const fake_object_storage{};
+#else
 template <typename T> struct fake_object_wrapper_t
 {
   T const value;
@@ -721,6 +743,7 @@ template <typename T> struct fake_object_wrapper_t
 
 template <typename T>
 extern fake_object_wrapper_t<T> const fake_object_storage;
+#endif
 
 template <typename T>
 LUMEX_CONSTEXPR T const &

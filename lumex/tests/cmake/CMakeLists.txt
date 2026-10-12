@@ -287,7 +287,10 @@ function(lumex_add_consumer_test name fixture)
         COMMAND ${CMAKE_COMMAND}
             -DCASE=${fixture}
             -DLUMEX_SOURCE_DIR=${LumexLib_SOURCE_DIR}
-            -DWORK_DIR=${CMAKE_CURRENT_BINARY_DIR}/consumer/${name}
+            # /c/<name> and not consumer/<name>: the nested build of a
+            # fixture embeds the whole library, and its deepest object path
+            # must stay under MAX_PATH for cl.exe (see run_consumer.cmake).
+            -DWORK_DIR=${CMAKE_BINARY_DIR}/c/${name}
             -DGENERATOR=${CMAKE_GENERATOR}
             -DCXX_COMPILER=${CMAKE_CXX_COMPILER}
             "-DCXX_FLAGS=${CMAKE_CXX_FLAGS}"

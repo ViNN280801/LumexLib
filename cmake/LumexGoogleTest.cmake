@@ -110,6 +110,16 @@ function(lumex_test_use_gtest target)
         /external:W0
         /external:anglebrackets)
     endif()
+    # The tests are written for the C++11 preprocessor: the traditional one
+    # of cl.exe mangles an empty argument list and a stringized empty
+    # expansion (C2059 in LumexAttributes, LumexStringifyV2 and
+    # LumexStreamTraits), and every other compiler in the build - clang-cl
+    # included - has a conformant preprocessor already. MSVC's own is
+    # selected by the compiler id, not by the MSVC variable (which is also
+    # true for clang-cl, and clang-cl does not know the switch).
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+      target_compile_options(${target} PRIVATE /Zc:preprocessor)
+    endif()
   elseif(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(${target} PRIVATE -Wa,-mbig-obj)
   endif()

@@ -33,7 +33,12 @@ if(WIN32 AND (_compiler_name STREQUAL "cl" OR _compiler_name STREQUAL "clang-cl"
 endif()
 
 set(_source "${CMAKE_CURRENT_LIST_DIR}/${CASE}")
-set(_binary "${WORK_DIR}/${CASE}")
+# The nested build lives in one short directory under WORK_DIR: the deepest
+# object path of the embedded library (lumexlib/lumex/core/.../x.cpp.obj)
+# passes MAX_PATH in a deep outer tree, and cl.exe then reports C1083 for an
+# empty file name. WORK_DIR itself comes from the caller and is long - the
+# test name under the build tree - so this script keeps its own part short.
+set(_binary "${WORK_DIR}/b")
 file(REMOVE_RECURSE "${_binary}")
 
 set(_forwarded "")
