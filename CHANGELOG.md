@@ -1,4 +1,4 @@
-﻿# Changelog LumexLib
+# Changelog LumexLib
 
 <!-- markdownlint-disable MD022 MD024 MD032 -->
 
@@ -12,9 +12,37 @@
 
 ---
 
-## [v2.0.0.0] - в разработке
+## [v2.0.0.1] - в разработке
 
-> Изменения поверх `v1.0.3.1`.
+> Изменения поверх `v2.0.0.0` (тег опубликован). Номер `2.0.0.1` выбран по [VERSIONING.md](VERSIONING.md): изменились только тесты, документация и скрипты бенчмарка, функциональных изменений нет (TWEAK). Версию в `CMakeLists.txt` и дату секции ставит релизный коммит.
+
+### [v2.0.0.1]
+
+#### Изменено
+
+##### Бенчмарк `span` на Windows (MSVC и clang-cl): `run_benchmark.py` и `plot_results.py` работают на Windows
+
+**Файлы:** `benchmarks/span/run_benchmark.py`, `benchmarks/span/plot_results.py`, `benchmarks/span/README.md`, `benchmarks/span/results/windows/` (новый: `span_benchmark.csv`, `span_benchmark.md`, `span_benchmark_msvc.svg`, `span_benchmark_clang-cl.svg`), `lumex/core/span/README.md`.
+
+**Суть:** `run_benchmark.py` находит `LumexSpanBench_*.exe`, привязывает процесс к одному логическому процессору через `SetProcessAffinityMask` (аналог `taskset`; процесс привязывается сразу после запуска), берет имя процессора из реестра и сохраняет имя стандартной библиотеки целиком (`MSVC STL`). `plot_results.py` читает и пишет файлы в UTF-8 с переводами строк `\n`: раньше на Windows знак `†` в `span_benchmark.md` записывался в кодировке системы, и файл не читался как UTF-8. Раздел "Windows" в README бенчмарка: те же семь вариантов собраны и запущены с cl.exe 19.51 и clang-cl 21.1.5 (MSVC STL, Ninja, Release, Boost.Core 1.88, 5 проходов, Intel Core i9-12900H). Среднее геометрическое по 36 общим сценариям, `lumex` C++20 к `std::span` C++20: 0,999 (cl.exe) и 0,993 (clang-cl); проверки включены к выключенным, C++20: 1,016 и 1,044 (отдельные строки до 1,07x и до 1,40x). Результаты Linux не менялись. В README `core/span` убраны утверждения, что MSVC не проверялся.
+
+Не сделано и не выяснено: объектный код сценариев под MSVC не сравнивался; сумма по итераторам на 1 024 элементах с cl.exe в 1,7 раза медленнее, чем у `boost::span`, причина не выяснена; таблицы времени компиляции для Windows нет. Замеры сделаны на ноутбуке не в покое: числа для этой машины, не обещание для других.
+
+**Проверено:** `plot_results.py` на сохраненных данных Linux (`span_benchmark.csv`, `compile_time.csv`, `header_cost.csv`) дает побайтно те же `span_benchmark.md` и четыре SVG, что лежат в репозитории; `run_benchmark.py` и `plot_results.py` проходят `py_compile`; полный прогон на Windows (cl.exe и clang-cl) записан в `benchmarks/span/results/windows/`. `run_benchmark.py` после правок на Linux не запускался.
+
+##### CMakeRoutines: самотесты целевого уровня проходят на Windows
+
+**Файлы:** подмодуль `CMakeRoutines` (`e8cf86d`, `33ef5dd`, ветка `fix/target-tests-windows`): `tests/target/cases/std_filesystem.cmake`, `tests/target/helpers.cmake`, `tests/target/cases/toolchain_runtime_rpath_windows.cmake` (новый), `tests/target/fixtures/toolchain_runtime_rpath/CMakeLists.txt`, `tests/target/CMakeLists.txt`.
+
+**Суть:** тесты целевого уровня ни разу не запускались на Windows и падали по двум причинам, обе в самих тестах, не в функциях. Под MSVC (в том числе clang-cl) `link_std_filesystem` выходит до пробы, поэтому закэшированного ответа нет, а тест требовал ровно один. Кейсы, имитирующие Apple, оставляли `APPLE` включенным, и генератор Ninja на Windows просил TAPI-утилиту для заглушки dylib: конфигурация печатала `ALL PASSED`, а генерация падала с `No command given for WriteRule!`. Новый кейс `toolchain_runtime_rpath_windows` на настоящем компиляторе проверяет, что `get_toolchain_runtime_directories` пуст для любого `STDLIB`, что ни один тип цели не получает `BUILD_RPATH` (вызовом и параметром `TOOLCHAIN_RUNTIME_RPATH`) и что фикстура собирается и запускается во всех четырех режимах. Ветка Apple по-прежнему проверена только имитацией.
+
+**Проверено:** слой 2 проходит с 255 проверками на cl.exe 19.51, clang-cl 21.1.5 и MinGW-w64 GCC 15.1 (ucrt64) и с 318 на Ubuntu 24.04 с GCC 13.3 и Clang (новый кейс пропускается); слой 1 на Windows 23 из 23.
+
+---
+
+## [v2.0.0.0] - 2026-10-12
+
+> Тег `v2.0.0.0`, релизный коммит `91c91c3b`. Изменения поверх `v1.0.3.1`.
 
 ### [v2.0.0.0]
 
@@ -1706,9 +1734,9 @@ Digits: текст раскрытого макроса (`#x` через два �
 
 ---
 
-## [v1.0.3.1] - в разработке
+## [v1.0.3.1] - 2026-10-06
 
-> Изменения поверх `v1.0.3.0`.
+> Тег `v1.0.3.1`, релизный коммит `96dde308`. Изменения поверх `v1.0.3.0`.
 
 ### [v1.0.3.1]
 
@@ -1756,9 +1784,9 @@ Digits: текст раскрытого макроса (`#x` через два �
 
 ---
 
-## [v1.0.3.0] - в разработке
+## [v1.0.3.0] - 2026-10-05
 
-> Изменения поверх `v1.0.2.0`.
+> Тег `v1.0.3.0`, релизный коммит `004f2be2`. Изменения поверх `v1.0.2.0`.
 
 ### [v1.0.3.0]
 
@@ -1817,11 +1845,11 @@ Digits: текст раскрытого макроса (`#x` через два �
 
 ---
 
-## [v1.0.2.0] - в разработке
+## [v1.0.2.0] - 2026-10-04
 
 
 
-> Изменения поверх `v1.0.1.1` (ветка `feat/atomic-shared-ptr`). Версия в `CMakeLists.txt` поднята до `1.0.2.0`; дату секции ставит релизный коммит.
+> Тег `v1.0.2.0`, релизный коммит `543b9630`. Изменения поверх `v1.0.1.1` (ветка `feat/atomic-shared-ptr`).
 
 ### [v1.0.2.0]
 
