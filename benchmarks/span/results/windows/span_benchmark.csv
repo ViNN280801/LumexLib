@@ -1,0 +1,529 @@
+# machine="12th Gen Intel(R) Core(TM) i9-12900H" os="Windows 11" logical_cpus=20 python=3.12.10
+# passes=5 cpu=4
+# variant msvc lumex_cxx11: compiler="MSVC 1951" library="MSVC STL" cplusplus=201402
+# variant msvc lumex_cxx20: compiler="MSVC 1951" library="MSVC STL" cplusplus=202002
+# variant msvc lumex_checks_cxx11: compiler="MSVC 1951" library="MSVC STL" cplusplus=201402
+# variant msvc lumex_checks_cxx20: compiler="MSVC 1951" library="MSVC STL" cplusplus=202002
+# variant msvc std_cxx20: compiler="MSVC 1951" library="MSVC STL" cplusplus=202002
+# variant msvc boost_cxx11: compiler="MSVC 1951" library="MSVC STL" cplusplus=201402
+# variant msvc boost_cxx20: compiler="MSVC 1951" library="MSVC STL" cplusplus=202002
+# variant clang-cl lumex_cxx11: compiler="Clang 21.1.5" library="MSVC STL" cplusplus=201402
+# variant clang-cl lumex_cxx20: compiler="Clang 21.1.5" library="MSVC STL" cplusplus=202002
+# variant clang-cl lumex_checks_cxx11: compiler="Clang 21.1.5" library="MSVC STL" cplusplus=201402
+# variant clang-cl lumex_checks_cxx20: compiler="Clang 21.1.5" library="MSVC STL" cplusplus=202002
+# variant clang-cl std_cxx20: compiler="Clang 21.1.5" library="MSVC STL" cplusplus=202002
+# variant clang-cl boost_cxx11: compiler="Clang 21.1.5" library="MSVC STL" cplusplus=201402
+# variant clang-cl boost_cxx20: compiler="Clang 21.1.5" library="MSVC STL" cplusplus=202002
+toolchain,variant,scenario,description,size,median_ns,worst_median_ns,min_ns,max_ns,iterations,repetitions,checksum
+msvc,lumex_cxx11,ctor_ptr_size,"span (pointer, count)",1024,1.7462,2.0125,1.7315,2.7833,16777216,15,8192
+msvc,lumex_cxx11,ctor_c_array,span from a built-in array,0,1.7296,1.8401,1.7154,2.7349,16777216,15,128
+msvc,lumex_cxx11,ctor_std_array,span from a std::array,0,1.7378,1.8270,1.7092,2.1836,16777216,15,128
+msvc,lumex_cxx11,ctor_vector,"span from a std::vector (data (), size ())",0,1.7416,1.8553,1.7262,2.0574,16777216,15,128
+msvc,lumex_cxx11,ctor_static_array,"span<int, 16> from a built-in array",0,1.6934,1.7474,1.4967,2.2154,16777216,15,128
+msvc,lumex_cxx11,copy,copy of a span,1024,3.4733,3.6341,3.4441,5.9461,8388608,15,8192
+msvc,lumex_cxx11,sum_range_for,range-for sum of `size` ints,8,2.4904,2.7410,2.4319,3.4276,8388608,15,6984
+msvc,lumex_cxx11,sum_range_for,range-for sum of `size` ints,1024,145.0310,159.0550,143.4690,259.6820,131072,15,1023848
+msvc,lumex_cxx11,sum_range_for,range-for sum of `size` ints,1000000,131110.0000,140583.0000,128274.0000,145737.0000,256,15,999998840
+msvc,lumex_cxx11,sum_index,sum with operator[] over `size` ints,8,3.0220,3.3929,2.5041,4.4802,8388608,15,6984
+msvc,lumex_cxx11,sum_index,sum with operator[] over `size` ints,1024,243.4980,262.5160,240.8910,366.5440,131072,15,1023848
+msvc,lumex_cxx11,sum_index,sum with operator[] over `size` ints,1000000,238462.0000,249280.0000,235598.0000,302052.0000,128,15,999998840
+msvc,lumex_cxx11,sum_iterators,sum with begin () / end () over `size` ints,8,3.1085,3.3680,2.6776,3.6690,8388608,15,6984
+msvc,lumex_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1024,246.0210,259.7930,240.9490,275.7810,131072,15,1023848
+msvc,lumex_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1000000,240352.0000,253250.0000,237514.0000,375194.0000,128,15,999998840
+msvc,lumex_cxx11,sum_static_range_for,"range-for sum of a span<int const, 16>",0,3.1912,3.4472,3.0720,3.9599,8388608,15,3008
+msvc,lumex_cxx11,first,first (size / 2),1024,3.5204,3.6076,3.4447,4.5538,8388608,15,4184
+msvc,lumex_cxx11,last,last (size / 2),1024,3.5111,3.6474,3.4685,5.5058,8388608,15,5136
+msvc,lumex_cxx11,subspan,"subspan (size / 4, size / 2)",1024,3.4926,3.6231,3.4630,4.9629,8388608,15,5664
+msvc,lumex_cxx11,subspan_rest,subspan (size / 4),1024,3.5276,4.2980,3.4829,5.0803,4194304,15,7712
+msvc,lumex_cxx11,static_first,"first<4> () of span<int, 16>",0,3.3645,3.5091,3.2872,4.3782,8388608,15,64
+msvc,lumex_cxx11,static_subspan,"subspan<2, 4> () of span<int, 16>",0,3.4035,3.5050,3.1904,3.6537,8388608,15,112
+msvc,lumex_cxx11,static_first_of_dynamic,first<4> () of a dynamic span,1024,3.3415,3.4355,3.2923,3.5847,8388608,15,416
+msvc,lumex_cxx11,static_to_dynamic,"span<int, 16> to span<int>",0,3.4495,3.5530,3.4042,5.9260,8388608,15,128
+msvc,lumex_cxx11,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,3.3243,3.5130,3.2891,4.2955,8388608,15,128
+msvc,lumex_cxx11,mutable_to_const,span<int> to span<int const>,1024,3.4661,3.5609,3.4188,4.6346,8388608,15,8192
+msvc,lumex_cxx11,pass_noinline,pass a span by value to a noinline function,1024,1.4961,1.6045,1.4480,2.5608,16777216,15,8280
+msvc,lumex_cxx11,pass_inline,pass a span by value to an inlined function,1024,1.7290,1.8026,1.7039,2.2172,16777216,15,8280
+msvc,lumex_cxx11,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,1.7824,1.8355,1.7273,2.7893,16777216,15,208
+msvc,lumex_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,22.8518,24.4335,22.3899,29.1460,1048576,15,6984
+msvc,lumex_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3102.1900,3320.3500,3070.4300,4531.4200,8192,15,1023848
+msvc,lumex_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3109260.0000,3324010.0000,3056650.0000,3429320.0000,8,15,999998840
+msvc,lumex_cxx11,bytes_sum,sum of as_bytes of `size` ints,1024,974.3290,1019.1300,961.5510,1267.7100,32768,15,1023848
+msvc,lumex_cxx11,bytes_sum,sum of as_bytes of `size` ints,1000000,955069.0000,996478.0000,943369.0000,1265650.0000,32,15,999998840
+msvc,lumex_cxx11,size_bytes,size_bytes (),1024,1.7288,1.8475,1.6524,2.4079,16777216,15,32768
+msvc,lumex_cxx11,front_back,front () + back (),1024,1.7430,1.8257,1.7261,2.8503,16777216,15,1784
+msvc,lumex_cxx20,ctor_ptr_size,"span (pointer, count)",1024,1.7450,1.8287,1.7201,2.1754,16777216,15,8192
+msvc,lumex_cxx20,ctor_c_array,span from a built-in array,0,1.7324,1.7855,1.7172,2.4839,16777216,15,128
+msvc,lumex_cxx20,ctor_std_array,span from a std::array,0,1.7270,1.7763,1.6848,2.1285,16777216,15,128
+msvc,lumex_cxx20,ctor_vector,"span from a std::vector (data (), size ())",0,1.7350,2.0124,1.7154,2.6487,16777216,15,128
+msvc,lumex_cxx20,ctor_static_array,"span<int, 16> from a built-in array",0,1.6845,1.7868,1.6390,2.3187,16777216,15,128
+msvc,lumex_cxx20,copy,copy of a span,1024,3.4373,3.5820,3.4025,5.2895,8388608,15,8192
+msvc,lumex_cxx20,sum_range_for,range-for sum of `size` ints,8,2.4864,2.6497,2.4596,4.2895,8388608,15,6984
+msvc,lumex_cxx20,sum_range_for,range-for sum of `size` ints,1024,145.1580,154.2240,143.2700,227.4740,131072,15,1023848
+msvc,lumex_cxx20,sum_range_for,range-for sum of `size` ints,1000000,132891.0000,139438.0000,128078.0000,222406.0000,256,15,999998840
+msvc,lumex_cxx20,sum_index,sum with operator[] over `size` ints,8,2.2540,2.4401,2.2221,3.2000,8388608,15,6984
+msvc,lumex_cxx20,sum_index,sum with operator[] over `size` ints,1024,243.7030,253.2950,239.8170,334.9510,131072,15,1023848
+msvc,lumex_cxx20,sum_index,sum with operator[] over `size` ints,1000000,240008.0000,248252.0000,237270.0000,279955.0000,128,15,999998840
+msvc,lumex_cxx20,sum_iterators,sum with begin () / end () over `size` ints,8,2.2905,2.4816,2.2353,3.4198,8388608,15,6984
+msvc,lumex_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1024,245.9970,253.1220,240.8370,316.1370,131072,15,1023848
+msvc,lumex_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1000000,240549.0000,249760.0000,236852.0000,320610.0000,128,15,999998840
+msvc,lumex_cxx20,sum_static_range_for,"range-for sum of a span<int const, 16>",0,2.9756,3.2177,2.9309,6.6302,8388608,15,3008
+msvc,lumex_cxx20,first,first (size / 2),1024,3.4866,3.6116,3.4424,3.8500,8388608,15,4184
+msvc,lumex_cxx20,last,last (size / 2),1024,3.5148,3.6419,3.4680,4.3199,8388608,15,5136
+msvc,lumex_cxx20,subspan,"subspan (size / 4, size / 2)",1024,3.4926,3.6125,3.4517,6.0704,8388608,15,5664
+msvc,lumex_cxx20,subspan_rest,subspan (size / 4),1024,3.5055,3.7454,3.4592,4.8861,8388608,15,7712
+msvc,lumex_cxx20,static_first,"first<4> () of span<int, 16>",0,3.3378,3.4620,3.2601,4.0396,8388608,15,64
+msvc,lumex_cxx20,static_subspan,"subspan<2, 4> () of span<int, 16>",0,3.4019,3.5065,3.2740,6.4158,8388608,15,112
+msvc,lumex_cxx20,static_first_of_dynamic,first<4> () of a dynamic span,1024,3.3546,3.4638,3.2535,5.4512,8388608,15,416
+msvc,lumex_cxx20,static_to_dynamic,"span<int, 16> to span<int>",0,3.4633,3.5596,3.4276,4.3608,8388608,15,128
+msvc,lumex_cxx20,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,3.2745,3.4070,3.2070,4.2388,8388608,15,128
+msvc,lumex_cxx20,mutable_to_const,span<int> to span<int const>,1024,3.4439,3.5470,3.4239,3.6614,8388608,15,8192
+msvc,lumex_cxx20,from_std_span,std::span<int> to span<int>,1024,3.4592,3.8556,3.4074,5.2980,8388608,15,8192
+msvc,lumex_cxx20,to_std_span,span<int> to std::span<int>,1024,3.4556,3.5401,3.4064,3.9485,8388608,15,8192
+msvc,lumex_cxx20,bytes_to_std_span,span<byte const> to std::span<std::byte const>,1024,3.4610,3.5564,3.4209,4.6763,8388608,15,32768
+msvc,lumex_cxx20,pass_noinline,pass a span by value to a noinline function,1024,1.4979,1.5659,1.4405,1.9933,16777216,15,8280
+msvc,lumex_cxx20,pass_inline,pass a span by value to an inlined function,1024,1.7289,1.7808,1.7136,2.0723,16777216,15,8280
+msvc,lumex_cxx20,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,1.7964,1.8653,1.7632,2.8982,16777216,15,208
+msvc,lumex_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,23.1452,24.0887,21.9315,34.4944,1048576,15,6984
+msvc,lumex_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3004.8200,3150.9800,2854.6900,5293.6800,8192,15,1023848
+msvc,lumex_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,2970540.0000,3120380.0000,2917590.0000,4119940.0000,8,15,999998840
+msvc,lumex_cxx20,bytes_sum,sum of as_bytes of `size` ints,1024,974.3870,1004.3600,963.8340,1909.3600,32768,15,1023848
+msvc,lumex_cxx20,bytes_sum,sum of as_bytes of `size` ints,1000000,957903.0000,984556.0000,946659.0000,1351360.0000,32,15,999998840
+msvc,lumex_cxx20,size_bytes,size_bytes (),1024,1.7312,1.7778,1.7032,2.5056,16777216,15,32768
+msvc,lumex_cxx20,front_back,front () + back (),1024,1.7473,1.7995,1.7246,1.9061,16777216,15,1784
+msvc,lumex_checks_cxx11,ctor_ptr_size,"span (pointer, count)",1024,1.7423,1.8053,1.7275,2.2682,16777216,15,8192
+msvc,lumex_checks_cxx11,ctor_c_array,span from a built-in array,0,1.7449,1.7728,1.7158,2.6248,16777216,15,128
+msvc,lumex_checks_cxx11,ctor_std_array,span from a std::array,0,1.7382,1.7938,1.7156,1.9629,16777216,15,128
+msvc,lumex_checks_cxx11,ctor_vector,"span from a std::vector (data (), size ())",0,1.7558,1.8131,1.7383,2.6261,16777216,15,128
+msvc,lumex_checks_cxx11,ctor_static_array,"span<int, 16> from a built-in array",0,1.7412,1.7814,1.6771,2.2673,16777216,15,128
+msvc,lumex_checks_cxx11,copy,copy of a span,1024,3.5068,3.5587,3.4477,3.7209,8388608,15,8192
+msvc,lumex_checks_cxx11,sum_range_for,range-for sum of `size` ints,8,2.5101,2.6404,2.4196,3.3592,8388608,15,6984
+msvc,lumex_checks_cxx11,sum_range_for,range-for sum of `size` ints,1024,146.4950,154.2880,144.5540,201.3040,131072,15,1023848
+msvc,lumex_checks_cxx11,sum_range_for,range-for sum of `size` ints,1000000,132854.0000,136898.0000,127204.0000,202565.0000,256,15,999998840
+msvc,lumex_checks_cxx11,sum_index,sum with operator[] over `size` ints,8,3.0330,3.2064,2.5482,3.9123,8388608,15,6984
+msvc,lumex_checks_cxx11,sum_index,sum with operator[] over `size` ints,1024,242.7220,277.8160,240.4950,426.9580,131072,15,1023848
+msvc,lumex_checks_cxx11,sum_index,sum with operator[] over `size` ints,1000000,240650.0000,246295.0000,238189.0000,259735.0000,128,15,999998840
+msvc,lumex_checks_cxx11,sum_iterators,sum with begin () / end () over `size` ints,8,2.9912,3.1087,2.6341,4.4694,8388608,15,6984
+msvc,lumex_checks_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1024,245.3920,251.3280,241.5950,355.6630,131072,15,1023848
+msvc,lumex_checks_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1000000,241311.0000,249437.0000,238814.0000,297655.0000,128,15,999998840
+msvc,lumex_checks_cxx11,sum_static_range_for,"range-for sum of a span<int const, 16>",0,3.2351,3.3649,3.0070,4.4161,8388608,15,3008
+msvc,lumex_checks_cxx11,first,first (size / 2),1024,3.5028,3.5976,3.4594,4.8342,8388608,15,4184
+msvc,lumex_checks_cxx11,last,last (size / 2),1024,3.5395,3.5939,3.4741,3.6754,8388608,15,5136
+msvc,lumex_checks_cxx11,subspan,"subspan (size / 4, size / 2)",1024,3.4957,3.5701,3.4634,4.4538,8388608,15,5664
+msvc,lumex_checks_cxx11,subspan_rest,subspan (size / 4),1024,3.5641,3.8326,3.4909,5.5704,8388608,15,7712
+msvc,lumex_checks_cxx11,static_first,"first<4> () of span<int, 16>",0,3.3922,3.4552,3.3168,5.5079,8388608,15,64
+msvc,lumex_checks_cxx11,static_subspan,"subspan<2, 4> () of span<int, 16>",0,3.3492,3.5159,3.1962,4.4980,8388608,15,112
+msvc,lumex_checks_cxx11,static_first_of_dynamic,first<4> () of a dynamic span,1024,3.1135,3.2909,2.9325,4.2319,8388608,15,416
+msvc,lumex_checks_cxx11,static_to_dynamic,"span<int, 16> to span<int>",0,3.5200,3.6227,3.4300,6.4481,8388608,15,128
+msvc,lumex_checks_cxx11,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,3.4744,3.5561,3.3827,3.6534,8388608,15,128
+msvc,lumex_checks_cxx11,mutable_to_const,span<int> to span<int const>,1024,3.5004,3.5629,3.4232,6.2432,8388608,15,8192
+msvc,lumex_checks_cxx11,pass_noinline,pass a span by value to a noinline function,1024,1.5278,1.5880,1.4534,2.5750,16777216,15,8280
+msvc,lumex_checks_cxx11,pass_inline,pass a span by value to an inlined function,1024,1.7453,1.7818,1.7201,2.5287,16777216,15,8280
+msvc,lumex_checks_cxx11,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,1.7971,1.8724,1.7194,2.0649,16777216,15,208
+msvc,lumex_checks_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,23.0761,24.2634,22.3655,37.9970,1048576,15,6984
+msvc,lumex_checks_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3072.7100,3237.0400,2882.6300,3948.8000,8192,15,1023848
+msvc,lumex_checks_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,2985560.0000,3104760.0000,2909920.0000,4407120.0000,8,15,999998840
+msvc,lumex_checks_cxx11,bytes_sum,sum of as_bytes of `size` ints,1024,978.7320,996.3780,959.0240,1541.0100,32768,15,1023848
+msvc,lumex_checks_cxx11,bytes_sum,sum of as_bytes of `size` ints,1000000,967312.0000,982997.0000,949028.0000,1131970.0000,32,15,999998840
+msvc,lumex_checks_cxx11,size_bytes,size_bytes (),1024,1.7465,1.7682,1.7087,2.1867,16777216,15,32768
+msvc,lumex_checks_cxx11,front_back,front () + back (),1024,1.7707,1.7974,1.7305,3.4110,16777216,15,1784
+msvc,lumex_checks_cxx20,ctor_ptr_size,"span (pointer, count)",1024,1.7753,2.0942,1.7424,2.7970,16777216,15,8192
+msvc,lumex_checks_cxx20,ctor_c_array,span from a built-in array,0,1.7561,1.8417,1.7365,2.3402,16777216,15,128
+msvc,lumex_checks_cxx20,ctor_std_array,span from a std::array,0,1.7590,1.8103,1.7129,2.4802,16777216,15,128
+msvc,lumex_checks_cxx20,ctor_vector,"span from a std::vector (data (), size ())",0,1.7668,1.8315,1.7222,2.6531,16777216,15,128
+msvc,lumex_checks_cxx20,ctor_static_array,"span<int, 16> from a built-in array",0,1.7033,1.8073,1.6246,2.2479,16777216,15,128
+msvc,lumex_checks_cxx20,copy,copy of a span,1024,3.4967,3.5995,3.3464,4.4631,8388608,15,8192
+msvc,lumex_checks_cxx20,sum_range_for,range-for sum of `size` ints,8,2.5048,2.7326,2.4326,4.3953,8388608,15,6984
+msvc,lumex_checks_cxx20,sum_range_for,range-for sum of `size` ints,1024,145.7680,163.3800,143.9080,315.2800,131072,15,1023848
+msvc,lumex_checks_cxx20,sum_range_for,range-for sum of `size` ints,1000000,131507.0000,138962.0000,125613.0000,165986.0000,256,15,999998840
+msvc,lumex_checks_cxx20,sum_index,sum with operator[] over `size` ints,8,2.3694,2.5936,2.2605,3.0525,8388608,15,6984
+msvc,lumex_checks_cxx20,sum_index,sum with operator[] over `size` ints,1024,246.9090,273.5550,240.1470,398.1960,131072,15,1023848
+msvc,lumex_checks_cxx20,sum_index,sum with operator[] over `size` ints,1000000,243870.0000,250761.0000,237934.0000,261746.0000,128,15,999998840
+msvc,lumex_checks_cxx20,sum_iterators,sum with begin () / end () over `size` ints,8,2.2787,2.4571,2.2430,3.4562,8388608,15,6984
+msvc,lumex_checks_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1024,246.5550,256.1190,242.1460,315.0050,65536,15,1023848
+msvc,lumex_checks_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1000000,244007.0000,252885.0000,239537.0000,297287.0000,128,15,999998840
+msvc,lumex_checks_cxx20,sum_static_range_for,"range-for sum of a span<int const, 16>",0,2.9955,3.0997,2.9236,3.3749,8388608,15,3008
+msvc,lumex_checks_cxx20,first,first (size / 2),1024,3.5424,3.6359,3.4754,5.0283,8388608,15,4184
+msvc,lumex_checks_cxx20,last,last (size / 2),1024,3.5720,3.6755,3.5007,5.4545,8388608,15,5136
+msvc,lumex_checks_cxx20,subspan,"subspan (size / 4, size / 2)",1024,3.5230,3.6533,3.4666,4.3302,8388608,15,5664
+msvc,lumex_checks_cxx20,subspan_rest,subspan (size / 4),1024,3.5469,3.6443,3.5217,4.9379,8388608,15,7712
+msvc,lumex_checks_cxx20,static_first,"first<4> () of span<int, 16>",0,3.4053,3.4807,3.3080,4.3098,8388608,15,64
+msvc,lumex_checks_cxx20,static_subspan,"subspan<2, 4> () of span<int, 16>",0,3.4691,3.8759,3.3598,6.0757,8388608,15,112
+msvc,lumex_checks_cxx20,static_first_of_dynamic,first<4> () of a dynamic span,1024,3.2017,3.3198,2.8888,4.6777,8388608,15,416
+msvc,lumex_checks_cxx20,static_to_dynamic,"span<int, 16> to span<int>",0,3.5405,3.5784,3.4176,5.6035,8388608,15,128
+msvc,lumex_checks_cxx20,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,3.4694,3.9177,3.3897,5.0143,8388608,15,128
+msvc,lumex_checks_cxx20,mutable_to_const,span<int> to span<int const>,1024,3.4804,3.5857,3.3424,10.0521,8388608,15,8192
+msvc,lumex_checks_cxx20,from_std_span,std::span<int> to span<int>,1024,3.5036,3.6009,3.4092,7.4191,8388608,15,8192
+msvc,lumex_checks_cxx20,to_std_span,span<int> to std::span<int>,1024,3.4995,3.6101,3.4273,5.2147,8388608,15,8192
+msvc,lumex_checks_cxx20,bytes_to_std_span,span<byte const> to std::span<std::byte const>,1024,3.5015,3.5626,3.3989,4.8704,8388608,15,32768
+msvc,lumex_checks_cxx20,pass_noinline,pass a span by value to a noinline function,1024,1.5599,1.6076,1.4815,2.7218,16777216,15,8280
+msvc,lumex_checks_cxx20,pass_inline,pass a span by value to an inlined function,1024,1.7577,1.7882,1.7362,2.7879,16777216,15,8280
+msvc,lumex_checks_cxx20,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,1.7994,1.8378,1.6563,1.9019,16777216,15,208
+msvc,lumex_checks_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,23.3381,23.9591,22.5922,37.1553,1048576,15,6984
+msvc,lumex_checks_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3223.8200,3301.2000,3149.3800,6356.9600,8192,15,1023848
+msvc,lumex_checks_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3149900.0000,3242850.0000,3097900.0000,3789810.0000,8,15,999998840
+msvc,lumex_checks_cxx20,bytes_sum,sum of as_bytes of `size` ints,1024,990.0880,1001.8000,973.3370,1199.8000,32768,15,1023848
+msvc,lumex_checks_cxx20,bytes_sum,sum of as_bytes of `size` ints,1000000,973331.0000,993122.0000,960372.0000,1188960.0000,32,15,999998840
+msvc,lumex_checks_cxx20,size_bytes,size_bytes (),1024,1.7390,1.7604,1.6692,2.7646,16777216,15,32768
+msvc,lumex_checks_cxx20,front_back,front () + back (),1024,1.7645,1.8095,1.7167,2.7046,16777216,15,1784
+msvc,std_cxx20,ctor_ptr_size,"span (pointer, count)",1024,1.7680,1.8711,1.7343,2.0221,16777216,15,8192
+msvc,std_cxx20,ctor_c_array,span from a built-in array,0,1.7591,1.7991,1.7212,2.1997,16777216,15,128
+msvc,std_cxx20,ctor_std_array,span from a std::array,0,1.7347,1.8012,1.7074,2.2867,16777216,15,128
+msvc,std_cxx20,ctor_vector,"span from a std::vector (data (), size ())",0,1.7424,1.8233,1.7270,4.0543,16777216,15,128
+msvc,std_cxx20,ctor_static_array,"span<int, 16> from a built-in array",0,1.6837,1.7642,1.5829,2.5642,16777216,15,128
+msvc,std_cxx20,copy,copy of a span,1024,3.4551,3.5878,3.4053,4.7827,8388608,15,8192
+msvc,std_cxx20,sum_range_for,range-for sum of `size` ints,8,2.5107,2.5935,2.4647,4.9986,8388608,15,6984
+msvc,std_cxx20,sum_range_for,range-for sum of `size` ints,1024,146.1280,152.0410,143.3710,170.1950,131072,15,1023848
+msvc,std_cxx20,sum_range_for,range-for sum of `size` ints,1000000,132170.0000,136730.0000,130137.0000,165593.0000,256,15,999998840
+msvc,std_cxx20,sum_index,sum with operator[] over `size` ints,8,2.2536,2.3793,2.2325,2.8404,16777216,15,6984
+msvc,std_cxx20,sum_index,sum with operator[] over `size` ints,1024,245.1430,260.6740,241.8390,293.7700,131072,15,1023848
+msvc,std_cxx20,sum_index,sum with operator[] over `size` ints,1000000,240023.0000,249731.0000,236872.0000,404464.0000,128,15,999998840
+msvc,std_cxx20,sum_iterators,sum with begin () / end () over `size` ints,8,2.2688,2.3902,2.2407,4.6720,8388608,15,6984
+msvc,std_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1024,243.5260,251.1350,240.9130,276.6060,131072,15,1023848
+msvc,std_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1000000,240936.0000,249805.0000,236851.0000,305776.0000,128,15,999998840
+msvc,std_cxx20,sum_static_range_for,"range-for sum of a span<int const, 16>",0,2.9635,3.1356,2.9227,5.7143,8388608,15,3008
+msvc,std_cxx20,first,first (size / 2),1024,3.5073,3.6424,3.4422,5.0002,8388608,15,4184
+msvc,std_cxx20,last,last (size / 2),1024,3.5173,3.6417,3.4621,4.4657,8388608,15,5136
+msvc,std_cxx20,subspan,"subspan (size / 4, size / 2)",1024,3.4722,3.6653,3.4358,6.2531,8388608,15,5664
+msvc,std_cxx20,subspan_rest,subspan (size / 4),1024,3.5075,3.9388,3.4617,8.0691,8388608,15,7712
+msvc,std_cxx20,static_first,"first<4> () of span<int, 16>",0,3.3341,3.4598,3.2936,4.9247,8388608,15,64
+msvc,std_cxx20,static_subspan,"subspan<2, 4> () of span<int, 16>",0,3.2834,3.5491,3.1839,4.8304,8388608,15,112
+msvc,std_cxx20,static_first_of_dynamic,first<4> () of a dynamic span,1024,3.3432,3.4455,3.3057,3.8287,8388608,15,416
+msvc,std_cxx20,static_to_dynamic,"span<int, 16> to span<int>",0,3.4887,3.6611,3.4349,4.6472,8388608,15,128
+msvc,std_cxx20,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,3.2924,3.6960,3.2100,4.5786,8388608,15,128
+msvc,std_cxx20,mutable_to_const,span<int> to span<int const>,1024,3.4811,3.6001,3.4274,5.2872,8388608,15,8192
+msvc,std_cxx20,pass_noinline,pass a span by value to a noinline function,1024,1.4820,1.5867,1.4475,2.6532,16777216,15,8280
+msvc,std_cxx20,pass_inline,pass a span by value to an inlined function,1024,1.7351,1.8017,1.7088,2.4673,16777216,15,8280
+msvc,std_cxx20,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,1.8008,1.8713,1.7537,2.3464,16777216,15,208
+msvc,std_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,23.3268,24.8682,22.2098,41.7716,1048576,15,6984
+msvc,std_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,2985.0000,3118.6900,2922.5600,7176.2500,8192,15,1023848
+msvc,std_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,2981720.0000,3184310.0000,2941550.0000,5047360.0000,8,15,999998840
+msvc,std_cxx20,bytes_sum,sum of as_bytes of `size` ints,1024,972.0730,1019.4200,960.0680,1332.8600,32768,15,1023848
+msvc,std_cxx20,bytes_sum,sum of as_bytes of `size` ints,1000000,963528.0000,1023580.0000,949831.0000,1439790.0000,32,15,999998840
+msvc,std_cxx20,size_bytes,size_bytes (),1024,1.7249,1.8067,1.7082,2.2916,16777216,15,32768
+msvc,std_cxx20,front_back,front () + back (),1024,1.7524,1.8490,1.7314,2.3113,16777216,15,1784
+msvc,boost_cxx11,ctor_ptr_size,"span (pointer, count)",1024,1.7334,1.9084,1.7199,2.4082,16777216,15,8192
+msvc,boost_cxx11,ctor_c_array,span from a built-in array,0,1.7356,2.2669,1.7176,4.4086,16777216,15,128
+msvc,boost_cxx11,ctor_std_array,span from a std::array,0,1.7234,2.1913,1.7077,3.2950,16777216,15,128
+msvc,boost_cxx11,ctor_vector,"span from a std::vector (data (), size ())",0,1.7529,2.3220,1.7217,7.8952,16777216,15,128
+msvc,boost_cxx11,ctor_static_array,"span<int, 16> from a built-in array",0,1.6915,2.3763,1.6562,2.8244,16777216,15,128
+msvc,boost_cxx11,copy,copy of a span,1024,3.4567,4.1495,3.4195,4.7398,8388608,15,8192
+msvc,boost_cxx11,sum_range_for,range-for sum of `size` ints,8,2.5177,2.7961,2.4559,4.5124,8388608,15,6984
+msvc,boost_cxx11,sum_range_for,range-for sum of `size` ints,1024,146.4410,157.3080,144.5560,211.1080,262144,15,1023848
+msvc,boost_cxx11,sum_range_for,range-for sum of `size` ints,1000000,132493.0000,142143.0000,127064.0000,179164.0000,256,15,999998840
+msvc,boost_cxx11,sum_index,sum with operator[] over `size` ints,8,3.1637,3.3883,2.8688,5.0144,8388608,15,6984
+msvc,boost_cxx11,sum_index,sum with operator[] over `size` ints,1024,244.4750,262.2080,240.8530,385.1200,131072,15,1023848
+msvc,boost_cxx11,sum_index,sum with operator[] over `size` ints,1000000,240827.0000,314434.0000,237091.0000,571457.0000,128,15,999998840
+msvc,boost_cxx11,sum_iterators,sum with begin () / end () over `size` ints,8,2.5242,2.6548,2.4449,4.8668,8388608,15,6984
+msvc,boost_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1024,145.9680,181.1670,144.3520,241.7320,131072,15,1023848
+msvc,boost_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1000000,132798.0000,139091.0000,128344.0000,202463.0000,256,15,999998840
+msvc,boost_cxx11,sum_static_range_for,"range-for sum of a span<int const, 16>",0,3.1700,3.4502,3.1083,4.5539,8388608,15,3008
+msvc,boost_cxx11,first,first (size / 2),1024,3.5052,3.6254,3.3841,4.4605,8388608,15,4184
+msvc,boost_cxx11,last,last (size / 2),1024,3.5241,3.6873,3.4735,5.7019,8388608,15,5136
+msvc,boost_cxx11,subspan,"subspan (size / 4, size / 2)",1024,3.5189,3.6032,3.4285,4.5588,8388608,15,5664
+msvc,boost_cxx11,subspan_rest,subspan (size / 4),1024,3.5377,3.6380,3.4832,4.4509,8388608,15,7712
+msvc,boost_cxx11,static_first,"first<4> () of span<int, 16>",0,3.3641,3.4988,3.2437,4.9277,8388608,15,64
+msvc,boost_cxx11,static_subspan,"subspan<2, 4> () of span<int, 16>",0,3.4261,3.6584,3.3411,4.6281,8388608,15,112
+msvc,boost_cxx11,static_first_of_dynamic,first<4> () of a dynamic span,1024,3.4100,3.5236,3.3253,6.7857,8388608,15,416
+msvc,boost_cxx11,static_to_dynamic,"span<int, 16> to span<int>",0,3.5255,3.6097,3.4224,5.8506,8388608,15,128
+msvc,boost_cxx11,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,3.4317,3.6032,3.2927,4.7392,8388608,15,128
+msvc,boost_cxx11,mutable_to_const,span<int> to span<int const>,1024,3.4832,3.5950,3.4325,5.4674,8388608,15,8192
+msvc,boost_cxx11,pass_noinline,pass a span by value to a noinline function,1024,1.5278,1.5645,1.4643,2.6377,16777216,15,8280
+msvc,boost_cxx11,pass_inline,pass a span by value to an inlined function,1024,1.7440,1.8040,1.7248,1.9651,16777216,15,8280
+msvc,boost_cxx11,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,1.8268,1.8495,1.7315,2.7726,16777216,15,208
+msvc,boost_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,23.1565,24.6179,22.7052,41.2392,1048576,15,6984
+msvc,boost_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3171.3900,3769.5100,3100.4600,4326.8900,8192,15,1023848
+msvc,boost_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3126880.0000,3292020.0000,3045240.0000,3724610.0000,8,15,999998840
+msvc,boost_cxx11,size_bytes,size_bytes (),1024,1.7268,1.7796,1.6601,2.3332,16777216,15,32768
+msvc,boost_cxx11,front_back,front () + back (),1024,1.7880,1.8153,1.7423,2.0456,16777216,15,1784
+msvc,boost_cxx20,ctor_ptr_size,"span (pointer, count)",1024,1.7589,1.8115,1.7440,2.3004,16777216,15,8192
+msvc,boost_cxx20,ctor_c_array,span from a built-in array,0,1.7542,1.8259,1.7307,2.1868,16777216,15,128
+msvc,boost_cxx20,ctor_std_array,span from a std::array,0,1.7562,1.7926,1.7293,2.2161,16777216,15,128
+msvc,boost_cxx20,ctor_vector,"span from a std::vector (data (), size ())",0,1.7645,1.8204,1.7482,2.3517,16777216,15,128
+msvc,boost_cxx20,ctor_static_array,"span<int, 16> from a built-in array",0,1.7079,1.8428,1.6123,2.4091,16777216,15,128
+msvc,boost_cxx20,copy,copy of a span,1024,3.4953,3.6122,3.4368,3.7869,8388608,15,8192
+msvc,boost_cxx20,sum_range_for,range-for sum of `size` ints,8,2.4907,2.5865,2.4407,3.5955,8388608,15,6984
+msvc,boost_cxx20,sum_range_for,range-for sum of `size` ints,1024,146.3180,152.0070,143.2900,252.6230,131072,15,1023848
+msvc,boost_cxx20,sum_range_for,range-for sum of `size` ints,1000000,132338.0000,137293.0000,124245.0000,148939.0000,256,15,999998840
+msvc,boost_cxx20,sum_index,sum with operator[] over `size` ints,8,2.2477,2.3647,2.2145,2.6893,16777216,15,6984
+msvc,boost_cxx20,sum_index,sum with operator[] over `size` ints,1024,245.1080,253.0620,241.4500,466.2550,131072,15,1023848
+msvc,boost_cxx20,sum_index,sum with operator[] over `size` ints,1000000,244270.0000,251610.0000,239948.0000,312967.0000,128,15,999998840
+msvc,boost_cxx20,sum_iterators,sum with begin () / end () over `size` ints,8,2.5191,2.7524,2.4708,3.8455,8388608,15,6984
+msvc,boost_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1024,145.4450,155.6790,142.3420,277.9850,131072,15,1023848
+msvc,boost_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1000000,132917.0000,138362.0000,129516.0000,376688.0000,256,15,999998840
+msvc,boost_cxx20,sum_static_range_for,"range-for sum of a span<int const, 16>",0,2.9584,3.0914,2.9275,4.4597,8388608,15,3008
+msvc,boost_cxx20,first,first (size / 2),1024,3.5214,3.6428,3.4452,4.9059,8388608,15,4184
+msvc,boost_cxx20,last,last (size / 2),1024,3.5474,3.6701,3.4903,4.0054,8388608,15,5136
+msvc,boost_cxx20,subspan,"subspan (size / 4, size / 2)",1024,3.5060,3.6572,3.4620,6.0255,8388608,15,5664
+msvc,boost_cxx20,subspan_rest,subspan (size / 4),1024,3.5346,3.6519,3.4943,6.2858,8388608,15,7712
+msvc,boost_cxx20,static_first,"first<4> () of span<int, 16>",0,3.3911,3.5008,3.3178,5.1756,8388608,15,64
+msvc,boost_cxx20,static_subspan,"subspan<2, 4> () of span<int, 16>",0,3.4019,3.5774,3.2731,5.3629,8388608,15,112
+msvc,boost_cxx20,static_first_of_dynamic,first<4> () of a dynamic span,1024,3.3959,3.4794,3.3024,4.1167,8388608,15,416
+msvc,boost_cxx20,static_to_dynamic,"span<int, 16> to span<int>",0,3.5145,3.6236,3.4669,3.9881,8388608,15,128
+msvc,boost_cxx20,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,3.2915,3.5759,3.2058,5.1662,8388608,15,128
+msvc,boost_cxx20,mutable_to_const,span<int> to span<int const>,1024,3.5023,3.5900,3.4506,3.8704,8388608,15,8192
+msvc,boost_cxx20,pass_noinline,pass a span by value to a noinline function,1024,1.5199,1.6802,1.4533,1.9982,16777216,15,8280
+msvc,boost_cxx20,pass_inline,pass a span by value to an inlined function,1024,1.7486,1.8020,1.7302,2.2089,16777216,15,8280
+msvc,boost_cxx20,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,1.8130,1.8671,1.7705,3.1471,16777216,15,208
+msvc,boost_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,23.2249,24.2241,22.2766,42.3553,1048576,15,6984
+msvc,boost_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3053.5000,3169.9300,2948.0700,4852.8600,8192,15,1023848
+msvc,boost_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,2945240.0000,3137760.0000,2888650.0000,6248040.0000,8,15,999998840
+msvc,boost_cxx20,bytes_sum,sum of as_bytes of `size` ints,1024,983.1510,1007.2700,970.3640,1478.0500,32768,15,1023848
+msvc,boost_cxx20,bytes_sum,sum of as_bytes of `size` ints,1000000,968019.0000,996978.0000,952522.0000,1165540.0000,32,15,999998840
+msvc,boost_cxx20,size_bytes,size_bytes (),1024,1.7376,1.7828,1.6798,2.5725,16777216,15,32768
+msvc,boost_cxx20,front_back,front () + back (),1024,1.7620,1.8174,1.7386,3.0753,16777216,15,1784
+clang-cl,lumex_cxx11,ctor_ptr_size,"span (pointer, count)",1024,0.2515,0.2634,0.2380,0.3167,134217728,15,8192
+clang-cl,lumex_cxx11,ctor_c_array,span from a built-in array,0,0.2463,0.2522,0.2403,0.3272,134217728,15,128
+clang-cl,lumex_cxx11,ctor_std_array,span from a std::array,0,0.2459,0.2532,0.2406,0.3648,134217728,15,128
+clang-cl,lumex_cxx11,ctor_vector,"span from a std::vector (data (), size ())",0,0.3642,0.4726,0.3570,0.6352,67108864,15,128
+clang-cl,lumex_cxx11,ctor_static_array,"span<int, 16> from a built-in array",0,0.2174,0.2257,0.2089,0.3708,134217728,15,128
+clang-cl,lumex_cxx11,copy,copy of a span,1024,0.2490,0.2573,0.2477,0.3063,134217728,15,8192
+clang-cl,lumex_cxx11,sum_range_for,range-for sum of `size` ints,8,2.2107,2.3059,2.1722,2.8399,16777216,15,6984
+clang-cl,lumex_cxx11,sum_range_for,range-for sum of `size` ints,1024,94.8357,97.2424,92.6281,165.1690,262144,15,1023848
+clang-cl,lumex_cxx11,sum_range_for,range-for sum of `size` ints,1000000,92452.3000,96484.4000,87893.8000,107597.0000,256,15,999998840
+clang-cl,lumex_cxx11,sum_index,sum with operator[] over `size` ints,8,2.2455,2.3498,2.2011,2.5686,16777216,15,6984
+clang-cl,lumex_cxx11,sum_index,sum with operator[] over `size` ints,1024,118.2900,126.6260,106.6820,197.8590,262144,15,1023848
+clang-cl,lumex_cxx11,sum_index,sum with operator[] over `size` ints,1000000,93648.8000,98266.4000,91842.6000,103500.0000,256,15,999998840
+clang-cl,lumex_cxx11,sum_iterators,sum with begin () / end () over `size` ints,8,2.2190,2.2997,2.1703,3.0597,16777216,15,6984
+clang-cl,lumex_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1024,94.3817,97.4010,91.4101,158.4290,262144,15,1023848
+clang-cl,lumex_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1000000,91345.7000,97609.4000,89884.0000,138857.0000,256,15,999998840
+clang-cl,lumex_cxx11,sum_static_range_for,"range-for sum of a span<int const, 16>",0,1.5813,1.6866,1.5602,2.0067,8388608,15,3008
+clang-cl,lumex_cxx11,first,first (size / 2),1024,0.5470,0.5688,0.5298,0.7229,67108864,15,4184
+clang-cl,lumex_cxx11,last,last (size / 2),1024,0.6492,0.6907,0.6172,0.9137,33554432,15,5136
+clang-cl,lumex_cxx11,subspan,"subspan (size / 4, size / 2)",1024,0.5131,0.5385,0.5027,0.5688,67108864,15,5664
+clang-cl,lumex_cxx11,subspan_rest,subspan (size / 4),1024,0.6193,0.6450,0.5951,0.7578,33554432,15,7712
+clang-cl,lumex_cxx11,static_first,"first<4> () of span<int, 16>",0,0.3340,0.4083,0.3277,1.0285,67108864,15,64
+clang-cl,lumex_cxx11,static_subspan,"subspan<2, 4> () of span<int, 16>",0,0.5243,0.5502,0.4991,0.6168,67108864,15,112
+clang-cl,lumex_cxx11,static_first_of_dynamic,first<4> () of a dynamic span,1024,0.3468,0.3649,0.3387,0.3897,67108864,15,416
+clang-cl,lumex_cxx11,static_to_dynamic,"span<int, 16> to span<int>",0,0.2632,0.4782,0.2597,0.4920,134217728,15,128
+clang-cl,lumex_cxx11,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,0.2361,0.2450,0.2333,0.3079,134217728,15,128
+clang-cl,lumex_cxx11,mutable_to_const,span<int> to span<int const>,1024,0.2492,0.2613,0.2453,0.3321,134217728,15,8192
+clang-cl,lumex_cxx11,pass_noinline,pass a span by value to a noinline function,1024,0.5159,0.6148,0.4983,1.0658,67108864,15,8280
+clang-cl,lumex_cxx11,pass_inline,pass a span by value to an inlined function,1024,0.4757,0.4946,0.4716,0.5931,67108864,15,8280
+clang-cl,lumex_cxx11,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,0.3524,0.3756,0.3418,0.4084,67108864,15,208
+clang-cl,lumex_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,26.4318,27.9593,25.9404,43.6422,1048576,15,6984
+clang-cl,lumex_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3760.0000,3949.5600,3686.3400,5156.9000,8192,15,1023848
+clang-cl,lumex_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3729300.0000,4122560.0000,3662240.0000,8759310.0000,8,15,999998840
+clang-cl,lumex_cxx11,bytes_sum,sum of as_bytes of `size` ints,1024,520.0620,544.9190,508.2400,646.1410,65536,15,1023848
+clang-cl,lumex_cxx11,bytes_sum,sum of as_bytes of `size` ints,1000000,505819.0000,516722.0000,493175.0000,697698.0000,64,15,999998840
+clang-cl,lumex_cxx11,size_bytes,size_bytes (),1024,0.4363,0.4819,0.4247,0.7883,67108864,15,32768
+clang-cl,lumex_cxx11,front_back,front () + back (),1024,0.3638,0.3762,0.3362,0.4513,67108864,15,1784
+clang-cl,lumex_cxx20,ctor_ptr_size,"span (pointer, count)",1024,0.2364,0.2504,0.2344,0.3517,134217728,15,8192
+clang-cl,lumex_cxx20,ctor_c_array,span from a built-in array,0,0.2465,0.2556,0.2415,0.3916,134217728,15,128
+clang-cl,lumex_cxx20,ctor_std_array,span from a std::array,0,0.2457,0.2551,0.2403,0.3818,134217728,15,128
+clang-cl,lumex_cxx20,ctor_vector,"span from a std::vector (data (), size ())",0,0.3411,0.3585,0.3334,0.4234,67108864,15,128
+clang-cl,lumex_cxx20,ctor_static_array,"span<int, 16> from a built-in array",0,0.2210,0.2299,0.2102,0.3081,134217728,15,128
+clang-cl,lumex_cxx20,copy,copy of a span,1024,0.2535,0.2624,0.2487,0.3451,134217728,15,8192
+clang-cl,lumex_cxx20,sum_range_for,range-for sum of `size` ints,8,2.3000,2.3998,2.2285,2.8154,16777216,15,6984
+clang-cl,lumex_cxx20,sum_range_for,range-for sum of `size` ints,1024,102.5810,105.7460,98.9616,126.9900,262144,15,1023848
+clang-cl,lumex_cxx20,sum_range_for,range-for sum of `size` ints,1000000,95048.4000,99271.9000,92778.9000,121490.0000,256,15,999998840
+clang-cl,lumex_cxx20,sum_index,sum with operator[] over `size` ints,8,2.1931,2.2807,2.1584,2.7284,16777216,15,6984
+clang-cl,lumex_cxx20,sum_index,sum with operator[] over `size` ints,1024,97.4438,101.7330,95.1942,128.5880,262144,15,1023848
+clang-cl,lumex_cxx20,sum_index,sum with operator[] over `size` ints,1000000,93820.3000,98752.0000,90858.2000,124441.0000,256,15,999998840
+clang-cl,lumex_cxx20,sum_iterators,sum with begin () / end () over `size` ints,8,2.2738,2.3921,2.2211,2.9581,16777216,15,6984
+clang-cl,lumex_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1024,100.9240,105.3840,98.7392,130.3940,262144,15,1023848
+clang-cl,lumex_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1000000,95087.9000,99007.0000,93314.5000,132652.0000,256,15,999998840
+clang-cl,lumex_cxx20,sum_static_range_for,"range-for sum of a span<int const, 16>",0,1.5659,1.6624,1.5438,2.0047,16777216,15,3008
+clang-cl,lumex_cxx20,first,first (size / 2),1024,0.5115,0.6082,0.4993,0.7056,67108864,15,4184
+clang-cl,lumex_cxx20,last,last (size / 2),1024,0.6144,0.6508,0.5911,0.7192,33554432,15,5136
+clang-cl,lumex_cxx20,subspan,"subspan (size / 4, size / 2)",1024,0.5456,0.5692,0.5285,0.6473,67108864,15,5664
+clang-cl,lumex_cxx20,subspan_rest,subspan (size / 4),1024,0.6343,0.6702,0.6218,1.3044,33554432,15,7712
+clang-cl,lumex_cxx20,static_first,"first<4> () of span<int, 16>",0,0.3477,0.3636,0.3341,0.5382,67108864,15,64
+clang-cl,lumex_cxx20,static_subspan,"subspan<2, 4> () of span<int, 16>",0,0.3836,0.3948,0.3756,0.4829,67108864,15,112
+clang-cl,lumex_cxx20,static_first_of_dynamic,first<4> () of a dynamic span,1024,0.3313,0.3472,0.3261,0.5605,67108864,15,416
+clang-cl,lumex_cxx20,static_to_dynamic,"span<int, 16> to span<int>",0,0.2956,0.4949,0.2835,0.6042,67108864,15,128
+clang-cl,lumex_cxx20,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,0.2357,0.2446,0.2293,0.3969,134217728,15,128
+clang-cl,lumex_cxx20,mutable_to_const,span<int> to span<int const>,1024,0.2527,0.2685,0.2477,0.3333,134217728,15,8192
+clang-cl,lumex_cxx20,from_std_span,std::span<int> to span<int>,1024,0.2593,0.3368,0.2550,0.4441,67108864,15,8192
+clang-cl,lumex_cxx20,to_std_span,span<int> to std::span<int>,1024,0.2543,0.2561,0.2477,0.3924,134217728,15,8192
+clang-cl,lumex_cxx20,bytes_to_std_span,span<byte const> to std::span<std::byte const>,1024,0.2582,0.3388,0.2511,0.4979,67108864,15,32768
+clang-cl,lumex_cxx20,pass_noinline,pass a span by value to a noinline function,1024,0.5123,0.5305,0.5033,0.7470,67108864,15,8280
+clang-cl,lumex_cxx20,pass_inline,pass a span by value to an inlined function,1024,0.4785,0.4931,0.4654,0.5383,67108864,15,8280
+clang-cl,lumex_cxx20,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,0.3559,0.3733,0.3435,0.4063,67108864,15,208
+clang-cl,lumex_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,29.9618,31.3192,29.4612,46.0475,1048576,15,6984
+clang-cl,lumex_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3951.0700,4132.4300,3904.8700,5429.7700,8192,15,1023848
+clang-cl,lumex_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3912460.0000,4215800.0000,3861600.0000,5952540.0000,8,15,999998840
+clang-cl,lumex_cxx20,bytes_sum,sum of as_bytes of `size` ints,1024,512.1200,553.4160,503.4770,779.1350,65536,15,1023848
+clang-cl,lumex_cxx20,bytes_sum,sum of as_bytes of `size` ints,1000000,492977.0000,518077.0000,483895.0000,792228.0000,64,15,999998840
+clang-cl,lumex_cxx20,size_bytes,size_bytes (),1024,0.4401,0.4597,0.4228,0.6117,67108864,15,32768
+clang-cl,lumex_cxx20,front_back,front () + back (),1024,0.3256,0.3495,0.3208,0.4925,67108864,15,1784
+clang-cl,lumex_checks_cxx11,ctor_ptr_size,"span (pointer, count)",1024,0.2551,0.2624,0.2328,0.4042,67108864,15,8192
+clang-cl,lumex_checks_cxx11,ctor_c_array,span from a built-in array,0,0.2404,0.2506,0.2389,0.3854,134217728,15,128
+clang-cl,lumex_checks_cxx11,ctor_std_array,span from a std::array,0,0.2412,0.2547,0.2381,0.3744,134217728,15,128
+clang-cl,lumex_checks_cxx11,ctor_vector,"span from a std::vector (data (), size ())",0,0.3656,0.3765,0.3545,0.6330,67108864,15,128
+clang-cl,lumex_checks_cxx11,ctor_static_array,"span<int, 16> from a built-in array",0,0.2193,0.2234,0.2114,0.3032,134217728,15,128
+clang-cl,lumex_checks_cxx11,copy,copy of a span,1024,0.2450,0.2589,0.2429,0.3185,134217728,15,8192
+clang-cl,lumex_checks_cxx11,sum_range_for,range-for sum of `size` ints,8,2.1938,2.2986,2.1745,2.5037,16777216,15,6984
+clang-cl,lumex_checks_cxx11,sum_range_for,range-for sum of `size` ints,1024,94.1559,98.3383,91.9739,104.1120,262144,15,1023848
+clang-cl,lumex_checks_cxx11,sum_range_for,range-for sum of `size` ints,1000000,91092.6000,95679.3000,89311.3000,152359.0000,256,15,999998840
+clang-cl,lumex_checks_cxx11,sum_index,sum with operator[] over `size` ints,8,2.2220,2.3303,2.1916,3.3858,16777216,15,6984
+clang-cl,lumex_checks_cxx11,sum_index,sum with operator[] over `size` ints,1024,118.8340,127.8060,105.3360,168.9850,262144,15,1023848
+clang-cl,lumex_checks_cxx11,sum_index,sum with operator[] over `size` ints,1000000,94715.2000,97563.3000,91111.3000,234564.0000,256,15,999998840
+clang-cl,lumex_checks_cxx11,sum_iterators,sum with begin () / end () over `size` ints,8,2.1979,2.3002,2.1774,2.7342,16777216,15,6984
+clang-cl,lumex_checks_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1024,94.0327,97.6292,91.3246,150.6700,262144,15,1023848
+clang-cl,lumex_checks_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1000000,91769.1000,98263.3000,89275.8000,112121.0000,256,15,999998840
+clang-cl,lumex_checks_cxx11,sum_static_range_for,"range-for sum of a span<int const, 16>",0,1.5838,1.6621,1.5592,2.6354,16777216,15,3008
+clang-cl,lumex_checks_cxx11,first,first (size / 2),1024,0.5607,0.5944,0.5520,0.9363,67108864,15,4184
+clang-cl,lumex_checks_cxx11,last,last (size / 2),1024,0.6728,0.7016,0.6451,1.1936,33554432,15,5136
+clang-cl,lumex_checks_cxx11,subspan,"subspan (size / 4, size / 2)",1024,0.7546,0.7980,0.7402,1.1643,33554432,15,5664
+clang-cl,lumex_checks_cxx11,subspan_rest,subspan (size / 4),1024,0.6546,0.6962,0.6469,1.1519,33554432,15,7712
+clang-cl,lumex_checks_cxx11,static_first,"first<4> () of span<int, 16>",0,0.3285,0.3497,0.3204,0.6116,67108864,15,64
+clang-cl,lumex_checks_cxx11,static_subspan,"subspan<2, 4> () of span<int, 16>",0,0.5120,0.5472,0.5022,0.6520,67108864,15,112
+clang-cl,lumex_checks_cxx11,static_first_of_dynamic,first<4> () of a dynamic span,1024,0.4174,0.4869,0.4068,0.6634,67108864,15,416
+clang-cl,lumex_checks_cxx11,static_to_dynamic,"span<int, 16> to span<int>",0,0.2892,0.3393,0.2701,0.4359,67108864,15,128
+clang-cl,lumex_checks_cxx11,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,0.2506,0.2672,0.2473,0.3149,134217728,15,128
+clang-cl,lumex_checks_cxx11,mutable_to_const,span<int> to span<int const>,1024,0.2482,0.2645,0.2412,0.3081,134217728,15,8192
+clang-cl,lumex_checks_cxx11,pass_noinline,pass a span by value to a noinline function,1024,0.5137,0.5399,0.5017,0.6068,67108864,15,8280
+clang-cl,lumex_checks_cxx11,pass_inline,pass a span by value to an inlined function,1024,0.4792,0.4955,0.4707,0.7250,67108864,15,8280
+clang-cl,lumex_checks_cxx11,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,0.7000,0.7516,0.5893,1.1453,33554432,15,208
+clang-cl,lumex_checks_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,30.1153,31.4143,29.0941,54.1736,1048576,15,6984
+clang-cl,lumex_checks_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,4070.6300,4295.0800,3983.4700,5310.6100,8192,15,1023848
+clang-cl,lumex_checks_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3993210.0000,4188080.0000,3926260.0000,7658300.0000,8,15,999998840
+clang-cl,lumex_checks_cxx11,bytes_sum,sum of as_bytes of `size` ints,1024,516.4720,542.9430,510.4200,650.8410,65536,15,1023848
+clang-cl,lumex_checks_cxx11,bytes_sum,sum of as_bytes of `size` ints,1000000,495795.0000,518608.0000,487086.0000,651994.0000,64,15,999998840
+clang-cl,lumex_checks_cxx11,size_bytes,size_bytes (),1024,0.4321,0.4538,0.4213,0.6469,67108864,15,32768
+clang-cl,lumex_checks_cxx11,front_back,front () + back (),1024,0.3622,0.3707,0.3576,0.4782,67108864,15,1784
+clang-cl,lumex_checks_cxx20,ctor_ptr_size,"span (pointer, count)",1024,0.2389,0.2506,0.2359,0.2726,134217728,15,8192
+clang-cl,lumex_checks_cxx20,ctor_c_array,span from a built-in array,0,0.2441,0.2596,0.2409,0.2749,134217728,15,128
+clang-cl,lumex_checks_cxx20,ctor_std_array,span from a std::array,0,0.2447,0.2585,0.2410,0.2649,134217728,15,128
+clang-cl,lumex_checks_cxx20,ctor_vector,"span from a std::vector (data (), size ())",0,0.3388,0.3597,0.3319,0.4415,67108864,15,128
+clang-cl,lumex_checks_cxx20,ctor_static_array,"span<int, 16> from a built-in array",0,0.2197,0.2294,0.2108,0.2999,134217728,15,128
+clang-cl,lumex_checks_cxx20,copy,copy of a span,1024,0.2510,0.2638,0.2459,0.2923,134217728,15,8192
+clang-cl,lumex_checks_cxx20,sum_range_for,range-for sum of `size` ints,8,2.3329,2.6521,2.2864,3.5975,8388608,15,6984
+clang-cl,lumex_checks_cxx20,sum_range_for,range-for sum of `size` ints,1024,100.7400,106.5170,97.5647,113.6890,262144,15,1023848
+clang-cl,lumex_checks_cxx20,sum_range_for,range-for sum of `size` ints,1000000,94916.8000,99832.8000,91464.8000,108302.0000,256,15,999998840
+clang-cl,lumex_checks_cxx20,sum_index,sum with operator[] over `size` ints,8,2.1980,2.2900,2.1452,2.9025,16777216,15,6984
+clang-cl,lumex_checks_cxx20,sum_index,sum with operator[] over `size` ints,1024,97.2282,102.4830,95.6379,142.6500,262144,15,1023848
+clang-cl,lumex_checks_cxx20,sum_index,sum with operator[] over `size` ints,1000000,92905.5000,98220.3000,91355.5000,110996.0000,256,15,999998840
+clang-cl,lumex_checks_cxx20,sum_iterators,sum with begin () / end () over `size` ints,8,2.3298,2.4478,2.2371,2.5899,8388608,15,6984
+clang-cl,lumex_checks_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1024,101.9320,106.6700,99.8341,168.2180,262144,15,1023848
+clang-cl,lumex_checks_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1000000,94681.2000,99826.2000,92194.1000,108970.0000,256,15,999998840
+clang-cl,lumex_checks_cxx20,sum_static_range_for,"range-for sum of a span<int const, 16>",0,1.5745,1.6868,1.5365,1.9669,16777216,15,3008
+clang-cl,lumex_checks_cxx20,first,first (size / 2),1024,0.5670,0.6030,0.5602,0.7026,67108864,15,4184
+clang-cl,lumex_checks_cxx20,last,last (size / 2),1024,0.6579,0.6851,0.6440,1.1757,33554432,15,5136
+clang-cl,lumex_checks_cxx20,subspan,"subspan (size / 4, size / 2)",1024,0.7623,0.7979,0.7391,0.9388,33554432,15,5664
+clang-cl,lumex_checks_cxx20,subspan_rest,subspan (size / 4),1024,0.6607,0.7010,0.6511,1.2264,33554432,15,7712
+clang-cl,lumex_checks_cxx20,static_first,"first<4> () of span<int, 16>",0,0.3514,0.3639,0.3339,0.6255,67108864,15,64
+clang-cl,lumex_checks_cxx20,static_subspan,"subspan<2, 4> () of span<int, 16>",0,0.3819,0.4035,0.3737,0.6234,67108864,15,112
+clang-cl,lumex_checks_cxx20,static_first_of_dynamic,first<4> () of a dynamic span,1024,0.4191,0.4376,0.4096,0.7820,16777216,15,416
+clang-cl,lumex_checks_cxx20,static_to_dynamic,"span<int, 16> to span<int>",0,0.2704,0.4974,0.2664,0.6008,67108864,15,128
+clang-cl,lumex_checks_cxx20,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,0.2544,0.2666,0.2482,0.3299,134217728,15,128
+clang-cl,lumex_checks_cxx20,mutable_to_const,span<int> to span<int const>,1024,0.2855,0.3333,0.2594,0.4448,67108864,15,8192
+clang-cl,lumex_checks_cxx20,from_std_span,std::span<int> to span<int>,1024,0.2466,0.3372,0.2430,0.3546,67108864,15,8192
+clang-cl,lumex_checks_cxx20,to_std_span,span<int> to std::span<int>,1024,0.2887,0.3291,0.2529,0.3988,67108864,15,8192
+clang-cl,lumex_checks_cxx20,bytes_to_std_span,span<byte const> to std::span<std::byte const>,1024,0.2465,0.3390,0.2429,0.4073,67108864,15,32768
+clang-cl,lumex_checks_cxx20,pass_noinline,pass a span by value to a noinline function,1024,0.6970,0.7868,0.5724,1.0673,33554432,15,8280
+clang-cl,lumex_checks_cxx20,pass_inline,pass a span by value to an inlined function,1024,0.5004,0.5284,0.4820,0.8238,67108864,15,8280
+clang-cl,lumex_checks_cxx20,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,0.3532,0.3775,0.3428,0.4393,67108864,15,208
+clang-cl,lumex_checks_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,33.3890,35.7673,33.0258,51.8951,1048576,15,6984
+clang-cl,lumex_checks_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,4458.1200,4704.0400,4354.3600,5150.8100,8192,15,1023848
+clang-cl,lumex_checks_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,4295490.0000,4589180.0000,4225080.0000,8183980.0000,8,15,999998840
+clang-cl,lumex_checks_cxx20,bytes_sum,sum of as_bytes of `size` ints,1024,512.5990,542.7870,502.5830,824.4520,65536,15,1023848
+clang-cl,lumex_checks_cxx20,bytes_sum,sum of as_bytes of `size` ints,1000000,493922.0000,516481.0000,483725.0000,671831.0000,64,15,999998840
+clang-cl,lumex_checks_cxx20,size_bytes,size_bytes (),1024,0.4367,0.4624,0.4201,0.8364,67108864,15,32768
+clang-cl,lumex_checks_cxx20,front_back,front () + back (),1024,0.3591,0.3806,0.3449,0.5164,67108864,15,1784
+clang-cl,std_cxx20,ctor_ptr_size,"span (pointer, count)",1024,0.2393,0.4719,0.2362,0.6168,134217728,15,8192
+clang-cl,std_cxx20,ctor_c_array,span from a built-in array,0,0.2449,0.2841,0.2392,0.3312,134217728,15,128
+clang-cl,std_cxx20,ctor_std_array,span from a std::array,0,0.2522,0.2875,0.2447,0.3212,134217728,15,128
+clang-cl,std_cxx20,ctor_vector,"span from a std::vector (data (), size ())",0,0.5292,0.5550,0.5025,0.5733,67108864,15,128
+clang-cl,std_cxx20,ctor_static_array,"span<int, 16> from a built-in array",0,0.2175,0.2264,0.2118,0.3039,134217728,15,128
+clang-cl,std_cxx20,copy,copy of a span,1024,0.2495,0.2592,0.2452,0.3520,134217728,15,8192
+clang-cl,std_cxx20,sum_range_for,range-for sum of `size` ints,8,2.2173,2.3134,2.1743,2.7679,16777216,15,6984
+clang-cl,std_cxx20,sum_range_for,range-for sum of `size` ints,1024,93.7756,98.3223,92.4339,121.0240,262144,15,1023848
+clang-cl,std_cxx20,sum_range_for,range-for sum of `size` ints,1000000,91637.9000,98000.4000,89682.8000,128388.0000,256,15,999998840
+clang-cl,std_cxx20,sum_index,sum with operator[] over `size` ints,8,2.2495,2.3678,2.1960,2.7697,16777216,15,6984
+clang-cl,std_cxx20,sum_index,sum with operator[] over `size` ints,1024,117.9400,124.1830,111.9030,168.8590,262144,15,1023848
+clang-cl,std_cxx20,sum_index,sum with operator[] over `size` ints,1000000,94720.3000,99210.2000,91031.2000,128027.0000,256,15,999998840
+clang-cl,std_cxx20,sum_iterators,sum with begin () / end () over `size` ints,8,2.2230,2.3096,2.1818,3.1725,16777216,15,6984
+clang-cl,std_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1024,93.8118,112.4580,92.3965,177.0970,262144,15,1023848
+clang-cl,std_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1000000,91826.2000,108403.0000,90055.9000,235561.0000,256,15,999998840
+clang-cl,std_cxx20,sum_static_range_for,"range-for sum of a span<int const, 16>",0,1.5907,1.6804,1.5449,2.5541,16777216,15,3008
+clang-cl,std_cxx20,first,first (size / 2),1024,0.5042,0.5320,0.4945,0.6959,67108864,15,4184
+clang-cl,std_cxx20,last,last (size / 2),1024,0.5605,0.5907,0.5505,0.6938,33554432,15,5136
+clang-cl,std_cxx20,subspan,"subspan (size / 4, size / 2)",1024,0.5087,0.5279,0.5006,0.6143,67108864,15,5664
+clang-cl,std_cxx20,subspan_rest,subspan (size / 4),1024,0.6408,0.6902,0.6219,1.6453,33554432,15,7712
+clang-cl,std_cxx20,static_first,"first<4> () of span<int, 16>",0,0.3471,0.3908,0.3352,0.5599,67108864,15,64
+clang-cl,std_cxx20,static_subspan,"subspan<2, 4> () of span<int, 16>",0,0.3842,0.3991,0.3749,0.4869,67108864,15,112
+clang-cl,std_cxx20,static_first_of_dynamic,first<4> () of a dynamic span,1024,0.3319,0.3407,0.3229,0.5371,67108864,15,416
+clang-cl,std_cxx20,static_to_dynamic,"span<int, 16> to span<int>",0,0.2707,0.4885,0.2668,0.5771,67108864,15,128
+clang-cl,std_cxx20,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,0.2356,0.2446,0.2274,0.3740,134217728,15,128
+clang-cl,std_cxx20,mutable_to_const,span<int> to span<int const>,1024,0.2518,0.4869,0.2448,0.5056,134217728,15,8192
+clang-cl,std_cxx20,pass_noinline,pass a span by value to a noinline function,1024,0.5136,0.5313,0.4963,0.7232,67108864,15,8280
+clang-cl,std_cxx20,pass_inline,pass a span by value to an inlined function,1024,0.4825,0.4923,0.4725,0.6878,67108864,15,8280
+clang-cl,std_cxx20,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,0.4930,0.6122,0.4392,1.0920,33554432,15,208
+clang-cl,std_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,27.3046,28.1322,26.5018,32.8654,1048576,15,6984
+clang-cl,std_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3630.9400,3752.1900,3563.6600,5880.3100,8192,15,1023848
+clang-cl,std_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3647340.0000,3797490.0000,3589300.0000,5386250.0000,8,15,999998840
+clang-cl,std_cxx20,bytes_sum,sum of as_bytes of `size` ints,1024,515.0120,614.5450,506.7570,694.0730,65536,15,1023848
+clang-cl,std_cxx20,bytes_sum,sum of as_bytes of `size` ints,1000000,496225.0000,522616.0000,483698.0000,623641.0000,64,15,999998840
+clang-cl,std_cxx20,size_bytes,size_bytes (),1024,0.4379,0.4567,0.4223,0.5710,67108864,15,32768
+clang-cl,std_cxx20,front_back,front () + back (),1024,0.3330,0.3713,0.3271,0.4054,67108864,15,1784
+clang-cl,boost_cxx11,ctor_ptr_size,"span (pointer, count)",1024,0.2367,0.2439,0.2317,0.2906,134217728,15,8192
+clang-cl,boost_cxx11,ctor_c_array,span from a built-in array,0,0.2421,0.2535,0.2395,0.3649,134217728,15,128
+clang-cl,boost_cxx11,ctor_std_array,span from a std::array,0,0.2441,0.2512,0.2397,0.3700,134217728,15,128
+clang-cl,boost_cxx11,ctor_vector,"span from a std::vector (data (), size ())",0,0.3422,0.3606,0.3315,0.5922,67108864,15,128
+clang-cl,boost_cxx11,ctor_static_array,"span<int, 16> from a built-in array",0,0.2180,0.2263,0.2105,0.2885,134217728,15,128
+clang-cl,boost_cxx11,copy,copy of a span,1024,0.2983,0.3882,0.2594,0.4115,67108864,15,8192
+clang-cl,boost_cxx11,sum_range_for,range-for sum of `size` ints,8,2.2337,2.3384,2.1882,3.1368,16777216,15,6984
+clang-cl,boost_cxx11,sum_range_for,range-for sum of `size` ints,1024,98.9208,103.7920,96.8121,138.2230,262144,15,1023848
+clang-cl,boost_cxx11,sum_range_for,range-for sum of `size` ints,1000000,93285.5000,95158.2000,90416.8000,105415.0000,256,15,999998840
+clang-cl,boost_cxx11,sum_index,sum with operator[] over `size` ints,8,2.2833,2.4092,2.1986,4.1799,8388608,15,6984
+clang-cl,boost_cxx11,sum_index,sum with operator[] over `size` ints,1024,104.6610,109.4860,99.1489,128.3260,262144,15,1023848
+clang-cl,boost_cxx11,sum_index,sum with operator[] over `size` ints,1000000,96149.2000,98229.7000,93888.7000,123289.0000,256,15,999998840
+clang-cl,boost_cxx11,sum_iterators,sum with begin () / end () over `size` ints,8,2.2242,2.3362,2.1737,3.1483,16777216,15,6984
+clang-cl,boost_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1024,99.3515,102.7310,96.8666,191.0250,262144,15,1023848
+clang-cl,boost_cxx11,sum_iterators,sum with begin () / end () over `size` ints,1000000,92512.5000,93727.0000,91110.2000,120309.0000,256,15,999998840
+clang-cl,boost_cxx11,sum_static_range_for,"range-for sum of a span<int const, 16>",0,1.5869,1.6177,1.5464,1.7303,16777216,15,3008
+clang-cl,boost_cxx11,first,first (size / 2),1024,0.5372,0.5455,0.5308,0.7793,67108864,15,4184
+clang-cl,boost_cxx11,last,last (size / 2),1024,0.6052,0.6237,0.5822,1.0318,33554432,15,5136
+clang-cl,boost_cxx11,subspan,"subspan (size / 4, size / 2)",1024,0.5400,0.5579,0.5283,0.7550,33554432,15,5664
+clang-cl,boost_cxx11,subspan_rest,subspan (size / 4),1024,0.6634,0.6710,0.6208,0.7687,33554432,15,7712
+clang-cl,boost_cxx11,static_first,"first<4> () of span<int, 16>",0,0.3296,0.3434,0.3251,0.4227,67108864,15,64
+clang-cl,boost_cxx11,static_subspan,"subspan<2, 4> () of span<int, 16>",0,0.3995,0.4103,0.3893,0.6137,67108864,15,112
+clang-cl,boost_cxx11,static_first_of_dynamic,first<4> () of a dynamic span,1024,0.3324,0.4032,0.3262,0.6697,67108864,15,416
+clang-cl,boost_cxx11,static_to_dynamic,"span<int, 16> to span<int>",0,0.2656,0.2789,0.2559,0.3117,134217728,15,128
+clang-cl,boost_cxx11,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,0.2344,0.2436,0.2240,0.3162,134217728,15,128
+clang-cl,boost_cxx11,mutable_to_const,span<int> to span<int const>,1024,0.3279,0.3864,0.2531,0.4970,67108864,15,8192
+clang-cl,boost_cxx11,pass_noinline,pass a span by value to a noinline function,1024,0.7190,0.7537,0.5905,1.2613,33554432,15,8280
+clang-cl,boost_cxx11,pass_inline,pass a span by value to an inlined function,1024,0.4905,0.5080,0.4751,0.6232,67108864,15,8280
+clang-cl,boost_cxx11,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,0.3504,0.3604,0.3396,0.5476,67108864,15,208
+clang-cl,boost_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,29.2239,30.3508,28.6999,51.3581,1048576,15,6984
+clang-cl,boost_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3941.3300,4135.4600,3906.1200,6663.3100,8192,15,1023848
+clang-cl,boost_cxx11,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3931570.0000,4012530.0000,3870500.0000,5580080.0000,8,15,999998840
+clang-cl,boost_cxx11,size_bytes,size_bytes (),1024,0.4255,0.4455,0.4145,0.6918,67108864,15,32768
+clang-cl,boost_cxx11,front_back,front () + back (),1024,0.3303,0.3548,0.3221,0.9962,67108864,15,1784
+clang-cl,boost_cxx20,ctor_ptr_size,"span (pointer, count)",1024,0.2323,0.2433,0.2262,0.3043,134217728,15,8192
+clang-cl,boost_cxx20,ctor_c_array,span from a built-in array,0,0.2521,0.2574,0.2358,0.3636,134217728,15,128
+clang-cl,boost_cxx20,ctor_std_array,span from a std::array,0,0.2485,0.2597,0.2381,0.3911,134217728,15,128
+clang-cl,boost_cxx20,ctor_vector,"span from a std::vector (data (), size ())",0,0.5243,0.5404,0.5024,0.8727,67108864,15,128
+clang-cl,boost_cxx20,ctor_static_array,"span<int, 16> from a built-in array",0,0.2203,0.2237,0.2119,0.2909,134217728,15,128
+clang-cl,boost_cxx20,copy,copy of a span,1024,0.2453,0.2522,0.2411,0.3061,134217728,15,8192
+clang-cl,boost_cxx20,sum_range_for,range-for sum of `size` ints,8,2.2297,2.2921,2.1378,3.2444,16777216,15,6984
+clang-cl,boost_cxx20,sum_range_for,range-for sum of `size` ints,1024,116.6950,138.0560,107.3090,179.1270,262144,15,1023848
+clang-cl,boost_cxx20,sum_range_for,range-for sum of `size` ints,1000000,94302.7000,98354.7000,92508.2000,145782.0000,256,15,999998840
+clang-cl,boost_cxx20,sum_index,sum with operator[] over `size` ints,8,2.1605,2.2183,2.1307,2.5684,16777216,15,6984
+clang-cl,boost_cxx20,sum_index,sum with operator[] over `size` ints,1024,97.8672,102.8150,96.5733,112.5240,262144,15,1023848
+clang-cl,boost_cxx20,sum_index,sum with operator[] over `size` ints,1000000,91793.0000,94254.3000,89153.5000,141247.0000,256,15,999998840
+clang-cl,boost_cxx20,sum_iterators,sum with begin () / end () over `size` ints,8,2.2281,2.3243,2.1955,3.4338,16777216,15,6984
+clang-cl,boost_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1024,118.6180,121.0230,105.0050,178.4130,262144,15,1023848
+clang-cl,boost_cxx20,sum_iterators,sum with begin () / end () over `size` ints,1000000,95072.7000,101479.0000,92114.5000,149973.0000,256,15,999998840
+clang-cl,boost_cxx20,sum_static_range_for,"range-for sum of a span<int const, 16>",0,1.5203,1.5594,1.4928,2.5062,16777216,15,3008
+clang-cl,boost_cxx20,first,first (size / 2),1024,0.4994,0.5265,0.4920,0.7706,67108864,15,4184
+clang-cl,boost_cxx20,last,last (size / 2),1024,0.5626,0.5840,0.5458,0.9858,33554432,15,5136
+clang-cl,boost_cxx20,subspan,"subspan (size / 4, size / 2)",1024,0.5052,0.5161,0.4956,0.6038,67108864,15,5664
+clang-cl,boost_cxx20,subspan_rest,subspan (size / 4),1024,0.6538,0.6707,0.6295,0.7675,33554432,15,7712
+clang-cl,boost_cxx20,static_first,"first<4> () of span<int, 16>",0,0.3269,0.3379,0.3233,0.3794,67108864,15,64
+clang-cl,boost_cxx20,static_subspan,"subspan<2, 4> () of span<int, 16>",0,0.3774,0.3899,0.3718,0.4126,67108864,15,112
+clang-cl,boost_cxx20,static_first_of_dynamic,first<4> () of a dynamic span,1024,0.3313,0.3427,0.3245,0.7957,67108864,15,416
+clang-cl,boost_cxx20,static_to_dynamic,"span<int, 16> to span<int>",0,0.2667,0.4847,0.2651,0.6363,134217728,15,128
+clang-cl,boost_cxx20,dynamic_to_static,"span<int> to span<int, 16> (explicit)",0,0.2344,0.2409,0.2260,0.3742,134217728,15,128
+clang-cl,boost_cxx20,mutable_to_const,span<int> to span<int const>,1024,0.2448,0.2549,0.2415,0.3753,134217728,15,8192
+clang-cl,boost_cxx20,pass_noinline,pass a span by value to a noinline function,1024,0.5070,0.5675,0.4984,1.0868,67108864,15,8280
+clang-cl,boost_cxx20,pass_inline,pass a span by value to an inlined function,1024,0.4735,0.5170,0.4675,0.6290,67108864,15,8280
+clang-cl,boost_cxx20,pass_static_noinline,"pass a span<int, 16> by value to a noinline function",0,0.6155,0.7425,0.5231,0.9099,33554432,15,208
+clang-cl,boost_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",8,26.5706,27.4685,26.2269,46.2793,1048576,15,6984
+clang-cl,boost_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1024,3784.0900,3857.7300,3690.1500,6079.8800,8192,15,1023848
+clang-cl,boost_cxx20,divide_and_conquer,"recursive sum, first / subspan halves down to one element",1000000,3727880.0000,3781810.0000,3566540.0000,4978100.0000,8,15,999998840
+clang-cl,boost_cxx20,bytes_sum,sum of as_bytes of `size` ints,1024,513.4750,525.4200,507.9910,638.9040,65536,15,1023848
+clang-cl,boost_cxx20,bytes_sum,sum of as_bytes of `size` ints,1000000,493038.0000,510220.0000,485719.0000,571884.0000,64,15,999998840
+clang-cl,boost_cxx20,size_bytes,size_bytes (),1024,0.4326,0.4582,0.4190,0.6453,67108864,15,32768
+clang-cl,boost_cxx20,front_back,front () + back (),1024,0.3336,0.3650,0.3306,0.4470,67108864,15,1784
