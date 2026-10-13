@@ -21,7 +21,20 @@
 #   LumexAtomicSmartPtrNoLockFreeCxx11Tests the build without the lock-free
 #   LumexAtomicSmartPtrNoLockFreeCxx20Tests engine (the branch where only the
 #                                          lock-based engine exists)
+#   LumexAtomicSmartPtrSplitCountEngineCxx11Tests / ...Cxx20Tests
+#   LumexAtomicSmartPtrLockBasedLumexCxx11Tests / ...Cxx20Tests
+#                                          the split-count engine and the
+#                                          lock-based engine over the library's
+#                                          own lumex::smart_ptr pointers (the
+#                                          control); they define
+#                                          LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
 # LumexAtomicTestSupport.hpp of the module's directory holds what they share.
+# The suites never spell std::shared_ptr: LumexAtomicTestPointerFamily.hpp
+# (the pf layer, with the table old spelling -> new spelling) names the
+# pointers, so one source runs on std:: and on lumex::core::smart_ptr. A file
+# that still spells std:: pointers is wrapped in a guard marked
+# POINTER-FAMILY-PORT-PENDING and is skipped by the two variants of the
+# library's own family.
 # The split-count engine has its own module key and its own directory,
 # split_count/ (added at the end of this file).
 #
@@ -84,6 +97,16 @@ lumex_add_standard_suites(AtomicSmartPtr
         LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_std_backed
         LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_std_backed
         LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED
+    VARIANT split_count_engine DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free_split_count
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_free_split_count
+        LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_SPLIT_COUNT
+    VARIANT lock_based_lumex DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_based_lumex
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_based_lumex
+        LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LUMEX_FAMILY
 )
 
 add_subdirectory(split_count)

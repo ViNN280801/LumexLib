@@ -1,3 +1,6 @@
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 /*
  * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
  *
@@ -136,3 +139,5 @@ TEST (LumexAtomicSmartPtrConfigTest,
       << "the standard library has no std::atomic<std::shared_ptr<T>>";
 #endif
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

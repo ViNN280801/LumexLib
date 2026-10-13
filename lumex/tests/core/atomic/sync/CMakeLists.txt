@@ -34,4 +34,14 @@ lumex_add_standard_suites(AtomicSync
         LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_std_backed
         LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_std_backed
         LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED
+    VARIANT split_count_engine DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free_split_count
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_free_split_count
+        LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_SPLIT_COUNT
+    VARIANT lock_based_lumex DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_based_lumex
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_based_lumex
+        LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LUMEX_FAMILY
 )

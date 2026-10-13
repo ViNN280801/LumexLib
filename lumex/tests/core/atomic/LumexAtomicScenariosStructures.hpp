@@ -28,7 +28,7 @@
  * Treiber stack and a Michael and Scott queue, with checkers and the
  * deliberately unsafe raw-pointer stack that proves the checkers see ABA.
  * @details `SharedStack<Engine>` and `SharedQueue<Engine>` keep every node
- * in a `std::shared_ptr` reached through the engine's atomic shared pointer,
+ * in a `pf::shared_ptr` reached through the engine's atomic shared pointer,
  * the way the lock-free pointer structures of the literature are written when
  * a reclamation scheme is the smart pointer itself. Nodes come from a
  * `lumex_test::ReusePool` (the address of a destroyed node is the next
@@ -135,14 +135,14 @@ template <typename Engine> class SharedStack
     }
 
     /// Releases the chain behind this node without recursion.
-    ~Node () { ChainReleaser<std::shared_ptr<Node>>::release (next); }
+    ~Node () { ChainReleaser<pf::shared_ptr<Node>>::release (next); }
 
     lumex_test::LedgerEntry entry;
     int value;
-    std::shared_ptr<Node> next;
+    pf::shared_ptr<Node> next;
   };
 
-  typedef std::shared_ptr<Node> NodePtr;
+  typedef pf::shared_ptr<Node> NodePtr;
   typedef typename Engine::template shared<Node> head_type;
 
 public:
@@ -169,7 +169,7 @@ public:
   void
   push (int value)
   {
-    NodePtr node = lumex_test::make_pooled<Node> (pool_, ledger_, value);
+    NodePtr node = pf::make_pooled<Node> (pool_, ledger_, value);
     node->next = head_.load ();
     while (!head_.compare_exchange_weak (node->next, node))
       {
@@ -701,9 +701,8 @@ template <typename Engine> class SharedQueue
     /// Releases the chain behind this node without recursion.
     ~Node ()
     {
-      std::shared_ptr<Node> following
-          = next.exchange (std::shared_ptr<Node> ());
-      ChainReleaser<std::shared_ptr<Node>>::release (following);
+      pf::shared_ptr<Node> following = next.exchange (pf::shared_ptr<Node> ());
+      ChainReleaser<pf::shared_ptr<Node>>::release (following);
     }
 
     lumex_test::LedgerEntry entry;
@@ -711,14 +710,14 @@ template <typename Engine> class SharedQueue
     typename Engine::template shared<Node> next;
   };
 
-  typedef std::shared_ptr<Node> NodePtr;
+  typedef pf::shared_ptr<Node> NodePtr;
   typedef typename Engine::template shared<Node> link_type;
 
 public:
   SharedQueue (lumex_test::ObjectLedger &ledger, lumex_test::ReusePool &pool)
       : ledger_ (ledger), pool_ (pool)
   {
-    NodePtr dummy = lumex_test::make_pooled<Node> (pool_, ledger_, -1);
+    NodePtr dummy = pf::make_pooled<Node> (pool_, ledger_, -1);
     head_.store (dummy);
     tail_.store (dummy);
   }
@@ -738,7 +737,7 @@ public:
   void
   enqueue (int value)
   {
-    NodePtr node = lumex_test::make_pooled<Node> (pool_, ledger_, value);
+    NodePtr node = pf::make_pooled<Node> (pool_, ledger_, value);
     for (;;)
       {
         NodePtr tail = tail_.load ();
@@ -889,17 +888,17 @@ template <typename Engine> class SharedSortedList
 
   struct Link
   {
-    Link (lumex_test::ObjectLedger &ledger, std::shared_ptr<Node> s, bool m)
+    Link (lumex_test::ObjectLedger &ledger, pf::shared_ptr<Node> s, bool m)
         : entry (ledger), succ (std::move (s)), marked (m)
     {
     }
 
     lumex_test::LedgerEntry entry;
-    std::shared_ptr<Node> succ;
+    pf::shared_ptr<Node> succ;
     bool marked;
   };
 
-  typedef std::shared_ptr<Link> LinkPtr;
+  typedef pf::shared_ptr<Link> LinkPtr;
 
   struct Node
   {
@@ -910,7 +909,7 @@ template <typename Engine> class SharedSortedList
     typename Engine::template shared<Link> next;
   };
 
-  typedef std::shared_ptr<Node> NodePtr;
+  typedef pf::shared_ptr<Node> NodePtr;
 
   struct Position
   {
@@ -923,7 +922,7 @@ public:
   SharedSortedList (lumex_test::ObjectLedger &ledger,
                     lumex_test::ReusePool &pool)
       : ledger_ (ledger), pool_ (pool),
-        head_ (lumex_test::make_pooled<Node> (pool, ledger, -1))
+        head_ (pf::make_pooled<Node> (pool, ledger, -1))
   {
     head_->next.store (make_link (NodePtr (), false));
   }
@@ -953,7 +952,7 @@ public:
         Position pos = find (key);
         if (pos.curr && pos.curr->key == key)
           return false;
-        NodePtr node = lumex_test::make_pooled<Node> (pool_, ledger_, key);
+        NodePtr node = pf::make_pooled<Node> (pool_, ledger_, key);
         node->next.store (make_link (pos.curr, false));
         LinkPtr expected = pos.pred_link;
         if (pos.pred->next.compare_exchange_strong (expected,
@@ -1036,8 +1035,7 @@ private:
   LinkPtr
   make_link (NodePtr succ, bool marked)
   {
-    return lumex_test::make_pooled<Link> (pool_, ledger_, std::move (succ),
-                                          marked);
+    return pf::make_pooled<Link> (pool_, ledger_, std::move (succ), marked);
   }
 
   Position

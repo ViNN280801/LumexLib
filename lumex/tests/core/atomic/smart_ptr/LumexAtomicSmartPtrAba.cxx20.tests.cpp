@@ -4,6 +4,9 @@
 // engines, so a checker that disagrees with it is the suspect), and the
 // reuse-address allocator behind std::allocate_shared<T[]>.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// Std-only: the differential run against std::atomic<std::shared_ptr>, not a
+// part of the variants of the library family.
 #include <atomic>
 #include <memory>
 #include <vector>
@@ -108,3 +111,5 @@ TEST (
   a.store (nullptr);
   EngineUnderTest::quiesce ();
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

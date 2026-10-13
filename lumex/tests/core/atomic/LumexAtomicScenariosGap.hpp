@@ -88,7 +88,7 @@ cas_double_winner (Params const &p, lumex_test::Verdict &verdict)
   for (int round = 0; round < p.iterations; ++round)
     {
       meeting.reset ();
-      VNodePtr const first = lumex_test::make_pooled<VNode> (pool, ledger, 0);
+      VNodePtr const first = pf::make_pooled<VNode> (pool, ledger, 0);
       atom_type a (first);
       std::atomic<int> winners (0);
       std::string const error = lumex_test::run_threads (
@@ -97,8 +97,7 @@ cas_double_winner (Params const &p, lumex_test::Verdict &verdict)
             {
               VNodePtr expected = first;
               if (a.compare_exchange_strong (
-                      expected,
-                      lumex_test::make_pooled<VNode> (pool, ledger, t + 1)))
+                      expected, pf::make_pooled<VNode> (pool, ledger, t + 1)))
                 winners.fetch_add (1);
             });
       verdict.require (error.empty (), error);
@@ -131,14 +130,14 @@ exchange_double_return (Params const &p, lumex_test::Verdict &verdict)
   for (int round = 0; round < p.iterations; ++round)
     {
       meeting.reset ();
-      atom_type a (lumex_test::make_pooled<VNode> (pool, ledger, 0));
+      atom_type a (pf::make_pooled<VNode> (pool, ledger, 0));
       VNodePtr returned[2];
       std::string const error = lumex_test::run_threads (
           2,
           [&] (int t)
             {
-              returned[t] = a.exchange (
-                  lumex_test::make_pooled<VNode> (pool, ledger, t + 1));
+              returned[t]
+                  = a.exchange (pf::make_pooled<VNode> (pool, ledger, t + 1));
             });
       verdict.require (error.empty (), error);
       if (returned[0] && returned[1]
@@ -174,7 +173,7 @@ gap_aba (lumex_test::Verdict &verdict)
   stall.arm (true);
   GapHookScope const hook ([&] { stall.park (5000); });
   {
-    VNodePtr const first = lumex_test::make_pooled<VNode> (pool, ledger, 1);
+    VNodePtr const first = pf::make_pooled<VNode> (pool, ledger, 1);
     atom_type a (first);
     std::atomic<bool> finished (false);
     bool won = false;
@@ -183,7 +182,7 @@ gap_aba (lumex_test::Verdict &verdict)
           {
             VNodePtr expected = first;
             won = a.compare_exchange_strong (
-                expected, lumex_test::make_pooled<VNode> (pool, ledger, 99));
+                expected, pf::make_pooled<VNode> (pool, ledger, 99));
             finished.store (true);
           });
     bool parked = false;
@@ -195,8 +194,8 @@ gap_aba (lumex_test::Verdict &verdict)
         }
     if (parked)
       {
-        a.store (lumex_test::make_pooled<VNode> (pool, ledger, 2));
-        a.store (lumex_test::make_pooled<VNode> (pool, ledger, 3));
+        a.store (pf::make_pooled<VNode> (pool, ledger, 2));
+        a.store (pf::make_pooled<VNode> (pool, ledger, 3));
       }
     stall.arm (false);
     stall.release ();

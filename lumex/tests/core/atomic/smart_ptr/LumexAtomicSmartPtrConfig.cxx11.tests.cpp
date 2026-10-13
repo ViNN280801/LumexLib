@@ -6,6 +6,9 @@
 // std::atomic<std::shared_ptr<T>> is in
 // LumexAtomicSmartPtrConfig.cxx20.tests.cpp.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <atomic>
 #include <iostream>
 #include <memory>
@@ -211,3 +214,5 @@ TEST (LumexAtomicSmartPtrConfigTest,
   GTEST_SKIP () << "constinit needs C++20";
 #endif
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

@@ -6,6 +6,9 @@
 // atomics than the 64 stripes of the pre-C++20 wait table so that several
 // waiters share a stripe.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <algorithm>
 #include <atomic>
 #include <cstdint>
@@ -197,3 +200,5 @@ TEST (LumexAtomicSmartPtrWaitStressTest,
   join_all (waiters);
   EXPECT_EQ (returned_b.load (), 6);
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

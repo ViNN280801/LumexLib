@@ -84,8 +84,8 @@ TEST (LumexAtomicSmartPtrAbaTest,
   lumex_test::ObjectLedger ledger (16);
   lumex_test::ReusePool pool;
   {
-    VNodePtr const a_owner = lumex_test::make_pooled<VNode> (pool, ledger, 1);
-    VNodePtr const b_owner = lumex_test::make_pooled<VNode> (pool, ledger, 2);
+    VNodePtr const a_owner = pf::make_pooled<VNode> (pool, ledger, 1);
+    VNodePtr const b_owner = pf::make_pooled<VNode> (pool, ledger, 2);
     atomic_shared_ptr<VNode> a (a_owner);
     for (int i = 0; i < 6; ++i)
       a.store (a_owner);
@@ -131,10 +131,8 @@ TEST (
         bool succeeded = false;
         bool refreshed_to_new = false;
         {
-          VNodePtr const a_owner
-              = lumex_test::make_pooled<VNode> (pool, ledger, 7);
-          VNodePtr const b_owner
-              = lumex_test::make_pooled<VNode> (pool, ledger, 8);
+          VNodePtr const a_owner = pf::make_pooled<VNode> (pool, ledger, 7);
+          VNodePtr const b_owner = pf::make_pooled<VNode> (pool, ledger, 8);
           atomic_shared_ptr<VNode> a (a_owner);
           VNodePtr replacement;
           std::thread holder (
@@ -144,8 +142,7 @@ TEST (
                   loaded.open ();
                   go.wait ();
                   succeeded = a.compare_exchange_strong (
-                      expected,
-                      lumex_test::make_pooled<VNode> (pool, ledger, 99));
+                      expected, pf::make_pooled<VNode> (pool, ledger, 99));
                   refreshed_to_new
                       = !succeeded && expected->version == 7 && replacement
                         && equivalent_values (expected, replacement);
@@ -158,7 +155,7 @@ TEST (
             a.store (a_owner);
           else
             {
-              replacement = lumex_test::make_pooled<VNode> (pool, ledger, 7);
+              replacement = pf::make_pooled<VNode> (pool, ledger, 7);
               a.store (replacement);
             }
           for (int i = 0; i < redundant; ++i)
@@ -238,8 +235,8 @@ TEST (
   for (std::size_t c = 0; c < counts.size (); ++c)
     {
       {
-        atomic_shared_ptr<VNode> a (lumex_test::make_pooled<VNode> (
-            pool, ledger, serial.fetch_add (1)));
+        atomic_shared_ptr<VNode> a (
+            pf::make_pooled<VNode> (pool, ledger, serial.fetch_add (1)));
         std::string const error = lumex_test::run_threads (
             counts[c],
             [&] (int t)
@@ -251,7 +248,7 @@ TEST (
                   {
                     VNodePtr seen = a.load ();
                     scenario::check_node (seen, verdict, "allocator yield");
-                    VNodePtr fresh = lumex_test::make_pooled<VNode> (
+                    VNodePtr fresh = pf::make_pooled<VNode> (
                         pool, ledger, serial.fetch_add (1));
                     if (random.below (2u) == 0u)
                       a.compare_exchange_weak (seen, fresh);

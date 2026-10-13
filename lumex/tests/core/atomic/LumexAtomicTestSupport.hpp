@@ -77,6 +77,7 @@
 #include <gtest/gtest.h>
 
 #include "lumex/core/atomic/LumexAtomic"
+#include "lumex/tests/core/atomic/LumexAtomicTestPointerFamily.hpp"
 #include "lumex/tests/support/LumexTestConfig.hpp"
 
 #define LUMEX_ATOMIC_TEST_STRINGIZE_IMPL(text) #text
@@ -108,7 +109,11 @@
 #if (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE)                     \
      && !LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE)                                \
     || (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED)                 \
-        && !LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED)
+        && !LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED)                            \
+    || (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_SPLIT_COUNT)                \
+        && !LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT)                           \
+    || (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LUMEX_FAMILY)               \
+        && !LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY)
 #undef LUMEX_ATOMIC_TEST_SHARED_ENGINE
 #undef LUMEX_ATOMIC_TEST_WEAK_ENGINE
 #undef LUMEX_ATOMIC_TEST_ENGINE_ARGS
@@ -129,8 +134,10 @@
 #if !defined(LUMEX_ATOMIC_TEST_ENGINE_QUIESCE)
 // The lock-free engine retires a replaced box that a reader holds at that
 // moment (also with the immediate policy); a pass of the hazard domain
-// destroys it. Every engine ignores the call otherwise.
-#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE
+// destroys it. Every engine ignores the call otherwise (the engines over the
+// library's own pointer family keep no such domain).
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE                                      \
+    && !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
 #define LUMEX_ATOMIC_TEST_ENGINE_QUIESCE()                                    \
   ::lumex::core::hazard_pointer::clean_up ()
 #else
@@ -157,6 +164,13 @@ template <typename T>
 using atomic_weak_ptr
     = lumex::core::atomic::smart_ptr::LUMEX_ATOMIC_TEST_WEAK_ENGINE<
         T LUMEX_ATOMIC_TEST_ENGINE_ARGS>;
+
+static_assert (std::is_same<typename atomic_shared_ptr<int>::value_type,
+                            pf::shared_ptr<int>>::value
+                   && std::is_same<typename atomic_weak_ptr<int>::value_type,
+                                   pf::weak_ptr<int>>::value,
+               "the engine under test works over the pointer family of the "
+               "pf layer (LumexAtomicTestPointerFamily.hpp)");
 
 /// Which engine the aliases above are, for the few expectations that differ
 /// between engines (a trait of the type, so a variant needs no extra macro).
@@ -393,24 +407,24 @@ typedef ::testing::Types<int, double, std::string, TrackedPod, Handle, Flag>
 
 /// Shared pointers to the three states of T.
 template <typename T>
-std::shared_ptr<T>
+pf::shared_ptr<T>
 state_a ()
 {
-  return std::make_shared<T> (SpValues<T>::a ());
+  return pf::make_shared<T> (SpValues<T>::a ());
 }
 
 template <typename T>
-std::shared_ptr<T>
+pf::shared_ptr<T>
 state_b ()
 {
-  return std::make_shared<T> (SpValues<T>::b ());
+  return pf::make_shared<T> (SpValues<T>::b ());
 }
 
 template <typename T>
-std::shared_ptr<T>
+pf::shared_ptr<T>
 state_c ()
 {
-  return std::make_shared<T> (SpValues<T>::c ());
+  return pf::make_shared<T> (SpValues<T>::c ());
 }
 
 /// Every valid order, and the subsets the standard allows per operation.
@@ -449,8 +463,8 @@ store_orders ()
 /// True when both store the same pointer and share ownership (or are empty).
 template <typename T, typename U>
 bool
-same_owner_and_pointer (std::shared_ptr<T> const &lhs,
-                        std::shared_ptr<U> const &rhs)
+same_owner_and_pointer (pf::shared_ptr<T> const &lhs,
+                        pf::shared_ptr<U> const &rhs)
 {
   return static_cast<void const *> (lhs.get ())
              == static_cast<void const *> (rhs.get ())
@@ -460,9 +474,9 @@ same_owner_and_pointer (std::shared_ptr<T> const &lhs,
 /// True when @p weak shares ownership with @p owner and locks to its pointer.
 template <typename T>
 bool
-refers_to (std::weak_ptr<T> const &weak, std::shared_ptr<T> const &owner)
+refers_to (pf::weak_ptr<T> const &weak, pf::shared_ptr<T> const &owner)
 {
-  std::shared_ptr<T> const locked = weak.lock ();
+  pf::shared_ptr<T> const locked = weak.lock ();
   return locked.get () == owner.get () && !weak.owner_before (owner)
          && !owner.owner_before (weak);
 }
@@ -470,7 +484,7 @@ refers_to (std::weak_ptr<T> const &weak, std::shared_ptr<T> const &owner)
 /// True when two weak pointers share ownership (or are both empty).
 template <typename T>
 bool
-same_owner (std::weak_ptr<T> const &lhs, std::weak_ptr<T> const &rhs)
+same_owner (pf::weak_ptr<T> const &lhs, pf::weak_ptr<T> const &rhs)
 {
   return !lhs.owner_before (rhs) && !rhs.owner_before (lhs);
 }
@@ -520,7 +534,7 @@ live_allocations ()
 
 /**
  * @brief Allocator that counts its live allocations.
- * @details `std::allocate_shared` puts the object and its control block in
+ * @details `pf::allocate_shared` puts the object and its control block in
  * one allocation, which is freed only when the last shared and the last weak
  * reference are gone. A count back at its start value proves that every weak
  * reference was released.
@@ -562,10 +576,10 @@ operator!= (CountingAllocator<T> const &, CountingAllocator<U> const &)
 }
 
 /// A shared Tracker whose control block is counted.
-inline std::shared_ptr<Tracker>
+inline pf::shared_ptr<Tracker>
 make_counted_tracker (int value)
 {
-  return std::allocate_shared<Tracker> (CountingAllocator<Tracker> (), value);
+  return pf::allocate_shared<Tracker> (CountingAllocator<Tracker> (), value);
 }
 
 /**
@@ -607,14 +621,14 @@ public:
   };
 
   /// A new owner of the next free slot.
-  std::shared_ptr<int>
+  pf::shared_ptr<int>
   make ()
   {
     std::size_t const slot = next_.fetch_add (1);
     if (slot >= size_)
       std::abort ();
     Deleter const deleter = { this, slot };
-    return std::shared_ptr<int> (&payload_[slot], deleter);
+    return pf::shared_ptr<int> (&payload_[slot], deleter);
   }
 
   /// A unique owner of the next free slot, with the counting deleter.

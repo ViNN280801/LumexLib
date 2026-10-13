@@ -28,6 +28,10 @@
 #   LumexAtomicNoLockFreeCxx11Tests  C++11 and C++20 - the build where the
 #   LumexAtomicNoLockFreeCxx20Tests  lock-free engine does not exist
 #                                    (LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE)
+#   LumexAtomicSplitCountEngine...   C++11 and C++20 - the split-count engine
+#   LumexAtomicLockBasedLumex...     and the lock-based engine over the
+#                                    library's own pointer family (the pf
+#                                    layer of LumexAtomicTestPointerFamily.hpp)
 # and the same, named LumexAtomicSmartPtr... and LumexAtomicSync..., in each
 # subdirectory.
 # LumexAtomicGlobalNames.cxx11.tests.cpp declares global atomic_shared_ptr
@@ -75,6 +79,16 @@ lumex_add_standard_suites(Atomic
         LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_std_backed
         LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_std_backed
         LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED
+    VARIANT split_count_engine DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free_split_count
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_free_split_count
+        LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_SPLIT_COUNT
+    VARIANT lock_based_lumex DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_based_lumex
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_based_lumex
+        LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LUMEX_FAMILY
 )
 
 add_subdirectory(dwcas)

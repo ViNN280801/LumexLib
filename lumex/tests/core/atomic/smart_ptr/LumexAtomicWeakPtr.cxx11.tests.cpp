@@ -6,6 +6,9 @@
 // on both outcomes, the weak references held around each operation, and the
 // members available on a const object.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <atomic>
 #include <cstddef>
 #include <memory>
@@ -673,3 +676,5 @@ TYPED_TEST (LumexAtomicWeakPtrTest,
   join_all (waiters);
   EXPECT_EQ (woke.load (), waiter_count);
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
