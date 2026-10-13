@@ -1,0 +1,205 @@
+# tool=LumexAtomicBenchmark
+# scenario=shared
+# objects=20000
+# date=2026-10-13
+# cpu=12th Gen Intel(R) Core(TM) i7-12700K
+# logical_cpus=20
+# governor=powersave
+# kernel=6.1.170-1-generic
+# os=Linux-6.1.170-1-generic-x86_64-with-AstraLinux-1.7_x86-64-1.7_x86-64
+# compiler=GCC 13.2
+# library=libstdc++ 13
+# build=release
+# repetitions=12
+# settle_seconds=2
+# duration_ms=100
+# warmup_ms=300
+# load_average_start=12.06 9.27 6.16
+# load_average_end=10.18 9.69 7.05
+# minutes=3.8
+# implementation=lumex_split_count_cxx11|LumexLib split-count (own ptr), C++11|split_count_table_wait|201103|1
+# implementation=lumex_lock_based_lumex_cxx11|LumexLib lock-based (own ptr), C++11|lock_based_lumex_table_wait|201103|0
+# implementation=lumex_split_count|LumexLib split-count r8 (own ptr), C++20|split_count_std_wait|202002|1
+# implementation=lumex_split_count_r4|LumexLib split-count r4 (own ptr), C++20|split_count_r4_std_wait|202002|1
+# implementation=lumex_lock_based_lumex|LumexLib lock-based (own ptr), C++20|lock_based_lumex_std_wait|202002|0
+mode,threads,implementation,operation,ratio_median,ratio_p25,ratio_p75,ns_median,ns_p25,ns_p75,ns_min,ns_max,success_rate,repetitions,valid,cycles_median,instructions_median
+uncontended,1,lumex_lock_based_lumex,uint64_cas,1.0000,1.0000,1.0000,7.290,6.727,7.816,6.682,7.880,1.0000,12,1,33.3,13.0
+uncontended,1,lumex_lock_based_lumex,load,2.3018,2.2855,2.3097,16.796,15.508,17.998,15.355,18.060,0.0000,12,1,76.7,29.0
+uncontended,1,lumex_lock_based_lumex,store,2.6230,2.6111,2.6374,19.090,17.585,20.636,17.566,21.139,0.0000,12,1,87.6,34.0
+uncontended,1,lumex_lock_based_lumex,exchange,2.6470,2.6388,2.6558,19.311,17.769,20.752,17.748,21.358,0.0000,12,1,88.5,36.0
+uncontended,1,lumex_lock_based_lumex,compare_exchange_strong,6.1551,6.1294,6.2317,45.266,41.693,48.028,41.091,48.808,1.0000,12,1,205.8,102.5
+uncontended,1,lumex_lock_based_lumex,load_one_writer,2.2981,2.2890,2.3100,16.871,15.415,18.010,15.344,18.349,0.0000,12,1,76.8,29.0
+uncontended,1,lumex_lock_based_lumex,one_writer_stores,2.6262,2.6026,2.6368,19.038,17.613,20.565,17.551,20.778,0.0000,12,1,0.0,0.0
+uncontended,1,lumex_lock_based_lumex,load_store,5.0561,4.9977,5.0799,36.606,33.755,39.539,33.602,40.165,0.0000,12,1,168.3,71.0
+uncontended,1,lumex_lock_based_lumex_cxx11,uint64_cas,1.0000,1.0000,1.0000,7.283,6.709,7.806,6.672,7.824,1.0000,12,1,33.2,13.0
+uncontended,1,lumex_lock_based_lumex_cxx11,load,2.4531,2.4424,2.4692,17.861,16.555,19.085,16.393,19.451,0.0000,12,1,81.2,48.0
+uncontended,1,lumex_lock_based_lumex_cxx11,store,2.7731,2.7647,2.7819,20.576,18.716,21.664,18.432,21.760,0.0000,12,1,92.5,53.0
+uncontended,1,lumex_lock_based_lumex_cxx11,exchange,2.8200,2.8024,2.8253,20.810,18.921,22.017,18.782,22.108,0.0000,12,1,93.7,57.0
+uncontended,1,lumex_lock_based_lumex_cxx11,compare_exchange_strong,6.2266,6.1989,6.2325,45.271,41.821,48.513,41.376,49.167,1.0000,12,1,206.6,118.5
+uncontended,1,lumex_lock_based_lumex_cxx11,load_one_writer,2.4487,2.4350,2.4645,18.645,16.379,19.183,16.326,19.302,0.0000,12,1,81.9,48.0
+uncontended,1,lumex_lock_based_lumex_cxx11,one_writer_stores,2.7742,2.7523,2.8064,20.496,18.612,21.804,18.460,22.166,0.0000,12,1,0.0,0.0
+uncontended,1,lumex_lock_based_lumex_cxx11,load_store,5.3549,5.3348,5.4222,39.972,35.884,42.047,35.775,42.709,0.0000,12,1,179.0,98.0
+uncontended,1,lumex_split_count,uint64_cas,1.0000,1.0000,1.0000,7.275,6.714,7.802,6.668,8.017,1.0000,12,1,33.2,13.0
+uncontended,1,lumex_split_count,load,3.7690,3.7360,3.7786,27.429,25.278,29.441,25.103,29.585,0.0000,12,1,125.2,111.0
+uncontended,1,lumex_split_count,store,2.3922,2.3685,2.4190,17.647,15.982,18.755,15.848,19.436,0.0000,12,1,79.5,64.0
+uncontended,1,lumex_split_count,exchange,2.4582,2.4366,2.4648,17.850,16.499,19.299,16.346,19.917,0.0000,12,1,81.5,76.0
+uncontended,1,lumex_split_count,compare_exchange_strong,7.7528,7.7025,7.8052,56.461,52.205,60.633,51.477,61.830,1.0000,12,1,258.4,240.5
+uncontended,1,lumex_split_count,load_one_writer,3.7864,3.7387,3.7960,27.126,25.379,29.442,25.108,29.826,0.0000,12,1,124.8,111.0
+uncontended,1,lumex_split_count,one_writer_stores,2.3817,2.3699,2.3930,17.348,15.912,18.608,15.849,20.002,0.0000,12,1,0.0,0.0
+uncontended,1,lumex_split_count,load_store,6.1376,6.0919,6.1776,44.517,40.934,48.083,40.709,49.995,0.0000,12,1,203.2,177.0
+uncontended,1,lumex_split_count_cxx11,uint64_cas,1.0000,1.0000,1.0000,7.217,6.683,7.795,6.668,7.872,1.0000,12,1,33.2,13.0
+uncontended,1,lumex_split_count_cxx11,load,3.7266,3.7194,3.7341,26.915,24.874,29.037,24.808,30.390,0.0000,12,1,123.3,113.0
+uncontended,1,lumex_split_count_cxx11,store,2.5500,2.5428,2.5550,18.440,17.044,19.825,16.990,20.090,0.0000,12,1,84.4,89.0
+uncontended,1,lumex_split_count_cxx11,exchange,2.3607,2.3525,2.3728,17.136,15.839,18.412,15.670,18.802,0.0000,12,1,78.2,98.0
+uncontended,1,lumex_split_count_cxx11,compare_exchange_strong,7.3582,7.3236,7.3885,53.343,49.359,57.269,48.859,59.983,1.0000,12,1,243.9,224.0
+uncontended,1,lumex_split_count_cxx11,load_one_writer,3.7113,3.6995,3.7456,27.269,24.879,28.882,24.729,29.314,0.0000,12,1,123.2,113.0
+uncontended,1,lumex_split_count_cxx11,one_writer_stores,2.5398,2.5362,2.5461,18.439,16.968,19.820,16.926,20.368,0.0000,12,1,0.0,0.0
+uncontended,1,lumex_split_count_cxx11,load_store,6.0558,6.0159,6.0931,44.380,40.758,47.029,40.114,47.495,0.0000,12,1,200.8,198.0
+uncontended,1,lumex_split_count_r4,uint64_cas,1.0000,1.0000,1.0000,7.239,6.726,7.821,6.678,7.904,1.0000,12,1,33.2,13.0
+uncontended,1,lumex_split_count_r4,load,3.7669,3.7568,3.7806,27.467,25.275,29.466,25.168,30.493,0.0000,12,1,124.8,111.0
+uncontended,1,lumex_split_count_r4,store,2.3801,2.3726,2.3875,17.346,15.939,18.630,15.912,18.760,0.0000,12,1,79.2,64.0
+uncontended,1,lumex_split_count_r4,exchange,2.4610,2.4520,2.4699,17.711,16.605,19.188,16.418,19.370,0.0000,12,1,81.7,76.0
+uncontended,1,lumex_split_count_r4,compare_exchange_strong,7.7918,7.7531,7.8454,56.549,52.434,61.024,51.513,61.613,1.0000,12,1,258.9,240.5
+uncontended,1,lumex_split_count_r4,load_one_writer,3.7694,3.7403,3.7777,27.292,25.227,29.470,25.091,29.682,0.0000,12,1,124.8,111.0
+uncontended,1,lumex_split_count_r4,one_writer_stores,2.3784,2.3592,2.3903,17.287,15.889,18.626,15.868,18.773,0.0000,12,1,0.0,0.0
+uncontended,1,lumex_split_count_r4,load_store,6.0791,6.0547,6.1217,44.423,40.867,47.619,40.704,47.907,0.0000,12,1,202.8,177.0
+contended,1,lumex_lock_based_lumex,uint64_cas,1.0000,1.0000,1.0000,7.177,6.717,7.806,6.673,7.850,1.0000,12,1,33.2,13.0
+contended,1,lumex_lock_based_lumex,load,2.3008,2.2911,2.3056,16.620,15.414,17.935,15.341,18.053,0.0000,12,1,76.4,29.0
+contended,1,lumex_lock_based_lumex,store,2.6333,2.6244,2.6428,19.143,17.629,20.620,17.546,20.705,0.0000,12,1,87.5,34.0
+contended,1,lumex_lock_based_lumex,exchange,2.6657,2.6627,2.6782,19.364,17.811,20.848,17.769,21.188,0.0000,12,1,88.6,36.0
+contended,1,lumex_lock_based_lumex,compare_exchange_strong,6.1964,6.1586,6.2346,45.451,41.216,48.415,41.096,48.711,1.0000,12,1,207.3,102.5
+contended,1,lumex_lock_based_lumex,load_one_writer,2.2996,2.2939,2.3168,16.738,15.454,18.025,15.305,18.361,0.0000,12,1,76.7,29.0
+contended,1,lumex_lock_based_lumex,one_writer_stores,2.6440,2.6264,2.6576,19.241,17.708,20.584,17.547,20.842,0.0000,12,1,0.0,0.0
+contended,1,lumex_lock_based_lumex_cxx11,uint64_cas,1.0000,1.0000,1.0000,7.254,6.696,7.792,6.685,7.916,1.0000,12,1,33.2,13.0
+contended,1,lumex_lock_based_lumex_cxx11,load,2.4470,2.4352,2.4595,17.752,16.351,19.111,16.297,19.563,0.0000,12,1,81.4,48.0
+contended,1,lumex_lock_based_lumex_cxx11,store,2.7742,2.7554,2.7817,20.119,18.503,21.715,18.433,22.775,0.0000,12,1,92.3,53.0
+contended,1,lumex_lock_based_lumex_cxx11,exchange,2.8130,2.8007,2.8250,20.436,18.862,21.943,18.742,23.115,0.0000,12,1,93.5,57.0
+contended,1,lumex_lock_based_lumex_cxx11,compare_exchange_strong,6.2068,6.1782,6.2403,45.075,41.647,48.481,41.327,48.638,1.0000,12,1,206.3,118.5
+contended,1,lumex_lock_based_lumex_cxx11,load_one_writer,2.4598,2.4497,2.4712,17.760,16.459,19.386,16.325,20.857,0.0000,12,1,81.3,48.0
+contended,1,lumex_lock_based_lumex_cxx11,one_writer_stores,2.7718,2.7646,2.7933,20.409,18.625,21.689,18.487,22.686,0.0000,12,1,0.0,0.0
+contended,1,lumex_split_count,uint64_cas,1.0000,1.0000,1.0000,7.238,6.690,7.797,6.678,7.901,1.0000,12,1,33.2,13.0
+contended,1,lumex_split_count,load,3.7702,3.7538,3.7786,27.332,25.223,29.441,25.148,29.674,0.0000,12,1,125.2,111.0
+contended,1,lumex_split_count,store,2.3845,2.3712,2.4139,17.313,15.925,18.773,15.846,20.256,0.0000,12,1,78.9,64.0
+contended,1,lumex_split_count,exchange,2.4688,2.4523,2.4834,17.823,16.557,19.226,16.359,20.173,0.0000,12,1,81.7,76.0
+contended,1,lumex_split_count,compare_exchange_strong,7.7608,7.7449,7.8525,56.676,52.250,61.088,51.717,66.375,1.0000,12,1,259.3,240.5
+contended,1,lumex_split_count,load_one_writer,3.7653,3.7548,3.7831,27.263,25.351,29.318,25.125,29.612,0.0000,12,1,124.8,111.0
+contended,1,lumex_split_count,one_writer_stores,2.3773,2.3666,2.3905,17.246,15.900,18.737,15.855,19.680,0.0000,12,1,0.0,0.0
+contended,1,lumex_split_count_cxx11,uint64_cas,1.0000,1.0000,1.0000,7.205,6.692,7.804,6.666,7.859,1.0000,12,1,33.2,13.0
+contended,1,lumex_split_count_cxx11,load,3.7281,3.7106,3.7802,27.078,24.848,29.348,24.769,30.492,0.0000,12,1,123.8,113.0
+contended,1,lumex_split_count_cxx11,store,2.5490,2.5428,2.5848,18.908,17.054,19.906,16.961,20.105,0.0000,12,1,85.2,89.0
+contended,1,lumex_split_count_cxx11,exchange,2.3485,2.3394,2.3777,17.451,15.681,18.337,15.643,18.936,0.0000,12,1,78.4,98.0
+contended,1,lumex_split_count_cxx11,compare_exchange_strong,7.3918,7.3175,7.4552,53.336,49.444,57.707,48.818,60.657,1.0000,12,1,245.7,224.0
+contended,1,lumex_split_count_cxx11,load_one_writer,3.7150,3.6998,3.7568,26.939,24.879,28.977,24.739,30.256,0.0000,12,1,123.1,113.0
+contended,1,lumex_split_count_cxx11,one_writer_stores,2.5431,2.5365,2.5603,18.449,16.981,19.885,16.924,20.920,0.0000,12,1,0.0,0.0
+contended,1,lumex_split_count_r4,uint64_cas,1.0000,1.0000,1.0000,7.273,6.717,7.786,6.681,7.837,1.0000,12,1,33.1,13.0
+contended,1,lumex_split_count_r4,load,3.7572,3.7451,3.7790,27.301,25.289,29.317,25.098,30.471,0.0000,12,1,125.0,111.0
+contended,1,lumex_split_count_r4,store,2.3941,2.3656,2.4094,17.370,15.995,18.671,15.887,19.343,0.0000,12,1,79.2,64.0
+contended,1,lumex_split_count_r4,exchange,2.4604,2.4448,2.4742,18.177,16.533,19.214,16.386,19.631,0.0000,12,1,82.1,76.0
+contended,1,lumex_split_count_r4,compare_exchange_strong,7.7753,7.7493,7.7864,56.847,52.194,60.549,51.827,60.742,1.0000,12,1,259.3,240.5
+contended,1,lumex_split_count_r4,load_one_writer,3.7698,3.7364,3.7731,27.150,25.250,29.338,25.085,29.655,0.0000,12,1,124.9,111.0
+contended,1,lumex_split_count_r4,one_writer_stores,2.3803,2.3724,2.3942,17.626,15.995,18.582,15.867,18.851,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex,uint64_cas,1.0000,1.0000,1.0000,141.126,133.267,151.895,120.795,158.418,0.9683,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex,load,7.1648,6.0622,7.6803,995.712,908.524,1017.838,876.831,1055.750,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex,store,8.1708,7.4670,8.7207,1166.535,1053.212,1252.688,949.443,1313.330,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex,exchange,8.0533,7.3178,8.7252,1153.500,1032.687,1241.815,907.878,1319.690,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex,compare_exchange_strong,19.9042,19.1392,20.2006,2747.725,2656.128,2921.265,2631.860,3011.280,0.5646,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex,load_one_writer,6.6608,5.9817,7.3360,936.020,909.669,961.199,852.695,990.860,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex,one_writer_stores,10.9789,10.2578,12.0152,1550.710,1495.345,1631.477,1412.860,1816.790,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex_cxx11,uint64_cas,1.0000,1.0000,1.0000,141.367,135.637,151.780,123.229,166.335,0.9653,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex_cxx11,load,4.8634,4.6690,5.0664,708.091,666.506,730.755,645.359,804.725,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex_cxx11,store,7.5376,7.1455,7.8269,1094.415,1024.733,1131.730,920.302,1183.740,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex_cxx11,exchange,7.7000,7.1484,8.1030,1102.815,1080.368,1163.217,910.664,1219.830,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex_cxx11,compare_exchange_strong,17.3636,16.6675,17.7844,2522.560,2403.457,2579.265,2224.120,2659.900,0.5935,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex_cxx11,load_one_writer,4.7354,4.4567,4.9806,695.031,669.231,721.132,596.071,755.972,0.0000,12,1,0.0,0.0
+contended,8,lumex_lock_based_lumex_cxx11,one_writer_stores,8.6552,7.9402,9.1482,1198.895,1124.072,1288.533,1094.000,1467.350,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count,uint64_cas,1.0000,1.0000,1.0000,142.983,136.090,154.782,120.509,156.670,0.9694,12,1,0.0,0.0
+contended,8,lumex_split_count,load,6.5530,6.3579,6.7239,930.105,880.316,986.625,697.750,1047.990,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count,store,3.5434,3.4775,3.6441,514.247,482.874,542.749,346.391,563.554,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count,exchange,3.7585,3.6570,3.9345,541.714,522.988,575.002,329.205,593.625,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count,compare_exchange_strong,16.4273,15.6631,16.9113,2290.715,2200.803,2487.898,2089.230,2565.150,0.1914,12,1,0.0,0.0
+contended,8,lumex_split_count,load_one_writer,5.9387,5.6089,6.2411,819.801,780.968,916.696,733.732,999.548,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count,one_writer_stores,4.0360,3.9505,4.1556,569.713,519.796,628.469,493.437,1385.650,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_cxx11,uint64_cas,1.0000,1.0000,1.0000,137.401,133.382,150.849,116.424,160.375,0.9701,12,1,0.0,0.0
+contended,8,lumex_split_count_cxx11,load,6.6116,6.3139,6.7568,909.679,847.468,972.633,830.198,1004.830,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_cxx11,store,3.5271,3.3030,3.7106,488.421,468.741,520.210,442.872,540.160,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_cxx11,exchange,3.6435,3.5114,3.8183,508.197,477.693,535.055,459.524,550.008,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_cxx11,compare_exchange_strong,16.4928,15.4788,17.3548,2259.195,2186.142,2465.463,2052.440,2633.460,0.1950,12,1,0.0,0.0
+contended,8,lumex_split_count_cxx11,load_one_writer,5.9449,5.5326,6.1421,826.520,740.625,905.713,719.530,954.425,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_cxx11,one_writer_stores,4.1080,3.9374,4.3585,574.102,510.566,639.500,457.287,1449.990,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_r4,uint64_cas,1.0000,1.0000,1.0000,140.217,135.150,152.859,121.479,158.382,0.9659,12,1,0.0,0.0
+contended,8,lumex_split_count_r4,load,6.3872,5.9826,6.6142,894.587,810.466,962.708,679.373,1039.730,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_r4,store,3.3994,3.0897,3.6941,470.956,435.245,524.212,306.044,568.961,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_r4,exchange,3.6625,3.1028,3.8849,505.858,438.110,561.371,318.792,586.225,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_r4,compare_exchange_strong,16.0828,14.8179,16.7199,2318.385,2177.255,2381.375,1952.000,2524.950,0.1978,12,1,0.0,0.0
+contended,8,lumex_split_count_r4,load_one_writer,5.7498,5.3346,6.0903,816.050,771.473,853.341,712.184,973.956,0.0000,12,1,0.0,0.0
+contended,8,lumex_split_count_r4,one_writer_stores,4.0066,3.7463,4.2701,575.093,547.694,591.795,500.842,1232.800,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex,uint64_cas,1.0000,1.0000,1.0000,262.559,243.524,277.543,222.591,295.646,0.7111,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex,load,12.5533,11.7427,13.8366,3210.645,2818.578,3714.680,2616.420,4473.520,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex,store,13.7465,12.4154,14.2975,3460.905,3251.310,3741.065,3144.160,3980.250,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex,exchange,13.7996,12.6423,14.6363,3473.695,3253.352,3938.222,2835.210,4112.830,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex,compare_exchange_strong,32.4557,31.3395,35.5146,8334.755,7828.050,9147.797,7270.390,9991.900,0.5266,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex,load_one_writer,13.2527,11.6874,15.0009,3229.240,2838.138,4152.840,2452.410,4612.870,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex,one_writer_stores,13.9562,10.4090,16.7280,3513.085,2891.618,4072.250,2455.030,7147.310,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex_cxx11,uint64_cas,1.0000,1.0000,1.0000,266.930,250.343,278.460,229.962,308.205,0.7227,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex_cxx11,load,6.7687,6.3472,7.3133,1781.455,1683.888,1916.935,1615.780,2113.670,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex_cxx11,store,10.0157,9.1887,10.2484,2588.855,2542.382,2652.688,2436.140,2791.380,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex_cxx11,exchange,9.9509,9.1559,10.2169,2576.760,2526.965,2632.260,2415.390,2771.120,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex_cxx11,compare_exchange_strong,21.5275,20.2289,22.1989,5585.070,5517.705,5675.208,5378.500,6067.460,0.6084,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex_cxx11,load_one_writer,6.8455,6.5814,7.3556,1863.410,1763.215,1929.000,1676.190,2099.630,0.0000,12,1,0.0,0.0
+contended,16,lumex_lock_based_lumex_cxx11,one_writer_stores,7.5552,6.7653,8.8640,1956.785,1802.515,2408.495,1655.370,2802.360,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count,uint64_cas,1.0000,1.0000,1.0000,258.063,253.134,272.563,229.037,291.897,0.7008,12,1,0.0,0.0
+contended,16,lumex_split_count,load,8.5931,7.8712,9.0484,2215.535,2155.577,2254.180,1856.560,2410.110,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count,store,3.8578,3.4213,3.9523,976.971,961.584,1004.837,744.353,1045.600,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count,exchange,3.9559,3.5240,4.0306,1016.695,993.872,1022.793,712.759,1053.940,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count,compare_exchange_strong,20.7512,20.0646,22.2829,5436.820,5260.940,5586.987,4867.560,5789.210,0.1793,12,1,0.0,0.0
+contended,16,lumex_split_count,load_one_writer,8.3911,7.6766,8.8537,2147.725,2093.285,2195.213,1665.440,2308.230,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count,one_writer_stores,7.4071,3.0969,26.0810,1986.935,858.988,6737.167,631.824,12536.900,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_cxx11,uint64_cas,1.0000,1.0000,1.0000,258.524,252.618,279.753,232.892,294.131,0.7189,12,1,0.0,0.0
+contended,16,lumex_split_count_cxx11,load,8.2473,7.4676,8.8768,2207.460,2096.993,2259.055,1810.060,2411.300,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_cxx11,store,3.4918,3.2494,3.7413,932.132,880.429,959.309,722.465,981.720,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_cxx11,exchange,3.6220,3.3044,3.7745,957.560,890.558,970.729,749.099,1045.050,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_cxx11,compare_exchange_strong,21.0857,19.6646,21.5335,5411.100,5324.400,5562.725,5020.340,5729.210,0.1843,12,1,0.0,0.0
+contended,16,lumex_split_count_cxx11,load_one_writer,7.7916,7.3462,8.4211,2091.090,2055.550,2122.492,1856.950,2320.950,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_cxx11,one_writer_stores,6.8913,4.4449,7.8717,1968.805,1225.566,2039.565,506.484,15568.000,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_r4,uint64_cas,1.0000,1.0000,1.0000,271.095,243.716,274.447,225.518,299.229,0.6987,12,1,0.0,0.0
+contended,16,lumex_split_count_r4,load,8.3744,7.9903,8.7759,2196.385,2163.725,2242.310,2050.100,2355.960,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_r4,store,3.5707,3.4960,4.0692,970.317,953.649,986.562,909.942,994.391,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_r4,exchange,3.7251,3.5917,4.1349,1007.715,977.757,1016.763,959.535,1054.730,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_r4,compare_exchange_strong,20.4697,19.9224,22.1688,5487.365,5332.908,5564.912,5083.020,5782.590,0.1795,12,1,0.0,0.0
+contended,16,lumex_split_count_r4,load_one_writer,7.9861,7.6365,8.3113,2147.115,2025.433,2173.068,1807.940,2429.880,0.0000,12,1,0.0,0.0
+contended,16,lumex_split_count_r4,one_writer_stores,7.3725,4.7710,11.2882,2046.650,1264.752,2948.358,686.769,15500.300,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex,uint64_cas,1.0000,1.0000,1.0000,299.119,280.600,319.571,265.028,345.610,0.5772,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex,load,14.5756,13.2394,16.8685,4409.530,3633.760,5152.653,3616.540,6532.540,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex,store,15.2216,14.2892,16.0723,4506.665,4050.165,4660.367,3915.110,5275.360,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex,exchange,15.4823,13.7444,16.1223,4590.805,4162.557,4815.753,3911.730,5262.750,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex,compare_exchange_strong,39.0786,34.6940,42.4130,11362.000,9886.438,11914.150,9064.150,14385.800,0.5179,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex,load_one_writer,15.6979,13.2232,18.0404,4631.495,4216.120,4985.943,3410.720,7017.630,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex,one_writer_stores,13.8736,10.8141,16.3785,3862.595,3525.005,4924.427,2649.850,8452.590,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex_cxx11,uint64_cas,1.0000,1.0000,1.0000,300.711,283.585,312.095,259.090,321.335,0.5716,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex_cxx11,load,8.1787,7.9894,9.0487,2530.965,2400.588,2618.990,2118.130,2743.300,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex_cxx11,store,11.0121,10.4972,11.5582,3273.025,3180.537,3342.012,3095.500,3563.590,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex_cxx11,exchange,10.9674,10.5038,11.6059,3258.445,3193.428,3343.540,3057.610,3532.260,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex_cxx11,compare_exchange_strong,23.8419,23.3819,25.4347,7097.820,7054.092,7285.882,6756.520,7757.860,0.6017,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex_cxx11,load_one_writer,8.3895,7.8972,9.2057,2514.625,2405.072,2643.497,2211.170,2845.630,0.0000,12,1,0.0,0.0
+contended,20,lumex_lock_based_lumex_cxx11,one_writer_stores,9.4467,9.1668,10.4509,2805.930,2605.662,3128.460,2242.650,4933.300,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count,uint64_cas,1.0000,1.0000,1.0000,298.745,289.984,318.930,257.501,366.168,0.5704,12,1,0.0,0.0
+contended,20,lumex_split_count,load,9.5877,8.8310,10.2513,2852.650,2789.120,2956.952,2689.460,3020.580,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count,store,3.6265,3.2862,3.8435,1091.050,1075.840,1125.452,901.275,1148.220,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count,exchange,3.5905,3.3766,3.8529,1127.155,1102.622,1138.595,868.773,1192.700,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count,compare_exchange_strong,22.8989,20.9532,23.7931,6831.230,6787.015,6899.727,6595.760,7265.430,0.1469,12,1,0.0,0.0
+contended,20,lumex_split_count,load_one_writer,8.9193,8.3714,9.7462,2723.115,2642.743,2847.007,2487.180,2919.570,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count,one_writer_stores,7.2748,5.9566,10.5882,2117.795,2017.150,3064.682,1386.200,6366.780,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_cxx11,uint64_cas,1.0000,1.0000,1.0000,297.421,284.957,313.293,258.900,328.110,0.5575,12,1,0.0,0.0
+contended,20,lumex_split_count_cxx11,load,9.6333,8.9032,10.4294,2831.635,2744.115,2992.555,2669.130,3040.800,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_cxx11,store,3.3701,3.3019,3.6878,1045.385,1036.487,1061.287,855.865,1086.310,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_cxx11,exchange,3.5169,3.4207,3.8050,1083.950,1074.995,1101.780,877.628,1138.540,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_cxx11,compare_exchange_strong,22.6990,21.8280,24.6617,6763.270,6666.188,6911.935,6560.770,7080.490,0.1441,12,1,0.0,0.0
+contended,20,lumex_split_count_cxx11,load_one_writer,9.2014,8.6088,10.0835,2711.240,2658.785,2813.925,2576.260,2904.160,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_cxx11,one_writer_stores,7.2123,6.2971,7.5243,2009.290,1922.142,2158.788,1272.310,5679.170,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_r4,uint64_cas,1.0000,1.0000,1.0000,301.868,289.659,321.526,257.539,366.597,0.5740,12,1,0.0,0.0
+contended,20,lumex_split_count_r4,load,9.4757,8.2816,10.1976,2875.065,2786.460,2986.610,2589.870,3010.190,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_r4,store,3.5905,3.2287,3.8797,1099.215,1085.632,1117.890,876.325,1156.410,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_r4,exchange,3.6540,3.3136,4.1441,1123.610,1092.875,1154.727,843.771,1235.360,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_r4,compare_exchange_strong,22.7368,20.7104,23.9363,6892.025,6703.580,6941.608,6561.160,7056.840,0.1461,12,1,0.0,0.0
+contended,20,lumex_split_count_r4,load_one_writer,9.1137,7.6160,9.7692,2768.670,2572.520,2821.290,2348.540,2896.480,0.0000,12,1,0.0,0.0
+contended,20,lumex_split_count_r4,one_writer_stores,7.0643,6.5389,8.1790,2151.060,1998.835,2247.108,1401.940,17989.000,0.0000,12,1,0.0,0.0
