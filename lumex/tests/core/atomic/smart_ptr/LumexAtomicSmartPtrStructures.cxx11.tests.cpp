@@ -1,5 +1,5 @@
 // The classic ABA victims written on top of atomic_shared_ptr: a Treiber
-// stack and a Michael and Scott queue whose nodes are std::shared_ptr reached
+// stack and a Michael and Scott queue whose nodes are pf::shared_ptr reached
 // through the atomic. They run with many threads and four schedules and check
 // the multiset of values (each pushed value comes out exactly once), the sum,
 // the FIFO order per producer, a destructor ledger (every node constructed is

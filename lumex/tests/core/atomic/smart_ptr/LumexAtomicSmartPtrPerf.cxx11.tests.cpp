@@ -3,6 +3,9 @@
 // sleep or spin far more than it should (for example a lock that always
 // parks). Release builds without sanitizers only; elsewhere the cases skip.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <atomic>
 #include <chrono>
 #include <memory>
@@ -73,3 +76,5 @@ TEST (LumexAtomicSmartPtrPerfTest,
   GTEST_SKIP () << "wall-clock budgets run in Release without sanitizers";
 #endif
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

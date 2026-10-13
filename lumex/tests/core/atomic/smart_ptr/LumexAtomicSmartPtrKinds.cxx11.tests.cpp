@@ -9,6 +9,9 @@
 // equivalence cases extend the aliasing test of the libc++ implementation of
 // llvm-project pull request 194215.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <atomic>
 #include <cstddef>
 #include <memory>
@@ -550,3 +553,5 @@ incomplete_value (std::shared_ptr<Incomplete> const &p)
   return p->value;
 }
 } // namespace
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

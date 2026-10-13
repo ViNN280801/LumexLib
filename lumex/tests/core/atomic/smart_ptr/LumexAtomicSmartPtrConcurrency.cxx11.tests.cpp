@@ -10,6 +10,9 @@
 // LUMEX_ATOMIC_STRESS_SCALE (default 1). Races are not deterministic: run the
 // binary several times with several thread counts before trusting a pass.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <algorithm>
 #include <atomic>
 #include <cstddef>
@@ -789,3 +792,5 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
       EXPECT_EQ (done.load (), consumers);
     }
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

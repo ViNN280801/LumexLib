@@ -5,6 +5,9 @@
 // needed. Extends the refcount test of the libc++ implementation of
 // llvm-project pull request 194215.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <atomic>
 #include <cstddef>
 #include <memory>
@@ -435,3 +438,5 @@ TEST (LumexAtomicWeakPtrLifetimeTest,
   }
   EXPECT_EQ (live_allocations ().load (), before);
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

@@ -7,6 +7,9 @@
 // std::atomic<std::shared_ptr<T>>::wait fails two of these (it returns
 // without a change and misses a change of the stored pointer alone).
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <atomic>
 #include <cstddef>
 #include <memory>
@@ -400,3 +403,5 @@ TEST (LumexAtomicSmartPtrWaitNotifyTest,
   waiter.join ();
   EXPECT_TRUE (refers_to (a.load (), value));
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

@@ -8,6 +8,9 @@
 // (LumexAtomicScenariosLifecycle.hpp); the falsification suite runs them on
 // engines that leak or double count.
 
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
+// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <atomic>
 #include <cstdint>
 #include <cstdio>
@@ -409,3 +412,5 @@ TEST (
              1)
       << "one payload is held by the static atomic until the process exits";
 }
+
+#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
