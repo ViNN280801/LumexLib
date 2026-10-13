@@ -70,6 +70,13 @@ template <> struct atomic_traits_t<boost_atomic_t>
     return boost::make_shared<int> (value);
   }
 
+  template <typename Deleter>
+  static value_type
+  make_with_deleter (int value, Deleter deleter)
+  {
+    return value_type (new int (value), deleter);
+  }
+
   static void
   settle ()
   {
