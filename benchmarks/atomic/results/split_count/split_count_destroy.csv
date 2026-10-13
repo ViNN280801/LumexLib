@@ -1,0 +1,146 @@
+# tool=LumexAtomicBenchmark
+# scenario=destroy
+# objects=20000
+# date=2026-10-13
+# cpu=12th Gen Intel(R) Core(TM) i7-12700K
+# logical_cpus=20
+# governor=powersave
+# kernel=6.1.170-1-generic
+# os=Linux-6.1.170-1-generic-x86_64-with-AstraLinux-1.7_x86-64-1.7_x86-64
+# compiler=GCC 13.2
+# library=libstdc++ 13
+# build=release
+# repetitions=100
+# settle_seconds=5
+# duration_ms=100
+# warmup_ms=300
+# load_average_start=7.29 9.06 6.90
+# load_average_end=0.84 2.41 4.40
+# minutes=9.8
+# implementation=lumex_lock_based_cxx11|LumexLib lock-based, C++11|lock_based_table_wait|201103|0
+# implementation=lumex_lock_based|LumexLib lock-based, C++20|lock_based_std_wait|202002|0
+# implementation=lumex_lock_free_cxx11|LumexLib lock-free, C++11|lock_free_table_wait|201103|1
+# implementation=lumex_lock_free|LumexLib lock-free, C++20|lock_free_std_wait|202002|1
+# implementation=lumex_lock_free_deferred|LumexLib lock-free, C++20, deferred|lock_free_deferred_std_wait|202002|1
+# implementation=lumex_default|LumexLib common name, C++20 (lock-free)|common_std_wait|202002|1
+# implementation=lumex_std_backed|LumexLib std-backed, C++20 (wraps std)|std_backed_std_wait|202002|0
+# implementation=std|std::atomic, libstdc++ 13|libstdc++ 13|202002|0
+# implementation=boost|boost::atomic_shared_ptr (spinlock), Boost 1_92|boost 1_92|202002|0
+# implementation=lumex_split_count_cxx11|LumexLib split-count (own ptr), C++11|split_count_table_wait|201103|1
+# implementation=lumex_lock_based_lumex_cxx11|LumexLib lock-based (own ptr), C++11|lock_based_lumex_table_wait|201103|0
+# implementation=lumex_split_count|LumexLib split-count r8 (own ptr), C++20|split_count_std_wait|202002|1
+# implementation=lumex_split_count_r4|LumexLib split-count r4 (own ptr), C++20|split_count_r4_std_wait|202002|1
+# implementation=lumex_lock_based_lumex|LumexLib lock-based (own ptr), C++20|lock_based_lumex_std_wait|202002|0
+mode,threads,implementation,operation,ratio_median,ratio_p25,ratio_p75,ns_median,ns_p25,ns_p75,ns_min,ns_max,success_rate,repetitions,valid,cycles_median,instructions_median
+destroy,1,boost,destroy_median,0.0000,0.0000,0.0000,49.000,28.750,66.250,24.000,120.000,1.0000,100,1,0.0,0.0
+destroy,1,boost,destroy_p99,0.0000,0.0000,0.0000,75.000,42.500,90.000,28.000,171.000,1.0000,100,1,0.0,0.0
+destroy,1,boost,destroy_max,0.0000,0.0000,0.0000,955.500,832.500,3249.750,334.000,17125.000,1.0000,100,1,0.0,0.0
+destroy,1,boost,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_default,destroy_median,0.0000,0.0000,0.0000,52.000,32.000,66.000,30.000,122.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_default,destroy_p99,0.0000,0.0000,0.0000,74.000,52.000,86.000,35.000,187.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_default,destroy_max,0.0000,0.0000,0.0000,1672.000,1401.750,5951.250,363.000,18111.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_default,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based,destroy_median,0.0000,0.0000,0.0000,42.000,22.750,57.000,20.000,101.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based,destroy_p99,0.0000,0.0000,0.0000,68.000,46.750,89.000,24.000,145.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based,destroy_max,0.0000,0.0000,0.0000,746.000,659.750,1836.500,65.000,144999.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_cxx11,destroy_median,0.0000,0.0000,0.0000,49.500,22.750,62.000,21.000,96.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_cxx11,destroy_p99,0.0000,0.0000,0.0000,76.000,50.000,99.000,27.000,138.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_cxx11,destroy_max,0.0000,0.0000,0.0000,1013.000,802.750,1702.000,136.000,15088.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_cxx11,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_lumex,destroy_median,0.0000,0.0000,0.0000,51.500,27.500,66.000,24.000,106.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_lumex,destroy_p99,0.0000,0.0000,0.0000,79.000,50.000,96.000,30.000,175.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_lumex,destroy_max,0.0000,0.0000,0.0000,1033.000,922.500,3341.750,169.000,41089.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_lumex,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_lumex_cxx11,destroy_median,0.0000,0.0000,0.0000,51.500,27.750,69.000,25.000,151.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_lumex_cxx11,destroy_p99,0.0000,0.0000,0.0000,81.000,51.000,103.250,30.000,184.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_lumex_cxx11,destroy_max,0.0000,0.0000,0.0000,1448.500,824.750,7268.750,133.000,61703.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_based_lumex_cxx11,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free,destroy_median,0.0000,0.0000,0.0000,61.000,33.500,83.000,30.000,190.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free,destroy_p99,0.0000,0.0000,0.0000,86.500,53.000,121.250,35.000,329.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free,destroy_max,0.0000,0.0000,0.0000,1996.500,1396.000,6891.000,302.000,32429.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free_cxx11,destroy_median,0.0000,0.0000,0.0000,60.500,35.750,86.250,30.000,188.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free_cxx11,destroy_p99,0.0000,0.0000,0.0000,78.000,53.750,113.000,35.000,216.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free_cxx11,destroy_max,0.0000,0.0000,0.0000,4833.500,2352.250,6259.000,857.000,30681.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free_cxx11,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_lock_free_deferred,destroy_median,0.0000,0.0000,0.0000,116350.500,74343.750,145244.750,70463.000,366421.000,0.0010,100,1,0.0,0.0
+destroy,1,lumex_lock_free_deferred,destroy_p99,0.0000,0.0000,0.0000,253538.500,165890.000,346586.000,112426.000,723019.000,0.0010,100,1,0.0,0.0
+destroy,1,lumex_lock_free_deferred,destroy_max,0.0000,0.0000,0.0000,326970.500,240149.500,443103.500,144435.000,912774.000,0.0010,100,1,0.0,0.0
+destroy,1,lumex_lock_free_deferred,destroy_backlog,0.0000,0.0000,0.0000,998.000,998.000,998.000,998.000,998.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count,destroy_median,0.0000,0.0000,0.0000,43.500,23.750,60.250,22.000,130.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count,destroy_p99,0.0000,0.0000,0.0000,66.000,44.750,87.000,27.000,166.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count,destroy_max,0.0000,0.0000,0.0000,1155.500,963.500,1669.500,241.000,24938.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count_cxx11,destroy_median,0.0000,0.0000,0.0000,45.500,27.000,63.250,23.000,125.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count_cxx11,destroy_p99,0.0000,0.0000,0.0000,71.500,45.000,93.000,29.000,174.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count_cxx11,destroy_max,0.0000,0.0000,0.0000,1168.500,933.500,4741.250,234.000,70091.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count_cxx11,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count_r4,destroy_median,0.0000,0.0000,0.0000,44.500,24.750,59.250,22.000,134.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count_r4,destroy_p99,0.0000,0.0000,0.0000,64.500,44.500,84.000,26.000,159.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count_r4,destroy_max,0.0000,0.0000,0.0000,1070.500,734.750,4183.250,161.000,20828.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_split_count_r4,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,lumex_std_backed,destroy_median,0.0000,0.0000,0.0000,40.500,24.000,52.000,22.000,88.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_std_backed,destroy_p99,0.0000,0.0000,0.0000,61.500,46.000,82.250,26.000,140.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_std_backed,destroy_max,0.0000,0.0000,0.0000,890.000,729.000,2426.000,131.000,24175.000,1.0000,100,1,0.0,0.0
+destroy,1,lumex_std_backed,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,1,std,destroy_median,0.0000,0.0000,0.0000,46.000,26.500,56.250,22.000,134.000,1.0000,100,1,0.0,0.0
+destroy,1,std,destroy_p99,0.0000,0.0000,0.0000,64.000,43.500,74.750,26.000,157.000,1.0000,100,1,0.0,0.0
+destroy,1,std,destroy_max,0.0000,0.0000,0.0000,863.500,740.000,2361.250,130.000,25210.000,1.0000,100,1,0.0,0.0
+destroy,1,std,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,4,boost,destroy_median,0.0000,0.0000,0.0000,143.000,86.500,177.750,71.000,472.000,1.0000,100,1,0.0,0.0
+destroy,4,boost,destroy_p99,0.0000,0.0000,0.0000,62670.500,52953.750,106277.250,193.000,136970.000,1.0000,100,1,0.0,0.0
+destroy,4,boost,destroy_max,0.0000,0.0000,0.0000,253716.000,210939.000,288159.750,106254.000,3828910.000,1.0000,100,1,0.0,0.0
+destroy,4,boost,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,0.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_default,destroy_median,0.0000,0.0000,0.0000,271.000,253.000,294.000,223.000,391.000,0.6250,100,1,0.0,0.0
+destroy,4,lumex_default,destroy_p99,0.0000,0.0000,0.0000,947128.500,766209.750,1135597.500,448.000,2075890.000,0.6250,100,1,0.0,0.0
+destroy,4,lumex_default,destroy_max,0.0000,0.0000,0.0000,1148980.000,904990.500,1372315.000,3204.000,2718710.000,0.6250,100,1,0.0,0.0
+destroy,4,lumex_default,destroy_backlog,0.0000,0.0000,0.0000,998.000,998.000,999.000,162.000,999.000,0.0268,100,1,0.0,0.0
+destroy,4,lumex_lock_based,destroy_median,0.0000,0.0000,0.0000,581.500,518.500,684.000,409.000,1283.000,0.7645,100,1,0.0,0.0
+destroy,4,lumex_lock_based,destroy_p99,0.0000,0.0000,0.0000,3736.000,3618.000,3997.250,3238.000,5024.000,0.7645,100,1,0.0,0.0
+destroy,4,lumex_lock_based,destroy_max,0.0000,0.0000,0.0000,10866.000,7180.250,17328.000,5233.000,183067.000,0.7645,100,1,0.0,0.0
+destroy,4,lumex_lock_based,destroy_backlog,0.0000,0.0000,0.0000,1.000,1.000,1.000,1.000,2.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_lock_based_cxx11,destroy_median,0.0000,0.0000,0.0000,343.000,293.500,379.000,218.000,675.000,0.8310,100,1,0.0,0.0
+destroy,4,lumex_lock_based_cxx11,destroy_p99,0.0000,0.0000,0.0000,6676.000,5679.000,9119.500,4345.000,18607.000,0.8310,100,1,0.0,0.0
+destroy,4,lumex_lock_based_cxx11,destroy_max,0.0000,0.0000,0.0000,39481.000,31100.750,51489.250,13122.000,3970610.000,0.8310,100,1,0.0,0.0
+destroy,4,lumex_lock_based_cxx11,destroy_backlog,0.0000,0.0000,0.0000,1.000,1.000,1.000,1.000,2.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_lock_based_lumex,destroy_median,0.0000,0.0000,0.0000,596.500,508.500,694.250,414.000,1537.000,0.7315,100,1,0.0,0.0
+destroy,4,lumex_lock_based_lumex,destroy_p99,0.0000,0.0000,0.0000,3643.500,3539.750,3880.750,3330.000,4935.000,0.7315,100,1,0.0,0.0
+destroy,4,lumex_lock_based_lumex,destroy_max,0.0000,0.0000,0.0000,12707.500,8172.500,20102.250,6044.000,185138.000,0.7315,100,1,0.0,0.0
+destroy,4,lumex_lock_based_lumex,destroy_backlog,0.0000,0.0000,0.0000,1.000,1.000,1.000,1.000,1.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_lock_based_lumex_cxx11,destroy_median,0.0000,0.0000,0.0000,362.000,344.000,401.000,296.000,770.000,0.8142,100,1,0.0,0.0
+destroy,4,lumex_lock_based_lumex_cxx11,destroy_p99,0.0000,0.0000,0.0000,7407.000,6520.000,9576.750,4555.000,21484.000,0.8142,100,1,0.0,0.0
+destroy,4,lumex_lock_based_lumex_cxx11,destroy_max,0.0000,0.0000,0.0000,43693.500,32758.500,59512.750,13651.000,134836.000,0.8142,100,1,0.0,0.0
+destroy,4,lumex_lock_based_lumex_cxx11,destroy_backlog,0.0000,0.0000,0.0000,1.000,1.000,1.000,1.000,1.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_lock_free,destroy_median,0.0000,0.0000,0.0000,264.500,252.000,279.250,226.000,395.000,0.6193,100,1,0.0,0.0
+destroy,4,lumex_lock_free,destroy_p99,0.0000,0.0000,0.0000,892145.000,740366.000,1029567.500,481.000,2512230.000,0.6193,100,1,0.0,0.0
+destroy,4,lumex_lock_free,destroy_max,0.0000,0.0000,0.0000,1103050.000,908529.000,1258650.000,3505.000,2880320.000,0.6193,100,1,0.0,0.0
+destroy,4,lumex_lock_free,destroy_backlog,0.0000,0.0000,0.0000,998.000,998.000,999.000,184.000,999.000,0.0269,100,1,0.0,0.0
+destroy,4,lumex_lock_free_cxx11,destroy_median,0.0000,0.0000,0.0000,276.500,257.000,298.750,220.000,422.000,0.6182,100,1,0.0,0.0
+destroy,4,lumex_lock_free_cxx11,destroy_p99,0.0000,0.0000,0.0000,817232.500,719843.000,1065460.000,546667.000,5303320.000,0.6182,100,1,0.0,0.0
+destroy,4,lumex_lock_free_cxx11,destroy_max,0.0000,0.0000,0.0000,938499.500,832608.250,1324660.000,596165.000,5816740.000,0.6182,100,1,0.0,0.0
+destroy,4,lumex_lock_free_cxx11,destroy_backlog,0.0000,0.0000,0.0000,998.000,998.000,999.000,998.000,999.000,0.0247,100,1,0.0,0.0
+destroy,4,lumex_lock_free_deferred,destroy_median,0.0000,0.0000,0.0000,145968.000,139926.750,158633.250,107378.000,211672.000,0.0010,100,1,0.0,0.0
+destroy,4,lumex_lock_free_deferred,destroy_p99,0.0000,0.0000,0.0000,297545.500,283498.000,334437.250,241020.000,1004370.000,0.0010,100,1,0.0,0.0
+destroy,4,lumex_lock_free_deferred,destroy_max,0.0000,0.0000,0.0000,372185.000,349121.000,401097.250,304182.000,1210170.000,0.0010,100,1,0.0,0.0
+destroy,4,lumex_lock_free_deferred,destroy_backlog,0.0000,0.0000,0.0000,998.000,998.000,998.000,998.000,998.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_split_count,destroy_median,0.0000,0.0000,0.0000,412.500,396.000,474.000,371.000,635.000,0.1051,100,1,0.0,0.0
+destroy,4,lumex_split_count,destroy_p99,0.0000,0.0000,0.0000,775.500,742.000,831.000,652.000,2353.000,0.1051,100,1,0.0,0.0
+destroy,4,lumex_split_count,destroy_max,0.0000,0.0000,0.0000,6359.500,3655.250,10896.500,1849.000,106504.000,0.1051,100,1,0.0,0.0
+destroy,4,lumex_split_count,destroy_backlog,0.0000,0.0000,0.0000,1.000,1.000,1.000,1.000,2.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_split_count_cxx11,destroy_median,0.0000,0.0000,0.0000,446.000,416.000,474.250,378.000,683.000,0.1297,100,1,0.0,0.0
+destroy,4,lumex_split_count_cxx11,destroy_p99,0.0000,0.0000,0.0000,1067.000,818.000,1806.750,691.000,3040.000,0.1297,100,1,0.0,0.0
+destroy,4,lumex_split_count_cxx11,destroy_max,0.0000,0.0000,0.0000,5260.500,4261.750,9710.000,2332.000,97618.000,0.1297,100,1,0.0,0.0
+destroy,4,lumex_split_count_cxx11,destroy_backlog,0.0000,0.0000,0.0000,1.000,1.000,1.000,1.000,2.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_split_count_r4,destroy_median,0.0000,0.0000,0.0000,410.500,391.000,472.250,369.000,661.000,0.1022,100,1,0.0,0.0
+destroy,4,lumex_split_count_r4,destroy_p99,0.0000,0.0000,0.0000,733.000,689.000,823.000,629.000,2514.000,0.1022,100,1,0.0,0.0
+destroy,4,lumex_split_count_r4,destroy_max,0.0000,0.0000,0.0000,8740.500,4096.500,12511.750,2933.000,162902.000,0.1022,100,1,0.0,0.0
+destroy,4,lumex_split_count_r4,destroy_backlog,0.0000,0.0000,0.0000,1.000,1.000,1.000,1.000,2.000,0.0000,100,1,0.0,0.0
+destroy,4,lumex_std_backed,destroy_median,0.0000,0.0000,0.0000,599.500,442.000,766.750,234.000,2349.000,0.9998,100,1,0.0,0.0
+destroy,4,lumex_std_backed,destroy_p99,0.0000,0.0000,0.0000,3673.500,3169.750,14122.000,2588.000,630443.000,0.9998,100,1,0.0,0.0
+destroy,4,lumex_std_backed,destroy_max,0.0000,0.0000,0.0000,118456.000,25414.250,743453.500,8382.000,6323120.000,0.9998,100,1,0.0,0.0
+destroy,4,lumex_std_backed,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,1.000,0.0000,100,1,0.0,0.0
+destroy,4,std,destroy_median,0.0000,0.0000,0.0000,630.000,447.750,948.000,194.000,2710.000,0.9998,100,1,0.0,0.0
+destroy,4,std,destroy_p99,0.0000,0.0000,0.0000,4399.000,3115.000,31505.250,2514.000,1016890.000,0.9998,100,1,0.0,0.0
+destroy,4,std,destroy_max,0.0000,0.0000,0.0000,122605.000,25415.500,770054.000,10173.000,6833030.000,0.9998,100,1,0.0,0.0
+destroy,4,std,destroy_backlog,0.0000,0.0000,0.0000,0.000,0.000,0.000,0.000,1.000,0.0000,100,1,0.0,0.0

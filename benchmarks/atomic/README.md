@@ -14,7 +14,7 @@ How LumexLib's `atomic_shared_ptr` behaves under contention, compared with the s
 
 ![Uncontended](results/atomic_benchmark_uncontended.svg)
 
-The numbers behind the charts: [results/atomic_benchmark.md](results/atomic_benchmark.md) (medians and quartiles: [results/atomic_benchmark.csv](results/atomic_benchmark.csv)).
+The split-count engine, the weak pointers, the read-heavy run and the destruction latency are in [their own section](#the-split-count-engine). The numbers behind the charts: [results/atomic_benchmark.md](results/atomic_benchmark.md) (medians and quartiles: [results/atomic_benchmark.csv](results/atomic_benchmark.csv)).
 
 In short, on the machine below: under contention LumexLib's lock-based implementation grows much more slowly than libstdc++ 13's `std::atomic<std::shared_ptr<T>>`; at 20 threads it costs 2.8-3.5 times less for `load ()`, 2.4-2.9 times less for `compare_exchange_strong ()`, 2.0-2.3 times less for `exchange ()` and 1.6-1.8 times less for `store ()`. libstdc++ wins `store ()` with 2 to 6 threads. Uncontended, all four implementations cost 17-22 ns for `load ()`, `store ()` and `exchange ()`, and the lock-based compare-exchange is cheaper (44-47 ns against 57 ns). LumexLib's default selection at C++20, which wraps libstdc++'s type, measures the same as libstdc++ itself.
 
@@ -59,7 +59,7 @@ cmake --build build-bench --target LumexAtomicBenchmark
 python benchmarks/atomic/run_benchmark.py --exe build-bench/bin/LumexAtomicBenchmark --quick --out-dir build-bench/atomic-quick
 ```
 
-`--quick` (3 runs, no pause, 20 ms windows) checks the setup in a few seconds; its numbers are not results, so it writes into the build directory (`--out-dir`) and leaves the committed `results/` alone. Without it the sweep uses the defaults above and takes about an hour and a half on 20 hardware threads. `run_benchmark.py` writes `results/atomic_benchmark.csv` and calls `plot_results.py`, which needs only the Python standard library and writes the SVG charts and the Markdown table next to the CSV. The target `LumexAtomicBenchmarkRun` does all of it and rewrites `results/`. Other options: `--repetitions`, `--settle-seconds`, `--duration-ms`, `--threads 1,2,4,8`, `--raw-csv FILE` (every row of every run).
+`--quick` (3 runs, no pause, 20 ms windows) checks the setup in a few seconds; its numbers are not results, so it writes into the build directory (`--out-dir`) and leaves the committed `results/` alone. Without it the sweep uses the defaults above and takes about an hour and a half on 20 hardware threads. `run_benchmark.py` writes `results/atomic_benchmark.csv` and calls `plot_results.py`, which needs only the Python standard library and writes the SVG charts and the Markdown table next to the CSV. The target `LumexAtomicBenchmarkRun` does all of it and rewrites `results/`. Other options: `--scenario shared|weak|destroy` (the split-count section: weak pointers, destruction latency; `--name` sets the stem of the result files), `--repetitions`, `--settle-seconds`, `--duration-ms`, `--threads 1,2,4,8`, `--raw-csv FILE` (every row of every run).
 
 ## The lock-free engine: a reduced run
 
@@ -97,7 +97,367 @@ The charts of the reduced run, in the same form as the charts of the full sweep 
 
 ![Uncontended, reduced run](results/lock_free_reduced/lock_free_reduced_atomic_benchmark_uncontended.svg)
 
+## The split-count engine
+
+`atomic_shared_ptr_lock_free_split_count<T>` and `atomic_weak_ptr_lock_free_split_count<T>` (x86-64, a 16-byte word updated by a 128-bit compare-and-swap; see `lumex/core/atomic/README.md`, "The split-count engine") had never been measured. This section says where they are faster and where they are slower than the other engines. It states measurements only: whether the engine is wanted, whether the family alias `lumex::core::smart_ptr::atomic_shared_ptr` should become it, and which `reserve` is the production value are decisions that are not made here.
+
+Files: `results/split_count/split_count_benchmark.{csv,md}` (the four operations, the read-heavy run, the load plus store pair, cycles; 11 series), `split_count_weak_benchmark.*` (weak pointers), `split_count_oversubscribed.*` (20, 40 and 60 threads), `split_count_destroy.*` (destruction latency), `split_count_alignment_{default,aligned64}.csv` (the code placement check) and the charts `split_count_*.svg`, all in [results/split_count/](results/split_count/split_count_benchmark.md).
+
+### What is compared
+
+| Series | What it is | Pointer type |
+| --- | --- | --- |
+| split-count r8, C++11 / C++20 | `atomic_shared_ptr_lock_free_split_count<int>` as shipped (reserve 8; the unit refuses to build the series if `split_native_policy_t::reserve ()` is not 8) | own `lumex::core::smart_ptr::shared_ptr` |
+| split-count r4, C++20 | the same cell with a policy that differs from the production one in `reserve ()` alone (4); no engine header is changed | own |
+| lock-based own ptr, C++11 / C++20 | `atomic_shared_ptr_lock_based_lumex<int>`: the like-for-like competitor, the same pointer under the lock-based engine (this is what the family alias is today) | own |
+| box lock-free immediate / deferred, C++20 | `atomic_shared_ptr_lock_free<int>` (hazard-pointer box engine), the replaced value destroyed in the call, or later | `std::shared_ptr` |
+| lock-based std ptr, C++20 | `atomic_shared_ptr_lock_based<int>` | `std::shared_ptr` |
+| std-backed, C++20 | `atomic_shared_ptr_std_backed<int>` (wraps libstdc++'s type) | `std::shared_ptr` |
+| `std::atomic`, libstdc++ 13 | `std::atomic<std::shared_ptr<int>>` | `std::shared_ptr` |
+| `boost::atomic_shared_ptr` 1.92 | a spinlock around a `boost::shared_ptr` | `boost::shared_ptr` |
+
+The pointer types differ. A series over the own `shared_ptr` and a series over `std::shared_ptr` differ in the engine and in the pointer (copy and destruction of the pointer, the layout of the control block), so only the pairs split-count against lock-based own ptr are engine-only comparisons. The weak series are the weak twins: split-count weak, lock-based weak (own and std pointer), box lock-free weak, std-backed weak and `std::atomic<std::weak_ptr<int>>`.
+
+Each series is a class in an inline namespace that names its way of sleeping (`split_count_std_wait`, `split_count_table_wait`, `lock_based_lumex_std_wait`, ...); `--list` prints it and `run_benchmark.py` stops when a series measured something else.
+
+### Method deltas
+
+The method of the sections above (baseline loop per block, interleaving, 100 ms windows, medians and quartiles, the leak check) is unchanged. Added:
+
+- **New rows.** `one_writer_stores`: the writer's side of `load_one_writer` (one thread stores alternating values while the others load; the loads of the readers are `load_one_writer`; at one thread the thread loads or stores alone). `load_store`: one `load ()` and one `store ()` of the same value per iteration, on one thread. `weak_load` and `weak_load_lock`: `load ()` of a weak atomic, and `load ()` followed by `weak_ptr::lock ()`. Destruction latency: a thread replaces the value 20000 times with a new object that has a deleter; the latency of an object is the time from the start of the replacing store to the run of its deleter; with 4 threads the other three load in a loop, so the last owner can be a reader.
+- **Cycles.** For one thread the user-mode cycles and instructions of the timed loop are read with `perf_event_open` (`PERF_COUNT_HW_CPU_CYCLES`, `_INSTRUCTIONS`, the calling thread, user mode) and divided by the operations. The core clock is not fixed (governor `powersave`), so cycles and nanoseconds do not convert by a constant.
+- **Sizes.** Shared pointers: 100 repetitions, 30 s pauses, 1 and every even count up to 20 threads (the project method; 191.5 minutes). The new scenarios use fewer repetitions: weak pointers 50 repetitions with 10 s pauses (26.8 minutes), oversubscription (20, 40 and 60 threads, the 20 logical CPUs of the machine) 30 repetitions with 10 s pauses (22.3 minutes), destruction latency 100 repetitions with 5 s pauses (9.8 minutes, 20000 objects each, at 1 and 4 threads). The code placement check is a reduced run (12 repetitions, 2 s pauses, 1, 8, 16 and 20 threads, five series).
+- **No pinning.** The benchmark threads are not pinned to CPUs (the project method never pinned them; only the compile-time measurement uses `--cpu`).
+- **Not evaluated.** Whether `compare_exchange_*` should also take a reserve needs an engine change and was not implemented, so it is not evaluated. The writer in the read-heavy run only stores (no `exchange` writer). The worst latency of a single `store` under read load was not measured, only the rate of stores.
+
+The commands of the sweeps (`SERIES` is the eleven keys `lumex_split_count_cxx11,lumex_split_count,lumex_split_count_r4,lumex_lock_based_lumex_cxx11,lumex_lock_based_lumex,lumex_lock_free,lumex_lock_free_deferred,lumex_lock_based,lumex_std_backed,std,boost`; the runs were made in this order):
+
+```sh
+EXE=build-bench/bin/LumexAtomicBenchmark
+OUT=benchmarks/atomic/results/split_count
+python benchmarks/atomic/run_benchmark.py --exe $EXE --scenario destroy --name split_count_destroy --repetitions 100 --settle-seconds 5 --out-dir $OUT
+python benchmarks/atomic/run_benchmark.py --exe $EXE --scenario weak --name split_count_weak_benchmark --repetitions 50 --settle-seconds 10 --out-dir $OUT
+python benchmarks/atomic/run_benchmark.py --exe $EXE --series $SERIES --name split_count_oversubscribed --threads 20,40,60 --repetitions 30 --settle-seconds 10 --out-dir $OUT
+python benchmarks/atomic/run_benchmark.py --exe $EXE --series $SERIES --name split_count_benchmark --repetitions 100 --settle-seconds 30 --out-dir $OUT
+```
+
+The check of the code placement is the same executable configured a second time with `-DCMAKE_CXX_FLAGS="-falign-functions=64 -falign-loops=64"` and run with `--repetitions 12 --settle-seconds 2 --threads 1,8,16,20` on `lumex_split_count_cxx11,lumex_split_count,lumex_split_count_r4,lumex_lock_based_lumex_cxx11,lumex_lock_based_lumex`.
+
+### Machine and build
+
+| | |
+| --- | --- |
+| CPU | 12th Gen Intel Core i7-12700K, 20 logical CPUs, governor `powersave` |
+| OS, kernel | Astra Linux 1.7, Linux 6.1.170 |
+| Compiler | GCC 13.2 with libstdc++ 13, Release, LumexLib's `Portable` level (`-O2 -march=x86-64 -mtune=generic`); Boost 1.92 |
+| Run | 2026-10-13, nothing else was built or run (the workstation build lock was held by the sweep). The main sweep started right after the oversubscription run, so its load average of the start (30) is that run's own threads |
+
+The baseline rows of the main sweep agree within 3 % of their mean at every thread count for ten of the eleven series. The block of `split-count r8, C++11` is the exception: its baseline was 8 to 15 % above the mean at 6 to 20 threads (table "Baseline" in [results/split_count/split_count_benchmark.md](results/split_count/split_count_benchmark.md)), so its ratios read about 10 % lower than those of its neighbours. In nanoseconds the C++11 and the C++20 build of the engine agree: `load` 2764 against 2776 ns at 20 threads, `store` 1052 against 1079, `exchange` 1090 against 1111, `compare_exchange_strong` 6692 against 6707 (and 966 against 972, 508 against 529, 529 against 545, 2440 against 2446 at 8 threads). The ratios of the C++11 series are therefore not used below to claim a difference between the two standards. The cause of the higher baseline was not investigated.
+
+### Code placement check
+
+Identical machine code with different times is code placement. The lock-based engine over the own pointer moves with the placement: built with `-falign-functions=64 -falign-loops=64`, its contended `load ()` ratio at 20 threads goes from 11.6 to 14.6 and its `store ()` from 12.9 to 15.2, while the split-count engine moves by 0.6 at most (9.0 to 9.6, 3.5 to 3.6). Uncontended the five series get 4 to 8 % faster. The orderings below that survive both builds are marked; a difference under about 15 % between the lock-based engine and anything else is within what placement does and is not claimed. The machine code of the C++11 and the C++20 `split_count_cell::load` is not identical (different frame and register allocation), so the equal times of the two builds are not an identical-code case; their equality is a measurement, the cause is not investigated.
+
+### Results
+
+Charts (ratio to the uint64 compare-exchange, lower is better; the lines are medians, the whiskers 25th-75th percentiles; the C++11 split-count line carries the baseline remark above):
+
+![load () under contention](results/split_count/split_count_benchmark_load.svg)
+
+![store () under contention](results/split_count/split_count_benchmark_store.svg)
+
+![exchange () under contention](results/split_count/split_count_benchmark_exchange.svg)
+
+![compare_exchange_strong () under contention](results/split_count/split_count_benchmark_compare_exchange_strong.svg)
+
+![load () of the readers with one writer](results/split_count/split_count_benchmark_load_one_writer.svg)
+
+![store () of the writer with readers](results/split_count/split_count_benchmark_one_writer_stores.svg)
+
+![Uncontended](results/split_count/split_count_benchmark_uncontended.svg)
+
+![Baseline](results/split_count/split_count_benchmark_baseline.svg)
+
+![Weak load () and lock () under contention](results/split_count/split_count_weak_benchmark_weak_load_lock.svg)
+
+![Destruction latency, median](results/split_count/split_count_destroy_median.svg)
+
+![Destruction latency, 99th percentile](results/split_count/split_count_destroy_p99.svg)
+
+![Destruction backlog](results/split_count/split_count_destroy_backlog.svg)
+
+The tables (every number below is in them; the full tables with all thread counts and the quartiles are in the `.md` files next to the CSVs):
+
+
+#### Uncontended (one thread, private object)
+
+Median ns per operation; cycles and instructions per operation in brackets (user mode, `perf_event_open`).
+
+| Series | `load` | `store` | `exchange` | `compare_exchange_strong` | `load_store` |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 29.0 (124 cyc, 113 ins) | 19.9 (85 cyc, 89 ins) | 18.4 (79 cyc, 98 ins) | 57.3 (246 cyc, 224 ins) | 47.0 (202 cyc, 198 ins) |
+| split-count r8, C++20 | 29.4 (126 cyc, 111 ins) | 18.3 (79 cyc, 64 ins) | 19.2 (82 cyc, 76 ins) | 60.9 (261 cyc, 240 ins) | 47.8 (205 cyc, 177 ins) |
+| split-count r4, C++20 | 29.4 (126 cyc, 111 ins) | 18.4 (79 cyc, 64 ins) | 19.2 (82 cyc, 76 ins) | 60.8 (261 cyc, 240 ins) | 47.7 (204 cyc, 177 ins) |
+| lock-based own ptr, C++11 | 19.1 (82 cyc, 48 ins) | 22.1 (95 cyc, 53 ins) | 22.0 (94 cyc, 57 ins) | 48.5 (208 cyc, 118 ins) | 41.6 (178 cyc, 98 ins) |
+| lock-based own ptr, C++20 | 18.0 (77 cyc, 29 ins) | 20.9 (89 cyc, 34 ins) | 21.1 (90 cyc, 36 ins) | 48.6 (208 cyc, 102 ins) | 39.6 (170 cyc, 71 ins) |
+| box lock-free immediate, C++20 | 19.1 (82 cyc, 108 ins) | 45.6 (195 cyc, 530 ins) | 56.3 (241 cyc, 559 ins) | 79.2 (340 cyc, 808 ins) | 62.8 (269 cyc, 641 ins) |
+| box lock-free deferred, C++20 | 19.1 (82 cyc, 108 ins) | 67.1 (288 cyc, 341 ins) | 76.4 (327 cyc, 368 ins) | 100.9 (432 cyc, 620 ins) | 84.3 (361 cyc, 450 ins) |
+| lock-based std ptr, C++20 | 18.5 (80 cyc, 40 ins) | 21.1 (90 cyc, 43 ins) | 21.3 (91 cyc, 46 ins) | 47.9 (205 cyc, 110 ins) | 41.3 (177 cyc, 84 ins) |
+| std-backed, C++20 | 18.6 (80 cyc, 32 ins) | 20.8 (89 cyc, 37 ins) | 20.7 (89 cyc, 40 ins) | 60.4 (259 cyc, 106 ins) | 42.5 (182 cyc, 69 ins) |
+| std::atomic, libstdc++ 13 | 18.9 (81 cyc, 32 ins) | 20.7 (89 cyc, 37 ins) | 20.9 (89 cyc, 40 ins) | 60.5 (259 cyc, 108 ins) | 42.4 (182 cyc, 69 ins) |
+| boost::atomic_shared_ptr 1.92 | 16.0 (68 cyc, 24 ins) | 24.9 (107 cyc, 35 ins) | 26.5 (113 cyc, 41 ins) | 47.5 (203 cyc, 83 ins) | 41.2 (177 cyc, 60 ins) |
+
+#### `load ()` under contention
+
+Ratio to the uint64 compare-exchange of the same block, median (p25-p75) at 2 / 4 / 8 / 12 / 20 threads.
+
+| Series | 2 | 4 | 8 | 12 | 20 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 6.5 (6.0-6.8) | 6.1 (5.4-6.3) | 5.6 (5.0-6.2) | 5.9 (5.4-6.5) | 8.6 (7.8-9.1) |
+| split-count r8, C++20 | 6.5 (5.9-7.2) | 6.3 (5.8-6.7) | 6.4 (6.1-6.7) | 6.7 (6.3-7.1) | 9.1 (8.6-9.8) |
+| split-count r4, C++20 | 6.4 (5.6-7.3) | 6.3 (5.8-6.6) | 6.3 (5.9-6.7) | 6.7 (6.1-7.1) | 9.0 (8.7-9.7) |
+| lock-based own ptr, C++11 | 3.4 (3.2-3.8) | 3.8 (3.5-3.9) | 4.6 (4.5-4.8) | 5.0 (4.8-5.4) | 8.0 (7.2-8.6) |
+| lock-based own ptr, C++20 | 3.7 (3.3-4.0) | 4.2 (3.9-4.4) | 6.2 (6.0-6.5) | 8.1 (7.5-8.6) | 12.2 (11.3-13.3) |
+| box lock-free immediate, C++20 | 2.1 (1.9-2.2) | 2.0 (1.9-2.2) | 2.0 (1.9-2.1) | 2.0 (1.9-2.1) | 2.3 (2.2-2.6) |
+| box lock-free deferred, C++20 | 2.1 (1.9-2.3) | 2.0 (1.9-2.2) | 2.0 (1.9-2.1) | 2.1 (1.9-2.1) | 2.3 (2.1-2.5) |
+| lock-based std ptr, C++20 | 3.5 (3.3-3.8) | 4.3 (4.0-4.6) | 6.8 (6.5-7.0) | 8.8 (8.2-9.4) | 12.7 (11.9-13.9) |
+| std-backed, C++20 | 3.9 (3.7-4.3) | 7.3 (7.0-7.8) | 15.4 (14.8-16.3) | 19.4 (18.3-20.7) | 30.5 (28.1-31.7) |
+| std::atomic, libstdc++ 13 | 3.9 (3.7-4.3) | 7.5 (7.1-8.1) | 15.4 (14.7-16.2) | 19.5 (18.4-20.6) | 30.9 (28.6-33.0) |
+| boost::atomic_shared_ptr 1.92 | 0.9 (0.9-1.0) | 0.9 (0.9-1.0) | 0.9 (0.9-0.9) | 0.9 (0.8-0.9) | 1.2 (1.2-1.3) |
+
+#### `store ()` under contention
+
+Ratio to the uint64 compare-exchange of the same block, median (p25-p75) at 2 / 4 / 8 / 12 / 20 threads.
+
+| Series | 2 | 4 | 8 | 12 | 20 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 3.2 (2.6-3.5) | 3.2 (2.8-3.5) | 3.0 (2.5-3.2) | 2.9 (2.5-3.2) | 3.2 (2.9-3.5) |
+| split-count r8, C++20 | 3.1 (2.6-3.4) | 3.5 (3.1-3.7) | 3.5 (3.3-3.7) | 3.4 (3.2-3.6) | 3.5 (3.2-3.8) |
+| split-count r4, C++20 | 3.0 (2.6-3.4) | 3.5 (3.1-3.7) | 3.4 (3.1-3.7) | 3.4 (2.7-3.6) | 3.5 (3.2-3.8) |
+| lock-based own ptr, C++11 | 3.2 (3.0-3.6) | 5.6 (4.8-6.1) | 7.3 (6.9-7.7) | 7.7 (7.3-8.0) | 10.4 (9.6-11.3) |
+| lock-based own ptr, C++20 | 3.1 (3.0-3.4) | 5.8 (4.9-6.4) | 7.8 (6.9-8.4) | 9.3 (8.8-9.8) | 12.9 (12.1-13.8) |
+| box lock-free immediate, C++20 | 6.5 (6.1-7.0) | 5.1 (4.8-5.4) | 4.5 (4.3-4.7) | 4.2 (4.0-4.4) | 4.4 (4.2-4.7) |
+| box lock-free deferred, C++20 | 8.6 (8.1-9.3) | 7.8 (7.4-8.3) | 4.9 (4.8-5.1) | 4.3 (4.1-4.6) | 4.9 (4.6-5.2) |
+| lock-based std ptr, C++20 | 3.2 (2.9-3.5) | 5.2 (4.5-5.9) | 7.8 (7.0-8.3) | 9.5 (8.9-10.1) | 13.4 (12.4-14.3) |
+| std-backed, C++20 | 2.5 (2.3-2.8) | 2.8 (2.5-4.0) | 9.0 (6.8-10.3) | 12.3 (11.6-13.9) | 19.6 (17.9-21.6) |
+| std::atomic, libstdc++ 13 | 2.6 (2.3-2.9) | 2.9 (2.5-4.3) | 9.6 (8.9-10.4) | 12.7 (12.0-13.9) | 19.8 (18.4-21.5) |
+| boost::atomic_shared_ptr 1.92 | 2.0 (1.8-2.2) | 2.2 (2.0-2.3) | 2.4 (2.3-2.6) | 2.5 (2.4-2.7) | 7.8 (5.2-9.1) |
+
+#### `exchange ()` under contention
+
+Ratio to the uint64 compare-exchange of the same block, median (p25-p75) at 2 / 4 / 8 / 12 / 20 threads.
+
+| Series | 2 | 4 | 8 | 12 | 20 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 2.7 (2.4-3.1) | 3.3 (2.8-3.5) | 3.1 (2.6-3.4) | 3.0 (2.5-3.3) | 3.3 (3.0-3.6) |
+| split-count r8, C++20 | 2.8 (2.5-3.2) | 3.5 (3.2-3.7) | 3.6 (3.4-3.8) | 3.5 (3.2-3.7) | 3.6 (3.3-4.0) |
+| split-count r4, C++20 | 2.8 (2.5-3.2) | 3.5 (3.2-3.8) | 3.6 (3.1-3.8) | 3.5 (2.5-3.7) | 3.5 (3.2-3.9) |
+| lock-based own ptr, C++11 | 2.9 (2.7-3.1) | 5.6 (4.4-6.2) | 7.3 (6.6-7.8) | 7.6 (7.2-7.9) | 10.3 (9.6-11.2) |
+| lock-based own ptr, C++20 | 3.2 (2.9-3.5) | 5.6 (4.7-6.0) | 7.7 (6.7-8.3) | 9.4 (8.9-9.9) | 13.2 (12.4-14.1) |
+| box lock-free immediate, C++20 | 7.6 (7.3-8.3) | 6.6 (6.3-6.9) | 6.2 (6.0-6.5) | 6.2 (5.8-6.4) | 6.6 (6.3-7.2) |
+| box lock-free deferred, C++20 | 9.7 (9.1-10.5) | 8.8 (8.3-9.4) | 6.7 (6.5-7.0) | 6.4 (6.2-6.7) | 6.9 (6.5-7.3) |
+| lock-based std ptr, C++20 | 3.2 (2.9-3.5) | 5.7 (4.6-6.5) | 7.8 (6.9-8.6) | 9.5 (8.9-10.2) | 13.6 (12.6-14.4) |
+| std-backed, C++20 | 3.1 (2.9-3.4) | 5.8 (4.6-6.6) | 11.8 (10.9-12.6) | 16.6 (15.5-17.7) | 24.4 (22.5-26.5) |
+| std::atomic, libstdc++ 13 | 3.1 (2.9-3.3) | 5.4 (4.7-6.0) | 11.3 (9.0-12.3) | 16.1 (14.5-17.2) | 23.4 (21.4-26.0) |
+| boost::atomic_shared_ptr 1.92 | 2.1 (1.9-2.4) | 2.2 (2.1-2.4) | 2.4 (2.3-2.5) | 2.4 (2.3-2.5) | 4.0 (3.6-5.3) |
+
+#### `compare_exchange_strong ()` under contention
+
+Ratio to the uint64 compare-exchange of the same block, median (p25-p75) at 2 / 4 / 8 / 12 / 20 threads.
+
+| Series | 2 | 4 | 8 | 12 | 20 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 13.1 (11.8-14.1) | 14.7 (13.8-15.5) | 14.3 (13.4-15.7) | 15.2 (14.1-16.4) | 20.7 (19.2-22.1) |
+| split-count r8, C++20 | 13.5 (12.1-14.5) | 15.4 (14.4-16.2) | 16.0 (15.2-16.8) | 17.3 (16.3-18.1) | 22.2 (21.1-24.0) |
+| split-count r4, C++20 | 13.3 (12.1-14.7) | 15.4 (14.2-16.5) | 15.8 (15.1-16.7) | 16.9 (16.1-18.0) | 22.2 (21.2-23.8) |
+| lock-based own ptr, C++11 | 10.2 (9.6-10.7) | 15.1 (14.2-16.3) | 16.6 (16.0-17.5) | 16.6 (15.6-17.4) | 22.5 (21.2-24.7) |
+| lock-based own ptr, C++20 | 10.2 (9.5-10.9) | 15.3 (14.7-16.0) | 19.2 (18.5-20.0) | 22.0 (20.9-23.3) | 31.1 (29.6-33.2) |
+| box lock-free immediate, C++20 | 13.7 (13.0-14.9) | 12.2 (11.6-12.8) | 11.0 (10.3-11.5) | 10.1 (9.4-11.1) | 10.4 (9.3-11.4) |
+| box lock-free deferred, C++20 | 11.5 (10.8-12.4) | 10.3 (9.9-11.1) | 9.4 (8.9-10.1) | 9.0 (8.4-9.8) | 9.7 (9.0-10.8) |
+| lock-based std ptr, C++20 | 11.0 (10.4-12.1) | 15.2 (14.5-16.2) | 19.0 (18.4-20.1) | 22.3 (21.3-23.9) | 32.3 (29.7-34.4) |
+| std-backed, C++20 | 11.8 (11.1-12.6) | 17.5 (16.7-18.6) | 30.0 (28.7-31.0) | 43.0 (41.2-45.2) | 68.0 (63.6-73.7) |
+| std::atomic, libstdc++ 13 | 11.6 (11.0-12.6) | 17.7 (16.9-18.8) | 30.0 (29.0-31.3) | 42.8 (40.8-45.0) | 68.5 (63.0-73.7) |
+| boost::atomic_shared_ptr 1.92 | 2.9 (2.8-3.2) | 2.9 (2.8-3.1) | 3.0 (2.8-3.1) | 2.9 (2.8-3.0) | 4.4 (4.1-4.7) |
+
+#### `load ()` of the readers with one writer (`load_one_writer`) under contention
+
+Ratio to the uint64 compare-exchange of the same block, median (p25-p75) at 2 / 4 / 8 / 12 / 20 threads.
+
+| Series | 2 | 4 | 8 | 12 | 20 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 6.2 (5.7-6.9) | 5.6 (5.3-5.9) | 5.3 (4.9-5.7) | 5.7 (5.3-6.3) | 8.2 (7.5-8.7) |
+| split-count r8, C++20 | 6.5 (6.0-7.2) | 5.9 (5.5-6.3) | 5.8 (5.6-6.1) | 6.5 (6.1-6.9) | 8.8 (8.3-9.5) |
+| split-count r4, C++20 | 6.5 (5.7-7.0) | 5.8 (5.3-6.4) | 5.9 (5.5-6.2) | 6.5 (6.0-6.9) | 8.8 (8.3-9.3) |
+| lock-based own ptr, C++11 | 2.8 (2.5-3.2) | 3.5 (3.3-3.7) | 4.6 (4.5-4.8) | 5.2 (5.0-5.6) | 8.6 (7.6-9.3) |
+| lock-based own ptr, C++20 | 2.6 (2.3-3.0) | 3.6 (3.4-3.9) | 5.9 (5.7-6.2) | 7.7 (7.3-8.4) | 12.1 (11.3-12.9) |
+| box lock-free immediate, C++20 | 4.7 (4.1-5.2) | 2.9 (2.8-3.1) | 2.3 (2.0-2.5) | 2.1 (1.9-2.4) | 2.3 (2.1-2.5) |
+| box lock-free deferred, C++20 | 1.9 (1.7-2.1) | 2.0 (1.9-2.2) | 1.8 (1.6-2.0) | 1.9 (1.7-2.1) | 2.1 (1.9-2.3) |
+| lock-based std ptr, C++20 | 3.0 (2.7-3.4) | 3.6 (3.3-3.8) | 6.2 (6.0-6.4) | 8.5 (8.0-9.4) | 12.4 (11.6-13.5) |
+| std-backed, C++20 | 3.5 (3.2-3.9) | 6.4 (6.0-7.0) | 14.0 (13.4-14.8) | 18.7 (17.6-19.8) | 31.0 (28.5-32.9) |
+| std::atomic, libstdc++ 13 | 3.6 (3.2-4.2) | 6.6 (6.0-7.1) | 14.1 (13.4-14.9) | 18.3 (17.5-19.8) | 30.3 (27.7-32.5) |
+| boost::atomic_shared_ptr 1.92 | 0.5 (0.5-0.5) | 0.7 (0.7-0.7) | 0.8 (0.8-0.8) | 0.8 (0.8-0.8) | 1.2 (1.2-1.3) |
+
+#### Read-heavy: rates
+
+Millions per second from the median ns per operation; loads: all readers together (threads - 1), stores: the one writer. At 1 thread: the thread alone.
+
+| Series | loads 1 | loads 2 | loads 4 | loads 8 | loads 12 | loads 20 | stores 1 | stores 2 | stores 4 | stores 8 | stores 12 | stores 20 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 34.5 | 4.6 | 7.2 | 7.9 | 7.2 | 7.2 | 50.4 | 6.9 | 3.6 | 1.6 | 1.2 | 0.5 |
+| split-count r8, C++20 | 34.0 | 4.5 | 7.1 | 7.8 | 7.1 | 7.2 | 54.6 | 7.0 | 3.5 | 1.6 | 1.1 | 0.5 |
+| split-count r4, C++20 | 34.0 | 4.5 | 7.2 | 7.8 | 7.1 | 7.2 | 54.5 | 7.1 | 3.5 | 1.6 | 1.3 | 0.5 |
+| lock-based own ptr, C++11 | 52.2 | 10.2 | 12.1 | 9.9 | 8.5 | 7.1 | 45.2 | 4.5 | 1.8 | 0.9 | 0.6 | 0.3 |
+| lock-based own ptr, C++20 | 55.5 | 11.0 | 11.5 | 7.8 | 6.0 | 5.2 | 48.0 | 4.4 | 1.4 | 0.6 | 0.5 | 0.3 |
+| box lock-free immediate, C++20 | 52.3 | 6.4 | 14.3 | 21.6 | 21.8 | 28.6 | 21.9 | 5.2 | 3.9 | 2.2 | 1.2 | 0.9 |
+| box lock-free deferred, C++20 | 52.4 | 15.6 | 21.2 | 26.4 | 24.7 | 30.5 | 14.9 | 4.6 | 3.4 | 2.2 | 1.3 | 0.9 |
+| lock-based std ptr, C++20 | 53.9 | 9.4 | 12.0 | 7.5 | 5.4 | 5.1 | 47.3 | 5.0 | 1.4 | 0.7 | 0.5 | 0.3 |
+| std-backed, C++20 | 53.6 | 8.2 | 6.4 | 3.3 | 2.5 | 2.1 | 48.0 | 6.3 | 1.2 | 0.2 | 0.1 | 0.1 |
+| std::atomic, libstdc++ 13 | 52.9 | 8.0 | 6.3 | 3.3 | 2.5 | 2.1 | 48.3 | 6.3 | 1.2 | 0.2 | 0.1 | 0.1 |
+| boost::atomic_shared_ptr 1.92 | 62.6 | 57.7 | 58.9 | 57.9 | 56.7 | 52.7 | 40.1 | 3.1 | 1.2 | 0.5 | 0.4 | 0.2 |
+
+#### Oversubscribed: 20 / 40 / 60 threads on 20 logical CPUs
+
+Ratio to the uint64 compare-exchange of the same block (median); 30 repetitions, 10 s pauses.
+
+| Series | `load` | `store` | `exchange` | `compare_exchange_strong` | `load_one_writer` | `one_writer_stores` |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 8.0 / 8.8 / 8.9 | 3.0 / 3.2 / 3.2 | 3.0 / 3.3 / 3.3 | 19.4 / 21.3 / 21.3 | 7.7 / 8.6 / 8.7 | 6.1 / 4.9 / 6.3 |
+| split-count r8, C++20 | 9.3 / 9.2 / 9.0 | 3.5 / 3.4 / 3.3 | 3.6 / 3.4 / 3.4 | 22.2 / 21.7 / 20.9 | 8.8 / 8.9 / 8.6 | 6.6 / 4.5 / 7.1 |
+| split-count r4, C++20 | 9.1 / 8.9 / 8.7 | 3.5 / 3.4 / 3.2 | 3.5 / 3.5 / 3.3 | 22.2 / 21.9 / 21.1 | 8.8 / 8.9 / 8.7 | 6.6 / 3.9 / 7.1 |
+| lock-based own ptr, C++11 | 7.4 / 7.7 / 7.8 | 10.2 / 10.2 / 10.6 | 10.1 / 10.2 / 10.5 | 22.5 / 22.4 / 23.1 | 7.9 / 8.4 / 8.5 | 8.7 / 9.6 / 8.9 |
+| lock-based own ptr, C++20 | 12.1 / 14.7 / 14.3 | 12.9 / 14.1 / 14.0 | 13.2 / 14.3 / 14.7 | 30.7 / 34.2 / 34.6 | 11.8 / 14.4 / 14.7 | 12.4 / 12.9 / 15.4 |
+| box lock-free immediate, C++20 | 2.2 / 2.2 / 2.2 | 4.3 / 4.3 / 4.2 | 6.3 / 6.3 / 6.2 | 10.2 / 9.9 / 9.5 | 2.1 / 2.2 / 2.2 | 3.9 / 3.7 / 3.9 |
+| box lock-free deferred, C++20 | 2.2 / 2.2 / 2.2 | 5.0 / 4.8 / 4.5 | 6.6 / 6.4 / 6.2 | 9.1 / 9.2 / 9.1 | 2.0 / 2.2 / 2.1 | 3.7 / 2.7 / 3.9 |
+| lock-based std ptr, C++20 | 12.8 / 14.3 / 14.5 | 13.3 / 14.0 / 14.6 | 13.7 / 14.3 / 14.7 | 32.0 / 33.6 / 34.1 | 12.2 / 14.3 / 15.0 | 14.9 / 13.5 / 14.9 |
+| std-backed, C++20 | 28.3 / 69.1 / 81.9 | 17.9 / 37.9 / 54.3 | 22.7 / 49.0 / 74.9 | 64.5 / 130.9 / 188.2 | 28.8 / 55.1 / 86.8 | 31.7 / 58.5 / 108.2 |
+| std::atomic, libstdc++ 13 | 28.7 / 60.5 / 98.3 | 18.4 / 35.4 / 48.2 | 24.1 / 52.2 / 71.1 | 65.2 / 127.6 / 194.5 | 28.2 / 61.9 / 87.2 | 33.9 / 54.5 / 95.3 |
+| boost::atomic_shared_ptr 1.92 | 1.3 / 1.4 / 1.7 | 8.3 / 4.6 / 5.5 | 4.1 / 4.4 / 5.4 | 4.5 / 5.4 / 6.6 | 1.3 / 1.4 / 1.6 | 20.4 / 17.9 / 18.0 |
+
+#### Weak pointers
+
+`weak_load`: `load ()` of the weak pointer; `weak_load_lock`: `load ()` then `weak_ptr::lock ()`. Uncontended: ns (cycles); contended: ratio to the uint64 compare-exchange (median) at 2 / 4 / 8 / 12 / 20 threads.
+
+| Series | `weak_load` 1 thread | 2 / 4 / 8 / 12 / 20 | `weak_load_lock` 1 thread | 2 / 4 / 8 / 12 / 20 |
+| --- | ---: | ---: | ---: | ---: |
+| split-count weak, C++20 | 25.2 (124) | 6.4 / 6.2 / 6.6 / 7.5 / 9.3 | 33.6 (166) | 6.9 / 7.5 / 7.9 / 8.7 / 10.7 |
+| lock-based weak own ptr, C++20 | 14.8 (73) | 3.6 / 4.7 / 7.8 / 10.6 / 14.2 | 24.4 (120) | 4.7 / 7.6 / 10.4 / 13.5 / 17.2 |
+| lock-based weak std ptr, C++20 | 15.9 (78) | 3.3 / 5.0 / 7.7 / 10.3 / 14.2 | 27.0 (133) | 5.0 / 7.9 / 10.9 / 14.1 / 17.9 |
+| box lock-free weak, C++20 | 16.3 (80) | 1.9 / 1.9 / 1.9 / 2.0 / 2.2 | 26.1 (128) | 4.7 / 4.9 / 4.6 / 4.9 / 5.8 |
+| std-backed weak, C++20 | 16.0 (78) | 2.9 / 6.4 / 12.1 / 14.2 / 22.9 | 27.4 (135) | 5.8 / 8.4 / 14.6 / 22.3 / 33.7 |
+| std::atomic<weak_ptr> | 15.9 (78) | 3.0 / 6.2 / 12.2 / 14.2 / 22.8 | 27.4 (135) | 5.8 / 8.2 / 14.5 / 22.2 / 33.7 |
+
+#### Destruction latency
+
+Time from the start of the replacing store to the deleter of the replaced object; medians over 100 repetitions of 20000 objects.
+
+**1 thread**
+
+| Series | median ns | p99 ns | max ns | destroyed in the call | peak backlog | pending at the end |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 46 | 72 | 1168 | 100.0 % | 0 | 0.0 % |
+| split-count r8, C++20 | 44 | 66 | 1156 | 100.0 % | 0 | 0.0 % |
+| split-count r4, C++20 | 44 | 64 | 1070 | 100.0 % | 0 | 0.0 % |
+| lock-based own ptr, C++11 | 52 | 81 | 1448 | 100.0 % | 0 | 0.0 % |
+| lock-based own ptr, C++20 | 52 | 79 | 1033 | 100.0 % | 0 | 0.0 % |
+| box lock-free immediate, C++20 | 61 | 86 | 1996 | 100.0 % | 0 | 0.0 % |
+| box lock-free deferred, C++20 | 116350 | 253538 | 326970 | 0.1 % | 998 | 0.0 % |
+| lock-based std ptr, C++20 | 42 | 68 | 746 | 100.0 % | 0 | 0.0 % |
+| std-backed, C++20 | 40 | 62 | 890 | 100.0 % | 0 | 0.0 % |
+| std::atomic, libstdc++ 13 | 46 | 64 | 864 | 100.0 % | 0 | 0.0 % |
+| boost::atomic_shared_ptr 1.92 | 49 | 75 | 956 | 100.0 % | 0 | 0.0 % |
+
+**4 threads (3 readers)**
+
+| Series | median ns | p99 ns | max ns | destroyed in the call | peak backlog | pending at the end |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 446 | 1067 | 5260 | 13.0 % | 1 | 0.0 % |
+| split-count r8, C++20 | 412 | 776 | 6360 | 10.5 % | 1 | 0.0 % |
+| split-count r4, C++20 | 410 | 733 | 8740 | 10.2 % | 1 | 0.0 % |
+| lock-based own ptr, C++11 | 362 | 7407 | 43694 | 81.4 % | 1 | 0.0 % |
+| lock-based own ptr, C++20 | 596 | 3644 | 12708 | 73.2 % | 1 | 0.0 % |
+| box lock-free immediate, C++20 | 264 | 892145 | 1103050 | 61.9 % | 998 | 2.7 % |
+| box lock-free deferred, C++20 | 145968 | 297546 | 372185 | 0.1 % | 998 | 0.0 % |
+| lock-based std ptr, C++20 | 582 | 3736 | 10866 | 76.4 % | 1 | 0.0 % |
+| std-backed, C++20 | 600 | 3674 | 118456 | 100.0 % | 0 | 0.0 % |
+| std::atomic, libstdc++ 13 | 630 | 4399 | 122605 | 100.0 % | 0 | 0.0 % |
+| boost::atomic_shared_ptr 1.92 | 143 | 62670 | 253716 | 100.0 % | 0 | 0.0 % |
+
+
+#### Code placement check: the numbers
+
+Same source, built twice: as the other series (`default`) and with `-falign-functions=64 -falign-loops=64` (`aligned`). 12 repetitions, 2 s pauses, five series. Uncontended: ns; contended: ratio to the uint64 compare-exchange (median). Each cell: default / aligned.
+
+`load`
+
+| Series | 1 thread, ns | 8 threads | 16 threads | 20 threads |
+| --- | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 29.0 / 26.9 | 6.3 / 6.6 | 7.8 / 8.2 | 9.1 / 9.6 |
+| split-count r8, C++20 | 29.5 / 27.4 | 6.3 / 6.6 | 8.3 / 8.6 | 9.0 / 9.6 |
+| split-count r4, C++20 | 29.5 / 27.5 | 6.3 / 6.4 | 8.0 / 8.4 | 9.2 / 9.5 |
+| lock-based own ptr, C++11 | 19.2 / 17.9 | 4.7 / 4.9 | 6.5 / 6.8 | 7.6 / 8.2 |
+| lock-based own ptr, C++20 | 18.0 / 16.8 | 6.0 / 7.2 | 10.0 / 12.6 | 11.6 / 14.6 |
+
+`store`
+
+| Series | 1 thread, ns | 8 threads | 16 threads | 20 threads |
+| --- | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 19.8 / 18.4 | 3.3 / 3.5 | 3.2 / 3.5 | 3.4 / 3.4 |
+| split-count r8, C++20 | 18.4 / 17.6 | 3.5 / 3.5 | 3.4 / 3.9 | 3.5 / 3.6 |
+| split-count r4, C++20 | 18.4 / 17.3 | 3.5 / 3.4 | 3.5 / 3.6 | 3.4 / 3.6 |
+| lock-based own ptr, C++11 | 22.1 / 20.6 | 7.1 / 7.5 | 9.1 / 10.0 | 9.7 / 11.0 |
+| lock-based own ptr, C++20 | 20.9 / 19.1 | 7.2 / 8.2 | 11.4 / 13.7 | 12.9 / 15.2 |
+
+`compare_exchange_strong`
+
+| Series | 1 thread, ns | 8 threads | 16 threads | 20 threads |
+| --- | ---: | ---: | ---: | ---: |
+| split-count r8, C++11 | 57.5 / 53.3 | 15.5 / 16.5 | 19.7 / 21.1 | 22.1 / 22.7 |
+| split-count r8, C++20 | 60.8 / 56.5 | 15.6 / 16.4 | 20.2 / 20.8 | 22.0 / 22.9 |
+| split-count r4, C++20 | 61.0 / 56.5 | 15.8 / 16.1 | 19.6 / 20.5 | 21.9 / 22.7 |
+| lock-based own ptr, C++11 | 48.6 / 45.3 | 16.3 / 17.4 | 19.6 / 21.5 | 21.1 / 23.8 |
+| lock-based own ptr, C++20 | 48.5 / 45.3 | 18.9 / 19.9 | 27.4 / 32.5 | 30.6 / 39.1 |
+
+
+### Where the split-count engine is faster
+
+Against the lock-based engine over the same pointer (C++20 build, ratios; "x" is the ratio of the two engines' ratios):
+
+- **`store ()` and `exchange ()` under contention.** Split-count stays at 3.0 to 3.6 times the baseline from 2 to 20 threads; lock-based own ptr grows from 3.1 to 12.9 (`store`) and from 3.2 to 13.2 (`exchange`). At 4 threads the engines are 3.5 against 5.8 and 3.5 against 5.6, at 20 threads 3.7 and 3.7 times cheaper. The gap survives the placement check (in the aligned build 3.5 against 8.2 at 8 threads and 3.6 against 15.2 at 20).
+- **`compare_exchange_strong ()` with 8 or more threads.** 16.0 against 19.2 at 8 threads, 17.3 against 22.0 at 12, 22.2 against 31.1 at 20. Against the C++11 build of the lock-based engine (the wait table) the two are equal there (16.6, 16.6, 22.5). At 2 threads split-count is slower (13.5 against 10.2).
+- **`load ()` with 12 or more threads.** 6.7 against 8.1 at 12 threads and 9.1 against 12.2 at 20. This one is placement dependent: the lock-based C++20 engine goes to 14.6 in the aligned build, the split-count engine stays at 9.6, but the C++11 build of the lock-based engine (8.0 at 20 threads, 7.6 to 8.2 in the two builds of the check) is ahead of split-count there.
+- **Against `std::atomic<std::shared_ptr>` (libstdc++ 13) and the std-backed wrapper**, which measure the same: from 8 threads on split-count costs 2.4 times less for `load ()` (6.4 against 15.4), 2.7 times less for `store ()` (3.5 against 9.6), 3.1 times less for `exchange ()` (3.6 against 11.3), 1.9 times less for `compare_exchange_strong ()` (16.0 against 30.0); at 20 threads 3.4, 5.7, 6.5 and 3.1 times less. Oversubscribed (60 threads) the standard type reaches 98 for `load ()` and 194 for `compare_exchange_strong ()`, split-count stays at 9.0 and 20.9.
+- **`store ()` and `exchange ()` uncontended**: 18.3 and 19.2 ns, against 20.9 and 21.1 (lock-based own ptr), 20.7 and 20.9 (`std::atomic`) and 45.6 and 56.3 (box lock-free, immediate). That is 12 and 9 % under the lock-based engine in the default build and 8 to 12 % in the check; the box engine is 2.5 and 2.9 times slower (530 and 559 instructions against 64 and 76).
+- **Against the box engine**, split-count is cheaper for `store ()` and `exchange ()` at every thread count shown (3.1 against 6.5 at 2 threads, 3.5 against 4.4 at 20; `exchange` 3.6 against 6.6 at 20).
+- **Destruction latency with readers.** At 4 threads the last owner of a replaced object is often a reader: split-count destroyed 10.5 % of the objects inside the replacing store, the rest by readers, with median 412 ns, 99th percentile 776 ns, maximum 6.4 us and a peak of 1 object not yet destroyed. The box engine with the immediate policy has a 99th percentile of 892 us, a maximum of 1.1 ms and a peak backlog of 998 objects, 2.7 % of the objects still alive when the loop ended (the cause of the box engine's backlog was not investigated). The lock-based engines have 99th percentiles of 3.6 to 3.7 us (C++20; 7.4 us for the C++11 build over the own pointer), `std::atomic` 4.4 us (maximum 123 us), Boost 63 us (maximum 254 us). The deferred box engine destroys 0.1 % in the call, with a median of 116 us and 146 us (1 and 4 threads) and a backlog of 998 objects by construction.
+- **`lock ()` on a weak atomic with many threads.** `weak_load_lock` at 20 threads: 10.7 against 17.2 (lock-based own weak), 17.9 (lock-based weak over `std::weak_ptr`) and 33.7 (`std::atomic<std::weak_ptr>`); `weak_load` alone: 9.3 against 14.2, 14.2 and 22.8.
+- **Writer under a read load.** One writer and 19 readers: the writer stores 0.5 million values per second with split-count, 0.3 with the lock-based engine, 0.1 with `std::atomic`, 0.9 with the box engine, 0.2 with Boost. From 2 to 20 threads the writer's rate falls 14 times for split-count (7.0 to 0.5), 15 times for lock-based own ptr (4.4 to 0.3), 63 times for `std::atomic` (6.3 to 0.1), 16 times for Boost (3.1 to 0.2) and 6 times for the box engine (5.2 to 0.9). The writer is not starved: it keeps storing, at 60 threads on 20 CPUs too (`one_writer_stores` ratio 7.1 at 60 threads against 6.6 at 20). What is not measured is the longest wait of one store (risk R3 in terms of rate only).
+
+### Where it is slower
+
+- **`load ()` uncontended**: 29.4 ns against 18.0 (lock-based own ptr), 18.9 (`std::atomic`), 19.1 (box lock-free) and 16.0 (Boost). That is 1.6 times the cost of the lock-based engine; 126 cycles and 111 instructions against 77 and 29. The assembly of `split_count_cell::load` (`objdump -d` of the object file) contains on its main path `lock cmpxchg16b` (the pin), `lock addq` (the reference count) and `lock cmpxchg16b` (taking the tick back): the three locked operations of the load path. The measurement shows the extra cost; it does not split it among the three.
+- **`load ()` contended, at few threads.** 6.5 against 3.7 (2 threads) and 6.3 against 4.2 (4 threads) for the lock-based engine, 6.5 against 3.9 for `std::atomic` at 2 threads, and 3.1 to 4 times the box engine's flat 2.0 to 2.3 up to 20 threads (6.3 against 2.0 at 4 threads, 9.1 against 2.3 at 20). With 8 threads against the lock-based engine over the C++11 table wait: 6.4 against 4.6, 1.4 times.
+- **Readers beside a writer.** The loads per second of the readers with one writer are 4.5 million at 2 threads (one reader) against 11.0 for the lock-based own ptr and 6.4 for the box engine; with 20 threads 7.2 million against 28.6 for the box engine and 52.7 for Boost; the box engine's readers cost 2.0 to 2.3 times the baseline from 8 threads on, with a writer and without; the split-count readers cost 6 to 9 times the baseline with and without a writer (`load` 6.3 to 9.1, `load_one_writer` 5.8 to 8.8).
+- **`compare_exchange_strong ()` uncontended**: 60.9 ns against 48.6 (lock-based own ptr, 25 % more; 25 to 26 % in the check too), 47.5 (Boost); equal to `std::atomic` (60.5) and 23 % under the box engine (79.2). Contended it is 2.1 times the box engine at 20 threads (22.2 against 10.4), 1.5 times at 8 (16.0 against 11.0), and about 5 times the Boost spinlock (22.2 against 4.4 at 20 threads, 16.0 against 3.0 at 8).
+- **`load_store` (one load and one store, uncontended)**: 47.8 ns against 39.6 (lock-based own ptr, 21 % more), 42.4 (`std::atomic`, 13 % more), 41.2 (Boost); 24 % under the box engine (62.8).
+- **Against `std::atomic` at 2 to 4 threads** `store ()` costs 3.1 and 3.5 against 2.6 and 2.9 (slower), `exchange ()` 2.8 against 3.1 at 2 threads (equal) and 3.5 against 5.4 at 4 (faster), `compare_exchange_strong ()` 13.5 against 11.6 at 2 threads (slower) and 15.4 against 17.7 at 4 (faster), `load ()` 6.5 against 3.9 at 2 threads (slower) and 6.3 against 7.5 at 4 (faster).
+- **Against Boost's spinlock** it loses `load ()` (9.1 against 1.2 at 20 threads), `compare_exchange_strong ()` (22.2 against 4.4) and the read-heavy run (7.2 million loads per second against 52.7); it wins `store ()` at 20 threads (3.5 against 7.8, but the Boost quartiles run from 5.2 to 9.1) and the writer's rate with readers (0.5 million stores per second against 0.2). Uncontended Boost is cheaper for `load` and `compare_exchange_strong`, split-count for `store` and `exchange` (18.3 against 24.9, 19.2 against 26.5).
+- **`lock ()` on a weak atomic uncontended**: `weak_load_lock` 33.6 ns against 24.4 (lock-based own weak, 38 % more), 27.4 (`std::atomic<std::weak_ptr>`) and 26.1 (box); `weak_load` 25.2 against 14.8 to 16.3. At 2 threads `weak_load_lock` is 6.9 against 4.7 (lock-based own weak) and 4.7 (box); the box engine is the cheapest for it under contention (5.8 at 20 threads against 10.7).
+
+### `reserve` 4 against 8
+
+The two series agree. Of 73 pairs (every operation except the baseline, every thread count of the main sweep) the median of `reserve` 4 lies inside the quartiles of `reserve` 8 in all 73. The largest differences are `one_writer_stores` at 14 threads (6.8 against 4.3) and at 12 threads (3.9 against 3.4); the neighbouring thread counts do not show them (18 threads: 6.7 against 6.9), so they are noise; all the other 71 pairs differ by at most 4 %. Uncontended the two are the same (`load` 29.4 and 29.4 ns, `store` 18.3 and 18.4, `compare_exchange_strong` 60.9 and 60.8), and so is the destruction latency (median 44 and 44 ns, 99th percentile 66 and 64 ns). Contended `store ()`, the case in which a writer finds ticks on the word and the reserve is used, is 3.5 and 3.4 times the baseline at 8 threads and 3.5 and 3.5 at 20. In these scenarios the sweep gives no reason to prefer 4 or 8; it also cannot show a difference that needs more ticks on the word at once than 20 threads produce.
+
+### What the numbers do not show
+
+- The C++11 build of the engine against the C++20 build is equal in nanoseconds; the ratio differences of the two series are the baseline remark above.
+- Lock-based differences below about 15 % depend on code placement.
+- Which numbers are noise: the cells whose quartiles overlap (the tables give them), the `one_writer_stores` at 12 and 14 threads, the Boost `store ()` at 20 threads (5.2-9.1), and every number of the C++11 split-count series in ratios.
+- The cause of any difference above is named only where an assembly listing or a counter backs it (the three locked operations on the load path; the instruction counts of the box engine's replacing operations); every other cause was not investigated.
+- One machine, one compiler, one standard library. The engine exists on x86-64 only.
+
 ## Machine and build of these results
+
+This section describes the full sweep of 2026-10-03 (the first charts above); the machine and build of the split-count sweep of 2026-10-13 are under [The split-count engine](#machine-and-build).
 
 | | |
 | --- | --- |
