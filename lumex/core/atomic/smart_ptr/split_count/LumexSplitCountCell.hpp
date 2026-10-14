@@ -130,10 +130,16 @@
  * least `acq_rel` (`seq_cst` when the caller asks for it). The take-back of a
  * tick is `release` and MUST NOT be relaxed: a loader of a holder word reads
  * the holder's owner and pointer without owning a count on the holder, and
- * the only edge from those reads to the holder's destruction runs from the
- * un-tick (release) to the swap of the writer (acquire) and the drop. A
- * failed compare-and-swap is `relaxed`, except the swap of a writer, whose
- * failure value is the decision value of the rule above (`acquire`). The
+ * the edge from those reads to the holder's destruction starts at the
+ * un-tick (release) and ends at an acquire of the writer before its drop:
+ * its pin, the failure value of its swap, or the success of its swap. The
+ * success order of the swap is the only direct edge from the second un-tick
+ * of a thread that loads twice; with the counter of the library the acquire
+ * fence of the disposing drop masks it, with the counter used under
+ * ThreadSanitizer (an `acq_rel` drop and no fence) it is needed. A failed
+ * compare-and-swap is `relaxed`, except the swap of a writer, whose failure
+ * value is the decision value of the rule above (`acquire`; a plain
+ * `relaxed` failure order would be a data race in the Relacy models). The
  * counters of the block bring their own orders (`LumexSmartPtrCounter.hpp`).
  * The hardware backends of the word ignore the orders (every locked
  * instruction is a full barrier); they matter for the built-in backend that
