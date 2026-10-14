@@ -11,8 +11,8 @@ prereg,M9,S4 swap success order without acquire,"caught under the TSan counter, 
 prereg,M10,L7 un-tick relaxed,caught,"V4 holder.load_store/k0, data race, a holder destroyed under a reader (see the table of the Relacy mutants)",,,,caught,
 prereg,M11,same_value compares lo only,caught (aggregate record),expected: unit suites (aliasing compare-exchange test),,,,,aggregate
 prereg,M12,same_value compares the whole hi,caught (aggregate record),expected: V1 SCL@R8@1 (PROGRESS),aggregate,,,,
-prereg,M13,fits with >> 39,not recorded,"expected: word codec suite, semantics boundary aliases; no per-mutant record",,,,,
-prereg,M14,offset_of without sign extension,caught (aggregate record),expected: word codec suite; negative-delta alias in the unit suites,,,,,aggregate
+prereg,M13,fits with >> 39,caught (aggregate record),word codec suite: the commit that added it records that a mutation of the window shift is caught; the catching row is not recorded,,,,,aggregate
+prereg,M14,offset_of without sign extension,caught (aggregate record),word codec suite: the commit that added it records that a mutation of the sign extension is caught; negative-delta alias in the unit suites; the catching row is not recorded,,,,,aggregate
 prereg,M15,weak engine: holder settles on the weak ledger,caught (aggregate record),"expected: unit suites (weak holder ledger, leak)",,,,,aggregate
 prereg,M16,pin returns an empty guess without the confirming CAS,caught (aggregate record),expected: unit suites (torn policy),,,,,aggregate
 prereg,M17,tick-limit check removed,caught (aggregate record),expected: unit suites (peak L with tick_limit 2),,,,,aggregate
@@ -38,9 +38,9 @@ prereg,M36,reserve exceeded without a top-up,caught (aggregate record),"expected
 prereg,M37,use_count returns count only,caught (aggregate record),expected: unit suites (exactness oracle (a)),,,,,aggregate
 prereg,M38,L9 take_and_settle replaced by add (payment forgotten),caught (aggregate record),expected: unit suites (I4); V1 S01@R8@1 rerun not recorded,,,,,aggregate
 V1,V1/R4,swap_out: the found word with L == 0 is treated as the same block,not recorded,"expected: UW2@R8@2 (W2BOUND, NONNEG)",,,,,
-V1,V1/R5,defined in a review script that is not kept,not recorded,expected: H4@R8@2 (E-ID or OP-END),,,,,
-V1,V1/R6,defined in a review script that is not kept,not recorded,expected: H4@R8@2 (DEP-SHORT),,,,,
-V1,V1/R7,defined in a review script that is not kept,not recorded,expected: S05@R8@1 (SAFETY),,,,,
+V1,V1/R5,not reproducible from the repository,not recorded,expected: H4@R8@2 (E-ID or OP-END),,,,,
+V1,V1/R6,not reproducible from the repository,not recorded,expected: H4@R8@2 (DEP-SHORT),,,,,
+V1,V1/R7,not reproducible from the repository,not recorded,expected: S05@R8@1 (SAFETY),,,,,
 V2,V2/M01,same_value ignores delta (same as N02),caught at quick,V2 DAC; V1 RIC,caught,caught,,,
 V2,V2/M02,load: stale holder owner/pointer from the first guess,caught at quick,V2 HA1 HA3 HA4 WH1 WH2,missed,caught,,,
 V2,V2/M03,holder CAS: owner/pointer read from the guess,caught at quick,V2 HA1 HA4 WH2,missed,caught,,,
@@ -84,5 +84,5 @@ V4,V4/104,S2 writer's pin relaxed [library counter],caught,holder.publish_load/k
 V4,V4/105,S10 and S12 compare-exchange swap relaxed (block word) [library counter],caught,block.cas_load_store/k0; DATA RACE in finish; found at execution 1 (bound 4 search; 4 in the random search),,,,caught,
 V4,V4/105,S10 and S12 compare-exchange swap relaxed (holder word) [library counter],caught,holder.cas_load; DATA RACE in witness_read; found at execution 80 (full search),,,,caught,
 V4,M9,S4 and S12 swap success order without acquire [TSan counter],caught,holder.two_loads_in_one_thread_store/k0; DATA RACE in finish; found at execution 126746 (bound 8 search; 2138 in the random search),,,,caught,
-V4,M9,S4 and S12 swap success order without acquire [library counter],survives,all models of the Holder program pass (masked by the acquire fence of the disposing drop),,,,missed,
+V4,M9,S4 and S12 swap success order without acquire [library counter],survives,"the 8 entries of the CTest case (filter two_loads_in_one_thread) pass; the whole LumexSplitCountRelacyHolder_M9 program, 35 entries, also passes in a re-run of this page (152 s); masked by the acquire fence of the disposing drop",,,,missed,
 V4,M25,rmw_order ignores seq_cst [library counter],survives,all models of the Litmus program pass (see the argument in the README),,,,missed,

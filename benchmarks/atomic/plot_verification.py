@@ -110,8 +110,18 @@ def swatch_legend(out, items, x0, y0, max_width):
 
 
 def mutant_rows(rows):
-    """The rows that the heatmap draws, with their group."""
+    """The rows that the heatmap draws, with their group.
+
+    The two halves of M33 (rows of the Relacy layer) follow M33 in the
+    pre-registered group; the Relacy rows that carry a number of the
+    pre-registered list are drawn there, not twice."""
     prereg_ids = {r["id"] for r in rows if r["layer"] == "prereg"}
+    halves = []
+    for row in rows:
+        if (row["layer"] == "V4" and row["id"].startswith("M33")
+                and row["id"] not in prereg_ids
+                and row["id"] not in [h["id"] for h in halves]):
+            halves.append(row)
     drawn = []
     seen = set()
     for group, _ in GROUPS:
@@ -119,10 +129,14 @@ def mutant_rows(rows):
             if row["layer"] != group:
                 continue
             if group == "V4" and (row["id"] in prereg_ids
-                                  or row["id"] in seen):
+                                  or row["id"] in seen
+                                  or row["id"].startswith("M33")):
                 continue
             seen.add(row["id"])
             drawn.append((group, row))
+            if group == "prereg" and row["id"] == "M33":
+                for half in halves:
+                    drawn.append((group, half))
     return drawn
 
 
@@ -136,10 +150,10 @@ def mutants_chart(rows):
     width = margin + group_w + label_w + cell_w * len(LAYERS) + margin
     out = svg_open(width, 0, "Mutations and the layers that caught them")
     y = heading(out, "Mutations and the layers that caught them", [
-        "One row per mutation. A cell is the verdict of one layer; a blank "
-        "cell means that layer was not run on it, or has no record.",
-        "Rows: the pre-registered M1-M38, the 24 mutants of the ABA campaign, the 5 "
-        "of the family-suite review, the own mutants of the Relacy models."])
+        "One row per mutation. A cell is the verdict of one layer; a blank cell means that layer was",
+        "not run on it, or has no record. Rows: the pre-registered M1-M38 (with the two halves of M33),",
+        "the 24 mutants of the ABA campaign, the 5 of the family-suite review, and the 5 own mutants",
+        "V4/101 to V4/105 of the Relacy models."])
     items = [(color, letter, meaning)
              for _, letter, color, meaning in STATES]
     items.append((EMPTY_COLOR, "", "not run, or no record"))
@@ -275,14 +289,38 @@ def relacy_chart(rows):
 
 # -- The grid of the sanitizer matrix --
 
-GRID_COLUMNS = [("first run", "default", "default run, first run"),
-                ("after the fixes", "default", "default run, after the fixes"),
-                ("first run", "soak", "soak run, first run"),
-                ("after the fixes", "soak", "soak run, after the fixes")]
+GRID_COLUMNS = [("first run", "default", "first run, default"),
+                ("first run", "soak", "first run, soak"),
+                ("after the fixes", "default", "after the fixes, default"),
+                ("after the fixes", "soak", "after the fixes, soak")]
 PASS_COLOR = "#009E73"
 FAIL_COLOR = "#D55E00"
 PARTIAL_COLOR = "#E69F00"
 NONE_COLOR = "#edf2f7"
+
+
+def number(value):
+    """An int of a CSV field, or None for 'not recorded'."""
+    try:
+        return int(value)
+    except ValueError:
+        return None
+
+
+def counts(row):
+    """Text of one run: passed, failed and skipped of its tests."""
+    tests = int(row["tests"])
+    failed = int(row["failed"])
+    skipped = number(row["skipped"])
+    passed = number(row["passed"])
+    if skipped is None:
+        return "%d failed of %d (skips not recorded)" % (failed, tests) \
+            if failed else "%d tests, none failed (skips not recorded)" \
+            % tests
+    if failed:
+        return "%d failed, %d passed, %d skipped (of %d)" % (
+            failed, passed, skipped, tests)
+    return "%d passed, %d skipped (of %d)" % (passed, skipped, tests)
 
 
 def cell_of(rows, phase, kind):
@@ -292,21 +330,27 @@ def cell_of(rows, phase, kind):
     if not chosen:
         return NONE_COLOR, "not run", "not run in this phase"
     if len(chosen) > 1:
-        tests = sum(int(r["tests"]) for r in chosen)
+        parts = "; ".join("part %d: %s" % (index + 1, counts(r))
+                          for index, r in enumerate(chosen))
         return PARTIAL_COLOR, "in %d parts" % len(chosen), \
-            "run in %d parts (see the CSV note); %d tests in the parts" \
-            % (len(chosen), tests)
+            "run in %d parts, the second re-runs tests of the first (%s)" \
+            % (len(chosen), parts)
     row = chosen[0]
-    tests = int(row["tests"])
     failed = int(row["failed"])
-    passed = int(row["passed"])
     reps = int(row["repetitions"])
     suffix = " x%d" % reps if reps > 1 else ""
+    skipped = number(row["skipped"])
     if failed:
-        return FAIL_COLOR, "%d failed of %d%s" % (failed, tests, suffix), \
-            "%d of %d tests failed; %s" % (failed, tests, row["note"])
-    return PASS_COLOR, "%d of %d%s" % (passed, tests, suffix), \
-        "%d of %d tests passed, %d run(s)" % (passed, tests, reps)
+        text = "%d failed of %s" % (failed, row["tests"])
+        color = FAIL_COLOR
+    elif skipped is None:
+        text = "%s tests, none failed" % row["tests"]
+        color = PASS_COLOR
+    else:
+        text = "%s passed, %d skipped" % (row["passed"], skipped)
+        color = PASS_COLOR
+    return color, text + suffix, "%s; %d run(s); %s" % (
+        counts(row), reps, row["note"] or "no note")
 
 
 def sanitizer_chart(rows):
@@ -314,20 +358,19 @@ def sanitizer_chart(rows):
     for row in rows:
         if row["row"] not in order:
             order.append(row["row"])
-    cell_w = 150
+    cell_w = 190
     cell_h = 22
     label_w = 330
     margin = 20
     width = margin + label_w + cell_w * len(GRID_COLUMNS) + margin
     out = svg_open(width, 0, "The sanitizer matrix")
     y = heading(out, "The sanitizer matrix", [
-        "One row per compiler, library and sanitizer; one column per kind "
-        "of run. A cell is passed (or failed) tests, xN = N seeds.",
-        "The first run found two defects of the tests (UBSan, TSan); the "
-        "second column of each pair is the run after the fixes."])
-    items = [(PASS_COLOR, "", "all tests passed"),
+        "One row per compiler, library and sanitizer; the columns are those of the table in the README.",
+        "A cell is the passed, failed and skipped tests of the run; xN = N seeds. Skipped tests are not passed tests.",
+        "The first run found two defects of the tests (UBSan, TSan); the 'after the fixes' columns are the re-runs."])
+    items = [(PASS_COLOR, "", "all tests passed or were skipped by design"),
              (FAIL_COLOR, "", "tests failed"),
-             (PARTIAL_COLOR, "", "completed in parts"),
+             (PARTIAL_COLOR, "", "completed in two parts (row 1, soak: part 2 re-runs 256 tests of part 1)"),
              (NONE_COLOR, "", "not run")]
     y = swatch_legend(out, items, margin, y + 22, width - 2 * margin)
     top = y + 34
