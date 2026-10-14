@@ -1,20 +1,20 @@
 # lumex/tests/core/atomic/smart_ptr/split_count/relacy/CMakeLists.txt
 #
 # Relacy models of the memory orders of the split-count engine. Optional: the
-# directory is added by ../CMakeLists.txt only when LUMEX_RELACY_DIR names a
-# checkout of Relacy (https://github.com/dvyukov/relacy, Dmitry Vyukov's race
-# detector for the C++11 memory model; header-only, not vendored here). With
-# LUMEX_RELACY_DIR unset the default build and the default test run do not
-# change.
+# directory is added by ../CMakeLists.txt only when LUMEX_BUILD_RELACY is ON
+# or LUMEX_RELACY_DIR is given. Relacy (https://github.com/dvyukov/relacy,
+# Dmitry Vyukov's race detector for the C++11 memory model; header-only) is
+# vendored in 3rdparty/relacy and used by default; LUMEX_RELACY_DIR names
+# another checkout instead. With both unset the default build and the default
+# test run do not change.
 #
-# With LUMEX_RELACY_DIR set the models are ordinary CTest cases, so a plain
+# With the models enabled they are ordinary CTest cases, so a plain
 # `ctest` of that tree runs them too (about 10 minutes); they carry the labels
 # relacy and relacy_mutant, and `ctest -LE relacy` leaves all of them out.
 #
 # How to run:
-#   git clone https://github.com/dvyukov/relacy ~/relacy
 #   cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
-#         -DLUMEX_BUILD_TESTS=ON -DLUMEX_RELACY_DIR=$HOME/relacy
+#         -DLUMEX_BUILD_TESTS=ON -DLUMEX_BUILD_RELACY=ON
 #   ninja -C build LumexSplitCountRelacyBlock LumexSplitCountRelacyHolder \
 #                  LumexSplitCountRelacyLitmus
 #   ctest --test-dir build -L '^relacy$' --output-on-failure
