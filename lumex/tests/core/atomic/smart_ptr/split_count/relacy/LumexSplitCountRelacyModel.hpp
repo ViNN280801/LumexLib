@@ -53,24 +53,32 @@
  * `settle` (L7, L8), `swap_out` (S1 to S5), `store`, `exchange`,
  * `compare_exchange_strong` (S8 to S11), `compare_exchange_holder` (S12), the
  * deposit, withdrawal and payment helpers and the holder mirror. The counters
- * are `split_counter` (`LumexSmartPtrCounter.hpp`) with its non-sanitizer
- * orders: a drop is a `release` read-modify-write followed by an `acquire`
- * fence when the word became zero. Every order is chosen in the namespace
- * `orders` below, which is the only place a mutation changes.
+ * are `split_counter` (`LumexSmartPtrCounter.hpp`) in its two flavours: the
+ * default one has a `release` drop followed by an `acquire` fence when the
+ * counter became zero, and `LUMEX_RELACY_TSAN_COUNTER=1` has the
+ * ThreadSanitizer flavour (an `acq_rel` drop and no fence). The default
+ * counter MASKS the success order of the pinned swap (M9, see the README), so
+ * every program is also built with the other flavour. Every order is chosen
+ * in the namespace `orders` below, which is the only place a mutation
+ * changes.
  *
  * **The 128-bit word.** Relacy has no 16-byte atomic. The slot word is ONE
  * `rl::atomic<std::uint64_t>` that packs `{lo: block id and the holder flag,
- * L, delta}`; every operation on it is one atomic read-modify-write, exactly
- * as `lock cmpxchg16b` is one locked read-modify-write on the real word. This
+ * L, delta}`; every modification of it is one atomic read-modify-write,
+ * exactly as `lock cmpxchg16b` is one locked read-modify-write on the real
+ * word; its plain reads are the acquire loads of the decisions (L5, L8), the
+ * relaxed guesses and the relaxed reloads of the back-off. This
  * is faithful for the questions asked here: the hardware instruction is at
  * least as strong as a sequentially consistent read-modify-write, while the
  * library only REQUESTS `acquire`, `release` or `acq_rel` on it (and
  * `seq_cst` when the caller does), so the model uses the REQUESTED order,
  * which is the weaker one and the one the portable claim rests on. What the
  * packing cannot show: a torn speculative read of the two halves (the
- * simulator's torn policy covers it, and every use of a guess is validated by
- * a whole-word compare-and-swap here too) and the 24-bit tick limit (a
- * compile-time constant of the protocol, not an order question).
+ * simulator's torn policy covers it; most guesses are validated by a
+ * whole-word compare-and-swap, and the guess at L5 that decides to count is
+ * not, which is harmless because the settle that follows re-validates it) and
+ * the 24-bit tick limit (a compile-time constant of the protocol, not an
+ * order question).
  *
  * **Plain data and the ghost state.** Control blocks are slots of a pool.
  * What the protocol protects is modelled as `rl::var` fields that Relacy
@@ -84,7 +92,9 @@
  * acquire read" is therefore checked through a ghost variable: a writer
  * writes `witness[image]` (a plain variable) before each swap attempt, and a
  * thread about to pay reads `witness` of the word it decided on; Relacy
- * reports a race if no happens-before edge connects the two. The ghost
+ * reports a race if no happens-before edge connects the two. An empty word
+ * has the witness of block 0, so a store or an exchange of an empty pointer
+ * is guarded too (at most one writer of an empty pointer per model). The ghost
  * counters `owners` follow the unit conservation of the oracle note (live
  * pointers, slots, exchange results, built images) and give the check G1,
  * `count + ext >= owners`, at every step.
@@ -112,6 +122,12 @@
 #define LUMEX_RELACY_MUTANT 0
 #endif
 
+// The counter flavour: 0 is the shipped one (release drop, acquire fence on
+// zero), 1 is the one used under ThreadSanitizer (acq_rel drop, no fence).
+#ifndef LUMEX_RELACY_TSAN_COUNTER
+#define LUMEX_RELACY_TSAN_COUNTER 0
+#endif
+
 namespace split_count_relacy
 {
 typedef std::uint64_t u64;
@@ -119,6 +135,9 @@ typedef rl::memory_order mo_t;
 
 /// The mutation of this build.
 static const int mutant = LUMEX_RELACY_MUTANT;
+
+/// The counter flavour of this build: true is the ThreadSanitizer one.
+static const bool tsan_counter = LUMEX_RELACY_TSAN_COUNTER != 0;
 
 /// One unit of `ext` in a counter word.
 static const u64 ext_unit = u64 (1) << 32;
@@ -211,18 +230,22 @@ cas_success (mo_t order)
   return mutant == 105 ? rl::mo_relaxed : order;
 }
 
-/// The counter drop: a `release` read-modify-write (101 and 102 weaken it).
+/// The counter drop: a `release` read-modify-write, or `acq_rel` in the
+/// ThreadSanitizer flavour (102 makes it `relaxed`).
 inline mo_t
 drop ()
 {
-  return mutant == 102 ? rl::mo_relaxed : rl::mo_release;
+  if (mutant == 102)
+    return rl::mo_relaxed;
+  return tsan_counter ? rl::mo_acq_rel : rl::mo_release;
 }
 
-/// The acquire fence after a drop that made the counter zero.
+/// The acquire fence after a drop that made the counter zero (the
+/// ThreadSanitizer flavour has none; 101 removes it).
 inline bool
 drop_fence ()
 {
-  return mutant != 101;
+  return !tsan_counter && mutant != 101;
 }
 } // namespace orders
 
@@ -257,6 +280,9 @@ enum cover_e
   cover_holder_miss,   ///< S12: the holder did not match, tick taken back
   cover_hand_over,     ///< S7: a holder word was handed over
   cover_dispose,       ///< a block was disposed
+  cover_s12_undo,      ///< S12: the own tick was swapped out, paid back
+  cover_s12_topup,     ///< S12: the deposit was topped up
+  cover_s11_retry,     ///< S11: the strong form found an equivalent value
   cover_count
 };
 
@@ -268,7 +294,8 @@ cover_name (int c)
           "L9-count-pay", "S1-fast-swap",  "S2-writer-pin", "S3-deposit",
           "S5-topup",     "S5-undo",       "S4-consumed",   "S6-surplus",
           "S10-cas-swap", "S10-withdraw",  "S12-swap",      "S12-miss",
-          "S7-hand-over", "dispose" };
+          "S7-hand-over", "dispose",       "S12-undo",      "S12-topup",
+          "S11-retry" };
   return names[c];
 }
 
@@ -709,8 +736,7 @@ private:
   void
   witness_write (u64 image)
   {
-    if (!word::is_empty (image))
-      pool_.blocks[word::block_of (image)].witness ($) = 1;
+    pool_.blocks[word::block_of (image)].witness ($) = 1;
   }
 
   /// The decision of a payer: a read of the witness of the word it decided
@@ -719,11 +745,8 @@ private:
   void
   witness_read (u64 decided)
   {
-    if (!word::is_empty (decided))
-      {
-        int const w = pool_.blocks[word::block_of (decided)].witness ($);
-        (void)w;
-      }
+    int const w = pool_.blocks[word::block_of (decided)].witness ($);
+    (void)w;
   }
 
   // -- the counter group of a word (deposit, withdraw, pay) --
@@ -1134,6 +1157,7 @@ private:
           {
             // The loaded value is a new owner; the strong form retries and
             // releases it, as `current` goes out of scope in the engine.
+            cover (cover_s11_retry);
             drop_ptr (current);
             seen = word_.load (rl::mo_relaxed, $);
             continue;
@@ -1213,6 +1237,7 @@ private:
                         || word::ticks_of (swapped) == 0u)
                       {
                         witness_read (swapped);
+                        cover (cover_s12_undo);
                         pay_back (current, moved);
                         seen = swapped;
                         break;
@@ -1220,6 +1245,7 @@ private:
                     unsigned const need = word::ticks_of (swapped) - 1u;
                     if (need > moved)
                       {
+                        cover (cover_s12_topup);
                         deposit (swapped, need - moved);
                         moved = need;
                       }
@@ -1233,6 +1259,7 @@ private:
         sp_t const current = load (failure);
         if (!weak && equivalent (current, expected))
           {
+            cover (cover_s11_retry);
             drop_ptr (current);
             seen = word_.load (rl::mo_relaxed, $);
             continue;
@@ -1416,7 +1443,7 @@ run_model (char const *name, search_t const &search)
   std::cout << "== " << name << " search=" << scheduler_name (search.scheduler)
             << " iterations=" << search.iterations
             << " bound=" << params.context_bound << " mutant=" << mutant
-            << std::endl;
+            << " counter=" << (tsan_counter ? "tsan" : "default") << std::endl;
   bool const ok = rl::simulate<Test> (params);
   std::cout << "reached:";
   for (int c = 0; c != cover_count; ++c)

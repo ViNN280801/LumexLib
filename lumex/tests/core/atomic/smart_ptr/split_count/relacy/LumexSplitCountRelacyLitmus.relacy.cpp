@@ -48,18 +48,22 @@
  *
  * - the controls use plain atomics, so that the harness is shown to see the
  *   weak outcome when the orders are weak (found) and not when they are
- *   `seq_cst` (not found);
+ *   `seq_cst` (not found), for store buffering and for independent reads;
  * - the engine tests use two cells and the real `store` and `load` of the
- *   transcription (and a cell with a plain flag), in the shapes of
- *   store buffering and of independent reads of independent writes.
+ *   transcription (and a cell with a plain flag), in the same shapes.
  *
- * Every access to the word is a read-modify-write (a load is a tick or a
- * confirming compare-and-swap), and two read-modify-writes of one atomic
- * synchronize with each other when both are `acq_rel`: the later one reads
- * from the earlier one's release. That chain closes the cycle of the weak
- * outcome in both shapes, so the models are expected to pass with and without
- * `seq_cst`; M25 is reported as a mutation that no model can tell from the
- * faithful engine (see the README of `lumex/core/atomic`).
+ * The argument for the engine tests to pass with and without `seq_cst`:
+ * every operation that decides a user-visible result (`load`, `store`,
+ * `exchange`, `compare_exchange_*`) ends in an `acq_rel` read-modify-write of
+ * the word, and every modification of the word is at least `release`, so the
+ * release sequences are unbroken and the modification order of the word is
+ * contained in happens-before. The plain loads of the protocol (the
+ * decisions, the guesses) only choose between paying a unit and taking a tick
+ * back; they never decide a result. That chain closes the cycle of the weak
+ * outcome in both shapes. `wait` and `notify` are not modelled. M25 is
+ * therefore reported as a mutation that no model can tell from the faithful
+ * engine (see the README of `lumex/core/atomic`). The searches differ by test:
+ * the plain controls and the exhaustive ones are noted at the entries.
  */
 #include "LumexSplitCountRelacyModel.hpp"
 
@@ -73,6 +77,8 @@ char const *const model_sb_cells = "litmus.sb_cells";
 char const *const model_sb_cells_seq_cst = "litmus.sb_cells_seq_cst";
 char const *const model_sb_cell_flag = "litmus.sb_cell_and_flag_seq_cst";
 char const *const model_iriw_cells = "litmus.iriw_cells_seq_cst";
+char const *const model_iriw_plain_weak = "litmus.iriw_plain_weak_is_found";
+char const *const model_iriw_plain_seq_cst = "litmus.iriw_plain_seq_cst";
 
 /// Control: store buffering on plain atomics with release stores and acquire
 /// loads. The weak outcome (both loads read the initial value) is allowed, so
@@ -338,6 +344,64 @@ struct iriw_cells_t : rl::test_suite<iriw_cells_t, 4>
     x.drop_ptr (r[3]);
   }
 };
+
+/// Control: independent reads of independent writes on plain atomics. With
+/// `Order` weak (release stores, acquire loads) the readers may see the two
+/// writes in opposite orders; with `seq_cst` they may not.
+template <int Order, rl::test_result_e Expected>
+struct iriw_plain_t
+    : rl::test_suite<iriw_plain_t<Order, Expected>, 4, Expected>
+{
+  rl::atomic<int> x;
+  rl::atomic<int> y;
+  int r[4];
+
+  static mo_t
+  store_order ()
+  {
+    return Order == 0 ? rl::mo_release : rl::mo_seq_cst;
+  }
+
+  static mo_t
+  load_order ()
+  {
+    return Order == 0 ? rl::mo_acquire : rl::mo_seq_cst;
+  }
+
+  void
+  before ()
+  {
+    x.store (0, rl::mo_relaxed, $);
+    y.store (0, rl::mo_relaxed, $);
+    for (int i = 0; i != 4; ++i)
+      r[i] = -1;
+  }
+
+  void
+  thread (unsigned index)
+  {
+    if (index == 0)
+      x.store (1, store_order (), $);
+    else if (index == 1)
+      y.store (1, store_order (), $);
+    else if (index == 2)
+      {
+        r[0] = x.load (load_order (), $);
+        r[1] = y.load (load_order (), $);
+      }
+    else
+      {
+        r[2] = y.load (load_order (), $);
+        r[3] = x.load (load_order (), $);
+      }
+  }
+
+  void
+  after ()
+  {
+    RL_ASSERT (!(r[0] == 1 && r[1] == 0 && r[2] == 1 && r[3] == 0));
+  }
+};
 } // namespace
 
 int
@@ -354,7 +418,15 @@ main (int argc, char **argv)
       bound_search (4, 50000000) },
     { model_sb_cell_flag, -1, &run_model<sb_cell_flag_t>,
       bound_search (4, 50000000) },
+    { model_iriw_cells, -1, &run_model<iriw_cells_t>,
+      bound_search (2, 50000000) },
     { model_iriw_cells, -1, &run_model<iriw_cells_t>, random_search (200000) },
+    { model_iriw_plain_weak, -1,
+      &run_model<iriw_plain_t<0, rl::test_result_user_assert_failed>>,
+      random_search (200000) },
+    { model_iriw_plain_seq_cst, -1,
+      &run_model<iriw_plain_t<1, rl::test_result_success>>,
+      random_search (200000) },
   };
   return main_driver (argc, argv, entries,
                       int (sizeof (entries) / sizeof (entries[0])));

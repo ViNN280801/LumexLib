@@ -48,10 +48,16 @@
  * @details The checks and the search are those of
  * `LumexSplitCountRelacyBlock.relacy.cpp`. What these models add is the plain
  * data of the holder: its owner and pointer are read by a loader that owns no
- * count on the holder, and the only edge from those reads to the destruction
- * of the holder runs from the un-tick (`release`, L7) to the swap of the
- * writer (`acquire`, S4) and the drop of the word's unit: the models fail if
- * either of the two orders is weakened (M9, M10).
+ * count on the holder, and the destruction of the holder must happen after
+ * those reads. The edges are the un-tick (`release`, L7) of the loader and a
+ * later `acquire` of the writer: its pin (S2), the failure value of its swap
+ * (S4) or the success of its swap (S4), followed by the drop of the word's
+ * unit. Weakening the un-tick (M10) is a data race. The success order of the
+ * swap (M9) is the only direct edge from the SECOND un-tick of a loader that
+ * loads twice (the `two_loads_in_one_thread` models): the acquire fence of the
+ * disposing drop of the shipped counter masks a weakened success order there,
+ * and the ThreadSanitizer counter (an `acq_rel` drop and no fence) does not,
+ * so M9 is a data race with that counter.
  */
 #include "LumexSplitCountRelacyModel.hpp"
 
@@ -67,6 +73,12 @@ char const *const model_holder_two_loaders = "holder.two_loaders_store";
 char const *const model_holder_cas_miss = "holder.cas_miss_load";
 char const *const model_holder_cas_load_store = "holder.cas_load_store";
 char const *const model_holder_three_loaders = "holder.three_loaders_store";
+char const *const model_holder_two_loads_store
+    = "holder.two_loads_in_one_thread_store";
+char const *const model_holder_two_loads_exchange
+    = "holder.two_loads_in_one_thread_exchange";
+char const *const model_holder_load_reset = "holder.load_reset";
+char const *const model_holder_exchange_reset = "holder.exchange_reset";
 
 /// Puts an alias of a fresh owner (block 1) that does not fit the word into
 /// the slot: the slot owns a holder (block `first_holder`), the holder one
@@ -345,6 +357,127 @@ template <unsigned K> struct cas_miss_t : model_t<cas_miss_t<K>, 2, K>
       }
   }
 };
+
+/// TWO loads of the holder word in ONE thread against a store: the writer's
+/// pinned swap can fail on the first un-tick and then succeed reading directly
+/// from the SECOND un-tick of the same loader, so the success order of the
+/// swap (S4) is the only direct edge from that second un-tick to the writer's
+/// disposal of the holder. With the shipped counter (release drop, acquire
+/// fence on zero) the fence of the disposing drop masks a weakened success
+/// order; with the ThreadSanitizer counter (acq_rel drop, no fence) it does
+/// not (M9).
+template <unsigned K>
+struct two_loads_store_t : model_t<two_loads_store_t<K>, 2, K>
+{
+  void
+  setup ()
+  {
+    seed_holder (*this);
+  }
+
+  void
+  thread (unsigned index)
+  {
+    if (index == 0)
+      {
+        sp_t const p1 = this->f.cell.load (rl::mo_acquire);
+        sp_t const p2 = this->f.cell.load (rl::mo_acquire);
+        this->f.cell.use (p1);
+        this->f.cell.use (p2);
+        this->f.cell.drop_ptr (p1);
+        this->f.cell.drop_ptr (p2);
+      }
+    else
+      {
+        sp_t const b = this->f.cell.create_object (2, 1);
+        this->f.cell.store (b, rl::mo_release);
+      }
+  }
+};
+
+/// The same with an exchange, which hands the holder's owner over.
+template <unsigned K>
+struct two_loads_exchange_t : model_t<two_loads_exchange_t<K>, 2, K>
+{
+  void
+  setup ()
+  {
+    seed_holder (*this);
+  }
+
+  void
+  thread (unsigned index)
+  {
+    if (index == 0)
+      {
+        sp_t const p1 = this->f.cell.load (rl::mo_acquire);
+        sp_t const p2 = this->f.cell.load (rl::mo_acquire);
+        this->f.cell.use (p1);
+        this->f.cell.use (p2);
+        this->f.cell.drop_ptr (p1);
+        this->f.cell.drop_ptr (p2);
+      }
+    else
+      {
+        sp_t const b = this->f.cell.create_object (2, 1);
+        sp_t const old = this->f.cell.exchange (b, rl::mo_acq_rel);
+        this->f.cell.use (old);
+        this->f.cell.drop_ptr (old);
+      }
+  }
+};
+
+/// A loader of the holder word against a store of an empty pointer.
+template <unsigned K> struct load_reset_t : model_t<load_reset_t<K>, 2, K>
+{
+  void
+  setup ()
+  {
+    seed_holder (*this);
+  }
+
+  void
+  thread (unsigned index)
+  {
+    if (index == 0)
+      {
+        sp_t const p = this->f.cell.load (rl::mo_acquire);
+        this->f.cell.use (p);
+        this->f.cell.drop_ptr (p);
+      }
+    else
+      this->f.cell.store (make_sp (0, 0u), rl::mo_release);
+  }
+};
+
+/// A loader of the holder word against an exchange with an empty pointer.
+template <unsigned K>
+struct exchange_reset_t : model_t<exchange_reset_t<K>, 2, K>
+{
+  void
+  setup ()
+  {
+    seed_holder (*this);
+  }
+
+  void
+  thread (unsigned index)
+  {
+    if (index == 0)
+      {
+        sp_t const p = this->f.cell.load (rl::mo_acquire);
+        this->f.cell.use (p);
+        this->f.cell.drop_ptr (p);
+      }
+    else
+      {
+        sp_t const old
+            = this->f.cell.exchange (make_sp (0, 0u), rl::mo_acq_rel);
+        this->f.cell.use (old);
+        this->f.cell.drop_ptr (old);
+      }
+  }
+};
 } // namespace
 
 int
@@ -359,18 +492,36 @@ main (int argc, char **argv)
       full_search (50000000) },
     { model_holder_exchange_load, 2, &run_model<exchange_load_t<2>>,
       full_search (50000000) },
-    { model_holder_cas_load, 0, &run_model<cas_load_t<0>>,
+    { model_holder_cas_load, -1, &run_model<cas_load_t<0>>,
       full_search (50000000) },
-    { model_holder_cas_load, 2, &run_model<cas_load_t<2>>,
+    { model_holder_cas_miss, -1, &run_model<cas_miss_t<0>>,
+      bound_search (8, 50000000) },
+    { model_holder_cas_miss, -1, &run_model<cas_miss_t<0>>,
+      random_search (2000000) },
+    { model_holder_two_loads_store, 0, &run_model<two_loads_store_t<0>>,
+      bound_search (8, 50000000) },
+    { model_holder_two_loads_store, 0, &run_model<two_loads_store_t<0>>,
+      random_search (2000000) },
+    { model_holder_two_loads_store, 2, &run_model<two_loads_store_t<2>>,
+      bound_search (8, 50000000) },
+    { model_holder_two_loads_store, 2, &run_model<two_loads_store_t<2>>,
+      random_search (2000000) },
+    { model_holder_two_loads_exchange, 0, &run_model<two_loads_exchange_t<0>>,
+      bound_search (8, 50000000) },
+    { model_holder_two_loads_exchange, 0, &run_model<two_loads_exchange_t<0>>,
+      random_search (2000000) },
+    { model_holder_two_loads_exchange, 2, &run_model<two_loads_exchange_t<2>>,
+      bound_search (8, 50000000) },
+    { model_holder_two_loads_exchange, 2, &run_model<two_loads_exchange_t<2>>,
+      random_search (2000000) },
+    { model_holder_load_reset, 0, &run_model<load_reset_t<0>>,
       full_search (50000000) },
-    { model_holder_cas_miss, 0, &run_model<cas_miss_t<0>>,
-      bound_search (8, 50000000) },
-    { model_holder_cas_miss, 0, &run_model<cas_miss_t<0>>,
-      random_search (2000000) },
-    { model_holder_cas_miss, 2, &run_model<cas_miss_t<2>>,
-      bound_search (8, 50000000) },
-    { model_holder_cas_miss, 2, &run_model<cas_miss_t<2>>,
-      random_search (2000000) },
+    { model_holder_load_reset, 2, &run_model<load_reset_t<2>>,
+      full_search (50000000) },
+    { model_holder_exchange_reset, 0, &run_model<exchange_reset_t<0>>,
+      full_search (50000000) },
+    { model_holder_exchange_reset, 2, &run_model<exchange_reset_t<2>>,
+      full_search (50000000) },
     { model_holder_two_loaders, 0, &run_model<two_loaders_store_t<0>>,
       bound_search (4, 50000000) },
     { model_holder_two_loaders, 0, &run_model<two_loaders_store_t<0>>,

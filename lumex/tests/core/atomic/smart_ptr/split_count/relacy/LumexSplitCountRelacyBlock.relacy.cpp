@@ -73,6 +73,9 @@ char const *const model_two_writers_load = "block.two_writers_load";
 char const *const model_exchange_load = "block.exchange_load";
 char const *const model_publish_exchange = "block.publish_exchange";
 char const *const model_cas_load_store = "block.cas_load_store";
+char const *const model_load_reset = "block.load_reset";
+char const *const model_exchange_reset = "block.exchange_reset";
+char const *const model_cas_restore = "block.cas_restore";
 
 /// A publisher stores a new block, a reader loads and reads it (L3 and S1:
 /// the object written before the release swap is visible after the tick).
@@ -283,6 +286,94 @@ struct cas_load_store_t : model_t<cas_load_store_t<K>, 3, K>
       }
   }
 };
+
+/// A loader against a store of an EMPTY pointer (a reset): the swapped-in word
+/// is empty, so the ghost witness of block 0 guards the decision.
+template <unsigned K> struct load_reset_t : model_t<load_reset_t<K>, 2, K>
+{
+  void
+  setup ()
+  {
+    this->f.seed_block (1);
+  }
+
+  void
+  thread (unsigned index)
+  {
+    if (index == 0)
+      {
+        sp_t const p = this->f.cell.load (rl::mo_acquire);
+        this->f.cell.use (p);
+        this->f.cell.drop_ptr (p);
+      }
+    else
+      this->f.cell.store (make_sp (0, 0u), rl::mo_release);
+  }
+};
+
+/// A loader against an exchange with an empty pointer: the old value is
+/// handed over (S7) and read while the loader reads it.
+template <unsigned K>
+struct exchange_reset_t : model_t<exchange_reset_t<K>, 2, K>
+{
+  void
+  setup ()
+  {
+    this->f.seed_block (1);
+  }
+
+  void
+  thread (unsigned index)
+  {
+    if (index == 0)
+      {
+        sp_t const p = this->f.cell.load (rl::mo_acquire);
+        this->f.cell.use (p);
+        this->f.cell.drop_ptr (p);
+      }
+    else
+      {
+        sp_t const old
+            = this->f.cell.exchange (make_sp (0, 0u), rl::mo_acq_rel);
+        this->f.cell.use (old);
+        this->f.cell.drop_ptr (old);
+      }
+  }
+};
+
+/// The strong compare-exchange retry (S11): a thread replaces the value and
+/// puts the same value back, so that the failure load of the compare-exchange
+/// can find a value equivalent to `expected`.
+template <unsigned K> struct cas_restore_t : model_t<cas_restore_t<K>, 2, K>
+{
+  sp_t kept;
+
+  void
+  setup ()
+  {
+    this->f.seed_block (1);
+    kept = this->f.cell.copy (make_sp (1, 0u), 0u);
+  }
+
+  void
+  thread (unsigned index)
+  {
+    if (index == 0)
+      {
+        sp_t expected = kept;
+        sp_t const c = this->f.cell.create_object (3, 1);
+        this->f.cell.compare_exchange_strong (expected, c, rl::mo_acq_rel);
+        this->f.cell.use (expected);
+        this->f.cell.drop_ptr (expected);
+      }
+    else
+      {
+        sp_t const b = this->f.cell.create_object (2, 1);
+        sp_t const old = this->f.cell.exchange (b, rl::mo_acq_rel);
+        this->f.cell.store (old, rl::mo_release);
+      }
+  }
+};
 } // namespace
 
 int
@@ -334,6 +425,18 @@ main (int argc, char **argv)
     { model_cas_load_store, 2, &run_model<cas_load_store_t<2>>,
       bound_search (4, 50000000) },
     { model_cas_load_store, 2, &run_model<cas_load_store_t<2>>,
+      random_search (2000000) },
+    { model_load_reset, 0, &run_model<load_reset_t<0>>,
+      full_search (50000000) },
+    { model_load_reset, 2, &run_model<load_reset_t<2>>,
+      full_search (50000000) },
+    { model_exchange_reset, 0, &run_model<exchange_reset_t<0>>,
+      full_search (50000000) },
+    { model_exchange_reset, 2, &run_model<exchange_reset_t<2>>,
+      full_search (50000000) },
+    { model_cas_restore, 0, &run_model<cas_restore_t<0>>,
+      bound_search (6, 50000000) },
+    { model_cas_restore, 0, &run_model<cas_restore_t<0>>,
       random_search (2000000) },
     { model_two_writers_load, 8, &run_model<two_writers_load_t<8>>,
       random_search (2000000) },
