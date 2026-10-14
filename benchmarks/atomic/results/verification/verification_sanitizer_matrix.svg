@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 970 452" width="970" height="452" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>The sanitizer matrix</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">The sanitizer matrix</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">One row per compiler, library and sanitizer; one column per kind of run. A cell is passed (or failed) tests, xN = N seeds.</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">The first run found two defects of the tests (UBSan, TSan); the second column of each pair is the run after the fixes.</text>
+<rect x="20.0" y="96.0" width="16" height="14" rx="2" fill="#009E73"/>
+<text x="42.0" y="108.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">all tests passed</text>
+<rect x="177.6" y="96.0" width="16" height="14" rx="2" fill="#D55E00"/>
+<text x="199.6" y="108.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">tests failed</text>
+<rect x="308.8" y="96.0" width="16" height="14" rx="2" fill="#E69F00"/>
+<text x="330.8" y="108.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">completed in parts</text>
+<rect x="479.6" y="96.0" width="16" height="14" rx="2" fill="#edf2f7"/>
+<text x="501.6" y="108.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">not run</text>
+<text x="425.0" y="156.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">default run, first run</text>
+<text x="575.0" y="156.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">default run, after the fixes</text>
+<text x="725.0" y="156.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">soak run, first run</text>
+<text x="875.0" y="156.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">soak run, after the fixes</text>
+<text x="20.0" y="179.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">1  GCC 13.2, libstdc++ 13, ASan+UBSan+LSan, Debug</text>
+<rect x="352" y="165.0" width="146" height="20" rx="3" fill="#D55E00"><title>1, default run, first run: 297 of 4109 tests failed; UBSan misalignment of an alignas(64) object in test code: 294 for scenario_world_t (LumexSplitCountSim.hpp), 3 for thread_counters_t (LumexSplitCountExact.cxx11.tests.cpp); same in both runs</title></rect>
+<text x="425.0" y="179.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">297 failed of 4109 x2</text>
+<rect x="502" y="165.0" width="146" height="20" rx="3" fill="#009E73"><title>1, default run, after the fixes: 4183 of 4183 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="179.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4183 of 4183</text>
+<rect x="652" y="165.0" width="146" height="20" rx="3" fill="#D55E00"><title>1, soak run, first run: 256 of 1036 tests failed; same class</title></rect>
+<text x="725.0" y="179.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">256 failed of 1036</text>
+<rect x="802" y="165.0" width="146" height="20" rx="3" fill="#E69F00"><title>1, soak run, after the fixes: run in 2 parts (see the CSV note); 1284 tests in the parts</title></rect>
+<text x="875.0" y="179.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">in 2 parts</text>
+<text x="20.0" y="201.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">2  GCC 13.2, libstdc++ 13, ASan+UBSan, Release</text>
+<rect x="352" y="187.0" width="146" height="20" rx="3" fill="#D55E00"><title>2, default run, first run: 3 of 4109 tests failed; UBSan misalignment of an alignas(64) object in test code: thread_counters_t in ExactTest .cxx11, .builtin.cxx11, .prefer_split_count.cxx11</title></rect>
+<text x="425.0" y="201.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">3 failed of 4109</text>
+<rect x="502" y="187.0" width="146" height="20" rx="3" fill="#edf2f7"><title>2, default run, after the fixes: not run in this phase</title></rect>
+<text x="575.0" y="201.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<rect x="652" y="187.0" width="146" height="20" rx="3" fill="#009E73"><title>2, soak run, first run: 1036 of 1036 tests passed, 2 run(s)</title></rect>
+<text x="725.0" y="201.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">1036 of 1036 x2</text>
+<rect x="802" y="187.0" width="146" height="20" rx="3" fill="#edf2f7"><title>2, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="201.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="223.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">3  Clang 23.1, libstdc++ 13, ASan+UBSan, Debug</text>
+<rect x="352" y="209.0" width="146" height="20" rx="3" fill="#D55E00"><title>3, default run, first run: 3 of 4109 tests failed; UBSan misalignment of an alignas(64) object in test code: the same three ExactTest variants in both runs</title></rect>
+<text x="425.0" y="223.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">3 failed of 4109 x2</text>
+<rect x="502" y="209.0" width="146" height="20" rx="3" fill="#009E73"><title>3, default run, after the fixes: 4183 of 4183 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="223.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4183 of 4183</text>
+<rect x="652" y="209.0" width="146" height="20" rx="3" fill="#009E73"><title>3, soak run, first run: 1036 of 1036 tests passed, 1 run(s)</title></rect>
+<text x="725.0" y="223.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">1036 of 1036</text>
+<rect x="802" y="209.0" width="146" height="20" rx="3" fill="#edf2f7"><title>3, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="223.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="245.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">4  Clang 23.1, libc++, ASan+UBSan, Debug</text>
+<rect x="352" y="231.0" width="146" height="20" rx="3" fill="#D55E00"><title>4, default run, first run: 3 of 4109 tests failed; UBSan misalignment of an alignas(64) object in test code: the same three ExactTest variants in both runs</title></rect>
+<text x="425.0" y="245.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">3 failed of 4109 x2</text>
+<rect x="502" y="231.0" width="146" height="20" rx="3" fill="#009E73"><title>4, default run, after the fixes: 4183 of 4183 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="245.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4183 of 4183</text>
+<rect x="652" y="231.0" width="146" height="20" rx="3" fill="#009E73"><title>4, soak run, first run: 1036 of 1036 tests passed, 1 run(s)</title></rect>
+<text x="725.0" y="245.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">1036 of 1036</text>
+<rect x="802" y="231.0" width="146" height="20" rx="3" fill="#edf2f7"><title>4, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="245.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="267.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">5a  Clang 23.1, libc++, TSan, Debug</text>
+<rect x="352" y="253.0" width="146" height="20" rx="3" fill="#D55E00"><title>5a, default run, first run: 53 of 4109 tests failed; 25 failed in the Cxx11 family suite, 28 in the Cxx20 one, none in the dedicated suites; family split_count_engine targets on the inline-assembly backend, which ThreadSanitizer cannot see</title></rect>
+<text x="425.0" y="267.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">53 failed of 4109</text>
+<rect x="502" y="253.0" width="146" height="20" rx="3" fill="#009E73"><title>5a, default run, after the fixes: 4183 of 4183 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="267.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4183 of 4183</text>
+<rect x="652" y="253.0" width="146" height="20" rx="3" fill="#D55E00"><title>5a, soak run, first run: 4 of 1036 tests failed; family soak tests, same class; wall about 53 seconds each</title></rect>
+<text x="725.0" y="267.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4 failed of 1036 x2</text>
+<rect x="802" y="253.0" width="146" height="20" rx="3" fill="#009E73"><title>5a, soak run, after the fixes: 1036 of 1036 tests passed, 1 run(s)</title></rect>
+<text x="875.0" y="267.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">1036 of 1036</text>
+<text x="20.0" y="289.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">5b  Clang 23.1, libc++, TSan, Release</text>
+<rect x="352" y="275.0" width="146" height="20" rx="3" fill="#D55E00"><title>5b, default run, first run: 53 of 4109 tests failed; same class</title></rect>
+<text x="425.0" y="289.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">53 failed of 4109</text>
+<rect x="502" y="275.0" width="146" height="20" rx="3" fill="#edf2f7"><title>5b, default run, after the fixes: not run in this phase</title></rect>
+<text x="575.0" y="289.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<rect x="652" y="275.0" width="146" height="20" rx="3" fill="#D55E00"><title>5b, soak run, first run: 4 of 1036 tests failed; same class</title></rect>
+<text x="725.0" y="289.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4 failed of 1036 x2</text>
+<rect x="802" y="275.0" width="146" height="20" rx="3" fill="#edf2f7"><title>5b, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="289.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="311.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">5c  Clang 23.1, libstdc++ 13, TSan, Debug</text>
+<rect x="352" y="297.0" width="146" height="20" rx="3" fill="#D55E00"><title>5c, default run, first run: 54 of 4109 tests failed; same class</title></rect>
+<text x="425.0" y="311.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">54 failed of 4109</text>
+<rect x="502" y="297.0" width="146" height="20" rx="3" fill="#009E73"><title>5c, default run, after the fixes: 4183 of 4183 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="311.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4183 of 4183</text>
+<rect x="652" y="297.0" width="146" height="20" rx="3" fill="#D55E00"><title>5c, soak run, first run: 4 of 1036 tests failed; same class</title></rect>
+<text x="725.0" y="311.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4 failed of 1036 x2</text>
+<rect x="802" y="297.0" width="146" height="20" rx="3" fill="#edf2f7"><title>5c, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="311.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="333.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">5d  Clang 23.1, libstdc++ 13, TSan, Release</text>
+<rect x="352" y="319.0" width="146" height="20" rx="3" fill="#D55E00"><title>5d, default run, first run: 54 of 4109 tests failed; same class</title></rect>
+<text x="425.0" y="333.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">54 failed of 4109</text>
+<rect x="502" y="319.0" width="146" height="20" rx="3" fill="#edf2f7"><title>5d, default run, after the fixes: not run in this phase</title></rect>
+<text x="575.0" y="333.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<rect x="652" y="319.0" width="146" height="20" rx="3" fill="#D55E00"><title>5d, soak run, first run: 4 of 1036 tests failed; same class</title></rect>
+<text x="725.0" y="333.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4 failed of 1036 x2</text>
+<rect x="802" y="319.0" width="146" height="20" rx="3" fill="#edf2f7"><title>5d, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="333.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="355.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">6  GCC 13.2, libstdc++ 13, TSan (setarch x86_64 -R),...</text>
+<rect x="352" y="341.0" width="146" height="20" rx="3" fill="#D55E00"><title>6, default run, first run: 53 of 4109 tests failed; same class</title></rect>
+<text x="425.0" y="355.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">53 failed of 4109</text>
+<rect x="502" y="341.0" width="146" height="20" rx="3" fill="#009E73"><title>6, default run, after the fixes: 4183 of 4183 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="355.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4183 of 4183</text>
+<rect x="652" y="341.0" width="146" height="20" rx="3" fill="#D55E00"><title>6, soak run, first run: 4 of 1036 tests failed; same class</title></rect>
+<text x="725.0" y="355.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4 failed of 1036 x2</text>
+<rect x="802" y="341.0" width="146" height="20" rx="3" fill="#edf2f7"><title>6, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="355.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="377.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">7  GCC 8.3, libstdc++ 8, none, Release</text>
+<rect x="352" y="363.0" width="146" height="20" rx="3" fill="#009E73"><title>7, default run, first run: 1777 of 1777 tests passed, 1 run(s)</title></rect>
+<text x="425.0" y="377.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">1777 of 1777</text>
+<rect x="502" y="363.0" width="146" height="20" rx="3" fill="#009E73"><title>7, default run, after the fixes: 1813 of 1813 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="377.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">1813 of 1813</text>
+<rect x="652" y="363.0" width="146" height="20" rx="3" fill="#009E73"><title>7, soak run, first run: 390 of 390 tests passed, 2 run(s)</title></rect>
+<text x="725.0" y="377.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">390 of 390 x2</text>
+<rect x="802" y="363.0" width="146" height="20" rx="3" fill="#edf2f7"><title>7, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="377.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="399.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">8  GCC 13.2, libstdc++ 13, none, Release</text>
+<rect x="352" y="385.0" width="146" height="20" rx="3" fill="#009E73"><title>8, default run, first run: 4109 of 4109 tests passed, 1 run(s)</title></rect>
+<text x="425.0" y="399.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4109 of 4109</text>
+<rect x="502" y="385.0" width="146" height="20" rx="3" fill="#009E73"><title>8, default run, after the fixes: 4183 of 4183 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="399.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">4183 of 4183</text>
+<rect x="652" y="385.0" width="146" height="20" rx="3" fill="#009E73"><title>8, soak run, first run: 1036 of 1036 tests passed, 5 run(s)</title></rect>
+<text x="725.0" y="399.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">1036 of 1036 x5</text>
+<rect x="802" y="385.0" width="146" height="20" rx="3" fill="#edf2f7"><title>8, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="399.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<text x="20.0" y="421.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">fallback  GCC 13.2, libstdc++ 13, none, split count d...</text>
+<rect x="352" y="407.0" width="146" height="20" rx="3" fill="#edf2f7"><title>fallback, default run, first run: not run in this phase</title></rect>
+<text x="425.0" y="421.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<rect x="502" y="407.0" width="146" height="20" rx="3" fill="#009E73"><title>fallback, default run, after the fixes: 503 of 503 tests passed, 1 run(s)</title></rect>
+<text x="575.0" y="421.0" font-size="11" text-anchor="middle" font-weight="600" fill="#ffffff">503 of 503</text>
+<rect x="652" y="407.0" width="146" height="20" rx="3" fill="#edf2f7"><title>fallback, soak run, first run: not run in this phase</title></rect>
+<text x="725.0" y="421.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+<rect x="802" y="407.0" width="146" height="20" rx="3" fill="#edf2f7"><title>fallback, soak run, after the fixes: not run in this phase</title></rect>
+<text x="875.0" y="421.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">not run</text>
+</svg>
