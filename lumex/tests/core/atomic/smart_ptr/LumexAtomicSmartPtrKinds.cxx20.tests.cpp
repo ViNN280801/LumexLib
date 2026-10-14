@@ -40,6 +40,10 @@
 #include "lumex/core/atomic/LumexAtomic"
 #include "lumex/tests/core/atomic/LumexAtomicTestSupport.hpp"
 
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+#include "lumex/core/smart_ptr/LumexSmartPtr"
+#endif
+
 using namespace lumex_atomic_test;
 
 namespace smart_ptr = lumex::core::atomic::smart_ptr;
@@ -89,6 +93,27 @@ exchanges_expired_aliases ()
   pf::weak_ptr<int> expected = wb;
   return atom.compare_exchange_strong (expected, pf::weak_ptr<int> ());
 }
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+/// The same, over the library's own pointers (whatever the pf layer names).
+template <typename Atomic>
+bool
+family_exchanges_expired_aliases ()
+{
+  namespace family = lumex::core::smart_ptr;
+  family::weak_ptr<int> wa;
+  family::weak_ptr<int> wb;
+  {
+    family::shared_ptr<Pair> const owner
+        = family::make_shared<Pair> (Pair{ 10, 20 });
+    wa = family::shared_ptr<int> (owner, &owner->a);
+    wb = family::shared_ptr<int> (owner, &owner->b);
+  }
+  Atomic atom (wa);
+  family::weak_ptr<int> expected = wb;
+  return atom.compare_exchange_strong (expected, family::weak_ptr<int> ());
+}
+#endif
 } // namespace
 
 // Std-only: the test names the engines over std pointers
@@ -111,6 +136,23 @@ TEST (LumexAtomicWeakPtrKindsTest,
 #if LUMEX_ATOMIC_SMART_PTR_HAS_STD_BACKED
   EXPECT_FALSE (exchanges_expired_aliases<
                 smart_ptr::atomic_weak_ptr_std_backed<int>> ());
+#endif
+}
+#endif
+
+#if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
+TEST (
+    LumexAtomicWeakPtrKindsTest,
+    GivenExpiredAliasesWithDifferentPointers_WhenCompareOnFamilyEngines_ThenNoExchange)
+{
+  // The engines over the library's own weak pointer keep the stored pointer
+  // after the object is gone and compare it exactly: two aliases with
+  // different stored pointers are different values.
+  EXPECT_FALSE (family_exchanges_expired_aliases<
+                smart_ptr::atomic_weak_ptr_lock_based_lumex<int>> ());
+#if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
+  EXPECT_FALSE (family_exchanges_expired_aliases<
+                smart_ptr::atomic_weak_ptr_lock_free_split_count<int>> ());
 #endif
 }
 #endif

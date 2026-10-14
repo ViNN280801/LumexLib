@@ -379,6 +379,32 @@ The programs in `lumex/examples/atomic/` show the public members:
 - ThreadSanitizer and AddressSanitizer with LeakSanitizer and UBSan run the stress tests repeatedly with several thread counts.
 - `cmake.atomic_compile_checks` checks `[[nodiscard]]` and, with Clang, the rejected memory orders; `cmake.consumer_atomic_cross_module` checks waking across hidden-visibility shared objects.
 
+## Sanitizer matrix
+
+The split-count suites (`atomic.smart_ptr.split_count.*`) and the family suites of the three test directories (`atomic.`, `atomic.smart_ptr.` and `atomic.sync.`, variants `split_count_engine` and `lock_based_lumex`, C++11 and C++20) were run on the rows below. The default selection is `-R 'atomic\.smart_ptr\.split_count\.|\.(split_count_engine|lock_based_lumex)\.cxx' -LE soak`: 4183 tests (4109 in the first run, which built the family targets of `atomic.smart_ptr.` only; the family targets of `atomic.` and `atomic.sync.` and the engine fallback tests were added since). The soak selection is `-L soak` with the same filter (1036 tests; skipped tests count as passed, the simulator runs only in the C++11 suites). Counts are CTest results.
+
+| Row | Compiler and sanitizers | Default run (no soak) | Soak runs |
+| --- | --- | --- | --- |
+| 1 | GCC 13.2, Debug, ASan + UBSan + LSan | 4183 of 4183 pass | the simulator soak tests (`LumexSplitCountSim.*Soak`, 1028 tests): 0 failed, no UBSan report |
+| 2 | GCC 13.2, Release, ASan + UBSan | 4109 of 4109 before the family targets were added; same UBSan class as rows 3 and 4 fixed since, not repeated | default seed and seed 1111: 1036 of 1036 pass |
+| 3 | Clang 23, libstdc++, Debug, ASan + UBSan | 4183 of 4183 pass | default seed: 1036 of 1036 pass (before the fix) |
+| 4 | Clang 23, libc++, Debug, ASan + UBSan | 4183 of 4183 pass | default seed: 1036 of 1036 pass (before the fix) |
+| 5a | Clang 23, libc++, Debug, TSan | 4183 of 4183 pass | seed 1111: 1036 of 1036 pass |
+| 5b, 5d | Clang 23, Release, TSan (libc++, libstdc++) | run before the fix, not repeated | not repeated |
+| 5c | Clang 23, libstdc++, Debug, TSan | 4183 of 4183 pass | not repeated |
+| 6 | GCC 13.2, Debug, TSan, run under `setarch x86_64 -R` | 4183 of 4183 pass | not repeated |
+| 7 | GCC 8.3, Release, no sanitizer, C++11 targets only | 1813 of 1813 pass | default seed and seed 1111: 390 of 390 pass (before the fix) |
+| 8 | GCC 13.2, Release, no sanitizer, all targets | 4183 of 4183 pass | five soak runs (default seed, 1111, 2222, 3333, 4444): 1036 of 1036 pass each (before the fix) |
+
+The soak runs are not repeated at full size on every row: the sanitizer rows ran the default seed and, on some rows, one more seed (1111); only row 8 ran five. Under ThreadSanitizer the simulator soak tests are skipped (the simulator needs the replaced allocation functions, which the TSan trees do not install), so a TSan soak run executes only a few of the 1036 tests and ends in under a minute; the simulator is covered by rows 1 to 4 and 8.
+
+What the first run found, and what was done about it:
+
+- UBSan (rows 1 to 4): the tests held over-aligned objects where the allocation does not honour the alignment. `thread_counters_t` (`alignas (64)`) lived in a `std::vector` in C++11 (`LumexSplitCountExact.cxx11.tests.cpp`): it is now padded to 64 bytes without `alignas`, which keeps the false-sharing hint and needs no over-aligned allocation. `scenario_world_t` of the simulator (`LumexSplitCountSim.hpp`) lives on the stack, where the fake stack of AddressSanitizer aligns frames to 32 bytes only, so its `alignas (64)` storage member was misplaced: the storage is now aligned by hand inside a plain buffer. The static arenas keep `alignas (64)`. Fixed; the rows are clean.
+- ThreadSanitizer (rows 5 and 6): the family `split_count_engine` targets ran on the inline-assembly backend, which ThreadSanitizer cannot see, and the publication of the control blocks was reported as a race (53 to 54 reports, first frames `ctl_base::anchor ()` against `ctl_base::ctl_base ()`). These targets now define `LUMEX_DWCAS_BACKEND=3` and link `libatomic` in a ThreadSanitizer tree (`lumex/tests/core/atomic/LumexAtomicFamilySplitCount.cmake`), the way the dedicated suites do. Fixed; the rows are clean.
+
+Known limits: ThreadSanitizer covers the built-in backend only (the inline-assembly backend is invisible to it, so the TSan rows use `LUMEX_DWCAS_BACKEND=3`); the hardware `lock cmpxchg16b` path is covered by the ASan and UBSan rows and by the plain rows 7 and 8; MSVC is not covered. A variant of the suites whose engine a build lacks runs the lock-based engine instead and reports a skip that names the engine that ran (`LumexAtomicEngineFallbackTest`).
+
 ## Benchmarks
 
 Contention benchmark with the author's libc++ method: every number is the time per operation divided by the `compare_exchange_strong` of a `std::atomic<std::uint64_t>` timed in the same process with the same threads, the median of 100 interleaved runs (GCC 13.2, libstdc++ 13, Intel Core i7-12700K, 20 logical CPUs).

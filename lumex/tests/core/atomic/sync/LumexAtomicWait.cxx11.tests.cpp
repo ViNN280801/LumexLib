@@ -306,3 +306,12 @@ TEST (LumexBitLockTest,
       EXPECT_EQ (lock.state (), 0u);
     }
 }
+
+/// A variant whose engine the build does not have runs the lock-based engine
+/// instead (LumexAtomicTestSupport.hpp); this test makes that visible as a
+/// skip that names the engine that ran. It passes where the engine exists.
+TEST (LumexAtomicEngineFallbackTest,
+      GivenAVariantOfAnEngine_WhenTheBuildLacksIt_ThenTheRunIsSkippedVisibly)
+{
+  LUMEX_ATOMIC_TEST_SKIP_IF_ENGINE_FELL_BACK ();
+}

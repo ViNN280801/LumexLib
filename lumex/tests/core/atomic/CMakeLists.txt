@@ -56,12 +56,15 @@
 # runs are `*Soak*` tests: left out of the default registration, registered
 # under the label `soak` by -DLUMEX_BUILD_SOAK_TESTS=ON (`ctest -L soak`), or
 # run directly with LUMEX_TEST_SOAK=1 and LUMEX_TEST_SOAK_SECONDS.
+include(${CMAKE_CURRENT_LIST_DIR}/LumexAtomicFamilySplitCount.cmake)
+
 lumex_add_standard_suites(Atomic
     MODULE atomic
     LINK lumex::atomic
     SOURCES LumexAtomicTestSupport.hpp
     DISCOVER_ARGS PROPERTIES TIMEOUT 300 LABELS tsan
     SOAK_FILTER *Soak*
+    TARGETS_VAR _atomic_suites
     VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
     VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE
     VARIANT no_lock_free DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE
@@ -84,12 +87,14 @@ lumex_add_standard_suites(Atomic
         LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_free_split_count
         LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
         LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_SPLIT_COUNT
+        ${LUMEX_ATOMIC_FAMILY_SPLIT_COUNT_DEFINITIONS}
     VARIANT lock_based_lumex DEFINITIONS
         LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_based_lumex
         LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_based_lumex
         LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
         LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LUMEX_FAMILY
 )
+lumex_atomic_family_split_count_link(${_atomic_suites})
 
 add_subdirectory(dwcas)
 add_subdirectory(smart_ptr)
