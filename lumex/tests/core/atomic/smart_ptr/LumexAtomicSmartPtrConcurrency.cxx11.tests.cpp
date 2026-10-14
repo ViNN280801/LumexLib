@@ -10,9 +10,6 @@
 // LUMEX_ATOMIC_STRESS_SCALE (default 1). Races are not deterministic: run the
 // binary several times with several thread counts before trusting a pass.
 
-#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
-// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
-// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <algorithm>
 #include <atomic>
 #include <cstddef>
@@ -42,7 +39,7 @@ struct LoadingDeleter
   void
   operator() (int *p) const
   {
-    std::shared_ptr<int> const current = watch->load ();
+    pf::shared_ptr<int> const current = watch->load ();
     if (current && *current < 0)
       broken->fetch_add (1);
     delete p;
@@ -63,9 +60,9 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
       int const writers = std::max (1, counts[c] / 2);
       int const readers = std::max (1, counts[c] - writers);
       int const iterations = stress_iterations (4000);
-      std::vector<std::shared_ptr<int>> pool;
+      std::vector<pf::shared_ptr<int>> pool;
       for (int i = 0; i < candidate_count; ++i)
-        pool.push_back (std::make_shared<int> (i + 1));
+        pool.push_back (pf::make_shared<int> (i + 1));
       {
         atomic_shared_ptr<int> a (pool[0]);
         std::atomic<bool> stop (false);
@@ -86,7 +83,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                 {
                   while (!stop.load (std::memory_order_relaxed))
                     {
-                      std::shared_ptr<int> const v = a.load ();
+                      pf::shared_ptr<int> const v = a.load ();
                       if (!v || *v < 1 || *v > candidate_count)
                         bad.fetch_add (1);
                       std::this_thread::yield ();
@@ -121,10 +118,10 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
       int const writers = std::max (1, counts[c] / 2);
       int const readers = std::max (1, counts[c] - writers);
       int const iterations = stress_iterations (4000);
-      std::vector<std::shared_ptr<int>> pool;
+      std::vector<pf::shared_ptr<int>> pool;
       for (int i = 0; i < candidate_count; ++i)
-        pool.push_back (std::make_shared<int> (i + 1));
-      atomic_weak_ptr<int> a ((std::weak_ptr<int> (pool[0])));
+        pool.push_back (pf::make_shared<int> (i + 1));
+      atomic_weak_ptr<int> a ((pf::weak_ptr<int> (pool[0])));
       std::atomic<bool> stop (false);
       std::atomic<long> bad (0);
       std::vector<std::thread> writer_threads;
@@ -134,7 +131,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
             [&, w]
               {
                 for (int i = 0; i < iterations; ++i)
-                  a.store (std::weak_ptr<int> (pool[static_cast<std::size_t> (
+                  a.store (pf::weak_ptr<int> (pool[static_cast<std::size_t> (
                       (w + i) % candidate_count)]));
               }));
       for (int r = 0; r < readers; ++r)
@@ -143,7 +140,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               {
                 while (!stop.load (std::memory_order_relaxed))
                   {
-                    std::shared_ptr<int> const v = a.load ().lock ();
+                    pf::shared_ptr<int> const v = a.load ().lock ();
                     if (!v || *v < 1 || *v > candidate_count)
                       bad.fetch_add (1);
                     std::this_thread::yield ();
@@ -177,7 +174,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
       std::atomic<long> broken (0);
       {
         atomic_shared_ptr<Tracker> a (make_counted_tracker (0));
-        atomic_weak_ptr<Tracker> w ((std::weak_ptr<Tracker> (a.load ())));
+        atomic_weak_ptr<Tracker> w ((pf::weak_ptr<Tracker> (a.load ())));
         std::vector<std::thread> threads;
         for (int t = 0; t < threads_count; ++t)
           threads.push_back (std::thread (
@@ -194,7 +191,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                           break;
                         case 1:
                           {
-                            std::shared_ptr<Tracker> const old
+                            pf::shared_ptr<Tracker> const old
                                 = a.exchange (make_counted_tracker (value));
                             if (old && !old->intact ())
                               broken.fetch_add (1);
@@ -202,7 +199,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                           }
                         case 2:
                           {
-                            std::shared_ptr<Tracker> expected = a.load ();
+                            pf::shared_ptr<Tracker> expected = a.load ();
                             a.compare_exchange_strong (
                                 expected, make_counted_tracker (value));
                             if (expected && !expected->intact ())
@@ -211,7 +208,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                           }
                         case 3:
                           {
-                            std::shared_ptr<Tracker> expected = a.load ();
+                            pf::shared_ptr<Tracker> expected = a.load ();
                             for (int k = 0; k < 4; ++k)
                               if (a.compare_exchange_weak (
                                       expected, make_counted_tracker (value),
@@ -222,15 +219,15 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                           }
                         case 4:
                           {
-                            std::shared_ptr<Tracker> const v = a.load ();
+                            pf::shared_ptr<Tracker> const v = a.load ();
                             if (v && !v->intact ())
                               broken.fetch_add (1);
-                            w.store (std::weak_ptr<Tracker> (v));
+                            w.store (pf::weak_ptr<Tracker> (v));
                             break;
                           }
                         case 5:
                           {
-                            std::shared_ptr<Tracker> const v
+                            pf::shared_ptr<Tracker> const v
                                 = w.load ().lock ();
                             if (v && !v->intact ())
                               broken.fetch_add (1);
@@ -238,17 +235,17 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                           }
                         case 6:
                           {
-                            std::weak_ptr<Tracker> expected = w.load ();
+                            pf::weak_ptr<Tracker> expected = w.load ();
                             w.compare_exchange_strong (
-                                expected, std::weak_ptr<Tracker> (a.load ()));
+                                expected, pf::weak_ptr<Tracker> (a.load ()));
                             break;
                           }
                         case 7:
                           {
-                            std::weak_ptr<Tracker> const old = w.exchange (
-                                std::weak_ptr<Tracker> (a.load ()),
+                            pf::weak_ptr<Tracker> const old = w.exchange (
+                                pf::weak_ptr<Tracker> (a.load ()),
                                 std::memory_order_acq_rel);
-                            std::shared_ptr<Tracker> const v = old.lock ();
+                            pf::shared_ptr<Tracker> const v = old.lock ();
                             if (v && !v->intact ())
                               broken.fetch_add (1);
                             break;
@@ -299,13 +296,13 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                         break;
                       case 1:
                         {
-                          std::shared_ptr<int> const old
+                          pf::shared_ptr<int> const old
                               = a.exchange (ledger.make ());
                           break;
                         }
                       default:
                         {
-                          std::shared_ptr<int> expected = a.load ();
+                          pf::shared_ptr<int> expected = a.load ();
                           a.compare_exchange_strong (expected, ledger.make ());
                           break;
                         }
@@ -339,8 +336,8 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
   for (std::size_t c = 0; c < counts.size (); ++c)
     {
       int const iterations = stress_iterations (5000);
-      std::shared_ptr<Tracker> const keep_a = make_counted_tracker (1);
-      std::shared_ptr<Tracker> const keep_b = make_counted_tracker (2);
+      pf::shared_ptr<Tracker> const keep_a = make_counted_tracker (1);
+      pf::shared_ptr<Tracker> const keep_b = make_counted_tracker (2);
       std::atomic<long> swaps (0);
       {
         atomic_shared_ptr<Tracker> a (keep_a);
@@ -351,16 +348,16 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                 {
                   for (int i = 0; i < iterations; ++i)
                     {
-                      std::shared_ptr<Tracker> expected
+                      pf::shared_ptr<Tracker> expected
                           = a.load (std::memory_order_relaxed);
-                      std::shared_ptr<Tracker> const desired
+                      pf::shared_ptr<Tracker> const desired
                           = expected == keep_a ? keep_b : keep_a;
                       if (a.compare_exchange_strong (expected, desired))
                         swaps.fetch_add (1);
                     }
                 }));
         join_all (threads);
-        std::shared_ptr<Tracker> const last = a.load ();
+        pf::shared_ptr<Tracker> const last = a.load ();
         EXPECT_TRUE (last == keep_a || last == keep_b);
       }
       EXPECT_GE (swaps.load (), static_cast<long> (iterations))
@@ -380,8 +377,8 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
       int const swappers = std::max (1, counts[c] / 2);
       int const loaders = std::max (1, counts[c] - swappers);
       int const iterations = stress_iterations (5000);
-      std::shared_ptr<Tracker> const keep_a = make_counted_tracker (1);
-      std::shared_ptr<Tracker> const keep_b = make_counted_tracker (2);
+      pf::shared_ptr<Tracker> const keep_a = make_counted_tracker (1);
+      pf::shared_ptr<Tracker> const keep_b = make_counted_tracker (2);
       std::atomic<long> bad (0);
       std::atomic<long> swaps (0);
       {
@@ -395,8 +392,8 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                 {
                   for (int i = 0; i < iterations; ++i)
                     {
-                      std::shared_ptr<Tracker> expected = a.load ();
-                      std::shared_ptr<Tracker> const desired
+                      pf::shared_ptr<Tracker> expected = a.load ();
+                      pf::shared_ptr<Tracker> const desired
                           = expected == keep_a ? keep_b : keep_a;
                       if (a.compare_exchange_strong (expected, desired))
                         swaps.fetch_add (1);
@@ -408,7 +405,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                 {
                   while (!stop.load (std::memory_order_relaxed))
                     {
-                      std::shared_ptr<Tracker> const v = a.load ();
+                      pf::shared_ptr<Tracker> const v = a.load ();
                       if (v != keep_a && v != keep_b)
                         bad.fetch_add (1);
                     }
@@ -454,14 +451,14 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                 {
                   while (!stop.load (std::memory_order_relaxed))
                     {
-                      std::shared_ptr<Tracker> const v = a.load ();
+                      pf::shared_ptr<Tracker> const v = a.load ();
                       if (!v || !v->intact ())
                         broken.fetch_add (1);
                     }
                 }));
         {
-          std::shared_ptr<Tracker> owner_a = make_counted_tracker (1);
-          std::shared_ptr<Tracker> owner_b = make_counted_tracker (2);
+          pf::shared_ptr<Tracker> owner_a = make_counted_tracker (1);
+          pf::shared_ptr<Tracker> owner_b = make_counted_tracker (2);
           for (int i = 0; i < iterations; ++i)
             a.store ((i & 1) == 0 ? owner_a : owner_b);
           owner_a.reset ();
@@ -488,20 +485,20 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
 {
   // A held expected keeps its object alive, so a new object can never take
   // its address: A -> B -> A succeeds, A -> B -> A' (a new object) fails.
-  std::shared_ptr<int> const a_value = std::make_shared<int> (1);
+  pf::shared_ptr<int> const a_value = pf::make_shared<int> (1);
   atomic_shared_ptr<int> a (a_value);
 
-  std::shared_ptr<int> stale = a.load ();
-  a.store (std::make_shared<int> (2));
+  pf::shared_ptr<int> stale = a.load ();
+  a.store (pf::make_shared<int> (2));
   a.store (a_value);
-  EXPECT_TRUE (a.compare_exchange_strong (stale, std::make_shared<int> (3)))
+  EXPECT_TRUE (a.compare_exchange_strong (stale, pf::make_shared<int> (3)))
       << "the same object came back";
 
-  std::shared_ptr<int> stale_again = a.load ();
-  a.store (std::make_shared<int> (4));
-  a.store (std::make_shared<int> (3)); // equal value, new object
+  pf::shared_ptr<int> stale_again = a.load ();
+  a.store (pf::make_shared<int> (4));
+  a.store (pf::make_shared<int> (3)); // equal value, new object
   EXPECT_FALSE (
-      a.compare_exchange_strong (stale_again, std::make_shared<int> (5)));
+      a.compare_exchange_strong (stale_again, pf::make_shared<int> (5)));
   EXPECT_EQ (*stale_again, 3);
 }
 
@@ -515,7 +512,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
   for (std::size_t c = 0; c < counts.size (); ++c)
     {
       int const iterations = stress_iterations (4000);
-      std::vector<std::shared_ptr<Tracker>> owners;
+      std::vector<pf::shared_ptr<Tracker>> owners;
       for (int i = 0; i < 3; ++i)
         owners.push_back (make_counted_tracker (i));
       std::atomic<long> successes (0);
@@ -527,10 +524,10 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               [&, t]
                 {
                   Random random (seed + 7u * static_cast<std::uint32_t> (t));
-                  std::shared_ptr<Tracker> stale = a.load ();
+                  pf::shared_ptr<Tracker> stale = a.load ();
                   for (int i = 0; i < iterations; ++i)
                     {
-                      std::shared_ptr<Tracker> const next
+                      pf::shared_ptr<Tracker> const next
                           = owners[random.next () % 3u];
                       // A deliberately stale expected: ABA makes it succeed
                       // now and then, and a failure refreshes it.
@@ -572,8 +569,8 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
       Random random (seed + static_cast<std::uint32_t> (counts[c]));
       for (int r = 0; r < rounds; ++r)
         {
-          std::shared_ptr<Tracker> owner = make_counted_tracker (r);
-          atomic_weak_ptr<Tracker> w ((std::weak_ptr<Tracker> (owner)));
+          pf::shared_ptr<Tracker> owner = make_counted_tracker (r);
+          atomic_weak_ptr<Tracker> w ((pf::weak_ptr<Tracker> (owner)));
           std::atomic<bool> stop (false);
           std::vector<std::thread> threads;
           for (int t = 0; t < readers; ++t)
@@ -582,12 +579,12 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                   {
                     while (!stop.load (std::memory_order_relaxed))
                       {
-                        std::shared_ptr<Tracker> const v = w.load ().lock ();
+                        pf::shared_ptr<Tracker> const v = w.load ().lock ();
                         if (!v)
                           empties.fetch_add (1);
                         else if (!v->intact ())
                           broken.fetch_add (1);
-                        std::weak_ptr<Tracker> expected = w.load ();
+                        pf::weak_ptr<Tracker> expected = w.load ();
                         w.compare_exchange_weak (expected, expected);
                       }
                   }));
@@ -632,9 +629,9 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                     {
                       // The object dies at the end of the iteration, so the
                       // stored weak pointer expires while others use it.
-                      std::shared_ptr<Tracker> const object
+                      pf::shared_ptr<Tracker> const object
                           = make_counted_tracker (p * iterations + i);
-                      w.store (std::weak_ptr<Tracker> (object));
+                      w.store (pf::weak_ptr<Tracker> (object));
                       if ((i & 3) == 0)
                         w.notify_all ();
                     }
@@ -645,12 +642,12 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                 {
                   while (!stop.load (std::memory_order_relaxed))
                     {
-                      std::shared_ptr<Tracker> const v = w.load ().lock ();
+                      pf::shared_ptr<Tracker> const v = w.load ().lock ();
                       if (v && !v->intact ())
                         broken.fetch_add (1);
-                      std::weak_ptr<Tracker> expected = w.load ();
+                      pf::weak_ptr<Tracker> expected = w.load ();
                       w.compare_exchange_strong (expected,
-                                                 std::weak_ptr<Tracker> ());
+                                                 pf::weak_ptr<Tracker> ());
                     }
                 }));
         join_all (producer_threads);
@@ -685,13 +682,12 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               {
                 for (int i = 0; i < iterations; ++i)
                   {
-                    std::shared_ptr<int> const value (new int (t + i),
-                                                      deleter);
+                    pf::shared_ptr<int> const value (new int (t + i), deleter);
                     if ((i & 1) == 0)
                       a.store (value);
                     else
                       {
-                        std::shared_ptr<int> expected = a.load ();
+                        pf::shared_ptr<int> expected = a.load ();
                         a.compare_exchange_strong (expected, value);
                       }
                   }
@@ -714,7 +710,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
     {
       int const consumers = std::max (1, counts[c] - 1);
       int const versions = stress_iterations (500);
-      atomic_shared_ptr<int> a (std::make_shared<int> (0));
+      atomic_shared_ptr<int> a (pf::make_shared<int> (0));
       std::atomic<long> non_monotonic (0);
       std::vector<std::thread> consumer_threads;
       for (int q = 0; q < consumers; ++q)
@@ -724,7 +720,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                 int last = -1;
                 for (;;)
                   {
-                    std::shared_ptr<int> const current = a.load ();
+                    pf::shared_ptr<int> const current = a.load ();
                     if (*current < last)
                       non_monotonic.fetch_add (1);
                     last = *current;
@@ -735,7 +731,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               }));
       for (int v = 1; v <= versions; ++v)
         {
-          a.store (std::make_shared<int> (v));
+          a.store (pf::make_shared<int> (v));
           a.notify_all ();
           if (v % 50 == 0)
             sleep_ms (1); // let the consumers fall asleep now and then
@@ -754,9 +750,9 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
     {
       int const consumers = std::max (1, counts[c] - 1);
       int const versions = stress_iterations (300);
-      std::vector<std::shared_ptr<int>> keep;
-      keep.push_back (std::make_shared<int> (0));
-      atomic_weak_ptr<int> a ((std::weak_ptr<int> (keep.back ())));
+      std::vector<pf::shared_ptr<int>> keep;
+      keep.push_back (pf::make_shared<int> (0));
+      atomic_weak_ptr<int> a ((pf::weak_ptr<int> (keep.back ())));
       std::atomic<int> done (0);
       std::vector<std::thread> consumer_threads;
       for (int q = 0; q < consumers; ++q)
@@ -765,8 +761,8 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               {
                 for (;;)
                   {
-                    std::weak_ptr<int> const current = a.load ();
-                    std::shared_ptr<int> const locked = current.lock ();
+                    pf::weak_ptr<int> const current = a.load ();
+                    pf::shared_ptr<int> const locked = current.lock ();
                     if (locked && *locked == versions)
                       break;
                     a.wait (current);
@@ -775,8 +771,8 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               }));
       for (int v = 1; v <= versions; ++v)
         {
-          keep.push_back (std::make_shared<int> (v));
-          a.store (std::weak_ptr<int> (keep.back ()));
+          keep.push_back (pf::make_shared<int> (v));
+          a.store (pf::weak_ptr<int> (keep.back ()));
           a.notify_one ();
           if (v % 50 == 0)
             sleep_ms (1);
@@ -792,5 +788,3 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
       EXPECT_EQ (done.load (), consumers);
     }
 }
-
-#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

@@ -1,6 +1,3 @@
-#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
-// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
-// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 /*
  * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
  *
@@ -49,6 +46,9 @@ using namespace lumex_atomic_test;
 
 namespace smart_ptr = lumex::core::atomic::smart_ptr;
 
+// Std-only: the differential run is against std::atomic<std::shared_ptr<T>>
+// and the std-pointer engines, which the pointer family does not share.
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
 #if LUMEX_HAS_STD_ATOMIC_SHARED_PTR
 namespace
 {
@@ -139,5 +139,4 @@ TEST (LumexAtomicSmartPtrConfigTest,
       << "the standard library has no std::atomic<std::shared_ptr<T>>";
 #endif
 }
-
-#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+#endif

@@ -32,9 +32,10 @@
 # The suites never spell std::shared_ptr: LumexAtomicTestPointerFamily.hpp
 # (the pf layer, with the table old spelling -> new spelling) names the
 # pointers, so one source runs on std:: and on lumex::core::smart_ptr. A file
-# that still spells std:: pointers is wrapped in a guard marked
-# POINTER-FAMILY-PORT-PENDING and is skipped by the two variants of the
-# library's own family.
+# that is about the standard pointers or about one engine of another family is
+# wrapped in a guard with a `// Std-only:` comment (LumexAtomicSmartPtrLockFree
+# and the differential run of Config.cxx20) or the single test is guarded the
+# same way, and the two variants of the library's own family skip it.
 # The split-count engine has its own module key and its own directory,
 # split_count/ (added at the end of this file).
 #

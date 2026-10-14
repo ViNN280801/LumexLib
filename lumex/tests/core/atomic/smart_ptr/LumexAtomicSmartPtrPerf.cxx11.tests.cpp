@@ -3,9 +3,6 @@
 // sleep or spin far more than it should (for example a lock that always
 // parks). Release builds without sanitizers only; elsewhere the cases skip.
 
-#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
-// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
-// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 #include <atomic>
 #include <chrono>
 #include <memory>
@@ -24,15 +21,15 @@ TEST (LumexAtomicSmartPtrPerfTest,
 {
 #if LUMEX_PERF_WALL_CLOCK_ENABLED
   int const rounds = 100000;
-  std::shared_ptr<int> const a_value = std::make_shared<int> (1);
-  std::shared_ptr<int> const b_value = std::make_shared<int> (2);
+  pf::shared_ptr<int> const a_value = pf::make_shared<int> (1);
+  pf::shared_ptr<int> const b_value = pf::make_shared<int> (2);
   atomic_shared_ptr<int> a (a_value);
   std::chrono::steady_clock::time_point const start
       = std::chrono::steady_clock::now ();
   long checksum = 0;
   for (int i = 0; i < rounds; ++i)
     {
-      std::shared_ptr<int> expected = a.load ();
+      pf::shared_ptr<int> expected = a.load ();
       checksum += *expected;
       a.compare_exchange_strong (expected, (i & 1) == 0 ? b_value : a_value);
       a.store (a.exchange (a_value));
@@ -54,7 +51,7 @@ TEST (LumexAtomicSmartPtrPerfTest,
 {
 #if LUMEX_PERF_WALL_CLOCK_ENABLED
   int const rounds = 50000;
-  atomic_shared_ptr<int> a (std::make_shared<int> (0));
+  atomic_shared_ptr<int> a (pf::make_shared<int> (0));
   std::chrono::steady_clock::time_point const start
       = std::chrono::steady_clock::now ();
   std::thread other (
@@ -76,5 +73,3 @@ TEST (LumexAtomicSmartPtrPerfTest,
   GTEST_SKIP () << "wall-clock budgets run in Release without sanitizers";
 #endif
 }
-
-#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX

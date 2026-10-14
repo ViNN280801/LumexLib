@@ -1,6 +1,3 @@
-#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
-// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
-// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 /*
  * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
  *
@@ -47,15 +44,18 @@ using namespace lumex_atomic_test;
 
 namespace smart_ptr = lumex::core::atomic::smart_ptr;
 
+// Std-only: make_shared for arrays (C++20) is not provided by the library
+// pointer family
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
 TEST (LumexAtomicSharedPtrKindsTest,
       GivenMakeSharedForAnArray_WhenStored_ThenElementsAreReachable)
 {
 #if defined(__cpp_lib_shared_ptr_arrays)                                      \
     && __cpp_lib_shared_ptr_arrays >= 201707L
-  atomic_shared_ptr<double[]> atom (std::make_shared<double[]> (4, 0.25));
+  atomic_shared_ptr<double[]> atom (pf::make_shared<double[]> (4, 0.25));
   EXPECT_EQ (atom.load ()[3], 0.25);
-  std::shared_ptr<double[]> const previous
-      = atom.exchange (std::make_shared<double[]> (2));
+  pf::shared_ptr<double[]> const previous
+      = atom.exchange (pf::make_shared<double[]> (2));
   EXPECT_EQ (previous[0], 0.25);
   EXPECT_EQ (atom.load ()[1], 0.0);
 #else
@@ -63,6 +63,7 @@ TEST (LumexAtomicSharedPtrKindsTest,
       << "make_shared for arrays needs __cpp_lib_shared_ptr_arrays >= 201707";
 #endif
 }
+#endif
 
 namespace
 {
@@ -77,20 +78,23 @@ template <typename Atomic>
 bool
 exchanges_expired_aliases ()
 {
-  std::weak_ptr<int> wa;
-  std::weak_ptr<int> wb;
+  pf::weak_ptr<int> wa;
+  pf::weak_ptr<int> wb;
   {
-    std::shared_ptr<Pair> const owner
-        = std::make_shared<Pair> (Pair{ 10, 20 });
-    wa = std::shared_ptr<int> (owner, &owner->a);
-    wb = std::shared_ptr<int> (owner, &owner->b);
+    pf::shared_ptr<Pair> const owner = pf::make_shared<Pair> (Pair{ 10, 20 });
+    wa = pf::shared_ptr<int> (owner, &owner->a);
+    wb = pf::shared_ptr<int> (owner, &owner->b);
   }
   Atomic atom (wa);
-  std::weak_ptr<int> expected = wb;
-  return atom.compare_exchange_strong (expected, std::weak_ptr<int> ());
+  pf::weak_ptr<int> expected = wb;
+  return atom.compare_exchange_strong (expected, pf::weak_ptr<int> ());
 }
 } // namespace
 
+// Std-only: the test names the engines over std pointers
+// (atomic_weak_ptr_lock_based, _lock_free, _std_backed), not the variant
+// engine
+#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
 TEST (LumexAtomicWeakPtrKindsTest,
       GivenExpiredAliasesWithDifferentPointers_WhenCompare_ThenPerEngine)
 {
@@ -109,5 +113,4 @@ TEST (LumexAtomicWeakPtrKindsTest,
                 smart_ptr::atomic_weak_ptr_std_backed<int>> ());
 #endif
 }
-
-#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+#endif
