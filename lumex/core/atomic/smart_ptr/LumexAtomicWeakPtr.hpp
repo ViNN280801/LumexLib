@@ -58,7 +58,9 @@
  * every engine, read it through `lock ()`. When the object is already
  * gone, two weak pointers with the same owner count as equivalent even if
  * they were made from aliasing shared pointers to different subobjects; the
- * standard types compare those stored pointers.
+ * standard types compare those stored pointers. The engines over
+ * `lumex::core::smart_ptr::weak_ptr` do the same: that pointer keeps its
+ * stored pointer after the object is gone, so they compare it too.
  *
  * The templates are declared only in `lumex::core::atomic::smart_ptr`;
  * nothing is added to the global namespace.

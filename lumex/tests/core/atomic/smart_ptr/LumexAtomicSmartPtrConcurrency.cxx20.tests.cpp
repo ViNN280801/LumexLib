@@ -1,6 +1,3 @@
-#if !defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
-// POINTER-FAMILY-PORT-PENDING: spelled with std:: pointers; port it by the
-// table in LumexAtomicTestSupport.hpp, then delete this guard and its #endif.
 /*
  * Copyright (c) 2026 Vladislav Semykin <vladislav.semykin@gmail.com>
  *
@@ -86,7 +83,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                         a.exchange (make_counted_tracker (i));
                       else
                         {
-                          std::shared_ptr<Tracker> const v = a.load ();
+                          pf::shared_ptr<Tracker> const v = a.load ();
                           EXPECT_TRUE (v && v->intact ());
                         }
                     }
@@ -119,7 +116,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               {
                 while (!stop.stop_requested ())
                   {
-                    std::shared_ptr<Tracker> const v = a.load ();
+                    pf::shared_ptr<Tracker> const v = a.load ();
                     if (!v || !v->intact ())
                       broken.fetch_add (1);
                   }
@@ -134,5 +131,3 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
   GTEST_SKIP () << "std::jthread needs __cpp_lib_jthread";
 #endif
 }
-
-#endif // !LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
