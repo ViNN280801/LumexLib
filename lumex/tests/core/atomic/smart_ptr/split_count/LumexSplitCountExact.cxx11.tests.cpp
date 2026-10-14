@@ -629,11 +629,19 @@ TEST (
 
 // -- (f) the randomized never-below checker --
 
-struct alignas (64) thread_counters_t
+/// Padded to a cache line so that the counters of two threads do not share
+/// one (a performance hint only). It is not `alignas (64)`: the objects live
+/// in a std::vector, and before C++17 the allocator does not honor an
+/// over-alignment, which is undefined behavior.
+struct thread_counters_t
 {
   std::atomic<long> returned;
   std::atomic<long> released;
+  unsigned char pad[64 - 2 * sizeof (std::atomic<long>)];
 };
+
+static_assert (sizeof (thread_counters_t) == 64,
+               "one thread's counters fill a cache line");
 
 /// One thread holds P and samples `use_count ()`; loaders keep what they
 /// load in small slots with counters around them. Every sample must be at

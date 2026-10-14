@@ -2350,9 +2350,9 @@ public:
     {
       strong_t const initial = alias_strong (base, def_->cell);
       if (weak_engine_)
-        cell_ = info_.create_weak (storage_, weak_t (initial));
+        cell_ = info_.create_weak (storage (), weak_t (initial));
       else
-        cell_ = info_.create_shared (storage_, initial);
+        cell_ = info_.create_shared (storage (), initial);
     }
     for (int s = 0; s < 6; ++s)
       {
@@ -2520,8 +2520,23 @@ public:
 private:
   enum
   {
-    storage_bytes = 128
+    storage_bytes = 128,
+    storage_align = 64
   };
+
+  /// The cell storage, aligned to storage_align inside storage_raw_. The
+  /// world lives on the stack of the test, where an over-aligned member is
+  /// not honored by every sanitizer runtime (the fake stack of
+  /// AddressSanitizer aligns frames to 32 bytes only), so the alignment is
+  /// made by hand.
+  void *
+  storage ()
+  {
+    std::uintptr_t const raw = reinterpret_cast<std::uintptr_t> (storage_raw_);
+    std::uintptr_t const mask
+        = static_cast<std::uintptr_t> (storage_align) - 1u;
+    return reinterpret_cast<void *> ((raw + mask) & ~mask);
+  }
 
   bool
   aborted_run () const
@@ -4470,7 +4485,7 @@ private:
   bool weak_engine_;
   cell_ops_t *cell_;
   ::lumex::core::atomic::dwcas::dwcas_word const *word_;
-  alignas (64) unsigned char storage_[storage_bytes];
+  unsigned char storage_raw_[storage_bytes + storage_align];
   thread_rt_t rt_[max_threads];
   snapshot_t snap_[max_threads];
   gcell_t gc_;

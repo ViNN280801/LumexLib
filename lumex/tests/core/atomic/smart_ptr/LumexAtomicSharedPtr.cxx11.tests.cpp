@@ -777,3 +777,12 @@ TYPED_TEST (LumexAtomicSharedPtrTest,
   EXPECT_TRUE (same_owner_and_pointer (a.load (), p));
   EXPECT_EQ (p.use_count (), 2L);
 }
+
+/// A variant whose engine the build does not have runs the lock-based engine
+/// instead (LumexAtomicTestSupport.hpp); this test makes that visible as a
+/// skip that names the engine that ran. It passes where the engine exists.
+TEST (LumexAtomicEngineFallbackTest,
+      GivenAVariantOfAnEngine_WhenTheBuildLacksIt_ThenTheRunIsSkippedVisibly)
+{
+  LUMEX_ATOMIC_TEST_SKIP_IF_ENGINE_FELL_BACK ();
+}

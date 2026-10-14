@@ -42,10 +42,13 @@
  * @brief The pointer-family layer of the atomic smart pointer tests: which
  * shared and weak pointers the suites hold their values in.
  * @details Included by every shared header of the suites. A variant of the
- * library's own family defines `LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX`; where
- * the engine of that variant does not exist the macro is dropped here, so the
- * suite then runs on the standard pointers (the engine macros fall back in
- * `LumexAtomicTestSupport.hpp` under the same conditions).
+ * library's own family defines `LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX`; the
+ * macro is dropped here only where the library has no family at all
+ * (`LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY` is 0), so the suite then runs on
+ * the standard pointers. Where only the split-count engine is missing the
+ * family is kept and the engine macros fall back to the lock-based engine
+ * over the family (`LumexAtomicTestSupport.hpp`, which reads the macro after
+ * this header decided it).
  */
 #ifndef LUMEX_TESTS_CORE_ATOMIC_ATOMIC_TEST_POINTER_FAMILY_HPP
 #define LUMEX_TESTS_CORE_ATOMIC_ATOMIC_TEST_POINTER_FAMILY_HPP
@@ -58,10 +61,7 @@
 #include "lumex/tests/support/LumexTestReusePool.hpp"
 
 #if defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)                           \
-    && ((defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_SPLIT_COUNT)               \
-         && !LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT)                          \
-        || (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LUMEX_FAMILY)           \
-            && !LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY))
+    && !LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY
 #undef LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
 #endif
 
@@ -106,10 +106,14 @@ namespace lumex_atomic_test
  * array forms of `make_shared` / `allocate_shared` (C++20), which the
  * library's family does not provide; those files stay on the standard
  * pointers and are not part of a variant of the library's family.
- * Inside the suites, `use_count ()` of the library's family is
- * `count + ext` (never below the number of owners, exact only when nothing
- * is in flight on that atomic); where a test needs an exact count while
- * other threads operate on the same atomic it uses `pf::use_count_settled`.
+ * `use_count ()` of the library's family is `count + ext` (never below the
+ * number of owners, exact only when nothing is in flight on that atomic).
+ * The present suites read it only at rest or after the threads were joined,
+ * where it is exact on both families. `pf::use_count_settled` is there for a
+ * test that needs an exact count while other threads still operate on the
+ * same atomic, and `pf::is_lumex_family` and `pf::owner_less` for a test
+ * that must tell the families apart or order owners; no suite needs them
+ * yet.
  */
 namespace pf
 {

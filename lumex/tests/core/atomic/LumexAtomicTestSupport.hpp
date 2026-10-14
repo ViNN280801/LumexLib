@@ -102,10 +102,19 @@
 // makes it release what it holds in LUMEX_ATOMIC_TEST_ENGINE_QUIESCE (for
 // example `lumex::core::hazard_pointer::clean_up ()`).
 // A variant that names an engine a build may not have says so with
-// LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE or _REQUIRES_STD_BACKED; where
-// the engine does not exist the suite runs on the lock-based engine instead
-// (the engine still gets tested by every build that has it, and the suite
-// stays valid on the others, for example C++20 with libc++).
+// LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE, _REQUIRES_STD_BACKED,
+// _REQUIRES_SPLIT_COUNT or _REQUIRES_LUMEX_FAMILY; where the engine does not
+// exist the suite runs on the lock-based engine instead (the engine still
+// gets tested by every build that has it, and the suite stays valid on the
+// others, for example C++20 with libc++). Where only the split-count engine
+// is missing and the library's own family exists, that is the lock-based
+// engine over the family (`atomic_shared_ptr_lock_based_lumex`), so the
+// variant keeps its pointers. The fallback is announced by
+// LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK (1) and
+// LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK_NAME (the engine that ran), which
+// `GivenAVariantOfAnEngine_WhenItFellBack_ThenTheRunIsSkippedVisibly` of the
+// directory's suite reads, so a passing run under the name of an engine that
+// did not run shows as a skip.
 #if (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LOCK_FREE)                     \
      && !LUMEX_ATOMIC_SMART_PTR_HAS_LOCK_FREE)                                \
     || (defined(LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED)                 \
@@ -118,12 +127,31 @@
 #undef LUMEX_ATOMIC_TEST_WEAK_ENGINE
 #undef LUMEX_ATOMIC_TEST_ENGINE_ARGS
 #undef LUMEX_ATOMIC_TEST_ENGINE_DEFERS_DESTRUCTION
+#if defined(LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX)
+#define LUMEX_ATOMIC_TEST_SHARED_ENGINE atomic_shared_ptr_lock_based_lumex
+#define LUMEX_ATOMIC_TEST_WEAK_ENGINE atomic_weak_ptr_lock_based_lumex
+#define LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK_NAME                               \
+  "atomic_shared_ptr_lock_based_lumex"
+#else
 #define LUMEX_ATOMIC_TEST_SHARED_ENGINE atomic_shared_ptr_lock_based
 #define LUMEX_ATOMIC_TEST_WEAK_ENGINE atomic_weak_ptr_lock_based
+#define LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK_NAME "atomic_shared_ptr_lock_based"
+#endif
 #define LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK 1
 #endif
 #if !defined(LUMEX_ATOMIC_TEST_SHARED_ENGINE)
 #define LUMEX_ATOMIC_TEST_SHARED_ENGINE atomic_shared_ptr
+#endif
+// The body of the one test per suite that makes a fallback visible: it skips
+// (with the name of the engine that ran) where the variant fell back, and
+// passes silently otherwise.
+#if defined(LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK)
+#define LUMEX_ATOMIC_TEST_SKIP_IF_ENGINE_FELL_BACK()                          \
+  GTEST_SKIP () << "the engine does not exist in this build: this variant "   \
+                   "ran the "                                                 \
+                << LUMEX_ATOMIC_TEST_ENGINE_FELL_BACK_NAME << " engine"
+#else
+#define LUMEX_ATOMIC_TEST_SKIP_IF_ENGINE_FELL_BACK() SUCCEED ()
 #endif
 #if !defined(LUMEX_ATOMIC_TEST_WEAK_ENGINE)
 #define LUMEX_ATOMIC_TEST_WEAK_ENGINE atomic_weak_ptr
