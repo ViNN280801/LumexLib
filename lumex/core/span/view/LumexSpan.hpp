@@ -706,7 +706,7 @@ public:
   // -- Element access --
   /**
    * @brief The element at `index`.
-   * @pre `index < m_storage.size ()`.
+   * @pre `index < size ()`.
    * @param index The index.
    * @return A reference to the element.
    */

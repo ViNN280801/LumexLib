@@ -54,8 +54,10 @@
  *   libc++);
  * - the standard library of MSVC: `std::_Vector_iterator`,
  *   `std::_Vector_const_iterator`, `std::_String_iterator`,
- *   `std::_String_const_iterator`, `std::_Array_iterator` and
- *   `std::_Array_const_iterator`.
+ *   `std::_String_const_iterator`, `std::_Array_iterator`,
+ *   `std::_Array_const_iterator` and, under `_HAS_CXX17`,
+ *   `std::_String_view_iterator<Traits>` (the iterator of
+ *   `std::basic_string_view`).
  * Each of them holds a pointer (or, for the bounded ones of libc++, an
  * iterator that is contiguous itself) and moves it by pointer arithmetic, so
  * `*it` and `*(it + n)` are `n` elements apart: the promise the trait makes.
@@ -68,9 +70,9 @@
  * pointer iterators of `std::array` and `std::basic_string_view` in
  * libstdc++, and the begin and end of a `std::valarray` and of a
  * `std::initializer_list`, are raw pointers and need nothing.
- * The names of the standard libraries are private to them; the part for MSVC
- * follows the declarations of its headers and is not compiled by the tests of
- * this library.
+ * The names of the standard libraries are private to them: the parts follow
+ * the declarations of their headers, and the tests of this library compile the
+ * part for MSVC with cl.exe and clang-cl.
  */
 #ifndef LUMEX_CORE_SPAN_VIEW_SPAN_STD_ITERATORS_HPP
 #define LUMEX_CORE_SPAN_VIEW_SPAN_STD_ITERATORS_HPP

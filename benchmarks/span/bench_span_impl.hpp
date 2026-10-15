@@ -22,12 +22,16 @@
 #if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX || BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX_CHECKS
 
 // The checks are fixed by the variant, whatever the build type says.
-#ifndef LUMEX_SPAN_CHECKS
 #if BENCH_SPAN_IMPL == BENCH_SPAN_LUMEX_CHECKS
-#define LUMEX_SPAN_CHECKS 1
+#define BENCH_SPAN_EXPECTED_CHECKS 1
 #else
-#define LUMEX_SPAN_CHECKS 0
+#define BENCH_SPAN_EXPECTED_CHECKS 0
 #endif
+#ifndef LUMEX_SPAN_CHECKS
+#define LUMEX_SPAN_CHECKS BENCH_SPAN_EXPECTED_CHECKS
+#elif LUMEX_SPAN_CHECKS != BENCH_SPAN_EXPECTED_CHECKS
+// An outside -DLUMEX_SPAN_CHECKS would label the numbers with the wrong variant.
+#error "LUMEX_SPAN_CHECKS contradicts BENCH_SPAN_IMPL: variant 1 has the checks off, variant 4 on"
 #endif
 #include "lumex/core/span/LumexSpan"
 #if __cplusplus >= 202002L && defined(__has_include)
