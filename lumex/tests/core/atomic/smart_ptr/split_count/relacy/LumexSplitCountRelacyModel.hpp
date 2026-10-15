@@ -160,7 +160,9 @@ static const u64 far_offset = 0x1000;
  * (101 to 105, 331, 332) change one function. The mutants 201 to 203 change
  * the reserve of the compare-exchange instead of an order: the surplus of the
  * successful swap is one too big (201), the strong form keeps its deposit but
- * does not top it up (202), the deposit of the holder path is one short (203).
+ * does not top it up (202), the deposit of the holder path is one short (203),
+ * and the strong form never keeps its deposit (204: the balance still holds,
+ * only the coverage requirements of `run_model` fail).
  */
 namespace orders
 {
@@ -613,6 +615,17 @@ public:
   {
     return compare_exchange_strong (expected, desired, order,
                                     failure_order (order));
+  }
+
+  /// The weak form: one attempt; a failed attempt withdraws its whole
+  /// deposit.
+  bool
+  compare_exchange_weak (sp_t &expected, sp_t desired, mo_t order)
+  {
+    bool const swapped = compare_exchange (expected, desired, true, order,
+                                           failure_order (order));
+    drop_ptr (desired);
+    return swapped;
   }
 
 private:
@@ -1161,7 +1174,8 @@ private:
                                   + (mutant == 201 ? 1u : 0u)); // M201
                     return true;
                   }
-                if (k != 0u && !weak && word::same_value (found, want))
+                if (k != 0u && !weak && mutant != 204
+                    && word::same_value (found, want))
                   {
                     unsigned const need = cas_ticks (found);
                     cover (cover_cas_keep);
@@ -1469,6 +1483,47 @@ scheduler_name (rl::scheduler_type_e scheduler)
                                                               : "full";
 }
 
+/// A step that a model exists to reach: when a search of the model ends
+/// without having reached it, the run fails (a model whose branch is
+/// unreachable proves nothing about it).
+struct cover_requirement_t
+{
+  char const *model;
+  int cover;
+};
+
+inline cover_requirement_t const *
+cover_requirements (std::size_t &count)
+{
+  static cover_requirement_t const table[]
+      = { { "block.cas_load_store/k2", cover_cas_keep },
+          { "block.cas_load_store/k2", cover_cas_topup },
+          { "block.cas_load/k2", cover_cas_keep },
+          { "block.cas_weak_load_store/k2", cover_cas_swap },
+          { "block.cas_weak_load_store/k2", cover_cas_withdraw } };
+  count = sizeof (table) / sizeof (table[0]);
+  return table;
+}
+
+/// Prints the requirements of @p name that the last search did not meet;
+/// true when all were met.
+inline bool
+cover_requirements_met (char const *name)
+{
+  std::size_t count = 0;
+  cover_requirement_t const *const table = cover_requirements (count);
+  bool met = true;
+  for (std::size_t i = 0; i != count; ++i)
+    if (std::string (name) == table[i].model
+        && cover_counts ()[table[i].cover] == 0)
+      {
+        std::cout << "COVERAGE FAILED (model " << name << " never reached "
+                  << cover_name (table[i].cover) << ")" << std::endl;
+        met = false;
+      }
+  return met;
+}
+
 /// Runs @p Test with @p search; prints the report lines.
 template <typename Test>
 inline bool
@@ -1486,12 +1541,14 @@ run_model (char const *name, search_t const &search)
             << " iterations=" << search.iterations
             << " bound=" << params.context_bound << " mutant=" << mutant
             << " counter=" << (tsan_counter ? "tsan" : "default") << std::endl;
-  bool const ok = rl::simulate<Test> (params);
+  bool ok = rl::simulate<Test> (params);
   std::cout << "reached:";
   for (int c = 0; c != cover_count; ++c)
     if (cover_counts ()[c] != 0)
       std::cout << ' ' << cover_name (c) << '=' << cover_counts ()[c];
   std::cout << std::endl;
+  if (ok && !cover_requirements_met (name))
+    ok = false;
   std::cout << (ok ? "RESULT pass " : "RESULT FAIL ") << name << std::endl;
   return ok;
 }
