@@ -30,7 +30,7 @@ The words are those of the README: a *tick* is a pin of a loader on the installa
 
 What is not claimed:
 
-- Wait-freedom or starvation-freedom. A writer can lose its swap again and again under a read-heavy load; only the rate of stores under that load was measured (section "Benchmarks").
+- Wait-freedom or starvation-freedom. A writer can lose its swap again and again under a read-heavy load; the rate of stores under that load and the time of every single store were measured (section "Benchmarks"); a bound seen on one machine is not a proof.
 - That `use_count ()` is exact while an operation on the same atomic is in flight (the windows of G2), or that a count read without a lock is stable: it is a never-below bound, not a snapshot.
 - Correctness on a platform that was not run: the engine does not exist off x86-64; the recorded Windows work is a clang-cl run and an MSVC build (section "What the verification does not show"), not a result of every layer; the Relacy models were built with GCC and Clang only; a CPU without CMPXCHG16B terminates the program at the first use.
 - That the code is free of defects. Tests, simulations and models find the defects they are shaped to find. A search of a model under the C++11 memory model is bounded, and its random part is evidence, not proof.
@@ -529,7 +529,7 @@ Measured strengths:
 - Faster than the lock-based engine over the same pointer for `store ()` and `exchange ()` with 4 or more threads (3.5 against 5.8 at 4 threads, 3.5 against 12.9 at 20), for `compare_exchange_strong ()` from 8 threads (16.0 against 19.2; 22.2 against 31.1 at 20), and, at 12 threads and more, for `load ()` against the C++20 build of the lock-based engine (9.1 against 12.2 at 20 threads; the C++11 build of the lock-based engine, 8.0, is ahead). Uncontended `store ()` and `exchange ()` are 9 to 12 % cheaper (18.3 and 19.2 ns against 20.9 and 21.1).
 - Faster than `std::atomic<std::shared_ptr>` of libstdc++ 13 from 8 threads on (at 20 threads 3.4 times for `load ()`, 5.6 for `store ()`, 6.5 for `exchange ()`, 3.1 for `compare_exchange_strong ()`, as the quotient of the two median ratios), and flat from 20 to 60 threads on 20 CPUs where the standard type grows to 98 for `load ()`.
 - The replaced value is destroyed within 0.8 us at the 99th percentile with 3 reader threads; the box engine's 99th percentile is 892 us.
-- Writers are not starved by readers in the read-heavy run (one writer, up to 19 readers, and up to 60 threads on 20 CPUs): the writer keeps storing, 0.5 million stores per second at 20 threads. The longest wait of a single store was not measured.
+- Writers are not starved by readers in the read-heavy run (one writer, up to 19 readers, and up to 60 threads on 20 CPUs): the writer keeps storing, 0.5 million stores per second at 20 threads. The longest single store seen under that load was 54 ms for the split-count engine (one writer, 40 repetitions of 100000 timed stores per thread count, 2 to 60 threads); at 8 threads and more every store of the split-count and lock-based series over 1 ms was followed by an involuntary context switch of the writer, with at most one exception per cell, while `std::atomic` and the box engine had stores over 1 ms without one (a bound observed on this machine, not a proof of starvation freedom).
 
 Measured weaknesses:
 
@@ -612,7 +612,7 @@ Thirty-eight mutations of the protocol were written down before the engine was t
 - **Survivors and gaps.** M25 survives V4 and is argued not to matter on x86-64; M9 survives under the library counter because the counter fence masks it, and is caught under the ThreadSanitizer counter; M14b (V2) is an equivalent mutant; N11 (V2) survives because of a gap of the scenario vocabulary; M32, M33 and M25 are not caught by the unit suites (the simulator and the models close the first two); the oracle and the schedule of each V1 catch, the catching test of each unit-suite catch and the V1 reruns of M3, M19, M28 and M38 are not recorded; the scripts of the V1, V2 and V3 mutation runs are not in the repository.
 - **What a user must not infer.**
   - That `use_count () == 1` is stable while other threads operate on the same atomic: it never reports fewer owners than exist, so it can fail a test for sole ownership wrongly, never pass it wrongly, and it is exact only at rest (windows i to iii).
-  - That the engine is wait-free or starvation-free, or that a writer's single store has a bounded wait: only the rate of stores under a read-heavy load was measured.
+  - That the engine is wait-free or starvation-free, or that a writer's single store has a bounded wait: the longest store seen in the read-heavy run was 54 ms (split-count) and 392 ms (`std::atomic`), which is a bound observed on one machine.
   - That a clean TSan or Relacy run covers the assembly backend, the weak engine's orders, `wait`, or hardware weaker than x86-64.
   - That the number of caught mutants is a mutation score of the engine: the mutants were chosen by the people who wrote the tests and the oracles, and a defect unlike all of them can still be there.
   - That the benchmarks decide whether this engine should be the family alias: they show the price, not the policy.

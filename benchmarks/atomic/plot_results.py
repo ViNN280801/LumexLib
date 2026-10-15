@@ -31,6 +31,10 @@ documentation):
                                        is next to the first CSV
     atomic_benchmark.md                the numbers as Markdown tables, and
                                        the compile times when given
+A results file of the scenario `store_wait` (the time of every single store
+of one writer under a read load, in ns) gets the charts
+<stem>_{median,p99,p9999,max}.svg on a logarithmic axis and the tables in
+<stem>.md instead.
 """
 
 import csv
@@ -45,6 +49,14 @@ OPERATIONS = ("load", "store", "exchange", "compare_exchange_strong",
 # The rows of the destruction-latency scenario (mode `destroy`).
 DESTROY_OPERATIONS = ("destroy_median", "destroy_p99", "destroy_max",
                       "destroy_backlog")
+# The rows of the store-wait scenario (mode `store_wait`): the time of every
+# single store of one writer under a read load, in ns.
+STORE_WAIT_OPERATIONS = ("store_wait_timer", "store_wait_median",
+                         "store_wait_p90", "store_wait_p99",
+                         "store_wait_p999", "store_wait_p9999",
+                         "store_wait_max", "store_wait_over_1ms",
+                         "store_wait_switches",
+                         "store_wait_over_1ms_switched")
 COLORS = {
     "lumex_lock_based_cxx11": "#0072B2",
     "lumex_lock_based": "#56B4E9",
@@ -122,6 +134,9 @@ def read_results(path):
                     "cycles_median", "instructions_median"):
             if key in row:
                 row[key] = float(row[key])
+        for key in ("operations_sum", "successes_sum"):
+            if key in row:
+                row[key] = int(row[key])
         rows.append(row)
     return meta, implementations, rows
 
@@ -214,10 +229,11 @@ def legend(out, series, x0, y0, max_width):
 
 
 def line_chart(title, subtitle, y_label, lines, reference=None,
-               reference_label=""):
+               reference_label="", log=False):
     """`lines`: [(Series, [(threads, value, low, high)])] -> SVG text.
 
-    `subtitle` is a list of lines.
+    `subtitle` is a list of lines. With `log` the value axis is logarithmic
+    (decades), for latencies that span orders of magnitude.
     """
     width = 900
     margin = 20
@@ -237,7 +253,15 @@ def line_chart(title, subtitle, y_label, lines, reference=None,
     highs = [p[3] for _, points in lines for p in points]
     if reference is not None:
         highs.append(reference)
-    ticks = nice_ticks(max(highs) if highs else 1.0)
+    if log:
+        values = [p[2] for _, points in lines for p in points if p[2] > 0]
+        low_exp = math.floor(math.log10(min(values))) if values else 0
+        high_exp = math.ceil(math.log10(max(highs))) if highs else 1
+        if high_exp <= low_exp:
+            high_exp = low_exp + 1
+        ticks = [10.0 ** e for e in range(low_exp, high_exp + 1)]
+    else:
+        ticks = nice_ticks(max(highs) if highs else 1.0)
     x_min, x_max = (xs[0], xs[-1]) if xs else (0, 1)
     span = max(x_max - x_min, 1)
 
@@ -245,6 +269,10 @@ def line_chart(title, subtitle, y_label, lines, reference=None,
         return plot_left + 20 + (plot_width - 40) * (value - x_min) / span
 
     def y_of(value):
+        if log:
+            return bottom - plot_height * (
+                math.log10(max(value, ticks[0])) - low_exp) / (
+                    high_exp - low_exp)
         return bottom - plot_height * value / ticks[-1]
 
     for tick in ticks:
@@ -252,7 +280,8 @@ def line_chart(title, subtitle, y_label, lines, reference=None,
         out.append('<line x1="%d" y1="%.1f" x2="%d" y2="%.1f" '
                    'stroke="#e2e8f0" stroke-width="1"/>'
                    % (plot_left, y, plot_left + plot_width, y))
-        out.append(text(plot_left - 8, y + 4, "%g" % tick, size=11,
+        out.append(text(plot_left - 8, y + 4,
+                        "%d" % tick if log else "%g" % tick, size=11,
                         anchor="end", color="#4a5568"))
     for value in xs:
         x = x_of(value)
@@ -755,6 +784,186 @@ def destroy_charts(subtitle, series, rows_of, write):
             label + " (lower is better)", groups))
 
 
+
+def store_wait_rows(rows, operation, thread_count):
+    return {r["implementation"]: r for r in rows
+            if r["mode"] == "store_wait" and r["operation"] == operation
+            and r["threads"] == thread_count}
+
+
+def store_wait_series(series, rows_of):
+    """The series that have store-wait rows, in the order of the file."""
+    return [s for s in series
+            if any(r["mode"] == "store_wait" for r in rows_of[s])]
+
+
+def store_wait_counts(series, rows_of):
+    return sorted({r["threads"] for s in series for r in rows_of[s]
+                   if r["mode"] == "store_wait"})
+
+
+def store_wait_cell(item, rows_of, operation, count, text_of):
+    row = store_wait_rows(rows_of[item], operation, count).get(item.key)
+    return text_of(row) if row is not None else "n/a"
+
+
+def _switched(item, rows_of, count):
+    """The bracket of the preemption table: slow stores after a switch."""
+    row = store_wait_rows(rows_of[item], "store_wait_over_1ms_switched",
+                          count).get(item.key)
+    if row is None:
+        return ""
+    slow = store_wait_rows(rows_of[item], "store_wait_over_1ms",
+                           count).get(item.key)
+    return " (%d of %d)" % (row["successes_sum"],
+                            slow["successes_sum"] if slow else 0)
+
+
+def store_wait_markdown(metas, series, rows_of):
+    """The tables of the store-wait scenario."""
+    series = store_wait_series(series, rows_of)
+    counts = store_wait_counts(series, rows_of)
+    lines = ["# Time of a single store under a read load", ""]
+    for index, item in enumerate(metas):
+        lines.append("- Run %d: %s, %s logical CPUs, governor `%s`, kernel "
+                     "`%s`; %s with %s, %s build; %s repetitions of %s "
+                     "timed stores per series and thread count, %s s "
+                     "pauses; clock `%s`; threads %s; measured %s in %s "
+                     "minutes, load average %s at the start and %s at the "
+                     "end."
+                     % (index + 1, item.get("cpu", "?"),
+                        item.get("logical_cpus", "?"),
+                        item.get("governor", "?"), item.get("kernel", "?"),
+                        item.get("compiler", "?"), item.get("library", "?"),
+                        item.get("build", "?"), item.get("repetitions", "?"),
+                        item.get("stores", "?"),
+                        item.get("settle_seconds", "?"),
+                        item.get("clock", "?"),
+                        "pinned, one CPU each" if item.get("pinned") == "1"
+                        else "not pinned", item.get("date", "?"),
+                        item.get("minutes", "?"),
+                        item.get("load_average_start", "?"),
+                        item.get("load_average_end", "?")))
+    lines += ["", "One thread (the writer) stores alternating values in a "
+              "loop and times every `store ()` call on its own; the other "
+              "threads (1 less than the thread count) `load ()` in a loop. "
+              "Times are nanoseconds of one call, not rates. Every cell is "
+              "the median over the repetitions of the statistic of one "
+              "repetition, except the maximum, which also gives the "
+              "longest store of all repetitions together, and the count of "
+              "stores over 1 ms, which is summed over all repetitions "
+              "(with its share of all stores timed). A store over 1 ms is "
+              "far above any cost of the engine at these thread counts and "
+              "is also what a preempted writer looks like: the count does "
+              "not tell the two apart. Up to 20 threads are the 20 logical "
+              "CPUs; 40 and 60 are oversubscribed.", ""]
+    head = "| Series | " + " | ".join(str(t) for t in counts) + " |"
+    rule = "| --- | " + " | ".join("---:" for _ in counts) + " |"
+    for title, operation in (
+            ("Median of the time of one store, ns", "store_wait_median"),
+            ("90th percentile, ns", "store_wait_p90"),
+            ("99th percentile, ns", "store_wait_p99"),
+            ("99.9th percentile, ns", "store_wait_p999"),
+            ("99.99th percentile, ns", "store_wait_p9999")):
+        lines += ["## " + title, "", head, rule]
+        for item in series:
+            lines.append("| %s | %s |" % (item.label, " | ".join(
+                store_wait_cell(item, rows_of, operation, t,
+                                lambda r: "%.0f" % r["ns_median"])
+                for t in counts)))
+        lines.append("")
+    lines += ["## The longest store, ns", "",
+              "Median over the repetitions of the longest store of a "
+              "repetition, then the longest store of all repetitions "
+              "together in brackets.", "", head, rule]
+    for item in series:
+        lines.append("| %s | %s |" % (item.label, " | ".join(
+            store_wait_cell(item, rows_of, "store_wait_max", t,
+                            lambda r: "%.0f (%.0f)" % (r["ns_median"],
+                                                       r["ns_max"]))
+            for t in counts)))
+    lines += ["", "## Stores over 1 ms", "",
+              "Stores that took more than a millisecond, summed over all "
+              "the repetitions, with the share of all stores timed.", "",
+              head, rule]
+    for item in series:
+        lines.append("| %s | %s |" % (item.label, " | ".join(
+            store_wait_cell(
+                item, rows_of, "store_wait_over_1ms", t,
+                lambda r: "%d (%.4f %%)" % (
+                    r["successes_sum"],
+                    100.0 * r["successes_sum"] / max(r["operations_sum"], 1)))
+            for t in counts)))
+    lines += ["", "## Preemption of the writer", "",
+              "Involuntary context switches of the writer thread during "
+              "its timed stores (the scheduler took it off its CPU), "
+              "summed over all the repetitions, and in brackets how many "
+              "of the stores over 1 ms were followed by an advance of that "
+              "counter since the previous reading (the counter is read "
+              "only after a store over 1 ms, so a switch that took less "
+              "than 1 ms can be credited to the next slow store: the "
+              "bracket is an upper bound of the slow stores that a "
+              "preemption explains). Where it is 0 on "
+              "a platform, the system does not report it.", "", head, rule]
+    for item in series:
+        lines.append("| %s | %s |" % (item.label, " | ".join(
+            store_wait_cell(
+                item, rows_of, "store_wait_switches", t,
+                lambda r: "%d" % r["successes_sum"])
+            + _switched(item, rows_of, t)
+            for t in counts)))
+    lines += ["", "## Cost of the timer, ns", "",
+              "Median of an empty pair of `steady_clock::now ()` reads on "
+              "the writer thread, with the readers running, right before "
+              "its stores; the median over the repetitions. It is part of "
+              "every time above.", "", head, rule]
+    for item in series:
+        lines.append("| %s | %s |" % (item.label, " | ".join(
+            store_wait_cell(item, rows_of, "store_wait_timer", t,
+                            lambda r: "%.0f" % r["ns_median"])
+            for t in counts)))
+    lines.append("")
+    return "\n".join(lines)
+
+
+def store_wait_charts(subtitle, series, rows_of, write):
+    """One chart per statistic, the thread count along the axis."""
+    series = store_wait_series(series, rows_of)
+    counts = store_wait_counts(series, rows_of)
+    for name, operation, title, overall in (
+            ("median", "store_wait_median",
+             "Median time of one store() under a read load, ns", False),
+            ("p99", "store_wait_p99",
+             "99th percentile of the time of one store(), ns", False),
+            ("p9999", "store_wait_p9999",
+             "99.99th percentile of the time of one store(), ns", False),
+            ("max", "store_wait_max",
+             "Longest store() of all repetitions, ns", True)):
+        lines = []
+        for item in series:
+            points = []
+            for count in counts:
+                row = store_wait_rows(rows_of[item], operation, count).get(
+                    item.key)
+                if row is None:
+                    continue
+                if overall:
+                    points.append((count, row["ns_max"], row["ns_max"],
+                                   row["ns_max"]))
+                else:
+                    points.append((count, row["ns_median"], row["ns_p25"],
+                                   row["ns_p75"]))
+            lines.append((item, points))
+        note = ("Longest single store of all repetitions together "
+                "(the starvation evidence; a store preempted by the "
+                "scheduler counts too)" if overall else
+                "Median over the repetitions; whiskers: 25th-75th "
+                "percentile")
+        write(name, line_chart(
+            title, [subtitle, note + "; logarithmic axis"],
+            "nanoseconds per store (lower is better)", lines, log=True))
+
+
 def main(argv):
     if len(argv) < 2:
         print(__doc__)
@@ -787,6 +996,14 @@ def main(argv):
         destroy_charts(subtitle, series, rows_of, write)
         with open(stem + ".md", "w", encoding="utf-8", newline="\n") as out:
             out.write(destroy_markdown(metas, series, rows_of))
+        written.append(stem + ".md")
+        print("written " + ", ".join(written))
+        return 0
+
+    if metas[0].get("scenario") == "store_wait":
+        store_wait_charts(subtitle, series, rows_of, write)
+        with open(stem + ".md", "w", encoding="utf-8", newline="\n") as out:
+            out.write(store_wait_markdown(metas, series, rows_of))
         written.append(stem + ".md")
         print("written " + ", ".join(written))
         return 0

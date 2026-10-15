@@ -74,8 +74,12 @@ OPERATIONS = ("uint64_cas", "load", "store", "exchange",
               "compare_exchange_strong", "load_one_writer",
               "one_writer_stores", "load_store", "weak_load",
               "weak_load_lock", "destroy_median", "destroy_p99",
-              "destroy_max", "destroy_backlog")
-SCENARIOS = ("shared", "weak", "destroy")
+              "destroy_max", "destroy_backlog", "store_wait_timer",
+              "store_wait_median", "store_wait_p90", "store_wait_p99",
+              "store_wait_p999", "store_wait_p9999", "store_wait_max",
+              "store_wait_over_1ms", "store_wait_switches",
+              "store_wait_over_1ms_switched")
+SCENARIOS = ("shared", "weak", "destroy", "store_wait")
 # The split-count series (bench_lumex_family*.cpp): the key and what its
 # "path" of --list must start with.
 SPLIT_COUNT_PATHS = {
@@ -273,6 +277,8 @@ def aggregate(rows):
             "ns_p75": percentile(ns, 0.75),
             "ns_min": min(ns), "ns_max": max(ns),
             "success_rate": success_rate,
+            "operations_sum": int(sum(operations)),
+            "successes_sum": int(sum(successes)),
             "repetitions": len(group),
             "valid": int(all(r["valid"] == "1" for r in group)),
         })
@@ -286,11 +292,15 @@ def write_results(path, header, rows):
                "repetitions", "valid"]
     if rows and "cycles_median" in rows[0]:
         columns += ["cycles_median", "instructions_median"]
+    # The store-wait scenario sums the timed stores and the slow ones over
+    # the repetitions; the other scenarios keep their columns as they were.
+    if ("scenario", "store_wait") in header:
+        columns += ["operations_sum", "successes_sum"]
     with open(path, "w", newline="", encoding="utf-8") as stream:
         for key, value in header:
             stream.write("# %s=%s\n" % (key, value))
         writer = csv.DictWriter(stream, fieldnames=columns,
-                                lineterminator="\n")
+                                lineterminator="\n", extrasaction="ignore")
         writer.writeheader()
         for row in rows:
             out = dict(row)
@@ -414,11 +424,19 @@ def parse_args(argv):
                         help="shared: the operations on the atomic shared "
                              "pointers; weak: load and lock () on the "
                              "atomic weak pointers; destroy: the latency "
-                             "from a replacing store to the destructor "
+                             "from a replacing store to the destructor; "
+                             "store_wait: the time of every single store "
+                             "of one writer under a read load "
                              "(default shared)")
     parser.add_argument("--objects", type=int, default=20000,
                         help="scenario destroy: replacements per "
                              "measurement (default 20000)")
+    parser.add_argument("--stores", type=int, default=100000,
+                        help="scenario store_wait: timed stores per "
+                             "measurement (default 100000)")
+    parser.add_argument("--pin", action="store_true",
+                        help="scenario store_wait: pin every thread to a "
+                             "CPU of its own")
     parser.add_argument("--raw-csv", default=None,
                         help="also keep every row of every run here")
     parser.add_argument("--repetitions", type=int, default=100,
@@ -483,6 +501,11 @@ def main(argv):
     series = args.series.split(",") if args.series else []
     if args.scenario == "weak":
         check_split_count(implementations, series)
+    elif args.scenario == "store_wait":
+        check_implementations(list_implementations(exe, "shared"))
+        check_split_count(list_implementations(exe, "shared"), series)
+        if not implementations:
+            die("no series for the store_wait scenario")
     else:
         implementations_all = list_implementations(exe, "shared")
         check_implementations(implementations_all)
@@ -509,6 +532,10 @@ def main(argv):
                        "--warmup-ms", str(args.warmup_ms),
                        "--scenario", args.scenario,
                        "--objects", str(args.objects)]
+            if args.scenario == "store_wait":
+                command += ["--stores", str(args.stores)]
+                if args.pin:
+                    command += ["--pin"]
             if args.threads:
                 command += ["--threads", args.threads]
             if args.series:
@@ -554,6 +581,10 @@ def main(argv):
               ("load_average_start", load_start),
               ("load_average_end", load_average()),
               ("minutes", "%.1f" % ((time.monotonic() - clock) / 60))]
+    if args.scenario == "store_wait":
+        header += [("stores", str(args.stores)),
+                   ("pinned", "1" if args.pin else "0"),
+                   ("clock", "std::chrono::steady_clock")]
     header += [("implementation", value)
                for value in run_header.get("implementations", [])]
     results = os.path.join(args.out_dir, args.name + ".csv")
