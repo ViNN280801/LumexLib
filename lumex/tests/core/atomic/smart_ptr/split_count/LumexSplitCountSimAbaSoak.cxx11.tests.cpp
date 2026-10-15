@@ -33,7 +33,8 @@
 // for the scenarios marked so. The suite name contains `Soak`, so
 // `SOAK_FILTER *Soak*` keeps these tests out of the default run; they are
 // registered with -DLUMEX_BUILD_SOAK_TESTS=ON under the label soak. They run
-// in the C++11 suite with the default backend only.
+// in the two C++11 suites with the default backend only (the default one and
+// the prefer_split_count one).
 #include <cstdlib>
 #include <string>
 
