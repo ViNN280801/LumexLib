@@ -272,6 +272,10 @@ implementation_t lumex_split_count_implementation ();
 /** The split-count engine, reserve 4, built at C++20. */
 implementation_t lumex_split_count_r4_implementation ();
 
+/** The split-count engine with the reserve of compare_exchange switched off
+ * (cas_reserve () == 0), reserve 8 for the rest, built at C++20. */
+implementation_t lumex_split_count_nocasres_implementation ();
+
 /** The lock-based engine over the library's own shared_ptr, C++20. */
 implementation_t lumex_lock_based_lumex_implementation ();
 

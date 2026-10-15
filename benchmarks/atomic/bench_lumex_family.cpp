@@ -57,6 +57,23 @@ lumex_atomic_bench::lumex_split_count_r4_implementation ()
 }
 
 lumex_atomic_bench::implementation_t
+lumex_atomic_bench::lumex_split_count_nocasres_implementation ()
+{
+#if LUMEX_ATOMIC_SMART_PTR_HAS_SPLIT_COUNT
+  if (no_cas_reserve_policy_t::cas_reserve () != 0u
+      || no_cas_reserve_policy_t::reserve () != 8u)
+    return unavailable_implementation ();
+  return detail::make_implementation<split_count_without_cas_reserve_t::type> (
+      "lumex_split_count_nocasres",
+      "LumexLib split-count r8, no cas reserve (own ptr), C++20",
+      LUMEX_ATOMIC_BENCH_FAMILY_PATH ("split_count_nocasres"),
+      LUMEX_ATOMIC_BENCH_STANDARD);
+#else
+  return unavailable_implementation ();
+#endif
+}
+
+lumex_atomic_bench::implementation_t
 lumex_atomic_bench::lumex_lock_based_lumex_implementation ()
 {
 #if LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY

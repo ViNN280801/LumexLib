@@ -439,6 +439,68 @@ TEST (
     }
 }
 
+/// Window (ii) of a compare-exchange: @p k loads held after their tick, a
+/// compare-exchange held after its deposit and before its swap. The owners of
+/// the block are the pointers `p`, `pv`, `expected` and the slot and the held
+/// loads; the deposit adds the reserve `cas_reserve ()` of the policy on top.
+template <typename Policy>
+void
+cas_window_ii (int k, bool holder)
+{
+  Policy::arrived ().store (0);
+  reset_ledger<Policy> ();
+  sp::shared_ptr<Obj> p = sp::make_shared<Obj> (1);
+  sp::shared_ptr<Obj> q = sp::make_shared<Obj> (2);
+  sp::shared_ptr<int> pv (
+      p, holder ? shifted (p.get (), std::int64_t (1) << 41) : &p->v);
+  sp::shared_ptr<int> qv (q, &q->v);
+  sp::shared_ptr<int> expected = pv;
+  shared_cell<int, Policy> a (pv);
+  ASSERT_EQ (needs_holder (pv), holder);
+  std::vector<sp::shared_ptr<int>> got (static_cast<std::size_t> (k));
+  hold_group_t<Policy> loads;
+  loads.start (k,
+               [&] (int i) { got[static_cast<std::size_t> (i)] = a.load (); });
+  ASSERT_TRUE (loads.wait_arrived (k));
+  bool swapped = false;
+  hold_group_t<Policy> writer;
+  writer.start (
+      1, [&] (int) { swapped = a.compare_exchange_strong (expected, qv); },
+      split_point_t::cas, 0);
+  ASSERT_TRUE (writer.wait_arrived (k + 1));
+  long const seen_during = static_cast<long> (p.use_count ());
+  long const reserve = static_cast<long> (Policy::cas_reserve ());
+  writer.release ();
+  loads.release ();
+  EXPECT_TRUE (swapped);
+  EXPECT_GE (seen_during, 4 + k) << "G1 with reserve " << reserve;
+  EXPECT_LE (seen_during, 4 + k + reserve)
+      << "G2 (ii): at most the reserve more, reserve " << reserve;
+  EXPECT_EQ (seen_during, 4 + k + reserve)
+      << "the whole reserve is deposited until the compare-exchange ends";
+  got.clear ();
+  // The expected pointer still owns p; the slot named q after the swap.
+  expect_exact (p, 3, "window ii of a compare-exchange finished");
+  check_balanced<Policy> ("window ii of a compare-exchange");
+}
+
+TEST (
+    LumexSplitCountExactTest,
+    GivenACompareExchangeHeldAfterItsDeposit_WhenObserved_ThenTheDepositIsTicksPlusTheCasReserve)
+{
+  Watchdog const dog ("window ii of a compare-exchange");
+  typedef gate_policy_t<window_tag, 0xFFFFFFu, 8u> policy8;
+  typedef gate_policy_t<reserve0_tag, 0xFFFFFFu, 0u> policy0;
+  for (int holder = 0; holder < 2; ++holder)
+    for (int k = 1; k <= 3; ++k)
+      {
+        SCOPED_TRACE (holder);
+        SCOPED_TRACE (k);
+        cas_window_ii<policy0> (k, holder != 0);
+        cas_window_ii<policy8> (k, holder != 0);
+      }
+}
+
 TEST (
     LumexSplitCountExactTest,
     GivenHeldWeakLoads_WhenTheValueIsReplacedAndTheOwnersDie_ThenNoUseCountChangesAndExpiredAgrees)
