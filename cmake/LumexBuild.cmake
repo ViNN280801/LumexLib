@@ -353,6 +353,17 @@ function(lumex_configure_target target_name)
       COMPILE_OPTIONS ${_lumex_stdlib_opts})
   endif()
 
+  # The compiled modules of the library do not record LUMEX_SPAN_CHECKS for the
+  # MSVC linker (detect_mismatch): the inline span code in them calls only
+  # data () and size (), which are never checked, and a record in a prebuilt
+  # module would make every program built with another value fail to link
+  # (LNK2038). A consumer's own translation units keep the record. Pinned by
+  # cmake.consumer_span_mismatch_guard.
+  if(target_name MATCHES "^(LumexCore_|LumexApplied_|LumexXml$)")
+    target_compile_definitions("${target_name}" PRIVATE
+      LUMEX_SPAN_NO_MISMATCH_GUARD)
+  endif()
+
   # CMakeRoutines configure_compiler_flags adds NOMINMAX only on the MSVC
   # path (clang-cl). GNU-like clang++ / g++ on Windows still see min/max
   # macros from the Windows SDK and break std::min / std::max (e.g.

@@ -340,8 +340,9 @@ class span;
  * `std::basic_string`, `std::basic_string_view`, `std::valarray` and
  * `std::initializer_list` are recognized by name in libstdc++ and libc++ (in
  * the standard library of MSVC the iterators of `std::vector`,
- * `std::basic_string` and `std::array`; its `std::basic_string_view` iterator
- * is not named), see `LumexSpanStdIterators.hpp`, and any other
+ * `std::basic_string`, `std::array` and `std::basic_string_view`, the last
+ * one as `std::_String_view_iterator<Traits>` when `_HAS_CXX17` is set), see
+ * `LumexSpanStdIterators.hpp`, and any other
  * iterator type, a user's own included, is not contiguous until it is named
  * by a specialization:
  * @code
