@@ -44,15 +44,16 @@
  * @details Each attribute macro expands to the standard attribute when the
  * compiled standard has it, otherwise to a GCC, Clang or MSVC extension with
  * the same effect, and to nothing where neither exists. The macros cover
- * nodiscard (with a reason), noreturn, noinline, packed, carries_dependency,
- * deprecated (with or without a reason), fallthrough, maybe_unused, likely and
- * unlikely, no_unique_address (C++20), assume (C++23) and indeterminate
- * (C++26). `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...)` silences an unused
- * expression by casting it to `void`; on GCC below C++17 it also passes the
- * value on, because GCC reports a `LUMEX_ATTRIBUTE_NODISCARD` result that is
- * only cast to `void` (see the macro). `LUMEX_ATTRIBUTE_PACKED` is empty for
- * MSVC, which packs through `LUMEX_PACK_BEGIN(n)` and `LUMEX_PACK_END`
- * instead; those two work with MSVC, GCC and Clang and are empty elsewhere.
+ * nodiscard (with a reason), noreturn, noinline, always_inline, packed,
+ * carries_dependency, deprecated (with or without a reason), fallthrough,
+ * maybe_unused, likely and unlikely, no_unique_address (C++20), assume (C++23)
+ * and indeterminate (C++26). `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR(...)` silences
+ * an unused expression by casting it to `void`; on GCC below C++17 it also
+ * passes the value on, because GCC reports a `LUMEX_ATTRIBUTE_NODISCARD`
+ * result that is only cast to `void` (see the macro). `LUMEX_ATTRIBUTE_PACKED`
+ * is empty for MSVC, which packs through `LUMEX_PACK_BEGIN(n)` and
+ * `LUMEX_PACK_END` instead; those two work with MSVC, GCC and Clang and are
+ * empty elsewhere.
  */
 #ifndef LUMEX_CORE_UTILITY_ATTR_HPP
 #define LUMEX_CORE_UTILITY_ATTR_HPP
@@ -164,6 +165,19 @@ operator, (Value const &, unused_value_sink_t) LUMEX_NOEXCEPT
 #define LUMEX_ATTRIBUTE_NOINLINE __declspec (noinline)
 #else
 #define LUMEX_ATTRIBUTE_NOINLINE
+#endif
+
+// always_inline (the declaration is also `inline`)
+// The function is inlined at every call site that the compiler can inline, so
+// no out-of-line copy is emitted for those calls and every translation unit
+// keeps its own body; a function whose address is taken still gets a symbol.
+// Put it where `inline` would stand, before the return type.
+#if defined(__GNUC__) || defined(__clang__)
+#define LUMEX_ATTRIBUTE_ALWAYS_INLINE __attribute__ ((always_inline)) inline
+#elif defined(_MSC_VER)
+#define LUMEX_ATTRIBUTE_ALWAYS_INLINE __forceinline
+#else
+#define LUMEX_ATTRIBUTE_ALWAYS_INLINE inline
 #endif
 
 // @link

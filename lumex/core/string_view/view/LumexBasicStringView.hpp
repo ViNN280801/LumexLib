@@ -96,6 +96,19 @@
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #pragma clang diagnostic ignored "-Wundefined-func-template"
 #pragma clang diagnostic ignored "-Wfloat-equal"
+// Suggestions to add [[clang::lifetimebound]] to the pointer parameters of the
+// copy helpers and of the constructors: the view only stores the pointer and
+// is a non-owning view by design.
+#if __has_warning("-Wlifetime-safety-intra-tu-suggestions")
+#pragma clang diagnostic ignored "-Wlifetime-safety-intra-tu-suggestions"
+#endif
+#if __has_warning("-Wlifetime-safety-intra-tu-constructor-suggestions")
+#pragma clang diagnostic ignored                                              \
+    "-Wlifetime-safety-intra-tu-constructor-suggestions"
+#endif
+#if __has_warning("-Wlifetime-safety-cross-tu-suggestions")
+#pragma clang diagnostic ignored "-Wlifetime-safety-cross-tu-suggestions"
+#endif
 #endif
 
 #include <cstddef>     // std::size_t, std::ptrdiff_t
@@ -272,13 +285,20 @@ namespace detail
 /** @brief The value of `npos` of every view. */
 LUMEX_CONSTEXPR std::size_t const no_pos = static_cast<std::size_t> (-1);
 
-LUMEX_ATTRIBUTE_NORETURN inline void
+/**
+ * @brief Throws `std::out_of_range`, or terminates without exceptions.
+ * @details The body depends on the exception mode of the translation unit, so
+ * the function and every member that calls it are always inlined: no
+ * out-of-line copy is emitted, and a program that links units built with and
+ * without `-fno-exceptions` keeps the right body in each of them.
+ */
+LUMEX_ATTRIBUTE_NORETURN LUMEX_ATTRIBUTE_ALWAYS_INLINE void
 throw_out_of_range (char const *what)
 {
 #if LUMEX_STRING_VIEW_HAS_EXCEPTIONS
   throw std::out_of_range (what);
 #else
-  (void)what;
+  LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (what);
   std::terminate ();
 #endif
 }
@@ -1327,7 +1347,7 @@ public:
    * @throws std::out_of_range If `idx >= size()`.
    */
   LUMEX_SV_NODISCARD
-  LUMEX_CONSTEXPR const_reference
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR const_reference
   at (size_type idx) const
   {
     return idx < m_size
@@ -1403,7 +1423,7 @@ public:
    * @return The number of characters copied.
    * @throws std::out_of_range If `pos > size()`.
    */
-  LUMEX_CONSTEXPR_CXX14 size_type
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR_CXX14 size_type
   copy (CharT *dest, size_type count, size_type pos = 0) const
   {
     if (pos > m_size)
@@ -1418,7 +1438,7 @@ public:
    * @throws std::out_of_range If `pos > size()`.
    */
   LUMEX_SV_NODISCARD
-  LUMEX_CONSTEXPR lumex_basic_string_view
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR lumex_basic_string_view
   substr (size_type pos = 0, size_type n = npos) const
   {
     return pos > m_size
@@ -1450,7 +1470,7 @@ public:
   /** @brief `substr(pos1, n1).compare(other)`. @throws std::out_of_range If
    * `pos1 > size()`. */
   LUMEX_SV_NODISCARD
-  LUMEX_CONSTEXPR int
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR int
   compare (size_type pos1, size_type n1, lumex_basic_string_view other) const
   {
     return substr (pos1, n1).compare (other);
@@ -1461,7 +1481,7 @@ public:
    * @throws std::out_of_range If `pos1 > size()` or `pos2 > other.size()`.
    */
   LUMEX_SV_NODISCARD
-  LUMEX_CONSTEXPR int
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR int
   compare (size_type pos1, size_type n1, lumex_basic_string_view other,
            size_type pos2, size_type n2) const
   {
@@ -1478,7 +1498,7 @@ public:
 
   /** @brief `substr(pos1, n1).compare(lumex_basic_string_view(str))`. */
   LUMEX_SV_NODISCARD
-  LUMEX_CONSTEXPR int
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR int
   compare (size_type pos1, size_type n1, CharT const *str) const
   {
     return substr (pos1, n1).compare (lumex_basic_string_view (str));
@@ -1486,7 +1506,7 @@ public:
 
   /** @brief `substr(pos1, n1).compare(lumex_basic_string_view(str, n2))`. */
   LUMEX_SV_NODISCARD
-  LUMEX_CONSTEXPR int
+  LUMEX_ATTRIBUTE_ALWAYS_INLINE LUMEX_CONSTEXPR int
   compare (size_type pos1, size_type n1, CharT const *str, size_type n2) const
   {
     return substr (pos1, n1).compare (lumex_basic_string_view (str, n2));
@@ -2008,9 +2028,10 @@ operator<=> (std::basic_string_view<CharT, Traits> lhs,
  * and an exception of the buffer is handled as the standard says.
  */
 template <class CharT, class Traits>
-LUMEX_SV_NO_UBSAN std::basic_ostream<CharT, Traits> &
-operator<< (std::basic_ostream<CharT, Traits> &ostr,
-            lumex_basic_string_view<CharT, Traits> sview)
+LUMEX_SV_NO_UBSAN
+    LUMEX_ATTRIBUTE_ALWAYS_INLINE std::basic_ostream<CharT, Traits> &
+    operator<< (std::basic_ostream<CharT, Traits> &ostr,
+                lumex_basic_string_view<CharT, Traits> sview)
 {
   typename std::basic_ostream<CharT, Traits>::sentry const guard (ostr);
   if (guard)
