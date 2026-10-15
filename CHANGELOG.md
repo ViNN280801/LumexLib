@@ -12,6 +12,26 @@
 
 ---
 
+## [v2.0.1.0] - в разработке
+
+> Изменения поверх `v2.0.0.2`. Номер `2.0.1.0` выбран по [VERSIONING.md](VERSIONING.md): исправление поведения библиотеки без изменения API и ABI (PATCH).
+
+### [v2.0.1.0]
+
+#### Исправлено
+
+##### `lumex_basic_string_view`: тела, зависящие от режима исключений, принудительно встраиваются
+
+**Файлы:** `lumex/core/string_view/view/LumexBasicStringView.hpp`, `lumex/core/utility/attr/LumexAttributes.hpp` (новый макрос `LUMEX_ATTRIBUTE_ALWAYS_INLINE`), `lumex/core/string_view/README.md`, `lumex/tests/cmake/consumer/string_view_mixed_exceptions/` (новый), `lumex/tests/cmake/consumer/string_view_no_exceptions/main.cpp`, `lumex/tests/cmake/CMakeLists.txt`.
+
+**Суть:** `detail::throw_out_of_range` (бросает или вызывает `std::terminate`) и `operator<<` (с try/catch или без) имели разные тела в режимах с исключениями и без них под одним декорированным именем. В программе из единиц с `-fno-exceptions` и с исключениями компоновщик оставлял одну слабую копию, и `at ()` в единице с исключениями мог завершаться через `terminate` (g++ 13.2 и clang++ 23, -O0, зависит от порядка компоновки; `operator<<` у clang и на -O2). Теперь `throw_out_of_range`, `at`, `substr`, `copy`, четыре `compare` с позицией и `operator<<` помечены `LUMEX_ATTRIBUTE_ALWAYS_INLINE` (`__attribute__ ((always_inline)) inline` у GCC и Clang, `__forceinline` у MSVC, иначе `inline`): внеблочная слабая копия не создается, каждая единица использует свое тело. Исключение: взятие адреса члена (`&view::at`) все равно создает символ. README: абзац о формальном нарушении ODR заменен описанием зависимости от режима исключений; снята устаревшая строка "MSVC не проверялся". В `throw_out_of_range` `(void)what` заменен на `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR`; предложения Clang 23 `-Wlifetime-safety-*-suggestions` подавлены в коде (`-Weverything`: 0 предупреждений в заголовке на libstdc++ и libc++, C++11..20; было 4-5).
+
+**Тесты:** новая фикстура `string_view_mixed_exceptions` (объект с `-fno-exceptions` и объект с исключениями, оба порядка компоновки, -O0; случаи `consumer_string_view_mixed_exceptions_lib_first` и `_main_first`); `string_view_no_exceptions` теперь требует `WTERMSIG == SIGABRT`, добавлен случай C++20 (`consumer_string_view_no_exceptions_cxx20`), отброшенные результаты оформлены через `LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR` (без `-Wunused-result` ниже C++17).
+
+**Проверено:** смешанная компоновка (g++ 13.2 и clang++ 23, C++11 и C++17, -O0 и -O2, оба порядка, оба воспроизведения ревью): до исправления падает (clang -O0, rc 134 и rc 1), после - rc 0 во всех 32 сочетаниях; `nm`: до исправления 14 слабых символов этих сущностей на -O0 и 1 на -O2, после - ни одного собственного (остается только `std::char_traits::copy`); фикстура `mixed_exceptions` на копии HEAD при порядке "объект без исключений первым" падает (g++ и clang++), с исправлением проходит в обоих порядках; мутант `__builtin_trap` вместо `std::terminate` теперь ловится фикстурой `string_view_no_exceptions`; наборы string_view на GCC 13 Release C++11/14/17/20 (951 тест вместе с примерами), GCC 8.3 C++11/17 (474), Clang libstdc++ (936) и libc++ (932) C++11..20, ASan+UBSan GCC 13 Debug (936) - все проходят.
+
+---
+
 ## [v2.0.0.2] - 2026-10-15
 
 > Изменения поверх `v2.0.0.1` (тег опубликован). Номер `2.0.0.2` выбран по [VERSIONING.md](VERSIONING.md): изменились тесты, бенчмарки, документация и комментарии, функциональных изменений нет (TWEAK). Версия в `CMakeLists.txt` и дата секции поставлены релизным коммитом.

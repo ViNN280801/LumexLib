@@ -351,6 +351,15 @@ lumex_add_consumer_test(consumer_string_view_no_exceptions_cxx17
     string_view_no_exceptions -DSV_STD=17 -DSV_EXCEPTIONS=OFF)
 lumex_add_consumer_test(consumer_string_view_exceptions_cxx11
     string_view_no_exceptions -DSV_STD=11 -DSV_EXCEPTIONS=ON)
+lumex_add_consumer_test(consumer_string_view_no_exceptions_cxx20
+    string_view_no_exceptions -DSV_STD=20 -DSV_EXCEPTIONS=OFF)
+# One program with a -fno-exceptions unit and an exception enabled one: the
+# bodies that depend on the exception mode are inlined, so both link orders
+# keep the throwing at () and the badbit of operator<< in the second unit.
+lumex_add_consumer_test(consumer_string_view_mixed_exceptions_lib_first
+    string_view_mixed_exceptions -DMIX_ORDER=LIB_FIRST)
+lumex_add_consumer_test(consumer_string_view_mixed_exceptions_main_first
+    string_view_mixed_exceptions -DMIX_ORDER=MAIN_FIRST)
 # Before C++20 the lock-based atomic smart pointers sleep on a table in a
 # function-local static; two shared libraries built with hidden visibility
 # must share it (skipped on Windows, where DLLs cannot).
