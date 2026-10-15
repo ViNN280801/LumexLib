@@ -527,6 +527,7 @@ main (int argc, char **argv)
           bench::lumex_lock_based_lumex_cxx11_implementation (),
           bench::lumex_split_count_implementation (),
           bench::lumex_split_count_r4_implementation (),
+          bench::lumex_split_count_nocasres_implementation (),
           bench::lumex_lock_based_lumex_implementation (),
           bench::lumex_split_count_weak_implementation (),
           bench::lumex_lock_based_lumex_weak_implementation (),

@@ -86,6 +86,7 @@ SPLIT_COUNT_PATHS = {
     "lumex_split_count_cxx11": "split_count_table_wait",
     "lumex_split_count": "split_count_std_wait",
     "lumex_split_count_r4": "split_count_r4_std_wait",
+    "lumex_split_count_nocasres": "split_count_nocasres_std_wait",
     "lumex_lock_based_lumex_cxx11": "lock_based_lumex_table_wait",
     "lumex_lock_based_lumex": "lock_based_lumex_std_wait",
     "lumex_split_count_weak": "split_count_std_wait",

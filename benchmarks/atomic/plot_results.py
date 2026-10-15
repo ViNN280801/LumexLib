@@ -70,6 +70,7 @@ COLORS = {
     "lumex_split_count_cxx11": "#332288",
     "lumex_split_count": "#882255",
     "lumex_split_count_r4": "#AA4499",
+    "lumex_split_count_nocasres": "#CC6677",
     "lumex_lock_based_lumex_cxx11": "#117733",
     "lumex_lock_based_lumex": "#44AA99",
     "lumex_split_count_weak": "#882255",
