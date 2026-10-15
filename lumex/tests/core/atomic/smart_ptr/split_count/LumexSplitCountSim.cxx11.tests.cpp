@@ -32,7 +32,8 @@
 // table at the quick budget (the default run). The long runs are the tests of
 // LumexSplitCountSimSoak.cxx11.tests.cpp (the suite name contains `Soak`).
 //
-// The full quick set runs in the C++11 suite with the default backend; the
+// The full quick set runs in the two C++11 suites with the default backend
+// (the default one and the prefer_split_count one); the
 // other suites (built-in backend, C++17, C++20, wait table) run the
 // self-tests, the determinism test and S01, H1 and LK at bound 1. For five and
 // six threads the quick run keeps only the 200 random schedules (the search is
