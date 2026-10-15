@@ -14,7 +14,9 @@
 #                                          (make_shared<T[]>, std::latch,
 #                                          std::jthread, the differential run
 #                                          against std::atomic<std::shared_ptr
-#                                          <T>>)
+#                                          <T>> and, in FamilyDifferential, the
+#                                          same scenario on the engines over
+#                                          lumex::smart_ptr)
 #   LumexAtomicSmartPtrLockBasedCxx11Tests the lock-based engine forced, at
 #   LumexAtomicSmartPtrLockBasedCxx20Tests C++11 and C++20
 #   LumexAtomicSmartPtrWaitTableCxx20Tests C++20 with the wait table forced
