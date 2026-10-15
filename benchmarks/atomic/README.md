@@ -107,8 +107,9 @@ Files: `results/split_count/store_wait_benchmark.*` and `store_wait_pinned.*` (t
 
 | Series | What it is | Pointer type |
 | --- | --- | --- |
-| split-count r8, C++11 / C++20 | `atomic_shared_ptr_lock_free_split_count<int>` as shipped (reserve 8; the unit refuses to build the series if `split_native_policy_t::reserve ()` is not 8) | own `lumex::core::smart_ptr::shared_ptr` |
-| split-count r4, C++20 | the same cell with a policy that differs from the production one in `reserve ()` alone (4); no engine header is changed | own |
+| split-count r8, C++11 / C++20 | `atomic_shared_ptr_lock_free_split_count<int>` as shipped (reserve 8, and the same reserve 8 for a successful `compare_exchange`; the unit refuses to build the series if `split_native_policy_t::reserve ()` is not 8). **The tables of this section were measured before `compare_exchange` got its reserve**, see "Reserve in compare_exchange" | own `lumex::core::smart_ptr::shared_ptr` |
+| split-count r4, C++20 | the same cell with a policy that differs from the production one in `reserve ()` and `cas_reserve ()` (both 4); no engine header is changed | own |
+| split-count r8, no cas reserve, C++20 (`lumex_split_count_nocasres`) | the production policy with `cas_reserve () == 0`: the engine as it was before the reserve of the compare-exchange; not part of the sweep above, it is the control of the section "Reserve in compare_exchange" | own |
 | lock-based own ptr, C++11 / C++20 | `atomic_shared_ptr_lock_based_lumex<int>`: the like-for-like competitor, the same pointer under the lock-based engine (this is what the family alias is today) | own |
 | box lock-free immediate / deferred, C++20 | `atomic_shared_ptr_lock_free<int>` (hazard-pointer box engine), the replaced value destroyed in the call, or later | `std::shared_ptr` |
 | lock-based std ptr, C++20 | `atomic_shared_ptr_lock_based<int>` | `std::shared_ptr` |
@@ -492,6 +493,35 @@ Against the lock-based engine over the same pointer (C++20 build, ratios; "x" is
 ### `reserve` 4 against 8
 
 The two series agree. Of 73 pairs (every operation except the baseline, every thread count of the main sweep) the median of `reserve` 4 lies inside the quartiles of `reserve` 8 in all 73. The largest differences are `one_writer_stores` at 14 threads (6.8 against 4.3) and at 12 threads (3.9 against 3.4); the neighbouring thread counts do not show them (18 threads: 6.7 against 6.9), so they are noise; all the other 71 pairs differ by at most 4 %. Uncontended the two are the same (`load` 29.4 and 29.4 ns, `store` 18.3 and 18.4, `compare_exchange_strong` 60.9 and 60.8), and so is the destruction latency (median 44 and 44 ns, 99th percentile 66 and 64 ns). Contended `store ()`, the case in which a writer finds ticks on the word and the reserve is used, is 3.5 and 3.4 times the baseline at 8 threads and 3.5 and 3.5 at 20. In these scenarios the sweep gives no reason to prefer 4 or 8; it also cannot show a difference that needs more ticks on the word at once than 20 threads produce.
+
+### Reserve in compare_exchange
+
+A successful `compare_exchange` of the split-count engine deposits, like `store` and `exchange`, the reserve `k` (`Policy::cas_reserve ()`, which is `reserve ()` by default, 8 in production) on top of the ticks it sees, and gets the surplus back with the drop of the old word; the strong form keeps its deposit across a retry on an equivalent value (`lumex/core/atomic/README.md`, "The split-count engine"). **The other split-count tables of this README were measured before that change.** The contended `compare_exchange_strong ()` of the split-count engine is now 2 to 10 % cheaper than the tables show; the other operations are unchanged (the measurements below), and the tables were not re-run. A policy that returns 0 from `cas_reserve ()` is the engine as it was; the series `lumex_split_count_nocasres` is built that way, so the comparison can be repeated: `python3 run_benchmark.py --series lumex_split_count,lumex_split_count_nocasres ...`.
+
+The data were measured with the experiment that preceded the change, in which the reserve was a switch of the build. In the files below the series `lumex_split_count` (label "split-count r8") is the engine WITHOUT the reserve of the compare-exchange (today `lumex_split_count_nocasres`) and `lumex_split_count_cas8` (label "split-count r8 + cas reserve 8") is the engine WITH it (today `lumex_split_count`); the machine code of every other operation is the same in the two.
+
+Files: `results/split_count/cas_reserve_ab.{csv,md}` (the 40-repetition run), `cas_reserve_ab_default.{csv,md}` and `cas_reserve_ab_aligned.{csv,md}` (the code placement A/B: the executable built plainly and with `-falign-functions=64 -falign-loops=64`, 24 repetitions, 3 s pauses).
+
+Method of the 40-repetition run: `--series lumex_split_count,lumex_split_count_cas8 --threads 1,2,4,6,8,10,12,14,16,18,20 --repetitions 40 --settle-seconds 30`, GCC 13.2, libstdc++ 13, release, i7-12700K, governor `powersave`, 30 minutes. Ratio to the uint64 compare-exchange of the same block, median with the 25th-75th percentiles of the repetitions (lower is better). Without the reserve / with it:
+
+| Threads | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 | 18 | 20 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| without | 7.9 (7.8-8.0) | 14.2 (13.1-15.4) | 16.2 (14.8-16.8) | 16.8 (16.1-18.1) | 17.4 (16.1-18.9) | 17.7 (17.0-18.6) | 18.7 (18.1-19.4) | 19.7 (18.8-20.8) | 20.3 (19.6-22.4) | 21.6 (20.8-23.9) | 22.1 (20.8-23.8) |
+| with | 7.8 (7.8-8.0) | 13.4 (12.5-14.5) | 15.2 (14.6-15.8) | 15.2 (14.0-16.0) | 15.6 (14.8-16.7) | 16.9 (16.0-17.5) | 17.2 (16.4-18.0) | 18.6 (17.1-19.8) | 19.9 (18.5-21.3) | 20.8 (19.5-23.0) | 21.1 (19.8-23.9) |
+| change of the median | -1 % | -6 % | -6 % | -10 % | -10 % | -5 % | -8 % | -6 % | -2 % | -4 % | -5 % |
+
+The quartiles of the two series overlap at every thread count, so the claim is about the median: 2 to 10 % lower, and lower at each of the ten thread counts from 2 to 20 (at 1 thread the two are the same code path, 7.9 against 7.8). The share of successful compare-exchanges in the benchmark's loop is higher with the reserve (0.15 against 0.23 at 20 threads, 0.20 against 0.28 at 8); that is measured, and its cause was not investigated.
+
+Code placement A/B (24 repetitions; the same two series; ratio, median):
+
+| Build | Series | 2 | 4 | 8 | 12 | 16 | 20 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| default | without | 13.1 | 15.4 | 16.1 | 17.2 | 19.6 | 21.2 |
+| default | with | 12.5 | 14.1 | 14.7 | 17.0 | 19.1 | 20.2 |
+| aligned to 64 | without | 13.2 | 15.8 | 16.7 | 18.0 | 21.6 | 23.2 |
+| aligned to 64 | with | 12.5 | 14.2 | 15.2 | 16.8 | 20.8 | 22.5 |
+
+The reserve is lower at every thread count in both builds (1 to 10 %), so the gain does not come from placement. Other operations in the 40-repetition run: `load`, `store`, `exchange`, `load_one_writer` and `one_writer_stores` agree between the two series within their quartiles at every thread count (the `one_writer_stores` quartiles at 10 to 20 threads are wide in both, 3.5-8.2 against 3.1-9.1 at 10 to 14 threads, and no claim is made). Uncontended: `compare_exchange_strong` 54.3 ns in both (260.7 against 259.7 cycles, 261.5 against 270.5 instructions per operation: the reserve costs nine instructions on the uncontended path and no measurable time), `store` 16.6 against 17.0 ns, `exchange` 17.1 against 17.7 ns, `load` 26.4 against 26.3 ns, which are within the quartiles. The A/B was made on one machine with one compiler.
 
 ### What the numbers do not show
 
