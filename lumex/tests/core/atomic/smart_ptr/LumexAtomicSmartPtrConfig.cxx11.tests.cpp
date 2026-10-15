@@ -203,7 +203,7 @@ TEST (LumexAtomicSmartPtrConfigTest,
   EXPECT_FALSE (g_constinit_shared.load ());
   EXPECT_FALSE (g_constinit_default.load ());
   EXPECT_TRUE (g_constinit_weak.load ().expired ());
-  g_constinit_shared = std::make_shared<int> (3);
+  g_constinit_shared = pf::make_shared<int> (3);
   EXPECT_EQ (*g_constinit_shared.load (), 3);
   g_constinit_shared = nullptr;
   EXPECT_FALSE (g_constinit_shared.load ());

@@ -40,7 +40,11 @@ import os
 import sys
 
 OPERATIONS = ("load", "store", "exchange", "compare_exchange_strong",
-              "load_one_writer")
+              "load_one_writer", "one_writer_stores", "load_store",
+              "weak_load", "weak_load_lock")
+# The rows of the destruction-latency scenario (mode `destroy`).
+DESTROY_OPERATIONS = ("destroy_median", "destroy_p99", "destroy_max",
+                      "destroy_backlog")
 COLORS = {
     "lumex_lock_based_cxx11": "#0072B2",
     "lumex_lock_based": "#56B4E9",
@@ -51,6 +55,17 @@ COLORS = {
     "lumex_std_backed": "#999999",
     "std": "#E69F00",
     "boost": "#000000",
+    "lumex_split_count_cxx11": "#332288",
+    "lumex_split_count": "#882255",
+    "lumex_split_count_r4": "#AA4499",
+    "lumex_lock_based_lumex_cxx11": "#117733",
+    "lumex_lock_based_lumex": "#44AA99",
+    "lumex_split_count_weak": "#882255",
+    "lumex_lock_based_lumex_weak": "#44AA99",
+    "lumex_lock_based_weak": "#0072B2",
+    "lumex_lock_free_weak": "#D55E00",
+    "lumex_std_backed_weak": "#999999",
+    "std_weak": "#E69F00",
 }
 FALLBACK_COLORS = ["#8c564b", "#7f7f7f", "#17becf", "#bcbd22"]
 # The variants of compile_time.cpp (run_benchmark.py --compile-time-only):
@@ -103,8 +118,10 @@ def read_results(path):
     for row in csv.DictReader(lines):
         row["threads"] = int(row["threads"])
         for key in ("ratio_median", "ratio_p25", "ratio_p75", "ns_median",
-                    "ns_p25", "ns_p75", "ns_min", "ns_max", "success_rate"):
-            row[key] = float(row[key])
+                    "ns_p25", "ns_p75", "ns_min", "ns_max", "success_rate",
+                    "cycles_median", "instructions_median"):
+            if key in row:
+                row[key] = float(row[key])
         rows.append(row)
     return meta, implementations, rows
 
@@ -472,6 +489,14 @@ def present(series, rows_of):
                         for r in rows_of[s]))
 
 
+def present_contended(series, rows_of):
+    """The operations some series has contended rows for (load_store and
+    the like are measured on one thread only)."""
+    return tuple(op for op in present(series, rows_of)
+                 if any(r["operation"] == op and r["mode"] == "contended"
+                        for s in series for r in rows_of[s]))
+
+
 def contended(rows, operation):
     return sorted((r for r in rows if r["mode"] == "contended"
                    and r["operation"] == operation),
@@ -546,7 +571,7 @@ def markdown(metas, series, rows_of):
                 cells.append("n/a")
         lines.append("| %s / mean | %s |" % (item.label, " | ".join(cells)))
 
-    for operation in present(series, rows_of):
+    for operation in present_contended(series, rows_of):
         lines += ["", "## `%s()`, contended" % operation, "",
                   "Ratio to the baseline of the same block (median, with "
                   "the 25th and 75th percentiles of the repetitions; lower "
@@ -569,23 +594,165 @@ def markdown(metas, series, rows_of):
                     "%.2f" % by_threads[t]["success_rate"]
                     if t in by_threads else "n/a" for t in threads)))
 
+    has_cycles = any("cycles_median" in r for s in series
+                     for r in rows_of[s])
     lines += ["", "## Uncontended", "",
               "One thread on a private object: median ns per operation, "
               "the 25th-75th percentile, and the ratio to the uncontended "
-              "baseline of the same block.", "",
-              "| Operation | Series | Median, ns | p25-p75, ns "
-              "| x uint64 CAS |", "| --- | --- | ---: | ---: | ---: |"]
+              "baseline of the same block."]
+    if has_cycles:
+        lines += ["The last two columns are the median cycles and "
+                  "instructions per operation of the thread in user mode "
+                  "(`perf_event_open`; 0 where the counter was not "
+                  "available)."]
+    lines += [""]
+    if has_cycles:
+        lines += ["| Operation | Series | Median, ns | p25-p75, ns "
+                  "| x uint64 CAS | cycles | instructions |",
+                  "| --- | --- | ---: | ---: | ---: | ---: | ---: |"]
+    else:
+        lines += ["| Operation | Series | Median, ns | p25-p75, ns "
+                  "| x uint64 CAS |", "| --- | --- | ---: | ---: | ---: |"]
     for operation in ("uint64_cas",) + present(series, rows_of):
         for item in series:
             row = uncontended(rows_of[item], operation)
             if row is None:
                 continue
-            lines.append("| `%s` | %s | %.1f | %.1f-%.1f | %.2f |"
-                         % (operation, item.label, row["ns_median"],
-                            row["ns_p25"], row["ns_p75"],
-                            row["ratio_median"]))
+            cells = ("| `%s` | %s | %.1f | %.1f-%.1f | %.2f |"
+                     % (operation, item.label, row["ns_median"],
+                        row["ns_p25"], row["ns_p75"],
+                        row["ratio_median"]))
+            if has_cycles:
+                cells = cells[:-1] + " %.1f | %.1f |" % (
+                    row["cycles_median"], row["instructions_median"])
+            lines.append(cells)
+    if any(r["operation"] == "one_writer_stores" for s in series
+           for r in rows_of[s]):
+        lines += rate_tables(series, rows_of, threads)
     lines.append("")
     return "\n".join(lines)
+
+
+def rate_tables(series, rows_of, threads):
+    """The read-heavy run as rates: loads per second of all the readers
+    together, and stores per second of the writer (millions), from the median
+    time per operation of each."""
+    lines = ["", "## Read-heavy: one writer, the others load", "",
+             "One thread stores alternating values in a loop, the other "
+             "threads `load ()`. Millions of operations per second, from the "
+             "median time per operation (all readers together for loads; "
+             "the writer for stores). At 1 thread there is no contention: "
+             "the thread alone loads (first table) or stores (second "
+             "table). Higher is better.", ""]
+    head = "| Series | " + " | ".join(str(t) for t in threads) + " |"
+    rule = "| --- | " + " | ".join("---:" for _ in threads) + " |"
+    for title, operation, readers in (
+            ("Loads per second of the readers, millions", "load_one_writer",
+             True),
+            ("Stores per second of the writer, millions", "one_writer_stores",
+             False)):
+        lines += [title, "", head, rule]
+        for item in series:
+            by_threads = {r["threads"]: r
+                          for r in contended(rows_of[item], operation)}
+            cells = []
+            for t in threads:
+                if t not in by_threads or by_threads[t]["ns_median"] <= 0:
+                    cells.append("n/a")
+                    continue
+                count = max(t - 1, 1) if readers else 1
+                cells.append("%.2f" % (count * 1e3
+                                       / by_threads[t]["ns_median"]))
+            lines.append("| %s | %s |" % (item.label, " | ".join(cells)))
+        lines.append("")
+    return lines
+
+
+def destroy_rows(rows, operation, thread_count):
+    return {r["implementation"]: r for r in rows
+            if r["mode"] == "destroy" and r["operation"] == operation
+            and r["threads"] == thread_count}
+
+
+def destroy_markdown(metas, series, rows_of):
+    """The tables of the destruction-latency scenario."""
+    rows = [r for s in series for r in rows_of[s]]
+    counts = sorted({r["threads"] for r in rows if r["mode"] == "destroy"})
+    lines = ["# Destruction latency", ""]
+    for index, item in enumerate(metas):
+        lines.append("- Run %d: %s, %s logical CPUs, governor `%s`; %s with "
+                     "%s, %s build; %s repetitions of %s replaced objects "
+                     "per series and thread count; measured %s."
+                     % (index + 1, item.get("cpu", "?"),
+                        item.get("logical_cpus", "?"),
+                        item.get("governor", "?"), item.get("compiler", "?"),
+                        item.get("library", "?"), item.get("build", "?"),
+                        item.get("repetitions", "?"),
+                        item.get("objects", "20000"), item.get("date", "?")))
+    lines += ["", "A thread replaces the stored value with a new object "
+              "that has a deleter, 20000 times in a row; the latency of an "
+              "object is the time from the start of the store that replaced "
+              "it to the run of its deleter (in nanoseconds). With more "
+              "than one thread the others load in a loop, so the last "
+              "owner can be a reader. The table gives, for each series, the "
+              "median over the repetitions of: the median, the 99th "
+              "percentile and the maximum of the latencies of the objects "
+              "destroyed by the time the loop ended; the share of objects "
+              "destroyed before the replacing store returned; the peak "
+              "number of replaced objects not yet destroyed (after a "
+              "store returned); and the share still pending when the loop "
+              "ended (not in the percentiles).", ""]
+    for count in counts:
+        lines += ["## %d thread%s" % (count, "" if count == 1 else "s"), "",
+                  "| Series | median, ns | p99, ns | max, ns "
+                  "| destroyed in the call | peak backlog "
+                  "| pending at the end |",
+                  "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
+        for item in series:
+            by_operation = {op: destroy_rows(rows_of[item], op, count)
+                            for op in DESTROY_OPERATIONS}
+            median = by_operation["destroy_median"].get(item.key)
+            if median is None:
+                continue
+            p99 = by_operation["destroy_p99"][item.key]
+            high = by_operation["destroy_max"][item.key]
+            backlog = by_operation["destroy_backlog"][item.key]
+            lines.append("| %s | %.0f | %.0f | %.0f | %.1f %% | %.0f "
+                         "| %.1f %% |"
+                         % (item.label, median["ns_median"], p99["ns_median"],
+                            high["ns_median"], 100 * median["success_rate"],
+                            backlog["ns_median"],
+                            100 * backlog["success_rate"]))
+        lines.append("")
+    return "\n".join(lines)
+
+
+def destroy_charts(subtitle, series, rows_of, write):
+    """One chart per statistic, a group per thread count."""
+    rows = [r for s in series for r in rows_of[s]]
+    counts = sorted({r["threads"] for r in rows if r["mode"] == "destroy"})
+    for name, operation, label in (
+            ("median", "destroy_median",
+             "Median time from the replacing store to the destructor, ns"),
+            ("p99", "destroy_p99",
+             "99th percentile of the same time, ns"),
+            ("backlog", "destroy_backlog",
+             "Peak number of replaced objects not yet destroyed")):
+        groups = []
+        for count in counts:
+            bars = []
+            for item in series:
+                row = destroy_rows(rows_of[item], operation, count).get(
+                    item.key)
+                if row is not None:
+                    bars.append((item, row["ns_median"], row["ns_p25"],
+                                 row["ns_p75"], "%.0f" % row["ns_median"]))
+            groups.append(("%d thread%s" % (count, "" if count == 1 else "s"),
+                           bars))
+        write(name, bar_chart(
+            label, [subtitle, "Median over the repetitions; whiskers: "
+                              "25th-75th percentile"],
+            label + " (lower is better)", groups))
 
 
 def main(argv):
@@ -616,6 +783,14 @@ def main(argv):
             stream.write(content)
         written.append(path)
 
+    if metas[0].get("scenario") == "destroy":
+        destroy_charts(subtitle, series, rows_of, write)
+        with open(stem + ".md", "w", encoding="utf-8", newline="\n") as out:
+            out.write(destroy_markdown(metas, series, rows_of))
+        written.append(stem + ".md")
+        print("written " + ", ".join(written))
+        return 0
+
     write("baseline", line_chart(
         "Baseline: std::atomic<uint64_t>::compare_exchange_strong, contended",
         [subtitle, "Timed right before each series' block: the same code "
@@ -625,7 +800,7 @@ def main(argv):
         [(s, [(r["threads"], r["ns_median"], r["ns_p25"], r["ns_p75"])
               for r in contended(rows_of[s], "uint64_cas")])
          for s in series]))
-    for operation in present(series, rows_of):
+    for operation in present_contended(series, rows_of):
         write(operation, line_chart(
             "%s() under contention, relative to the baseline" % operation,
             [subtitle, "Each point: time per operation / uint64 CAS time of "

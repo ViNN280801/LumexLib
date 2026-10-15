@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 830 1392" width="830" height="1392" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>Mutations and the layers that caught them</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">Mutations and the layers that caught them</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">One row per mutation. A cell is the verdict of one layer; a blank cell means that layer was</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">not run on it, or has no record. Rows: the pre-registered M1-M38 (with the two halves of M33),</text>
+<text x="20.0" y="86.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">the 24 mutants of the ABA campaign, the 5 of the family-suite review, and the 5 own mutants</text>
+<text x="20.0" y="103.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">V4/101 to V4/105 of the Relacy models.</text>
+<rect x="20.0" y="130.0" width="16" height="14" rx="2" fill="#009E73"/>
+<text x="28.0" y="141.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<text x="42.0" y="142.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">caught</text>
+<rect x="111.6" y="130.0" width="16" height="14" rx="2" fill="#56B4E9"/>
+<text x="119.6" y="141.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">S</text>
+<text x="133.6" y="142.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">caught only at the soak bound</text>
+<rect x="20.0" y="152.0" width="16" height="14" rx="2" fill="#8FD3B8"/>
+<text x="28.0" y="163.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="42.0" y="164.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">caught, known from an aggregate statement (no per-mutant record)</text>
+<rect x="494.4" y="152.0" width="16" height="14" rx="2" fill="#E69F00"/>
+<text x="502.4" y="163.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">P</text>
+<text x="516.4" y="164.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">caught in one counter flavour only</text>
+<rect x="20.0" y="174.0" width="16" height="14" rx="2" fill="#D55E00"/>
+<text x="28.0" y="185.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<text x="42.0" y="186.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">not caught (survivor or equivalent mutant)</text>
+<rect x="349.2" y="174.0" width="16" height="14" rx="2" fill="#edf2f7"/>
+<text x="371.2" y="186.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">not run, or no record</text>
+<text x="477.0" y="226.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">V1 simulator</text>
+<text x="551.0" y="226.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">V2 ABA</text>
+<text x="625.0" y="226.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">V3 family</text>
+<text x="699.0" y="226.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">V4 Relacy</text>
+<text x="773.0" y="226.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748">unit suites</text>
+<text x="40.0" y="245.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M1  settle: un-tick without the L &gt; 0 guard</text>
+<rect x="442" y="235.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M1, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="245.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="235.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M1, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="235.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M1, V3 family: not run, or no record</title></rect>
+<rect x="664" y="235.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M1, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="235.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M1, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="245.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="260.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M2  pre-transfer moved after the swap (the order of the first de...</text>
+<rect x="442" y="250.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M2, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="260.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="250.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M2, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="250.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M2, V3 family: not run, or no record</title></rect>
+<rect x="664" y="250.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M2, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="250.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M2, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="260.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="275.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M3  pre-transfer skipped on the L &gt; 0 path</text>
+<rect x="442" y="265.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M3, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="265.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M3, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="265.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M3, V3 family: not run, or no record</title></rect>
+<rect x="664" y="265.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M3, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="265.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M3, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="275.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="290.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M4  exchange hand-over also transfers</text>
+<rect x="442" y="280.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M4, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="280.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M4, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="280.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M4, V3 family: not run, or no record</title></rect>
+<rect x="664" y="280.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M4, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="280.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M4, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="290.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="305.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M5  holder hand-over adopts the owner reference without add</text>
+<rect x="442" y="295.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M5, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="295.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M5, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="295.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M5, V3 family: not run, or no record</title></rect>
+<rect x="664" y="295.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M5, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="295.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M5, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="305.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="320.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M6  load settles before reading the value</text>
+<rect x="442" y="310.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M6, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="320.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="310.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M6, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="310.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M6, V3 family: not run, or no record</title></rect>
+<rect x="664" y="310.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M6, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="310.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M6, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="335.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M7  settle decision taken on the guess (no acquire re-read)</text>
+<rect x="442" y="325.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M7, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="325.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M7, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="325.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M7, V3 family: not run, or no record</title></rect>
+<rect x="664" y="325.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M7, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="325.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M7, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="335.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="350.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M8  L3 tick relaxed</text>
+<rect x="442" y="340.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M8, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="340.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M8, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="340.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M8, V3 family: not run, or no record</title></rect>
+<rect x="664" y="340.0" width="70" height="13" rx="2" fill="#009E73"><title>M8, V4 Relacy: caught</title></rect>
+<text x="699.0" y="350.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="340.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M8, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="365.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M9  S4 swap success order without acquire</text>
+<rect x="442" y="355.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M9, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="355.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M9, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="355.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M9, V3 family: not run, or no record</title></rect>
+<rect x="664" y="355.0" width="70" height="13" rx="2" fill="#E69F00"><title>M9, V4 Relacy: caught in one counter flavour only</title></rect>
+<text x="699.0" y="365.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">P</text>
+<rect x="738" y="355.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M9, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="380.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M10  L7 un-tick relaxed</text>
+<rect x="442" y="370.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M10, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="370.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M10, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="370.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M10, V3 family: not run, or no record</title></rect>
+<rect x="664" y="370.0" width="70" height="13" rx="2" fill="#009E73"><title>M10, V4 Relacy: caught</title></rect>
+<text x="699.0" y="380.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="370.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M10, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="395.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M11  same_value compares lo only</text>
+<rect x="442" y="385.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M11, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="385.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M11, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="385.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M11, V3 family: not run, or no record</title></rect>
+<rect x="664" y="385.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M11, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="385.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M11, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="395.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="410.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M12  same_value compares the whole hi</text>
+<rect x="442" y="400.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M12, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="410.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="400.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M12, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="400.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M12, V3 family: not run, or no record</title></rect>
+<rect x="664" y="400.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M12, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="400.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M12, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="425.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M13  fits with &gt;&gt; 39</text>
+<rect x="442" y="415.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M13, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="415.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M13, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="415.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M13, V3 family: not run, or no record</title></rect>
+<rect x="664" y="415.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M13, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="415.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M13, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="425.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="440.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M14  offset_of without sign extension</text>
+<rect x="442" y="430.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M14, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="430.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M14, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="430.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M14, V3 family: not run, or no record</title></rect>
+<rect x="664" y="430.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M14, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="430.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M14, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="440.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="455.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M15  weak engine: holder settles on the weak ledger</text>
+<rect x="442" y="445.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M15, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="445.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M15, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="445.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M15, V3 family: not run, or no record</title></rect>
+<rect x="664" y="445.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M15, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="445.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M15, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="455.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="470.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M16  pin returns an empty guess without the confirming CAS</text>
+<rect x="442" y="460.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M16, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="460.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M16, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="460.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M16, V3 family: not run, or no record</title></rect>
+<rect x="664" y="460.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M16, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="460.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M16, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="470.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="485.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M17  tick-limit check removed</text>
+<rect x="442" y="475.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M17, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="475.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M17, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="475.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M17, V3 family: not run, or no record</title></rect>
+<rect x="664" y="475.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M17, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="475.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M17, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="485.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="500.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M18  &gt;= replaced by &gt; in the tick-limit check</text>
+<rect x="442" y="490.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M18, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="490.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M18, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="490.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M18, V3 family: not run, or no record</title></rect>
+<rect x="664" y="490.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M18, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="490.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M18, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="500.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="515.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M19  S12: settles the own tick after a successful swap</text>
+<rect x="442" y="505.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M19, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="505.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M19, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="505.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M19, V3 family: not run, or no record</title></rect>
+<rect x="664" y="505.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M19, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="505.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M19, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="515.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="530.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M20  compare-exchange: no retire of the image on failure</text>
+<rect x="442" y="520.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M20, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="520.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M20, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="520.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M20, V3 family: not run, or no record</title></rect>
+<rect x="664" y="520.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M20, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="520.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M20, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="530.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="545.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M21  strong compare-exchange: no retry when the reloaded value i...</text>
+<rect x="442" y="535.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M21, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="545.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="535.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M21, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="535.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M21, V3 family: not run, or no record</title></rect>
+<rect x="664" y="535.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M21, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="535.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M21, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="560.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M22  pre-transfer off by one (L or L - 2 instead of L - 1)</text>
+<rect x="442" y="550.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M22, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="560.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="550.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M22, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="550.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M22, V3 family: not run, or no record</title></rect>
+<rect x="664" y="550.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M22, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="550.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M22, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="560.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="575.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M23  destructor does not drop</text>
+<rect x="442" y="565.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M23, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="565.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M23, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="565.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M23, V3 family: not run, or no record</title></rect>
+<rect x="664" y="565.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M23, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="565.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M23, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="575.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="590.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M24  try_add refuses count == 0</text>
+<rect x="442" y="580.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M24, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="590.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="580.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M24, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="580.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M24, V3 family: not run, or no record</title></rect>
+<rect x="664" y="580.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M24, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="580.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M24, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="605.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M25  rmw_order ignores seq_cst</text>
+<rect x="442" y="595.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M25, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="595.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M25, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="595.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M25, V3 family: not run, or no record</title></rect>
+<rect x="664" y="595.0" width="70" height="13" rx="2" fill="#D55E00"><title>M25, V4 Relacy: not caught (survivor or equivalent mutant)</title></rect>
+<text x="699.0" y="605.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="738" y="595.0" width="70" height="13" rx="2" fill="#D55E00"><title>M25, unit suites: not caught (survivor or equivalent mutant)</title></rect>
+<text x="773.0" y="605.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<text x="40.0" y="620.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M26  no writer pin (pre-transfer on the guessed block)</text>
+<rect x="442" y="610.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M26, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="620.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="610.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M26, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="610.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M26, V3 family: not run, or no record</title></rect>
+<rect x="664" y="610.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M26, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="610.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M26, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="635.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M27  no undo when the word turned to another block</text>
+<rect x="442" y="625.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M27, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="635.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="625.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M27, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="625.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M27, V3 family: not run, or no record</title></rect>
+<rect x="664" y="625.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M27, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="625.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M27, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="635.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="650.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M28  undo pays moved instead of moved + 1</text>
+<rect x="442" y="640.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M28, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="640.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M28, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="640.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M28, V3 family: not run, or no record</title></rect>
+<rect x="664" y="640.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M28, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="640.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M28, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="650.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="665.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M29  holder pre-transfer without the owner mirror</text>
+<rect x="442" y="655.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M29, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="665.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="655.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M29, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="655.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M29, V3 family: not run, or no record</title></rect>
+<rect x="664" y="655.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M29, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="655.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M29, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="665.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="680.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M30  holder payment without the mirror payment</text>
+<rect x="442" y="670.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M30, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="670.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M30, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="670.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M30, V3 family: not run, or no record</title></rect>
+<rect x="664" y="670.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M30, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="670.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M30, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="680.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="695.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M31  own tick pre-transferred and settled instead of consumed</text>
+<rect x="442" y="685.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M31, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="695.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="685.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M31, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="685.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M31, V3 family: not run, or no record</title></rect>
+<rect x="664" y="685.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M31, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="685.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M31, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="710.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M32  swapped-out path counts and pays in two read-modify-writes</text>
+<rect x="442" y="700.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M32, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="710.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="700.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M32, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="700.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M32, V3 family: not run, or no record</title></rect>
+<rect x="664" y="700.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M32, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="700.0" width="70" height="13" rx="2" fill="#D55E00"><title>M32, unit suites: not caught (survivor or equivalent mutant)</title></rect>
+<text x="773.0" y="710.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<text x="40.0" y="725.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M33  decision reads relaxed (load and the failure order of the s...</text>
+<rect x="442" y="715.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="715.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="715.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33, V3 family: not run, or no record</title></rect>
+<rect x="664" y="715.0" width="70" height="13" rx="2" fill="#009E73"><title>M33, V4 Relacy: caught</title></rect>
+<text x="699.0" y="725.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="715.0" width="70" height="13" rx="2" fill="#D55E00"><title>M33, unit suites: not caught (survivor or equivalent mutant)</title></rect>
+<text x="773.0" y="725.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<text x="40.0" y="740.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M33a (331)  decision read of a load relaxed [library counter]</text>
+<rect x="442" y="730.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33a (331), V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="730.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33a (331), V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="730.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33a (331), V3 family: not run, or no record</title></rect>
+<rect x="664" y="730.0" width="70" height="13" rx="2" fill="#009E73"><title>M33a (331), V4 Relacy: caught</title></rect>
+<text x="699.0" y="740.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="730.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33a (331), unit suites: not run, or no record</title></rect>
+<text x="40.0" y="755.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M33b (332)  failure order of the swap relaxed [library counter]</text>
+<rect x="442" y="745.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33b (332), V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="745.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33b (332), V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="745.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33b (332), V3 family: not run, or no record</title></rect>
+<rect x="664" y="745.0" width="70" height="13" rx="2" fill="#009E73"><title>M33b (332), V4 Relacy: caught</title></rect>
+<text x="699.0" y="755.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="745.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M33b (332), unit suites: not run, or no record</title></rect>
+<text x="40.0" y="770.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M34  fast path without the L == 0 check</text>
+<rect x="442" y="760.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M34, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="770.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="760.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M34, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="760.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M34, V3 family: not run, or no record</title></rect>
+<rect x="664" y="760.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M34, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="760.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M34, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="770.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="785.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M35  reserve surplus not returned (store drop or exchange hand-o...</text>
+<rect x="442" y="775.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M35, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="775.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M35, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="775.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M35, V3 family: not run, or no record</title></rect>
+<rect x="664" y="775.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M35, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="775.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M35, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="785.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="800.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M36  reserve exceeded without a top-up</text>
+<rect x="442" y="790.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M36, V1 simulator: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="477.0" y="800.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<rect x="516" y="790.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M36, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="790.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M36, V3 family: not run, or no record</title></rect>
+<rect x="664" y="790.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M36, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="790.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M36, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="800.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="815.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M37  use_count returns count only</text>
+<rect x="442" y="805.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M37, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="805.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M37, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="805.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M37, V3 family: not run, or no record</title></rect>
+<rect x="664" y="805.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M37, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="805.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M37, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="815.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="830.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">M38  L9 take_and_settle replaced by add (payment forgotten)</text>
+<rect x="442" y="820.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M38, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="820.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M38, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="820.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M38, V3 family: not run, or no record</title></rect>
+<rect x="664" y="820.0" width="70" height="13" rx="2" fill="#edf2f7"><title>M38, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="820.0" width="70" height="13" rx="2" fill="#8FD3B8"><title>M38, unit suites: caught, known from an aggregate statement (no per-mutant record)</title></rect>
+<text x="773.0" y="830.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">A</text>
+<text x="40.0" y="853.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M01  same_value ignores delta (same as N02)</text>
+<rect x="442" y="843.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M01, V1 simulator: caught</title></rect>
+<text x="477.0" y="853.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="843.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M01, V2 ABA: caught</title></rect>
+<text x="551.0" y="853.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="843.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M01, V3 family: not run, or no record</title></rect>
+<rect x="664" y="843.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M01, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="843.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M01, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="868.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M02  load: stale holder owner/pointer from the first guess</text>
+<rect x="442" y="858.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/M02, V1 simulator: not caught (survivor or equivalent mutant)</title></rect>
+<text x="477.0" y="868.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="516" y="858.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M02, V2 ABA: caught</title></rect>
+<text x="551.0" y="868.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="858.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M02, V3 family: not run, or no record</title></rect>
+<rect x="664" y="858.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M02, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="858.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M02, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="883.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M03  holder CAS: owner/pointer read from the guess</text>
+<rect x="442" y="873.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/M03, V1 simulator: not caught (survivor or equivalent mutant)</title></rect>
+<text x="477.0" y="883.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="516" y="873.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M03, V2 ABA: caught</title></rect>
+<text x="551.0" y="883.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="873.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M03, V3 family: not run, or no record</title></rect>
+<rect x="664" y="873.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M03, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="873.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M03, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="898.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M04  holder CAS: no compare after the pin</text>
+<rect x="442" y="888.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M04, V1 simulator: caught</title></rect>
+<text x="477.0" y="898.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="888.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M04, V2 ABA: caught</title></rect>
+<text x="551.0" y="898.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="888.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M04, V3 family: not run, or no record</title></rect>
+<rect x="664" y="888.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M04, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="888.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M04, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="913.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M05  settle: blind retry</text>
+<rect x="442" y="903.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M05, V1 simulator: caught</title></rect>
+<text x="477.0" y="913.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="903.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M05, V2 ABA: caught</title></rect>
+<text x="551.0" y="913.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="903.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M05, V3 family: not run, or no record</title></rect>
+<rect x="664" y="903.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M05, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="903.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M05, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="928.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M06  settle: un-tick of any block</text>
+<rect x="442" y="918.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M06, V1 simulator: caught</title></rect>
+<text x="477.0" y="928.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="918.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M06, V2 ABA: caught</title></rect>
+<text x="551.0" y="928.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="918.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M06, V3 family: not run, or no record</title></rect>
+<rect x="664" y="918.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M06, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="918.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M06, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="943.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M07  count_and_settle: present decision ignores the tag</text>
+<rect x="442" y="933.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M07, V1 simulator: caught</title></rect>
+<text x="477.0" y="943.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="933.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M07, V2 ABA: caught</title></rect>
+<text x="551.0" y="943.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="933.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M07, V3 family: not run, or no record</title></rect>
+<rect x="664" y="933.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M07, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="933.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M07, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="958.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M08  count_and_settle: present decision ignores L != 0</text>
+<rect x="442" y="948.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M08, V1 simulator: caught</title></rect>
+<text x="477.0" y="958.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="948.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M08, V2 ABA: caught</title></rect>
+<text x="551.0" y="958.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="948.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M08, V3 family: not run, or no record</title></rect>
+<rect x="664" y="948.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M08, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="948.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M08, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="973.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M09  swap_out: same block with L == 0 counts as pinned</text>
+<rect x="442" y="963.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M09, V1 simulator: caught</title></rect>
+<text x="477.0" y="973.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="963.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M09, V2 ABA: caught</title></rect>
+<text x="551.0" y="973.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="963.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M09, V3 family: not run, or no record</title></rect>
+<rect x="664" y="963.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M09, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="963.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M09, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="988.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M10  swap_out: other block with ticks counts as the same</text>
+<rect x="442" y="978.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M10, V1 simulator: caught</title></rect>
+<text x="477.0" y="988.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="978.0" width="70" height="13" rx="2" fill="#56B4E9"><title>V2/M10, V2 ABA: caught only at the soak bound</title></rect>
+<text x="551.0" y="988.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">S</text>
+<rect x="590" y="978.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M10, V3 family: not run, or no record</title></rect>
+<rect x="664" y="978.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M10, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="978.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M10, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1003.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M11  CAS: image dropped after a failed CAS but reused</text>
+<rect x="442" y="993.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M11, V1 simulator: caught</title></rect>
+<text x="477.0" y="1003.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="993.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M11, V2 ABA: caught</title></rect>
+<text x="551.0" y="1003.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="993.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M11, V3 family: not run, or no record</title></rect>
+<rect x="664" y="993.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M11, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="993.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M11, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1018.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M12  counter try_add: count_of instead of the whole word</text>
+<rect x="442" y="1008.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M12, V1 simulator: caught</title></rect>
+<text x="477.0" y="1018.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="1008.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M12, V2 ABA: caught</title></rect>
+<text x="551.0" y="1018.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1008.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M12, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1008.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M12, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1008.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M12, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1033.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M13  weak_ptr expired: count part only</text>
+<rect x="442" y="1023.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M13, V1 simulator: caught</title></rect>
+<text x="477.0" y="1033.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="1023.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M13, V2 ABA: caught</title></rect>
+<text x="551.0" y="1033.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1023.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M13, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1023.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M13, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1023.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M13, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1048.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M14a  block_of: holder flag not masked</text>
+<rect x="442" y="1038.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M14a, V1 simulator: caught</title></rect>
+<text x="477.0" y="1048.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="1038.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M14a, V2 ABA: caught</title></rect>
+<text x="551.0" y="1048.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1038.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M14a, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1038.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M14a, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1038.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M14a, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1063.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M14b  tag compared without the holder bit</text>
+<rect x="442" y="1053.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/M14b, V1 simulator: not caught (survivor or equivalent mutant)</title></rect>
+<text x="477.0" y="1063.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="516" y="1053.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/M14b, V2 ABA: not caught (survivor or equivalent mutant)</title></rect>
+<text x="551.0" y="1063.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="590" y="1053.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M14b, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1053.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M14b, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1053.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M14b, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1078.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M15  load: stale holder owner, weak engine only</text>
+<rect x="442" y="1068.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/M15, V1 simulator: not caught (survivor or equivalent mutant)</title></rect>
+<text x="477.0" y="1078.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="516" y="1068.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M15, V2 ABA: caught</title></rect>
+<text x="551.0" y="1078.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1068.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M15, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1068.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M15, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1068.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M15, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1093.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M16  load: static cross-thread cache holder to owner</text>
+<rect x="442" y="1083.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/M16, V1 simulator: not caught (survivor or equivalent mutant)</title></rect>
+<text x="477.0" y="1093.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="516" y="1083.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M16, V2 ABA: caught</title></rect>
+<text x="551.0" y="1093.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1083.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M16, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1083.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M16, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1083.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M16, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1108.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/M17  CAS block: deposit 0 instead of the ticks of the word</text>
+<rect x="442" y="1098.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M17, V1 simulator: caught</title></rect>
+<text x="477.0" y="1108.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="1098.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/M17, V2 ABA: caught</title></rect>
+<text x="551.0" y="1108.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1098.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M17, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1098.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M17, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1098.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/M17, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1123.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/N03  empty same_value ignores the raw pointer</text>
+<rect x="442" y="1113.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/N03, V1 simulator: not caught (survivor or equivalent mutant)</title></rect>
+<text x="477.0" y="1123.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="516" y="1113.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/N03, V2 ABA: caught</title></rect>
+<text x="551.0" y="1123.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1113.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N03, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1113.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N03, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1113.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N03, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1138.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/N04  an empty word equals any word with the same hi</text>
+<rect x="442" y="1128.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/N04, V1 simulator: not caught (survivor or equivalent mutant)</title></rect>
+<text x="477.0" y="1138.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="516" y="1128.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/N04, V2 ABA: caught</title></rect>
+<text x="551.0" y="1138.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1128.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N04, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1128.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N04, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1128.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N04, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1153.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/N07  settle: tick present only with the same delta</text>
+<rect x="442" y="1143.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/N07, V1 simulator: caught</title></rect>
+<text x="477.0" y="1153.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="1143.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/N07, V2 ABA: caught</title></rect>
+<text x="551.0" y="1153.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1143.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N07, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1143.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N07, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1143.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N07, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1168.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/N08  count_and_settle: the same</text>
+<rect x="442" y="1158.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/N08, V1 simulator: caught</title></rect>
+<text x="477.0" y="1168.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="1158.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/N08, V2 ABA: caught</title></rect>
+<text x="551.0" y="1168.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1158.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N08, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1158.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N08, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1158.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N08, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1183.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/N10  holder CAS compares the owner only</text>
+<rect x="442" y="1173.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/N10, V1 simulator: caught</title></rect>
+<text x="477.0" y="1183.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="516" y="1173.0" width="70" height="13" rx="2" fill="#009E73"><title>V2/N10, V2 ABA: caught</title></rect>
+<text x="551.0" y="1183.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="590" y="1173.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N10, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1173.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N10, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1173.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N10, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1198.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V2/N11  holder CAS compares the pointer only</text>
+<rect x="442" y="1188.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/N11, V1 simulator: not caught (survivor or equivalent mutant)</title></rect>
+<text x="477.0" y="1198.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="516" y="1188.0" width="70" height="13" rx="2" fill="#D55E00"><title>V2/N11, V2 ABA: not caught (survivor or equivalent mutant)</title></rect>
+<text x="551.0" y="1198.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">X</text>
+<rect x="590" y="1188.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N11, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1188.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N11, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1188.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V2/N11, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1221.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V3/M1  compare ignores the delta</text>
+<rect x="442" y="1211.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M1, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1211.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M1, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1211.0" width="70" height="13" rx="2" fill="#009E73"><title>V3/M1, V3 family: caught</title></rect>
+<text x="625.0" y="1221.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="664" y="1211.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M1, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1211.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M1, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1236.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V3/M2  store drops the replaced word without its decrement</text>
+<rect x="442" y="1226.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M2, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1226.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M2, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1226.0" width="70" height="13" rx="2" fill="#009E73"><title>V3/M2, V3 family: caught</title></rect>
+<text x="625.0" y="1236.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="664" y="1226.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M2, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1226.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M2, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1251.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V3/M3  exchange returns load () and drops the store</text>
+<rect x="442" y="1241.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M3, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1241.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M3, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1241.0" width="70" height="13" rx="2" fill="#009E73"><title>V3/M3, V3 family: caught</title></rect>
+<text x="625.0" y="1251.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="664" y="1241.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M3, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1241.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M3, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1266.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V3/M4  a successful compare-exchange skips drop_word</text>
+<rect x="442" y="1256.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M4, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1256.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M4, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1256.0" width="70" height="13" rx="2" fill="#009E73"><title>V3/M4, V3 family: caught</title></rect>
+<text x="625.0" y="1266.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="664" y="1256.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M4, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1256.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M4, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1281.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V3/M5  compare ignores the block</text>
+<rect x="442" y="1271.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M5, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1271.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M5, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1271.0" width="70" height="13" rx="2" fill="#009E73"><title>V3/M5, V3 family: caught</title></rect>
+<text x="625.0" y="1281.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="664" y="1271.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M5, V4 Relacy: not run, or no record</title></rect>
+<rect x="738" y="1271.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V3/M5, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1304.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V4/101  no acquire fence after a drop that made the counter zero...</text>
+<rect x="442" y="1294.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/101, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1294.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/101, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1294.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/101, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1294.0" width="70" height="13" rx="2" fill="#009E73"><title>V4/101, V4 Relacy: caught</title></rect>
+<text x="699.0" y="1304.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="1294.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/101, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1319.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V4/102  counter drop relaxed (no release) [library counter]</text>
+<rect x="442" y="1309.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/102, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1309.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/102, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1309.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/102, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1309.0" width="70" height="13" rx="2" fill="#009E73"><title>V4/102, V4 Relacy: caught</title></rect>
+<text x="699.0" y="1319.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="1309.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/102, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1334.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V4/103  S1 swap of a tick-free word relaxed [library counter]</text>
+<rect x="442" y="1324.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/103, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1324.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/103, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1324.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/103, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1324.0" width="70" height="13" rx="2" fill="#009E73"><title>V4/103, V4 Relacy: caught</title></rect>
+<text x="699.0" y="1334.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="1324.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/103, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1349.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V4/104  S2 writer&#x27;s pin relaxed [library counter]</text>
+<rect x="442" y="1339.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/104, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1339.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/104, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1339.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/104, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1339.0" width="70" height="13" rx="2" fill="#009E73"><title>V4/104, V4 Relacy: caught</title></rect>
+<text x="699.0" y="1349.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="1339.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/104, unit suites: not run, or no record</title></rect>
+<text x="40.0" y="1364.0" font-size="11" text-anchor="start" font-weight="normal" fill="#1a202c">V4/105  S10 and S12 compare-exchange swap relaxed (block word) [...</text>
+<rect x="442" y="1354.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/105, V1 simulator: not run, or no record</title></rect>
+<rect x="516" y="1354.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/105, V2 ABA: not run, or no record</title></rect>
+<rect x="590" y="1354.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/105, V3 family: not run, or no record</title></rect>
+<rect x="664" y="1354.0" width="70" height="13" rx="2" fill="#009E73"><title>V4/105, V4 Relacy: caught</title></rect>
+<text x="699.0" y="1364.0" font-size="10" text-anchor="middle" font-weight="600" fill="#ffffff">C</text>
+<rect x="738" y="1354.0" width="70" height="13" rx="2" fill="#edf2f7"><title>V4/105, unit suites: not run, or no record</title></rect>
+<text x="28" y="534.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748" transform="rotate(-90 28 534.0)">pre-registered</text>
+<line x1="36" y1="234.0" x2="36" y2="834.0" stroke="#a0aec0" stroke-width="1"/>
+<text x="28" y="1022.0" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748" transform="rotate(-90 28 1022.0)">V2 campaign</text>
+<line x1="36" y1="842.0" x2="36" y2="1202.0" stroke="#a0aec0" stroke-width="1"/>
+<text x="28" y="1247.5" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748" transform="rotate(-90 28 1247.5)">V3 review</text>
+<line x1="36" y1="1210.0" x2="36" y2="1285.0" stroke="#a0aec0" stroke-width="1"/>
+<text x="28" y="1330.5" font-size="11" text-anchor="middle" font-weight="600" fill="#2d3748" transform="rotate(-90 28 1330.5)">V4 own</text>
+<line x1="36" y1="1293.0" x2="36" y2="1368.0" stroke="#a0aec0" stroke-width="1"/>
+</svg>

@@ -25,7 +25,7 @@ using namespace lumex_atomic_test;
 
 namespace
 {
-typedef std::shared_ptr<int> IntPtr;
+typedef pf::shared_ptr<int> IntPtr;
 
 /// Passes a token around @p ring_size threads for @p rounds laps; thread i
 /// takes the turns whose value is i modulo the ring size.
@@ -33,7 +33,7 @@ void
 pass_token (int ring_size, int rounds, bool notify_all,
             lumex_test::ScheduleKind kind, std::uint64_t seed)
 {
-  atomic_shared_ptr<int> a (std::make_shared<int> (0));
+  atomic_shared_ptr<int> a (pf::make_shared<int> (0));
   std::string const error = lumex_test::run_threads (
       ring_size,
       [&] (int i)
@@ -50,7 +50,7 @@ pass_token (int ring_size, int rounds, bool notify_all,
                   current = a.load ();
                 }
               schedule.point ();
-              a.store (std::make_shared<int> (*current + 1));
+              a.store (pf::make_shared<int> (*current + 1));
               if (notify_all)
                 a.notify_all ();
               else
@@ -109,7 +109,7 @@ TEST (
       std::vector<IntPtr> olds;
       for (int i = 0; i < count; ++i)
         {
-          olds.push_back (std::make_shared<int> (i));
+          olds.push_back (pf::make_shared<int> (i));
           atoms.push_back (std::unique_ptr<atomic_shared_ptr<int>> (
               new atomic_shared_ptr<int> (olds.back ())));
         }
@@ -119,7 +119,7 @@ TEST (
         for (int i = 0; i < count; ++i)
           {
             atoms[static_cast<std::size_t> (i)]->store (
-                std::make_shared<int> (-i - 1));
+                pf::make_shared<int> (-i - 1));
             atoms[static_cast<std::size_t> (i)]->notify_one ();
           }
       std::vector<std::thread> waiters;
@@ -141,7 +141,7 @@ TEST (
           for (int i = 0; i < count; ++i)
             {
               atoms[static_cast<std::size_t> (i)]->store (
-                  std::make_shared<int> (-i - 1));
+                  pf::make_shared<int> (-i - 1));
               atoms[static_cast<std::size_t> (i)]->notify_one ();
             }
         }
@@ -157,8 +157,8 @@ TEST (LumexAtomicSmartPtrWaitStressTest,
   // must not release the waiters of the other (a stripe of the pre-C++20
   // wait table may be shared, the value is not).
   lumex_test::TestWatchdog const dog ("GivenWaitersOfTwoAtomics");
-  IntPtr const old_a = std::make_shared<int> (1);
-  IntPtr const old_b = std::make_shared<int> (2);
+  IntPtr const old_a = pf::make_shared<int> (1);
+  IntPtr const old_b = pf::make_shared<int> (2);
   atomic_shared_ptr<int> a (old_a);
   atomic_shared_ptr<int> b (old_b);
   std::atomic<int> returned_a (0);
@@ -185,14 +185,14 @@ TEST (LumexAtomicSmartPtrWaitStressTest,
   while (started.load () < 12)
     std::this_thread::yield ();
   sleep_ms (30);
-  a.store (std::make_shared<int> (10));
+  a.store (pf::make_shared<int> (10));
   a.notify_all ();
   wait_for_count (returned_a, 6);
   sleep_ms (30);
   EXPECT_EQ (returned_a.load (), 6);
   EXPECT_EQ (returned_b.load (), 0)
       << "the waiters of the other atomic stay asleep";
-  b.store (std::make_shared<int> (20));
+  b.store (pf::make_shared<int> (20));
   b.notify_all ();
   join_all (waiters);
   EXPECT_EQ (returned_b.load (), 6);

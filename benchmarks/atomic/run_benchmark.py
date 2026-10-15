@@ -71,7 +71,22 @@ LOCK_BASED_PATHS = ("lock_based_std_wait", "lock_based_table_wait")
 LOCK_FREE_PATHS = ("lock_free_std_wait", "lock_free_table_wait")
 COMMON_PATHS = ("common_std_wait", "common_table_wait")
 OPERATIONS = ("uint64_cas", "load", "store", "exchange",
-              "compare_exchange_strong", "load_one_writer")
+              "compare_exchange_strong", "load_one_writer",
+              "one_writer_stores", "load_store", "weak_load",
+              "weak_load_lock", "destroy_median", "destroy_p99",
+              "destroy_max", "destroy_backlog")
+SCENARIOS = ("shared", "weak", "destroy")
+# The split-count series (bench_lumex_family*.cpp): the key and what its
+# "path" of --list must start with.
+SPLIT_COUNT_PATHS = {
+    "lumex_split_count_cxx11": "split_count_table_wait",
+    "lumex_split_count": "split_count_std_wait",
+    "lumex_split_count_r4": "split_count_r4_std_wait",
+    "lumex_lock_based_lumex_cxx11": "lock_based_lumex_table_wait",
+    "lumex_lock_based_lumex": "lock_based_lumex_std_wait",
+    "lumex_split_count_weak": "split_count_std_wait",
+    "lumex_lock_based_lumex_weak": "lock_based_lumex_std_wait",
+}
 
 
 def log(message):
@@ -84,17 +99,36 @@ def die(message):
     sys.exit(1)
 
 
-def list_implementations(exe):
+def list_implementations(exe, scenario="shared"):
     """Returns [(key, label, path, standard, lock_free)] from --list."""
-    output = subprocess.run([exe, "--list"], check=True,
-                            stdout=subprocess.PIPE,
+    output = subprocess.run([exe, "--list", "--scenario", scenario],
+                            check=True, stdout=subprocess.PIPE,
                             universal_newlines=True).stdout
     implementations = []
     for line in output.splitlines():
         if line.strip():
-            key, label, path, standard, lock_free = line.split("|")
+            key, label, path, standard, lock_free = line.split("|")[:5]
             implementations.append((key, label, path, standard, lock_free))
     return implementations
+
+
+def check_split_count(implementations, series):
+    """The split-count and own-family series must be the engines they name.
+
+    `series` is the list of keys the run selects (empty: every series)."""
+    by_key = {item[0]: item for item in implementations}
+    for key, path in SPLIT_COUNT_PATHS.items():
+        if series and key not in series:
+            continue
+        if key not in by_key:
+            if key in series:
+                die("the benchmark has no %s implementation" % key)
+            continue
+        if by_key[key][2] != path:
+            die("%s measured %s, not %s" % (key, by_key[key][2], path))
+        wants_lock_free = key.startswith("lumex_split_count")
+        if (by_key[key][4] == "1") != wants_lock_free:
+            die("%s reports is_lock_free () %s" % (key, by_key[key][4]))
 
 
 def check_implementations(implementations):
@@ -221,7 +255,14 @@ def aggregate(rows):
         successes = [float(r["successes"]) for r in group]
         success_rate = (sum(successes) / sum(operations)
                         if sum(operations) else 0.0)
+        extra = {}
+        if "cycles_per_op" in group[0]:
+            cycles = [float(r["cycles_per_op"]) for r in group]
+            instructions = [float(r["instructions_per_op"]) for r in group]
+            extra = {"cycles_median": statistics.median(cycles),
+                     "instructions_median": statistics.median(instructions)}
         result.append({
+            **extra,
             "mode": key[0], "threads": key[1], "implementation": key[2],
             "operation": key[3],
             "ratio_median": statistics.median(ratios),
@@ -243,6 +284,8 @@ def write_results(path, header, rows):
                "ratio_median", "ratio_p25", "ratio_p75", "ns_median",
                "ns_p25", "ns_p75", "ns_min", "ns_max", "success_rate",
                "repetitions", "valid"]
+    if rows and "cycles_median" in rows[0]:
+        columns += ["cycles_median", "instructions_median"]
     with open(path, "w", newline="", encoding="utf-8") as stream:
         for key, value in header:
             stream.write("# %s=%s\n" % (key, value))
@@ -256,6 +299,9 @@ def write_results(path, header, rows):
             for name in ("ns_median", "ns_p25", "ns_p75", "ns_min", "ns_max"):
                 out[name] = "%.3f" % row[name]
             out["success_rate"] = "%.4f" % row["success_rate"]
+            for name in ("cycles_median", "instructions_median"):
+                if name in row:
+                    out[name] = "%.1f" % row[name]
             writer.writerow(out)
 
 
@@ -361,6 +407,18 @@ def parse_args(argv):
                         help="the LumexAtomicBenchmark executable")
     parser.add_argument("--out-dir", default=os.path.join(HERE, "results"),
                         help="where atomic_benchmark.csv and the charts go")
+    parser.add_argument("--name", default="atomic_benchmark",
+                        help="stem of the result files (default "
+                             "atomic_benchmark)")
+    parser.add_argument("--scenario", default="shared", choices=SCENARIOS,
+                        help="shared: the operations on the atomic shared "
+                             "pointers; weak: load and lock () on the "
+                             "atomic weak pointers; destroy: the latency "
+                             "from a replacing store to the destructor "
+                             "(default shared)")
+    parser.add_argument("--objects", type=int, default=20000,
+                        help="scenario destroy: replacements per "
+                             "measurement (default 20000)")
     parser.add_argument("--raw-csv", default=None,
                         help="also keep every row of every run here")
     parser.add_argument("--repetitions", type=int, default=100,
@@ -421,8 +479,14 @@ def main(argv):
     exe = os.path.abspath(args.exe)
     if not os.path.isfile(exe):
         die("no executable %s" % exe)
-    implementations = list_implementations(exe)
-    check_implementations(implementations)
+    implementations = list_implementations(exe, args.scenario)
+    series = args.series.split(",") if args.series else []
+    if args.scenario == "weak":
+        check_split_count(implementations, series)
+    else:
+        implementations_all = list_implementations(exe, "shared")
+        check_implementations(implementations_all)
+        check_split_count(implementations_all, series)
     os.makedirs(args.out_dir, exist_ok=True)
     machine = machine_info()
     load_start = load_average()
@@ -442,7 +506,9 @@ def main(argv):
             path = os.path.join(scratch, "run_%d.csv" % repetition)
             command = [exe, "--csv", path, "--repetition", str(repetition),
                        "--duration-ms", str(args.duration_ms),
-                       "--warmup-ms", str(args.warmup_ms)]
+                       "--warmup-ms", str(args.warmup_ms),
+                       "--scenario", args.scenario,
+                       "--objects", str(args.objects)]
             if args.threads:
                 command += ["--threads", args.threads]
             if args.series:
@@ -470,6 +536,8 @@ def main(argv):
             writer.writerows(rows)
 
     header = [("tool", "LumexAtomicBenchmark"),
+              ("scenario", args.scenario),
+              ("objects", str(args.objects)),
               ("date", started.strftime("%Y-%m-%d")),
               ("cpu", machine["cpu"]),
               ("logical_cpus", machine["logical_cpus"]),
@@ -488,7 +556,7 @@ def main(argv):
               ("minutes", "%.1f" % ((time.monotonic() - clock) / 60))]
     header += [("implementation", value)
                for value in run_header.get("implementations", [])]
-    results = os.path.join(args.out_dir, "atomic_benchmark.csv")
+    results = os.path.join(args.out_dir, args.name + ".csv")
     write_results(results, header, aggregate(rows))
     log("written %s" % results)
     if not args.no_plot:

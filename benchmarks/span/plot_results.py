@@ -63,7 +63,7 @@ UNSTABLE = 1.25
 def read_benchmark(path):
     comments = []
     rows = []
-    with open(path, newline="") as handle:
+    with open(path, newline="", encoding="utf-8") as handle:
         lines = handle.readlines()
     body = []
     for line in lines:
@@ -85,7 +85,7 @@ def read_benchmark(path):
 def read_compile(path):
     comments = []
     body = []
-    with open(path, newline="") as handle:
+    with open(path, newline="", encoding="utf-8") as handle:
         for line in handle:
             if line.startswith("#"):
                 comments.append(line[1:].strip())
@@ -120,7 +120,7 @@ HEADER_COLOR = {
 def read_header_cost(path):
     comments = []
     body = []
-    with open(path, newline="") as handle:
+    with open(path, newline="", encoding="utf-8") as handle:
         for line in handle:
             if line.startswith("#"):
                 comments.append(line[1:].strip())
@@ -534,7 +534,8 @@ def main():
     compile_rows, compile_comments = [], []
     if compile_path and os.path.exists(compile_path):
         compile_comments, compile_rows = read_compile(compile_path)
-    with open(os.path.join(out_dir, "span_benchmark.md"), "w") as handle:
+    with open(os.path.join(out_dir, "span_benchmark.md"), "w",
+              encoding="utf-8", newline="\n") as handle:
         handle.write(markdown(comments, grouped, order, compile_rows,
                               compile_comments))
     machine = next((c for c in comments if c.startswith("machine=")), "")
@@ -548,21 +549,21 @@ def main():
         model = machine.split('"')[1] if '"' in machine else machine
         subtitle = "%s; %s" % (", ".join(compilers), model)
         path = os.path.join(out_dir, "span_benchmark_%s.svg" % toolchain)
-        with open(path, "w") as handle:
+        with open(path, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(svg_dot_chart(
                 "span, time relative to lumex C++11 (%s)" % toolchain,
                 subtitle, per_variant, order))
         print("wrote " + path)
     if compile_rows:
         path = os.path.join(out_dir, "compile_time.svg")
-        with open(path, "w") as handle:
+        with open(path, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(svg_compile_chart(compile_rows, compile_comments))
         print("wrote " + path)
     header_path = os.path.join(out_dir, "header_cost.csv")
     if os.path.exists(header_path):
         header_comments, header_rows = read_header_cost(header_path)
         path = os.path.join(out_dir, "header_cost.svg")
-        with open(path, "w") as handle:
+        with open(path, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(svg_header_chart(header_rows, header_comments))
         print("wrote " + path)
     print("wrote " + os.path.join(out_dir, "span_benchmark.md"))

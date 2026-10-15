@@ -21,15 +21,15 @@ TEST (LumexAtomicSmartPtrPerfTest,
 {
 #if LUMEX_PERF_WALL_CLOCK_ENABLED
   int const rounds = 100000;
-  std::shared_ptr<int> const a_value = std::make_shared<int> (1);
-  std::shared_ptr<int> const b_value = std::make_shared<int> (2);
+  pf::shared_ptr<int> const a_value = pf::make_shared<int> (1);
+  pf::shared_ptr<int> const b_value = pf::make_shared<int> (2);
   atomic_shared_ptr<int> a (a_value);
   std::chrono::steady_clock::time_point const start
       = std::chrono::steady_clock::now ();
   long checksum = 0;
   for (int i = 0; i < rounds; ++i)
     {
-      std::shared_ptr<int> expected = a.load ();
+      pf::shared_ptr<int> expected = a.load ();
       checksum += *expected;
       a.compare_exchange_strong (expected, (i & 1) == 0 ? b_value : a_value);
       a.store (a.exchange (a_value));
@@ -51,7 +51,7 @@ TEST (LumexAtomicSmartPtrPerfTest,
 {
 #if LUMEX_PERF_WALL_CLOCK_ENABLED
   int const rounds = 50000;
-  atomic_shared_ptr<int> a (std::make_shared<int> (0));
+  atomic_shared_ptr<int> a (pf::make_shared<int> (0));
   std::chrono::steady_clock::time_point const start
       = std::chrono::steady_clock::now ();
   std::thread other (

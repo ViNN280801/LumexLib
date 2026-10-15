@@ -981,6 +981,7 @@ INPUT                  = lumex/ \
                          VERSIONING.md \
                          lumex/core/fmt/README.md \
                          lumex/core/atomic/README.md \
+                         lumex/core/atomic/VERIFICATION.md \
                          lumex/core/hazard_pointer/README.md \
                          lumex/core/contracts/README.md \
                          lumex/core/smart_ptr/README.md \
@@ -1089,7 +1090,8 @@ EXAMPLE_RECURSIVE      = NO
 # \image command).
 
 IMAGE_PATH             = benchmarks/fmt/results \
-                         benchmarks/atomic/results
+                         benchmarks/atomic/results \
+                         benchmarks/atomic/results/verification
 
 # The INPUT_FILTER tag can be used to specify a program that Doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program

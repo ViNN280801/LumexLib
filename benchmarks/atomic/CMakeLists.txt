@@ -30,14 +30,27 @@ set_target_properties(LumexAtomicBenchmarkCxx11 PROPERTIES
     CXX_EXTENSIONS OFF
 )
 
+# The same for the split-count engine and the lock-based engine over the
+# library's own pointer family at C++11.
+add_library(LumexAtomicBenchmarkFamilyCxx11 OBJECT bench_lumex_family_cxx11.cpp)
+target_link_libraries(LumexAtomicBenchmarkFamilyCxx11 PRIVATE lumex::atomic)
+set_target_properties(LumexAtomicBenchmarkFamilyCxx11 PROPERTIES
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
+)
+
 add_executable(LumexAtomicBenchmark
     bench_atomic_smart_ptr.cpp
     bench_lumex_default.cpp
+    bench_lumex_family.cpp
+    bench_weak.cpp
     bench_lumex_lock_based.cpp
     bench_lumex_lock_free.cpp
     bench_lumex_std_backed.cpp
     bench_boost.cpp
     $<TARGET_OBJECTS:LumexAtomicBenchmarkCxx11>
+    $<TARGET_OBJECTS:LumexAtomicBenchmarkFamilyCxx11>
 )
 target_link_libraries(LumexAtomicBenchmark PRIVATE lumex::atomic)
 set_target_properties(LumexAtomicBenchmark PROPERTIES

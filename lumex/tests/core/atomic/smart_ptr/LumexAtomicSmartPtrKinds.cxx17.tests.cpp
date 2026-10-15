@@ -42,7 +42,7 @@ using namespace lumex_atomic_test;
 
 namespace
 {
-struct SelfAware : std::enable_shared_from_this<SelfAware>
+struct SelfAware : pf::enable_shared_from_this<SelfAware>
 {
   int value = 9;
 };
@@ -52,12 +52,12 @@ TEST (LumexAtomicSharedPtrKindsTest,
       GivenWeakFromThis_WhenStoredInAnAtomicWeakPtr_ThenRefersToTheObject)
 {
 #if defined(__cpp_lib_enable_shared_from_this)
-  std::shared_ptr<SelfAware> const object = std::make_shared<SelfAware> ();
+  pf::shared_ptr<SelfAware> const object = pf::make_shared<SelfAware> ();
   atomic_weak_ptr<SelfAware> atom (object->weak_from_this ());
   EXPECT_TRUE (refers_to (atom.load (), object));
-  std::weak_ptr<SelfAware> expected = object->weak_from_this ();
+  pf::weak_ptr<SelfAware> expected = object->weak_from_this ();
   EXPECT_TRUE (
-      atom.compare_exchange_strong (expected, std::weak_ptr<SelfAware> ()));
+      atom.compare_exchange_strong (expected, pf::weak_ptr<SelfAware> ()));
 #else
   GTEST_SKIP () << "weak_from_this needs __cpp_lib_enable_shared_from_this";
 #endif

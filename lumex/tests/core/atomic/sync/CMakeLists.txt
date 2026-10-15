@@ -11,12 +11,15 @@
 # otherwise leave to std::atomic::wait.
 # LumexAtomicTestSupport.hpp of the module's directory holds what the tests
 # share with smart_ptr/.
+include(${CMAKE_CURRENT_LIST_DIR}/../LumexAtomicFamilySplitCount.cmake)
+
 lumex_add_standard_suites(AtomicSync
     MODULE atomic
     LINK lumex::atomic
     SOURCES ../LumexAtomicTestSupport.hpp
     DISCOVER_ARGS PROPERTIES TIMEOUT 300 LABELS tsan
     SOAK_FILTER *Soak*
+    TARGETS_VAR _atomic_suites
     VARIANT lock_based DEFINITIONS LUMEX_ATOMIC_SMART_PTR_FORCE_LOCK_BASED
     VARIANT wait_table DEFINITIONS LUMEX_ATOMIC_WAIT_FORCE_TABLE
     VARIANT no_lock_free DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE
@@ -34,4 +37,16 @@ lumex_add_standard_suites(AtomicSync
         LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_std_backed
         LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_std_backed
         LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_STD_BACKED
+    VARIANT split_count_engine DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free_split_count
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_free_split_count
+        LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_SPLIT_COUNT
+        ${LUMEX_ATOMIC_FAMILY_SPLIT_COUNT_DEFINITIONS}
+    VARIANT lock_based_lumex DEFINITIONS
+        LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_based_lumex
+        LUMEX_ATOMIC_TEST_WEAK_ENGINE=atomic_weak_ptr_lock_based_lumex
+        LUMEX_ATOMIC_TEST_POINTER_FAMILY_LUMEX
+        LUMEX_ATOMIC_TEST_ENGINE_REQUIRES_LUMEX_FAMILY
 )
+lumex_atomic_family_split_count_link(${_atomic_suites})

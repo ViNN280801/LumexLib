@@ -435,6 +435,8 @@ lumex_test_standards_declare_variant(atomic.smart_ptr.split_count prefer_split_c
 lumex_test_standards_declare_variant(atomic no_lock_free 11 20)
 lumex_test_standards_declare_variant(atomic lock_free 11 20)
 lumex_test_standards_declare_variant(atomic lock_free_deferred 11 20)
+lumex_test_standards_declare_variant(atomic split_count_engine 11 20)
+lumex_test_standards_declare_variant(atomic lock_based_lumex 11 20)
 lumex_test_standards_declare_variant(atomic std_backed 20)
 lumex_test_standards_declare(base64 11 17 20)
 lumex_test_standards_declare(expected 11 14 17 20 23)

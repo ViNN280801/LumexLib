@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 505" width="940" height="505" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>Uncontended: one thread, private object</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">Uncontended: one thread, private object</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">12th Gen Intel(R) Core(TM) i7-12700K, 20 logical CPUs, governor powersave; GCC 13.2, libstdc++ 13; median of 50 runs</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">Median ns per operation, ratio to the uncontended uint64 CAS in brackets; whiskers: 25th-75th percentile</text>
+<line x1="20.0" y1="91.0" x2="44.0" y2="91.0" stroke="#882255" stroke-width="2.5"/>
+<circle cx="32.0" cy="91.0" r="3.5" fill="#882255"/>
+<text x="50.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib split-count weak (own ptr), C++20</text>
+<line x1="349.2" y1="91.0" x2="373.2" y2="91.0" stroke="#44AA99" stroke-width="2.5" stroke-dasharray="7 4"/>
+<circle cx="361.2" cy="91.0" r="3.5" fill="#44AA99"/>
+<text x="379.2" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib lock-based weak (own ptr), C++20</text>
+<line x1="20.0" y1="113.0" x2="44.0" y2="113.0" stroke="#0072B2" stroke-width="2.5" stroke-dasharray="2 4"/>
+<circle cx="32.0" cy="113.0" r="3.5" fill="#0072B2"/>
+<text x="50.0" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib lock-based weak (std ptr), C++20</text>
+<line x1="342.6" y1="113.0" x2="366.6" y2="113.0" stroke="#D55E00" stroke-width="2.5"/>
+<circle cx="354.6" cy="113.0" r="3.5" fill="#D55E00"/>
+<text x="372.6" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib lock-free weak (box), C++20</text>
+<line x1="20.0" y1="135.0" x2="44.0" y2="135.0" stroke="#999999" stroke-width="2.5" stroke-dasharray="9 3 2 3"/>
+<circle cx="32.0" cy="135.0" r="3.5" fill="#999999"/>
+<text x="50.0" y="139.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib std-backed weak, C++20 (wraps std)</text>
+<line x1="355.8" y1="135.0" x2="379.8" y2="135.0" stroke="#E69F00" stroke-width="2.5" stroke-dasharray="4 4"/>
+<circle cx="367.8" cy="135.0" r="3.5" fill="#E69F00"/>
+<text x="385.8" y="139.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::atomic&lt;std::weak_ptr&gt;, the standard library</text>
+<rect x="20" y="167.0" width="900" height="140.0" fill="#f7fafc"/>
+<text x="24.0" y="241.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">weak_load()</text>
+<text x="24.0" y="381.0" font-size="12" text-anchor="start" font-weight="600" fill="#1a202c">weak_load_lock()</text>
+<line x1="210.0" y1="167" x2="210.0" y2="447.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="210.0" y="465.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">0</text>
+<line x1="350.0" y1="167" x2="350.0" y2="447.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="350.0" y="465.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">10</text>
+<line x1="490.0" y1="167" x2="490.0" y2="447.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="490.0" y="465.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">20</text>
+<line x1="630.0" y1="167" x2="630.0" y2="447.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="630.0" y="465.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">30</text>
+<line x1="770.0" y1="167" x2="770.0" y2="447.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="770.0" y="465.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">40</text>
+<line x1="210.0" y1="167" x2="210.0" y2="447.0" stroke="#a0aec0" stroke-width="1"/>
+<text x="490.0" y="487.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#2d3748">nanoseconds per operation (lower is better)</text>
+<rect x="210.0" y="179.0" width="352.4" height="16" rx="2" fill="#882255"><title>LumexLib split-count weak (own ptr), C++20: 25.2 ns (3.7x CAS)</title></rect>
+<path d="M559.6 187.0H595.5M559.6 183.0V191.0M595.5 183.0V191.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="601.5" y="191.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">25.2 ns (3.7x CAS)</text>
+<rect x="210.0" y="199.0" width="207.8" height="16" rx="2" fill="#44AA99"><title>LumexLib lock-based weak (own ptr), C++20: 14.8 ns (2.2x CAS)</title></rect>
+<path d="M416.9 207.0H420.0M416.9 203.0V211.0M420.0 203.0V211.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="426.0" y="211.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">14.8 ns (2.2x CAS)</text>
+<rect x="210.0" y="219.0" width="222.1" height="16" rx="2" fill="#0072B2"><title>LumexLib lock-based weak (std ptr), C++20: 15.9 ns (2.4x CAS)</title></rect>
+<path d="M430.9 227.0H434.5M430.9 223.0V231.0M434.5 223.0V231.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="440.5" y="231.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">15.9 ns (2.4x CAS)</text>
+<rect x="210.0" y="239.0" width="227.7" height="16" rx="2" fill="#D55E00"><title>LumexLib lock-free weak (box), C++20: 16.3 ns (2.4x CAS)</title></rect>
+<path d="M436.3 247.0H439.7M436.3 243.0V251.0M439.7 243.0V251.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="445.7" y="251.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">16.3 ns (2.4x CAS)</text>
+<rect x="210.0" y="259.0" width="223.6" height="16" rx="2" fill="#999999"><title>LumexLib std-backed weak, C++20 (wraps std): 16.0 ns (2.4x CAS)</title></rect>
+<path d="M432.0 267.0H435.8M432.0 263.0V271.0M435.8 263.0V271.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="441.8" y="271.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">16.0 ns (2.4x CAS)</text>
+<rect x="210.0" y="279.0" width="222.5" height="16" rx="2" fill="#E69F00"><title>std::atomic&lt;std::weak_ptr&gt;, the standard library: 15.9 ns (2.4x CAS)</title></rect>
+<path d="M431.4 287.0H435.0M431.4 283.0V291.0M435.0 283.0V291.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="441.0" y="291.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">15.9 ns (2.4x CAS)</text>
+<rect x="210.0" y="319.0" width="470.4" height="16" rx="2" fill="#882255"><title>LumexLib split-count weak (own ptr), C++20: 33.6 ns (5.0x CAS)</title></rect>
+<path d="M677.5 327.0H688.8M677.5 323.0V331.0M688.8 323.0V331.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="694.8" y="331.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">33.6 ns (5.0x CAS)</text>
+<rect x="210.0" y="339.0" width="342.1" height="16" rx="2" fill="#44AA99"><title>LumexLib lock-based weak (own ptr), C++20: 24.4 ns (3.6x CAS)</title></rect>
+<path d="M549.7 347.0H554.4M549.7 343.0V351.0M554.4 343.0V351.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="560.4" y="351.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">24.4 ns (3.6x CAS)</text>
+<rect x="210.0" y="359.0" width="377.9" height="16" rx="2" fill="#0072B2"><title>LumexLib lock-based weak (std ptr), C++20: 27.0 ns (4.0x CAS)</title></rect>
+<path d="M585.6 367.0H591.3M585.6 363.0V371.0M591.3 363.0V371.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="597.3" y="371.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">27.0 ns (4.0x CAS)</text>
+<rect x="210.0" y="379.0" width="365.7" height="16" rx="2" fill="#D55E00"><title>LumexLib lock-free weak (box), C++20: 26.1 ns (3.9x CAS)</title></rect>
+<path d="M573.1 387.0H578.7M573.1 383.0V391.0M578.7 383.0V391.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="584.7" y="391.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">26.1 ns (3.9x CAS)</text>
+<rect x="210.0" y="399.0" width="383.8" height="16" rx="2" fill="#999999"><title>LumexLib std-backed weak, C++20 (wraps std): 27.4 ns (4.1x CAS)</title></rect>
+<path d="M590.7 407.0H597.6M590.7 403.0V411.0M597.6 403.0V411.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="603.6" y="411.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">27.4 ns (4.1x CAS)</text>
+<rect x="210.0" y="419.0" width="383.9" height="16" rx="2" fill="#E69F00"><title>std::atomic&lt;std::weak_ptr&gt;, the standard library: 27.4 ns (4.1x CAS)</title></rect>
+<path d="M592.5 427.0H597.7M592.5 423.0V431.0M597.7 423.0V431.0" stroke="#1a202c" stroke-width="1.1" fill="none"/>
+<text x="603.7" y="431.0" font-size="11" text-anchor="start" font-weight="normal" fill="#2d3748">27.4 ns (4.1x CAS)</text>
+</svg>

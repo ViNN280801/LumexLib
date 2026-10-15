@@ -70,9 +70,9 @@ replaced_value_released (lumex_test::Verdict &verdict)
   lumex_test::ReusePool pool;
   {
     atom_type a;
-    VNodePtr x = lumex_test::make_pooled<VNode> (pool, ledger, 1);
+    VNodePtr x = pf::make_pooled<VNode> (pool, ledger, 1);
     a.store (x);
-    VNodePtr y = lumex_test::make_pooled<VNode> (pool, ledger, 2);
+    VNodePtr y = pf::make_pooled<VNode> (pool, ledger, 2);
     a.store (y); // x is replaced
     Engine::quiesce ();
     if (prompt)
@@ -88,7 +88,7 @@ replaced_value_released (lumex_test::Verdict &verdict)
                        "store () (alive "
                            + std::to_string (ledger.alive ()) + ")");
 
-    VNodePtr z = lumex_test::make_pooled<VNode> (pool, ledger, 3);
+    VNodePtr z = pf::make_pooled<VNode> (pool, ledger, 3);
     {
       VNodePtr const old = a.exchange (z); // y is replaced
       verdict.require (
@@ -109,7 +109,7 @@ replaced_value_released (lumex_test::Verdict &verdict)
                        "exchange () outlives the call (alive "
                            + std::to_string (ledger.alive ()) + ")");
 
-    VNodePtr w = lumex_test::make_pooled<VNode> (pool, ledger, 4);
+    VNodePtr w = pf::make_pooled<VNode> (pool, ledger, 4);
     VNodePtr expected = z;
     verdict.require (a.compare_exchange_strong (expected, w),
                      "replaced_value_released: compare_exchange failed");
@@ -161,7 +161,7 @@ owner_balance (Params const &p, lumex_test::Verdict &verdict)
   {
     std::vector<VNodePtr> owners;
     for (int i = 0; i < owner_count; ++i)
-      owners.push_back (lumex_test::make_pooled<VNode> (pool, ledger, i));
+      owners.push_back (pf::make_pooled<VNode> (pool, ledger, i));
     {
       atom_type a (owners[0]);
       std::string const error = lumex_test::run_threads (
@@ -252,7 +252,7 @@ shared_value_fanout (Params const &p, lumex_test::Verdict &verdict)
   {
     std::vector<VNodePtr> owners;
     for (int i = 0; i < owner_count; ++i)
-      owners.push_back (lumex_test::make_pooled<VNode> (pool, ledger, i));
+      owners.push_back (pf::make_pooled<VNode> (pool, ledger, i));
     {
       std::vector<std::unique_ptr<atom_type>> atoms;
       for (int i = 0; i < atom_count; ++i)
@@ -342,8 +342,7 @@ thread_churn (Params const &p, lumex_test::Verdict &verdict)
   lumex_test::ReusePool pool;
   std::atomic<int> serial (0);
   {
-    atom_type a (
-        lumex_test::make_pooled<VNode> (pool, ledger, serial.fetch_add (1)));
+    atom_type a (pf::make_pooled<VNode> (pool, ledger, serial.fetch_add (1)));
     for (int wave = 0; wave < waves; ++wave)
       {
         std::vector<std::thread> threads;
@@ -360,13 +359,13 @@ thread_churn (Params const &p, lumex_test::Verdict &verdict)
                   switch (random.below (3u))
                     {
                     case 0:
-                      a.store (lumex_test::make_pooled<VNode> (
-                          pool, ledger, serial.fetch_add (1)));
+                      a.store (pf::make_pooled<VNode> (pool, ledger,
+                                                       serial.fetch_add (1)));
                       break;
                     case 1:
                       {
                         VNodePtr const old
-                            = a.exchange (lumex_test::make_pooled<VNode> (
+                            = a.exchange (pf::make_pooled<VNode> (
                                 pool, ledger, serial.fetch_add (1)));
                         check_node (old, verdict, "thread_churn exchange");
                         break;
@@ -375,7 +374,7 @@ thread_churn (Params const &p, lumex_test::Verdict &verdict)
                       {
                         VNodePtr expected = holder.held;
                         a.compare_exchange_strong (
-                            expected, lumex_test::make_pooled<VNode> (
+                            expected, pf::make_pooled<VNode> (
                                           pool, ledger, serial.fetch_add (1)));
                         break;
                       }

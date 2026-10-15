@@ -179,7 +179,7 @@ struct VNode
   int check;
 };
 
-typedef std::shared_ptr<VNode> VNodePtr;
+typedef pf::shared_ptr<VNode> VNodePtr;
 } // namespace scenario
 
 /// Content equality of nodes, for the engine that wrongly compares by it.
@@ -277,7 +277,7 @@ cas_counter (Params const &p, lumex_test::Verdict &verdict)
   std::atomic<long> wins (0);
   long final_version = -1;
   {
-    atom_type a (lumex_test::make_pooled<VNode> (pool, ledger, 0));
+    atom_type a (pf::make_pooled<VNode> (pool, ledger, 0));
     std::string const error = lumex_test::run_threads (
         p.threads,
         [&] (int t)
@@ -292,7 +292,7 @@ cas_counter (Params const &p, lumex_test::Verdict &verdict)
                   {
                     if (!check_node (expected, verdict, "cas_counter"))
                       return;
-                    VNodePtr desired = lumex_test::make_pooled<VNode> (
+                    VNodePtr desired = pf::make_pooled<VNode> (
                         pool, ledger, expected->version + 1);
                     if (a.compare_exchange_weak (expected, desired))
                       {
@@ -344,7 +344,7 @@ exchange_permutation (Params const &p, lumex_test::Verdict &verdict)
       static_cast<std::size_t> (p.threads));
   int last_token = -1;
   {
-    atom_type a (lumex_test::make_pooled<VNode> (pool, ledger, 0));
+    atom_type a (pf::make_pooled<VNode> (pool, ledger, 0));
     std::string const error = lumex_test::run_threads (
         p.threads,
         [&] (int t)
@@ -357,7 +357,7 @@ exchange_permutation (Params const &p, lumex_test::Verdict &verdict)
               {
                 int const token = t * p.iterations + i + 1;
                 VNodePtr old = a.exchange (
-                    lumex_test::make_pooled<VNode> (pool, ledger, token));
+                    pf::make_pooled<VNode> (pool, ledger, token));
                 if (!check_node (old, verdict, "exchange_permutation"))
                   return;
                 mine.push_back (old->version);
@@ -408,7 +408,7 @@ monotone_loads (Params const &p, lumex_test::Verdict &verdict)
   std::atomic<int> published (0);
   std::atomic<bool> done (false);
   {
-    atom_type a (lumex_test::make_pooled<VNode> (pool, ledger, 0));
+    atom_type a (pf::make_pooled<VNode> (pool, ledger, 0));
     std::string const error = lumex_test::run_threads (
         readers + 1,
         [&] (int t)
@@ -420,8 +420,7 @@ monotone_loads (Params const &p, lumex_test::Verdict &verdict)
               {
                 for (int version = 1; version <= p.iterations; ++version)
                   {
-                    a.store (lumex_test::make_pooled<VNode> (pool, ledger,
-                                                             version));
+                    a.store (pf::make_pooled<VNode> (pool, ledger, version));
                     VNodePtr const mine = a.load ();
                     if (check_node (mine, verdict, "monotone_loads writer")
                         && mine->version < version)
@@ -487,7 +486,7 @@ strong_cas_precision (Params const &p, lumex_test::Verdict &verdict)
   std::atomic<long> wins (0);
   std::atomic<long> excess (0);
   {
-    atom_type a (lumex_test::make_pooled<VNode> (pool, ledger, 0));
+    atom_type a (pf::make_pooled<VNode> (pool, ledger, 0));
     std::string const error = lumex_test::run_threads (
         p.threads,
         [&] (int t)
@@ -506,7 +505,7 @@ strong_cas_precision (Params const &p, lumex_test::Verdict &verdict)
                                      "strong_cas_precision"))
                       return;
                     VNodePtr const old_expected = expected;
-                    VNodePtr desired = lumex_test::make_pooled<VNode> (
+                    VNodePtr desired = pf::make_pooled<VNode> (
                         pool, ledger, expected->version + 1);
                     if (a.compare_exchange_strong (expected, desired))
                       {
@@ -551,7 +550,7 @@ struct Pair
 };
 
 /**
- * @brief Six values of `std::shared_ptr<int>` with every identity relation of
+ * @brief Six values of `pf::shared_ptr<int>` with every identity relation of
  * the equivalence rule: empty; two pointers of one owner; two owners; the
  * same stored pointer under a different owner; a plain object.
  * @details Ids: 0 empty; 1 and 2 share an owner and differ in the stored
@@ -564,14 +563,14 @@ class Universe
 public:
   Universe ()
   {
-    std::shared_ptr<Pair> x (new Pair ());
-    std::shared_ptr<Pair> y (new Pair ());
-    values_.push_back (std::shared_ptr<int> ());
-    values_.push_back (std::shared_ptr<int> (x, &x->first));
-    values_.push_back (std::shared_ptr<int> (x, &x->second));
-    values_.push_back (std::shared_ptr<int> (y, &y->first));
-    values_.push_back (std::shared_ptr<int> (y, &x->first));
-    values_.push_back (std::make_shared<int> (5));
+    pf::shared_ptr<Pair> x (new Pair ());
+    pf::shared_ptr<Pair> y (new Pair ());
+    values_.push_back (pf::shared_ptr<int> ());
+    values_.push_back (pf::shared_ptr<int> (x, &x->first));
+    values_.push_back (pf::shared_ptr<int> (x, &x->second));
+    values_.push_back (pf::shared_ptr<int> (y, &y->first));
+    values_.push_back (pf::shared_ptr<int> (y, &x->first));
+    values_.push_back (pf::make_shared<int> (5));
   }
 
   /// Number of values.
@@ -582,7 +581,7 @@ public:
   }
 
   /// The value with id @p id.
-  std::shared_ptr<int> const &
+  pf::shared_ptr<int> const &
   value (int id) const
   {
     return values_[static_cast<std::size_t> (id)];
@@ -590,7 +589,7 @@ public:
 
   /// The id of the value equivalent to @p p, or -1.
   int
-  id_of (std::shared_ptr<int> const &p) const
+  id_of (pf::shared_ptr<int> const &p) const
   {
     for (std::size_t i = 0; i < values_.size (); ++i)
       if (equivalent_values (values_[i], p))
@@ -599,7 +598,7 @@ public:
   }
 
 private:
-  std::vector<std::shared_ptr<int>> values_;
+  std::vector<pf::shared_ptr<int>> values_;
 };
 
 // --- identity of the equivalence rule
@@ -619,11 +618,11 @@ private:
  */
 template <typename Atom, typename T>
 void
-identity_rule_over (std::vector<std::shared_ptr<T>> const &values,
+identity_rule_over (std::vector<pf::shared_ptr<T>> const &values,
                     lumex_test::Verdict &verdict)
 {
   int const n = static_cast<int> (values.size ());
-  auto id_of = [&] (std::shared_ptr<T> const &p) -> int
+  auto id_of = [&] (pf::shared_ptr<T> const &p) -> int
     {
       for (int i = 0; i < n; ++i)
         if (equivalent_values (values[static_cast<std::size_t> (i)], p))
@@ -636,7 +635,7 @@ identity_rule_over (std::vector<std::shared_ptr<T>> const &values,
         for (int form = 0; form < 2; ++form)
           {
             Atom a (values[static_cast<std::size_t> (cur)]);
-            std::shared_ptr<T> expected
+            pf::shared_ptr<T> expected
                 = values[static_cast<std::size_t> (exp)];
             bool ok = false;
             if (form == 0)
@@ -689,7 +688,7 @@ identity_rule_over (std::vector<std::shared_ptr<T>> const &values,
     for (int des = 0; des < n; ++des)
       {
         Atom a (values[static_cast<std::size_t> (cur)]);
-        std::shared_ptr<T> const old
+        pf::shared_ptr<T> const old
             = a.exchange (values[static_cast<std::size_t> (des)]);
         verdict.require (id_of (old) == cur,
                          "identity_rule: exchange returned the wrong value");
@@ -704,7 +703,7 @@ void
 identity_rule (lumex_test::Verdict &verdict)
 {
   Universe const universe;
-  std::vector<std::shared_ptr<int>> values;
+  std::vector<pf::shared_ptr<int>> values;
   for (int i = 0; i < universe.size (); ++i)
     values.push_back (universe.value (i));
   identity_rule_over<typename Engine::template shared<int>> (values, verdict);
@@ -763,7 +762,7 @@ rmw_walk (Params const &p, lumex_test::Verdict &verdict)
                   {
                   case 0:
                     {
-                      std::shared_ptr<int> const old
+                      pf::shared_ptr<int> const old
                           = a.exchange (universe.value (next));
                       int const old_id = universe.id_of (old);
                       if (old_id < 0)
@@ -776,7 +775,7 @@ rmw_walk (Params const &p, lumex_test::Verdict &verdict)
                     }
                   case 1:
                     {
-                      std::shared_ptr<int> expected = universe.value (want);
+                      pf::shared_ptr<int> expected = universe.value (want);
                       if (a.compare_exchange_strong (expected,
                                                      universe.value (next)))
                         ++mine[static_cast<std::size_t> (want) * n
@@ -789,7 +788,7 @@ rmw_walk (Params const &p, lumex_test::Verdict &verdict)
                     }
                   case 2:
                     {
-                      std::shared_ptr<int> expected = universe.value (want);
+                      pf::shared_ptr<int> expected = universe.value (want);
                       if (a.compare_exchange_weak (expected,
                                                    universe.value (next)))
                         ++mine[static_cast<std::size_t> (want) * n
@@ -804,7 +803,7 @@ rmw_walk (Params const &p, lumex_test::Verdict &verdict)
                     {
                       // A compare-exchange from the value just loaded: the
                       // likeliest to win, so the walk really moves.
-                      std::shared_ptr<int> expected = a.load ();
+                      pf::shared_ptr<int> expected = a.load ();
                       int const seen = universe.id_of (expected);
                       if (seen < 0)
                         {
@@ -864,10 +863,10 @@ rmw_walk (Params const &p, lumex_test::Verdict &verdict)
  * @brief A node dies and a new node takes its address; a handle that names
  * only the old address (stored pointer without ownership) must not compare
  * equal to the new node.
- * @details Deterministic. `std::allocate_shared` over a `ReusePool` returns
+ * @details Deterministic. `pf::allocate_shared` over a `ReusePool` returns
  * the address of the destroyed node (object and control block) for the next
  * node, which the check asserts first (otherwise it proves nothing). The
- * stale handle is an aliasing `std::shared_ptr` of that raw address with an
+ * stale handle is an aliasing `pf::shared_ptr` of that raw address with an
  * empty owner. The compare-exchange from it, with the new node stored, must
  * fail, report the new node and change nothing; so must `exchange`'s
  * result differ and a weak form; and after the old A is stored again A -> B ->
@@ -887,14 +886,14 @@ reuse_equivalence (lumex_test::Verdict &verdict)
       VNodePtr stale;
       {
         atom_type a;
-        VNodePtr first = lumex_test::make_pooled<VNode> (pool, ledger, 1);
+        VNodePtr first = pf::make_pooled<VNode> (pool, ledger, 1);
         VNode *const raw = first.get ();
-        stale = VNodePtr (std::shared_ptr<void> (), raw);
+        stale = VNodePtr (pf::shared_ptr<void> (), raw);
         a.store (first);
-        a.store (lumex_test::make_pooled<VNode> (pool, ledger, 2));
+        a.store (pf::make_pooled<VNode> (pool, ledger, 2));
         first.reset ();
         Engine::quiesce ();
-        VNodePtr second = lumex_test::make_pooled<VNode> (pool, ledger, 3);
+        VNodePtr second = pf::make_pooled<VNode> (pool, ledger, 3);
         if (second.get () != raw)
           {
             verdict.fail ("reuse_equivalence: the allocator did not hand the "
@@ -904,7 +903,7 @@ reuse_equivalence (lumex_test::Verdict &verdict)
         a.store (second);
         // Same stored pointer, different ownership.
         bool ok = false;
-        VNodePtr desired = lumex_test::make_pooled<VNode> (pool, ledger, 4);
+        VNodePtr desired = pf::make_pooled<VNode> (pool, ledger, 4);
         if (form == 0)
           ok = a.compare_exchange_strong (stale, desired);
         else
@@ -938,13 +937,13 @@ aba_same_owner (lumex_test::Verdict &verdict)
   lumex_test::ObjectLedger ledger (64);
   lumex_test::ReusePool pool;
   {
-    VNodePtr const a_owner = lumex_test::make_pooled<VNode> (pool, ledger, 1);
-    VNodePtr const b_owner = lumex_test::make_pooled<VNode> (pool, ledger, 2);
+    VNodePtr const a_owner = pf::make_pooled<VNode> (pool, ledger, 1);
+    VNodePtr const b_owner = pf::make_pooled<VNode> (pool, ledger, 2);
     atom_type a (a_owner);
     VNodePtr held = a.load ();
     a.store (b_owner);
     a.store (a_owner);
-    VNodePtr desired = lumex_test::make_pooled<VNode> (pool, ledger, 9);
+    VNodePtr desired = pf::make_pooled<VNode> (pool, ledger, 9);
     verdict.require (a.compare_exchange_strong (held, desired),
                      "aba_same_owner: A -> B -> A (the same object) must "
                      "compare equal to the A that was loaded first");
@@ -952,9 +951,8 @@ aba_same_owner (lumex_test::Verdict &verdict)
 
     VNodePtr held_again = a.load ();
     a.store (b_owner);
-    a.store (
-        lumex_test::make_pooled<VNode> (pool, ledger, 9)); // equal content
-    VNodePtr other = lumex_test::make_pooled<VNode> (pool, ledger, 10);
+    a.store (pf::make_pooled<VNode> (pool, ledger, 9)); // equal content
+    VNodePtr other = pf::make_pooled<VNode> (pool, ledger, 10);
     verdict.require (!a.compare_exchange_strong (held_again, other),
                      "aba_same_owner: A -> B -> A' (a new object with equal "
                      "content) must not compare equal");
@@ -985,8 +983,7 @@ reuse_stress (Params const &p, lumex_test::Verdict &verdict)
   lumex_test::ReusePool pool;
   std::atomic<int> serial (0);
   {
-    atom_type a (
-        lumex_test::make_pooled<VNode> (pool, ledger, serial.fetch_add (1)));
+    atom_type a (pf::make_pooled<VNode> (pool, ledger, serial.fetch_add (1)));
     std::string const error = lumex_test::run_threads (
         p.threads,
         [&] (int t)
@@ -999,14 +996,13 @@ reuse_stress (Params const &p, lumex_test::Verdict &verdict)
                 switch (schedule.random ().below (5u))
                   {
                   case 0:
-                    a.store (lumex_test::make_pooled<VNode> (
-                        pool, ledger, serial.fetch_add (1)));
+                    a.store (pf::make_pooled<VNode> (pool, ledger,
+                                                     serial.fetch_add (1)));
                     break;
                   case 1:
                     {
-                      VNodePtr old
-                          = a.exchange (lumex_test::make_pooled<VNode> (
-                              pool, ledger, serial.fetch_add (1)));
+                      VNodePtr old = a.exchange (pf::make_pooled<VNode> (
+                          pool, ledger, serial.fetch_add (1)));
                       check_node (old, verdict, "reuse_stress exchange");
                       break;
                     }
@@ -1016,7 +1012,7 @@ reuse_stress (Params const &p, lumex_test::Verdict &verdict)
                       if (check_node (expected, verdict,
                                       "reuse_stress cas load"))
                         a.compare_exchange_strong (
-                            expected, lumex_test::make_pooled<VNode> (
+                            expected, pf::make_pooled<VNode> (
                                           pool, ledger, serial.fetch_add (1)));
                       break;
                     }
@@ -1092,7 +1088,7 @@ linearizable_register (Params const &p, lumex_test::Verdict &verdict)
                     {
                     case 0:
                       {
-                        std::shared_ptr<int> seen = a.load ();
+                        pf::shared_ptr<int> seen = a.load ();
                         recorder.end (t, lumex_test::register_load, invoke, 0,
                                       0, universe.id_of (seen), 0);
                         break;
@@ -1104,7 +1100,7 @@ linearizable_register (Params const &p, lumex_test::Verdict &verdict)
                       break;
                     case 2:
                       {
-                        std::shared_ptr<int> old
+                        pf::shared_ptr<int> old
                             = a.exchange (universe.value (arg0));
                         recorder.end (t, lumex_test::register_exchange, invoke,
                                       arg0, 0, universe.id_of (old), 0);
@@ -1112,7 +1108,7 @@ linearizable_register (Params const &p, lumex_test::Verdict &verdict)
                       }
                     case 3:
                       {
-                        std::shared_ptr<int> expected = universe.value (arg0);
+                        pf::shared_ptr<int> expected = universe.value (arg0);
                         bool const ok = a.compare_exchange_strong (
                             expected, universe.value (arg1));
                         recorder.end (t, lumex_test::register_cas_strong,
@@ -1122,7 +1118,7 @@ linearizable_register (Params const &p, lumex_test::Verdict &verdict)
                       }
                     default:
                       {
-                        std::shared_ptr<int> expected = universe.value (arg0);
+                        pf::shared_ptr<int> expected = universe.value (arg0);
                         bool const ok = a.compare_exchange_weak (
                             expected, universe.value (arg1));
                         recorder.end (t, lumex_test::register_cas_weak, invoke,
@@ -1175,8 +1171,8 @@ progress_under_loaders (int loaders, int swappers, int milliseconds,
   lumex_test::ReusePool pool;
   std::vector<long> wins (static_cast<std::size_t> (swappers), 0);
   {
-    VNodePtr const left = lumex_test::make_pooled<VNode> (pool, ledger, 1);
-    VNodePtr const right = lumex_test::make_pooled<VNode> (pool, ledger, 2);
+    VNodePtr const left = pf::make_pooled<VNode> (pool, ledger, 1);
+    VNodePtr const right = pf::make_pooled<VNode> (pool, ledger, 2);
     atom_type a (left);
     std::atomic<bool> stop (false);
     std::atomic<int> started (0);

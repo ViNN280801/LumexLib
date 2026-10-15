@@ -1,4 +1,4 @@
-﻿# Changelog LumexLib
+# Changelog LumexLib
 
 <!-- markdownlint-disable MD022 MD024 MD032 -->
 
@@ -12,9 +12,93 @@
 
 ---
 
-## [v2.0.0.0] - в разработке
+## [v2.0.0.2] - 2026-10-15
 
-> Изменения поверх `v1.0.3.1`.
+> Изменения поверх `v2.0.0.1` (тег опубликован). Номер `2.0.0.2` выбран по [VERSIONING.md](VERSIONING.md): изменились тесты, бенчмарки, документация и комментарии, функциональных изменений нет (TWEAK). Версия в `CMakeLists.txt` и дата секции поставлены релизным коммитом.
+
+### [v2.0.0.2]
+
+#### Добавлено
+
+##### Бенчмарк движка split-count против остальных атомарных указателей
+
+**Файлы:** `benchmarks/atomic/` (`bench_lumex_family.hpp`, `bench_lumex_family.cpp`, `bench_lumex_family_cxx11.cpp`, `bench_weak.cpp`, `bench_atomic_smart_ptr.hpp`, `bench_atomic_smart_ptr.cpp`, `bench_boost.cpp`, `CMakeLists.txt`, `run_benchmark.py`, `plot_results.py`, `results/split_count/`), `lumex/core/atomic/README.md`, `lumex/core/smart_ptr/README.md`.
+
+**Суть:** впервые измерен движок `atomic_shared_ptr_lock_free_split_count` (на собственных указателях `core/smart_ptr`): против `std::atomic<std::shared_ptr>` libstdc++ 13, движка на hazard pointers (`atomic_shared_ptr_lock_free`, немедленный и отложенный), движка под блокировкой (на `std` и на собственных указателях), обертки `std_backed` и `boost::atomic_shared_ptr`. Методика прежняя (нормировка на CAS по `uint64_t`, чередование реализаций, сто повторов, проверка утечек ссылок); новые сценарии: чтение при одном пишущем потоке, `load` плюс `store`, `weak_ptr::lock`, задержка уничтожения, 20, 40 и 60 потоков на 20 логических процессорах, циклы и инструкции на операцию через `perf_event_open`. Что показали числа (i7-12700K, GCC 13.2, один компьютер): при конкуренции `store` и `exchange` дешевле, чем у движка под блокировкой на тех же указателях (3,5 против 5,8 на 4 потоках, в 3,7 раза на 20), а с 8 потоков дешевле и `compare_exchange`; с 8 потоков он быстрее `std::atomic<std::shared_ptr>` (на 20 потоках в 3,4 раза для `load`, 5,6 для `store`, 6,5 для `exchange`, 3,1 для `compare_exchange`); без конкуренции `load` на 60 % дороже (29,4 против 18,0 нс; 126 циклов и 111 инструкций против 77 и 29), `compare_exchange` на 25 % дороже, `load` на 2 и 4 потоках в 1,5-1,8 раза дороже движка под блокировкой и `std::atomic`; движок на hazard pointers заметно лучше при конкурентных `load` и `compare_exchange`; голодание пишущего потока не замечено (измерена только скорость). Резерв 4 и 8 не различаются (73 пары, все внутри квартилей). Причины различий названы только там, где они подтверждены дизассемблированием или счетчиками, иначе в README написано «причина не исследована». Решение о том, делать ли движок умолчанием пары семейства, не принято: пара остается движком под блокировкой.
+
+**Проверено:** основной прогон 100 повторов с паузами по 30 с, 11 серий, 191 минута; слабые указатели 50 повторов, перегрузка 30, задержка уничтожения 100; ни одной недействительной строки (утечек ссылок нет); ранее выложенные результаты воспроизводятся из своих CSV побайтно.
+
+##### Модели Relacy для порядков памяти движка split-count; Relacy в `3rdparty/relacy`
+
+**Файлы:** `lumex/tests/core/atomic/smart_ptr/split_count/relacy/` (новый: `LumexSplitCountRelacyModel.hpp`, `LumexSplitCountRelacyBlock.relacy.cpp`, `LumexSplitCountRelacyHolder.relacy.cpp`, `LumexSplitCountRelacyLitmus.relacy.cpp`, `CMakeLists.txt`), `3rdparty/relacy/` (новый: заголовки Relacy без изменений, кроме окончаний строк LF; `LICENSE`; `README.lumex.md`), `cmake/LumexOptions.cmake` (`LUMEX_BUILD_RELACY`), `THIRD-PARTY-NOTICES.md`, `lumex/core/atomic/README.md`.
+
+**Суть:** модели Relacy (проверка C++11-модели памяти поиском расписаний) переписывают протокол движка шаг за шагом с теми же порядками памяти, что в коде: слово из 16 байт моделируется одним 64-битным атомиком Relacy (один read-modify-write с запрошенным порядком), счетчик в двух видах (`release` плюс барьер `acquire` и вариант под TSan с `acq_rel`), держатели, резерв, ложный «свидетель» для правила «решение об оплате читается с `acquire`». 148 записей, 86,6 млн выполнений на вид счетчика, около 8 минут. Мутации порядков: M8, M10, M33 и еще несколько пойманы; M9 (успех подмены без `acquire`) с обычным счетчиком не ловится потому что его закрывает барьер счетчика, а с вариантом счетчика под TSan ловится гонкой; M25 (`seq_cst` в `rmw_order`) выживает, в README дан довод. Мутации собираются отдельно (`-DLUMEX_RELACY_MUTANTS=ON`), всего 16 строк таблицы, все дают ожидаемый результат. Модели не входят в обычную сборку и обычный `ctest`: включаются `-DLUMEX_BUILD_RELACY=ON` (используется вложенная копия Relacy), другой каталог задается `-DLUMEX_RELACY_DIR`. Relacy не устанавливается и не входит в пакеты; запись добавлена в `THIRD-PARTY-NOTICES.md`.
+
+**Проверено:** GCC 13.2 (обе сборки счетчика), Clang 23 (синтаксис и часть моделей); независимое ревью Opus 5.5 нашло, что M9 не эквивалентна (маскируется барьером), что «свидетель» не видел переходов к пустому слову и что формулировки о поиске были шире данных: исправлено моделями и текстом.
+
+##### Широкие атомарные наборы над движками семейства (варианты `split_count_engine` и `lock_based_lumex`)
+
+**Файлы:** `lumex/tests/core/atomic/LumexAtomicTestPointerFamily.hpp` (новый слой `pf`), `LumexAtomicTestSupport.hpp`, `LumexAtomicTestEngines.hpp`, `LumexAtomicScenarios*.hpp`, `LumexAtomicFamilySplitCount.cmake`, `LumexAtomicEngineFallback.cxx11.tests.cpp`, наборы `lumex/tests/core/atomic/smart_ptr/` и `sync/`, три `CMakeLists.txt`, `lumex/tests/LumexTestStandards.cmake`, `lumex/tests/cmake/cases/wiring_atomic.cmake`.
+
+**Суть:** наборы ABA, линеаризуемости, структур (Трейбер, Майкл-Скотт, список Харриса), жизненного цикла, ожидания, прогресса, видов и остальные запускаются теперь и над `atomic_shared_ptr_lock_free_split_count`, и над `atomic_shared_ptr_lock_based_lumex` (слабые двойники тоже) на собственных указателях семейства. Слой `pf` подставляет `std` или собственное семейство; таблица замен и список исключений (`// Std-only:`: движок на hazard pointers, дифференциал против `std::atomic<std::shared_ptr>`, массивные формы `make_shared`) описаны в заголовке слоя. Если движка в сборке нет, вариант не молчит: падает на движок под блокировкой семейства и показывает пропущенный тест с названием. Под TSan вариант `split_count_engine` использует встроенный бэкенд (ассемблерный CAS TSan не видит). Ожидание теста `GivenExpiredAliasesWithDifferentPointers_WhenCompare_ThenPerImplementation` для движков семейства: обмена нет (собственный `weak_ptr` хранит указатель после истечения). Пять мутаций ячейки (сравнение без смещения, `store` без уменьшения, `exchange` без записи, `compare_exchange` без `drop_word`, сравнение без блока) ловятся наборами ABA и линеаризуемости.
+
+**Проверено:** GCC 13.2 Release: 3590 тестов `atomic.` и 196 `cmake.*`/`lint.*` без падений; независимое ревью Opus 5.5 (скрытый откат на `std`-движок, мертвый помощник `use_count_settled`, формулировка в `LumexAtomicWeakPtr.hpp`: исправлено).
+
+##### Матрица санитайзеров для движка split-count
+
+**Файлы:** `lumex/core/atomic/README.md` (раздел «Sanitizer matrix»), `lumex/core/atomic/VERIFICATION.md`, `benchmarks/atomic/results/verification/sanitizer_matrix.csv`.
+
+**Суть:** ASan, UBSan, LSan и TSan на GCC 13.2, GCC 8.3 и Clang 23 (libc++ и libstdc++), Debug и Release, C++11-C++20, повторы с разными зернами; суммарно более 4100 тестов в обычной выборке. Найдены и исправлены два изъяна самих тестов: ассемблерный CAS под TSan в вариантах семейства (53-54 ложных срабатывания) и несоблюдение выравнивания `alignas (64)` в стеке и векторе (UBSan). Ошибок движка не найдено. После исправлений повторены не все строки (какие, указано в README).
+
+##### Документ о верификации движка split-count
+
+**Файлы:** `lumex/core/atomic/VERIFICATION.md` (новый), `benchmarks/atomic/plot_verification.py`, `benchmarks/atomic/results/verification/` (CSV и три SVG), `Doxyfile.in`.
+
+**Суть:** какие свойства проверяются (безопасность, правило `use_count`, G1, G2, баланс, линеаризуемость, ABA) и какой слой что показывает (тесты, имитатор планировщика с оракулами, сценарии ABA, наборы над семейством, Relacy, санитайзеры, бенчмарки), таблицы мутантов, границы и время моделей Relacy, строки матрицы санитайзеров, предел каждого слоя. Графики строятся скриптом из CSV и воспроизводятся побайтно.
+
+**Проверено:** независимое ревью Opus 5.5 на правдивость: сверено более 150 значений, найдено 20 неточностей (политики в таблице ABA, объяснение прерванного прогона, смысл времени Relacy, охват строк после исправлений и другие): исправлены; пример перезапуска выборки (4205 тестов, 0 падений), мутант M33 и M9 с вариантом счетчика под TSan, `cmake.*` и `lint.*` 196 из 196.
+
+#### Изменено
+
+##### Комментарии о порядках памяти движка split-count исправлены по итогам моделей Relacy
+
+**Файлы:** `lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp`, `lumex/core/smart_ptr/ctl/LumexSmartPtrCounter.hpp`, `lumex/core/atomic/smart_ptr/LumexAtomicWeakPtr.hpp`.
+
+**Суть:** только комментарии. `transfer_ext` переносит долг, внесенный до подмены слова, и подмена его публикует. Снятие отметки должно быть `release`; успех подмены (S4) нужен под счетчиком для TSan и закрывается барьером счетчика в обычном; порядки отказа `acquire` в коде (в старой спецификации `relaxed`); сброс счетчика: `release` плюс барьер `acquire`. Движки над собственным `weak_ptr` сравнивают сохраненный указатель истекшего псевдонима.
+
+---
+
+## [v2.0.0.1] - 2026-10-13
+
+> Изменения поверх `v2.0.0.0` (тег опубликован). Номер `2.0.0.1` выбран по [VERSIONING.md](VERSIONING.md): изменились только тесты, документация и скрипты бенчмарка, функциональных изменений нет (TWEAK). Версия в `CMakeLists.txt` и дата секции поставлены релизным коммитом.
+
+### [v2.0.0.1]
+
+#### Изменено
+
+##### Бенчмарк `span` на Windows (MSVC и clang-cl): `run_benchmark.py` и `plot_results.py` работают на Windows
+
+**Файлы:** `benchmarks/span/run_benchmark.py`, `benchmarks/span/plot_results.py`, `benchmarks/span/README.md`, `benchmarks/span/results/windows/` (новый: `span_benchmark.csv`, `span_benchmark.md`, `span_benchmark_msvc.svg`, `span_benchmark_clang-cl.svg`), `lumex/core/span/README.md`.
+
+**Суть:** `run_benchmark.py` находит `LumexSpanBench_*.exe`, привязывает процесс к одному логическому процессору через `SetProcessAffinityMask` (аналог `taskset`; процесс привязывается сразу после запуска), берет имя процессора из реестра и сохраняет имя стандартной библиотеки целиком (`MSVC STL`). `plot_results.py` читает и пишет файлы в UTF-8 с переводами строк `\n`: раньше на Windows знак `†` в `span_benchmark.md` записывался в кодировке системы, и файл не читался как UTF-8. Раздел "Windows" в README бенчмарка: те же семь вариантов собраны и запущены с cl.exe 19.51 и clang-cl 21.1.5 (MSVC STL, Ninja, Release, Boost.Core 1.88, 5 проходов, Intel Core i9-12900H). Среднее геометрическое по 36 общим сценариям, `lumex` C++20 к `std::span` C++20: 0,999 (cl.exe) и 0,993 (clang-cl); проверки включены к выключенным, C++20: 1,016 и 1,044 (отдельные строки до 1,07x и до 1,40x). Результаты Linux не менялись. В README `core/span` убраны утверждения, что MSVC не проверялся.
+
+Не сделано и не выяснено: объектный код сценариев под MSVC не сравнивался; сумма по итераторам на 1 024 элементах с cl.exe в 1,7 раза медленнее, чем у `boost::span`, причина не выяснена; таблицы времени компиляции для Windows нет. Замеры сделаны на ноутбуке не в покое: числа для этой машины, не обещание для других.
+
+**Проверено:** `plot_results.py` на сохраненных данных Linux (`span_benchmark.csv`, `compile_time.csv`, `header_cost.csv`) дает побайтно те же `span_benchmark.md` и четыре SVG, что лежат в репозитории; `run_benchmark.py` и `plot_results.py` проходят `py_compile`; полный прогон на Windows (cl.exe и clang-cl) записан в `benchmarks/span/results/windows/`. `run_benchmark.py` после правок на Linux не запускался.
+
+##### CMakeRoutines: самотесты целевого уровня проходят на Windows
+
+**Файлы:** подмодуль `CMakeRoutines` (`e8cf86d`, `33ef5dd`, ветка `fix/target-tests-windows`): `tests/target/cases/std_filesystem.cmake`, `tests/target/helpers.cmake`, `tests/target/cases/toolchain_runtime_rpath_windows.cmake` (новый), `tests/target/fixtures/toolchain_runtime_rpath/CMakeLists.txt`, `tests/target/CMakeLists.txt`.
+
+**Суть:** тесты целевого уровня ни разу не запускались на Windows и падали по двум причинам, обе в самих тестах, не в функциях. Под MSVC (в том числе clang-cl) `link_std_filesystem` выходит до пробы, поэтому закэшированного ответа нет, а тест требовал ровно один. Кейсы, имитирующие Apple, оставляли `APPLE` включенным, и генератор Ninja на Windows просил TAPI-утилиту для заглушки dylib: конфигурация печатала `ALL PASSED`, а генерация падала с `No command given for WriteRule!`. Новый кейс `toolchain_runtime_rpath_windows` на настоящем компиляторе проверяет, что `get_toolchain_runtime_directories` пуст для любого `STDLIB`, что ни один тип цели не получает `BUILD_RPATH` (вызовом и параметром `TOOLCHAIN_RUNTIME_RPATH`) и что фикстура собирается и запускается во всех четырех режимах. Ветка Apple по-прежнему проверена только имитацией.
+
+**Проверено:** слой 2 проходит с 255 проверками на cl.exe 19.51, clang-cl 21.1.5 и MinGW-w64 GCC 15.1 (ucrt64) и с 318 на Ubuntu 24.04 с GCC 13.3 и Clang (новый кейс пропускается); слой 1 на Windows 23 из 23.
+
+---
+
+## [v2.0.0.0] - 2026-10-12
+
+> Тег `v2.0.0.0`, релизный коммит `91c91c3b`. Изменения поверх `v1.0.3.1`.
 
 ### [v2.0.0.0]
 
@@ -1706,9 +1790,9 @@ Digits: текст раскрытого макроса (`#x` через два �
 
 ---
 
-## [v1.0.3.1] - в разработке
+## [v1.0.3.1] - 2026-10-06
 
-> Изменения поверх `v1.0.3.0`.
+> Тег `v1.0.3.1`, релизный коммит `96dde308`. Изменения поверх `v1.0.3.0`.
 
 ### [v1.0.3.1]
 
@@ -1756,9 +1840,9 @@ Digits: текст раскрытого макроса (`#x` через два �
 
 ---
 
-## [v1.0.3.0] - в разработке
+## [v1.0.3.0] - 2026-10-05
 
-> Изменения поверх `v1.0.2.0`.
+> Тег `v1.0.3.0`, релизный коммит `004f2be2`. Изменения поверх `v1.0.2.0`.
 
 ### [v1.0.3.0]
 
@@ -1817,11 +1901,11 @@ Digits: текст раскрытого макроса (`#x` через два �
 
 ---
 
-## [v1.0.2.0] - в разработке
+## [v1.0.2.0] - 2026-10-04
 
 
 
-> Изменения поверх `v1.0.1.1` (ветка `feat/atomic-shared-ptr`). Версия в `CMakeLists.txt` поднята до `1.0.2.0`; дату секции ставит релизный коммит.
+> Тег `v1.0.2.0`, релизный коммит `543b9630`. Изменения поверх `v1.0.1.1` (ветка `feat/atomic-shared-ptr`).
 
 ### [v1.0.2.0]
 

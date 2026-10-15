@@ -48,7 +48,7 @@ namespace lumex_atomic_test
 {
 namespace scenario
 {
-typedef std::weak_ptr<VNode> VNodeWeak;
+typedef pf::weak_ptr<VNode> VNodeWeak;
 
 /**
  * @brief Weak pointers compare by owner: A -> B -> A with the same owner
@@ -68,12 +68,12 @@ weak_owner_identity (lumex_test::Verdict &verdict)
   lumex_test::ReusePool pool;
   {
     weak_atom a;
-    VNodePtr first = lumex_test::make_pooled<VNode> (pool, ledger, 1);
+    VNodePtr first = pf::make_pooled<VNode> (pool, ledger, 1);
     VNode *const first_address = first.get ();
     VNodeWeak const pinned (first);
     a.store (pinned);
     first.reset (); // the object dies, its control block is pinned
-    VNodePtr second = lumex_test::make_pooled<VNode> (pool, ledger, 2);
+    VNodePtr second = pf::make_pooled<VNode> (pool, ledger, 2);
     verdict.require (second.get () != first_address,
                      "weak_owner_identity: a pinned control block was reused");
     VNodeWeak const other (second);
@@ -89,7 +89,7 @@ weak_owner_identity (lumex_test::Verdict &verdict)
                      "weak_owner_identity: wrong value stored");
 
     // A -> B -> A' where A' is another expired owner: not equivalent.
-    VNodePtr third = lumex_test::make_pooled<VNode> (pool, ledger, 3);
+    VNodePtr third = pf::make_pooled<VNode> (pool, ledger, 3);
     VNodeWeak const expired_other (third);
     third.reset ();
     a.store (pinned);
@@ -218,8 +218,7 @@ promotion_race (Params const &p, lumex_test::Verdict &verdict)
               {
                 for (int i = 1; i <= p.iterations; ++i)
                   {
-                    VNodePtr node
-                        = lumex_test::make_pooled<VNode> (pool, ledger, i);
+                    VNodePtr node = pf::make_pooled<VNode> (pool, ledger, i);
                     if (WeakFirst)
                       {
                         weak.store (VNodeWeak (node));
@@ -301,7 +300,7 @@ expired_race (Params const &p, lumex_test::Verdict &verdict)
   lumex_test::ReusePool pool;
   for (int round = 0; round < rounds; ++round)
     {
-      VNodePtr owner = lumex_test::make_pooled<VNode> (pool, ledger, round);
+      VNodePtr owner = pf::make_pooled<VNode> (pool, ledger, round);
       weak_atom w ((VNodeWeak (owner)));
       std::atomic<bool> released (false);
       std::atomic<int> expired_seen (0);
