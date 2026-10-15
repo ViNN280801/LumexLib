@@ -83,7 +83,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
                         a.exchange (make_counted_tracker (i));
                       else
                         {
-                          std::shared_ptr<Tracker> const v = a.load ();
+                          pf::shared_ptr<Tracker> const v = a.load ();
                           EXPECT_TRUE (v && v->intact ());
                         }
                     }
@@ -116,7 +116,7 @@ TEST (LumexAtomicSmartPtrConcurrencyTest,
               {
                 while (!stop.stop_requested ())
                   {
-                    std::shared_ptr<Tracker> const v = a.load ();
+                    pf::shared_ptr<Tracker> const v = a.load ();
                     if (!v || !v->intact ())
                       broken.fetch_add (1);
                   }

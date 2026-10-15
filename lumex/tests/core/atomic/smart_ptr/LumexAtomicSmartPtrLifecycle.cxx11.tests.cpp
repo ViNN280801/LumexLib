@@ -57,7 +57,7 @@ struct ReentrantEnv
   std::atomic<bool> reentrant;
 };
 
-std::shared_ptr<Payload> make_reentrant (ReentrantEnv *env);
+pf::shared_ptr<Payload> make_reentrant (ReentrantEnv *env);
 
 /// Deleter that calls the atomic it was released from, with every operation,
 /// at most two levels deep per thread.
@@ -79,27 +79,27 @@ struct ReentrantDeleter
             break;
           case 1:
             {
-              std::shared_ptr<Payload> const old
+              pf::shared_ptr<Payload> const old
                   = env->atom->exchange (make_reentrant (env));
               (void)old;
               break;
             }
           case 2:
             {
-              std::shared_ptr<Payload> expected = env->atom->load ();
+              pf::shared_ptr<Payload> expected = env->atom->load ();
               env->atom->compare_exchange_strong (expected,
                                                   make_reentrant (env));
               break;
             }
           case 3:
             {
-              std::shared_ptr<Payload> expected = env->atom->load ();
+              pf::shared_ptr<Payload> expected = env->atom->load ();
               env->atom->compare_exchange_weak (expected, expected);
               break;
             }
           default:
             {
-              std::shared_ptr<Payload> const seen = env->atom->load ();
+              pf::shared_ptr<Payload> const seen = env->atom->load ();
               (void)seen;
               break;
             }
@@ -110,11 +110,11 @@ struct ReentrantDeleter
   }
 };
 
-std::shared_ptr<Payload>
+pf::shared_ptr<Payload>
 make_reentrant (ReentrantEnv *env)
 {
   ReentrantDeleter const deleter = { env };
-  return std::shared_ptr<Payload> (new Payload (*env->ledger), deleter);
+  return pf::shared_ptr<Payload> (new Payload (*env->ledger), deleter);
 }
 
 // --- static storage
@@ -256,21 +256,21 @@ TEST (
                       break;
                     case 1:
                       {
-                        std::shared_ptr<Payload> const old
+                        pf::shared_ptr<Payload> const old
                             = a.exchange (make_reentrant (&env));
                         (void)old;
                         break;
                       }
                     case 2:
                       {
-                        std::shared_ptr<Payload> expected = a.load ();
+                        pf::shared_ptr<Payload> expected = a.load ();
                         a.compare_exchange_strong (expected,
                                                    make_reentrant (&env));
                         break;
                       }
                     default:
                       {
-                        std::shared_ptr<Payload> const seen = a.load ();
+                        pf::shared_ptr<Payload> const seen = a.load ();
                         if (seen && !seen->entry.intact ())
                           ADD_FAILURE () << "a destroyed payload was loaded";
                         break;
@@ -308,14 +308,14 @@ TEST (
       stall.arm (true);
       auto const make_parking = [&]
         {
-          return std::shared_ptr<int> (new int (1),
-                                       [&] (int *p)
-                                         {
-                                           stall.park ();
-                                           delete p;
-                                         });
+          return pf::shared_ptr<int> (new int (1),
+                                      [&] (int *p)
+                                        {
+                                          stall.park ();
+                                          delete p;
+                                        });
         };
-      atomic_shared_ptr<int> a (op == 2 ? std::make_shared<int> (1)
+      atomic_shared_ptr<int> a (op == 2 ? pf::make_shared<int> (1)
                                         : make_parking ());
       std::thread parked (
           [&]
@@ -323,20 +323,20 @@ TEST (
               switch (op)
                 {
                 case 0:
-                  a.store (std::make_shared<int> (2));
+                  a.store (pf::make_shared<int> (2));
                   break;
                 case 1:
                   {
                     // The previous value is returned and dropped here.
-                    std::shared_ptr<int> const old
-                        = a.exchange (std::make_shared<int> (2));
+                    pf::shared_ptr<int> const old
+                        = a.exchange (pf::make_shared<int> (2));
                     (void)old;
                     break;
                   }
                 default:
                   {
-                    std::shared_ptr<int> expected
-                        = std::make_shared<int> (77); // stale
+                    pf::shared_ptr<int> expected
+                        = pf::make_shared<int> (77); // stale
                     a.compare_exchange_strong (expected, make_parking ());
                     break;
                   }
@@ -354,13 +354,13 @@ TEST (
             {
               for (int i = 0; i < 200; ++i)
                 {
-                  std::shared_ptr<int> seen = a.load ();
+                  pf::shared_ptr<int> seen = a.load ();
                   a.compare_exchange_strong (seen,
-                                             std::make_shared<int> (3 + i));
+                                             pf::make_shared<int> (3 + i));
                 }
-              a.store (std::make_shared<int> (500));
-              std::shared_ptr<int> const old
-                  = a.exchange (std::make_shared<int> (501));
+              a.store (pf::make_shared<int> (500));
+              pf::shared_ptr<int> const old
+                  = a.exchange (pf::make_shared<int> (501));
               EXPECT_EQ (*old, 500);
               done.open ();
             });
@@ -371,7 +371,7 @@ TEST (
       stall.release ();
       others.join ();
       parked.join ();
-      std::shared_ptr<int> const last = a.load ();
+      pf::shared_ptr<int> const last = a.load ();
       ASSERT_TRUE (static_cast<bool> (last));
       EXPECT_EQ (*last, 501) << names[op];
     }
@@ -395,10 +395,10 @@ TEST (
       ASSERT_EQ (std::atexit (&check_static_counts_at_exit), 0);
     }
   StaticHolder &holder = static_holder ();
-  std::shared_ptr<StaticPayload> kept = std::make_shared<StaticPayload> ();
+  pf::shared_ptr<StaticPayload> kept = pf::make_shared<StaticPayload> ();
   holder.atom.store (kept);
-  holder.weak.store (std::weak_ptr<StaticPayload> (kept));
-  holder.atom.store (std::make_shared<StaticPayload> ()); // replaces kept
+  holder.weak.store (pf::weak_ptr<StaticPayload> (kept));
+  holder.atom.store (pf::make_shared<StaticPayload> ()); // replaces kept
   kept.reset ();
   if (EngineUnderTest::replaced_value_dies_in_call ())
     {

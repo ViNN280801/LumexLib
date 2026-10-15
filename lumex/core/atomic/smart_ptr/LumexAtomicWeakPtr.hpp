@@ -54,11 +54,15 @@
  *
  * Two weak pointers are equivalent when they store the same pointer and
  * either share ownership or are both empty. `std::weak_ptr` does not expose
- * its stored pointer, so the lock-based and lock-free engines, and `wait` in
- * every engine, read it through `lock ()`. When the object is already
- * gone, two weak pointers with the same owner count as equivalent even if
- * they were made from aliasing shared pointers to different subobjects; the
- * standard types compare those stored pointers.
+ * its stored pointer, so the engines over `std::weak_ptr` (the lock-based and
+ * lock-free ones), and `wait` of those engines, read it through `lock ()`.
+ * The engines over `lumex::core::smart_ptr::weak_ptr` compare the stored
+ * pointer exactly. When the object is already gone, two weak pointers with
+ * the same owner count as equivalent even if they were made from aliasing
+ * shared pointers to different subobjects; the standard types compare those
+ * stored pointers. The family engines do the
+ * same: `lumex::core::smart_ptr::weak_ptr` keeps its stored pointer after the
+ * object is gone, so they compare it too.
  *
  * The templates are declared only in `lumex::core::atomic::smart_ptr`;
  * nothing is added to the global namespace.

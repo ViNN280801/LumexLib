@@ -31,7 +31,7 @@
  * are falsified here without touching the library: each `broken_*` engine is
  * a copy of a correct implementation with one defect, and a self-test runs
  * the checkers against it and expects them to report it. The engines are
- * written on `std::shared_ptr` and share the API of `atomic_shared_ptr`
+ * written on `pf::shared_ptr` and share the API of `atomic_shared_ptr`
  * that the checkers use (`load`, `store`, `exchange`, `compare_exchange_*`).
  *
  * Mutex-based engines (`flawed_atomic_shared_ptr`): every access to the value
@@ -79,6 +79,7 @@
 #include <utility>
 #include <vector>
 
+#include "lumex/tests/core/atomic/LumexAtomicTestPointerFamily.hpp"
 #include "lumex/tests/support/LumexTestReusePool.hpp"
 
 namespace lumex_atomic_test
@@ -107,9 +108,9 @@ struct EngineHooks
 /// True for the empty shared pointer that owns nothing and stores null.
 template <typename T>
 bool
-is_plain_empty (std::shared_ptr<T> const &p)
+is_plain_empty (pf::shared_ptr<T> const &p)
 {
-  std::shared_ptr<T> const none;
+  pf::shared_ptr<T> const none;
   return p.get () == nullptr && !p.owner_before (none)
          && !none.owner_before (p);
 }
@@ -117,8 +118,7 @@ is_plain_empty (std::shared_ptr<T> const &p)
 /// Same stored pointer and same owner (the equivalence of the standard).
 template <typename T>
 bool
-equivalent_values (std::shared_ptr<T> const &lhs,
-                   std::shared_ptr<T> const &rhs)
+equivalent_values (pf::shared_ptr<T> const &lhs, pf::shared_ptr<T> const &rhs)
 {
   return lhs.get () == rhs.get () && !lhs.owner_before (rhs)
          && !rhs.owner_before (lhs);
@@ -204,7 +204,7 @@ flaw_name (Flaw flaw)
 template <typename T, Flaw F> class flawed_atomic_shared_ptr
 {
 public:
-  typedef std::shared_ptr<T> value_type;
+  typedef pf::shared_ptr<T> value_type;
 
   flawed_atomic_shared_ptr () : loads_ (0) {}
   flawed_atomic_shared_ptr (value_type desired)
@@ -449,12 +449,12 @@ template <typename T, BoxReclaim R> class box_atomic_shared_ptr
 {
   struct Box
   {
-    explicit Box (std::shared_ptr<T> v) : value (std::move (v)) {}
-    std::shared_ptr<T> value;
+    explicit Box (pf::shared_ptr<T> v) : value (std::move (v)) {}
+    pf::shared_ptr<T> value;
   };
 
 public:
-  typedef std::shared_ptr<T> value_type;
+  typedef pf::shared_ptr<T> value_type;
 
   box_atomic_shared_ptr () : word_ (nullptr) {}
   box_atomic_shared_ptr (value_type desired) : word_ (make_box (desired)) {}

@@ -192,9 +192,11 @@
  * @brief 1 when `lumex::core::smart_ptr::atomic_shared_ptr` and
  * `atomic_weak_ptr` resolve to the split-count engine, 0 when they resolve to
  * the lock-based engine over the module's own pointers (or do not exist).
- * @details The lock-based engine is the default: the split-count engine has
- * not been measured against it and against `std::atomic<std::shared_ptr>` yet,
- * so the unqualified family names do not switch to it silently. Define
+ * @details The lock-based engine is the default. Measured (see the atomic
+ * benchmark README), the split-count engine is cheaper under contention for
+ * `store`, `exchange` and, from 8 threads, `compare_exchange`, but dearer
+ * without contention and for `load` on few threads, and it exists only on
+ * x86-64, so the unqualified family names do not switch to it silently. Define
  * `LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT` to make the pair the
  * split-count engine where it exists; the explicit names
  * `atomic_shared_ptr_lock_free_split_count` and

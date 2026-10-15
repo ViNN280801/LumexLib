@@ -52,8 +52,25 @@ lumex_atomic_bench::settle_hazard_domain ()
 namespace
 {
 char const *const k_operation_names[bench::operation_count]
-    = { "load", "store", "exchange", "compare_exchange_strong",
-        "load_one_writer" };
+    = { "load",
+        "store",
+        "exchange",
+        "compare_exchange_strong",
+        "load_one_writer",
+        "load_store",
+        "weak_load",
+        "weak_load_lock" };
+
+/** The row of the writer's stores, taken from the load_one_writer run. */
+char const *const k_one_writer_stores = "one_writer_stores";
+
+/** Which rows a run writes. */
+enum scenario_t
+{
+  scenario_shared, ///< the operations on the atomic shared pointers
+  scenario_weak,   ///< load and lock () on the atomic weak pointers
+  scenario_destroy ///< the latency from a replacing store to the destructor
+};
 
 #if defined(__cpp_lib_atomic_shared_ptr)
 #if defined(_MSC_VER) && !defined(__clang__)
@@ -190,6 +207,9 @@ struct options_t
   long warmup_ms;
   long repetition;
   bool list;
+  bool threads_given;
+  long objects; ///< scenario destroy: replacements per measurement
+  int scenario;
   std::vector<std::string> series; ///< empty: every series
 };
 
@@ -210,7 +230,10 @@ print_usage ()
   std::cerr
       << "usage: LumexAtomicBenchmark [--csv FILE] [--threads 1,2,4]\n"
          "                            [--duration-ms N] [--warmup-ms N]\n"
-         "                            [--repetition N] [--series KEY,KEY] [--list]\n";
+         "                            [--repetition N] [--series KEY,KEY] "
+         "[--list]\n"
+         "                            [--scenario shared|weak|destroy]"
+         " [--objects N]\n";
 }
 
 bool
@@ -224,6 +247,9 @@ parse_options (int argc, char **argv, options_t &options)
   options.warmup_ms = 300;
   options.repetition = 0;
   options.list = false;
+  options.threads_given = false;
+  options.objects = 20000;
+  options.scenario = scenario_shared;
   for (int i = 1; i < argc; ++i)
     {
       bool const has_value = i + 1 < argc;
@@ -234,6 +260,25 @@ parse_options (int argc, char **argv, options_t &options)
       else if (std::strcmp (argv[i], "--threads") == 0 && has_value)
         {
           if (!parse_thread_counts (argv[++i], options.threads))
+            return false;
+          options.threads_given = true;
+        }
+      else if (std::strcmp (argv[i], "--scenario") == 0 && has_value)
+        {
+          char const *const name = argv[++i];
+          if (std::strcmp (name, "shared") == 0)
+            options.scenario = scenario_shared;
+          else if (std::strcmp (name, "weak") == 0)
+            options.scenario = scenario_weak;
+          else if (std::strcmp (name, "destroy") == 0)
+            options.scenario = scenario_destroy;
+          else
+            return false;
+        }
+      else if (std::strcmp (argv[i], "--objects") == 0 && has_value)
+        {
+          if (!parse_positive (argv[++i], options.objects)
+              || options.objects == 0)
             return false;
         }
       else if (std::strcmp (argv[i], "--duration-ms") == 0 && has_value)
@@ -265,32 +310,80 @@ parse_options (int argc, char **argv, options_t &options)
   return true;
 }
 
-/** Writes the baseline row and the four operation rows of one block. */
+/** One CSV row. */
+void
+write_row (std::ostream &csv, long repetition, char const *mode, int threads,
+           char const *implementation, char const *operation, double ns,
+           unsigned long long operations, unsigned long long successes,
+           double seconds, double baseline_ns, double ratio, bool valid,
+           double cycles, double instructions)
+{
+  csv << repetition << ',' << mode << ',' << threads << ',' << implementation
+      << ',' << operation << ',' << ns << ',' << operations << ',' << successes
+      << ',' << seconds << ',' << baseline_ns << ',' << ratio << ','
+      << (valid ? 1 : 0) << ',' << cycles << ',' << instructions << '\n';
+}
+
+/** The operations of a block: the first and the one past the last. */
+void
+operations_of (int scenario, bool contended, int &first, int &last)
+{
+  if (scenario == scenario_weak)
+    {
+      first = bench::operation_weak_load;
+      last = bench::operation_weak_load_lock + 1;
+    }
+  else
+    {
+      first = bench::operation_load;
+      // load_store is one thread only: it is the last of the shared ones.
+      last = contended ? bench::operation_load_store
+                       : bench::operation_load_store + 1;
+    }
+}
+
+/** Writes the baseline row and the operation rows of one block. */
 bool
 run_block (std::ostream &csv, long repetition, bool contended, int threads,
-           bench::implementation_t const &implementation, double seconds)
+           bench::implementation_t const &implementation, double seconds,
+           int scenario)
 {
   char const *const mode = contended ? "contended" : "uncontended";
   bench::measurement_t const baseline = measure_baseline (threads, seconds);
-  csv << repetition << ',' << mode << ',' << threads << ','
-      << implementation.key << ",uint64_cas," << baseline.ns_per_op << ','
-      << baseline.operations << ',' << baseline.successes << ','
-      << baseline.seconds << ',' << baseline.ns_per_op << ",1,"
-      << (baseline.valid ? 1 : 0) << '\n';
+  write_row (csv, repetition, mode, threads, implementation.key, "uint64_cas",
+             baseline.ns_per_op, baseline.operations, baseline.successes,
+             baseline.seconds, baseline.ns_per_op, 1.0, baseline.valid,
+             baseline.cycles_per_op, baseline.instructions_per_op);
   bool valid = baseline.valid;
-  for (int operation = 0; operation < bench::operation_count; ++operation)
+  int first = 0;
+  int last = 0;
+  operations_of (scenario, contended, first, last);
+  for (int operation = first; operation < last; ++operation)
     {
       bench::measurement_t const measurement
           = implementation.measure (operation, threads, seconds, contended);
       double const ratio = baseline.ns_per_op > 0.0
                                ? measurement.ns_per_op / baseline.ns_per_op
                                : 0.0;
-      csv << repetition << ',' << mode << ',' << threads << ','
-          << implementation.key << ',' << k_operation_names[operation] << ','
-          << measurement.ns_per_op << ',' << measurement.operations << ','
-          << measurement.successes << ',' << measurement.seconds << ','
-          << baseline.ns_per_op << ',' << ratio << ','
-          << (measurement.valid ? 1 : 0) << '\n';
+      write_row (csv, repetition, mode, threads, implementation.key,
+                 k_operation_names[operation], measurement.ns_per_op,
+                 measurement.operations, measurement.successes,
+                 measurement.seconds, baseline.ns_per_op, ratio,
+                 measurement.valid, measurement.cycles_per_op,
+                 measurement.instructions_per_op);
+      if (operation == bench::operation_load_one_writer)
+        {
+          // The writer's side of the same run.
+          double const writer_ratio
+              = baseline.ns_per_op > 0.0
+                    ? measurement.writer_ns_per_op / baseline.ns_per_op
+                    : 0.0;
+          write_row (csv, repetition, mode, threads, implementation.key,
+                     k_one_writer_stores, measurement.writer_ns_per_op,
+                     measurement.writer_operations, 0u, measurement.seconds,
+                     baseline.ns_per_op, writer_ratio, measurement.valid, 0.0,
+                     0.0);
+        }
       if (!measurement.valid)
         {
           std::cerr << implementation.key << ' '
@@ -300,6 +393,37 @@ run_block (std::ostream &csv, long repetition, bool contended, int threads,
         }
     }
   return valid;
+}
+
+/** Writes the rows of the destruction-latency scenario of one series. */
+bool
+run_destroy_block (std::ostream &csv, long repetition, int threads,
+                   bench::implementation_t const &implementation, long objects)
+{
+  bench::latency_result_t const result
+      = implementation.latency (threads, objects);
+  double const seconds = 0.0;
+  // ns_per_op carries the latency in ns (the peak backlog, in objects, for
+  // destroy_backlog); operations the replaced objects; successes the ones
+  // destroyed before the replacing store returned (destroy_median) or still
+  // pending when the loop ended (destroy_backlog).
+  write_row (csv, repetition, "destroy", threads, implementation.key,
+             "destroy_median", result.median_ns, result.objects,
+             result.in_call, seconds, 0.0, 0.0, result.valid, 0.0, 0.0);
+  write_row (csv, repetition, "destroy", threads, implementation.key,
+             "destroy_p99", result.p99_ns, result.objects, result.in_call,
+             seconds, 0.0, 0.0, result.valid, 0.0, 0.0);
+  write_row (csv, repetition, "destroy", threads, implementation.key,
+             "destroy_max", result.max_ns, result.objects, result.in_call,
+             seconds, 0.0, 0.0, result.valid, 0.0, 0.0);
+  write_row (csv, repetition, "destroy", threads, implementation.key,
+             "destroy_backlog", static_cast<double> (result.peak_backlog),
+             result.objects, result.pending_end, seconds, 0.0, 0.0,
+             result.valid, 0.0, 0.0);
+  if (!result.valid)
+    std::cerr << implementation.key << " (destroy, " << threads
+              << " threads) destroyed an object twice or not at all\n";
+  return result.valid;
 }
 } // namespace
 
@@ -325,10 +449,24 @@ main (int argc, char **argv)
 #if defined(__cpp_lib_atomic_shared_ptr)
           std_implementation (),
 #endif
-          bench::boost_implementation () };
+          bench::boost_implementation (),
+          bench::lumex_split_count_cxx11_implementation (),
+          bench::lumex_lock_based_lumex_cxx11_implementation (),
+          bench::lumex_split_count_implementation (),
+          bench::lumex_split_count_r4_implementation (),
+          bench::lumex_lock_based_lumex_implementation (),
+          bench::lumex_split_count_weak_implementation (),
+          bench::lumex_lock_based_lumex_weak_implementation (),
+          bench::lumex_lock_based_weak_implementation (),
+          bench::lumex_lock_free_weak_implementation (),
+          bench::lumex_std_backed_weak_implementation (),
+          bench::std_weak_implementation () };
+  int const wanted_kind = options.scenario == scenario_weak
+                              ? bench::kind_weak
+                              : bench::kind_shared;
   for (std::size_t i = 0; i < sizeof (candidates) / sizeof (candidates[0]);
        ++i)
-    if (candidates[i].measure != nullptr
+    if (candidates[i].measure != nullptr && candidates[i].kind == wanted_kind
         && series_selected (options, candidates[i].key))
       implementations.push_back (candidates[i]);
 
@@ -338,7 +476,10 @@ main (int argc, char **argv)
         std::cout << implementations[i].key << '|' << implementations[i].label
                   << '|' << implementations[i].path << '|'
                   << implementations[i].standard << '|'
-                  << (implementations[i].lock_free ? 1 : 0) << '\n';
+                  << (implementations[i].lock_free ? 1 : 0) << '|'
+                  << (implementations[i].kind == bench::kind_weak ? "weak"
+                                                                  : "shared")
+                  << '\n';
       return 0;
     }
 
@@ -360,6 +501,11 @@ main (int argc, char **argv)
       << "# repetition=" << options.repetition << '\n'
       << "# duration_ms=" << options.duration_ms << '\n'
       << "# hardware_concurrency=" << std::thread::hardware_concurrency ()
+      << '\n'
+      << "# scenario="
+      << (options.scenario == scenario_weak      ? "weak"
+          : options.scenario == scenario_destroy ? "destroy"
+                                                 : "shared")
       << '\n';
   for (std::size_t i = 0; i < implementations.size (); ++i)
     csv << "# implementation=" << implementations[i].key << '|'
@@ -367,7 +513,8 @@ main (int argc, char **argv)
         << implementations[i].standard << '|'
         << (implementations[i].lock_free ? 1 : 0) << '\n';
   csv << "repetition,mode,threads,implementation,operation,ns_per_op,"
-         "operations,successes,seconds,baseline_ns,ratio,valid\n";
+         "operations,successes,seconds,baseline_ns,ratio,valid,"
+         "cycles_per_op,instructions_per_op\n";
 
   double const seconds = static_cast<double> (options.duration_ms) / 1000.0;
   int max_threads = 1;
@@ -386,19 +533,40 @@ main (int argc, char **argv)
   std::size_t const count = implementations.size ();
   std::size_t const rotation = static_cast<std::size_t> (options.repetition);
   bool valid = true;
+  if (options.scenario == scenario_destroy)
+    {
+      // One storing thread alone, then with three readers.
+      std::vector<int> counts = options.threads;
+      if (!options.threads_given)
+        {
+          counts.clear ();
+          counts.push_back (1);
+          counts.push_back (4);
+        }
+      for (std::size_t t = 0; t < counts.size (); ++t)
+        for (std::size_t k = 0; k < count; ++k)
+          valid
+              = run_destroy_block (csv, options.repetition, counts[t],
+                                   implementations[(rotation + t + k) % count],
+                                   options.objects)
+                && valid;
+      csv.flush ();
+      return valid && csv ? 0 : 3;
+    }
   for (std::size_t k = 0; k < count; ++k)
     valid = run_block (csv, options.repetition, false, 1,
-                       implementations[(rotation + k) % count], seconds)
+                       implementations[(rotation + k) % count], seconds,
+                       options.scenario)
             && valid;
   for (std::size_t t = 0; t < options.threads.size (); ++t)
     {
       std::cerr << "repetition " << options.repetition << ": "
                 << options.threads[t] << " threads\n";
       for (std::size_t k = 0; k < count; ++k)
-        valid
-            = run_block (csv, options.repetition, true, options.threads[t],
-                         implementations[(rotation + t + k) % count], seconds)
-              && valid;
+        valid = run_block (csv, options.repetition, true, options.threads[t],
+                           implementations[(rotation + t + k) % count],
+                           seconds, options.scenario)
+                && valid;
     }
   csv.flush ();
   if (!csv)

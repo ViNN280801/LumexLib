@@ -92,8 +92,9 @@
  * ThreadSanitizer does not model fences, so under it the drop is an
  * `acq_rel` read-modify-write instead. `try_add` (the promotion of a weak
  * pointer, increment-if-nonzero) is an `acq_rel` compare-exchange.
- * `transfer_ext` is relaxed: it only moves a debt that the transferring
- * writer has already published through the swap of the atomic's word.
+ * `transfer_ext` is relaxed: the writer makes the deposit BEFORE its swap of
+ * the atomic's word, and the swap publishes it (a payer takes its decision on
+ * an acquire read of that swap).
  */
 #ifndef LUMEX_CORE_SMART_PTR_CTL_SMART_PTR_COUNTER_HPP
 #define LUMEX_CORE_SMART_PTR_CTL_SMART_PTR_COUNTER_HPP

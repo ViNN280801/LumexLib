@@ -45,6 +45,8 @@ foreach(_directory "" "smart_ptr/" "sync/")
         "VARIANT no_lock_free DEFINITIONS LUMEX_ATOMIC_SMART_PTR_DISABLE_LOCK_FREE")
     _require_text("${_tests}" "VARIANT lock_free DEFINITIONS")
     _require_text("${_tests}" "VARIANT lock_free_deferred DEFINITIONS")
+    _require_text("${_tests}" "VARIANT split_count_engine DEFINITIONS")
+    _require_text("${_tests}" "VARIANT lock_based_lumex DEFINITIONS")
     _require_text("${_tests}" "VARIANT std_backed DEFINITIONS")
     _require_text("${_tests}" "LUMEX_ATOMIC_TEST_SHARED_ENGINE=atomic_shared_ptr_lock_free")
     _require_text("${_tests}" "PROPERTIES TIMEOUT")
@@ -75,6 +77,10 @@ _require_text("${_table}"
     "lumex_test_standards_declare_variant(atomic lock_free 11 20)")
 _require_text("${_table}"
     "lumex_test_standards_declare_variant(atomic lock_free_deferred 11 20)")
+_require_text("${_table}"
+    "lumex_test_standards_declare_variant(atomic split_count_engine 11 20)")
+_require_text("${_table}"
+    "lumex_test_standards_declare_variant(atomic lock_based_lumex 11 20)")
 _require_text("${_table}"
     "lumex_test_standards_declare_variant(atomic std_backed 20)")
 

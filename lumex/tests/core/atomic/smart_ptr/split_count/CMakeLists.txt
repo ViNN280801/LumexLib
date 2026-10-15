@@ -35,6 +35,9 @@
 # LumexSplitCountSim.hpp is the simulated-scheduler explorer (V1); its long runs
 # are the Soak tests. LumexSplitCountSimAba.hpp is the ABA control of package V2
 # (a toy stack that the explorer must catch).
+# relacy/ holds the Relacy models of the memory orders (plain programs, CTest
+# label relacy); it is added only when LUMEX_RELACY_DIR names a Relacy
+# checkout, and then it adds nothing to the suites above.
 set(_split_sanitize_thread FALSE)
 if(LUMEX_USE_TSAN)
     set(_split_sanitize_thread TRUE)
@@ -90,3 +93,24 @@ foreach(_target IN LISTS _split_targets)
         endif()
     endif()
 endforeach()
+
+# The Relacy models (optional, not part of the default run): see
+# relacy/CMakeLists.txt. They are built when LUMEX_BUILD_RELACY is ON or when
+# LUMEX_RELACY_DIR is given. Relacy itself is vendored in 3rdparty/relacy and
+# used by default; -DLUMEX_RELACY_DIR=<path> to another checkout (a directory
+# that holds relacy/relacy.hpp) replaces it. Nothing else here depends on it.
+if(LUMEX_RELACY_DIR)
+    set(_lumex_relacy_requested ON)
+else()
+    set(_lumex_relacy_requested ${LUMEX_BUILD_RELACY})
+    get_filename_component(LUMEX_RELACY_DIR
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../../3rdparty/relacy"
+        ABSOLUTE)
+endif()
+if(_lumex_relacy_requested)
+    if(EXISTS "${LUMEX_RELACY_DIR}/relacy/relacy.hpp")
+        add_subdirectory(relacy)
+    else()
+        message(STATUS "LUMEX_RELACY_DIR has no relacy/relacy.hpp: the Relacy models are not built")
+    endif()
+endif()

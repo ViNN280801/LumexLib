@@ -81,7 +81,9 @@ def die(message):
 
 
 def variant_of(path):
-    match = re.match(r"LumexSpanBench_(\w+?)_cxx(\d+)$",
+    # A Windows executable has the suffix .exe (the PDB next to it does not
+    # match, so it is never taken for a variant).
+    match = re.match(r"LumexSpanBench_(\w+?)_cxx(\d+)(?:\.exe)?$",
                      os.path.basename(path))
     if not match:
         return None
@@ -129,6 +131,10 @@ def parse_run(path):
             compiler = re.search(r"compiler=(.*?) library=", line)
             if compiler:
                 meta["compiler"] = compiler.group(1)
+            # the same for the library name ("MSVC STL")
+            library = re.search(r"library=(.*?) cplusplus=", line)
+            if library:
+                meta["library"] = library.group(1)
         else:
             body.append(line)
     for row in csv.DictReader(body):
@@ -136,18 +142,37 @@ def parse_run(path):
     return meta, rows
 
 
+def pin_windows_process(process, cpu):
+    """Pins a started process to one logical CPU (the Windows counterpart of
+    taskset). The process is already running, but it spends its first
+    milliseconds in start-up and in preparing the data, long before the first
+    timed loop. Returns False when the call failed."""
+    import ctypes
+    from ctypes import wintypes
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel32.SetProcessAffinityMask.argtypes = [wintypes.HANDLE,
+                                                ctypes.c_size_t]
+    kernel32.SetProcessAffinityMask.restype = wintypes.BOOL
+    return bool(kernel32.SetProcessAffinityMask(int(process._handle),
+                                                1 << cpu))
+
+
 def run_executable(path, cpu, quick, scratch):
     out_csv = os.path.join(scratch, os.path.basename(path) + ".csv")
     command = [path, out_csv]
     if quick:
         command.append("--quick")
-    if cpu is not None and shutil.which("taskset"):
+    if cpu is not None and os.name != "nt" and shutil.which("taskset"):
         command = ["taskset", "-c", str(cpu)] + command
-    result = subprocess.run(command, stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT,
-                            universal_newlines=True)
-    if result.returncode != 0:
-        die("%s failed (%d):\n%s" % (path, result.returncode, result.stdout))
+    process = subprocess.Popen(command, stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT,
+                               universal_newlines=True)
+    if cpu is not None and os.name == "nt":
+        if not pin_windows_process(process, cpu):
+            log("warning: could not pin %s to CPU %d" % (path, cpu))
+    output, _ = process.communicate()
+    if process.returncode != 0:
+        die("%s failed (%d):\n%s" % (path, process.returncode, output))
     return parse_run(out_csv)
 
 
@@ -200,6 +225,20 @@ def cpu_model():
                     return line.split(":", 1)[1].strip()
     except OSError:
         pass
+    if os.name == "nt":
+        # platform.processor() on Windows is only the family string; the
+        # marketing name of the CPU is in the registry.
+        try:
+            import winreg
+            key = winreg.OpenKey(
+                winreg.HKEY_LOCAL_MACHINE,
+                r"HARDWARE\DESCRIPTION\System\CentralProcessor\0")
+            try:
+                return winreg.QueryValueEx(key, "ProcessorNameString")[0].strip()
+            finally:
+                winreg.CloseKey(key)
+        except (ImportError, OSError):
+            pass
     return platform.processor() or "unknown"
 
 

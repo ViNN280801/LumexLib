@@ -18,7 +18,7 @@ using namespace lumex_atomic_test;
 
 namespace
 {
-struct Selfie : std::enable_shared_from_this<Selfie>
+struct Selfie : pf::enable_shared_from_this<Selfie>
 {
   explicit Selfie (lumex_test::ObjectLedger &ledger) : entry (ledger) {}
   lumex_test::LedgerEntry entry;
@@ -45,14 +45,14 @@ TEST (
   // Values: empty; the array x; an element of x (same owner, other pointer);
   // a second array y; the first element of x under the owner y (same pointer
   // as x, other owner).
-  std::shared_ptr<int[]> const x (new int[4]);
-  std::shared_ptr<int[]> const y (new int[4]);
-  std::vector<std::shared_ptr<int[]>> values;
-  values.push_back (std::shared_ptr<int[]> ());
+  pf::shared_ptr<int[]> const x (new int[4]);
+  pf::shared_ptr<int[]> const y (new int[4]);
+  std::vector<pf::shared_ptr<int[]>> values;
+  values.push_back (pf::shared_ptr<int[]> ());
   values.push_back (x);
-  values.push_back (std::shared_ptr<int[]> (x, x.get () + 1));
+  values.push_back (pf::shared_ptr<int[]> (x, x.get () + 1));
   values.push_back (y);
-  values.push_back (std::shared_ptr<int[]> (y, x.get ()));
+  values.push_back (pf::shared_ptr<int[]> (y, x.get ()));
   lumex_test::Verdict verdict;
   scenario::identity_rule_over<EngineUnderTest::shared<int[]>> (values,
                                                                 verdict);
@@ -79,10 +79,10 @@ TEST (
     SelfieDeleter const deleter = { &object_pool };
     Selfie *const first_object
         = new (object_pool.allocate (sizeof (Selfie))) Selfie (ledger);
-    std::shared_ptr<Selfie> first (
+    pf::shared_ptr<Selfie> first (
         first_object, deleter,
         lumex_test::ReuseAllocator<char> (control_pool));
-    std::weak_ptr<Selfie> const stale = first->weak_from_this ();
+    pf::weak_ptr<Selfie> const stale = first->weak_from_this ();
     EXPECT_FALSE (stale.expired ());
     atomic_weak_ptr<Selfie> a (stale);
     first.reset ();
@@ -91,13 +91,13 @@ TEST (
     Selfie *const second_object
         = new (object_pool.allocate (sizeof (Selfie))) Selfie (ledger);
     ASSERT_EQ (second_object, first_object) << "the address must be reused";
-    std::shared_ptr<Selfie> second (
+    pf::shared_ptr<Selfie> second (
         second_object, deleter,
         lumex_test::ReuseAllocator<char> (control_pool));
-    std::weak_ptr<Selfie> const fresh = second->weak_from_this ();
+    pf::weak_ptr<Selfie> const fresh = second->weak_from_this ();
     a.store (fresh);
 
-    std::weak_ptr<Selfie> expected = stale;
+    pf::weak_ptr<Selfie> expected = stale;
     EXPECT_FALSE (a.compare_exchange_strong (expected, stale))
         << "the weak_from_this () of a dead object matched the new object";
     EXPECT_FALSE (expected.owner_before (fresh)
@@ -105,7 +105,7 @@ TEST (
     EXPECT_TRUE (static_cast<bool> (expected.lock ()));
 
     a.store (stale);
-    std::weak_ptr<Selfie> again = stale;
+    pf::weak_ptr<Selfie> again = stale;
     EXPECT_TRUE (a.compare_exchange_strong (again, fresh));
   }
   EngineUnderTest::quiesce ();
