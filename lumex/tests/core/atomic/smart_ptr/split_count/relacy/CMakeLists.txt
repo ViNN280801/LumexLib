@@ -86,8 +86,10 @@ set(_relacy_timeout 1800)
 # "<model>/k<reserve>"; the counter is "default" or "tsan"; the sites are the
 # functions in which Relacy may report the race (comma separated), or "-" for a
 # mutant of the logic of the reserve, which no race reveals: the program then
-# must end with the failure of the named model (a violated check of the
-# balance); the model is the first model that must fail.
+# must end with the failure of the named model: a violated check of the
+# balance (USER INVARIANT FAILED or USER ASSERT FAILED) or of a coverage
+# requirement of the model (COVERAGE FAILED), not any other failure; the model
+# is the first model that must fail.
 #   8    L3 tick relaxed                           data race on the object
 #   10   L7 un-tick relaxed                        data race on the holder
 #   33   decision reads relaxed (load and swap)    ghost race: payment unordered
@@ -107,6 +109,8 @@ set(_relacy_timeout 1800)
 #   201  compare-exchange: the surplus of the swap is one too big
 #   202  compare-exchange: the retained deposit is not topped up
 #   203  holder compare-exchange: the deposit is one short
+#   204  strong compare-exchange never keeps its deposit: the balance still
+#        holds, the coverage requirement (S10-keep) of the model fails
 set(_relacy_mutants
     "8|Block|block.publish_load|caught|default|load|block.publish_load"
     "10|Holder|holder.load_store|caught|default|finish|holder.load_store"
@@ -124,6 +128,7 @@ set(_relacy_mutants
     "201|Block|cas_load_store/k2|caught|default|-|block.cas_load_store"
     "202|Block|cas_load_store/k2|caught|default|-|block.cas_load_store"
     "203|Holder|cas_load/k2|caught|default|-|holder.cas_load"
+    "204|Block|cas_load_store/k2|caught|default|-|block.cas_load_store"
     "9|Holder|two_loads_in_one_thread|caught|tsan|finish|holder.two_loads_in_one_thread"
     "9|Holder|two_loads_in_one_thread|survives|default|-|-"
     "25|Litmus|litmus|survives|default|-|-")
@@ -203,7 +208,8 @@ if(LUMEX_RELACY_MUTANTS)
             COMMAND ${_target} --only ${_filter})
         if(_verdict STREQUAL "caught" AND _sites STREQUAL "-")
             set_tests_properties(${_ctest_name} PROPERTIES
-                PASS_REGULAR_EXPRESSION "RESULT FAIL ${_expected}")
+                PASS_REGULAR_EXPRESSION
+                "(USER (INVARIANT|ASSERT) FAILED|COVERAGE FAILED).*RESULT FAIL ${_expected}")
         elseif(_verdict STREQUAL "caught")
             set_tests_properties(${_ctest_name} PROPERTIES
                 PASS_REGULAR_EXPRESSION

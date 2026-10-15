@@ -170,8 +170,11 @@
  *   successful compare-exchange between its swap and its drop (+1, the
  *   lagging decrement; `exchange` has no such window), (ii) a writer, a
  *   compare-exchange included, between its deposit and the end of its call
- *   (+ other ticks + `k`; a weak compare-exchange that fails shows the `k`
- *   until its withdraw), (iii) a unit deposited for a loader that has already
+ *   (+ other ticks + `k`; a weak compare-exchange that fails, and a strong
+ *   one that fails on another value, show the whole deposit, the ticks they
+ *   saw plus `k`, until the withdraw; a strong one that keeps its deposit
+ *   across an equivalent failure shows the most ticks it saw plus `k`),
+ *   (iii) a unit deposited for a loader that has already
  *   counted itself, until it pays (+1). This holds for the owner of an alias
  *   stored through a holder as well;
  * - exact when nothing is in flight. It never waits;
