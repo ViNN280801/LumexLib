@@ -291,8 +291,8 @@ def relacy_chart(rows):
 
 GRID_COLUMNS = [("first run", "default", "first run, default"),
                 ("first run", "soak", "first run, soak"),
-                ("after the fixes", "default", "after the fixes, default"),
-                ("after the fixes", "soak", "after the fixes, soak")]
+                ("final engine", "default", "final engine, default"),
+                ("final engine", "soak", "final engine, soak")]
 PASS_COLOR = "#009E73"
 FAIL_COLOR = "#D55E00"
 PARTIAL_COLOR = "#E69F00"
@@ -367,10 +367,10 @@ def sanitizer_chart(rows):
     y = heading(out, "The sanitizer matrix", [
         "One row per compiler, library and sanitizer; the columns are those of the table in the README.",
         "A cell is the passed, failed and skipped tests of the run; xN = N seeds. Skipped tests are not passed tests.",
-        "The first run found two defects of the tests (UBSan, TSan); the 'after the fixes' columns are the re-runs."])
+        "The first run found two defects of the tests (UBSan, TSan); the 'final engine' columns are the runs on release/v2.0.0.3 at fdce2c6cc, after the fixes and the compare_exchange change."])
     items = [(PASS_COLOR, "", "all tests passed or were skipped by design"),
              (FAIL_COLOR, "", "tests failed"),
-             (PARTIAL_COLOR, "", "completed in two parts (row 1, soak: part 2 re-runs 256 tests of part 1)"),
+             (PARTIAL_COLOR, "", "completed in two parts (no run of the final engine is in two parts)"),
              (NONE_COLOR, "", "not run")]
     y = swatch_legend(out, items, margin, y + 22, width - 2 * margin)
     top = y + 34
