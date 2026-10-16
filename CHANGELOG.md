@@ -51,6 +51,13 @@
 
 ---
 
+##### Матрица санитайзеров повторена полностью на финальном движке
+
+**Файлы:** `lumex/core/atomic/README.md` (раздел «Sanitizer matrix»), `lumex/core/atomic/VERIFICATION.md`, `benchmarks/atomic/results/verification/sanitizer_matrix.csv`, `plot_verification.py`, `verification_sanitizer_matrix.svg`.
+
+**Суть:** после резерва в `compare_exchange` матрица повторена на финальном движке без сокращений: строки 1-8 (GCC 13.2 Debug ASan+UBSan+LSan; GCC 13.2 Release ASan+UBSan; Clang 23.1 Debug ASan+UBSan с libstdc++ и с libc++; Clang 23.1 TSan Debug и Release с обеими библиотеками; GCC 13.2 Debug TSan под `setarch -R`; GCC 8.3 Release; GCC 13.2 Release без санитайзера), обычная выборка (4199 тестов, 1819 у GCC 8.3) и выборка «soak» (1036 тестов, 390 у GCC 8.3) с пятью сидами у строк Release и TSan и двумя у Debug ASan. Всего 60 прогонов, во всех 100 % проходов, 0 падений и ни одного сообщения санитайзера; пропущенные по замыслу тесты (имитатор не работает под TSan и вне C++11-наборов со встроенным бэкендом) указаны отдельно.
+
+
 ## [v2.0.0.2] - 2026-10-15
 
 > Изменения поверх `v2.0.0.1` (тег опубликован). Номер `2.0.0.2` выбран по [VERSIONING.md](VERSIONING.md): изменились тесты, бенчмарки, документация и комментарии, функциональных изменений нет (TWEAK). Версия в `CMakeLists.txt` и дата секции поставлены релизным коммитом.
