@@ -1,0 +1,24 @@
+<map id="lumex::core::fmt::format_to" name="lumex::core::fmt::format_to">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,101,208,126"/>
+<area shape="rect" id="Node000002" href="$a01540.html#a1a7369743e9a56cdf14f5bd2ce80b599" title="Type&#45;erased arguments for vformat; the result refers to args, so use it within the same full expressi..." alt="" coords="257,29,432,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,98,256,70,258,76,155,103"/>
+<area shape="rect" id="Node000004" href="$a02999.html#ae593c9d2fad6577892999a329d8b354c" title=" " alt="" coords="256,93,433,133"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="208,111,242,111,242,116,208,116"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a9b8fbd4db71c1059fadb982021043cb4" title="Formats into buffer; adds the field offset to errors." alt="" coords="256,157,433,197"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="155,124,258,151,256,156,154,129"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="300,30,298,20,305,10,321,5,345,3,372,6,387,13,385,18,371,11,345,8,322,10,308,15,303,21,306,28"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a7c0b83d64d43d9c8746e82f05d43db5a" title=" " alt="" coords="494,29,671,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="432,47,480,47,480,52,432,52"/>
+<area shape="rect" id="Node000006" href="$a03103.html#a6ab4cd9529ea82665743a1a876e4e67f" title=" " alt="" coords="481,93,684,133"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="419,155,494,134,496,139,420,160"/>
+<area shape="rect" id="Node000007" href="$a02971.html#a31ad5f8d467dbd7691cce0e32d953ce0" title=" " alt="" coords="491,157,674,197"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="434,175,478,175,478,180,434,180"/>
+<area shape="rect" id="Node000008" href="$a01541.html#a9fced4d130ed35de9eb22230b7bd6e56" title="Walks a format string and reports literal text, replacement fields and their specifications to handle..." alt="" coords="494,221,671,261"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="420,195,496,215,494,220,419,200"/>
+<area shape="rect" id="Node000009" href="$a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="732,221,909,261"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="672,239,718,239,718,244,672,244"/>
+<area shape="rect" id="Node000010" href="$a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="957,189,1135,229"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="909,226,944,221,944,226,910,231"/>
+<area shape="rect" id="Node000011" href="$a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="957,253,1135,293"/>
+<area shape="poly" id="edge11_Node000009_Node000011" title=" " alt="" coords="910,251,944,256,944,261,909,257"/>
+</map>

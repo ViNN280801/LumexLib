@@ -1,12 +1,15 @@
 var a01271 =
 [
-    [ "logger", "a01272.html", "a01272" ],
-    [ "logger_config_format_t", "a01271.html#a50817df5a1c7ef0cc99cfb1a2fd513e9", [
-      [ "plain_text", "a01271.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a10504904240f7c7a24587ef9209b3f55", null ],
-      [ "ini", "a01271.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a4d90362d661461e558408e982aaa49d3", null ],
-      [ "json", "a01271.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a466deec76ecdf5fca6d38571f6324d54", null ],
-      [ "yaml", "a01271.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a6eedc03a68a69933c763e674f2d7c42f", null ],
-      [ "xml", "a01271.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7", null ]
-    ] ],
-    [ "configured_logger_config_format", "a01271.html#a4ff8994ab54d107e5c4077786599a415", null ]
+    [ "lumCritical", "a01271.html#aa23371e8c742bc7b94f33977cc306940", null ],
+    [ "lumCriticalFL", "a01271.html#af818e64debfd37f548e42ec80a27791a", null ],
+    [ "lumDebug", "a01271.html#ab9d811383a6660ae66efe797449b54c4", null ],
+    [ "lumDebugFL", "a01271.html#a7d12884a15fa51a1dbaeeffb7c41fdcb", null ],
+    [ "lumError", "a01271.html#ae62f979f23f714f5275da9ce1f60435c", null ],
+    [ "lumErrorFL", "a01271.html#aae2b6bd2b080f3aefab21e9a0903e6a3", null ],
+    [ "lumInfo", "a01271.html#abf03ac40e82dc22d29bcd7f0591d8efb", null ],
+    [ "lumInfoFL", "a01271.html#af93a3415292639c338b18232778703e7", null ],
+    [ "lumSuccess", "a01271.html#a7d9790a6ac0afd238f27185519b059e2", null ],
+    [ "lumSuccessFL", "a01271.html#a522ab7a45fc03475916950d12f1d8c7c", null ],
+    [ "lumWarning", "a01271.html#a4723a0545868bc1b988b4d2c65386e39", null ],
+    [ "lumWarningFL", "a01271.html#a2441b014034e5ec161b3f7bd5301d8dc", null ]
 ];

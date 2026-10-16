@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexOptional File Reference</title>
+<title>LumexLib: LumexSettingsXML.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,34 +103,122 @@ $(function(){initNavTree('a01214.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexOptional File Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexSettingsXML.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Optional module: a C++11 implementation of the C++17 <code>std::optional</code> with the C++23 monadic operations.  
+<p><code><a class="el" href="a01208.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> over XML files, parsed and written with the library's own <code><a class="el" href="a01669.html">lumex::xml</a></code> module.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00467_source.html">opt/LumexOptionalGlobals.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01208_source.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01124_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexOptional:</div>
+Include dependency graph for LumexSettingsXML.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01215.png" border="0" usemap="#a_lumex_optional" alt=""/></div>
+<div class="center"><img src="a01215.png" border="0" usemap="#aLumexSettingsXML_8hpp" alt=""/></div>
+<map name="aLumexSettingsXML_8hpp" id="aLumexSettingsXML_8hpp">
+<area shape="rect" title="ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module." alt="" coords="130,5,305,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,174,187,199"/>
+<area shape="poly" title=" " alt="" coords="161,33,92,54,64,67,48,80,41,100,46,122,58,143,74,162,70,166,54,146,41,124,36,100,43,77,61,62,90,49,159,28"/>
+<area shape="rect" title=" " alt="" coords="58,86,182,111"/>
+<area shape="poly" title=" " alt="" coords="203,33,148,79,145,74,200,29"/>
+<area shape="rect" href="a01208.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="206,79,423,119"/>
+<area shape="poly" title=" " alt="" coords="235,29,281,68,278,72,231,33"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="447,79,702,119"/>
+<area shape="poly" title=" " alt="" coords="274,28,473,73,472,78,273,33"/>
+<area shape="poly" title=" " alt="" coords="265,121,141,171,139,166,264,116"/>
+<area shape="rect" title=" " alt="" coords="285,174,344,199"/>
+<area shape="poly" title=" " alt="" coords="317,119,317,160,312,160,312,119"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="468,167,681,207"/>
+<area shape="poly" title=" " alt="" coords="577,119,577,153,572,153,572,119"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01216.png" border="0" usemap="#a_lumex_optionaldep" alt=""/></div>
+<div class="center"><img src="a01216.png" border="0" usemap="#aLumexSettingsXML_8hppdep" alt=""/></div>
+<map name="aLumexSettingsXML_8hppdep" id="aLumexSettingsXML_8hppdep">
+<area shape="rect" title="ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module." alt="" coords="411,5,586,31"/>
+<area shape="rect" href="a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="354,79,473,104"/>
+<area shape="poly" title=" " alt="" coords="475,42,430,80,427,76,472,38"/>
+<area shape="rect" href="a01211.html" title=" " alt="" coords="497,79,671,104"/>
+<area shape="poly" title=" " alt="" coords="526,38,570,76,567,80,522,42"/>
+<area shape="rect" href="a00320.html" title=" " alt="" coords="5,152,171,177"/>
+<area shape="poly" title=" " alt="" coords="345,110,145,154,144,149,343,104"/>
+<area shape="rect" href="a00314.html" title=" " alt="" coords="195,152,394,177"/>
+<area shape="poly" title=" " alt="" coords="383,114,317,154,314,150,380,109"/>
+<area shape="rect" href="a00311.html" title=" " alt="" coords="418,152,649,177"/>
+<area shape="poly" title=" " alt="" coords="447,109,514,150,511,154,445,114"/>
+<area shape="rect" href="a00317.html" title=" " alt="" coords="673,152,871,177"/>
+<area shape="poly" title=" " alt="" coords="487,104,710,149,709,155,486,109"/>
+</map>
 </div>
 </div>
 <p><a href="a01214_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01919.html">lumex::applied::settings::xml::LumexSettingsXML</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lightweight, C++11-based XML settings manager.  <a href="a01919.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01477.html">lumex::applied::settings</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01486.html">lumex::applied::settings::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01487.html">lumex::applied::settings::xml::Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ab23132a5fc6ee5da8ac4aa3c6f448f27" id="r_ab23132a5fc6ee5da8ac4aa3c6f448f27"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a> = <a class="el" href="a01919.html">lumex::applied::settings::xml::LumexSettingsXML</a></td></tr>
+<tr class="separator:ab23132a5fc6ee5da8ac4aa3c6f448f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:af855e4cf1325db801e3b37d639568677" id="r_af855e4cf1325db801e3b37d639568677"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01487.html#af855e4cf1325db801e3b37d639568677">lumex::applied::settings::xml::Constants::constXML_FILE_EXTENSION</a> = &quot;.xml&quot;</td></tr>
+<tr class="memdesc:af855e4cf1325db801e3b37d639568677"><td class="mdescLeft">&#160;</td><td class="mdescRight">XML file extension.  <br /></td></tr>
+<tr class="separator:af855e4cf1325db801e3b37d639568677"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9686f880e1ab09a34249727e8cb8f994" id="r_a9686f880e1ab09a34249727e8cb8f994"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01487.html#a9686f880e1ab09a34249727e8cb8f994">lumex::applied::settings::xml::Constants::constSETTINGS_ROOT_NAME</a> = &quot;settings&quot;</td></tr>
+<tr class="memdesc:a9686f880e1ab09a34249727e8cb8f994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Canonical root written by <code>save</code>.  <br /></td></tr>
+<tr class="separator:a9686f880e1ab09a34249727e8cb8f994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Optional module: a C++11 implementation of the C++17 <code>std::optional</code> with the C++23 monadic operations. </p>
-<p>Link <code>lumex::optional</code> (header-only). Works from C++11. The umbrella includes <code><a class="el" href="a00461.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type-safe nullab...">opt/LumexOptional.hpp</a></code> (the types in <code><a class="el" href="a01376.html">lumex::core::optional::opt</a></code>, with <code><a class="el" href="a00470.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,...">opt/LumexOptionalTags.hpp</a></code> and <code><a class="el" href="a00464.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f...">opt/LumexOptionalDetail.hpp</a></code> behind it) and <code><a class="el" href="a00467.html" title="The global names of the optional module: optional, nullopt, make_optional and lumex_bad_optional_acce...">opt/LumexOptionalGlobals.hpp</a></code> (the global names <code>optional</code>, <code>nullopt</code>, <code>make_optional</code> and <code><a class="el" href="a03506.html" title="Exception thrown when attempting to access the value of an empty optional.">lumex_bad_optional_access</a></code>). </p>
-</div></div><!-- contents -->
+<div class="textblock"><p><code><a class="el" href="a01208.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> over XML files, parsed and written with the library's own <code><a class="el" href="a01669.html">lumex::xml</a></code> module. </p>
+<p>Declares <code><a class="el" href="#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a></code> and its <code>Constants</code> (the <code>.xml</code> extension and <code>settings</code>, the root element that saving writes). A section is a child element of the root and a key is a leaf element inside it. Without <code>LUMEX_SETTINGS_WITH_XML</code> (the XML module not built) the class still compiles, but loading, saving and validation fail. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="ab23132a5fc6ee5da8ac4aa3c6f448f27" name="ab23132a5fc6ee5da8ac4aa3c6f448f27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab23132a5fc6ee5da8ac4aa3c6f448f27">&#9670;&#160;</a></span>LumexSettingsXML</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ab23132a5fc6ee5da8ac4aa3c6f448f27">LumexSettingsXML</a> = <a class="el" href="a01919.html">lumex::applied::settings::xml::LumexSettingsXML</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9669aebcb67621c55bde5b6a59fa609b.html">optional</a></li><li class="navelem"><a class="el" href="a01214.html">LumexOptional</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_3df0cac0d3d934b72ac63bcfda3027b0.html">xml</a></li><li class="navelem"><a class="el" href="a01214.html">LumexSettingsXML.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

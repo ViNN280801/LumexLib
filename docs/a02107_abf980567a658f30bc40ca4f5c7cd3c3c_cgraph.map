@@ -1,0 +1,7 @@
+<map id="lumex::core::contracts::scoped_violation_handler::scoped_violation_handler" name="lumex::core::contracts::scoped_violation_handler::scoped_violation_handler">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,201,60"/>
+<area shape="rect" id="Node000002" href="$a02107.html#a7f67743813a1ace343c34dc927165b94" title="Installs handler (nullptr: the default handler)." alt="" coords="249,5,445,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,30,235,30,235,35,202,35"/>
+<area shape="rect" id="Node000003" href="$a01509.html#a01aa812e0ede22650e6bdd49096491c0" title="Installs handler and returns the previously installed one." alt="" coords="493,13,664,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="445,30,480,30,480,35,445,35"/>
+</map>

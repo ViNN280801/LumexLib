@@ -1,0 +1,15 @@
+<map id="lumex::core::environment::env::is_env_set" name="lumex::core::environment::env::is_env_set">
+<area shape="rect" id="Node000001" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="5,115,196,155"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a7e295dbaae2f46319c7256b862a1cd5e" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="244,108,436,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,133,230,133,230,138,196,138"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="484,56,705,111"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="436,113,470,106,471,111,437,118"/>
+<area shape="rect" id="Node000006" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="499,159,691,213"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="437,152,485,162,484,167,436,157"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="753,5,955,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="705,59,739,52,740,58,706,64"/>
+<area shape="rect" id="Node000005" href="$a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="758,108,950,163"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="706,103,745,111,744,116,705,108"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="804,108,804,98,813,89,830,83,854,81,883,84,900,92,897,97,882,90,854,87,831,89,816,93,809,100,809,108"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="545,159,546,148,555,140,571,134,595,132,623,135,639,143,637,148,622,140,595,137,572,139,557,144,551,150,551,159"/>
+</map>

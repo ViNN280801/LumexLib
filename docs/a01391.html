@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::string::text Namespace Reference</title>
+<title>LumexLib: LumexOptional File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,291 +103,142 @@ $(function(){initNavTree('a01391.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::string::text Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">LumexOptional File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01392.html">Detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a663cd429e2385f582c3ea2fe311bc9ba" id="r_a663cd429e2385f582c3ea2fe311bc9ba"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
-<tr class="memitem:a663cd429e2385f582c3ea2fe311bc9ba"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04618.html">lumex::core::utility::traits::range::has_streamable_elements</a>&lt; Range &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a663cd429e2385f582c3ea2fe311bc9ba">join</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
-<tr class="memdesc:a663cd429e2385f582c3ea2fe311bc9ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streams every element of <code>range</code> with <code>operator&lt;&lt;</code>, separated by <code>separator</code> (C++11 to C++17).  <br /></td></tr>
-<tr class="separator:a663cd429e2385f582c3ea2fe311bc9ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae6445322407323613ef63ab3d415d0e" id="r_aae6445322407323613ef63ab3d415d0e"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
-<tr class="memitem:aae6445322407323613ef63ab3d415d0e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04626.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aae6445322407323613ef63ab3d415d0e">quote</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
-<tr class="memdesc:aae6445322407323613ef63ab3d415d0e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>join</code> with every element wrapped in double quotes (<code>"element"</code>), C++11 to C++17.  <br /></td></tr>
-<tr class="separator:aae6445322407323613ef63ab3d415d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a151d3e147d42afb9d3c34da8b1386821" id="r_a151d3e147d42afb9d3c34da8b1386821"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
-<tr class="memitem:a151d3e147d42afb9d3c34da8b1386821"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04626.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a151d3e147d42afb9d3c34da8b1386821">quote_double</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
-<tr class="memdesc:a151d3e147d42afb9d3c34da8b1386821"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>quote</code>; named for symmetry with <code>quote_single</code>.  <br /></td></tr>
-<tr class="separator:a151d3e147d42afb9d3c34da8b1386821"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bf415e00fbac5e4e52b81fe02659546" id="r_a9bf415e00fbac5e4e52b81fe02659546"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
-<tr class="memitem:a9bf415e00fbac5e4e52b81fe02659546"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04626.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9bf415e00fbac5e4e52b81fe02659546">quote_single</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
-<tr class="memdesc:a9bf415e00fbac5e4e52b81fe02659546"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>join</code> with every element wrapped in single quotes (&lsquo;'element&rsquo;`), C++11 to C++17.  <br /></td></tr>
-<tr class="separator:a9bf415e00fbac5e4e52b81fe02659546"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8f7eb93f5a0d72fd633cee8e25bd05a" id="r_ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8f7eb93f5a0d72fd633cee8e25bd05a">to_case_insensitive</a> (std::string &amp;str, bool need_to_remove_spaces=true)</td></tr>
-<tr class="memdesc:ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lowercases <code>str</code> in place (ASCII <code>std::tolower</code>), so later comparisons are case-insensitive.  <br /></td></tr>
-<tr class="separator:ad8f7eb93f5a0d72fd633cee8e25bd05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2d09555090576cec202f328fb11ddbf" id="r_af2d09555090576cec202f328fb11ddbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2d09555090576cec202f328fb11ddbf">to_case_insensitive</a> (std::string const &amp;orig, std::string &amp;out, bool need_to_remove_spaces=true)</td></tr>
-<tr class="memdesc:af2d09555090576cec202f328fb11ddbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-out overload of <code>to_case_insensitive(std::string &amp;, bool)</code>.  <br /></td></tr>
-<tr class="separator:af2d09555090576cec202f328fb11ddbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a663cd429e2385f582c3ea2fe311bc9ba" name="a663cd429e2385f582c3ea2fe311bc9ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a663cd429e2385f582c3ea2fe311bc9ba">&#9670;&#160;</a></span>join()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Range, typename Separator&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04618.html">lumex::core::utility::traits::range::has_streamable_elements</a>&lt; Range &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type lumex::core::string::text::join </td>
-          <td>(</td>
-          <td class="paramtype">Range const &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Separator const &amp;</td>          <td class="paramname"><span class="paramname"><em>separator</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Streams every element of <code>range</code> with <code>operator&lt;&lt;</code>, separated by <code>separator</code> (C++11 to C++17). </p>
-<p>Same contract as the C++20 overload: one pass, no trailing separator, empty text for an empty range. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Range</td><td>Anything a range-based <code>for</code> accepts: a container, a C array, a <code>std::initializer_list</code>. </td></tr>
-    <tr><td class="paramname">Separator</td><td>Anything <code>operator&lt;&lt;</code> can write. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">range</td><td>The elements; each must support <code>operator&lt;&lt;</code>. </td></tr>
-    <tr><td class="paramname">separator</td><td>Written between (not after) elements. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>O(n) time, one pass. Takes part in overload resolution only when <code>Range</code> is iterable with streamable elements and <code>Separator</code> is streamable (<code><a class="el" href="a01436.html">lumex::core::utility::traits</a></code>). </dd></dl>
-
-</div>
-</div>
-<a id="aae6445322407323613ef63ab3d415d0e" name="aae6445322407323613ef63ab3d415d0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae6445322407323613ef63ab3d415d0e">&#9670;&#160;</a></span>quote()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Range, typename Separator&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04626.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type lumex::core::string::text::quote </td>
-          <td>(</td>
-          <td class="paramtype">Range const &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Separator const &amp;</td>          <td class="paramname"><span class="paramname"><em>separator</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>join</code> with every element wrapped in double quotes (<code>"element"</code>), C++11 to C++17. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Range</td><td>Anything a range-based <code>for</code> accepts. </td></tr>
-    <tr><td class="paramname">Separator</td><td>Anything <code>operator&lt;&lt;</code> can write. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">range</td><td>Elements convertible to <code>std::string const &amp;</code>. </td></tr>
-    <tr><td class="paramname">separator</td><td>Written between (not after) elements. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
+<p>Optional module: a C++11 implementation of the C++17 <code>std::optional</code> with the C++23 monadic operations.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00986_source.html">opt/LumexOptionalGlobals.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexOptional:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01391_aae6445322407323613ef63ab3d415d0e_cgraph.png" border="0" usemap="#aa01391_aae6445322407323613ef63ab3d415d0e_cgraph" alt=""/></div>
+<div class="center"><img src="a01392.png" border="0" usemap="#aLumexOptional" alt=""/></div>
+<map name="aLumexOptional" id="aLumexOptional">
+<area shape="rect" title="Optional module: a C++11 implementation of the C++17 std::optional with the C++23 monadic operations." alt="" coords="642,5,763,31"/>
+<area shape="rect" href="a00986.html" title="The global names of the optional module: optional, nullopt, make_optional and lumex_bad_optional_acce..." alt="" coords="591,79,814,104"/>
+<area shape="poly" title=" " alt="" coords="705,31,705,65,700,65,700,31"/>
+<area shape="rect" href="a00989.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type&#45;safe nullab..." alt="" coords="613,152,792,192"/>
+<area shape="poly" title=" " alt="" coords="705,104,705,138,700,138,700,104"/>
+<area shape="rect" title=" " alt="" coords="27,335,114,361"/>
+<area shape="poly" title=" " alt="" coords="614,188,493,211,362,243,225,288,114,332,112,327,223,283,361,237,492,206,613,183"/>
+<area shape="rect" title=" " alt="" coords="138,335,249,361"/>
+<area shape="poly" title=" " alt="" coords="631,195,476,243,345,290,238,333,236,328,343,285,474,237,630,189"/>
+<area shape="rect" title=" " alt="" coords="199,423,291,449"/>
+<area shape="poly" title=" " alt="" coords="613,180,457,196,275,224,189,243,113,267,54,296,32,312,17,329,8,351,13,369,29,385,53,398,118,417,186,428,185,433,117,422,51,403,26,389,9,372,3,351,12,327,29,308,51,292,111,262,188,238,274,218,456,190,613,175"/>
+<area shape="rect" title=" " alt="" coords="1046,335,1106,361"/>
+<area shape="poly" title=" " alt="" coords="746,190,839,238,872,258,905,278,970,302,1036,326,1040,327,1038,332,1034,330,968,307,903,282,869,263,836,242,743,194"/>
+<area shape="rect" title=" " alt="" coords="916,247,991,273"/>
+<area shape="poly" title=" " alt="" coords="762,190,898,237,906,240,904,245,897,243,760,195"/>
+<area shape="rect" href="a00995.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f..." alt="" coords="487,240,705,280"/>
+<area shape="poly" title=" " alt="" coords="680,194,633,233,630,229,676,190"/>
+<area shape="rect" href="a00992.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,..." alt="" coords="815,328,1022,368"/>
+<area shape="poly" title=" " alt="" coords="733,190,798,238,888,316,885,320,794,242,730,194"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="624,416,837,456"/>
+<area shape="poly" title=" " alt="" coords="710,192,719,240,727,283,732,328,734,402,729,402,727,328,721,284,713,240,704,193"/>
+<area shape="poly" title=" " alt="" coords="488,272,316,293,220,310,126,331,116,334,114,328,125,325,219,305,316,288,487,267"/>
+<area shape="poly" title=" " alt="" coords="493,283,269,331,253,334,252,329,267,325,491,277"/>
+<area shape="poly" title=" " alt="" coords="488,280,386,302,343,316,314,330,294,348,279,369,257,412,252,409,274,366,291,344,311,326,341,311,384,297,487,275"/>
+<area shape="poly" title=" " alt="" coords="705,265,863,286,950,303,1036,325,1041,327,1040,333,1034,331,949,308,862,291,705,270"/>
+<area shape="rect" title=" " alt="" coords="538,335,587,361"/>
+<area shape="poly" title=" " alt="" coords="591,281,575,323,570,321,586,279"/>
+<area shape="rect" title=" " alt="" coords="612,335,689,361"/>
+<area shape="poly" title=" " alt="" coords="611,279,638,322,633,325,606,282"/>
+<area shape="poly" title=" " alt="" coords="670,278,832,322,831,327,669,283"/>
+<area shape="poly" title=" " alt="" coords="644,278,676,299,704,326,722,364,730,401,725,403,717,365,699,330,672,303,641,282"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="324,328,513,368"/>
+<area shape="poly" title=" " alt="" coords="557,283,473,324,470,319,554,278"/>
+<area shape="rect" title=" " alt="" coords="870,423,957,449"/>
+<area shape="poly" title=" " alt="" coords="920,369,918,410,912,409,915,368"/>
+<area shape="rect" title=" " alt="" coords="981,423,1040,449"/>
+<area shape="poly" title=" " alt="" coords="942,366,989,412,986,416,938,370"/>
+<area shape="poly" title=" " alt="" coords="877,371,787,413,785,408,874,366"/>
+<area shape="poly" title=" " alt="" coords="380,371,284,419,282,415,378,366"/>
+<area shape="poly" title=" " alt="" coords="491,366,647,409,645,415,489,371"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="315,416,570,456"/>
+<area shape="poly" title=" " alt="" coords="427,368,436,402,431,404,422,369"/>
+</map>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01391_aae6445322407323613ef63ab3d415d0e_icgraph.png" border="0" usemap="#aa01391_aae6445322407323613ef63ab3d415d0e_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a151d3e147d42afb9d3c34da8b1386821" name="a151d3e147d42afb9d3c34da8b1386821"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a151d3e147d42afb9d3c34da8b1386821">&#9670;&#160;</a></span>quote_double()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Range, typename Separator&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04626.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type lumex::core::string::text::quote_double </td>
-          <td>(</td>
-          <td class="paramtype">Range const &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Separator const &amp;</td>          <td class="paramname"><span class="paramname"><em>separator</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Same as <code>quote</code>; named for symmetry with <code>quote_single</code>. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01391_a151d3e147d42afb9d3c34da8b1386821_cgraph.png" border="0" usemap="#aa01391_a151d3e147d42afb9d3c34da8b1386821_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a9bf415e00fbac5e4e52b81fe02659546" name="a9bf415e00fbac5e4e52b81fe02659546"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bf415e00fbac5e4e52b81fe02659546">&#9670;&#160;</a></span>quote_single()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Range, typename Separator&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04626.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type lumex::core::string::text::quote_single </td>
-          <td>(</td>
-          <td class="paramtype">Range const &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Separator const &amp;</td>          <td class="paramname"><span class="paramname"><em>separator</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>join</code> with every element wrapped in single quotes (&lsquo;'element&rsquo;`), C++11 to C++17. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01391_a9bf415e00fbac5e4e52b81fe02659546_cgraph.png" border="0" usemap="#aa01391_a9bf415e00fbac5e4e52b81fe02659546_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="ad8f7eb93f5a0d72fd633cee8e25bd05a" name="ad8f7eb93f5a0d72fd633cee8e25bd05a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8f7eb93f5a0d72fd633cee8e25bd05a">&#9670;&#160;</a></span>to_case_insensitive() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::string::text::to_case_insensitive </td>
-          <td>(</td>
-          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>need_to_remove_spaces</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Lowercases <code>str</code> in place (ASCII <code>std::tolower</code>), so later comparisons are case-insensitive. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">str</td><td>The text; the result is written back into it. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">need_to_remove_spaces</td><td>When true (the default), every whitespace character is removed as well. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01391_ad8f7eb93f5a0d72fd633cee8e25bd05a_icgraph.png" border="0" usemap="#aa01391_ad8f7eb93f5a0d72fd633cee8e25bd05a_icgraph" alt=""/></div>
-</div>
-
+<div class="center"><img src="a01393.png" border="0" usemap="#aLumexOptionaldep" alt=""/></div>
+<map name="aLumexOptionaldep" id="aLumexOptionaldep">
+<area shape="rect" title="Optional module: a C++11 implementation of the C++17 std::optional with the C++23 monadic operations." alt="" coords="1997,5,2118,31"/>
+<area shape="rect" href="a01193.html" title="Identifies the process that holds a serial port open." alt="" coords="546,86,771,111"/>
+<area shape="poly" title=" " alt="" coords="1983,25,772,95,771,89,1983,20"/>
+<area shape="rect" href="a01280.html" title="Text parsers for the Linux /proc/stat and /proc/meminfo files the resource monitor samples." alt="" coords="1317,86,1453,111"/>
+<area shape="poly" title=" " alt="" coords="1983,25,1751,44,1609,60,1466,81,1432,89,1431,83,1465,76,1608,55,1751,38,1983,20"/>
+<area shape="rect" href="a01307.html" title="Text parsers for Linux /proc/&lt;pid&gt; files, the executable name rules and the process tree rules of Lum..." alt="" coords="1478,86,1661,111"/>
+<area shape="poly" title=" " alt="" coords="1983,32,1674,81,1634,89,1633,83,1673,76,1982,26"/>
+<area shape="rect" href="a01298.html" title="CPU and RAM of single processes, by process ID or by executable name, with the processes they started..." alt="" coords="1685,86,1877,111"/>
+<area shape="poly" title=" " alt="" coords="2001,37,1826,89,1824,83,1999,32"/>
+<area shape="rect" href="a01289.html" title="The text the background sampler logs for a watch list." alt="" coords="2020,167,2177,192"/>
+<area shape="poly" title=" " alt="" coords="1995,38,1965,55,1942,80,1935,99,1942,117,1958,130,1984,143,2049,164,2047,169,1982,148,1955,135,1938,120,1930,99,1938,77,1962,51,1992,34"/>
+<area shape="rect" href="a00479.html" title=" " alt="" coords="1953,86,2162,111"/>
+<area shape="poly" title=" " alt="" coords="2060,45,2060,85,2055,85,2055,45"/>
+<area shape="rect" href="a00419.html" title=" " alt="" coords="2186,86,2353,111"/>
+<area shape="poly" title=" " alt="" coords="2105,33,2237,83,2235,88,2103,38"/>
+<area shape="rect" href="a00425.html" title=" " alt="" coords="2377,86,2588,111"/>
+<area shape="poly" title=" " alt="" coords="2132,29,2416,83,2415,89,2131,35"/>
+<area shape="rect" href="a00428.html" title=" " alt="" coords="2612,86,2841,111"/>
+<area shape="poly" title=" " alt="" coords="2132,23,2343,45,2600,76,2650,83,2650,89,2600,81,2342,50,2131,28"/>
+<area shape="rect" href="a00422.html" title=" " alt="" coords="2866,79,3033,119"/>
+<area shape="poly" title=" " alt="" coords="2132,18,2447,35,2649,52,2854,76,2866,78,2865,83,2853,81,2649,57,2446,40,2131,23"/>
+<area shape="rect" href="a00431.html" title=" " alt="" coords="3057,86,3287,111"/>
+<area shape="poly" title=" " alt="" coords="2132,17,2523,35,2783,52,3046,76,3100,83,3099,89,3045,81,2782,57,2523,40,2132,23"/>
+<area shape="rect" href="a01190.html" title=" " alt="" coords="200,167,424,192"/>
+<area shape="poly" title=" " alt="" coords="592,117,367,169,366,164,590,112"/>
+<area shape="rect" href="a01181.html" title=" " alt="" coords="448,167,669,192"/>
+<area shape="poly" title=" " alt="" coords="634,122,577,168,573,164,630,118"/>
+<area shape="rect" href="a01346.html" title="Serial port module: lists serial ports with device details, turns a configuration&#45;style port name int..." alt="" coords="694,167,823,192"/>
+<area shape="poly" title=" " alt="" coords="687,118,744,164,741,168,684,122"/>
+<area shape="rect" href="a01199.html" title=" " alt="" coords="847,167,1086,192"/>
+<area shape="poly" title=" " alt="" coords="721,112,919,164,917,169,720,117"/>
+<area shape="rect" href="a01172.html" title=" " alt="" coords="5,167,176,192"/>
+<area shape="poly" title=" " alt="" coords="556,116,177,170,176,165,555,111"/>
+<area shape="rect" href="a00305.html" title=" " alt="" coords="580,240,729,265"/>
+<area shape="poly" title=" " alt="" coords="731,202,674,242,671,238,728,198"/>
+<area shape="rect" href="a00308.html" title=" " alt="" coords="754,240,969,265"/>
+<area shape="poly" title=" " alt="" coords="789,198,845,238,842,242,786,202"/>
+<area shape="rect" href="a01286.html" title=" " alt="" coords="1110,167,1245,192"/>
+<area shape="poly" title=" " alt="" coords="1341,119,1211,169,1209,164,1339,114"/>
+<area shape="rect" href="a01304.html" title=" " alt="" coords="1321,167,1503,192"/>
+<area shape="poly" title=" " alt="" coords="1396,124,1410,165,1405,167,1391,125"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="1527,167,1718,192"/>
+<area shape="poly" title=" " alt="" coords="1436,113,1586,164,1584,169,1435,118"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="1832,240,2032,265"/>
+<area shape="poly" title=" " alt="" coords="1352,121,1330,137,1312,155,1304,173,1305,182,1310,190,1321,197,1339,203,1396,214,1557,227,1819,237,1832,239,1832,244,1818,243,1556,232,1396,219,1338,209,1318,202,1306,194,1300,183,1298,172,1307,152,1326,133,1349,116"/>
+<area shape="poly" title=" " alt="" coords="1534,120,1438,169,1436,164,1531,115"/>
+<area shape="poly" title=" " alt="" coords="1588,122,1616,165,1612,168,1583,125"/>
+<area shape="poly" title=" " alt="" coords="1745,120,1649,169,1646,164,1743,115"/>
+<area shape="rect" href="a01343.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of..." alt="" coords="1633,240,1807,265"/>
+<area shape="poly" title=" " alt="" coords="1774,125,1728,241,1723,239,1769,123"/>
+<area shape="rect" href="a01292.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file,..." alt="" coords="1794,167,1995,192"/>
+<area shape="poly" title=" " alt="" coords="1812,118,1878,164,1875,169,1809,122"/>
+<area shape="poly" title=" " alt="" coords="1845,112,2049,164,2048,169,1844,117"/>
+<area shape="rect" href="a00449.html" title=" " alt="" coords="1488,321,1715,346"/>
+<area shape="poly" title=" " alt="" coords="1691,276,1622,323,1619,318,1688,271"/>
+<area shape="rect" href="a00446.html" title=" " alt="" coords="1739,313,1939,353"/>
+<area shape="poly" title=" " alt="" coords="1752,271,1810,311,1807,315,1749,275"/>
+<area shape="poly" title=" " alt="" coords="1910,203,1928,238,1923,241,1905,205"/>
+<area shape="poly" title=" " alt="" coords="1853,200,1752,242,1750,237,1851,195"/>
+<area shape="poly" title=" " alt="" coords="2058,200,1962,242,1960,237,2056,195"/>
+<area shape="rect" href="a01283.html" title=" " alt="" coords="2057,240,2213,265"/>
+<area shape="poly" title=" " alt="" coords="2113,203,2131,238,2126,241,2109,206"/>
+</map>
 </div>
 </div>
-<a id="af2d09555090576cec202f328fb11ddbf" name="af2d09555090576cec202f328fb11ddbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2d09555090576cec202f328fb11ddbf">&#9670;&#160;</a></span>to_case_insensitive() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::core::string::text::to_case_insensitive </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>orig</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>need_to_remove_spaces</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Copy-out overload of <code>to_case_insensitive(std::string &amp;, bool)</code>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">orig</td><td>The original text; left untouched. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>Receives the lowercased (and optionally whitespace-free) text. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">need_to_remove_spaces</td><td>When true (the default), whitespace is removed as well. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01391_af2d09555090576cec202f328fb11ddbf_cgraph.png" border="0" usemap="#aa01391_af2d09555090576cec202f328fb11ddbf_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<p><a href="a01391_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Optional module: a C++11 implementation of the C++17 <code>std::optional</code> with the C++23 monadic operations. </p>
+<p>Link <code>lumex::optional</code> (header-only). Works from C++11. The umbrella includes <code><a class="el" href="a00989.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type-safe nullab...">opt/LumexOptional.hpp</a></code> (the types in <code><a class="el" href="a01553.html">lumex::core::optional::opt</a></code>, with <code><a class="el" href="a00992.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,...">opt/LumexOptionalTags.hpp</a></code> and <code><a class="el" href="a00995.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f...">opt/LumexOptionalDetail.hpp</a></code> behind it) and <code><a class="el" href="a00986.html" title="The global names of the optional module: optional, nullopt, make_optional and lumex_bad_optional_acce...">opt/LumexOptionalGlobals.hpp</a></code> (the global names <code>optional</code>, <code>nullopt</code>, <code>make_optional</code> and <code><a class="el" href="a03683.html" title="Exception thrown when attempting to access the value of an empty optional.">lumex_bad_optional_access</a></code>). </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01390.html">string</a></li><li class="navelem"><a class="el" href="a01391.html">text</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_9669aebcb67621c55bde5b6a59fa609b.html">optional</a></li><li class="navelem"><a class="el" href="a01391.html">LumexOptional</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

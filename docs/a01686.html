@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::serial::probe::serial_read_result_t Struct Reference</title>
+<title>LumexLib: lumex::xml::writer Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,89 +104,32 @@ $(function(){initNavTree('a01686.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01683.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::serial::probe::serial_read_result_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::writer Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Result of <code><a class="el" href="a01690.html#a2bec366a058baf6a1573254d30bce52e" title="Reads once: returns as soon as at least one byte is available or the deadline expires.">SerialProber::read</a></code>.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00197_source.html">LumexSerialProber.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a9b9f1975324bf3add65cfa1bc56daff5" id="r_a9b9f1975324bf3add65cfa1bc56daff5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01293.html#aa79b632754bb66e98b34740d10fe1108">serial_io_status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b9f1975324bf3add65cfa1bc56daff5">status</a> = <a class="el" href="a01293.html#aa79b632754bb66e98b34740d10fe1108a26934eb377001f66e37289a5c93fe284">serial_io_status::failed</a></td></tr>
-<tr class="memdesc:a9b9f1975324bf3add65cfa1bc56daff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">What happened.  <br /></td></tr>
-<tr class="separator:a9b9f1975324bf3add65cfa1bc56daff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbd752008a481e3f865ff9e7522f6ca7" id="r_acbd752008a481e3f865ff9e7522f6ca7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbd752008a481e3f865ff9e7522f6ca7">data</a></td></tr>
-<tr class="memdesc:acbd752008a481e3f865ff9e7522f6ca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bytes read; empty when none arrived.  <br /></td></tr>
-<tr class="separator:acbd752008a481e3f865ff9e7522f6ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc708bcf9e04721007676dd39ff46597" id="r_afc708bcf9e04721007676dd39ff46597"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc708bcf9e04721007676dd39ff46597">system_error</a></td></tr>
-<tr class="memdesc:afc708bcf9e04721007676dd39ff46597"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formatted platform error; empty when none.  <br /></td></tr>
-<tr class="separator:afc708bcf9e04721007676dd39ff46597"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05203.html">IXmlWriter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base interface for writing XML data to various destinations.  <a href="a05203.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05207.html">XmlBufferedWriter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A buffered writer for XML output, optimizing write operations by accumulating data in a buffer.  <a href="a05207.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05215.html">XmlWriterFile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <code><a class="el" href="a05203.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a file.  <a href="a05215.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05219.html">XmlWriterStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <code><a class="el" href="a05203.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a C++ standard output stream.  <a href="a05219.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Result of <code><a class="el" href="a01690.html#a2bec366a058baf6a1573254d30bce52e" title="Reads once: returns as soon as at least one byte is available or the deadline expires.">SerialProber::read</a></code>. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="acbd752008a481e3f865ff9e7522f6ca7" name="acbd752008a481e3f865ff9e7522f6ca7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbd752008a481e3f865ff9e7522f6ca7">&#9670;&#160;</a></span>data</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::uint8_t&gt; lumex::applied::serial::probe::serial_read_result_t::data</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Bytes read; empty when none arrived. </p>
-
-</div>
-</div>
-<a id="a9b9f1975324bf3add65cfa1bc56daff5" name="a9b9f1975324bf3add65cfa1bc56daff5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b9f1975324bf3add65cfa1bc56daff5">&#9670;&#160;</a></span>status</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01293.html#aa79b632754bb66e98b34740d10fe1108">serial_io_status</a> lumex::applied::serial::probe::serial_read_result_t::status = <a class="el" href="a01293.html#aa79b632754bb66e98b34740d10fe1108a26934eb377001f66e37289a5c93fe284">serial_io_status::failed</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>What happened. </p>
-
-</div>
-</div>
-<a id="afc708bcf9e04721007676dd39ff46597" name="afc708bcf9e04721007676dd39ff46597"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc708bcf9e04721007676dd39ff46597">&#9670;&#160;</a></span>system_error</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string lumex::applied::serial::probe::serial_read_result_t::system_error</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Formatted platform error; empty when none. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00197_source.html">LumexSerialProber.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01287.html">serial</a></li><li class="navelem"><a class="el" href="a01293.html">probe</a></li><li class="navelem"><a class="el" href="a01686.html">serial_read_result_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01669.html">xml</a></li><li class="navelem"><a class="el" href="a01686.html">writer</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,12 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,70,60,95"/>
+<area shape="rect" id="Node000002" href="$a02039.html#ac8bf414de7a978ca3fd9ea7121916435" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="108,5,300,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,71,130,47,132,52,61,76"/>
+<area shape="rect" id="Node000003" href="$a02051.html#a8b23b25f82a0b98ed3f35601e0d5604b" title="Checks whether size characters starting at str are valid Base64." alt="" coords="376,19,531,74"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="60,78,362,52,362,57,60,83"/>
+<area shape="rect" id="Node000004" href="$a02047.html#aea93615c7cad00c19214c303b15e4631" title="Encodes raw binary data into a Base64 string." alt="" coords="108,120,300,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="61,89,132,113,130,118,59,94"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="300,31,362,36,362,42,300,36"/>
+<area shape="rect" id="Node000005" href="$a01501.html#abda97488987b0b151816d6cc1ee24873" title="Internal helper to encode binary data into a Base64 string from a view&#45;like type." alt="" coords="348,120,559,160"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="300,137,334,137,334,143,300,143"/>
+</map>

@@ -1,0 +1,59 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::status" name="lumex::core::filesystem::fs::lumex_filesystem::status">
+<area shape="rect" id="Node000001" title="Returns the status of the file or directory at the specified path_arg, following symbolic links." alt="" coords="673,440,848,495"/>
+<area shape="poly" id="edge34_Node000001_Node000001" title=" " alt="" coords="797,429,784,422,761,419,741,421,728,425,723,432,723,440,717,440,718,430,725,421,740,415,761,413,786,416,800,424"/>
+<area shape="rect" id="Node000002" href="$a02967.html#adc0d38fee5d48d7ce1aa4abcb4dda599" title="Checks if two paths refer to the same file system entity." alt="" coords="451,29,625,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="754,427,742,357,718,270,701,224,680,178,654,136,623,97,611,86,614,82,627,93,658,133,685,176,706,221,723,268,747,356,759,426"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a84dfbd9b308f2c0a94f1f47916e5c77e" title="Checks if the specified path_arg refers to a block device file." alt="" coords="451,132,625,187"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="747,428,730,377,704,316,669,254,647,226,624,200,609,189,613,185,627,196,652,222,673,252,709,314,735,375,752,426"/>
+<area shape="rect" id="Node000006" href="$a02967.html#a2e9ac7d10eb3dd74d71916b555db9d6b" title="Checks if the specified path_arg refers to a character device file." alt="" coords="451,235,625,289"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="735,430,687,366,657,332,624,303,607,292,610,287,627,299,661,329,692,362,739,427"/>
+<area shape="rect" id="Node000008" href="$a02967.html#a8c7044a9fe7e0c49cb5e83de1e73630e" title="Checks if the specified path_arg refers to a FIFO (named pipe) file." alt="" coords="451,337,625,392"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="690,437,624,406,599,395,602,390,626,401,692,432"/>
+<area shape="rect" id="Node000010" href="$a02967.html#a245d51569e04875ee7e93512338d04d4" title="Checks if the specified path_arg refers to a file type other than regular file or directory." alt="" coords="451,440,625,495"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="660,470,625,470,625,465,660,465"/>
+<area shape="rect" id="Node000012" href="$a02967.html#a1264c37f3d82b70459f4cf3d2160e4b1" title="Check if a file is readable by the current process." alt="" coords="451,645,625,700"/>
+<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="730,507,683,558,627,611,580,647,577,643,624,607,679,554,726,503"/>
+<area shape="rect" id="Node000018" href="$a02967.html#a12dc8e64433d85f8e5c56b3f52717c5b" title="Checks if the specified path_arg refers to a socket file." alt="" coords="451,748,625,803"/>
+<area shape="poly" id="edge25_Node000001_Node000018" title=" " alt="" coords="747,509,700,606,667,662,627,713,585,750,582,746,623,710,662,659,695,604,742,507"/>
+<area shape="rect" id="Node000020" href="$a02967.html#abb3dd60af7fc9ce36757396d06988938" title="Check if a file is writable by the current process." alt="" coords="451,543,625,597"/>
+<area shape="poly" id="edge28_Node000001_Node000020" title=" " alt="" coords="690,503,599,545,596,540,688,498"/>
+<area shape="rect" id="Node000023" href="$a02959.html#a168438b0b51f791e96cdab4987b3a5f6" title="Retrieves the status of the file system entry, following symbolic links." alt="" coords="451,827,625,881"/>
+<area shape="poly" id="edge33_Node000001_Node000023" title=" " alt="" coords="757,509,744,574,719,656,682,740,657,780,627,816,612,828,609,824,623,812,652,777,677,738,714,654,739,573,752,508"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="575,18,561,11,538,8,518,10,506,15,500,21,500,29,495,29,495,19,503,10,517,5,538,3,563,6,577,14"/>
+<area shape="rect" id="Node000003" href="$a02967.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="228,29,403,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="437,59,403,59,403,54,437,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="352,18,339,11,315,8,296,10,283,15,277,21,277,29,272,29,272,19,280,10,294,5,315,3,340,6,355,14"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="575,121,561,114,538,111,518,113,506,117,500,124,500,132,495,132,495,122,503,113,517,107,538,105,563,108,577,116"/>
+<area shape="rect" id="Node000005" href="$a02959.html#a6f18638f3446dd2a8236942f3c0dd2cc" title="Checks if the entry represents a block device file." alt="" coords="228,132,403,187"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="437,162,403,162,403,157,437,157"/>
+<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="575,224,561,216,538,213,518,215,506,220,500,226,500,235,495,235,495,224,503,216,517,210,538,208,563,211,577,219"/>
+<area shape="rect" id="Node000007" href="$a02959.html#a31d3fd44c2bad44f24d0121b5caa0a7e" title="Checks if the entry represents a character device file." alt="" coords="228,228,403,283"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="437,262,403,261,403,255,437,256"/>
+<area shape="poly" id="edge13_Node000008_Node000008" title=" " alt="" coords="575,326,561,319,538,316,518,318,506,323,500,329,500,337,495,337,495,327,503,318,517,313,538,311,563,314,577,322"/>
+<area shape="rect" id="Node000009" href="$a02959.html#a9b255e0032b61cf9262571a3cb2c8648" title="Checks if the entry represents a FIFO (named pipe) file." alt="" coords="228,307,403,361"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="437,353,402,349,403,343,438,348"/>
+<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="575,429,561,422,538,419,518,421,506,425,500,432,500,440,495,440,495,430,503,421,517,415,538,413,563,416,577,424"/>
+<area shape="rect" id="Node000011" href="$a02959.html#abf692894e2cf17b47aceee5857df3aba" title="Checks if the entry represents a file type other than regular file or directory." alt="" coords="228,385,403,440"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="437,445,402,437,403,432,438,440"/>
+<area shape="poly" id="edge23_Node000012_Node000012" title=" " alt="" coords="575,634,561,627,538,624,518,626,506,631,500,637,500,645,495,645,495,635,503,626,517,621,538,619,563,622,577,630"/>
+<area shape="rect" id="Node000013" href="$a02967.html#a0061e0d3d6fd72dddb13d151f253ba5d" title="Check if a file is both readable and writable by the current process." alt="" coords="228,645,403,700"/>
+<area shape="poly" id="edge18_Node000012_Node000013" title=" " alt="" coords="437,675,403,675,403,670,437,670"/>
+<area shape="rect" id="Node000016" href="$a02967.html#a257dbed76aa10531c19d12c270cfc2bf" title="Overload of is_readable that accepts a C&#45;style string path_arg." alt="" coords="228,724,403,779"/>
+<area shape="poly" id="edge22_Node000012_Node000016" title=" " alt="" coords="448,707,394,726,392,721,446,702"/>
+<area shape="rect" id="Node000017" href="$a02967.html#a1c62501dba7e40016d7312a46ba5dc93" title="Overload of is_readable that accepts a std::string path_arg." alt="" coords="228,803,403,857"/>
+<area shape="poly" id="edge24_Node000012_Node000017" title=" " alt="" coords="456,710,453,713,437,733,429,752,421,771,405,792,387,805,384,800,401,788,416,769,424,750,432,730,449,709,453,706"/>
+<area shape="poly" id="edge20_Node000013_Node000013" title=" " alt="" coords="352,634,339,627,315,624,296,626,283,631,277,637,277,645,272,645,272,635,280,626,294,621,315,619,340,622,355,630"/>
+<area shape="rect" id="Node000014" href="$a02967.html#a9826461da6bac52ef2b518832b4cef59" title="Overload of is_accessible that accepts a C&#45;style string path_arg." alt="" coords="5,607,180,661"/>
+<area shape="poly" id="edge19_Node000013_Node000014" title=" " alt="" coords="214,658,180,652,181,647,215,653"/>
+<area shape="rect" id="Node000015" href="$a02967.html#aa4e19c385184485a25386baf34bf43a9" title="Overload of is_accessible that accepts a std::string path_arg." alt="" coords="5,685,180,740"/>
+<area shape="poly" id="edge21_Node000013_Node000015" title=" " alt="" coords="215,693,181,700,180,694,214,688"/>
+<area shape="poly" id="edge27_Node000018_Node000018" title=" " alt="" coords="575,737,561,730,538,727,518,729,506,733,500,740,500,748,495,748,495,738,503,729,517,723,538,721,563,724,577,732"/>
+<area shape="rect" id="Node000019" href="$a02959.html#aedf7652f05cef96b327fed876091f7e2" title="Checks if the entry represents a socket file." alt="" coords="228,881,403,936"/>
+<area shape="poly" id="edge26_Node000018_Node000019" title=" " alt="" coords="458,812,452,816,438,830,429,843,419,856,404,871,384,884,381,879,401,867,415,853,424,840,434,826,449,812,455,808"/>
+<area shape="poly" id="edge29_Node000020_Node000013" title=" " alt="" coords="464,606,452,611,374,648,371,643,450,606,462,601"/>
+<area shape="poly" id="edge31_Node000020_Node000020" title=" " alt="" coords="575,532,561,524,538,521,518,523,506,528,500,534,500,543,495,543,495,532,503,524,517,518,538,516,563,519,577,527"/>
+<area shape="rect" id="Node000021" href="$a02967.html#aa582081094837488074f92d72877df79" title="Overload of is_writable that accepts a C&#45;style string path_arg." alt="" coords="228,464,403,519"/>
+<area shape="poly" id="edge30_Node000020_Node000021" title=" " alt="" coords="446,540,392,521,394,516,448,535"/>
+<area shape="rect" id="Node000022" href="$a02967.html#a3f5084f644c3067ea55fdd09f2c67493" title="Overload of is_writable that accepts a std::string path_arg." alt="" coords="228,543,403,597"/>
+<area shape="poly" id="edge32_Node000020_Node000022" title=" " alt="" coords="437,573,403,573,403,567,437,567"/>
+</map>

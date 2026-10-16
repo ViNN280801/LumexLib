@@ -1,0 +1,7 @@
+<map id="total" name="total">
+<area shape="rect" id="Node000001" title="Adds samples up, for example every process of one name." alt="" coords="237,37,289,63"/>
+<area shape="rect" id="Node000002" href="$a00521.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="70,5,125,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,45,125,26,126,21,224,40"/>
+<area shape="rect" id="Node000003" href="$a01456.html#adb9007f2be00ed6f67e4ea5fb3bcf1af" title="Parses the text of /proc/meminfo." alt="" coords="5,55,189,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,60,190,67,189,62,223,55"/>
+</map>

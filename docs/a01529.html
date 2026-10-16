@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc7_umts_spec_t Struct Reference</title>
+<title>LumexLib: lumex::core::expected::error Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,222 +104,252 @@ $(function(){initNavTree('a01529.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01526.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc7_umts_spec_t Struct Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::error Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>CRC-7/UMTS: width=7 poly=0x45 init=0x00 refin=false refout=false xorout=0x00.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a1b419d53f9ce1ee9767c525598581d04" id="r_a1b419d53f9ce1ee9767c525598581d04"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b419d53f9ce1ee9767c525598581d04">ValueType</a> = std::uint8_t</td></tr>
-<tr class="separator:a1b419d53f9ce1ee9767c525598581d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01530.html">detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:adde3ebf423e2a40747136822104b9a8c" id="r_adde3ebf423e2a40747136822104b9a8c"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adde3ebf423e2a40747136822104b9a8c">kWidth</a> = 7</td></tr>
-<tr class="separator:adde3ebf423e2a40747136822104b9a8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a188b7b41efa024771b424c6f7dce46e1" id="r_a188b7b41efa024771b424c6f7dce46e1"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a188b7b41efa024771b424c6f7dce46e1">kPoly</a> = 0x45U</td></tr>
-<tr class="separator:a188b7b41efa024771b424c6f7dce46e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac124f5598c7d73bde0b04c0d98cb0fda" id="r_ac124f5598c7d73bde0b04c0d98cb0fda"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac124f5598c7d73bde0b04c0d98cb0fda">kInit</a> = 0x00U</td></tr>
-<tr class="separator:ac124f5598c7d73bde0b04c0d98cb0fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac36afc70546e69c2d4454a747a4fdaa8" id="r_ac36afc70546e69c2d4454a747a4fdaa8"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac36afc70546e69c2d4454a747a4fdaa8">kRefIn</a> = false</td></tr>
-<tr class="separator:ac36afc70546e69c2d4454a747a4fdaa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c582c03bcbc810b930f3d7f60dcefd0" id="r_a7c582c03bcbc810b930f3d7f60dcefd0"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c582c03bcbc810b930f3d7f60dcefd0">kRefOut</a> = false</td></tr>
-<tr class="separator:a7c582c03bcbc810b930f3d7f60dcefd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0f07d32aab71e0a6dc579c1f6717b36" id="r_aa0f07d32aab71e0a6dc579c1f6717b36"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0f07d32aab71e0a6dc579c1f6717b36">kXorOut</a> = 0x00U</td></tr>
-<tr class="separator:aa0f07d32aab71e0a6dc579c1f6717b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23abc593daabef15e7f8af6da0dfd501" id="r_a23abc593daabef15e7f8af6da0dfd501"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23abc593daabef15e7f8af6da0dfd501">kCatalogCheck</a> = 0x61U</td></tr>
-<tr class="separator:a23abc593daabef15e7f8af6da0dfd501"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02643.html">bad_expected_access</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the value of an <code>expected</code> is read while it holds an error.  <a href="a02643.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02647.html">bad_expected_access&lt; void &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base of every <code><a class="el" href="a02643.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a>&lt;ErrorType&gt;</code>: catch it to handle the failed <code>value()</code> of any <code>expected</code> without naming the error type.  <a href="a02647.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02651.html">unexpected</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper that holds an error value for <code>expected</code>.  <a href="a02651.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a875a4a62e9aa2d0b0873797a0b75932b" id="r_a875a4a62e9aa2d0b0873797a0b75932b"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
+<tr class="memitem:a875a4a62e9aa2d0b0873797a0b75932b"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a02683.html">detail::is_swappable</a>&lt; ErrorType &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a875a4a62e9aa2d0b0873797a0b75932b">swap</a> (<a class="el" href="a02651.html">unexpected</a>&lt; ErrorType &gt; &amp;lhs, <a class="el" href="a02651.html">unexpected</a>&lt; ErrorType &gt; &amp;rhs) noexcept(<a class="el" href="a02695.html">detail::is_nothrow_swappable</a>&lt; ErrorType &gt;::value)</td></tr>
+<tr class="memdesc:a875a4a62e9aa2d0b0873797a0b75932b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges two <code>unexpected</code> objects.  <br /></td></tr>
+<tr class="separator:a875a4a62e9aa2d0b0873797a0b75932b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c7132e1e9b1490b939949c3cdd66cdf" id="r_a7c7132e1e9b1490b939949c3cdd66cdf"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType, typename OtherError&gt; </td></tr>
+<tr class="memitem:a7c7132e1e9b1490b939949c3cdd66cdf"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; ErrorTypeconst &amp; &gt;()==std::declval&lt; OtherErrorconst &amp; &gt;()), bool &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7c7132e1e9b1490b939949c3cdd66cdf">operator==</a> (<a class="el" href="a02651.html">unexpected</a>&lt; ErrorType &gt; const &amp;lhs, <a class="el" href="a02651.html">unexpected</a>&lt; OtherError &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a7c7132e1e9b1490b939949c3cdd66cdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares the errors of two <code>unexpected</code> objects.  <br /></td></tr>
+<tr class="separator:a7c7132e1e9b1490b939949c3cdd66cdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e742fefef3235463fe4677544234df7" id="r_a7e742fefef3235463fe4677544234df7"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType, typename OtherError&gt; </td></tr>
+<tr class="memitem:a7e742fefef3235463fe4677544234df7"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; ErrorTypeconst &amp; &gt;()==std::declval&lt; OtherErrorconst &amp; &gt;()), bool &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7e742fefef3235463fe4677544234df7">operator!=</a> (<a class="el" href="a02651.html">unexpected</a>&lt; ErrorType &gt; const &amp;lhs, <a class="el" href="a02651.html">unexpected</a>&lt; OtherError &gt; const &amp;rhs)</td></tr>
+<tr class="memdesc:a7e742fefef3235463fe4677544234df7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares the errors of two <code>unexpected</code> objects for inequality.  <br /></td></tr>
+<tr class="separator:a7e742fefef3235463fe4677544234df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1797717395393e3cc40ff1b5ad535a1" id="r_ab1797717395393e3cc40ff1b5ad535a1"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
+<tr class="memitem:ab1797717395393e3cc40ff1b5ad535a1"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab1797717395393e3cc40ff1b5ad535a1">unexpected</a> (ErrorType) -&gt; unexpected&lt; ErrorType &gt;</td></tr>
+<tr class="memdesc:ab1797717395393e3cc40ff1b5ad535a1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>unexpected (error)</code> deduces <code>unexpected&lt;decltype (error)&gt;</code> (C++17).  <br /></td></tr>
+<tr class="separator:ab1797717395393e3cc40ff1b5ad535a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-7/UMTS: width=7 poly=0x45 init=0x00 refin=false refout=false xorout=0x00. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-7/UMTS </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a1b419d53f9ce1ee9767c525598581d04" name="a1b419d53f9ce1ee9767c525598581d04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b419d53f9ce1ee9767c525598581d04">&#9670;&#160;</a></span>ValueType</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a7e742fefef3235463fe4677544234df7" name="a7e742fefef3235463fe4677544234df7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e742fefef3235463fe4677544234df7">&#9670;&#160;</a></span>operator!=()</h2>
 
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a1b419d53f9ce1ee9767c525598581d04">lumex::core::crc::parametric::crc7_umts_spec_t::ValueType</a> = std::uint8_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a23abc593daabef15e7f8af6da0dfd501" name="a23abc593daabef15e7f8af6da0dfd501"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23abc593daabef15e7f8af6da0dfd501">&#9670;&#160;</a></span>kCatalogCheck</h2>
-
-<div class="memitem">
-<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType, typename OtherError&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint8_t lumex::core::crc::parametric::crc7_umts_spec_t::kCatalogCheck = 0x61U</td>
+          <td class="memname">std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; ErrorTypeconst &amp; &gt;()==std::declval&lt; OtherErrorconst &amp; &gt;()), bool &gt;::value, bool &gt;::type lumex::core::expected::error::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02651.html">unexpected</a>&lt; ErrorType &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02651.html">unexpected</a>&lt; OtherError &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Compares the errors of two <code>unexpected</code> objects for inequality. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type of the left operand. </td></tr>
+    <tr><td class="paramname">OtherError</td><td>Error type of the right operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>Left operand. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>Right operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>!(lhs == rhs)</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Before C++20 only: from C++20 the compiler rewrites <code>a != b</code> from <code>operator==</code>, as it does for <code>std::unexpected</code>. Takes part in overload resolution only when the two errors can be compared with <code>==</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01529_a7e742fefef3235463fe4677544234df7_cgraph.png" border="0" usemap="#aa01529_a7e742fefef3235463fe4677544234df7_cgraph" alt=""/></div>
+<map name="aa01529_a7e742fefef3235463fe4677544234df7_cgraph" id="aa01529_a7e742fefef3235463fe4677544234df7_cgraph">
+<area shape="rect" title="Compares the errors of two unexpected objects for inequality." alt="" coords="5,5,172,45"/>
+<area shape="rect" href="a02651.html#a4d83aa2b2112492fa615797adbecc232" title="Returns a mutable lvalue reference to the stored error." alt="" coords="220,5,404,45"/>
+<area shape="poly" title=" " alt="" coords="172,23,207,23,207,28,172,28"/>
+</map>
+</div>
+
 </div>
 </div>
-<a id="ac124f5598c7d73bde0b04c0d98cb0fda" name="ac124f5598c7d73bde0b04c0d98cb0fda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac124f5598c7d73bde0b04c0d98cb0fda">&#9670;&#160;</a></span>kInit</h2>
+<a id="a7c7132e1e9b1490b939949c3cdd66cdf" name="a7c7132e1e9b1490b939949c3cdd66cdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c7132e1e9b1490b939949c3cdd66cdf">&#9670;&#160;</a></span>operator==()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType, typename OtherError&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc7_umts_spec_t::kInit = 0x00U</td>
+          <td class="memname">std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; ErrorTypeconst &amp; &gt;()==std::declval&lt; OtherErrorconst &amp; &gt;()), bool &gt;::value, bool &gt;::type lumex::core::expected::error::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02651.html">unexpected</a>&lt; ErrorType &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02651.html">unexpected</a>&lt; OtherError &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Compares the errors of two <code>unexpected</code> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type of the left operand. </td></tr>
+    <tr><td class="paramname">OtherError</td><td>Error type of the right operand; the two errors must be comparable with <code>==</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>Left operand. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>Right operand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>lhs.error () == rhs.error ()</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Takes part in overload resolution only when the two errors can be compared with <code>==</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01529_a7c7132e1e9b1490b939949c3cdd66cdf_cgraph.png" border="0" usemap="#aa01529_a7c7132e1e9b1490b939949c3cdd66cdf_cgraph" alt=""/></div>
+<map name="aa01529_a7c7132e1e9b1490b939949c3cdd66cdf_cgraph" id="aa01529_a7c7132e1e9b1490b939949c3cdd66cdf_cgraph">
+<area shape="rect" title="Compares the errors of two unexpected objects." alt="" coords="5,5,172,45"/>
+<area shape="rect" href="a02651.html#a4d83aa2b2112492fa615797adbecc232" title="Returns a mutable lvalue reference to the stored error." alt="" coords="220,5,404,45"/>
+<area shape="poly" title=" " alt="" coords="172,23,207,23,207,28,172,28"/>
+</map>
+</div>
+
 </div>
 </div>
-<a id="a188b7b41efa024771b424c6f7dce46e1" name="a188b7b41efa024771b424c6f7dce46e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a188b7b41efa024771b424c6f7dce46e1">&#9670;&#160;</a></span>kPoly</h2>
+<a id="a875a4a62e9aa2d0b0873797a0b75932b" name="a875a4a62e9aa2d0b0873797a0b75932b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a875a4a62e9aa2d0b0873797a0b75932b">&#9670;&#160;</a></span>swap()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc7_umts_spec_t::kPoly = 0x45U</td>
+          <td class="memname">std::enable_if&lt; <a class="el" href="a02683.html">detail::is_swappable</a>&lt; ErrorType &gt;::value &gt;::type lumex::core::expected::error::swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02651.html">unexpected</a>&lt; ErrorType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02651.html">unexpected</a>&lt; ErrorType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Exchanges two <code>unexpected</code> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type; must be swappable. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">lhs</td><td>First object. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">rhs</td><td>Second object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Takes part in overload resolution only when <code>ErrorType</code> is swappable. </dd></dl>
+
 </div>
 </div>
-<a id="ac36afc70546e69c2d4454a747a4fdaa8" name="ac36afc70546e69c2d4454a747a4fdaa8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac36afc70546e69c2d4454a747a4fdaa8">&#9670;&#160;</a></span>kRefIn</h2>
+<a id="ab1797717395393e3cc40ff1b5ad535a1" name="ab1797717395393e3cc40ff1b5ad535a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1797717395393e3cc40ff1b5ad535a1">&#9670;&#160;</a></span>unexpected()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc7_umts_spec_t::kRefIn = false</td>
+          <td class="memname">lumex::core::expected::error::unexpected </td>
+          <td>(</td>
+          <td class="paramtype">ErrorType</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> -&gt;  unexpected&lt; ErrorType &gt;</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
+<p><code>unexpected (error)</code> deduces <code>unexpected&lt;decltype (error)&gt;</code> (C++17). </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01529_ab1797717395393e3cc40ff1b5ad535a1_icgraph.png" border="0" usemap="#aa01529_ab1797717395393e3cc40ff1b5ad535a1_icgraph" alt=""/></div>
+<map name="aa01529_ab1797717395393e3cc40ff1b5ad535a1_icgraph" id="aa01529_ab1797717395393e3cc40ff1b5ad535a1_icgraph">
+<area shape="rect" title="unexpected (error) deduces unexpected&lt;decltype (error)&gt; (C++17)." alt="" coords="108,5,275,45"/>
+<area shape="rect" href="a00335.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>
 </div>
-</div>
-<a id="a7c582c03bcbc810b930f3d7f60dcefd0" name="a7c582c03bcbc810b930f3d7f60dcefd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c582c03bcbc810b930f3d7f60dcefd0">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc7_umts_spec_t::kRefOut = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
-<a id="adde3ebf423e2a40747136822104b9a8c" name="adde3ebf423e2a40747136822104b9a8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adde3ebf423e2a40747136822104b9a8c">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc7_umts_spec_t::kWidth = 7</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa0f07d32aab71e0a6dc579c1f6717b36" name="aa0f07d32aab71e0a6dc579c1f6717b36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0f07d32aab71e0a6dc579c1f6717b36">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc7_umts_spec_t::kXorOut = 0x00U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01529.html">crc7_umts_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01529.html">error</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

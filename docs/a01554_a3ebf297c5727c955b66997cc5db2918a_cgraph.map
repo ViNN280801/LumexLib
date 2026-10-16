@@ -1,0 +1,7 @@
+<map id="lumex::core::optional::opt::detail::voidify" name="lumex::core::optional::opt::detail::voidify">
+<area shape="rect" id="Node000001" title="The address of object as a void *, also for a const object." alt="" coords="5,29,165,69"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="45,30,43,20,49,10,64,5,85,3,110,6,124,13,121,18,109,11,85,8,65,10,53,15,48,21,50,28"/>
+<area shape="rect" id="Node000002" href="$a01554.html#ae2accfaa04f297a6e4c12a36448e19ef" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11." alt="" coords="213,29,388,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,47,200,47,200,52,166,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="261,30,258,20,265,10,279,5,301,3,326,6,339,13,337,18,324,11,301,8,280,10,268,15,263,21,266,28"/>
+</map>

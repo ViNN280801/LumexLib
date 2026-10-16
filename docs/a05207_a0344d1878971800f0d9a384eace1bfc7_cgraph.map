@@ -1,0 +1,28 @@
+<map id="lumex::xml::writer::XmlBufferedWriter::operator=" name="lumex::xml::writer::XmlBufferedWriter::operator=">
+<area shape="rect" id="Node000001" title="Deleted copy assignment operator." alt="" coords="5,121,156,176"/>
+<area shape="rect" id="Node000002" href="$a05207.html#aaf749c81251686e50d95927e92da078f" title="Flushes the current buffer content to the underlying writer." alt="" coords="629,37,779,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,119,147,79,174,60,203,45,253,26,297,13,336,5,375,3,454,8,554,22,616,34,615,40,553,27,454,14,375,8,337,11,298,18,255,31,205,50,177,65,150,84,107,123"/>
+<area shape="rect" id="Node000003" href="$a05207.html#aa79250cd92bec4267da08bb86ebe6216" title="Writes a single character to the buffer." alt="" coords="403,37,553,92"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="115,119,156,93,203,73,250,62,298,56,389,54,389,60,299,61,251,67,205,78,158,98,118,123"/>
+<area shape="rect" id="Node000004" href="$a05207.html#a8cd530939b0654164d288f7c4b579e51" title="Writes a block of characters to the buffer, handling encoding conversions if necessary." alt="" coords="204,88,355,143"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="156,133,190,128,191,133,157,139"/>
+<area shape="rect" id="Node000005" href="$a05207.html#a917aa0b956f485f4b87c0e77f5bc8563" title="Writes a block of characters directly to the buffer, bypassing encoding." alt="" coords="403,135,553,189"/>
+<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="156,149,204,151,389,157,389,162,204,157,156,155"/>
+<area shape="rect" id="Node000008" href="$a05207.html#a7a6efd2746de7d9a7c614a8f8725e9e1" title="Writes a null&#45;terminated string to the buffer." alt="" coords="204,219,355,273"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="138,174,213,210,210,215,135,178"/>
+<area shape="rect" id="Node000010" href="$a05207.html#a35090221aa77b729902964f4f0327bdd" title="Deleted copy constructor." alt="" coords="204,321,355,376"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="105,174,151,226,206,284,235,310,232,314,202,288,147,230,101,178"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="660,37,660,27,668,18,683,13,704,11,729,14,744,22,741,26,728,19,704,16,684,18,671,23,665,29,665,37"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="554,62,615,62,615,67,554,67"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="356,130,390,138,389,144,354,136"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="541,132,627,95,629,100,543,137"/>
+<area shape="rect" id="Node000006" href="$a01671.html#a9e3d87a48f7721dcf542959cd3fdcf35" title=" " alt="" coords="633,206,775,246"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="555,181,621,200,619,205,553,186"/>
+<area shape="rect" id="Node000007" href="$a01671.html#a5bb3676df516811dcf8c223d24173a28" title=" " alt="" coords="601,142,807,182"/>
+<area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="554,159,588,159,588,165,554,165"/>
+<area shape="poly" id="edge14_Node000008_Node000005" title=" " alt="" coords="343,216,399,192,402,197,345,221"/>
+<area shape="poly" id="edge12_Node000008_Node000006" title=" " alt="" coords="355,240,619,227,619,233,355,245"/>
+<area shape="rect" id="Node000009" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="407,265,549,305"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="356,258,394,266,393,271,354,263"/>
+<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="240,321,241,311,248,302,261,297,279,295,302,298,315,306,312,310,300,303,279,300,262,302,251,307,246,313,246,321"/>
+</map>

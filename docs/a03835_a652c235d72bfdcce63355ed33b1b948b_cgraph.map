@@ -1,0 +1,9 @@
+<map id="lumex::core::smart_ptr::detail::split_counter::use_count" name="lumex::core::smart_ptr::detail::split_counter::use_count">
+<area shape="rect" id="Node000001" title="The number of owners." alt="" coords="5,84,157,139"/>
+<area shape="rect" id="Node000002" href="$a03835.html#abe8eb0b9df57bdce0ea7416f5fe86047" title="The count half of word." alt="" coords="205,5,351,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,81,196,63,198,68,151,86"/>
+<area shape="rect" id="Node000003" href="$a03835.html#aba243344307a2dc60d38965e83232e9b" title="The ext half of word." alt="" coords="205,84,351,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,109,191,109,191,114,157,114"/>
+<area shape="rect" id="Node000004" href="$a03835.html#a0f5af0ec22136603611be39621d4df78" title="The whole word (relaxed)." alt="" coords="205,163,351,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="151,136,198,155,196,160,149,141"/>
+</map>

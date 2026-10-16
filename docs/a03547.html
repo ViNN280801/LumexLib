@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::optional::opt::detail::opt_destruct_base&lt; T, bool &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03550.html',''); initResizable(true); });
+$(function(){initNavTree('a03547.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,307 @@ $(function(){initNavTree('a03550.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::reflection::field_reflection::detail::aggregate_traits&lt; T &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a03544.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::optional::opt::detail::opt_destruct_base&lt; T, bool &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03550.html">lumex::core::reflection::field_reflection::detail::aggregate_traits&lt; T &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03550.html#aca186931d2cb14a68e8d6594911212de">count</a></td><td class="entry"><a class="el" href="a03550.html">lumex::core::reflection::field_reflection::detail::aggregate_traits&lt; T &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<p>The union, the flag and the destructor; this form is for a trivially destructible <code>T</code>, so the destructor is trivial.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00995_source.html">LumexOptionalDetail.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::optional::opt::detail::opt_destruct_base&lt; T, bool &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03546.png" border="0" usemap="#alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1opt__destruct__base_3_01T_00_01bool_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1opt__destruct__base_3_01T_00_01bool_01_4_inherit__map" id="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1opt__destruct__base_3_01T_00_01bool_01_4_inherit__map">
+<area shape="rect" title="The union, the flag and the destructor; this form is for a trivially destructible T,..." alt="" coords="5,84,191,139"/>
+<area shape="rect" href="a03571.html" title=" " alt="" coords="239,5,401,60"/>
+<area shape="poly" title=" " alt="" coords="188,77,242,58,244,63,189,82"/>
+<area shape="rect" href="a03563.html" title=" " alt="" coords="239,84,401,139"/>
+<area shape="poly" title=" " alt="" coords="204,109,238,109,238,114,204,114"/>
+<area shape="rect" href="a03567.html" title=" " alt="" coords="239,163,401,217"/>
+<area shape="poly" title=" " alt="" coords="189,141,244,160,242,165,188,146"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a2d1fd7ddcb12ec8ea3db05eb17936a10" id="r_a2d1fd7ddcb12ec8ea3db05eb17936a10"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d1fd7ddcb12ec8ea3db05eb17936a10">opt_destruct_base</a> () noexcept</td></tr>
+<tr class="separator:a2d1fd7ddcb12ec8ea3db05eb17936a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcde1a2174763d1f08c277ec39cfe91c" id="r_abcde1a2174763d1f08c277ec39cfe91c"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:abcde1a2174763d1f08c277ec39cfe91c"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abcde1a2174763d1f08c277ec39cfe91c">opt_destruct_base</a> (<a class="el" href="a03675.html">in_place_t</a> tag, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:abcde1a2174763d1f08c277ec39cfe91c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94d2a22a7e40d13820ac7dabf8f8a5de" id="r_a94d2a22a7e40d13820ac7dabf8f8a5de"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:a94d2a22a7e40d13820ac7dabf8f8a5de"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a94d2a22a7e40d13820ac7dabf8f8a5de">opt_destruct_base</a> (<a class="el" href="a03495.html">invoke_tag</a> tag, Fn &amp;&amp;fn, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:a94d2a22a7e40d13820ac7dabf8f8a5de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6a31b52e1571aa5e2c8e4799e862501" id="r_ad6a31b52e1571aa5e2c8e4799e862501"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6a31b52e1571aa5e2c8e4799e862501">reset_value</a> () noexcept</td></tr>
+<tr class="memdesc:ad6a31b52e1571aa5e2c8e4799e862501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ends the value's life; nothing to destroy for this <code>T</code>.  <br /></td></tr>
+<tr class="separator:ad6a31b52e1571aa5e2c8e4799e862501"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab533b5304b0d2c0211f379f48f03e9f9" id="r_ab533b5304b0d2c0211f379f48f03e9f9"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:ab533b5304b0d2c0211f379f48f03e9f9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab533b5304b0d2c0211f379f48f03e9f9">construct</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:ab533b5304b0d2c0211f379f48f03e9f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the value's life with <code>args...</code>; the flag is set last, so a throwing constructor leaves the object empty.  <br /></td></tr>
+<tr class="separator:ab533b5304b0d2c0211f379f48f03e9f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a6371837e360af21cd5bd6143352dd7d5" id="r_a6371837e360af21cd5bd6143352dd7d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03511.html">optional_union</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6371837e360af21cd5bd6143352dd7d5">m_u</a></td></tr>
+<tr class="separator:a6371837e360af21cd5bd6143352dd7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa081cdf0e2134d0fa682a07d9ac6ffce" id="r_aa081cdf0e2134d0fa682a07d9ac6ffce"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa081cdf0e2134d0fa682a07d9ac6ffce">m_engaged</a></td></tr>
+<tr class="separator:aa081cdf0e2134d0fa682a07d9ac6ffce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, bool = std::is_trivially_destructible&lt;T&gt;::value&gt;<br />
+struct lumex::core::optional::opt::detail::opt_destruct_base&lt; T, bool &gt;</div><p>The union, the flag and the destructor; this form is for a trivially destructible <code>T</code>, so the destructor is trivial. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a2d1fd7ddcb12ec8ea3db05eb17936a10" name="a2d1fd7ddcb12ec8ea3db05eb17936a10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d1fd7ddcb12ec8ea3db05eb17936a10">&#9670;&#160;</a></span>opt_destruct_base() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, bool = std::is_trivially_destructible&lt;T&gt;::value&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03547.html">lumex::core::optional::opt::detail::opt_destruct_base</a>&lt; T, bool &gt;::opt_destruct_base </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abcde1a2174763d1f08c277ec39cfe91c" name="abcde1a2174763d1f08c277ec39cfe91c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcde1a2174763d1f08c277ec39cfe91c">&#9670;&#160;</a></span>opt_destruct_base() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, bool = std::is_trivially_destructible&lt;T&gt;::value&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03547.html">lumex::core::optional::opt::detail::opt_destruct_base</a>&lt; T, bool &gt;::opt_destruct_base </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03675.html">in_place_t</a></td>          <td class="paramname"><span class="paramname"><em>tag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03547_abcde1a2174763d1f08c277ec39cfe91c_cgraph.png" border="0" usemap="#aa03547_abcde1a2174763d1f08c277ec39cfe91c_cgraph" alt=""/></div>
+<map name="aa03547_abcde1a2174763d1f08c277ec39cfe91c_cgraph" id="aa03547_abcde1a2174763d1f08c277ec39cfe91c_cgraph">
+<area shape="rect" title=" " alt="" coords="5,22,192,77"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="240,29,400,69"/>
+<area shape="poly" title=" " alt="" coords="193,47,226,47,226,52,193,52"/>
+<area shape="poly" title=" " alt="" coords="279,30,276,20,283,10,298,5,320,3,346,6,360,13,358,18,344,11,320,8,299,10,286,15,281,21,284,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a94d2a22a7e40d13820ac7dabf8f8a5de" name="a94d2a22a7e40d13820ac7dabf8f8a5de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94d2a22a7e40d13820ac7dabf8f8a5de">&#9670;&#160;</a></span>opt_destruct_base() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, bool = std::is_trivially_destructible&lt;T&gt;::value&gt; </div>
+<div class="memtemplate">
+template&lt;typename Fn, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03547.html">lumex::core::optional::opt::detail::opt_destruct_base</a>&lt; T, bool &gt;::opt_destruct_base </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03495.html">invoke_tag</a></td>          <td class="paramname"><span class="paramname"><em>tag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Fn &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>fn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03547_a94d2a22a7e40d13820ac7dabf8f8a5de_cgraph.png" border="0" usemap="#aa03547_a94d2a22a7e40d13820ac7dabf8f8a5de_cgraph" alt=""/></div>
+<map name="aa03547_a94d2a22a7e40d13820ac7dabf8f8a5de_cgraph" id="aa03547_a94d2a22a7e40d13820ac7dabf8f8a5de_cgraph">
+<area shape="rect" title=" " alt="" coords="5,22,192,77"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="240,29,400,69"/>
+<area shape="poly" title=" " alt="" coords="193,47,226,47,226,52,193,52"/>
+<area shape="poly" title=" " alt="" coords="279,30,276,20,283,10,298,5,320,3,346,6,360,13,358,18,344,11,320,8,299,10,286,15,281,21,284,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab533b5304b0d2c0211f379f48f03e9f9" name="ab533b5304b0d2c0211f379f48f03e9f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab533b5304b0d2c0211f379f48f03e9f9">&#9670;&#160;</a></span>construct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, bool = std::is_trivially_destructible&lt;T&gt;::value&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a03547.html">lumex::core::optional::opt::detail::opt_destruct_base</a>&lt; T, bool &gt;::construct </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts the value's life with <code>args...</code>; the flag is set last, so a throwing constructor leaves the object empty. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03547_ab533b5304b0d2c0211f379f48f03e9f9_cgraph.png" border="0" usemap="#aa03547_ab533b5304b0d2c0211f379f48f03e9f9_cgraph" alt=""/></div>
+<map name="aa03547_ab533b5304b0d2c0211f379f48f03e9f9_cgraph" id="aa03547_ab533b5304b0d2c0211f379f48f03e9f9_cgraph">
+<area shape="rect" title="Starts the value&#39;s life with args...; the flag is set last, so a throwing constructor leaves the obje..." alt="" coords="5,34,191,88"/>
+<area shape="rect" href="a01554.html#ae2accfaa04f297a6e4c12a36448e19ef" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11." alt="" coords="679,61,853,101"/>
+<area shape="poly" title=" " alt="" coords="190,36,283,19,394,6,513,4,573,9,631,18,678,33,721,52,719,57,676,38,630,24,572,14,513,10,394,12,284,24,191,41"/>
+<area shape="rect" href="a01554.html#a2d4cf60aacd9a54ae35907dc79d7a005" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="239,122,423,162"/>
+<area shape="poly" title=" " alt="" coords="178,86,262,115,260,120,176,91"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="471,57,631,97"/>
+<area shape="poly" title=" " alt="" coords="191,62,457,71,457,76,191,67"/>
+<area shape="poly" title=" " alt="" coords="726,61,724,51,730,42,744,36,766,34,791,37,805,45,802,49,789,42,766,40,746,42,733,46,729,52,731,60"/>
+<area shape="poly" title=" " alt="" coords="290,123,287,113,294,103,308,98,331,96,356,99,370,106,368,111,355,104,331,101,310,103,297,108,292,114,295,121"/>
+<area shape="poly" title=" " alt="" coords="398,120,469,98,471,103,399,125"/>
+<area shape="rect" href="a01554.html#a3ebf297c5727c955b66997cc5db2918a" title="The address of object as a void *, also for a const object." alt="" coords="471,145,631,185"/>
+<area shape="poly" title=" " alt="" coords="423,149,458,153,457,158,422,154"/>
+<area shape="poly" title=" " alt="" coords="511,57,508,47,515,38,529,32,551,30,576,33,589,41,587,45,574,38,551,36,530,38,518,42,513,48,516,56"/>
+<area shape="poly" title=" " alt="" coords="601,142,701,104,703,109,603,147"/>
+<area shape="poly" title=" " alt="" coords="511,145,508,135,515,126,529,120,551,118,576,121,589,129,587,133,574,126,551,124,530,126,518,130,513,136,516,144"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad6a31b52e1571aa5e2c8e4799e862501" name="ad6a31b52e1571aa5e2c8e4799e862501"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6a31b52e1571aa5e2c8e4799e862501">&#9670;&#160;</a></span>reset_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, bool = std::is_trivially_destructible&lt;T&gt;::value&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a03547.html">lumex::core::optional::opt::detail::opt_destruct_base</a>&lt; T, bool &gt;::reset_value </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ends the value's life; nothing to destroy for this <code>T</code>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="aa081cdf0e2134d0fa682a07d9ac6ffce" name="aa081cdf0e2134d0fa682a07d9ac6ffce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa081cdf0e2134d0fa682a07d9ac6ffce">&#9670;&#160;</a></span>m_engaged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, bool = std::is_trivially_destructible&lt;T&gt;::value&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a03547.html">lumex::core::optional::opt::detail::opt_destruct_base</a>&lt; T, bool &gt;::m_engaged</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6371837e360af21cd5bd6143352dd7d5" name="a6371837e360af21cd5bd6143352dd7d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6371837e360af21cd5bd6143352dd7d5">&#9670;&#160;</a></span>m_u</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, bool = std::is_trivially_destructible&lt;T&gt;::value&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03511.html">optional_union</a>&lt;T&gt; <a class="el" href="a03547.html">lumex::core::optional::opt::detail::opt_destruct_base</a>&lt; T, bool &gt;::m_u</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00995_source.html">LumexOptionalDetail.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01552.html">optional</a></li><li class="navelem"><a class="el" href="a01553.html">opt</a></li><li class="navelem"><a class="el" href="a01554.html">detail</a></li><li class="navelem"><a class="el" href="a03547.html">opt_destruct_base</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

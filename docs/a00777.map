@@ -1,0 +1,41 @@
+<map id="LumexSmartPtrAccess.hpp" name="LumexSmartPtrAccess.hpp">
+<area shape="rect" id="Node000001" title="Forward declarations of the pointer classes and detail::access, the friend that gives the split&#45;count..." alt="" coords="406,5,602,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,86,83,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="406,30,262,50,102,81,91,84,89,79,101,76,261,44,405,25"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="147,526,239,551"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="447,33,351,58,244,94,196,115,157,138,132,162,125,175,123,187,123,362,128,406,142,447,161,484,178,513,174,516,156,487,137,449,123,407,117,363,117,186,120,173,128,159,154,134,194,111,242,89,349,53,445,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="927,86,987,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="602,24,748,42,829,57,909,76,917,79,915,84,907,81,828,62,747,48,602,29"/>
+<area shape="rect" id="Node000005" href="$a00758.html" title="ctl_base: the control block of shared_ptr and weak_ptr, 32 bytes on a 64&#45;bit target." alt="" coords="566,79,791,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="533,28,624,71,622,75,531,33"/>
+<area shape="rect" id="Node000010" href="$a00779.html" title="Configuration macros of core/smart_ptr: exception handling, ThreadSanitizer detection,..." alt="" coords="193,255,431,295"/>
+<area shape="poly" id="edge22_Node000001_Node000010" title=" " alt="" coords="497,32,337,245,333,242,492,29"/>
+<area shape="rect" id="Node000016" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="603,519,816,559"/>
+<area shape="poly" id="edge23_Node000001_Node000016" title=" " alt="" coords="603,28,718,48,769,62,804,76,840,98,868,120,886,147,892,186,892,363,889,389,880,412,867,435,850,455,810,489,768,514,766,510,807,484,846,451,862,431,875,410,884,387,887,363,887,187,881,149,864,123,837,103,801,81,767,67,717,54,602,33"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="735,262,801,287"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="705,117,726,139,745,165,761,208,768,248,763,249,756,209,740,168,722,142,701,121"/>
+<area shape="rect" id="Node000007" href="$a00764.html" title="split_counter: the packed reference counter of the control block, one 64&#45;bit atomic word {count:32,..." alt="" coords="506,167,731,207"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="667,121,642,156,638,153,663,118"/>
+<area shape="poly" id="edge21_Node000005_Node000016" title=" " alt="" coords="718,116,757,143,797,178,815,199,829,223,838,248,841,275,841,363,839,386,832,408,810,449,781,484,751,512,747,508,777,480,806,446,828,406,834,385,836,363,836,275,833,249,824,225,810,202,793,182,754,147,715,121"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="654,205,736,253,734,257,652,209"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="505,262,572,287"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="602,209,562,253,558,250,598,205"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="596,262,660,287"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="623,207,628,248,623,249,618,207"/>
+<area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="549,209,396,253,395,248,548,204"/>
+<area shape="rect" id="Node000014" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="368,431,557,471"/>
+<area shape="poly" id="edge19_Node000007_Node000014" title=" " alt="" coords="558,209,523,229,495,256,476,295,465,338,462,381,462,417,457,417,456,380,460,338,471,294,491,253,520,225,555,205"/>
+<area shape="poly" id="edge20_Node000007_Node000016" title=" " alt="" coords="641,205,659,227,674,254,696,321,708,391,713,454,713,505,708,505,707,455,702,391,691,322,670,256,655,230,637,208"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="158,350,223,375"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="285,297,221,344,218,340,282,293"/>
+<area shape="rect" id="Node000012" href="$a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="247,343,430,383"/>
+<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="321,294,331,329,326,330,316,296"/>
+<area shape="rect" id="Node000013" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="163,438,344,463"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="321,385,277,430,273,426,317,381"/>
+<area shape="poly" id="edge14_Node000012_Node000014" title=" " alt="" coords="369,381,424,420,421,424,366,385"/>
+<area shape="poly" id="edge18_Node000012_Node000016" title=" " alt="" coords="431,379,501,399,571,428,631,467,680,507,677,511,628,471,568,433,499,404,430,384"/>
+<area shape="poly" id="edge15_Node000014_Node000003" title=" " alt="" coords="402,473,246,524,245,519,400,468"/>
+<area shape="rect" id="Node000015" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="323,519,578,559"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="463,471,458,505,453,505,457,471"/>
+<area shape="poly" id="edge17_Node000014_Node000016" title=" " alt="" coords="520,468,641,512,640,517,518,473"/>
+</map>

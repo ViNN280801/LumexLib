@@ -1,0 +1,15 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,125,60,150"/>
+<area shape="rect" id="Node000002" href="$a01565.html#a1057d64ff5f47361ae80276a4f2cab85" title="The bytes of a span as a read&#45;only span of byte." alt="" coords="111,29,258,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="46,122,107,79,118,73,121,77,109,84,49,127"/>
+<area shape="rect" id="Node000003" href="$a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="111,117,258,157"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="60,135,97,135,97,140,60,140"/>
+<area shape="rect" id="Node000005" href="$a04027.html#a13a83ffe79d91fd182648cca8911f850" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="108,205,261,245"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="56,148,139,196,137,201,54,153"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="155,29,154,20,158,11,169,5,185,3,203,6,213,13,210,17,201,11,185,8,170,10,162,14,159,21,161,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="155,117,154,108,158,99,169,93,185,91,203,94,213,101,210,105,201,99,185,96,170,98,162,102,159,109,161,116"/>
+<area shape="rect" id="Node000004" href="$a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="309,161,456,201"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="259,151,296,159,295,165,258,156"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="261,206,295,198,297,203,262,211"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="155,205,154,196,158,187,169,181,185,179,203,182,213,189,210,193,201,187,185,184,170,186,162,190,159,197,161,204"/>
+</map>

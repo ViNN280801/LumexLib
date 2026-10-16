@@ -1,0 +1,18 @@
+<map id="LumexContractsViolation.hpp" name="LumexContractsViolation.hpp">
+<area shape="rect" id="Node000001" title="The enumerations assertion_kind, evaluation_semantic and detection_mode, and the class contract_viola..." alt="" coords="94,5,309,31"/>
+<area shape="rect" id="Node000002" href="$a01361.html" title="Contracts module: LUMEX_CONTRACT_ASSERT, the contract assertion of C++26 (P2900) from C++11 on,..." alt="" coords="143,225,271,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,41,139,68,108,102,98,120,92,139,91,158,98,176,111,192,126,205,162,223,160,228,123,209,107,195,94,179,86,158,86,138,93,118,104,99,135,64,168,37"/>
+<area shape="rect" id="Node000005" href="$a01001.html" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand..." alt="" coords="108,152,305,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="205,44,209,152,204,152,200,44"/>
+<area shape="rect" id="Node000006" href="$a01007.html" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="239,79,446,104"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="239,35,319,76,317,81,237,39"/>
+<area shape="rect" id="Node000003" href="$a00437.html" title=" " alt="" coords="5,299,179,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="176,261,114,301,111,296,174,256"/>
+<area shape="rect" id="Node000004" href="$a00434.html" title=" " alt="" coords="203,299,442,324"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="240,256,304,296,301,301,237,260"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="209,191,209,225,204,225,204,191"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="343,118,335,149,319,179,285,208,247,228,245,223,282,204,315,176,330,147,338,117"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="308,113,232,154,229,149,306,108"/>
+<area shape="rect" id="Node000007" href="$a01004.html" title=" " alt="" coords="380,152,585,177"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="380,108,459,149,457,154,378,113"/>
+</map>

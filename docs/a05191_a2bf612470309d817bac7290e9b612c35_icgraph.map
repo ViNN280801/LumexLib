@@ -1,0 +1,9 @@
+<map id="lumex::xml::tree::XmlTreeWalker::depth" name="lumex::xml::tree::XmlTreeWalker::depth">
+<area shape="rect" id="Node000001" title="Retrieves the current traversal depth." alt="" coords="496,35,687,75"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="632,23,618,16,591,13,568,15,555,20,550,26,552,34,547,35,544,25,552,16,567,10,591,8,619,11,634,18"/>
+<area shape="rect" id="Node000002" href="$a05191.html#aad4866e5fb7a84317a83806d03766333" title="Sets the current traversal depth." alt="" coords="257,5,448,45"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="482,44,448,40,449,34,483,39"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a17cdb500132c1c48fac94a311ff67c87" title="Traverses the subtree rooted at the current node using a custom XmlTreeWalker." alt="" coords="5,35,209,75"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="482,60,448,60,257,60,209,59,209,54,257,55,448,55,482,54"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="244,41,210,45,209,40,244,36"/>
+</map>

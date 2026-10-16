@@ -1,0 +1,5 @@
+<map id="lumex::core::fmt::Detail::check_chrono_specs" name="lumex::core::fmt::Detail::check_chrono_specs">
+<area shape="rect" id="Node000001" title="Checks [begin, end) as chrono&#45;specs; they must start with a conversion." alt="" coords="5,5,183,45"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a8ccbbce0aa0b3f54e45e28809998ecca" title="%&lt;conversion&gt; is valid for a duration / a time point." alt="" coords="231,5,408,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,23,217,23,217,28,183,28"/>
+</map>

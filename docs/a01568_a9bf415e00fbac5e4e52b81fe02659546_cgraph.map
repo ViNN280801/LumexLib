@@ -1,0 +1,5 @@
+<map id="lumex::core::string::text::quote_single" name="lumex::core::string::text::quote_single">
+<area shape="rect" id="Node000001" title="join with every element wrapped in single quotes (‘&#39;element’`), C++11 to C++17." alt="" coords="5,5,152,45"/>
+<area shape="rect" id="Node000002" href="$a01569.html#a32d6d763661d76d87d32100556e13793" title="Joins range, wrapping each element (converted to std::string const &amp;) in mark." alt="" coords="200,5,387,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,23,187,23,187,28,153,28"/>
+</map>

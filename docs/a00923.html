@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_2.cpp File Reference</title>
+<title>LumexLib: BadExpectedAccess.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,83 +104,122 @@ $(function(){initNavTree('a00923.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">example_2.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">BadExpectedAccess.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00617_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01244_source.html">lumex/xml/LumexXml</a>&quot;</code><br />
+
+<p><code><a class="el" href="a06520.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a></code>, the exception that <code>expected</code> throws when its value is read while it holds an error; an analogue of C++23 <code>std::bad_expected_access</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;exception&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_2.cpp:</div>
+Include dependency graph for BadExpectedAccess.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00924.png" border="0" usemap="#aexample__2_8cpp" alt=""/></div>
+<div class="center"><img src="a00924.png" border="0" usemap="#aBadExpectedAccess_8hpp" alt=""/></div>
+<map name="aBadExpectedAccess_8hpp" id="aBadExpectedAccess_8hpp">
+<area shape="rect" title="bad_expected_access, the exception that expected throws when its value is read while it holds an erro..." alt="" coords="56,5,236,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,92,111"/>
+<area shape="poly" title=" " alt="" coords="132,33,77,79,74,74,129,29"/>
+<area shape="rect" title=" " alt="" coords="116,86,176,111"/>
+<area shape="poly" title=" " alt="" coords="149,31,149,72,143,72,143,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="201,79,414,119"/>
+<area shape="poly" title=" " alt="" coords="173,28,256,70,254,75,170,33"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00925.png" border="0" usemap="#aBadExpectedAccess_8hppdep" alt=""/></div>
+<map name="aBadExpectedAccess_8hppdep" id="aBadExpectedAccess_8hppdep">
+<area shape="rect" title="bad_expected_access, the exception that expected throws when its value is read while it holds an erro..." alt="" coords="602,5,782,31"/>
+<area shape="rect" href="a01373.html" title="Expected module: expected&lt;T, E&gt;, a value or an error after the C++23 std::expected,..." alt="" coords="705,445,788,471"/>
+<area shape="poly" title=" " alt="" coords="680,44,656,98,648,131,644,165,644,311,646,333,653,353,676,390,704,421,731,443,727,447,701,425,672,394,648,355,641,334,639,311,639,165,642,130,651,97,675,42"/>
+<area shape="rect" href="a00902.html" title="expected&lt;SuccessType, ErrorType&gt;, an implementation of C++23 std::expected usable from C++11,..." alt="" coords="690,225,801,251"/>
+<area shape="poly" title=" " alt="" coords="701,44,745,225,740,226,696,45"/>
+<area shape="rect" href="a00917.html" title="Internal helpers of expected: language helpers that C++11 lacks as constexpr (fwd,..." alt="" coords="757,79,907,104"/>
+<area shape="poly" title=" " alt="" coords="730,35,809,76,806,81,727,39"/>
+<area shape="rect" href="a01298.html" title="CPU and RAM of single processes, by process ID or by executable name, with the processes they started..." alt="" coords="211,519,403,544"/>
+<area shape="poly" title=" " alt="" coords="692,470,383,521,382,516,692,464"/>
+<area shape="rect" href="a00335.html" title=" " alt="" coords="427,519,600,544"/>
+<area shape="poly" title=" " alt="" coords="694,477,555,521,553,516,692,472"/>
+<area shape="rect" href="a00338.html" title=" " alt="" coords="624,519,869,544"/>
+<area shape="poly" title=" " alt="" coords="749,484,749,518,744,518,744,484"/>
+<area shape="rect" href="a00344.html" title=" " alt="" coords="893,519,1093,544"/>
+<area shape="poly" title=" " alt="" coords="803,472,951,516,950,521,801,477"/>
+<area shape="rect" href="a00341.html" title=" " alt="" coords="1118,519,1357,544"/>
+<area shape="poly" title=" " alt="" coords="802,464,1153,516,1152,521,801,469"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="9,592,199,617"/>
+<area shape="poly" title=" " alt="" coords="259,551,140,594,138,589,258,546"/>
+<area shape="rect" href="a01343.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of..." alt="" coords="150,665,325,691"/>
+<area shape="poly" title=" " alt="" coords="289,556,265,593,250,632,242,666,237,665,245,631,260,591,284,554"/>
+<area shape="rect" href="a01292.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file,..." alt="" coords="275,592,477,617"/>
+<area shape="poly" title=" " alt="" coords="330,552,366,590,362,593,326,556"/>
+<area shape="rect" href="a01289.html" title="The text the background sampler logs for a watch list." alt="" coords="501,592,659,617"/>
+<area shape="poly" title=" " alt="" coords="368,545,533,589,532,594,367,550"/>
+<area shape="rect" href="a00449.html" title=" " alt="" coords="5,746,232,771"/>
+<area shape="poly" title=" " alt="" coords="208,701,139,748,136,744,205,696"/>
+<area shape="rect" href="a00446.html" title=" " alt="" coords="256,739,456,779"/>
+<area shape="poly" title=" " alt="" coords="269,696,328,736,325,741,266,701"/>
+<area shape="poly" title=" " alt="" coords="341,626,263,667,260,663,338,621"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="349,665,549,691"/>
+<area shape="poly" title=" " alt="" coords="400,625,438,663,434,667,397,629"/>
+<area shape="poly" title=" " alt="" coords="546,627,474,667,471,663,544,622"/>
+<area shape="rect" href="a01283.html" title=" " alt="" coords="574,665,730,691"/>
+<area shape="poly" title=" " alt="" coords="604,625,641,663,637,667,600,629"/>
+<area shape="poly" title=" " alt="" coords="738,264,721,325,718,361,721,397,730,422,741,444,736,446,725,424,716,398,713,361,716,324,732,263"/>
+<area shape="rect" href="a00914.html" title="The specialization expected&lt;void, ErrorType&gt; for operations that succeed without a value; an implemen..." alt="" coords="791,299,929,324"/>
+<area shape="poly" title=" " alt="" coords="778,256,841,296,838,301,776,261"/>
+<area shape="rect" href="a00905.html" title="The return markers success() and failure() for functions that return an expected." alt="" coords="730,372,875,397"/>
+<area shape="poly" title=" " alt="" coords="758,263,781,323,800,371,795,373,776,325,753,265"/>
+<area shape="poly" title=" " alt="" coords="881,335,895,366,896,383,890,399,870,421,844,437,816,448,789,455,788,450,814,443,841,433,866,417,886,396,891,382,890,367,876,337"/>
+<area shape="poly" title=" " alt="" coords="844,337,815,373,811,370,840,333"/>
+<area shape="poly" title=" " alt="" coords="787,410,759,446,755,443,783,407"/>
+<area shape="poly" title=" " alt="" coords="805,115,786,132,770,153,755,191,749,225,744,224,750,190,766,151,782,129,801,111"/>
+<area shape="poly" title=" " alt="" coords="898,107,929,124,954,151,962,172,962,194,955,216,943,237,911,273,879,300,876,296,907,270,938,233,950,214,957,193,957,173,950,153,926,129,896,111"/>
+<area shape="rect" href="a00908.html" title="Internal storage of expected: the union of the two alternatives, and the layers that give expected th..." alt="" coords="780,152,940,177"/>
+<area shape="poly" title=" " alt="" coords="844,116,857,151,852,152,839,118"/>
+<area shape="poly" title=" " alt="" coords="830,187,767,227,764,223,827,183"/>
+<area shape="poly" title=" " alt="" coords="863,191,863,299,857,299,857,191"/>
+</map>
+</div>
+</div>
+<p><a href="a00923_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02647.html">lumex::core::expected::error::bad_expected_access&lt; void &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base of every <code><a class="el" href="a02643.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a>&lt;ErrorType&gt;</code>: catch it to handle the failed <code>value()</code> of any <code>expected</code> without naming the error type.  <a href="a02647.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02643.html">lumex::core::expected::error::bad_expected_access&lt; ErrorType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the value of an <code>expected</code> is read while it holds an error.  <a href="a02643.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06520.html">bad_expected_access&lt; ErrorType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception thrown when the value of an <code>expected</code> is read while it holds an error.  <a href="a06520.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ac8528b14d1f0eeb8d0602d37e828fae8" id="r_ac8528b14d1f0eeb8d0602d37e828fae8"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8528b14d1f0eeb8d0602d37e828fae8">constkXmlFilePath</a> = &quot;lumex_xml_example_2.xml&quot;</td></tr>
-<tr class="separator:ac8528b14d1f0eeb8d0602d37e828fae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01528.html">lumex::core::expected</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01529.html">lumex::core::expected::error</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00923_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00923_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="ac8528b14d1f0eeb8d0602d37e828fae8" name="ac8528b14d1f0eeb8d0602d37e828fae8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8528b14d1f0eeb8d0602d37e828fae8">&#9670;&#160;</a></span>constkXmlFilePath</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constchar* constkXmlFilePath = &quot;lumex_xml_example_2.xml&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code><a class="el" href="a06520.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a></code>, the exception that <code>expected</code> throws when its value is read while it holds an error; an analogue of C++23 <code>std::bad_expected_access</code>. </p>
+<p><code>value()</code> of an <code>expected</code> in the error state throws <code><a class="el" href="a06520.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a>&lt;E&gt;</code> with a copy (or, from an rvalue, the moved value) of that error, which <code>error()</code> of the exception returns. Header-only, part of <code>lumex::expected</code> and usable from C++11; the class is also visible at global scope. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_e50bbef304dea4ca34611f87a713b404.html">xml</a></li><li class="navelem"><a class="el" href="a00923.html">example_2.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_d137d0eb9968c5b308dad29829b7bf65.html">error</a></li><li class="navelem"><a class="el" href="a00923.html">BadExpectedAccess.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,31 @@
+<map id="lumex::applied::serial::probe::SerialProber::operator=" name="lumex::applied::serial::probe::SerialProber::operator=">
+<area shape="rect" id="Node000001" title="Moves the session, including an open port, into other." alt="" coords="5,228,168,283"/>
+<area shape="rect" id="Node000002" href="$a01867.html#aec4e0ca8a3228735b8dde7e2c5e51f7e" title="Closes the port; safe to call on a closed session." alt="" coords="232,5,395,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,226,142,150,175,107,214,69,219,66,223,70,218,73,179,110,147,153,102,229"/>
+<area shape="rect" id="Node000003" href="$a01867.html#aeccb8971734d9825d958152ec2e6ed49" title="True while the port is open." alt="" coords="232,84,395,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="114,226,160,187,215,149,226,143,229,147,217,154,163,191,117,230"/>
+<area shape="rect" id="Node000004" href="$a01867.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline." alt="" coords="216,163,411,203"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,227,237,205,238,210,169,232"/>
+<area shape="rect" id="Node000005" href="$a01867.html#a845214e6e33fa487163f38e3b13ee1ec" title="Opens the port when needed, sends request and collects the response until response_complete confirms ..." alt="" coords="232,228,395,283"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="168,253,218,253,218,258,168,258"/>
+<area shape="rect" id="Node000013" href="$a01867.html#a2bec366a058baf6a1573254d30bce52e" title="Reads once: returns as soon as at least one byte is available or the deadline expires." alt="" coords="218,307,409,347"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="169,279,238,301,237,306,168,284"/>
+<area shape="rect" id="Node000014" href="$a01867.html#a60094bd3411cdf03146bb5731e745009" title="Creates a session for port_path; the port is not opened yet." alt="" coords="232,372,395,427"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="117,281,163,319,217,357,229,363,226,368,215,362,160,323,114,285"/>
+<area shape="rect" id="Node000015" href="$a01867.html#a5d84b61824813951c20b4fed25b8cdab" title="Writes every byte of data or stops at the deadline." alt="" coords="232,451,395,505"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="102,282,147,358,180,399,218,436,225,441,222,446,214,440,176,403,143,361,98,285"/>
+<area shape="rect" id="Node000006" href="$a01471.html#aad815f0706b5da1500fbda9d64a48e88" title="Runs one bounded probe over transport." alt="" coords="459,235,644,275"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="395,253,445,253,445,258,395,258"/>
+<area shape="rect" id="Node000007" href="$a01471.html#abfe791d5b660fa24d46ceb665e918f12" title="Milliseconds elapsed since start." alt="" coords="692,45,904,85"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="562,233,612,165,649,127,691,94,701,88,704,93,693,99,652,131,616,169,566,237"/>
+<area shape="rect" id="Node000008" href="$a01839.html#a03d9d7c732ecaba43e39d3dea068c656" title="True while the port is open." alt="" coords="717,109,879,164"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="582,233,632,203,691,173,705,167,707,172,693,178,635,208,584,238"/>
+<area shape="rect" id="Node000009" href="$a01839.html#adc8013c9670a1b893619cd2c852108ab" title="Bounded open with the configured settings." alt="" coords="717,188,879,243"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="644,238,703,228,704,233,645,243"/>
+<area shape="rect" id="Node000010" href="$a01839.html#a9e89076cc288e82ded1f5c9c4f4a2087" title="Flushes the input and output buffers." alt="" coords="717,267,879,321"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="645,267,704,277,703,282,644,273"/>
+<area shape="rect" id="Node000011" href="$a01839.html#ab8d9442067657ea5b9a0d99f85c33c02" title="Reads at least one byte or stops at the deadline." alt="" coords="717,345,879,400"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="586,273,693,330,710,338,708,343,691,335,583,278"/>
+<area shape="rect" id="Node000012" href="$a01839.html#ac5f44687a280f415d8fd6a924e961497" title="Writes size bytes or stops at the deadline." alt="" coords="717,424,879,479"/>
+<area shape="poly" id="edge11_Node000006_Node000012" title=" " alt="" coords="567,274,618,340,653,377,694,409,705,417,703,421,690,414,650,381,614,343,562,277"/>
+</map>

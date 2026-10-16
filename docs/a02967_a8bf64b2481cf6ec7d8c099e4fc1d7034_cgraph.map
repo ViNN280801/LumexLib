@@ -1,0 +1,10 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::create_directory" name="lumex::core::filesystem::fs::lumex_filesystem::create_directory">
+<area shape="rect" id="Node000001" title="Creates a new directory at the specified path." alt="" coords="5,29,180,84"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="49,29,50,19,57,10,72,5,93,3,118,6,132,14,129,18,116,11,93,8,73,10,60,15,55,21,55,29"/>
+<area shape="rect" id="Node000002" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="451,37,625,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,39,228,34,315,30,403,34,437,37,437,43,402,39,315,35,228,39,180,44"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a4be8bab7c98dca322220cdbbee740654" title="Checks if the specified path_arg refers to a directory." alt="" coords="228,73,403,128"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="181,71,215,78,214,83,180,77"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="402,81,437,74,438,79,403,86"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="272,73,272,63,280,54,294,49,315,47,340,50,355,58,352,62,339,55,315,52,296,54,283,59,277,65,277,73"/>
+</map>

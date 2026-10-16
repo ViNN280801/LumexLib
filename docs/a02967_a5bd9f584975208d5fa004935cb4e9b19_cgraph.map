@@ -1,0 +1,9 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::permissions" name="lumex::core::filesystem::fs::lumex_filesystem::permissions">
+<area shape="rect" id="Node000001" title="Sets the permissions of a file or directory." alt="" coords="5,46,180,101"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="49,46,50,36,57,27,72,21,93,19,118,22,132,30,129,35,116,28,93,25,73,27,60,31,55,38,55,46"/>
+<area shape="rect" id="Node000002" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="228,5,403,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,52,214,44,215,50,181,57"/>
+<area shape="rect" id="Node000003" href="$a01539.html#a251f4cb5e96e630e59d402b7830d6067" title=" " alt="" coords="228,94,403,149"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="181,90,215,97,214,102,179,95"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="272,94,272,84,280,75,294,69,315,67,340,70,355,78,352,83,339,76,315,73,296,75,283,79,277,86,277,94"/>
+</map>

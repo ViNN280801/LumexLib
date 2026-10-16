@@ -1,0 +1,15 @@
+<map id="lumex::xml::node::destroy_node" name="lumex::xml::node::destroy_node">
+<area shape="rect" id="Node000001" title="Destroys an XmlNodeBase object and recursively deallocates its children and attributes." alt="" coords="5,36,237,61"/>
+<area shape="poly" id="edge8_Node000001_Node000001" title=" " alt="" coords="82,38,73,28,78,18,94,12,121,9,156,13,165,18,169,24,165,27,162,22,154,18,121,15,95,17,81,22,79,27,86,34"/>
+<area shape="rect" id="Node000002" href="$a05135.html#a7916caf4c4f5e8e87a00f8778a3d4640" title="Deallocates a block of memory previously allocated by this allocator." alt="" coords="732,28,923,83"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,33,287,19,411,7,547,3,617,6,684,13,732,22,731,27,684,18,616,11,547,9,411,13,288,25,191,39"/>
+<area shape="rect" id="Node000004" href="$a05135.html#aa83864016ef06776b8a0075a4fe42d8e" title="Deallocates a string previously allocated by allocate_string." alt="" coords="493,28,684,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="237,48,479,51,479,56,237,53"/>
+<area shape="rect" id="Node000005" href="$a01670.html#a39c4f1cfa1cc6b95363c620f8c07bdea" title="Destroys and deallocates an XmlAttributeBase object." alt="" coords="285,86,445,126"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="176,59,272,81,271,87,175,64"/>
+<area shape="rect" id="Node000003" href="$a05135.html#a46230e854a38c3389d5b092bdd422645" title="Deallocates a memory page previously allocated by this allocator." alt="" coords="971,35,1200,75"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="923,53,957,53,957,58,923,58"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="684,53,718,53,718,58,684,58"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="446,106,559,104,684,93,728,84,730,89,684,98,559,110,446,111"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="445,85,480,77,481,83,447,90"/>
+</map>

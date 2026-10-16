@@ -1,9 +1,4 @@
 var a00278 =
 [
-    [ "lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell< Pointer, Reclaim >", "a01790.html", "a01790" ],
-    [ "LUMEX_ATOMIC_SMART_PTR_TEST_POINT", "a00278.html#a4b32d67a6a7c894fadf7358cd766df4d", null ],
-    [ "lumex::core::atomic::smart_ptr::table_wait::Detail::test_point_id_t", "a01315.html#adb6bacd656d47fc088685836f33190d7", [
-      [ "lumex::core::atomic::smart_ptr::table_wait::Detail::load_protected", "a01315.html#adb6bacd656d47fc088685836f33190d7aa06640f836d006857791f60c27b5e330", null ],
-      [ "lumex::core::atomic::smart_ptr::table_wait::Detail::cas_checked", "a01315.html#adb6bacd656d47fc088685836f33190d7a3aedc879fb3c0b34c8402d726f81637b", null ]
-    ] ]
+    [ "main", "a00278.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

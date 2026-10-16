@@ -1,0 +1,11 @@
+<map id="lumex::core::exceptions::exception::lumex_base_exception::lumex_base_exception" name="lumex::core::exceptions::exception::lumex_base_exception::lumex_base_exception">
+<area shape="rect" id="Node000001" title="Constructs a lumex_base_exception with a message." alt="" coords="304,110,555,165"/>
+<area shape="rect" id="Node000002" href="$a04959.html#a3bf3bfd70646b65d241b032ed39efd6e" title=" " alt="" coords="36,29,225,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="335,108,255,84,211,72,213,67,257,79,336,103"/>
+<area shape="rect" id="Node000003" href="$a04963.html#af62fe48aedc5657a9fdfd59a9cf8cbfb" title=" " alt="" coords="38,117,223,157"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="291,140,223,140,223,135,291,135"/>
+<area shape="rect" id="Node000004" href="$a02619.html#a9e2935c2745ba94609f5b675238b4561" title="Constructs a lumex_base_exception with a message." alt="" coords="5,182,256,237"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="303,171,245,185,243,179,302,165"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="182,18,164,11,131,8,102,10,84,15,77,21,81,28,76,30,72,20,81,10,101,5,131,3,165,5,184,13"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="182,106,164,99,131,96,102,98,84,103,77,109,81,116,76,118,72,108,81,98,101,93,131,91,165,93,184,101"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::core::span::view::detail::is_compatible_iterator&lt; Iterator, T, typename &gt;" name="lumex::core::span::view::detail::is_compatible_iterator&lt; Iterator, T, typename &gt;">
+<area shape="rect" id="Node000001" title="True when Iterator is a contiguous iterator whose elements convert to T." alt="" coords="5,79,251,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="69,5,187,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,45,131,78,125,78,125,45"/>
+</map>

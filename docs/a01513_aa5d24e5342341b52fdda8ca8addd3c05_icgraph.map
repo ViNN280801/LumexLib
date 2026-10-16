@@ -1,0 +1,11 @@
+<map id="lumex::core::crc::catalog::compute_crc_with_rev_eng_params" name="lumex::core::crc::catalog::compute_crc_with_rev_eng_params">
+<area shape="rect" id="Node000001" title="Computes a CRC from explicit RevEng parameters (bit engine, width 1..64)." alt="" coords="280,124,463,179"/>
+<area shape="rect" id="Node000002" href="$a01513.html#afa5241d4011b7522e92d3525103e2b88" title="Appends the least&#45;significant CRC bytes to buffer (LE, first byte = low 8 bits)." alt="" coords="10,5,227,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="316,119,231,74,204,63,206,58,233,69,318,115"/>
+<area shape="rect" id="Node000003" href="$a01513.html#ae84da39375729a1f5bb89a71e8dd8257" title="RevEng&#45;parameter CRC of a span of bytes. Available from C++11, see compute_crc_catalog above for what..." alt="" coords="27,84,210,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="266,137,210,128,211,123,267,132"/>
+<area shape="rect" id="Node000004" href="$a01513.html#af660164540fe1116f4b5b82c68b5f20e" title="RevEng&#45;parameter CRC of a string (raw bytes, no trailing &#39;\0&#39;). Available from C++11,..." alt="" coords="27,163,210,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="267,170,211,179,210,173,266,165"/>
+<area shape="rect" id="Node000005" href="$a01513.html#ab9efb7958f8bba112a81c3ad0ec6f296" title="8&#45;bit transport checksum for the current process&#45;global mode." alt="" coords="5,242,232,282"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="317,188,233,231,197,244,195,239,231,226,314,184"/>
+</map>

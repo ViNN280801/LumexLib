@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexStringView File Reference</title>
+<title>LumexLib: SupportedConfigExtensions.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,36 +103,102 @@ $(function(){initNavTree('a01229.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexStringView File Reference</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
+  <div class="headertitle"><div class="title">SupportedConfigExtensions.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>String view module: the C++11 implementation of <code>std::string_view</code> and its relatives, header-only.  
+<p>The configuration file formats the settings module knows, used to select an implementation from <code><a class="el" href="a01217.html#a90f219acff9eb90d97465a960d7a7d0f">LumexSettingsFactory</a></code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00545_source.html">view/LumexBasicStringView.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00548_source.html">view/LumexStringView.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00551_source.html">view/LumexWStringView.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexStringView:</div>
+Include dependency graph for SupportedConfigExtensions.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01230.png" border="0" usemap="#a_lumex_string_view" alt=""/></div>
+<div class="center"><img src="a01230.png" border="0" usemap="#aSupportedConfigExtensions_8hpp" alt=""/></div>
+<map name="aSupportedConfigExtensions_8hpp" id="aSupportedConfigExtensions_8hpp">
+<area shape="rect" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="5,5,233,31"/>
+<area shape="rect" title=" " alt="" coords="86,79,153,104"/>
+<area shape="poly" title=" " alt="" coords="122,31,122,65,117,65,117,31"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01231.png" border="0" usemap="#a_lumex_string_viewdep" alt=""/></div>
+<div class="center"><img src="a01231.png" border="0" usemap="#aSupportedConfigExtensions_8hppdep" alt=""/></div>
+<map name="aSupportedConfigExtensions_8hppdep" id="aSupportedConfigExtensions_8hppdep">
+<area shape="rect" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="366,5,594,31"/>
+<area shape="rect" href="a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="354,152,473,177"/>
+<area shape="poly" title=" " alt="" coords="464,43,441,80,427,119,418,153,413,151,422,117,436,78,459,40"/>
+<area shape="rect" href="a01217.html" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="451,79,643,104"/>
+<area shape="poly" title=" " alt="" coords="503,39,537,76,533,80,499,43"/>
+<area shape="rect" href="a00320.html" title=" " alt="" coords="5,225,171,251"/>
+<area shape="poly" title=" " alt="" coords="345,183,145,228,144,223,343,178"/>
+<area shape="rect" href="a00314.html" title=" " alt="" coords="195,225,394,251"/>
+<area shape="poly" title=" " alt="" coords="383,187,317,227,314,223,380,182"/>
+<area shape="rect" href="a00311.html" title=" " alt="" coords="418,225,649,251"/>
+<area shape="poly" title=" " alt="" coords="447,182,514,223,511,227,445,187"/>
+<area shape="rect" href="a00317.html" title=" " alt="" coords="673,225,871,251"/>
+<area shape="poly" title=" " alt="" coords="487,177,710,223,709,228,486,182"/>
+<area shape="poly" title=" " alt="" coords="512,113,438,154,435,149,510,109"/>
+<area shape="rect" href="a01220.html" title=" " alt="" coords="497,152,687,177"/>
+<area shape="poly" title=" " alt="" coords="564,114,586,150,582,153,559,117"/>
+</map>
 </div>
 </div>
 <p><a href="a01229_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01477.html">lumex::applied::settings</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01481.html">lumex::applied::settings::ini</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ac438d1e8fa1811a2273f163d14e87c50" id="r_ac438d1e8fa1811a2273f163d14e87c50"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac438d1e8fa1811a2273f163d14e87c50">LumexSettingsExtensions</a> = <a class="el" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">lumex::applied::settings::ini::SupportedConfigExtensions</a></td></tr>
+<tr class="separator:ac438d1e8fa1811a2273f163d14e87c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a1af005d4f6d6cbc1fe9b8ac0dd312222" id="r_a1af005d4f6d6cbc1fe9b8ac0dd312222"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">lumex::applied::settings::ini::SupportedConfigExtensions</a> : std::uint8_t { <a class="el" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43">lumex::applied::settings::ini::INI</a>
+, <a class="el" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa">lumex::applied::settings::ini::XML</a>
+, <a class="el" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e">lumex::applied::settings::ini::JSON</a>
+ }</td></tr>
+<tr class="memdesc:a1af005d4f6d6cbc1fe9b8ac0dd312222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of supported configuration file formats.  <a href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">More...</a><br /></td></tr>
+<tr class="separator:a1af005d4f6d6cbc1fe9b8ac0dd312222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>String view module: the C++11 implementation of <code>std::string_view</code> and its relatives, header-only. </p>
-<p>Link <code>lumex::string_view</code> (an interface target: the include directory, no library). Works from C++11. The class template <code>lumex_basic_string_view</code> and its aliases <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code>, <code><a class="el" href="a00551.html#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code>, <code>lumex_u16string_view</code>, <code>lumex_u32string_view</code> (and <code>lumex_u8string_view</code> with <code>char8_t</code>) have the API of <code>std::basic_string_view</code> of the newest standard, <code>std::hash</code>, the <code>_sv</code> literals and the ranges opt-ins. From C++17 each view converts implicitly to and from the standard one. These views are the string view types of the whole library in every C++ standard: a module with a string overload takes <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> (or <code><a class="el" href="a00551.html#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code>) by value, and a <code>std::string_view</code> argument converts to it, so the overload set does not change with the standard. The umbrella includes <code><a class="el" href="a00545.html" title="Header-only, C++11-first basic_string_view: the class template behind lumex_string_view,...">view/LumexBasicStringView.hpp</a></code>, <code><a class="el" href="a00548.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11.">view/LumexStringView.hpp</a></code> and <code><a class="el" href="a00551.html" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11.">view/LumexWStringView.hpp</a></code>. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>The configuration file formats the settings module knows, used to select an implementation from <code><a class="el" href="a01217.html#a90f219acff9eb90d97465a960d7a7d0f">LumexSettingsFactory</a></code>. </p>
+<p>Declares the unscoped enumeration <code>SupportedConfigExtensions</code> (<code>INI</code>, <code>XML</code>, <code>JSON</code>) and its global alias <code><a class="el" href="#ac438d1e8fa1811a2273f163d14e87c50">LumexSettingsExtensions</a></code>. A value names a format; whether the build provides that format is decided by the factory. The header lives in <code>ini/</code> but serves every format. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="ac438d1e8fa1811a2273f163d14e87c50" name="ac438d1e8fa1811a2273f163d14e87c50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac438d1e8fa1811a2273f163d14e87c50">&#9670;&#160;</a></span>LumexSettingsExtensions</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">LumexSettingsExtensions</a> = <a class="el" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">lumex::applied::settings::ini::SupportedConfigExtensions</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="a01229.html">LumexStringView</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_780820ccea529b587a25c1a0f8b66936.html">ini</a></li><li class="navelem"><a class="el" href="a01229.html">SupportedConfigExtensions.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,11 @@
+<map id="lumex::core::time::clock::lumex_time::get_timestamp_ns" name="lumex::core::time::clock::lumex_time::get_timestamp_ns">
+<area shape="rect" id="Node000001" title="Gettters for the time since epoch in different time units." alt="" coords="359,55,529,109"/>
+<area shape="rect" id="Node000002" href="$a00509.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="182,5,237,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="345,54,310,45,236,27,238,21,311,39,346,49"/>
+<area shape="rect" id="Node000003" href="$a02619.html#adcab5bbf331d2e2c3e98acb0d656e2e4" title="Write a crash report to a file by pattern: &quot;crash_report_{timestamp}.txt&quot;." alt="" coords="108,55,311,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="345,85,311,85,311,79,345,79"/>
+<area shape="rect" id="Node000004" href="$a01759.html#aba1b51f61fc63faeb93387a3e0b9a04b" title="Write a log to a file in the logs/ directory." alt="" coords="109,134,310,174"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="346,115,276,136,274,131,345,110"/>
+<area shape="rect" id="Node000005" href="$a00440.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,141,60,167"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="95,157,60,157,60,151,95,151"/>
+</map>

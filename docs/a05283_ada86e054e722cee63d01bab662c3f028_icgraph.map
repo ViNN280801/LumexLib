@@ -1,0 +1,39 @@
+<map id="lumex::xml::xpath::node::XPathNode::parent" name="lumex::xml::xpath::node::XPathNode::parent">
+<area shape="rect" id="Node000001" title="Gets the parent XmlNode of the wrapped node or attribute." alt="" coords="1292,285,1475,325"/>
+<area shape="rect" id="Node000002" href="$a05239.html#a1503ded341dc30788a4db31b632de4e8" title="Evaluates the XPath expression represented by this AST node to a node&#45;set." alt="" coords="1049,199,1227,253"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1307,283,1223,256,1224,251,1309,278"/>
+<area shape="rect" id="Node000013" href="$a05251.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="1037,277,1239,332"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="1278,307,1239,307,1239,302,1278,302"/>
+<area shape="rect" id="Node000014" href="$a05283.html#a6a939a81fbf7abc8fcdf54770dbd3dde" title="Default constructor; constructs an empty XPath node." alt="" coords="1032,381,1244,421"/>
+<area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="1320,332,1190,383,1188,378,1318,327"/>
+<area shape="rect" id="Node000003" href="$a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="772,80,951,135"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1069,195,983,156,935,137,937,132,985,152,1071,190"/>
+<area shape="rect" id="Node000005" href="$a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,83,439,137"/>
+<area shape="poly" id="edge10_Node000002_Node000005" title=" " alt="" coords="1035,209,984,201,685,156,438,124,439,119,685,151,984,195,1035,204"/>
+<area shape="rect" id="Node000007" href="$a05315.html#a9e6e14d2583f26c245199b4d022aeae2" title="Evaluates the XPath query to a single node." alt="" coords="739,210,984,250"/>
+<area shape="poly" id="edge11_Node000002_Node000007" title=" " alt="" coords="1035,230,984,231,984,226,1035,225"/>
+<area shape="rect" id="Node000010" href="$a05315.html#a7bf53aa20d04946a89d395e7345c1be5" title="Evaluates the XPath query to a node&#45;set." alt="" coords="758,283,965,337"/>
+<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="1036,260,952,285,951,280,1035,255"/>
+<area shape="rect" id="Node000004" href="$a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="499,5,678,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="758,91,659,63,660,57,759,85"/>
+<area shape="poly" id="edge9_Node000003_Node000005" title=" " alt="" coords="758,118,439,119,439,114,758,113"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="692,49,791,77,790,82,691,55"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="516,67,440,92,438,87,514,62"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="452,99,772,98,772,103,452,105"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="422,75,498,50,500,55,423,81"/>
+<area shape="rect" id="Node000006" href="$a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,83,212,137"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="246,113,212,113,212,107,246,107"/>
+<area shape="rect" id="Node000008" href="$a05143.html#ab3b8c4b5ae7c14a5f5353854af2c0980" title="Selects a single node by evaluating an XPath query." alt="" coords="487,210,691,250"/>
+<area shape="poly" id="edge12_Node000007_Node000008" title=" " alt="" coords="725,233,691,233,691,227,725,227"/>
+<area shape="rect" id="Node000009" href="$a05143.html#a260d31b59a5cd0c5f8fff0fd592c2793" title=" " alt="" coords="487,274,691,314"/>
+<area shape="poly" id="edge13_Node000007_Node000009" title=" " alt="" coords="763,256,674,277,673,271,762,251"/>
+<area shape="rect" id="Node000011" href="$a05143.html#ab8730fb0f45c45e980dc2e0cc918318f" title="Selects a set of nodes by evaluating an XPath query." alt="" coords="487,338,691,378"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="745,333,691,343,690,337,744,328"/>
+<area shape="rect" id="Node000012" href="$a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="322,345,377,371"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="473,361,377,361,377,355,473,355"/>
+<area shape="poly" id="edge21_Node000014_Node000014" title=" " alt="" coords="1180,369,1165,362,1138,359,1114,361,1100,366,1095,372,1097,380,1092,381,1090,371,1097,362,1113,356,1138,354,1167,357,1182,364"/>
+<area shape="rect" id="Node000015" href="$a05283.html#a58a56fcd3995865306615050f05f6488" title="Inequality comparison operator." alt="" coords="755,377,967,417"/>
+<area shape="poly" id="edge19_Node000014_Node000015" title=" " alt="" coords="1018,402,968,401,968,396,1018,396"/>
+<area shape="rect" id="Node000016" href="$a05283.html#a5ad7833414bb03d1908e9b97334c9e5b" title="Equality comparison operator." alt="" coords="752,441,971,481"/>
+<area shape="poly" id="edge20_Node000014_Node000016" title=" " alt="" coords="1033,426,954,443,953,438,1032,421"/>
+</map>

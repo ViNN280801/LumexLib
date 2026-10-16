@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::hardware::caps::CPUIDEDXExtFlags Namespace Reference</title>
+<title>LumexLib: ILumexJsonSchemaValidator.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,20 +103,112 @@ $(function(){initNavTree('a01259.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::hardware::caps::CPUIDEDXExtFlags Namespace Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">ILumexJsonSchemaValidator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CPUID extended feature flags (EDX register, function 0x80000001)  
+<p>Contract for checking raw JSON text against a schema.  
 <a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;exception&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00854_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for ILumexJsonSchemaValidator.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01260.png" border="0" usemap="#aILumexJsonSchemaValidator_8hpp" alt=""/></div>
+<map name="aILumexJsonSchemaValidator_8hpp" id="aILumexJsonSchemaValidator_8hpp">
+<area shape="rect" title="Contract for checking raw JSON text against a schema." alt="" coords="321,5,555,31"/>
+<area shape="rect" title=" " alt="" coords="5,262,92,287"/>
+<area shape="poly" title=" " alt="" coords="420,33,81,257,78,252,417,29"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="414,79,617,119"/>
+<area shape="poly" title=" " alt="" coords="452,29,488,67,485,70,448,33"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="675,167,913,207"/>
+<area shape="poly" title=" " alt="" coords="580,116,718,160,716,165,578,121"/>
+<area shape="poly" title=" " alt="" coords="675,197,366,223,214,239,104,257,93,260,92,255,103,252,213,234,366,218,675,192"/>
+<area shape="rect" title=" " alt="" coords="1384,262,1455,287"/>
+<area shape="poly" title=" " alt="" coords="913,188,1013,195,1129,207,1251,226,1372,252,1380,254,1379,260,1371,257,1250,231,1128,213,1012,201,913,194"/>
+<area shape="rect" title=" " alt="" coords="1479,262,1546,287"/>
+<area shape="poly" title=" " alt="" coords="913,192,1213,216,1360,233,1467,252,1475,254,1473,260,1465,257,1359,238,1213,222,913,197"/>
+<area shape="rect" title=" " alt="" coords="1570,262,1637,287"/>
+<area shape="poly" title=" " alt="" coords="913,190,1260,213,1433,231,1559,252,1567,254,1565,260,1557,257,1433,236,1259,218,913,195"/>
+<area shape="rect" title=" " alt="" coords="116,262,203,287"/>
+<area shape="poly" title=" " alt="" coords="675,195,459,215,336,233,215,257,204,260,202,255,213,252,335,228,459,210,675,190"/>
+<area shape="rect" title=" " alt="" coords="227,262,268,287"/>
+<area shape="poly" title=" " alt="" coords="675,199,456,223,353,239,280,257,278,258,276,253,279,252,352,234,455,218,675,194"/>
+<area shape="rect" title=" " alt="" coords="292,262,363,287"/>
+<area shape="poly" title=" " alt="" coords="675,201,531,222,453,238,376,257,368,260,367,255,375,252,451,233,530,217,675,196"/>
+<area shape="rect" title=" " alt="" coords="387,262,465,287"/>
+<area shape="poly" title=" " alt="" coords="679,209,580,230,477,257,470,260,468,255,476,252,579,225,678,204"/>
+<area shape="rect" title=" " alt="" coords="489,262,565,287"/>
+<area shape="poly" title=" " alt="" coords="726,209,578,257,572,259,570,254,576,252,724,204"/>
+<area shape="rect" title=" " alt="" coords="589,262,676,287"/>
+<area shape="poly" title=" " alt="" coords="758,209,669,258,666,253,756,205"/>
+<area shape="rect" title=" " alt="" coords="700,262,789,287"/>
+<area shape="poly" title=" " alt="" coords="785,208,761,251,756,249,780,206"/>
+<area shape="rect" title=" " alt="" coords="814,262,873,287"/>
+<area shape="poly" title=" " alt="" coords="808,206,832,249,827,251,803,208"/>
+<area shape="rect" title=" " alt="" coords="787,350,879,375"/>
+<area shape="poly" title=" " alt="" coords="838,205,865,225,887,254,892,277,886,301,873,323,858,342,854,339,869,320,881,299,887,277,882,256,862,229,834,209"/>
+<area shape="rect" title=" " alt="" coords="1263,262,1360,287"/>
+<area shape="poly" title=" " alt="" coords="913,198,1071,220,1244,252,1259,256,1258,261,1243,257,1070,225,913,203"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="998,255,1187,295"/>
+<area shape="poly" title=" " alt="" coords="863,204,1012,248,1011,253,861,209"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="903,343,1157,383"/>
+<area shape="poly" title=" " alt="" coords="832,205,908,252,958,293,1001,331,997,335,954,297,904,257,829,209"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1182,343,1395,383"/>
+<area shape="poly" title=" " alt="" coords="913,195,1077,217,1150,233,1201,252,1223,269,1243,288,1273,329,1269,332,1239,292,1220,273,1198,257,1148,238,1076,222,913,200"/>
+<area shape="poly" title=" " alt="" coords="1033,297,891,345,883,348,881,343,889,340,1031,292"/>
+<area shape="poly" title=" " alt="" coords="1080,297,1054,333,1050,330,1076,294"/>
+<area shape="poly" title=" " alt="" coords="1139,292,1233,335,1230,339,1137,297"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01261.png" border="0" usemap="#aILumexJsonSchemaValidator_8hppdep" alt=""/></div>
+<map name="aILumexJsonSchemaValidator_8hppdep" id="aILumexJsonSchemaValidator_8hppdep">
+<area shape="rect" title="Contract for checking raw JSON text against a schema." alt="" coords="57,5,291,31"/>
+<area shape="rect" href="a01334.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="127,152,221,177"/>
+<area shape="poly" title=" " alt="" coords="151,42,136,60,126,79,124,99,132,118,159,150,155,153,127,121,119,100,121,78,132,57,147,39"/>
+<area shape="rect" href="a01262.html" title="Validate&#45;only checker for one schema tree." alt="" coords="136,79,367,104"/>
+<area shape="poly" title=" " alt="" coords="199,38,239,76,236,80,195,42"/>
+<area shape="rect" href="a00416.html" title=" " alt="" coords="5,225,145,251"/>
+<area shape="poly" title=" " alt="" coords="147,188,95,227,91,223,144,183"/>
+<area shape="rect" href="a00413.html" title=" " alt="" coords="170,225,375,251"/>
+<area shape="poly" title=" " alt="" coords="204,183,257,223,253,227,201,188"/>
+<area shape="poly" title=" " alt="" coords="230,115,190,153,186,150,226,111"/>
+</map>
+</div>
+</div>
+<p><a href="a01259_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01735.html">lumex::applied::json::validation::ILumexJsonSchemaValidator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks raw JSON text against the schema of the implementation. Builds nothing: a conforming document just returns.  <a href="a01735.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01440.html">lumex::applied::json</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01447.html">lumex::applied::json::validation</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CPUID extended feature flags (EDX register, function 0x80000001) </p>
+<div class="textblock"><p>Contract for checking raw JSON text against a schema. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01250.html">hardware</a></li><li class="navelem"><a class="el" href="a01251.html">caps</a></li><li class="navelem"><a class="el" href="a01259.html">CPUIDEDXExtFlags</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_3e92e8848bcd01e21718dfea84e9b21e.html">json</a></li><li class="navelem"><a class="el" href="dir_1fba93ce821cdd13ae0e389f6b0eec57.html">validation</a></li><li class="navelem"><a class="el" href="a01259.html">ILumexJsonSchemaValidator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

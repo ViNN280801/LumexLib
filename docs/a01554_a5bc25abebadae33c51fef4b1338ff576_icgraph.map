@@ -1,0 +1,26 @@
+<map id="lumex::core::optional::opt::detail::invoke" name="lumex::core::optional::opt::detail::invoke">
+<area shape="rect" id="Node000001" title="INVOKE of a pointer to a member function." alt="" coords="512,289,672,329"/>
+<area shape="poly" id="edge11_Node000001_Node000001" title=" " alt="" coords="631,277,617,270,592,267,570,269,557,274,552,280,554,288,549,289,547,279,553,270,569,264,592,262,619,265,633,272"/>
+<area shape="rect" id="Node000002" href="$a03407.html#a40f507affaf3bf46c0590585c03c2e27" title=" " alt="" coords="5,5,211,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="582,276,568,228,545,172,510,116,488,92,463,72,434,57,403,45,338,31,272,28,211,31,211,26,272,22,338,26,404,40,436,52,465,68,492,88,514,113,549,169,573,226,588,275"/>
+<area shape="rect" id="Node000003" href="$a03407.html#af6db964415aec338326d300c1a01d9a4" title=" " alt="" coords="259,107,464,191"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="556,282,462,212,433,193,436,189,466,208,559,278"/>
+<area shape="rect" id="Node000004" href="$a03407.html#a93ba72bd9ee3b5c2372bc315ec590ee1" title=" " alt="" coords="5,117,211,201"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="513,287,210,194,212,189,515,282"/>
+<area shape="rect" id="Node000005" href="$a03407.html#a2681e04e72e151c8ba4314a949cf5030" title=" " alt="" coords="5,235,211,319"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="498,305,211,286,211,281,498,300"/>
+<area shape="rect" id="Node000006" href="$a01554.html#a6e079a46148550bb63fe6ff5249f2989" title="INVOKE of a function object or a function pointer." alt="" coords="281,317,441,357"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="499,323,442,330,441,324,498,317"/>
+<area shape="rect" id="Node000007" href="$a01554.html#a2425032f49c0a1e321a29743d8cb1e0b" title="INVOKE of a pointer to a data member." alt="" coords="281,381,441,421"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="542,337,465,371,431,383,429,378,463,366,539,332"/>
+<area shape="rect" id="Node000008" href="$a03407.html#aa9d945c2261070ef030cbe448cef2a52" title=" " alt="" coords="5,468,211,552"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="571,341,525,390,497,415,465,435,429,447,366,462,211,493,210,488,365,457,428,442,463,430,494,410,522,386,567,338"/>
+<area shape="rect" id="Node000009" href="$a03407.html#a65fe132109831697f977d44cb7a79034" title=" " alt="" coords="259,520,464,604"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="573,342,526,407,466,479,418,522,415,518,462,475,522,404,569,339"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="245,105,210,91,212,86,247,100"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="397,96,383,88,361,85,344,87,331,92,324,98,321,107,316,105,319,95,328,87,342,82,361,80,385,83,400,92"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="245,156,211,158,211,152,245,151"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="267,199,193,237,190,232,265,194"/>
+<area shape="poly" id="edge14_Node000009_Node000008" title=" " alt="" coords="245,541,210,534,211,528,246,536"/>
+<area shape="poly" id="edge15_Node000009_Node000009" title=" " alt="" coords="397,510,383,502,361,499,344,500,331,505,324,512,321,520,316,519,319,509,328,501,342,495,361,493,385,497,400,505"/>
+</map>

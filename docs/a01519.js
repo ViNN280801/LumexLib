@@ -1,5 +1,7 @@
 var a01519 =
 [
-    [ "XPathLexer", "a05118.html", "a05118" ],
-    [ "XPathLexerString", "a05122.html", "a05122" ]
+    [ "crash", "a01520.html", "a01520" ],
+    [ "exception", "a01521.html", "a01521" ],
+    [ "stacktrace", "a01525.html", "a01525" ],
+    [ "Wrapper", "a01522.html", "a01522" ]
 ];

@@ -1,0 +1,21 @@
+<map id="lumex::core::circular_buffer::circular_buffer::end" name="lumex::core::circular_buffer::circular_buffer::end">
+<area shape="rect" id="Node000001" title="Returns an iterator to the end of the logical sequence." alt="" coords="221,313,421,353"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a8aa22408251f71bb42fa75dff4872ced" title="Creates a buffer of the given capacity with the elements of a list." alt="" coords="5,5,173,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="308,301,288,251,259,191,220,129,172,73,157,62,160,58,175,69,224,126,264,189,293,249,313,299"/>
+<area shape="rect" id="Node000003" href="$a02055.html#ad9fc69f20c654d7c5eec9d47ca01ba11" title="Creates a full buffer with the elements of a list (capacity = size of the list)." alt="" coords="5,84,173,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="300,303,247,229,212,188,172,152,155,141,158,137,175,148,215,184,251,225,305,300"/>
+<area shape="rect" id="Node000004" href="$a02055.html#a2a5647d226cd62f12ab87fc0b3bb6ae0" title="Removes the elements of the range [first, last)." alt="" coords="5,163,173,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="283,306,231,269,172,231,151,220,154,215,175,226,234,264,286,302"/>
+<area shape="rect" id="Node000005" href="$a02055.html#a2006d226aafed348f784ad574629ec0d" title="Removes the element at pos." alt="" coords="5,241,173,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="235,312,173,294,174,289,236,306"/>
+<area shape="rect" id="Node000006" href="$a00365.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="62,320,117,345"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="208,335,117,335,117,330,208,330"/>
+<area shape="rect" id="Node000007" href="$a01508.html#ab31b57a2f48a8cc6cb6d59a705f85077" title="&quot;less&quot; operator for two circular_buffer objects." alt="" coords="12,370,167,410"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="228,359,168,373,166,368,227,353"/>
+<area shape="rect" id="Node000008" href="$a01508.html#a8fbbc29c93a46693d7503140bdc54133" title="Equality comparison of two circular_buffer objects." alt="" coords="12,434,167,474"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="282,362,231,394,175,424,147,436,145,431,172,420,229,389,279,358"/>
+<area shape="rect" id="Node000009" href="$a02055.html#a430c34c1a466f0956e415d7199ec8b7a" title="Returns a reverse iterator to the start of the reverse sequence." alt="" coords="5,499,173,553"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="299,365,246,426,212,458,175,488,155,501,152,496,172,484,208,454,242,422,295,362"/>
+<area shape="rect" id="Node000010" href="$a02055.html#ad04d1ed4e0564ed9550a76c62238639e" title="Returns a const reverse iterator to the start of the reverse sequence." alt="" coords="5,577,173,632"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="310,366,289,410,259,463,221,518,175,567,158,579,155,575,172,563,217,514,254,460,284,408,305,364"/>
+</map>

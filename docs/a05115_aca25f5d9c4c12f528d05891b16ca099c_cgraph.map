@@ -1,0 +1,8 @@
+<map id="lumex::xml::attribute::XmlAttribute::as_bool" name="lumex::xml::attribute::XmlAttribute::as_bool">
+<area shape="rect" id="Node000001" title="Converts the attribute&#39;s value to a bool." alt="" coords="5,49,176,89"/>
+<area shape="rect" id="Node000002" href="$a01671.html#a7c92f20ccd138b7f216099fba99c9d6f" title=" " alt="" coords="233,5,375,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,49,219,40,220,45,177,54"/>
+<area shape="rect" id="Node000003" href="$a05115.html#a40dc4738d939dd04914625f44b5e01c8" title="Retrieves the value of the XML attribute as a C&#45;style string." alt="" coords="224,93,384,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,84,211,91,210,97,176,90"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="264,94,262,84,268,74,282,69,304,67,329,70,343,77,340,82,327,75,304,72,284,74,271,79,267,85,269,92"/>
+</map>

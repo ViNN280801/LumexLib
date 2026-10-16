@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::span::view::span&lt; ElementType, Extent &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a04030.html',''); initResizable(true); });
+$(function(){initNavTree('a04027.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,2412 @@ $(function(){initNavTree('a04030.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::string_view::view::detail::make_void&lt;... &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="a04024.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::span::view::span&lt; ElementType, Extent &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a04030.html">lumex::core::string_view::view::detail::make_void&lt;... &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a04030.html#abc1ffd60b951c5dc3c9b0571e8f6f229">type</a> typedef</td><td class="entry"><a class="el" href="a04030.html">lumex::core::string_view::view::detail::make_void&lt;... &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>A non-owning view of a contiguous sequence of objects.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01046_source.html">LumexSpan.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a9491b5963c76b5aee9e6a2025c152e59" id="r_a9491b5963c76b5aee9e6a2025c152e59"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> = ElementType</td></tr>
+<tr class="memdesc:a9491b5963c76b5aee9e6a2025c152e59"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the viewed objects.  <br /></td></tr>
+<tr class="separator:a9491b5963c76b5aee9e6a2025c152e59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d26cae543f9da5ef87e743546be20f6" id="r_a1d26cae543f9da5ef87e743546be20f6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d26cae543f9da5ef87e743546be20f6">value_type</a> = typename std::remove_cv&lt;ElementType&gt;::type</td></tr>
+<tr class="memdesc:a1d26cae543f9da5ef87e743546be20f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element type without cv qualifiers.  <br /></td></tr>
+<tr class="separator:a1d26cae543f9da5ef87e743546be20f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19d79eb9ea318c537f4aa3f7a87dc458" id="r_a19d79eb9ea318c537f4aa3f7a87dc458"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> = std::size_t</td></tr>
+<tr class="memdesc:a19d79eb9ea318c537f4aa3f7a87dc458"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of sizes and indices.  <br /></td></tr>
+<tr class="separator:a19d79eb9ea318c537f4aa3f7a87dc458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a81637f19b63624c4f314ca0cebec08" id="r_a4a81637f19b63624c4f314ca0cebec08"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a81637f19b63624c4f314ca0cebec08">difference_type</a> = std::ptrdiff_t</td></tr>
+<tr class="memdesc:a4a81637f19b63624c4f314ca0cebec08"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of differences of iterators.  <br /></td></tr>
+<tr class="separator:a4a81637f19b63624c4f314ca0cebec08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb05ce8f00104c5f1ed5153706cedb7" id="r_a7cb05ce8f00104c5f1ed5153706cedb7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7cb05ce8f00104c5f1ed5153706cedb7">pointer</a> = <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> *</td></tr>
+<tr class="memdesc:a7cb05ce8f00104c5f1ed5153706cedb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to an element.  <br /></td></tr>
+<tr class="separator:a7cb05ce8f00104c5f1ed5153706cedb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dfdab2b71aa53a0588084fc3188b508" id="r_a3dfdab2b71aa53a0588084fc3188b508"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dfdab2b71aa53a0588084fc3188b508">const_pointer</a> = <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> const *</td></tr>
+<tr class="memdesc:a3dfdab2b71aa53a0588084fc3188b508"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to a const element.  <br /></td></tr>
+<tr class="separator:a3dfdab2b71aa53a0588084fc3188b508"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a607bd900211abf1dd08811c9995c54e2" id="r_a607bd900211abf1dd08811c9995c54e2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a> = <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &amp;</td></tr>
+<tr class="memdesc:a607bd900211abf1dd08811c9995c54e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to an element.  <br /></td></tr>
+<tr class="separator:a607bd900211abf1dd08811c9995c54e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5accf167317c5852e45133884f76cc82" id="r_a5accf167317c5852e45133884f76cc82"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5accf167317c5852e45133884f76cc82">const_reference</a> = <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> const &amp;</td></tr>
+<tr class="memdesc:a5accf167317c5852e45133884f76cc82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to a const element.  <br /></td></tr>
+<tr class="separator:a5accf167317c5852e45133884f76cc82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15b0ab9463e52886f47c6c74606ba8d2" id="r_a15b0ab9463e52886f47c6c74606ba8d2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15b0ab9463e52886f47c6c74606ba8d2">iterator</a> = <a class="el" href="#a7cb05ce8f00104c5f1ed5153706cedb7">pointer</a></td></tr>
+<tr class="memdesc:a15b0ab9463e52886f47c6c74606ba8d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The iterator: a raw pointer, so the view is a contiguous range.  <br /></td></tr>
+<tr class="separator:a15b0ab9463e52886f47c6c74606ba8d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8596f17daf260d17a04ed3d890dde55c" id="r_a8596f17daf260d17a04ed3d890dde55c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8596f17daf260d17a04ed3d890dde55c">const_iterator</a> = <a class="el" href="#a3dfdab2b71aa53a0588084fc3188b508">const_pointer</a></td></tr>
+<tr class="memdesc:a8596f17daf260d17a04ed3d890dde55c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constant iterator (C++23 in the standard): a pointer to const.  <br /></td></tr>
+<tr class="separator:a8596f17daf260d17a04ed3d890dde55c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa874bf43632bf31c4d9abf2524cc8bac" id="r_aa874bf43632bf31c4d9abf2524cc8bac"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa874bf43632bf31c4d9abf2524cc8bac">reverse_iterator</a> = std::reverse_iterator&lt;<a class="el" href="#a15b0ab9463e52886f47c6c74606ba8d2">iterator</a>&gt;</td></tr>
+<tr class="memdesc:aa874bf43632bf31c4d9abf2524cc8bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The reverse iterator.  <br /></td></tr>
+<tr class="separator:aa874bf43632bf31c4d9abf2524cc8bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e6e6cd38e94f4989611ae76aa09744b" id="r_a1e6e6cd38e94f4989611ae76aa09744b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e6e6cd38e94f4989611ae76aa09744b">const_reverse_iterator</a> = std::reverse_iterator&lt;<a class="el" href="#a8596f17daf260d17a04ed3d890dde55c">const_iterator</a>&gt;</td></tr>
+<tr class="memdesc:a1e6e6cd38e94f4989611ae76aa09744b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constant reverse iterator (C++23 in the standard).  <br /></td></tr>
+<tr class="separator:a1e6e6cd38e94f4989611ae76aa09744b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a6f7600a90e7ecaae32edf5924fcfa612" id="r_a6f7600a90e7ecaae32edf5924fcfa612"><td class="memTemplParams" colspan="2">template&lt;std::size_t Size = Extent, typename std::enable_if&lt; Size==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>||Size==0, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a6f7600a90e7ecaae32edf5924fcfa612"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a6f7600a90e7ecaae32edf5924fcfa612">span</a> () noexcept</td></tr>
+<tr class="memdesc:a6f7600a90e7ecaae32edf5924fcfa612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty span.  <br /></td></tr>
+<tr class="separator:a6f7600a90e7ecaae32edf5924fcfa612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7036a71b9b1d63512b727049faeda0d6" id="r_a7036a71b9b1d63512b727049faeda0d6"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename std::enable_if&lt; Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04147.html">detail::is_compatible_iterator</a>&lt; Iterator, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a7036a71b9b1d63512b727049faeda0d6"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7036a71b9b1d63512b727049faeda0d6">span</a> (Iterator <a class="el" href="#aa847f85780dba4fa954740d7d9fd0f27">first</a>, <a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> count) noexcept</td></tr>
+<tr class="memdesc:a7036a71b9b1d63512b727049faeda0d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of <code>count</code> elements starting at <code>first</code>.  <br /></td></tr>
+<tr class="separator:a7036a71b9b1d63512b727049faeda0d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7036a71b9b1d63512b727049faeda0d6" id="r_a7036a71b9b1d63512b727049faeda0d6"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename std::enable_if&lt; Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04147.html">detail::is_compatible_iterator</a>&lt; Iterator, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value, long &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a7036a71b9b1d63512b727049faeda0d6"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7036a71b9b1d63512b727049faeda0d6">span</a> (Iterator <a class="el" href="#aa847f85780dba4fa954740d7d9fd0f27">first</a>, <a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> count) noexcept</td></tr>
+<tr class="memdesc:a7036a71b9b1d63512b727049faeda0d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of <code>count</code> elements starting at <code>first</code>.     <br /></td></tr>
+<tr class="separator:a7036a71b9b1d63512b727049faeda0d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46fb58083be5feae8d267eb313db196e" id="r_a46fb58083be5feae8d267eb313db196e"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Sentinel, typename std::enable_if&lt; Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04147.html">detail::is_compatible_iterator</a>&lt; Iterator, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;<a class="el" href="a04155.html">detail::is_sized_sentinel</a>&lt; Sentinel, Iterator &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a46fb58083be5feae8d267eb313db196e"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a46fb58083be5feae8d267eb313db196e">span</a> (Iterator <a class="el" href="#aa847f85780dba4fa954740d7d9fd0f27">first</a>, Sentinel <a class="el" href="#ad4abbc4006bca1e6fce5d5a980de958f">last</a>) noexcept(noexcept(std::declval&lt; Sentinel &amp; &gt;() - std::declval&lt; Iterator &amp; &gt;()))</td></tr>
+<tr class="memdesc:a46fb58083be5feae8d267eb313db196e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of the range <code>[first, last)</code>.  <br /></td></tr>
+<tr class="separator:a46fb58083be5feae8d267eb313db196e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46fb58083be5feae8d267eb313db196e" id="r_a46fb58083be5feae8d267eb313db196e"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Sentinel, typename std::enable_if&lt; Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04147.html">detail::is_compatible_iterator</a>&lt; Iterator, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;<a class="el" href="a04155.html">detail::is_sized_sentinel</a>&lt; Sentinel, Iterator &gt;::value, long &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a46fb58083be5feae8d267eb313db196e"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a46fb58083be5feae8d267eb313db196e">span</a> (Iterator <a class="el" href="#aa847f85780dba4fa954740d7d9fd0f27">first</a>, Sentinel <a class="el" href="#ad4abbc4006bca1e6fce5d5a980de958f">last</a>) noexcept(noexcept(std::declval&lt; Sentinel &amp; &gt;() - std::declval&lt; Iterator &amp; &gt;()))</td></tr>
+<tr class="memdesc:a46fb58083be5feae8d267eb313db196e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of the range <code>[first, last)</code>.     <br /></td></tr>
+<tr class="separator:a46fb58083be5feae8d267eb313db196e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2396846c6db1d50a2e9854446e528a8" id="r_af2396846c6db1d50a2e9854446e528a8"><td class="memTemplParams" colspan="2">template&lt;std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:af2396846c6db1d50a2e9854446e528a8"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af2396846c6db1d50a2e9854446e528a8">span</a> (typename std::enable_if&lt; true, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::type(&amp;array)[N]) noexcept</td></tr>
+<tr class="memdesc:af2396846c6db1d50a2e9854446e528a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of a built-in array.  <br /></td></tr>
+<tr class="separator:af2396846c6db1d50a2e9854446e528a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3baf5eb2c14ae5ef23575f368ce4a2c1" id="r_a3baf5eb2c14ae5ef23575f368ce4a2c1"><td class="memTemplParams" colspan="2">template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04043.html">detail::is_array_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a3baf5eb2c14ae5ef23575f368ce4a2c1"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3baf5eb2c14ae5ef23575f368ce4a2c1">span</a> (std::array&lt; U, N &gt; &amp;array) noexcept</td></tr>
+<tr class="memdesc:a3baf5eb2c14ae5ef23575f368ce4a2c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of a <code>std::array</code>.  <br /></td></tr>
+<tr class="separator:a3baf5eb2c14ae5ef23575f368ce4a2c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6317e48bbcafa764b5db67590fe6cb8" id="r_aa6317e48bbcafa764b5db67590fe6cb8"><td class="memTemplParams" colspan="2">template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04043.html">detail::is_array_convertible</a>&lt; U const, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:aa6317e48bbcafa764b5db67590fe6cb8"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa6317e48bbcafa764b5db67590fe6cb8">span</a> (std::array&lt; U, N &gt; const &amp;array) noexcept</td></tr>
+<tr class="memdesc:aa6317e48bbcafa764b5db67590fe6cb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of a <code>std::array</code>.     <br /></td></tr>
+<tr class="separator:aa6317e48bbcafa764b5db67590fe6cb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9368a9a24c55eb575bbef4613bf1ea25" id="r_a9368a9a24c55eb575bbef4613bf1ea25"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename std::enable_if&lt; Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04139.html">detail::is_compatible_range</a>&lt; Range, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, Extent &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a9368a9a24c55eb575bbef4613bf1ea25"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9368a9a24c55eb575bbef4613bf1ea25">span</a> (Range &amp;&amp;range) noexcept(noexcept(<a class="el" href="a01566.html#a07dd8478c0e5afece2b1d8149782d3f5">detail::range_data</a>(std::declval&lt; Range &amp; &gt;())) &amp;&amp;noexcept(std::declval&lt; Range &amp; &gt;().<a class="el" href="#ab5393aa7cdc476762748852718a134b7">size</a>()))</td></tr>
+<tr class="memdesc:a9368a9a24c55eb575bbef4613bf1ea25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of a contiguous range.  <br /></td></tr>
+<tr class="separator:a9368a9a24c55eb575bbef4613bf1ea25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9368a9a24c55eb575bbef4613bf1ea25" id="r_a9368a9a24c55eb575bbef4613bf1ea25"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename std::enable_if&lt; Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04139.html">detail::is_compatible_range</a>&lt; Range, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, Extent &gt;::value, long &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a9368a9a24c55eb575bbef4613bf1ea25"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9368a9a24c55eb575bbef4613bf1ea25">span</a> (Range &amp;&amp;range) noexcept(noexcept(<a class="el" href="a01566.html#a07dd8478c0e5afece2b1d8149782d3f5">detail::range_data</a>(std::declval&lt; Range &amp; &gt;())) &amp;&amp;noexcept(std::declval&lt; Range &amp; &gt;().<a class="el" href="#ab5393aa7cdc476762748852718a134b7">size</a>()))</td></tr>
+<tr class="memdesc:a9368a9a24c55eb575bbef4613bf1ea25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a span of a contiguous range.     <br /></td></tr>
+<tr class="separator:a9368a9a24c55eb575bbef4613bf1ea25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3277fda4553402d6b23e566af45e22cf" id="r_a3277fda4553402d6b23e566af45e22cf"><td class="memTemplParams" colspan="2">template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04043.html">detail::is_array_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;(Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>||N !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>), int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a3277fda4553402d6b23e566af45e22cf"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3277fda4553402d6b23e566af45e22cf">span</a> (<a class="el" href="a04027.html">span</a>&lt; U, N &gt; const &amp;other) noexcept</td></tr>
+<tr class="memdesc:a3277fda4553402d6b23e566af45e22cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a span of another element type or extent.  <br /></td></tr>
+<tr class="separator:a3277fda4553402d6b23e566af45e22cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3277fda4553402d6b23e566af45e22cf" id="r_a3277fda4553402d6b23e566af45e22cf"><td class="memTemplParams" colspan="2">template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04043.html">detail::is_array_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;(Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;N==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>), long &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a3277fda4553402d6b23e566af45e22cf"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3277fda4553402d6b23e566af45e22cf">span</a> (<a class="el" href="a04027.html">span</a>&lt; U, N &gt; const &amp;other) noexcept</td></tr>
+<tr class="memdesc:a3277fda4553402d6b23e566af45e22cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a span of another element type or extent.     <br /></td></tr>
+<tr class="separator:a3277fda4553402d6b23e566af45e22cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87f7bf116a9872bd26ce0ac482b5e2d8" id="r_a87f7bf116a9872bd26ce0ac482b5e2d8"><td class="memTemplParams" colspan="2">template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04067.html">detail::is_byte_twin_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;(Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>||N !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>), int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a87f7bf116a9872bd26ce0ac482b5e2d8"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a87f7bf116a9872bd26ce0ac482b5e2d8">span</a> (<a class="el" href="a04027.html">span</a>&lt; U, N &gt; const &amp;other) noexcept</td></tr>
+<tr class="memdesc:a87f7bf116a9872bd26ce0ac482b5e2d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a span of the other byte type (C++17): a <code>span</code> of <code>std::byte</code> to a <code>span</code> of <code>byte</code> and the reverse.  <br /></td></tr>
+<tr class="separator:a87f7bf116a9872bd26ce0ac482b5e2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87f7bf116a9872bd26ce0ac482b5e2d8" id="r_a87f7bf116a9872bd26ce0ac482b5e2d8"><td class="memTemplParams" colspan="2">template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04067.html">detail::is_byte_twin_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;(Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;N==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>), long &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a87f7bf116a9872bd26ce0ac482b5e2d8"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a87f7bf116a9872bd26ce0ac482b5e2d8">span</a> (<a class="el" href="a04027.html">span</a>&lt; U, N &gt; const &amp;other) noexcept</td></tr>
+<tr class="memdesc:a87f7bf116a9872bd26ce0ac482b5e2d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a span of another element type or extent.     <br /></td></tr>
+<tr class="separator:a87f7bf116a9872bd26ce0ac482b5e2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa847f85780dba4fa954740d7d9fd0f27" id="r_aa847f85780dba4fa954740d7d9fd0f27"><td class="memTemplParams" colspan="2">template&lt;std::size_t Count&gt; </td></tr>
+<tr class="memitem:aa847f85780dba4fa954740d7d9fd0f27"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, Count &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa847f85780dba4fa954740d7d9fd0f27">first</a> () const noexcept</td></tr>
+<tr class="memdesc:aa847f85780dba4fa954740d7d9fd0f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">The first <code>Count</code> elements as a span of static extent.  <br /></td></tr>
+<tr class="separator:aa847f85780dba4fa954740d7d9fd0f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4abbc4006bca1e6fce5d5a980de958f" id="r_ad4abbc4006bca1e6fce5d5a980de958f"><td class="memTemplParams" colspan="2">template&lt;std::size_t Count&gt; </td></tr>
+<tr class="memitem:ad4abbc4006bca1e6fce5d5a980de958f"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, Count &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad4abbc4006bca1e6fce5d5a980de958f">last</a> () const noexcept</td></tr>
+<tr class="memdesc:ad4abbc4006bca1e6fce5d5a980de958f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The last <code>Count</code> elements as a span of static extent.  <br /></td></tr>
+<tr class="separator:ad4abbc4006bca1e6fce5d5a980de958f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a83ffe79d91fd182648cca8911f850" id="r_a13a83ffe79d91fd182648cca8911f850"><td class="memTemplParams" colspan="2">template&lt;std::size_t Offset, std::size_t Count = dynamic_extent&gt; </td></tr>
+<tr class="memitem:a13a83ffe79d91fd182648cca8911f850"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, <a class="el" href="a04103.html">detail::subspan_extent</a>&lt; Extent, Offset, Count &gt;::value &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a13a83ffe79d91fd182648cca8911f850">subspan</a> () const noexcept</td></tr>
+<tr class="memdesc:a13a83ffe79d91fd182648cca8911f850"><td class="mdescLeft">&#160;</td><td class="mdescRight">The elements from <code>Offset</code> on, <code>Count</code> of them or all the rest, as a span of static extent where the sizes are known.  <br /></td></tr>
+<tr class="separator:a13a83ffe79d91fd182648cca8911f850"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a519fb6bdd570183c039547be2ea18b6b" id="r_a519fb6bdd570183c039547be2ea18b6b"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a519fb6bdd570183c039547be2ea18b6b">first</a> (<a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> count) const noexcept</td></tr>
+<tr class="memdesc:a519fb6bdd570183c039547be2ea18b6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The first <code>count</code> elements.  <br /></td></tr>
+<tr class="separator:a519fb6bdd570183c039547be2ea18b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2456551f8bf7066e034d58694f358ceb" id="r_a2456551f8bf7066e034d58694f358ceb"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2456551f8bf7066e034d58694f358ceb">last</a> (<a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> count) const noexcept</td></tr>
+<tr class="memdesc:a2456551f8bf7066e034d58694f358ceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The last <code>count</code> elements.  <br /></td></tr>
+<tr class="separator:a2456551f8bf7066e034d58694f358ceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa817167818526a7824a3312aee8b8c46" id="r_aa817167818526a7824a3312aee8b8c46"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa817167818526a7824a3312aee8b8c46">subspan</a> (<a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> offset, <a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> count=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>) const noexcept</td></tr>
+<tr class="memdesc:aa817167818526a7824a3312aee8b8c46"><td class="mdescLeft">&#160;</td><td class="mdescRight">The elements from <code>offset</code> on, <code>count</code> of them or all the rest.  <br /></td></tr>
+<tr class="separator:aa817167818526a7824a3312aee8b8c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5393aa7cdc476762748852718a134b7" id="r_ab5393aa7cdc476762748852718a134b7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5393aa7cdc476762748852718a134b7">size</a> () const noexcept</td></tr>
+<tr class="memdesc:ab5393aa7cdc476762748852718a134b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of elements.  <br /></td></tr>
+<tr class="separator:ab5393aa7cdc476762748852718a134b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e33ca67de15b68692040ee4bd5fbf98" id="r_a7e33ca67de15b68692040ee4bd5fbf98"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e33ca67de15b68692040ee4bd5fbf98">size_bytes</a> () const noexcept</td></tr>
+<tr class="memdesc:a7e33ca67de15b68692040ee4bd5fbf98"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the viewed sequence in bytes.  <br /></td></tr>
+<tr class="separator:a7e33ca67de15b68692040ee4bd5fbf98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ef06cbc786fe62ea93cbdf2794a432f" id="r_a0ef06cbc786fe62ea93cbdf2794a432f"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ef06cbc786fe62ea93cbdf2794a432f">empty</a> () const noexcept</td></tr>
+<tr class="memdesc:a0ef06cbc786fe62ea93cbdf2794a432f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells whether the span has no elements.  <br /></td></tr>
+<tr class="separator:a0ef06cbc786fe62ea93cbdf2794a432f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada9aa5f4fefe677db0adb18c75fbfec5" id="r_ada9aa5f4fefe677db0adb18c75fbfec5"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada9aa5f4fefe677db0adb18c75fbfec5">operator[]</a> (<a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> index) const noexcept</td></tr>
+<tr class="memdesc:ada9aa5f4fefe677db0adb18c75fbfec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element at <code>index</code>.  <br /></td></tr>
+<tr class="separator:ada9aa5f4fefe677db0adb18c75fbfec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d97d6e5db14203a46ee1e31caa181de" id="r_a7d97d6e5db14203a46ee1e31caa181de"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d97d6e5db14203a46ee1e31caa181de">at</a> (<a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> index) const</td></tr>
+<tr class="memdesc:a7d97d6e5db14203a46ee1e31caa181de"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element at <code>index</code>, checked (C++26 in the standard).  <br /></td></tr>
+<tr class="separator:a7d97d6e5db14203a46ee1e31caa181de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af227a2d7f284a6e0b8b227853bf790c5" id="r_af227a2d7f284a6e0b8b227853bf790c5"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af227a2d7f284a6e0b8b227853bf790c5">front</a> () const noexcept</td></tr>
+<tr class="memdesc:af227a2d7f284a6e0b8b227853bf790c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The first element.  <br /></td></tr>
+<tr class="separator:af227a2d7f284a6e0b8b227853bf790c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab524cd456985fe4919c119a5a15317be" id="r_ab524cd456985fe4919c119a5a15317be"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab524cd456985fe4919c119a5a15317be">back</a> () const noexcept</td></tr>
+<tr class="memdesc:ab524cd456985fe4919c119a5a15317be"><td class="mdescLeft">&#160;</td><td class="mdescRight">The last element.  <br /></td></tr>
+<tr class="separator:ab524cd456985fe4919c119a5a15317be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23f2616fb1cd5353aeb698bf801d62c9" id="r_a23f2616fb1cd5353aeb698bf801d62c9"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a7cb05ce8f00104c5f1ed5153706cedb7">pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23f2616fb1cd5353aeb698bf801d62c9">data</a> () const noexcept</td></tr>
+<tr class="memdesc:a23f2616fb1cd5353aeb698bf801d62c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the first element; <code>nullptr</code> or a past-the-end pointer when the span is empty.  <br /></td></tr>
+<tr class="separator:a23f2616fb1cd5353aeb698bf801d62c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84210bd8411fe7434b1587c41848751e" id="r_a84210bd8411fe7434b1587c41848751e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a15b0ab9463e52886f47c6c74606ba8d2">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84210bd8411fe7434b1587c41848751e">begin</a> () const noexcept</td></tr>
+<tr class="memdesc:a84210bd8411fe7434b1587c41848751e"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator to the first element.  <br /></td></tr>
+<tr class="separator:a84210bd8411fe7434b1587c41848751e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66306398cbf1a641bad4eb31005d0bfe" id="r_a66306398cbf1a641bad4eb31005d0bfe"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a15b0ab9463e52886f47c6c74606ba8d2">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66306398cbf1a641bad4eb31005d0bfe">end</a> () const noexcept</td></tr>
+<tr class="memdesc:a66306398cbf1a641bad4eb31005d0bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator to the end of the span.  <br /></td></tr>
+<tr class="separator:a66306398cbf1a641bad4eb31005d0bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea8c6543ef0993bc7bf68782dfd8eb69" id="r_aea8c6543ef0993bc7bf68782dfd8eb69"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a8596f17daf260d17a04ed3d890dde55c">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea8c6543ef0993bc7bf68782dfd8eb69">cbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:aea8c6543ef0993bc7bf68782dfd8eb69"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant iterator to the first element (C++23 in the standard).  <br /></td></tr>
+<tr class="separator:aea8c6543ef0993bc7bf68782dfd8eb69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af848e20593f72b3d582626b1222e5dff" id="r_af848e20593f72b3d582626b1222e5dff"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a8596f17daf260d17a04ed3d890dde55c">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af848e20593f72b3d582626b1222e5dff">cend</a> () const noexcept</td></tr>
+<tr class="memdesc:af848e20593f72b3d582626b1222e5dff"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant iterator to the end of the span (C++23 in the standard).  <br /></td></tr>
+<tr class="separator:af848e20593f72b3d582626b1222e5dff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71eadcb7899227393d70f0b0e236fa38" id="r_a71eadcb7899227393d70f0b0e236fa38"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#aa874bf43632bf31c4d9abf2524cc8bac">reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71eadcb7899227393d70f0b0e236fa38">rbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:a71eadcb7899227393d70f0b0e236fa38"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reverse iterator to the last element.  <br /></td></tr>
+<tr class="separator:a71eadcb7899227393d70f0b0e236fa38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5e8384b88145ebd85ef941e96e64e1d" id="r_ae5e8384b88145ebd85ef941e96e64e1d"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#aa874bf43632bf31c4d9abf2524cc8bac">reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5e8384b88145ebd85ef941e96e64e1d">rend</a> () const noexcept</td></tr>
+<tr class="memdesc:ae5e8384b88145ebd85ef941e96e64e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reverse iterator to the end of the reversed span.  <br /></td></tr>
+<tr class="separator:ae5e8384b88145ebd85ef941e96e64e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a556e990ef3e39e964844880c43a4db83" id="r_a556e990ef3e39e964844880c43a4db83"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a1e6e6cd38e94f4989611ae76aa09744b">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a556e990ef3e39e964844880c43a4db83">crbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:a556e990ef3e39e964844880c43a4db83"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant reverse iterator to the last element (C++23 in the standard).  <br /></td></tr>
+<tr class="separator:a556e990ef3e39e964844880c43a4db83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade193942a8566989fd8323efb0fe430a" id="r_ade193942a8566989fd8323efb0fe430a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a1e6e6cd38e94f4989611ae76aa09744b">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade193942a8566989fd8323efb0fe430a">crend</a> () const noexcept</td></tr>
+<tr class="memdesc:ade193942a8566989fd8323efb0fe430a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant reverse iterator to the end of the reversed span (C++23 in the standard).  <br /></td></tr>
+<tr class="separator:ade193942a8566989fd8323efb0fe430a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a2222da4fbacb01ff4c2f34ee281025d6" id="r_a2222da4fbacb01ff4c2f34ee281025d6"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2222da4fbacb01ff4c2f34ee281025d6">extent</a> = Extent</td></tr>
+<tr class="memdesc:a2222da4fbacb01ff4c2f34ee281025d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of elements, or <code>dynamic_extent</code>.  <br /></td></tr>
+<tr class="separator:a2222da4fbacb01ff4c2f34ee281025d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename ElementType, std::size_t Extent&gt;<br />
+class lumex::core::span::view::span&lt; ElementType, Extent &gt;</div><p>A non-owning view of a contiguous sequence of objects. </p>
+<p>See the file description for the rules each constructor follows. <code>span</code> is trivially copyable. Every member function is <code>constexpr</code> as far as the standard in use allows, and none throws except <code>at</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ElementType</td><td>The type of the viewed objects: an object type, not <code>void</code>, complete where an element is accessed (a class may hold a span of itself); may be const. </td></tr>
+    <tr><td class="paramname">Extent</td><td>The number of objects, or <code>dynamic_extent</code> when it is known at run time. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a8596f17daf260d17a04ed3d890dde55c" name="a8596f17daf260d17a04ed3d890dde55c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8596f17daf260d17a04ed3d890dde55c">&#9670;&#160;</a></span>const_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::const_iterator = <a class="el" href="#a3dfdab2b71aa53a0588084fc3188b508">const_pointer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The constant iterator (C++23 in the standard): a pointer to const. </p>
+
+</div>
+</div>
+<a id="a3dfdab2b71aa53a0588084fc3188b508" name="a3dfdab2b71aa53a0588084fc3188b508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dfdab2b71aa53a0588084fc3188b508">&#9670;&#160;</a></span>const_pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::const_pointer = <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> const *</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pointer to a const element. </p>
+
+</div>
+</div>
+<a id="a5accf167317c5852e45133884f76cc82" name="a5accf167317c5852e45133884f76cc82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5accf167317c5852e45133884f76cc82">&#9670;&#160;</a></span>const_reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::const_reference = <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> const &amp;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reference to a const element. </p>
+
+</div>
+</div>
+<a id="a1e6e6cd38e94f4989611ae76aa09744b" name="a1e6e6cd38e94f4989611ae76aa09744b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e6e6cd38e94f4989611ae76aa09744b">&#9670;&#160;</a></span>const_reverse_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::const_reverse_iterator = std::reverse_iterator&lt;<a class="el" href="#a8596f17daf260d17a04ed3d890dde55c">const_iterator</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The constant reverse iterator (C++23 in the standard). </p>
+
+</div>
+</div>
+<a id="a4a81637f19b63624c4f314ca0cebec08" name="a4a81637f19b63624c4f314ca0cebec08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a81637f19b63624c4f314ca0cebec08">&#9670;&#160;</a></span>difference_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::difference_type = std::ptrdiff_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of differences of iterators. </p>
+
+</div>
+</div>
+<a id="a9491b5963c76b5aee9e6a2025c152e59" name="a9491b5963c76b5aee9e6a2025c152e59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9491b5963c76b5aee9e6a2025c152e59">&#9670;&#160;</a></span>element_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::element_type = ElementType</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of the viewed objects. </p>
+
+</div>
+</div>
+<a id="a15b0ab9463e52886f47c6c74606ba8d2" name="a15b0ab9463e52886f47c6c74606ba8d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15b0ab9463e52886f47c6c74606ba8d2">&#9670;&#160;</a></span>iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::iterator = <a class="el" href="#a7cb05ce8f00104c5f1ed5153706cedb7">pointer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The iterator: a raw pointer, so the view is a contiguous range. </p>
+
+</div>
+</div>
+<a id="a7cb05ce8f00104c5f1ed5153706cedb7" name="a7cb05ce8f00104c5f1ed5153706cedb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cb05ce8f00104c5f1ed5153706cedb7">&#9670;&#160;</a></span>pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::pointer = <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> *</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pointer to an element. </p>
+
+</div>
+</div>
+<a id="a607bd900211abf1dd08811c9995c54e2" name="a607bd900211abf1dd08811c9995c54e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a607bd900211abf1dd08811c9995c54e2">&#9670;&#160;</a></span>reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::reference = <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &amp;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reference to an element. </p>
+
+</div>
+</div>
+<a id="aa874bf43632bf31c4d9abf2524cc8bac" name="aa874bf43632bf31c4d9abf2524cc8bac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa874bf43632bf31c4d9abf2524cc8bac">&#9670;&#160;</a></span>reverse_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::reverse_iterator = std::reverse_iterator&lt;<a class="el" href="#a15b0ab9463e52886f47c6c74606ba8d2">iterator</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The reverse iterator. </p>
+
+</div>
+</div>
+<a id="a19d79eb9ea318c537f4aa3f7a87dc458" name="a19d79eb9ea318c537f4aa3f7a87dc458"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19d79eb9ea318c537f4aa3f7a87dc458">&#9670;&#160;</a></span>size_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::size_type = std::size_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of sizes and indices. </p>
+
+</div>
+</div>
+<a id="a1d26cae543f9da5ef87e743546be20f6" name="a1d26cae543f9da5ef87e743546be20f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d26cae543f9da5ef87e743546be20f6">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::value_type = typename std::remove_cv&lt;ElementType&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The element type without cv qualifiers. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6f7600a90e7ecaae32edf5924fcfa612" name="a6f7600a90e7ecaae32edf5924fcfa612"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f7600a90e7ecaae32edf5924fcfa612">&#9670;&#160;</a></span>span() <span class="overload">[1/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;std::size_t Size = Extent, typename std::enable_if&lt; Size==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>||Size==0, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs an empty span. </p>
+<p>Takes part in overload resolution only when <code>Extent</code> is <code>dynamic_extent</code> or 0. <code>data ()</code> is <code>nullptr</code>. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a6f7600a90e7ecaae32edf5924fcfa612_icgraph.png" border="0" usemap="#aa04027_a6f7600a90e7ecaae32edf5924fcfa612_icgraph" alt=""/></div>
+<map name="aa04027_a6f7600a90e7ecaae32edf5924fcfa612_icgraph" id="aa04027_a6f7600a90e7ecaae32edf5924fcfa612_icgraph">
+<area shape="rect" title="Constructs an empty span." alt="" coords="408,248,555,288"/>
+<area shape="rect" href="a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="210,103,357,143"/>
+<area shape="poly" title=" " alt="" coords="453,240,410,198,359,157,337,145,339,140,361,152,414,194,457,236"/>
+<area shape="rect" href="a04027.html#a519fb6bdd570183c039547be2ea18b6b" title="The first count elements." alt="" coords="9,5,155,45"/>
+<area shape="poly" title=" " alt="" coords="469,236,453,196,430,150,399,105,380,86,359,69,310,45,257,30,204,24,155,22,155,17,204,18,258,25,312,40,361,64,383,82,403,102,435,147,458,194,474,234"/>
+<area shape="rect" href="a04027.html#ad4abbc4006bca1e6fce5d5a980de958f" title="The last Count elements as a span of static extent." alt="" coords="210,191,357,231"/>
+<area shape="poly" title=" " alt="" coords="398,247,352,233,353,228,400,242"/>
+<area shape="rect" href="a04027.html#a2456551f8bf7066e034d58694f358ceb" title="The last count elements." alt="" coords="9,248,155,288"/>
+<area shape="poly" title=" " alt="" coords="394,271,156,271,156,265,394,265"/>
+<area shape="rect" href="a04027.html#a3277fda4553402d6b23e566af45e22cf" title="Converts a span of another element type or extent." alt="" coords="210,305,357,345"/>
+<area shape="poly" title=" " alt="" coords="400,294,353,308,352,303,398,289"/>
+<area shape="rect" href="a04027.html#a13a83ffe79d91fd182648cca8911f850" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="207,393,360,433"/>
+<area shape="poly" title=" " alt="" coords="444,299,362,359,313,395,309,391,358,355,441,294"/>
+<area shape="rect" href="a04027.html#aa817167818526a7824a3312aee8b8c46" title="The elements from offset on, count of them or all the rest." alt="" coords="5,451,159,491"/>
+<area shape="poly" title=" " alt="" coords="472,302,455,337,431,378,400,417,361,448,312,469,259,480,207,484,159,483,159,478,206,479,258,475,310,464,359,443,396,413,427,375,450,335,467,300"/>
+<area shape="poly" title=" " alt="" coords="317,91,305,84,283,81,264,83,253,88,249,94,251,102,246,103,244,93,250,84,263,78,283,76,307,79,319,86"/>
+<area shape="poly" title=" " alt="" coords="234,98,158,60,131,48,133,43,160,55,236,94"/>
+<area shape="rect" href="a00383.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="55,198,109,223"/>
+<area shape="poly" title=" " alt="" coords="221,151,208,157,184,173,160,188,111,206,109,201,157,183,181,168,205,152,218,146"/>
+<area shape="rect" href="a04027.html#a46fb58083be5feae8d267eb313db196e" title="Constructs a span of the range [first, last)." alt="" coords="9,133,155,173"/>
+<area shape="poly" title=" " alt="" coords="197,139,156,145,155,140,196,133"/>
+<area shape="rect" href="a04027.html#a7036a71b9b1d63512b727049faeda0d6" title="Constructs a span of count elements starting at first." alt="" coords="9,69,155,109"/>
+<area shape="poly" title=" " alt="" coords="196,111,155,104,156,99,197,106"/>
+<area shape="poly" title=" " alt="" coords="196,213,110,213,110,208,196,208"/>
+<area shape="poly" title=" " alt="" coords="199,189,152,176,153,171,201,184"/>
+<area shape="poly" title=" " alt="" coords="317,179,305,172,283,169,264,171,253,176,249,182,251,190,246,191,244,181,250,172,263,166,283,164,307,167,319,174"/>
+<area shape="poly" title=" " alt="" coords="201,237,153,251,152,245,199,232"/>
+<area shape="poly" title=" " alt="" coords="317,382,305,375,283,372,264,374,253,379,249,385,251,392,246,394,244,384,250,375,263,369,283,367,307,370,319,377"/>
+<area shape="rect" href="a00404.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="55,401,109,426"/>
+<area shape="poly" title=" " alt="" coords="193,416,110,416,110,411,193,411"/>
+<area shape="poly" title=" " alt="" coords="201,440,153,453,152,448,199,435"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7036a71b9b1d63512b727049faeda0d6" name="a7036a71b9b1d63512b727049faeda0d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7036a71b9b1d63512b727049faeda0d6">&#9670;&#160;</a></span>span() <span class="overload">[2/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename Iterator, typename std::enable_if&lt; Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04147.html">detail::is_compatible_iterator</a>&lt; Iterator, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a></td>          <td class="paramname"><span class="paramname"><em>count</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of <code>count</code> elements starting at <code>first</code>. </p>
+<p>Implicit when <code>Extent</code> is <code>dynamic_extent</code>, explicit otherwise. Takes part in overload resolution when <code>Iterator</code> is a contiguous iterator (see <code><a class="el" href="a04031.html" title="Tells whether a type is an iterator over contiguous storage.">is_contiguous_iterator</a></code>) whose elements convert to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion. </p><dl class="section pre"><dt>Precondition</dt><dd><code>[first, first + count)</code> is a valid range. When <code>Extent</code> is not dynamic, <code>count == Extent</code>. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element. </td></tr>
+    <tr><td class="paramname">count</td><td>The number of elements. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a7036a71b9b1d63512b727049faeda0d6_cgraph.png" border="0" usemap="#aa04027_a7036a71b9b1d63512b727049faeda0d6_cgraph" alt=""/></div>
+<map name="aa04027_a7036a71b9b1d63512b727049faeda0d6_cgraph" id="aa04027_a7036a71b9b1d63512b727049faeda0d6_cgraph">
+<area shape="rect" title="Constructs a span of count elements starting at first." alt="" coords="5,65,152,105"/>
+<area shape="rect" href="a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="203,29,350,69"/>
+<area shape="poly" title=" " alt="" coords="152,69,189,63,190,68,153,75"/>
+<area shape="rect" href="a01566.html#afd4e4aab281dfa2240fd5006c31265fa" title="The address of the first element of a contiguous range given by a pointer; the count is not needed." alt="" coords="200,94,353,149"/>
+<area shape="poly" title=" " alt="" coords="153,96,187,102,186,108,152,101"/>
+<area shape="poly" title=" " alt="" coords="239,30,237,20,243,11,256,5,277,3,300,6,313,13,310,18,298,11,277,8,258,10,247,15,242,21,245,28"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="401,29,548,69"/>
+<area shape="poly" title=" " alt="" coords="350,47,387,47,387,52,350,52"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7036a71b9b1d63512b727049faeda0d6" name="a7036a71b9b1d63512b727049faeda0d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7036a71b9b1d63512b727049faeda0d6">&#9670;&#160;</a></span>span() <span class="overload">[3/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename Iterator, typename std::enable_if&lt; Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04147.html">detail::is_compatible_iterator</a>&lt; Iterator, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value, long &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a></td>          <td class="paramname"><span class="paramname"><em>count</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of <code>count</code> elements starting at <code>first</code>.    </p>
+<p>Implicit when <code>Extent</code> is <code>dynamic_extent</code>, explicit otherwise. Takes part in overload resolution when <code>Iterator</code> is a contiguous iterator (see <code><a class="el" href="a04031.html" title="Tells whether a type is an iterator over contiguous storage.">is_contiguous_iterator</a></code>) whose elements convert to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion. </p><dl class="section pre"><dt>Precondition</dt><dd><code>[first, first + count)</code> is a valid range. When <code>Extent</code> is not dynamic, <code>count == Extent</code>. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element. </td></tr>
+    <tr><td class="paramname">count</td><td>The number of elements.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a7036a71b9b1d63512b727049faeda0d6_cgraph.png" border="0" usemap="#aa04027_a7036a71b9b1d63512b727049faeda0d6_cgraph" alt=""/></div>
+<map name="aa04027_a7036a71b9b1d63512b727049faeda0d6_cgraph" id="aa04027_a7036a71b9b1d63512b727049faeda0d6_cgraph">
+<area shape="rect" title="Constructs a span of count elements starting at first." alt="" coords="5,65,152,105"/>
+<area shape="rect" href="a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="203,29,350,69"/>
+<area shape="poly" title=" " alt="" coords="152,69,189,63,190,68,153,75"/>
+<area shape="rect" href="a01566.html#afd4e4aab281dfa2240fd5006c31265fa" title="The address of the first element of a contiguous range given by a pointer; the count is not needed." alt="" coords="200,94,353,149"/>
+<area shape="poly" title=" " alt="" coords="153,96,187,102,186,108,152,101"/>
+<area shape="poly" title=" " alt="" coords="239,30,237,20,243,11,256,5,277,3,300,6,313,13,310,18,298,11,277,8,258,10,247,15,242,21,245,28"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="401,29,548,69"/>
+<area shape="poly" title=" " alt="" coords="350,47,387,47,387,52,350,52"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a46fb58083be5feae8d267eb313db196e" name="a46fb58083be5feae8d267eb313db196e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46fb58083be5feae8d267eb313db196e">&#9670;&#160;</a></span>span() <span class="overload">[4/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename Iterator, typename Sentinel, typename std::enable_if&lt; Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04147.html">detail::is_compatible_iterator</a>&lt; Iterator, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;<a class="el" href="a04155.html">detail::is_sized_sentinel</a>&lt; Sentinel, Iterator &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Sentinel</td>          <td class="paramname"><span class="paramname"><em>last</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of the range <code>[first, last)</code>. </p>
+<p>Implicit when <code>Extent</code> is <code>dynamic_extent</code>, explicit otherwise. Takes part in overload resolution when <code>Iterator</code> is a contiguous iterator whose elements convert to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code>, and <code>last - first</code> is valid and <code>Sentinel</code> does not convert to <code><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458" title="The type of sizes and indices.">size_type</a></code> (that would be the count form). </p><dl class="section pre"><dt>Precondition</dt><dd><code>[first, last)</code> is a valid range. When <code>Extent</code> is not dynamic, <code>last - first == Extent</code>. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element. </td></tr>
+    <tr><td class="paramname">last</td><td>The end of the range. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a46fb58083be5feae8d267eb313db196e_cgraph.png" border="0" usemap="#aa04027_a46fb58083be5feae8d267eb313db196e_cgraph" alt=""/></div>
+<map name="aa04027_a46fb58083be5feae8d267eb313db196e_cgraph" id="aa04027_a46fb58083be5feae8d267eb313db196e_cgraph">
+<area shape="rect" title="Constructs a span of the range [first, last)." alt="" coords="5,73,152,113"/>
+<area shape="rect" href="a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,74,186,66,187,72,153,79"/>
+<area shape="rect" href="a04027.html#ad4abbc4006bca1e6fce5d5a980de958f" title="The last Count elements as a span of static extent." alt="" coords="200,117,347,157"/>
+<area shape="poly" title=" " alt="" coords="153,107,187,115,186,120,152,113"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="395,73,541,113"/>
+<area shape="poly" title=" " alt="" coords="348,63,382,71,380,76,346,69"/>
+<area shape="poly" title=" " alt="" coords="346,118,380,110,382,116,348,123"/>
+<area shape="poly" title=" " alt="" coords="237,118,234,108,240,99,253,93,273,91,296,94,309,101,306,105,295,99,273,96,255,98,244,103,240,109,242,116"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a46fb58083be5feae8d267eb313db196e" name="a46fb58083be5feae8d267eb313db196e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46fb58083be5feae8d267eb313db196e">&#9670;&#160;</a></span>span() <span class="overload">[5/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename Iterator, typename Sentinel, typename std::enable_if&lt; Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04147.html">detail::is_compatible_iterator</a>&lt; Iterator, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;<a class="el" href="a04155.html">detail::is_sized_sentinel</a>&lt; Sentinel, Iterator &gt;::value, long &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">Iterator</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Sentinel</td>          <td class="paramname"><span class="paramname"><em>last</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of the range <code>[first, last)</code>.    </p>
+<p>Implicit when <code>Extent</code> is <code>dynamic_extent</code>, explicit otherwise. Takes part in overload resolution when <code>Iterator</code> is a contiguous iterator whose elements convert to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code>, and <code>last - first</code> is valid and <code>Sentinel</code> does not convert to <code><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458" title="The type of sizes and indices.">size_type</a></code> (that would be the count form). </p><dl class="section pre"><dt>Precondition</dt><dd><code>[first, last)</code> is a valid range. When <code>Extent</code> is not dynamic, <code>last - first == Extent</code>. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element. </td></tr>
+    <tr><td class="paramname">last</td><td>The end of the range.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a46fb58083be5feae8d267eb313db196e_cgraph.png" border="0" usemap="#aa04027_a46fb58083be5feae8d267eb313db196e_cgraph" alt=""/></div>
+<map name="aa04027_a46fb58083be5feae8d267eb313db196e_cgraph" id="aa04027_a46fb58083be5feae8d267eb313db196e_cgraph">
+<area shape="rect" title="Constructs a span of the range [first, last)." alt="" coords="5,73,152,113"/>
+<area shape="rect" href="a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,74,186,66,187,72,153,79"/>
+<area shape="rect" href="a04027.html#ad4abbc4006bca1e6fce5d5a980de958f" title="The last Count elements as a span of static extent." alt="" coords="200,117,347,157"/>
+<area shape="poly" title=" " alt="" coords="153,107,187,115,186,120,152,113"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="395,73,541,113"/>
+<area shape="poly" title=" " alt="" coords="348,63,382,71,380,76,346,69"/>
+<area shape="poly" title=" " alt="" coords="346,118,380,110,382,116,348,123"/>
+<area shape="poly" title=" " alt="" coords="237,118,234,108,240,99,253,93,273,91,296,94,309,101,306,105,295,99,273,96,255,98,244,103,240,109,242,116"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af2396846c6db1d50a2e9854446e528a8" name="af2396846c6db1d50a2e9854446e528a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2396846c6db1d50a2e9854446e528a8">&#9670;&#160;</a></span>span() <span class="overload">[6/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">typename std::enable_if&lt; true, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::type(&amp;)</td>          <td class="paramname"><span class="paramname"><em>array</em></span>[N]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of a built-in array. </p>
+<p>Implicit. Takes part in overload resolution when <code>Extent</code> is <code>dynamic_extent</code> or equals <code>N</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">N</td><td>The number of elements of the array. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>The array. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3baf5eb2c14ae5ef23575f368ce4a2c1" name="a3baf5eb2c14ae5ef23575f368ce4a2c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3baf5eb2c14ae5ef23575f368ce4a2c1">&#9670;&#160;</a></span>span() <span class="overload">[7/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04043.html">detail::is_array_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; U, N &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>array</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of a <code>std::array</code>. </p>
+<p>Implicit. Takes part in overload resolution when <code>Extent</code> is <code>dynamic_extent</code> or equals <code>N</code>, and the element type of the array converts to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">U</td><td>The element type of the array. </td></tr>
+    <tr><td class="paramname">N</td><td>The number of elements of the array. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>The array. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa6317e48bbcafa764b5db67590fe6cb8" name="aa6317e48bbcafa764b5db67590fe6cb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6317e48bbcafa764b5db67590fe6cb8">&#9670;&#160;</a></span>span() <span class="overload">[8/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04043.html">detail::is_array_convertible</a>&lt; U const, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; U, N &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>array</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of a <code>std::array</code>.    </p>
+<p>Implicit. Takes part in overload resolution when <code>Extent</code> is <code>dynamic_extent</code> or equals <code>N</code>, and the element type of the array converts to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">U</td><td>The element type of the array. </td></tr>
+    <tr><td class="paramname">N</td><td>The number of elements of the array. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>The array.    </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9368a9a24c55eb575bbef4613bf1ea25" name="a9368a9a24c55eb575bbef4613bf1ea25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9368a9a24c55eb575bbef4613bf1ea25">&#9670;&#160;</a></span>span() <span class="overload">[9/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename Range, typename std::enable_if&lt; Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04139.html">detail::is_compatible_range</a>&lt; Range, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, Extent &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">Range &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of a contiguous range. </p>
+<p>Implicit when <code>Extent</code> is <code>dynamic_extent</code>, explicit otherwise. The range needs a <code>data ()</code> that returns a pointer and a <code>size ()</code>; it must not be an array, a <code>std::array</code> or a <code>span</code>; its element type must convert to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion; and it must be an lvalue, a type that is a borrowed range (C++20), or <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> must be const. A <code>std::vector&lt;bool&gt;</code>, a <code>std::deque</code> and a <code>std::list</code> have no such <code>data ()</code> and are rejected. A range that states its extent in its type (<code>std::span&lt;T, N&gt;</code>) is rejected when <code>N</code> and <code>Extent</code> are both static and differ. </p><dl class="section pre"><dt>Precondition</dt><dd>When <code>Extent</code> is not dynamic, <code>range.size () == Extent</code>. The range keeps its storage valid while the span is used. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Range</td><td>The type of the range (a forwarding reference). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>The range. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a9368a9a24c55eb575bbef4613bf1ea25_cgraph.png" border="0" usemap="#aa04027_a9368a9a24c55eb575bbef4613bf1ea25_cgraph" alt=""/></div>
+<map name="aa04027_a9368a9a24c55eb575bbef4613bf1ea25_cgraph" id="aa04027_a9368a9a24c55eb575bbef4613bf1ea25_cgraph">
+<area shape="rect" title="Constructs a span of a contiguous range." alt="" coords="5,49,152,89"/>
+<area shape="rect" href="a01566.html#a07dd8478c0e5afece2b1d8149782d3f5" title="The pointer of a contiguous range: the member data ()." alt="" coords="200,5,379,45"/>
+<area shape="poly" title=" " alt="" coords="152,51,186,44,187,49,153,57"/>
+<area shape="rect" href="a04027.html#ab5393aa7cdc476762748852718a134b7" title="The number of elements." alt="" coords="216,93,363,133"/>
+<area shape="poly" title=" " alt="" coords="153,82,203,93,202,98,152,87"/>
+<area shape="poly" title=" " alt="" coords="250,94,247,84,254,74,268,69,289,67,314,70,327,77,325,82,312,75,289,72,269,74,257,79,253,85,255,92"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9368a9a24c55eb575bbef4613bf1ea25" name="a9368a9a24c55eb575bbef4613bf1ea25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9368a9a24c55eb575bbef4613bf1ea25">&#9670;&#160;</a></span>span() <span class="overload">[10/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename Range, typename std::enable_if&lt; Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;<a class="el" href="a04139.html">detail::is_compatible_range</a>&lt; Range, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, Extent &gt;::value, long &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype">Range &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a span of a contiguous range.    </p>
+<p>Implicit when <code>Extent</code> is <code>dynamic_extent</code>, explicit otherwise. The range needs a <code>data ()</code> that returns a pointer and a <code>size ()</code>; it must not be an array, a <code>std::array</code> or a <code>span</code>; its element type must convert to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion; and it must be an lvalue, a type that is a borrowed range (C++20), or <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> must be const. A <code>std::vector&lt;bool&gt;</code>, a <code>std::deque</code> and a <code>std::list</code> have no such <code>data ()</code> and are rejected. A range that states its extent in its type (<code>std::span&lt;T, N&gt;</code>) is rejected when <code>N</code> and <code>Extent</code> are both static and differ. </p><dl class="section pre"><dt>Precondition</dt><dd>When <code>Extent</code> is not dynamic, <code>range.size () == Extent</code>. The range keeps its storage valid while the span is used. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Range</td><td>The type of the range (a forwarding reference). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>The range.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a9368a9a24c55eb575bbef4613bf1ea25_cgraph.png" border="0" usemap="#aa04027_a9368a9a24c55eb575bbef4613bf1ea25_cgraph" alt=""/></div>
+<map name="aa04027_a9368a9a24c55eb575bbef4613bf1ea25_cgraph" id="aa04027_a9368a9a24c55eb575bbef4613bf1ea25_cgraph">
+<area shape="rect" title="Constructs a span of a contiguous range." alt="" coords="5,49,152,89"/>
+<area shape="rect" href="a01566.html#a07dd8478c0e5afece2b1d8149782d3f5" title="The pointer of a contiguous range: the member data ()." alt="" coords="200,5,379,45"/>
+<area shape="poly" title=" " alt="" coords="152,51,186,44,187,49,153,57"/>
+<area shape="rect" href="a04027.html#ab5393aa7cdc476762748852718a134b7" title="The number of elements." alt="" coords="216,93,363,133"/>
+<area shape="poly" title=" " alt="" coords="153,82,203,93,202,98,152,87"/>
+<area shape="poly" title=" " alt="" coords="250,94,247,84,254,74,268,69,289,67,314,70,327,77,325,82,312,75,289,72,269,74,257,79,253,85,255,92"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3277fda4553402d6b23e566af45e22cf" name="a3277fda4553402d6b23e566af45e22cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3277fda4553402d6b23e566af45e22cf">&#9670;&#160;</a></span>span() <span class="overload">[11/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04043.html">detail::is_array_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;(Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>||N !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>), int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04027.html">span</a>&lt; U, N &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts a span of another element type or extent. </p>
+<p>Takes part in overload resolution when the extents are compatible (one of them dynamic, or equal) and <code>U</code> converts to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion. Implicit unless a static extent is made from a dynamic one, which is explicit. </p><dl class="section pre"><dt>Precondition</dt><dd>When <code>Extent</code> is not dynamic, <code>other.size () == Extent</code>. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">U</td><td>The element type of <code>other</code>. </td></tr>
+    <tr><td class="paramname">N</td><td>The extent of <code>other</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The span to convert. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a3277fda4553402d6b23e566af45e22cf_cgraph.png" border="0" usemap="#aa04027_a3277fda4553402d6b23e566af45e22cf_cgraph" alt=""/></div>
+<map name="aa04027_a3277fda4553402d6b23e566af45e22cf_cgraph" id="aa04027_a3277fda4553402d6b23e566af45e22cf_cgraph">
+<area shape="rect" title="Converts a span of another element type or extent." alt="" coords="5,5,152,45"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="200,5,347,45"/>
+<area shape="poly" title=" " alt="" coords="152,23,186,23,186,28,152,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3277fda4553402d6b23e566af45e22cf" name="a3277fda4553402d6b23e566af45e22cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3277fda4553402d6b23e566af45e22cf">&#9670;&#160;</a></span>span() <span class="overload">[12/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04043.html">detail::is_array_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;(Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;N==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>), long &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04027.html">span</a>&lt; U, N &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts a span of another element type or extent.    </p>
+<p>Takes part in overload resolution when the extents are compatible (one of them dynamic, or equal) and <code>U</code> converts to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion. Implicit unless a static extent is made from a dynamic one, which is explicit. </p><dl class="section pre"><dt>Precondition</dt><dd>When <code>Extent</code> is not dynamic, <code>other.size () == Extent</code>. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">U</td><td>The element type of <code>other</code>. </td></tr>
+    <tr><td class="paramname">N</td><td>The extent of <code>other</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The span to convert.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a3277fda4553402d6b23e566af45e22cf_cgraph.png" border="0" usemap="#aa04027_a3277fda4553402d6b23e566af45e22cf_cgraph" alt=""/></div>
+<map name="aa04027_a3277fda4553402d6b23e566af45e22cf_cgraph" id="aa04027_a3277fda4553402d6b23e566af45e22cf_cgraph">
+<area shape="rect" title="Converts a span of another element type or extent." alt="" coords="5,5,152,45"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="200,5,347,45"/>
+<area shape="poly" title=" " alt="" coords="152,23,186,23,186,28,152,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a87f7bf116a9872bd26ce0ac482b5e2d8" name="a87f7bf116a9872bd26ce0ac482b5e2d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87f7bf116a9872bd26ce0ac482b5e2d8">&#9670;&#160;</a></span>span() <span class="overload">[13/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04067.html">detail::is_byte_twin_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;(Extent==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>||N !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>), int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04027.html">span</a>&lt; U, N &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts a span of the other byte type (C++17): a <code>span</code> of <code>std::byte</code> to a <code>span</code> of <code>byte</code> and the reverse. </p>
+<p><code>byte</code> of the span module is an own enumeration, so the two element types are not related by a qualification conversion and the constructor above does not take part. This one takes part when <code>U</code> is the other byte type and converts to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion after the exchange (<code>std::byte const</code> to <code>byte const</code>, never to <code>byte</code>) and the extents are compatible. Implicit unless a static extent is made from a dynamic one, which is explicit. It is not <code>constexpr</code>: it reinterprets the pointer. </p><dl class="section pre"><dt>Precondition</dt><dd>When <code>Extent</code> is not dynamic, <code>other.size () == Extent</code>. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">U</td><td>The element type of <code>other</code>. </td></tr>
+    <tr><td class="paramname">N</td><td>The extent of <code>other</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The span to convert. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a87f7bf116a9872bd26ce0ac482b5e2d8_cgraph.png" border="0" usemap="#aa04027_a87f7bf116a9872bd26ce0ac482b5e2d8_cgraph" alt=""/></div>
+<map name="aa04027_a87f7bf116a9872bd26ce0ac482b5e2d8_cgraph" id="aa04027_a87f7bf116a9872bd26ce0ac482b5e2d8_cgraph">
+<area shape="rect" title="Converts a span of another element type or extent." alt="" coords="5,5,152,45"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="200,5,347,45"/>
+<area shape="poly" title=" " alt="" coords="152,23,186,23,186,28,152,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a87f7bf116a9872bd26ce0ac482b5e2d8" name="a87f7bf116a9872bd26ce0ac482b5e2d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87f7bf116a9872bd26ce0ac482b5e2d8">&#9670;&#160;</a></span>span() <span class="overload">[14/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;typename U, std::size_t N, typename std::enable_if&lt; <a class="el" href="a04091.html">detail::is_extent_compatible</a>&lt; Extent, N &gt;::value &amp;&amp;<a class="el" href="a04067.html">detail::is_byte_twin_convertible</a>&lt; U, <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a> &gt;::value &amp;&amp;(Extent !=<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &amp;&amp;N==<a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a>), long &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;<a class="el" href="a06564.html">::span</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04027.html">span</a>&lt; U, N &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts a span of another element type or extent.    </p>
+<p>Takes part in overload resolution when the extents are compatible (one of them dynamic, or equal) and <code>U</code> converts to <code><a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a></code> by a qualification conversion. Implicit unless a static extent is made from a dynamic one, which is explicit. </p><dl class="section pre"><dt>Precondition</dt><dd>When <code>Extent</code> is not dynamic, <code>other.size () == Extent</code>. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">U</td><td>The element type of <code>other</code>. </td></tr>
+    <tr><td class="paramname">N</td><td>The extent of <code>other</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The span to convert.    </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a87f7bf116a9872bd26ce0ac482b5e2d8_cgraph.png" border="0" usemap="#aa04027_a87f7bf116a9872bd26ce0ac482b5e2d8_cgraph" alt=""/></div>
+<map name="aa04027_a87f7bf116a9872bd26ce0ac482b5e2d8_cgraph" id="aa04027_a87f7bf116a9872bd26ce0ac482b5e2d8_cgraph">
+<area shape="rect" title="Converts a span of another element type or extent." alt="" coords="5,5,152,45"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="200,5,347,45"/>
+<area shape="poly" title=" " alt="" coords="152,23,186,23,186,28,152,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7d97d6e5db14203a46ee1e31caa181de" name="a7d97d6e5db14203a46ee1e31caa181de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d97d6e5db14203a46ee1e31caa181de">&#9670;&#160;</a></span>at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The element at <code>index</code>, checked (C++26 in the standard). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the element. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>If <code>index &gt;= size ()</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a7d97d6e5db14203a46ee1e31caa181de_cgraph.png" border="0" usemap="#aa04027_a7d97d6e5db14203a46ee1e31caa181de_cgraph" alt=""/></div>
+<map name="aa04027_a7d97d6e5db14203a46ee1e31caa181de_cgraph" id="aa04027_a7d97d6e5db14203a46ee1e31caa181de_cgraph">
+<area shape="rect" title="The element at index, checked (C++26 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a01566.html#a7aeff79089621667da4b6131d3548e5a" title="Throws std::out_of_range; keeps the throw out of the inline accessors." alt="" coords="200,22,347,77"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a7d97d6e5db14203a46ee1e31caa181de_icgraph.png" border="0" usemap="#aa04027_a7d97d6e5db14203a46ee1e31caa181de_icgraph" alt=""/></div>
+<map name="aa04027_a7d97d6e5db14203a46ee1e31caa181de_icgraph" id="aa04027_a7d97d6e5db14203a46ee1e31caa181de_icgraph">
+<area shape="rect" title="The element at index, checked (C++26 in the standard)." alt="" coords="108,29,255,69"/>
+<area shape="poly" title=" " alt="" coords="205,17,197,11,181,8,168,10,160,14,157,21,158,28,153,29,151,20,156,11,166,5,181,3,199,6,209,13"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab524cd456985fe4919c119a5a15317be" name="ab524cd456985fe4919c119a5a15317be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab524cd456985fe4919c119a5a15317be">&#9670;&#160;</a></span>back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::back </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The last element. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><code>!empty ()</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ab524cd456985fe4919c119a5a15317be_cgraph.png" border="0" usemap="#aa04027_ab524cd456985fe4919c119a5a15317be_cgraph" alt=""/></div>
+<map name="aa04027_ab524cd456985fe4919c119a5a15317be_cgraph" id="aa04027_ab524cd456985fe4919c119a5a15317be_cgraph">
+<area shape="rect" title="The last element." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a04027.html#a0ef06cbc786fe62ea93cbdf2794a432f" title="Tells whether the span has no elements." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ab524cd456985fe4919c119a5a15317be_icgraph.png" border="0" usemap="#aa04027_ab524cd456985fe4919c119a5a15317be_icgraph" alt=""/></div>
+<map name="aa04027_ab524cd456985fe4919c119a5a15317be_icgraph" id="aa04027_ab524cd456985fe4919c119a5a15317be_icgraph">
+<area shape="rect" title="The last element." alt="" coords="108,29,255,69"/>
+<area shape="poly" title=" " alt="" coords="205,17,197,11,181,8,168,10,160,14,157,21,158,28,153,29,151,20,156,11,166,5,181,3,199,6,209,13"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a84210bd8411fe7434b1587c41848751e" name="a84210bd8411fe7434b1587c41848751e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84210bd8411fe7434b1587c41848751e">&#9670;&#160;</a></span>begin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a15b0ab9463e52886f47c6c74606ba8d2">iterator</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::begin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>An iterator to the first element. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a84210bd8411fe7434b1587c41848751e_cgraph.png" border="0" usemap="#aa04027_a84210bd8411fe7434b1587c41848751e_cgraph" alt=""/></div>
+<map name="aa04027_a84210bd8411fe7434b1587c41848751e_cgraph" id="aa04027_a84210bd8411fe7434b1587c41848751e_cgraph">
+<area shape="rect" title="An iterator to the first element." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="50,29,49,20,53,11,63,5,79,3,96,6,106,13,103,17,94,11,79,8,65,10,57,14,54,21,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a84210bd8411fe7434b1587c41848751e_icgraph.png" border="0" usemap="#aa04027_a84210bd8411fe7434b1587c41848751e_icgraph" alt=""/></div>
+<map name="aa04027_a84210bd8411fe7434b1587c41848751e_icgraph" id="aa04027_a84210bd8411fe7434b1587c41848751e_icgraph">
+<area shape="rect" title="An iterator to the first element." alt="" coords="303,29,449,69"/>
+<area shape="poly" title=" " alt="" coords="409,17,397,11,376,8,357,10,346,15,342,21,344,28,339,30,337,20,343,11,356,5,376,3,399,6,411,13"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" title=" " alt="" coords="289,39,254,36,181,32,108,36,61,45,60,39,108,31,181,27,255,31,289,34"/>
+<area shape="rect" href="a04027.html#ae5e8384b88145ebd85ef941e96e64e1d" title="A reverse iterator to the end of the reversed span." alt="" coords="108,69,255,109"/>
+<area shape="poly" title=" " alt="" coords="290,70,256,77,254,72,289,65"/>
+<area shape="poly" title=" " alt="" coords="94,69,60,59,61,54,95,63"/>
+<area shape="poly" title=" " alt="" coords="205,57,197,51,181,48,168,50,160,54,157,61,158,68,153,69,151,60,156,51,166,45,181,43,199,46,209,53"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aea8c6543ef0993bc7bf68782dfd8eb69" name="aea8c6543ef0993bc7bf68782dfd8eb69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea8c6543ef0993bc7bf68782dfd8eb69">&#9670;&#160;</a></span>cbegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a8596f17daf260d17a04ed3d890dde55c">const_iterator</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::cbegin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A constant iterator to the first element (C++23 in the standard). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_aea8c6543ef0993bc7bf68782dfd8eb69_cgraph.png" border="0" usemap="#aa04027_aea8c6543ef0993bc7bf68782dfd8eb69_cgraph" alt=""/></div>
+<map name="aa04027_aea8c6543ef0993bc7bf68782dfd8eb69_cgraph" id="aa04027_aea8c6543ef0993bc7bf68782dfd8eb69_cgraph">
+<area shape="rect" title="A constant iterator to the first element (C++23 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="50,29,49,20,53,11,63,5,79,3,96,6,106,13,103,17,94,11,79,8,65,10,57,14,54,21,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_aea8c6543ef0993bc7bf68782dfd8eb69_icgraph.png" border="0" usemap="#aa04027_aea8c6543ef0993bc7bf68782dfd8eb69_icgraph" alt=""/></div>
+<map name="aa04027_aea8c6543ef0993bc7bf68782dfd8eb69_icgraph" id="aa04027_aea8c6543ef0993bc7bf68782dfd8eb69_icgraph">
+<area shape="rect" title="A constant iterator to the first element (C++23 in the standard)." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="306,17,295,11,273,8,255,10,244,15,240,21,242,28,237,30,234,20,240,11,253,5,273,3,296,6,309,13"/>
+<area shape="rect" href="a04027.html#ade193942a8566989fd8323efb0fe430a" title="A constant reverse iterator to the end of the reversed span (C++23 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="186,52,152,52,152,47,186,47"/>
+<area shape="poly" title=" " alt="" coords="111,17,100,11,79,8,60,10,49,15,45,21,47,28,42,30,40,20,46,11,59,5,79,3,102,6,114,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af848e20593f72b3d582626b1222e5dff" name="af848e20593f72b3d582626b1222e5dff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af848e20593f72b3d582626b1222e5dff">&#9670;&#160;</a></span>cend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a8596f17daf260d17a04ed3d890dde55c">const_iterator</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::cend </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A constant iterator to the end of the span (C++23 in the standard). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_af848e20593f72b3d582626b1222e5dff_cgraph.png" border="0" usemap="#aa04027_af848e20593f72b3d582626b1222e5dff_cgraph" alt=""/></div>
+<map name="aa04027_af848e20593f72b3d582626b1222e5dff_cgraph" id="aa04027_af848e20593f72b3d582626b1222e5dff_cgraph">
+<area shape="rect" title="A constant iterator to the end of the span (C++23 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="50,29,49,20,53,11,63,5,79,3,96,6,106,13,103,17,94,11,79,8,65,10,57,14,54,21,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_af848e20593f72b3d582626b1222e5dff_icgraph.png" border="0" usemap="#aa04027_af848e20593f72b3d582626b1222e5dff_icgraph" alt=""/></div>
+<map name="aa04027_af848e20593f72b3d582626b1222e5dff_icgraph" id="aa04027_af848e20593f72b3d582626b1222e5dff_icgraph">
+<area shape="rect" title="A constant iterator to the end of the span (C++23 in the standard)." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="306,17,295,11,273,8,255,10,244,15,240,21,242,28,237,30,234,20,240,11,253,5,273,3,296,6,309,13"/>
+<area shape="rect" href="a04027.html#a556e990ef3e39e964844880c43a4db83" title="A constant reverse iterator to the last element (C++23 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="186,52,152,52,152,47,186,47"/>
+<area shape="poly" title=" " alt="" coords="111,17,100,11,79,8,60,10,49,15,45,21,47,28,42,30,40,20,46,11,59,5,79,3,102,6,114,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a556e990ef3e39e964844880c43a4db83" name="a556e990ef3e39e964844880c43a4db83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a556e990ef3e39e964844880c43a4db83">&#9670;&#160;</a></span>crbegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1e6e6cd38e94f4989611ae76aa09744b">const_reverse_iterator</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::crbegin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A constant reverse iterator to the last element (C++23 in the standard). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a556e990ef3e39e964844880c43a4db83_cgraph.png" border="0" usemap="#aa04027_a556e990ef3e39e964844880c43a4db83_cgraph" alt=""/></div>
+<map name="aa04027_a556e990ef3e39e964844880c43a4db83_cgraph" id="aa04027_a556e990ef3e39e964844880c43a4db83_cgraph">
+<area shape="rect" title="A constant reverse iterator to the last element (C++23 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a04027.html#af848e20593f72b3d582626b1222e5dff" title="A constant iterator to the end of the span (C++23 in the standard)." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a556e990ef3e39e964844880c43a4db83_icgraph.png" border="0" usemap="#aa04027_a556e990ef3e39e964844880c43a4db83_icgraph" alt=""/></div>
+<map name="aa04027_a556e990ef3e39e964844880c43a4db83_icgraph" id="aa04027_a556e990ef3e39e964844880c43a4db83_icgraph">
+<area shape="rect" title="A constant reverse iterator to the last element (C++23 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="103,17,94,11,79,8,65,10,57,14,54,21,56,28,50,29,49,20,53,11,63,5,79,3,96,6,106,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ade193942a8566989fd8323efb0fe430a" name="ade193942a8566989fd8323efb0fe430a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade193942a8566989fd8323efb0fe430a">&#9670;&#160;</a></span>crend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1e6e6cd38e94f4989611ae76aa09744b">const_reverse_iterator</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::crend </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A constant reverse iterator to the end of the reversed span (C++23 in the standard). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ade193942a8566989fd8323efb0fe430a_cgraph.png" border="0" usemap="#aa04027_ade193942a8566989fd8323efb0fe430a_cgraph" alt=""/></div>
+<map name="aa04027_ade193942a8566989fd8323efb0fe430a_cgraph" id="aa04027_ade193942a8566989fd8323efb0fe430a_cgraph">
+<area shape="rect" title="A constant reverse iterator to the end of the reversed span (C++23 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a04027.html#aea8c6543ef0993bc7bf68782dfd8eb69" title="A constant iterator to the first element (C++23 in the standard)." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ade193942a8566989fd8323efb0fe430a_icgraph.png" border="0" usemap="#aa04027_ade193942a8566989fd8323efb0fe430a_icgraph" alt=""/></div>
+<map name="aa04027_ade193942a8566989fd8323efb0fe430a_icgraph" id="aa04027_ade193942a8566989fd8323efb0fe430a_icgraph">
+<area shape="rect" title="A constant reverse iterator to the end of the reversed span (C++23 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="103,17,94,11,79,8,65,10,57,14,54,21,56,28,50,29,49,20,53,11,63,5,79,3,96,6,106,13"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a23f2616fb1cd5353aeb698bf801d62c9" name="a23f2616fb1cd5353aeb698bf801d62c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23f2616fb1cd5353aeb698bf801d62c9">&#9670;&#160;</a></span>data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a7cb05ce8f00104c5f1ed5153706cedb7">pointer</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::data </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A pointer to the first element; <code>nullptr</code> or a past-the-end pointer when the span is empty. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a23f2616fb1cd5353aeb698bf801d62c9_cgraph.png" border="0" usemap="#aa04027_a23f2616fb1cd5353aeb698bf801d62c9_cgraph" alt=""/></div>
+<map name="aa04027_a23f2616fb1cd5353aeb698bf801d62c9_cgraph" id="aa04027_a23f2616fb1cd5353aeb698bf801d62c9_cgraph">
+<area shape="rect" title="A pointer to the first element; nullptr or a past&#45;the&#45;end pointer when the span is empty." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="50,29,49,20,53,11,63,5,79,3,96,6,106,13,103,17,94,11,79,8,65,10,57,14,54,21,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a23f2616fb1cd5353aeb698bf801d62c9_icgraph.png" border="0" usemap="#aa04027_a23f2616fb1cd5353aeb698bf801d62c9_icgraph" alt=""/></div>
+<map name="aa04027_a23f2616fb1cd5353aeb698bf801d62c9_icgraph" id="aa04027_a23f2616fb1cd5353aeb698bf801d62c9_icgraph">
+<area shape="rect" title="A pointer to the first element; nullptr or a past&#45;the&#45;end pointer when the span is empty." alt="" coords="245,29,392,69"/>
+<area shape="poly" title=" " alt="" coords="355,18,342,11,319,8,298,10,285,15,281,21,283,28,278,30,276,20,282,10,297,5,319,3,344,6,358,13"/>
+<area shape="rect" href="a02047.html#a2ed8718a506b3b69780006ab80ed9ed6" title="Encodes binary data from a span&lt;byte_type const&gt; into a Base64 string." alt="" coords="5,29,197,69"/>
+<area shape="poly" title=" " alt="" coords="232,52,198,52,198,47,232,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0ef06cbc786fe62ea93cbdf2794a432f" name="a0ef06cbc786fe62ea93cbdf2794a432f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ef06cbc786fe62ea93cbdf2794a432f">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::empty </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tells whether the span has no elements. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a0ef06cbc786fe62ea93cbdf2794a432f_cgraph.png" border="0" usemap="#aa04027_a0ef06cbc786fe62ea93cbdf2794a432f_cgraph" alt=""/></div>
+<map name="aa04027_a0ef06cbc786fe62ea93cbdf2794a432f_cgraph" id="aa04027_a0ef06cbc786fe62ea93cbdf2794a432f_cgraph">
+<area shape="rect" title="Tells whether the span has no elements." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="50,29,49,20,53,11,63,5,79,3,96,6,106,13,103,17,94,11,79,8,65,10,57,14,54,21,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a0ef06cbc786fe62ea93cbdf2794a432f_icgraph.png" border="0" usemap="#aa04027_a0ef06cbc786fe62ea93cbdf2794a432f_icgraph" alt=""/></div>
+<map name="aa04027_a0ef06cbc786fe62ea93cbdf2794a432f_icgraph" id="aa04027_a0ef06cbc786fe62ea93cbdf2794a432f_icgraph">
+<area shape="rect" title="Tells whether the span has no elements." alt="" coords="303,87,449,127"/>
+<area shape="poly" title=" " alt="" coords="409,75,397,68,376,65,357,67,346,72,342,78,344,86,339,87,337,77,343,68,356,62,376,60,399,63,411,70"/>
+<area shape="rect" href="a04027.html#ab524cd456985fe4919c119a5a15317be" title="The last element." alt="" coords="108,29,255,69"/>
+<area shape="poly" title=" " alt="" coords="294,85,249,72,250,67,296,80"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,94,60,119"/>
+<area shape="poly" title=" " alt="" coords="289,109,60,109,60,104,289,104"/>
+<area shape="rect" href="a04027.html#af227a2d7f284a6e0b8b227853bf790c5" title="The first element." alt="" coords="108,168,255,208"/>
+<area shape="poly" title=" " alt="" coords="317,134,230,170,228,166,314,129"/>
+<area shape="poly" title=" " alt="" coords="205,17,197,11,181,8,168,10,160,14,157,21,158,28,153,29,151,20,156,11,166,5,181,3,199,6,209,13"/>
+<area shape="poly" title=" " alt="" coords="117,77,61,99,59,94,116,72"/>
+<area shape="poly" title=" " alt="" coords="131,164,55,122,57,117,134,159"/>
+<area shape="poly" title=" " alt="" coords="205,156,197,149,181,147,168,149,160,153,157,159,158,167,153,168,151,158,156,149,166,143,181,141,199,144,209,152"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a66306398cbf1a641bad4eb31005d0bfe" name="a66306398cbf1a641bad4eb31005d0bfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66306398cbf1a641bad4eb31005d0bfe">&#9670;&#160;</a></span>end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a15b0ab9463e52886f47c6c74606ba8d2">iterator</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::end </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>An iterator to the end of the span. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a66306398cbf1a641bad4eb31005d0bfe_cgraph.png" border="0" usemap="#aa04027_a66306398cbf1a641bad4eb31005d0bfe_cgraph" alt=""/></div>
+<map name="aa04027_a66306398cbf1a641bad4eb31005d0bfe_cgraph" id="aa04027_a66306398cbf1a641bad4eb31005d0bfe_cgraph">
+<area shape="rect" title="An iterator to the end of the span." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="50,29,49,20,53,11,63,5,79,3,96,6,106,13,103,17,94,11,79,8,65,10,57,14,54,21,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a66306398cbf1a641bad4eb31005d0bfe_icgraph.png" border="0" usemap="#aa04027_a66306398cbf1a641bad4eb31005d0bfe_icgraph" alt=""/></div>
+<map name="aa04027_a66306398cbf1a641bad4eb31005d0bfe_icgraph" id="aa04027_a66306398cbf1a641bad4eb31005d0bfe_icgraph">
+<area shape="rect" title="An iterator to the end of the span." alt="" coords="303,29,449,69"/>
+<area shape="poly" title=" " alt="" coords="409,17,397,11,376,8,357,10,346,15,342,21,344,28,339,30,337,20,343,11,356,5,376,3,399,6,411,13"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" title=" " alt="" coords="289,39,254,36,181,32,108,36,61,45,60,39,108,31,181,27,255,31,289,34"/>
+<area shape="rect" href="a04027.html#a71eadcb7899227393d70f0b0e236fa38" title="A reverse iterator to the last element." alt="" coords="108,69,255,109"/>
+<area shape="poly" title=" " alt="" coords="290,70,256,77,254,72,289,65"/>
+<area shape="poly" title=" " alt="" coords="94,69,60,59,61,54,95,63"/>
+<area shape="poly" title=" " alt="" coords="205,57,197,51,181,48,168,50,160,54,157,61,158,68,153,69,151,60,156,51,166,45,181,43,199,46,209,53"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa847f85780dba4fa954740d7d9fd0f27" name="aa847f85780dba4fa954740d7d9fd0f27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa847f85780dba4fa954740d7d9fd0f27">&#9670;&#160;</a></span>first() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;std::size_t Count&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, Count &gt; <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::first </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The first <code>Count</code> elements as a span of static extent. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><code>Count &lt;= size ()</code>. For a static <code>Extent</code> it is checked at compile time. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Count</td><td>The number of elements. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>span&lt;<a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a>, Count&gt;</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_aa847f85780dba4fa954740d7d9fd0f27_cgraph.png" border="0" usemap="#aa04027_aa847f85780dba4fa954740d7d9fd0f27_cgraph" alt=""/></div>
+<map name="aa04027_aa847f85780dba4fa954740d7d9fd0f27_cgraph" id="aa04027_aa847f85780dba4fa954740d7d9fd0f27_cgraph">
+<area shape="rect" title="The first Count elements as a span of static extent." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_aa847f85780dba4fa954740d7d9fd0f27_icgraph.png" border="0" usemap="#aa04027_aa847f85780dba4fa954740d7d9fd0f27_icgraph" alt=""/></div>
+<map name="aa04027_aa847f85780dba4fa954740d7d9fd0f27_icgraph" id="aa04027_aa847f85780dba4fa954740d7d9fd0f27_icgraph">
+<area shape="rect" title="The first Count elements as a span of static extent." alt="" coords="200,92,347,132"/>
+<area shape="poly" title=" " alt="" coords="306,80,295,73,273,71,255,73,244,77,240,83,242,91,237,92,234,82,240,73,253,67,273,65,296,68,309,76"/>
+<area shape="rect" href="a04027.html#a519fb6bdd570183c039547be2ea18b6b" title="The first count elements." alt="" coords="5,5,152,45"/>
+<area shape="poly" title=" " alt="" coords="216,89,151,60,124,48,126,43,153,55,218,84"/>
+<area shape="rect" href="a00383.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="51,70,106,95"/>
+<area shape="poly" title=" " alt="" coords="186,102,106,89,107,84,187,96"/>
+<area shape="rect" href="a04027.html#a46fb58083be5feae8d267eb313db196e" title="Constructs a span of the range [first, last)." alt="" coords="5,120,152,160"/>
+<area shape="poly" title=" " alt="" coords="187,127,153,132,152,127,186,122"/>
+<area shape="rect" href="a04027.html#a7036a71b9b1d63512b727049faeda0d6" title="Constructs a span of count elements starting at first." alt="" coords="5,184,152,224"/>
+<area shape="poly" title=" " alt="" coords="223,141,153,174,127,186,125,181,151,170,220,136"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a519fb6bdd570183c039547be2ea18b6b" name="a519fb6bdd570183c039547be2ea18b6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a519fb6bdd570183c039547be2ea18b6b">&#9670;&#160;</a></span>first() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt; <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::first </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a></td>          <td class="paramname"><span class="paramname"><em>count</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The first <code>count</code> elements. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><code>count &lt;= size ()</code>. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">count</td><td>The number of elements. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A span of dynamic extent. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a519fb6bdd570183c039547be2ea18b6b_cgraph.png" border="0" usemap="#aa04027_a519fb6bdd570183c039547be2ea18b6b_cgraph" alt=""/></div>
+<map name="aa04027_a519fb6bdd570183c039547be2ea18b6b_cgraph" id="aa04027_a519fb6bdd570183c039547be2ea18b6b_cgraph">
+<area shape="rect" title="The first count elements." alt="" coords="5,59,152,99"/>
+<area shape="rect" href="a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,65,186,60,187,65,153,70"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="395,59,541,99"/>
+<area shape="poly" title=" " alt="" coords="152,78,200,79,347,79,381,78,381,83,347,84,200,84,152,83"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+<area shape="poly" title=" " alt="" coords="347,58,381,63,381,68,347,63"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af227a2d7f284a6e0b8b227853bf790c5" name="af227a2d7f284a6e0b8b227853bf790c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af227a2d7f284a6e0b8b227853bf790c5">&#9670;&#160;</a></span>front()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::front </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The first element. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><code>!empty ()</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_af227a2d7f284a6e0b8b227853bf790c5_cgraph.png" border="0" usemap="#aa04027_af227a2d7f284a6e0b8b227853bf790c5_cgraph" alt=""/></div>
+<map name="aa04027_af227a2d7f284a6e0b8b227853bf790c5_cgraph" id="aa04027_af227a2d7f284a6e0b8b227853bf790c5_cgraph">
+<area shape="rect" title="The first element." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a04027.html#a0ef06cbc786fe62ea93cbdf2794a432f" title="Tells whether the span has no elements." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_af227a2d7f284a6e0b8b227853bf790c5_icgraph.png" border="0" usemap="#aa04027_af227a2d7f284a6e0b8b227853bf790c5_icgraph" alt=""/></div>
+<map name="aa04027_af227a2d7f284a6e0b8b227853bf790c5_icgraph" id="aa04027_af227a2d7f284a6e0b8b227853bf790c5_icgraph">
+<area shape="rect" title="The first element." alt="" coords="108,29,255,69"/>
+<area shape="poly" title=" " alt="" coords="205,17,197,11,181,8,168,10,160,14,157,21,158,28,153,29,151,20,156,11,166,5,181,3,199,6,209,13"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad4abbc4006bca1e6fce5d5a980de958f" name="ad4abbc4006bca1e6fce5d5a980de958f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4abbc4006bca1e6fce5d5a980de958f">&#9670;&#160;</a></span>last() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;std::size_t Count&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, Count &gt; <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::last </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The last <code>Count</code> elements as a span of static extent. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><code>Count &lt;= size ()</code>. For a static <code>Extent</code> it is checked at compile time. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Count</td><td>The number of elements. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>span&lt;<a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59" title="The type of the viewed objects.">element_type</a>, Count&gt;</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ad4abbc4006bca1e6fce5d5a980de958f_cgraph.png" border="0" usemap="#aa04027_ad4abbc4006bca1e6fce5d5a980de958f_cgraph" alt=""/></div>
+<map name="aa04027_ad4abbc4006bca1e6fce5d5a980de958f_cgraph" id="aa04027_ad4abbc4006bca1e6fce5d5a980de958f_cgraph">
+<area shape="rect" title="The last Count elements as a span of static extent." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ad4abbc4006bca1e6fce5d5a980de958f_icgraph.png" border="0" usemap="#aa04027_ad4abbc4006bca1e6fce5d5a980de958f_icgraph" alt=""/></div>
+<map name="aa04027_ad4abbc4006bca1e6fce5d5a980de958f_icgraph" id="aa04027_ad4abbc4006bca1e6fce5d5a980de958f_icgraph">
+<area shape="rect" title="The last Count elements as a span of static extent." alt="" coords="200,63,347,103"/>
+<area shape="poly" title=" " alt="" coords="306,51,295,44,273,41,255,43,244,48,240,54,242,62,237,63,234,53,240,44,253,38,273,36,296,39,309,46"/>
+<area shape="rect" href="a04027.html#a2456551f8bf7066e034d58694f358ceb" title="The last count elements." alt="" coords="5,5,152,45"/>
+<area shape="poly" title=" " alt="" coords="191,61,146,48,148,43,193,56"/>
+<area shape="rect" href="a00383.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="51,70,106,95"/>
+<area shape="poly" title=" " alt="" coords="186,85,106,85,106,80,186,80"/>
+<area shape="rect" href="a04027.html#a46fb58083be5feae8d267eb313db196e" title="Constructs a span of the range [first, last)." alt="" coords="5,120,152,160"/>
+<area shape="poly" title=" " alt="" coords="193,109,148,122,146,117,191,104"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2456551f8bf7066e034d58694f358ceb" name="a2456551f8bf7066e034d58694f358ceb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2456551f8bf7066e034d58694f358ceb">&#9670;&#160;</a></span>last() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt; <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::last </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a></td>          <td class="paramname"><span class="paramname"><em>count</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The last <code>count</code> elements. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><code>count &lt;= size ()</code>. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">count</td><td>The number of elements. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A span of dynamic extent. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a2456551f8bf7066e034d58694f358ceb_cgraph.png" border="0" usemap="#aa04027_a2456551f8bf7066e034d58694f358ceb_cgraph" alt=""/></div>
+<map name="aa04027_a2456551f8bf7066e034d58694f358ceb_cgraph" id="aa04027_a2456551f8bf7066e034d58694f358ceb_cgraph">
+<area shape="rect" title="The last count elements." alt="" coords="5,59,152,99"/>
+<area shape="rect" href="a04027.html#ad4abbc4006bca1e6fce5d5a980de958f" title="The last Count elements as a span of static extent." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,65,186,60,187,65,153,70"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="395,59,541,99"/>
+<area shape="poly" title=" " alt="" coords="152,78,200,79,347,79,381,78,381,83,347,84,200,84,152,83"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+<area shape="poly" title=" " alt="" coords="347,58,381,63,381,68,347,63"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ada9aa5f4fefe677db0adb18c75fbfec5" name="ada9aa5f4fefe677db0adb18c75fbfec5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada9aa5f4fefe677db0adb18c75fbfec5">&#9670;&#160;</a></span>operator[]()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a607bd900211abf1dd08811c9995c54e2">reference</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The element at <code>index</code>. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><code>index &lt; size ()</code>. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the element. </dd></dl>
+
+</div>
+</div>
+<a id="a71eadcb7899227393d70f0b0e236fa38" name="a71eadcb7899227393d70f0b0e236fa38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71eadcb7899227393d70f0b0e236fa38">&#9670;&#160;</a></span>rbegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#aa874bf43632bf31c4d9abf2524cc8bac">reverse_iterator</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::rbegin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A reverse iterator to the last element. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a71eadcb7899227393d70f0b0e236fa38_cgraph.png" border="0" usemap="#aa04027_a71eadcb7899227393d70f0b0e236fa38_cgraph" alt=""/></div>
+<map name="aa04027_a71eadcb7899227393d70f0b0e236fa38_cgraph" id="aa04027_a71eadcb7899227393d70f0b0e236fa38_cgraph">
+<area shape="rect" title="A reverse iterator to the last element." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a04027.html#a66306398cbf1a641bad4eb31005d0bfe" title="An iterator to the end of the span." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a71eadcb7899227393d70f0b0e236fa38_icgraph.png" border="0" usemap="#aa04027_a71eadcb7899227393d70f0b0e236fa38_icgraph" alt=""/></div>
+<map name="aa04027_a71eadcb7899227393d70f0b0e236fa38_icgraph" id="aa04027_a71eadcb7899227393d70f0b0e236fa38_icgraph">
+<area shape="rect" title="A reverse iterator to the last element." alt="" coords="108,29,255,69"/>
+<area shape="poly" title=" " alt="" coords="205,17,197,11,181,8,168,10,160,14,157,21,158,28,153,29,151,20,156,11,166,5,181,3,199,6,209,13"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae5e8384b88145ebd85ef941e96e64e1d" name="ae5e8384b88145ebd85ef941e96e64e1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5e8384b88145ebd85ef941e96e64e1d">&#9670;&#160;</a></span>rend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#aa874bf43632bf31c4d9abf2524cc8bac">reverse_iterator</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::rend </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A reverse iterator to the end of the reversed span. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ae5e8384b88145ebd85ef941e96e64e1d_cgraph.png" border="0" usemap="#aa04027_ae5e8384b88145ebd85ef941e96e64e1d_cgraph" alt=""/></div>
+<map name="aa04027_ae5e8384b88145ebd85ef941e96e64e1d_cgraph" id="aa04027_ae5e8384b88145ebd85ef941e96e64e1d_cgraph">
+<area shape="rect" title="A reverse iterator to the end of the reversed span." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" href="a04027.html#a84210bd8411fe7434b1587c41848751e" title="An iterator to the first element." alt="" coords="200,29,347,69"/>
+<area shape="poly" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+<area shape="poly" title=" " alt="" coords="237,30,234,20,240,11,253,5,273,3,296,6,309,13,306,17,295,11,273,8,255,10,244,15,240,21,242,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ae5e8384b88145ebd85ef941e96e64e1d_icgraph.png" border="0" usemap="#aa04027_ae5e8384b88145ebd85ef941e96e64e1d_icgraph" alt=""/></div>
+<map name="aa04027_ae5e8384b88145ebd85ef941e96e64e1d_icgraph" id="aa04027_ae5e8384b88145ebd85ef941e96e64e1d_icgraph">
+<area shape="rect" title="A reverse iterator to the end of the reversed span." alt="" coords="108,29,255,69"/>
+<area shape="poly" title=" " alt="" coords="205,17,197,11,181,8,168,10,160,14,157,21,158,28,153,29,151,20,156,11,166,5,181,3,199,6,209,13"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab5393aa7cdc476762748852718a134b7" name="ab5393aa7cdc476762748852718a134b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5393aa7cdc476762748852718a134b7">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of elements. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ab5393aa7cdc476762748852718a134b7_cgraph.png" border="0" usemap="#aa04027_ab5393aa7cdc476762748852718a134b7_cgraph" alt=""/></div>
+<map name="aa04027_ab5393aa7cdc476762748852718a134b7_cgraph" id="aa04027_ab5393aa7cdc476762748852718a134b7_cgraph">
+<area shape="rect" title="The number of elements." alt="" coords="5,29,152,69"/>
+<area shape="poly" title=" " alt="" coords="50,29,49,20,53,11,63,5,79,3,96,6,106,13,103,17,94,11,79,8,65,10,57,14,54,21,56,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_ab5393aa7cdc476762748852718a134b7_icgraph.png" border="0" usemap="#aa04027_ab5393aa7cdc476762748852718a134b7_icgraph" alt=""/></div>
+<map name="aa04027_ab5393aa7cdc476762748852718a134b7_icgraph" id="aa04027_ab5393aa7cdc476762748852718a134b7_icgraph">
+<area shape="rect" title="The number of elements." alt="" coords="348,95,495,135"/>
+<area shape="poly" title=" " alt="" coords="458,83,445,76,421,73,401,75,388,80,384,86,386,94,381,95,378,85,385,76,399,70,421,68,447,71,460,78"/>
+<area shape="rect" href="a02047.html#a2ed8718a506b3b69780006ab80ed9ed6" title="Encodes binary data from a span&lt;byte_type const&gt; into a Base64 string." alt="" coords="108,5,300,45"/>
+<area shape="poly" title=" " alt="" coords="369,91,299,60,267,48,269,43,301,55,371,86"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="177,70,231,95"/>
+<area shape="poly" title=" " alt="" coords="334,105,231,89,232,84,335,99"/>
+<area shape="rect" href="a01544.html#a065793a2b525314276ceaf0af8c0f23e" title="Gives every empty element a hazard slot, all or none." alt="" coords="119,119,289,174"/>
+<area shape="poly" title=" " alt="" coords="335,130,290,137,289,131,334,125"/>
+<area shape="rect" href="a04027.html#a9368a9a24c55eb575bbef4613bf1ea25" title="Constructs a span of a contiguous range." alt="" coords="131,199,277,239"/>
+<area shape="poly" title=" " alt="" coords="381,144,301,188,269,201,267,196,299,183,378,139"/>
+<area shape="rect" href="a00524.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,134,60,159"/>
+<area shape="poly" title=" " alt="" coords="105,149,60,149,60,144,105,144"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7e33ca67de15b68692040ee4bd5fbf98" name="a7e33ca67de15b68692040ee4bd5fbf98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e33ca67de15b68692040ee4bd5fbf98">&#9670;&#160;</a></span>size_bytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::size_bytes </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The size of the viewed sequence in bytes. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a7e33ca67de15b68692040ee4bd5fbf98_cgraph.png" border="0" usemap="#aa04027_a7e33ca67de15b68692040ee4bd5fbf98_cgraph" alt=""/></div>
+<map name="aa04027_a7e33ca67de15b68692040ee4bd5fbf98_cgraph" id="aa04027_a7e33ca67de15b68692040ee4bd5fbf98_cgraph">
+<area shape="rect" title="The size of the viewed sequence in bytes." alt="" coords="5,29,173,69"/>
+<area shape="poly" title=" " alt="" coords="57,30,55,20,60,11,72,5,89,3,109,6,120,13,117,17,107,11,89,8,73,10,64,15,61,21,62,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a7e33ca67de15b68692040ee4bd5fbf98_icgraph.png" border="0" usemap="#aa04027_a7e33ca67de15b68692040ee4bd5fbf98_icgraph" alt=""/></div>
+<map name="aa04027_a7e33ca67de15b68692040ee4bd5fbf98_icgraph" id="aa04027_a7e33ca67de15b68692040ee4bd5fbf98_icgraph">
+<area shape="rect" title="The size of the viewed sequence in bytes." alt="" coords="108,29,276,69"/>
+<area shape="poly" title=" " alt="" coords="218,17,209,11,192,8,177,10,169,14,165,21,167,28,162,29,160,20,165,11,176,5,192,3,211,6,221,13"/>
+<area shape="rect" href="a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a13a83ffe79d91fd182648cca8911f850" name="a13a83ffe79d91fd182648cca8911f850"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13a83ffe79d91fd182648cca8911f850">&#9670;&#160;</a></span>subspan() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<div class="memtemplate">
+template&lt;std::size_t Offset, std::size_t Count = dynamic_extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, <a class="el" href="a04103.html">detail::subspan_extent</a>&lt; Extent, Offset, Count &gt;::value &gt; <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::subspan </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The elements from <code>Offset</code> on, <code>Count</code> of them or all the rest, as a span of static extent where the sizes are known. </p>
+<p>The extent of the result is <code>Count</code> when <code>Count</code> is not <code>dynamic_extent</code>, otherwise <code>Extent - Offset</code> for a static <code>Extent</code> and <code>dynamic_extent</code> for a dynamic one. </p><dl class="section pre"><dt>Precondition</dt><dd><code>Offset &lt;= size ()</code> and <code>Count == dynamic_extent</code> or <code>Count &lt;= size () - Offset</code>. For a static <code>Extent</code> it is checked at compile time. </dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Offset</td><td>The index of the first element. </td></tr>
+    <tr><td class="paramname">Count</td><td>The number of elements, or <code>dynamic_extent</code> for the rest. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The subview. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a13a83ffe79d91fd182648cca8911f850_cgraph.png" border="0" usemap="#aa04027_a13a83ffe79d91fd182648cca8911f850_cgraph" alt=""/></div>
+<map name="aa04027_a13a83ffe79d91fd182648cca8911f850_cgraph" id="aa04027_a13a83ffe79d91fd182648cca8911f850_cgraph">
+<area shape="rect" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="5,29,159,69"/>
+<area shape="poly" title=" " alt="" coords="45,30,43,20,48,11,62,5,82,3,105,6,118,13,115,18,104,11,82,8,63,10,52,15,48,21,50,28"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="207,29,353,69"/>
+<area shape="poly" title=" " alt="" coords="159,47,193,47,193,52,159,52"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_a13a83ffe79d91fd182648cca8911f850_icgraph.png" border="0" usemap="#aa04027_a13a83ffe79d91fd182648cca8911f850_icgraph" alt=""/></div>
+<map name="aa04027_a13a83ffe79d91fd182648cca8911f850_icgraph" id="aa04027_a13a83ffe79d91fd182648cca8911f850_icgraph">
+<area shape="rect" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="207,29,360,69"/>
+<area shape="poly" title=" " alt="" coords="317,18,305,11,283,8,264,10,253,15,249,21,251,28,246,30,243,20,249,11,263,5,283,3,307,6,320,13"/>
+<area shape="rect" href="a00404.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="55,7,109,33"/>
+<area shape="poly" title=" " alt="" coords="193,39,109,27,110,21,194,34"/>
+<area shape="rect" href="a04027.html#aa817167818526a7824a3312aee8b8c46" title="The elements from offset on, count of them or all the rest." alt="" coords="5,57,159,97"/>
+<area shape="poly" title=" " alt="" coords="194,65,159,69,158,64,193,59"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa817167818526a7824a3312aee8b8c46" name="aa817167818526a7824a3312aee8b8c46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa817167818526a7824a3312aee8b8c46">&#9670;&#160;</a></span>subspan() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04027.html">span</a>&lt; <a class="el" href="#a9491b5963c76b5aee9e6a2025c152e59">element_type</a>, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt; <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::subspan </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a></td>          <td class="paramname"><span class="paramname"><em>offset</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a></td>          <td class="paramname"><span class="paramname"><em>count</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The elements from <code>offset</code> on, <code>count</code> of them or all the rest. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><code>offset &lt;= size ()</code> and <code>count == dynamic_extent</code> or <code>count &lt;= size () - offset</code>. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">offset</td><td>The index of the first element. </td></tr>
+    <tr><td class="paramname">count</td><td>The number of elements, or <code>dynamic_extent</code> for the rest. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A span of dynamic extent. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04027_aa817167818526a7824a3312aee8b8c46_cgraph.png" border="0" usemap="#aa04027_aa817167818526a7824a3312aee8b8c46_cgraph" alt=""/></div>
+<map name="aa04027_aa817167818526a7824a3312aee8b8c46_cgraph" id="aa04027_aa817167818526a7824a3312aee8b8c46_cgraph">
+<area shape="rect" title="The elements from offset on, count of them or all the rest." alt="" coords="5,5,159,45"/>
+<area shape="rect" href="a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="408,5,555,45"/>
+<area shape="poly" title=" " alt="" coords="159,11,206,7,283,3,360,7,395,10,394,15,360,12,283,9,207,12,159,17"/>
+<area shape="rect" href="a04027.html#a13a83ffe79d91fd182648cca8911f850" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="207,45,360,85"/>
+<area shape="poly" title=" " alt="" coords="159,38,194,45,193,50,158,43"/>
+<area shape="poly" title=" " alt="" coords="360,47,394,40,395,45,361,52"/>
+<area shape="poly" title=" " alt="" coords="246,46,244,36,250,27,263,21,283,19,307,22,319,29,317,34,305,27,283,24,264,26,253,31,249,37,251,44"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a2222da4fbacb01ff4c2f34ee281025d6" name="a2222da4fbacb01ff4c2f34ee281025d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2222da4fbacb01ff4c2f34ee281025d6">&#9670;&#160;</a></span>extent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElementType, std::size_t Extent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a19d79eb9ea318c537f4aa3f7a87dc458">size_type</a> <a class="el" href="a04027.html">lumex::core::span::view::span</a>&lt; ElementType, Extent &gt;::extent = Extent</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of elements, or <code>dynamic_extent</code>. </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01046_source.html">LumexSpan.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01564.html">span</a></li><li class="navelem"><a class="el" href="a01565.html">view</a></li><li class="navelem"><a class="el" href="a04027.html">span</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

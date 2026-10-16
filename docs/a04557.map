@@ -1,0 +1,8 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::has_valid_iterators&lt; Iterator, Sentinel, Value, Predicate, Projection, true &gt;" name="lumex::core::utility::ranges::Algorithm::Detail::has_valid_iterators&lt; Iterator, Sentinel, Value, Predicate, Projection, true &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="444,5,653,89"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,35,124,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,33,172,30,284,26,396,30,444,33,443,39,396,35,284,31,172,35,138,39"/>
+<area shape="rect" id="Node000003" href="$a04547.html" title="Third step: the projection is invocable with an element, gives a numeric type, and the comparison fit..." alt="" coords="172,45,396,129"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="138,58,172,64,171,69,137,63"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="409,66,443,61,444,66,410,71"/>
+</map>

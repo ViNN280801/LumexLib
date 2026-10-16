@@ -1,0 +1,8 @@
+<map id="lumex::core::hazard_pointer::engine::acquire_slot" name="lumex::core::hazard_pointer::engine::acquire_slot">
+<area shape="rect" id="Node000001" title="Takes a hazard slot for the calling thread." alt="" coords="327,29,541,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="475,18,460,11,434,8,411,10,397,15,392,21,394,28,389,30,387,20,394,10,410,5,434,3,462,6,477,13"/>
+<area shape="rect" id="Node000002" href="$a01544.html#ab1c692679886fcb3aa4271b5fd82a319" title="Makes a holder that owns a slot ([saferecl.hp.holder.nonmem])." alt="" coords="108,22,279,77"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="313,52,279,52,279,47,313,47"/>
+<area shape="rect" id="Node000003" href="$a00524.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>

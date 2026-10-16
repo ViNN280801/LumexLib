@@ -1,0 +1,8 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::is_order_for&lt; Iterator, Value, Predicate, Projection, traits::meta::void_t&lt; typename projected_result&lt; Iterator, Projection &gt;::type &gt; &gt;" name="lumex::core::utility::ranges::Algorithm::Detail::is_order_for&lt; Iterator, Value, Predicate, Projection, traits::meta::void_t&lt; typename projected_result&lt; Iterator, Projection &gt;::type &gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="431,5,647,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,57,124,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,52,172,48,277,43,383,48,431,52,430,57,382,53,277,48,172,53,138,58"/>
+<area shape="rect" id="Node000003" href="$a04519.html" title=" " alt="" coords="172,63,383,161"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="138,81,172,88,171,93,137,87"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="396,90,430,84,431,90,397,95"/>
+</map>

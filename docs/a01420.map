@@ -1,0 +1,123 @@
+<map id="LumexUtility" name="LumexUtility">
+<area shape="rect" id="Node000001" title="Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,..." alt="" coords="2270,5,2377,31"/>
+<area shape="rect" id="Node000002" href="$a00890.html" title="lumex_crash_handler, the singleton that writes a dump when the process crashes." alt="" coords="2233,152,2414,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2326,44,2326,152,2321,152,2321,44"/>
+<area shape="rect" id="Node000007" href="$a01163.html" title="Defines the lumex_environment class for cross&#45;platform environment variable management." alt="" coords="640,79,817,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="2256,22,1673,37,1260,54,837,81,818,83,817,78,836,76,1260,49,1673,31,2256,16"/>
+<area shape="rect" id="Node000009" href="$a01277.html" title=" " alt="" coords="897,401,1041,427"/>
+<area shape="poly" id="edge55_Node000001_Node000009" title=" " alt="" coords="2256,21,1945,31,1731,42,1502,60,1273,87,1062,122,969,144,887,169,817,197,764,228,729,255,705,286,699,302,698,318,702,334,712,351,735,363,781,376,897,399,896,404,780,381,733,368,708,355,697,336,692,318,694,300,701,283,726,252,760,223,815,192,885,164,968,139,1061,117,1272,81,1501,55,1731,37,1945,25,2256,16"/>
+<area shape="rect" id="Node000010" href="$a00926.html" title="Temporary files and directories that delete themselves: temporary_file, temporary_directory and the f..." alt="" coords="292,233,453,258"/>
+<area shape="poly" id="edge62_Node000001_Node000010" title=" " alt="" coords="2256,22,1392,40,908,57,732,69,628,81,577,94,538,107,502,125,458,154,414,195,384,234,379,231,410,192,455,150,499,120,536,102,575,88,627,76,731,63,908,52,1391,34,2256,16"/>
+<area shape="rect" id="Node000026" href="$a00749.html" title="Cross&#45;platform replacement for &lt;filesystem&gt; (C++17) written in pure C++11, compiled into the lumex::f..." alt="" coords="1940,79,2104,104"/>
+<area shape="poly" id="edge28_Node000001_Node000026" title=" " alt="" coords="2259,36,2075,81,2074,76,2257,31"/>
+<area shape="rect" id="Node000031" href="$a01316.html" title=" " alt="" coords="2344,475,2577,500"/>
+<area shape="poly" id="edge54_Node000001_Node000031" title=" " alt="" coords="2391,18,2618,34,2758,51,2898,76,2941,82,2984,83,3064,85,3097,90,3124,104,3141,128,3147,164,3147,334,3142,346,3129,358,3082,379,3012,400,2927,419,2736,453,2565,477,2564,472,2735,448,2926,414,3011,395,3080,374,3126,353,3138,343,3142,333,3142,165,3136,130,3120,108,3096,95,3064,90,2984,89,2941,87,2898,81,2757,56,2617,39,2391,23"/>
+<area shape="rect" id="Node000042" href="$a00881.html" title="Defines the lumex_basic_stacktrace class and related utilities for capturing and symbolizing call sta..." alt="" coords="2459,79,2622,104"/>
+<area shape="poly" id="edge56_Node000001_Node000042" title=" " alt="" coords="2375,33,2504,76,2502,81,2373,38"/>
+<area shape="rect" id="Node000045" href="$a01055.html" title="Provides cross&#45;platform utilities for time and date manipulation." alt="" coords="1483,79,1609,104"/>
+<area shape="poly" id="edge63_Node000001_Node000045" title=" " alt="" coords="2256,27,1610,88,1609,83,2256,22"/>
+<area shape="rect" id="Node000047" href="$a00887.html" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in..." alt="" coords="2687,79,2885,104"/>
+<area shape="poly" id="edge66_Node000001_Node000047" title=" " alt="" coords="2391,26,2706,76,2705,81,2390,31"/>
+<area shape="rect" id="Node000049" href="$a00515.html" title=" " alt="" coords="3182,79,3331,104"/>
+<area shape="poly" id="edge70_Node000001_Node000049" title=" " alt="" coords="2391,19,2723,39,2942,56,3164,76,3182,78,3182,83,3163,81,2941,61,2723,44,2390,24"/>
+<area shape="rect" id="Node000050" href="$a00518.html" title=" " alt="" coords="3355,79,3571,104"/>
+<area shape="poly" id="edge71_Node000001_Node000050" title=" " alt="" coords="2391,18,2794,39,3344,76,3355,77,3355,82,3343,81,2794,44,2390,24"/>
+<area shape="rect" id="Node000003" href="$a00893.html" title=" " alt="" coords="1933,401,2113,427"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="2398,180,2431,197,2456,224,2466,243,2470,262,2468,280,2462,297,2438,328,2403,356,2381,367,2352,377,2277,392,2193,404,2114,411,2113,406,2193,398,2276,387,2351,371,2379,362,2401,351,2434,324,2457,294,2463,279,2464,262,2461,245,2452,227,2427,202,2396,185"/>
+<area shape="rect" id="Node000004" href="$a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="2698,233,2829,258"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="2416,177,2673,223,2708,230,2707,235,2672,228,2415,182"/>
+<area shape="rect" id="Node000005" href="$a00299.html" title=" " alt="" coords="2873,321,3057,346"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="2806,261,2936,318,2934,323,2804,266"/>
+<area shape="rect" id="Node000006" href="$a00302.html" title=" " alt="" coords="2691,313,2849,353"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="2768,272,2771,313,2766,313,2763,272"/>
+<area shape="rect" id="Node000008" href="$a01367.html" title="Environment module: lumex_environment, thread&#45;safe reading and writing of environment variables on Wi..." alt="" coords="469,152,618,177"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="685,112,577,154,575,149,683,107"/>
+<area shape="rect" id="Node000025" href="$a01160.html" title=" " alt="" coords="642,152,818,177"/>
+<area shape="poly" id="edge27_Node000007_Node000025" title=" " alt="" coords="732,117,732,151,727,152,726,118"/>
+<area shape="poly" id="edge8_Node000008_Node000003" title=" " alt="" coords="632,175,761,188,862,195,961,204,1087,223,1163,242,1239,263,1438,305,1637,344,1947,399,1946,404,1636,349,1437,310,1237,268,1162,247,1085,228,960,209,861,200,760,193,631,180"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="596,180,630,198,660,224,672,241,680,258,685,291,690,322,698,337,712,351,737,362,784,374,901,399,899,404,783,379,735,367,708,356,694,340,685,324,679,292,674,260,668,244,656,227,627,203,594,185"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="505,186,401,235,398,230,503,181"/>
+<area shape="rect" id="Node000015" href="$a01058.html" title="High&#45;resolution stopwatch, callable timing helpers, and a thin LUMEX_MEASURE_TIME macro." alt="" coords="943,233,1074,258"/>
+<area shape="poly" id="edge15_Node000008_Node000015" title=" " alt="" coords="632,175,932,223,963,230,962,235,931,228,632,181"/>
+<area shape="rect" id="Node000023" href="$a00530.html" title=" " alt="" coords="72,233,268,258"/>
+<area shape="poly" id="edge25_Node000008_Node000023" title=" " alt="" coords="472,183,230,235,228,230,471,178"/>
+<area shape="rect" id="Node000024" href="$a00527.html" title=" " alt="" coords="477,225,647,265"/>
+<area shape="poly" id="edge26_Node000008_Node000024" title=" " alt="" coords="552,190,560,225,555,226,547,192"/>
+<area shape="rect" id="Node000011" href="$a01409.html" title="Temporary module: an RAII temporary directory that is removed when its owner is destroyed." alt="" coords="180,321,315,346"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="345,268,267,323,264,318,342,264"/>
+<area shape="rect" id="Node000014" href="$a00929.html" title=" " alt="" coords="339,321,499,346"/>
+<area shape="poly" id="edge14_Node000010_Node000014" title=" " alt="" coords="388,269,415,319,410,322,384,271"/>
+<area shape="rect" id="Node000012" href="$a00347.html" title=" " alt="" coords="277,401,455,427"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="279,352,348,399,345,403,276,356"/>
+<area shape="rect" id="Node000013" href="$a00350.html" title=" " alt="" coords="5,401,252,427"/>
+<area shape="poly" id="edge13_Node000011_Node000013" title=" " alt="" coords="218,356,149,403,146,399,215,352"/>
+<area shape="rect" id="Node000016" href="$a01412.html" title="Time module: lumex_time, the current date and time as text and timestamps in units from nanoseconds t..." alt="" coords="1186,321,1285,346"/>
+<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="1056,261,1204,318,1202,323,1054,266"/>
+<area shape="rect" id="Node000022" href="$a01061.html" title=" " alt="" coords="981,321,1111,346"/>
+<area shape="poly" id="edge24_Node000015_Node000022" title=" " alt="" coords="1022,270,1043,319,1038,321,1017,272"/>
+<area shape="poly" id="edge17_Node000016_Node000003" title=" " alt="" coords="1287,347,1304,351,1477,377,1651,394,1809,405,1933,410,1933,415,1808,410,1651,400,1477,382,1303,356,1286,352"/>
+<area shape="poly" id="edge19_Node000016_Node000009" title=" " alt="" coords="1181,353,1011,404,1010,399,1179,347"/>
+<area shape="rect" id="Node000017" href="$a00872.html" title=" " alt="" coords="2641,401,2798,427"/>
+<area shape="poly" id="edge18_Node000016_Node000017" title=" " alt="" coords="1298,334,2641,407,2641,412,1298,339"/>
+<area shape="rect" id="Node000018" href="$a01295.html" title=" " alt="" coords="1082,475,1282,500"/>
+<area shape="poly" id="edge20_Node000016_Node000018" title=" " alt="" coords="1181,354,1148,374,1133,387,1122,403,1118,412,1118,421,1128,441,1144,458,1163,472,1159,477,1140,462,1123,444,1113,423,1113,411,1117,400,1129,384,1144,370,1179,349"/>
+<area shape="rect" id="Node000019" href="$a01202.html" title=" " alt="" coords="1452,475,1637,500"/>
+<area shape="poly" id="edge21_Node000016_Node000019" title=" " alt="" coords="1290,347,1304,351,1337,357,1367,359,1420,359,1445,360,1470,366,1495,379,1521,399,1534,417,1542,437,1547,474,1542,475,1537,438,1530,419,1517,403,1492,383,1468,371,1444,366,1420,364,1367,364,1337,362,1303,356,1289,352"/>
+<area shape="rect" id="Node000020" href="$a00509.html" title=" " alt="" coords="1364,401,1507,427"/>
+<area shape="poly" id="edge22_Node000016_Node000020" title=" " alt="" coords="1281,349,1405,399,1403,404,1279,354"/>
+<area shape="rect" id="Node000021" href="$a00512.html" title=" " alt="" coords="1131,401,1339,427"/>
+<area shape="poly" id="edge23_Node000016_Node000021" title=" " alt="" coords="1238,360,1238,401,1233,401,1233,360"/>
+<area shape="rect" id="Node000027" href="$a01376.html" title="Filesystem module: paths, directory iteration and file operations in the shape of C++17 &lt;filesystem&gt;,..." alt="" coords="1954,152,2090,177"/>
+<area shape="poly" id="edge29_Node000026_Node000027" title=" " alt="" coords="2025,118,2025,152,2019,152,2019,118"/>
+<area shape="rect" id="Node000041" href="$a00752.html" title=" " alt="" coords="1767,152,1930,177"/>
+<area shape="poly" id="edge53_Node000026_Node000041" title=" " alt="" coords="1980,112,1880,154,1878,149,1978,107"/>
+<area shape="poly" id="edge30_Node000027_Node000003" title=" " alt="" coords="2104,169,2300,190,2383,206,2412,214,2428,223,2442,244,2448,263,2447,282,2440,298,2427,314,2409,328,2361,351,2302,371,2238,387,2114,407,2113,402,2237,381,2301,366,2359,347,2406,323,2423,310,2435,296,2442,280,2443,264,2437,246,2424,227,2410,219,2382,211,2299,196,2104,174"/>
+<area shape="poly" id="edge32_Node000027_Node000009" title=" " alt="" coords="1940,180,1865,184,1776,185,1575,185,1474,187,1381,194,1301,207,1239,228,1218,241,1202,255,1181,287,1160,321,1145,339,1125,356,1071,384,1018,404,1017,399,1069,380,1122,351,1142,335,1156,318,1176,284,1198,252,1214,237,1237,223,1300,202,1381,189,1474,182,1575,179,1776,179,1865,178,1940,175"/>
+<area shape="poly" id="edge50_Node000027_Node000010" title=" " alt="" coords="1941,180,1716,196,1525,202,1356,201,1200,197,1043,194,876,195,687,205,465,228,423,235,423,230,464,223,687,200,876,190,1044,188,1200,191,1357,195,1525,197,1715,191,1940,175"/>
+<area shape="poly" id="edge31_Node000027_Node000017" title=" " alt="" coords="2104,168,2376,191,2502,206,2546,214,2573,223,2599,250,2639,301,2712,400,2708,403,2635,304,2595,253,2570,228,2545,220,2501,211,2376,196,2103,173"/>
+<area shape="poly" id="edge45_Node000027_Node000018" title=" " alt="" coords="2104,168,2315,189,2407,204,2438,213,2456,223,2466,242,2466,262,2460,282,2450,302,2424,336,2404,355,2368,380,2335,397,2304,407,2273,414,2208,420,2126,429,1992,442,1759,457,1282,485,1282,479,1758,452,1991,437,2126,424,2207,415,2273,408,2303,402,2333,392,2365,375,2400,351,2420,333,2445,299,2455,280,2461,261,2460,243,2452,227,2436,218,2406,210,2315,194,2104,173"/>
+<area shape="poly" id="edge46_Node000027_Node000019" title=" " alt="" coords="2104,169,2359,195,2470,210,2505,217,2522,223,2542,249,2557,275,2565,301,2569,327,2566,353,2557,378,2543,404,2522,429,2509,435,2484,441,2404,451,2157,468,1872,480,1638,488,1637,482,1872,475,2157,463,2403,446,2483,435,2508,430,2519,425,2538,401,2552,376,2561,351,2563,327,2560,302,2552,277,2538,252,2519,227,2504,222,2469,215,2358,200,2103,174"/>
+<area shape="rect" id="Node000028" href="$a01274.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="773,233,919,258"/>
+<area shape="poly" id="edge33_Node000027_Node000028" title=" " alt="" coords="1941,180,1787,192,1656,198,1433,198,1326,198,1212,201,1083,210,932,228,894,235,893,230,931,223,1083,205,1212,195,1326,192,1433,192,1656,192,1786,187,1940,175"/>
+<area shape="rect" id="Node000035" href="$a01301.html" title=" " alt="" coords="1429,233,1620,258"/>
+<area shape="poly" id="edge44_Node000027_Node000035" title=" " alt="" coords="1941,180,1633,228,1592,235,1591,230,1632,223,1940,175"/>
+<area shape="rect" id="Node000036" href="$a01235.html" title=" " alt="" coords="1644,233,1808,258"/>
+<area shape="poly" id="edge47_Node000027_Node000036" title=" " alt="" coords="1963,184,1773,235,1772,230,1961,178"/>
+<area shape="rect" id="Node000037" href="$a01226.html" title=" " alt="" coords="1833,233,2011,258"/>
+<area shape="poly" id="edge48_Node000027_Node000037" title=" " alt="" coords="1997,188,1940,234,1937,230,1994,184"/>
+<area shape="rect" id="Node000038" href="$a01211.html" title=" " alt="" coords="2035,233,2209,258"/>
+<area shape="poly" id="edge49_Node000027_Node000038" title=" " alt="" coords="2050,184,2107,230,2104,234,2047,188"/>
+<area shape="rect" id="Node000039" href="$a00260.html" title=" " alt="" coords="2233,233,2414,258"/>
+<area shape="poly" id="edge51_Node000027_Node000039" title=" " alt="" coords="2083,178,2276,230,2275,235,2082,183"/>
+<area shape="rect" id="Node000040" href="$a00263.html" title=" " alt="" coords="1250,225,1405,265"/>
+<area shape="poly" id="edge52_Node000027_Node000040" title=" " alt="" coords="1941,180,1793,195,1677,201,1563,210,1418,228,1405,230,1404,225,1418,223,1562,204,1677,196,1792,189,1940,175"/>
+<area shape="poly" id="edge41_Node000028_Node000009" title=" " alt="" coords="875,265,898,286,920,312,948,359,966,400,961,402,944,362,916,315,894,290,871,269"/>
+<area shape="rect" id="Node000029" href="$a01340.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="755,401,873,427"/>
+<area shape="poly" id="edge34_Node000028_Node000029" title=" " alt="" coords="779,265,741,285,725,298,712,315,706,333,712,352,724,368,739,380,774,399,771,404,736,385,720,371,708,355,701,333,708,312,721,295,738,280,777,260"/>
+<area shape="rect" id="Node000034" href="$a01271.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="722,321,906,346"/>
+<area shape="poly" id="edge42_Node000028_Node000034" title=" " alt="" coords="839,272,821,321,816,319,834,270"/>
+<area shape="poly" id="edge37_Node000029_Node000018" title=" " alt="" coords="887,426,1118,472,1117,477,886,431"/>
+<area shape="poly" id="edge38_Node000029_Node000019" title=" " alt="" coords="887,424,1201,459,1452,479,1451,484,1200,464,886,429"/>
+<area shape="rect" id="Node000030" href="$a01319.html" title=" " alt="" coords="339,475,622,500"/>
+<area shape="poly" id="edge35_Node000029_Node000030" title=" " alt="" coords="744,432,539,477,538,472,742,427"/>
+<area shape="poly" id="edge36_Node000029_Node000031" title=" " alt="" coords="886,424,1200,445,1614,462,2344,482,2344,488,1614,468,1199,451,886,429"/>
+<area shape="rect" id="Node000032" href="$a00440.html" title=" " alt="" coords="645,475,807,500"/>
+<area shape="poly" id="edge39_Node000029_Node000032" title=" " alt="" coords="790,438,743,476,740,472,786,434"/>
+<area shape="rect" id="Node000033" href="$a00443.html" title=" " alt="" coords="831,475,1058,500"/>
+<area shape="poly" id="edge40_Node000029_Node000033" title=" " alt="" coords="850,431,923,472,920,477,848,436"/>
+<area shape="poly" id="edge43_Node000034_Node000029" title=" " alt="" coords="817,360,817,401,811,401,811,360"/>
+<area shape="poly" id="edge57_Node000042_Node000004" title=" " alt="" coords="2572,110,2746,230,2743,235,2569,114"/>
+<area shape="rect" id="Node000043" href="$a00869.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="2727,152,2885,177"/>
+<area shape="poly" id="edge58_Node000042_Node000043" title=" " alt="" coords="2601,105,2761,149,2759,154,2599,110"/>
+<area shape="rect" id="Node000044" href="$a00884.html" title=" " alt="" coords="2438,152,2601,177"/>
+<area shape="poly" id="edge61_Node000042_Node000044" title=" " alt="" coords="2536,118,2526,152,2521,151,2531,116"/>
+<area shape="poly" id="edge59_Node000043_Node000004" title=" " alt="" coords="2795,191,2773,233,2768,231,2791,188"/>
+<area shape="poly" id="edge60_Node000043_Node000017" title=" " alt="" coords="2870,179,2952,206,2994,225,3032,246,3063,269,3082,296,3086,310,3086,325,3081,340,3071,355,3052,369,3026,381,2956,399,2875,409,2798,414,2798,409,2874,404,2955,393,3024,376,3050,365,3067,352,3076,337,3081,324,3081,311,3077,298,3059,273,3029,250,2991,230,2950,211,2868,184"/>
+<area shape="poly" id="edge64_Node000045_Node000016" title=" " alt="" coords="1470,104,1410,118,1347,142,1316,158,1287,178,1262,200,1240,227,1231,250,1228,276,1234,320,1229,321,1223,276,1225,249,1236,224,1258,197,1284,173,1313,154,1345,137,1409,113,1469,99"/>
+<area shape="rect" id="Node000046" href="$a01052.html" title=" " alt="" coords="1483,152,1609,177"/>
+<area shape="poly" id="edge65_Node000045_Node000046" title=" " alt="" coords="1549,118,1549,152,1543,152,1543,118"/>
+<area shape="poly" id="edge67_Node000047_Node000004" title=" " alt="" coords="2753,114,2733,131,2718,153,2715,174,2722,195,2735,215,2750,230,2746,234,2731,218,2717,198,2710,175,2713,151,2729,128,2749,110"/>
+<area shape="poly" id="edge68_Node000047_Node000043" title=" " alt="" coords="2796,116,2805,151,2800,152,2790,118"/>
+<area shape="rect" id="Node000048" href="$a00899.html" title=" " alt="" coords="2910,152,3107,177"/>
+<area shape="poly" id="edge69_Node000047_Node000048" title=" " alt="" coords="2839,106,2971,149,2969,154,2837,111"/>
+</map>

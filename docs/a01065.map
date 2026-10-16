@@ -1,0 +1,7 @@
+<map id="LumexUtilities.hpp" name="LumexUtilities.hpp">
+<area shape="rect" id="Node000001" title="fd_to_ptr() and ptr_to_fd(), which store a POSIX file descriptor in a void * handle slot and get it b..." alt="" coords="47,5,193,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,86,72,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,33,64,78,60,74,105,29"/>
+<area shape="rect" id="Node000003" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="96,79,309,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="135,29,174,67,170,71,131,33"/>
+</map>

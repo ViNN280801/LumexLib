@@ -1,0 +1,17 @@
+<map id="lumex::core::contracts::detail::observe_t::violated" name="lumex::core::contracts::detail::observe_t::violated">
+<area shape="rect" id="Node000001" title="observe: the handler runs, the program continues." alt="" coords="5,133,205,173"/>
+<area shape="rect" id="Node000002" href="$a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,133,448,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,151,240,151,240,156,205,156"/>
+<area shape="rect" id="Node000003" href="$a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="496,126,687,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="448,151,483,151,483,156,448,156"/>
+<area shape="rect" id="Node000004" href="$a02111.html#afded073cef13c26cf4770505404f7fa3" title="The column; 0 when unknown." alt="" coords="759,5,947,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="624,124,674,88,734,55,752,47,754,52,736,60,677,93,627,128"/>
+<area shape="rect" id="Node000005" href="$a02111.html#a94bb11107320de43ffd8218ee84f5a0e" title="The file name; never null." alt="" coords="751,69,955,109"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="686,127,757,110,759,115,688,133"/>
+<area shape="rect" id="Node000006" href="$a02111.html#a67099ea89fd04d8b6533ab6232b310c5" title="The function name; never null." alt="" coords="735,133,972,173"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="687,151,721,151,721,156,687,156"/>
+<area shape="rect" id="Node000007" href="$a02111.html#a32a7de5a3c08143dc13c818fcba2bfae" title="The line; 0 when unknown." alt="" coords="770,197,937,237"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="688,174,759,191,757,197,686,179"/>
+<area shape="rect" id="Node000008" href="$a01509.html#a247400ce4aad3c5074547001c49e3c86" title="The enumerator name of kind; &quot;unknown&quot; for a stray value." alt="" coords="770,261,937,301"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="627,179,677,214,736,247,758,256,756,261,734,252,674,219,624,183"/>
+</map>

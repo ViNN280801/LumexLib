@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathString.hpp File Reference</title>
+<title>LumexLib: LumexKeywords.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,69 +104,305 @@ $(function(){initNavTree('a01127.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XPathString.hpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexKeywords.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>XPathString</code>, the string type of XPath evaluation, and the conversions of nodes and numbers to it.  
+<p>Macros that spell C++ keywords and specifiers only where the compiled standard supports them, so one source compiles from C++11 to C++26.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01016_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01070_source.html">lumex/xml/xpath/memory/XPathAllocator.hpp</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathString.hpp:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01128.png" border="0" usemap="#a_x_path_string_8hpp" alt=""/></div>
-</div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01129.png" border="0" usemap="#a_x_path_string_8hppdep" alt=""/></div>
-</div>
-</div>
+
 <p><a href="a01127_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05146.html">lumex::xml::xpath::string::XPathString</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XPath string value, optimized for both constant and heap-allocated strings.  <a href="a05146.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01501.html">lumex::xml::xpath</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01502.html">lumex::xml::xpath::node</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01521.html">lumex::xml::xpath::string</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:acecf345205af2a10267ea4715f789fc1" id="r_acecf345205af2a10267ea4715f789fc1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05146.html">XPathString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01521.html#acecf345205af2a10267ea4715f789fc1">lumex::xml::xpath::string::string_value</a> (<a class="el" href="a05106.html">node::XPathNode</a> const &amp;node, <a class="el" href="a05082.html">XPathAllocator</a> *alloc)</td></tr>
-<tr class="memdesc:acecf345205af2a10267ea4715f789fc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the string value of an XPath node.  <br /></td></tr>
-<tr class="separator:acecf345205af2a10267ea4715f789fc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09b352423a07394eefab94c87fa06b09" id="r_a09b352423a07394eefab94c87fa06b09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05146.html">XPathString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01521.html#a09b352423a07394eefab94c87fa06b09">lumex::xml::xpath::string::convert_number_to_string</a> (double value, <a class="el" href="a05082.html">XPathAllocator</a> *alloc)</td></tr>
-<tr class="memdesc:a09b352423a07394eefab94c87fa06b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a double-precision floating-point number to an XPath string representation.  <br /></td></tr>
-<tr class="separator:a09b352423a07394eefab94c87fa06b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a7efa0880bd62481ba01b90becb04f413" id="r_a7efa0880bd62481ba01b90becb04f413"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7efa0880bd62481ba01b90becb04f413">LUMEX_CONSTINIT</a>&#160;&#160;&#160;constinit</td></tr>
+<tr class="separator:a7efa0880bd62481ba01b90becb04f413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa83cbe7f4ea7b2fd1f213698427b535d" id="r_aa83cbe7f4ea7b2fd1f213698427b535d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa83cbe7f4ea7b2fd1f213698427b535d">LUMEX_CONSTEVAL</a>&#160;&#160;&#160;consteval</td></tr>
+<tr class="separator:aa83cbe7f4ea7b2fd1f213698427b535d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47e6f687e9ccc7895ec20cace7a357d8" id="r_a47e6f687e9ccc7895ec20cace7a357d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47e6f687e9ccc7895ec20cace7a357d8">LUMEX_INLINE_VARIABLE</a>&#160;&#160;&#160;inline</td></tr>
+<tr class="separator:a47e6f687e9ccc7895ec20cace7a357d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8932f306494e2abfe9045da20a41e47c" id="r_a8932f306494e2abfe9045da20a41e47c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>&#160;&#160;&#160;noexcept</td></tr>
+<tr class="separator:a8932f306494e2abfe9045da20a41e47c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a519cca5cda98cc22e4eaf9dea1bcca4b" id="r_a519cca5cda98cc22e4eaf9dea1bcca4b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a519cca5cda98cc22e4eaf9dea1bcca4b">LUMEX_NOEXCEPT_IF</a>(...)</td></tr>
+<tr class="separator:a519cca5cda98cc22e4eaf9dea1bcca4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38079da46fca9b9ae17e90b731d6ab0c" id="r_a38079da46fca9b9ae17e90b731d6ab0c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a>&#160;&#160;&#160;if constexpr</td></tr>
+<tr class="separator:a38079da46fca9b9ae17e90b731d6ab0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b5f5ff346254db7b10ff8acfb874e0a" id="r_a6b5f5ff346254db7b10ff8acfb874e0a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b5f5ff346254db7b10ff8acfb874e0a">LUMEX_RESTRICT</a></td></tr>
+<tr class="separator:a6b5f5ff346254db7b10ff8acfb874e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81fe93b4daec85db53b06073263b888f" id="r_a81fe93b4daec85db53b06073263b888f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81fe93b4daec85db53b06073263b888f">LUMEX_CONSTEXPR_FUNCTION</a>&#160;&#160;&#160;constexpr</td></tr>
+<tr class="separator:a81fe93b4daec85db53b06073263b888f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa40239baec57106b1798029a91d87025" id="r_aa40239baec57106b1798029a91d87025"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa40239baec57106b1798029a91d87025">LUMEX_CONSTEXPR_VIRTUAL_FUNCTION</a>&#160;&#160;&#160;constexpr</td></tr>
+<tr class="separator:aa40239baec57106b1798029a91d87025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aac503affc067676ceedfe24f4c3357" id="r_a8aac503affc067676ceedfe24f4c3357"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a>&#160;&#160;&#160;constexpr</td></tr>
+<tr class="separator:a8aac503affc067676ceedfe24f4c3357"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1301de49ecd91c86b7a61015084dc3fc" id="r_a1301de49ecd91c86b7a61015084dc3fc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1301de49ecd91c86b7a61015084dc3fc">LUMEX_CONSTEXPR_DEFAULTED_CTOR</a></td></tr>
+<tr class="separator:a1301de49ecd91c86b7a61015084dc3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6ade2ee3e7399a6546df90d11ec8518" id="r_ac6ade2ee3e7399a6546df90d11ec8518"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6ade2ee3e7399a6546df90d11ec8518">LUMEX_CONSTEXPR_DTOR</a>&#160;&#160;&#160;constexpr</td></tr>
+<tr class="separator:ac6ade2ee3e7399a6546df90d11ec8518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82311fbffabf10f9f7d8a089711dae6a" id="r_a82311fbffabf10f9f7d8a089711dae6a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82311fbffabf10f9f7d8a089711dae6a">LUMEX_CONSTEXPR_DEFAULTED_DTOR</a></td></tr>
+<tr class="separator:a82311fbffabf10f9f7d8a089711dae6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5623e00fcb6be5c2ab39f71b96fca788" id="r_a5623e00fcb6be5c2ab39f71b96fca788"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5623e00fcb6be5c2ab39f71b96fca788">LUMEX_CONSTEXPR_VIRTUAL_DTOR</a></td></tr>
+<tr class="separator:a5623e00fcb6be5c2ab39f71b96fca788"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01a7d3864d496126e9efae4bd106ffd3" id="r_a01a7d3864d496126e9efae4bd106ffd3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01a7d3864d496126e9efae4bd106ffd3">LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR</a></td></tr>
+<tr class="separator:a01a7d3864d496126e9efae4bd106ffd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1513006a1992e7dc9cc43b2e081cc33f" id="r_a1513006a1992e7dc9cc43b2e081cc33f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a>&#160;&#160;&#160;<a class="el" href="#a81fe93b4daec85db53b06073263b888f">LUMEX_CONSTEXPR_FUNCTION</a></td></tr>
+<tr class="separator:a1513006a1992e7dc9cc43b2e081cc33f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d4728a7aecaee53cd10dc2ae6646db1" id="r_a4d4728a7aecaee53cd10dc2ae6646db1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d4728a7aecaee53cd10dc2ae6646db1">LUMEX_CONSTEXPR_CXX14</a>&#160;&#160;&#160;constexpr</td></tr>
+<tr class="separator:a4d4728a7aecaee53cd10dc2ae6646db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>XPathString</code>, the string type of XPath evaluation, and the conversions of nodes and numbers to it. </p>
-<p>An <code>XPathString</code> either refers to text it does not own, such as a value in the document or a literal of the expression, or owns a copy in an <code>XPathAllocator</code>. It copies only when it has to, for example when appending or when <code>data()</code> asks for writable characters. <code>string_value</code> returns the string value of a node as XPath 1.0 defines it (the concatenated text of an element's descendants), and <code>convert_number_to_string</code> formats a number the XPath way, without an exponent and with <code>NaN</code>, <code>Infinity</code> and <code>-Infinity</code> for the special values. The file is internal to the XPath engine. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Macros that spell C++ keywords and specifiers only where the compiled standard supports them, so one source compiles from C++11 to C++26. </p>
+<p><code>LUMEX_NOEXCEPT</code> and <code><a class="el" href="#a519cca5cda98cc22e4eaf9dea1bcca4b">LUMEX_NOEXCEPT_IF(...)</a></code> are <code>noexcept</code> and its conditional form. <code>LUMEX_CONSTEXPR</code> and the <code>LUMEX_CONSTEXPR_*</code> family for functions, constructors, destructors and virtual functions expand to <code>constexpr</code> only from the standard the header picks for that kind of declaration: C++11 for functions and constructors, C++20 for virtual functions and destructors, C++23 for defaulted special members and virtual destructors. <code>LUMEX_CONSTEXPR_CXX14</code> marks a function body that needs the relaxed rules of C++14. <code>LUMEX_CONSTEXPR_IF</code> is <code>if constexpr</code> from C++17 and a plain <code>if</code> before, so both branches must compile. <code>LUMEX_INLINE_VARIABLE</code> is <code>inline</code> from C++17 and empty before; <code>LUMEX_CONSTINIT</code> and <code>LUMEX_CONSTEVAL</code> are the C++20 keywords and <code>constexpr</code> before; <code>LUMEX_RESTRICT</code> is the compiler's <code>__restrict</code> extension. The header includes nothing. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aa83cbe7f4ea7b2fd1f213698427b535d" name="aa83cbe7f4ea7b2fd1f213698427b535d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa83cbe7f4ea7b2fd1f213698427b535d">&#9670;&#160;</a></span>LUMEX_CONSTEVAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEVAL&#160;&#160;&#160;consteval</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1513006a1992e7dc9cc43b2e081cc33f" name="a1513006a1992e7dc9cc43b2e081cc33f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1513006a1992e7dc9cc43b2e081cc33f">&#9670;&#160;</a></span>LUMEX_CONSTEXPR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR&#160;&#160;&#160;<a class="el" href="#a81fe93b4daec85db53b06073263b888f">LUMEX_CONSTEXPR_FUNCTION</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8aac503affc067676ceedfe24f4c3357" name="a8aac503affc067676ceedfe24f4c3357"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8aac503affc067676ceedfe24f4c3357">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_CTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_CTOR&#160;&#160;&#160;constexpr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d4728a7aecaee53cd10dc2ae6646db1" name="a4d4728a7aecaee53cd10dc2ae6646db1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d4728a7aecaee53cd10dc2ae6646db1">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_CXX14</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_CXX14&#160;&#160;&#160;constexpr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1301de49ecd91c86b7a61015084dc3fc" name="a1301de49ecd91c86b7a61015084dc3fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1301de49ecd91c86b7a61015084dc3fc">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_DEFAULTED_CTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_DEFAULTED_CTOR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82311fbffabf10f9f7d8a089711dae6a" name="a82311fbffabf10f9f7d8a089711dae6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82311fbffabf10f9f7d8a089711dae6a">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_DEFAULTED_DTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_DEFAULTED_DTOR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a01a7d3864d496126e9efae4bd106ffd3" name="a01a7d3864d496126e9efae4bd106ffd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01a7d3864d496126e9efae4bd106ffd3">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac6ade2ee3e7399a6546df90d11ec8518" name="ac6ade2ee3e7399a6546df90d11ec8518"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6ade2ee3e7399a6546df90d11ec8518">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_DTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_DTOR&#160;&#160;&#160;constexpr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a81fe93b4daec85db53b06073263b888f" name="a81fe93b4daec85db53b06073263b888f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81fe93b4daec85db53b06073263b888f">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_FUNCTION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_FUNCTION&#160;&#160;&#160;constexpr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38079da46fca9b9ae17e90b731d6ab0c" name="a38079da46fca9b9ae17e90b731d6ab0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38079da46fca9b9ae17e90b731d6ab0c">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_IF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_IF&#160;&#160;&#160;if constexpr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5623e00fcb6be5c2ab39f71b96fca788" name="a5623e00fcb6be5c2ab39f71b96fca788"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5623e00fcb6be5c2ab39f71b96fca788">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_VIRTUAL_DTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_VIRTUAL_DTOR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa40239baec57106b1798029a91d87025" name="aa40239baec57106b1798029a91d87025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa40239baec57106b1798029a91d87025">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_VIRTUAL_FUNCTION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTEXPR_VIRTUAL_FUNCTION&#160;&#160;&#160;constexpr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7efa0880bd62481ba01b90becb04f413" name="a7efa0880bd62481ba01b90becb04f413"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7efa0880bd62481ba01b90becb04f413">&#9670;&#160;</a></span>LUMEX_CONSTINIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONSTINIT&#160;&#160;&#160;constinit</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47e6f687e9ccc7895ec20cace7a357d8" name="a47e6f687e9ccc7895ec20cace7a357d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47e6f687e9ccc7895ec20cace7a357d8">&#9670;&#160;</a></span>LUMEX_INLINE_VARIABLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_INLINE_VARIABLE&#160;&#160;&#160;inline</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8932f306494e2abfe9045da20a41e47c" name="a8932f306494e2abfe9045da20a41e47c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8932f306494e2abfe9045da20a41e47c">&#9670;&#160;</a></span>LUMEX_NOEXCEPT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_NOEXCEPT&#160;&#160;&#160;noexcept</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a519cca5cda98cc22e4eaf9dea1bcca4b" name="a519cca5cda98cc22e4eaf9dea1bcca4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a519cca5cda98cc22e4eaf9dea1bcca4b">&#9670;&#160;</a></span>LUMEX_NOEXCEPT_IF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_NOEXCEPT_IF</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">noexcept</span> (__VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a6b5f5ff346254db7b10ff8acfb874e0a" name="a6b5f5ff346254db7b10ff8acfb874e0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b5f5ff346254db7b10ff8acfb874e0a">&#9670;&#160;</a></span>LUMEX_RESTRICT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_RESTRICT</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_989d132200bde02bf236ad3d7ebd87b6.html">string</a></li><li class="navelem"><a class="el" href="a01127.html">XPathString.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_e3f214e8a41a41e150fac712d4956bd2.html">macros</a></li><li class="navelem"><a class="el" href="a01127.html">LumexKeywords.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,10 @@
+<map id="lumex::core::circular_buffer::circular_buffer::assign" name="lumex::core::circular_buffer::circular_buffer::assign">
+<area shape="rect" id="Node000001" title="Replaces the content with the elements of a list in a buffer of the given capacity (the last capacity..." alt="" coords="5,69,173,124"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a9de976ca7b3826b1833506ea09431ab9" title="Replaces the content with n copies of item; the capacity becomes n." alt="" coords="221,29,389,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,78,207,72,208,77,174,84"/>
+<area shape="rect" id="Node000004" href="$a02055.html#a1d423e4ad18a4329efe36c8ddef18c01" title="Returns the maximum number of elements the buffer can hold." alt="" coords="221,108,389,163"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="174,109,208,115,207,120,173,114"/>
+<area shape="rect" id="Node000003" href="$a02055.html#a583c3fee3eb06a9b927eae01eab586be" title="Creates an empty buffer with capacity 0." alt="" coords="437,29,605,84"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="389,54,423,54,423,59,389,59"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="479,29,479,19,487,10,501,5,521,3,546,6,560,14,557,18,544,11,521,8,502,10,490,15,484,21,484,29"/>
+</map>

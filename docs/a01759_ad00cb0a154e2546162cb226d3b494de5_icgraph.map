@@ -1,0 +1,8 @@
+<map id="lumex::applied::logging::log::LumexLogging::get_logs_directory" name="lumex::applied::logging::log::LumexLogging::get_logs_directory">
+<area shape="rect" id="Node000001" title="Get the path to the logs directory." alt="" coords="357,5,540,60"/>
+<area shape="rect" id="Node000002" href="$a00440.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,20,60,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="344,32,108,31,60,34,60,28,108,26,344,27"/>
+<area shape="rect" id="Node000003" href="$a01759.html#aba1b51f61fc63faeb93387a3e0b9a04b" title="Write a log to a file in the logs/ directory." alt="" coords="108,41,309,81"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="344,48,310,52,309,46,344,42"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="94,45,60,40,61,34,95,40"/>
+</map>

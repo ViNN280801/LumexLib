@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc16_en13757_spec_t Struct Reference</title>
+<title>LumexLib: lumex::xml::memory Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,61 +104,232 @@ $(function(){initNavTree('a01677.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01674.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc16_en13757_spec_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::memory Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>CRC-16/EN-13757: width=16 poly=0x3d65 init=0x0000 refin=false refout=false xorout=0xffff.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a0ec185c74804bc460a768f4b032c1add" id="r_a0ec185c74804bc460a768f4b032c1add"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ec185c74804bc460a768f4b032c1add">ValueType</a> = std::uint16_t</td></tr>
-<tr class="separator:a0ec185c74804bc460a768f4b032c1add"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05135.html">XmlAllocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.  <a href="a05135.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05139.html">XmlMemoryPage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a single fixed-size memory page used by the <code><a class="el" href="a05135.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code>.  <a href="a05139.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a0cde7f14c4541d1019d4e0dcecdaeb46" id="r_a0cde7f14c4541d1019d4e0dcecdaeb46"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cde7f14c4541d1019d4e0dcecdaeb46">kWidth</a> = 16</td></tr>
-<tr class="separator:a0cde7f14c4541d1019d4e0dcecdaeb46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade094682733f0a45ca71e6625620d9b0" id="r_ade094682733f0a45ca71e6625620d9b0"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade094682733f0a45ca71e6625620d9b0">kPoly</a> = 0x3D65U</td></tr>
-<tr class="separator:ade094682733f0a45ca71e6625620d9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3555cc3434bfad091f305a2d54fc489d" id="r_a3555cc3434bfad091f305a2d54fc489d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3555cc3434bfad091f305a2d54fc489d">kInit</a> = 0x0000U</td></tr>
-<tr class="separator:a3555cc3434bfad091f305a2d54fc489d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa624b3757719acbf321e1cf80aab67a" id="r_afa624b3757719acbf321e1cf80aab67a"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa624b3757719acbf321e1cf80aab67a">kRefIn</a> = false</td></tr>
-<tr class="separator:afa624b3757719acbf321e1cf80aab67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8dfe1b4b30c359dbe9c612ef0e95d111" id="r_a8dfe1b4b30c359dbe9c612ef0e95d111"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8dfe1b4b30c359dbe9c612ef0e95d111">kRefOut</a> = false</td></tr>
-<tr class="separator:a8dfe1b4b30c359dbe9c612ef0e95d111"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a638278f561293af50f4bb9676c798cff" id="r_a638278f561293af50f4bb9676c798cff"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a638278f561293af50f4bb9676c798cff">kXorOut</a> = 0xFFFFU</td></tr>
-<tr class="separator:a638278f561293af50f4bb9676c798cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cda2977266b0065e26829ed475d00e3" id="r_a1cda2977266b0065e26829ed475d00e3"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cda2977266b0065e26829ed475d00e3">kCatalogCheck</a> = 0xC2B7U</td></tr>
-<tr class="separator:a1cda2977266b0065e26829ed475d00e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:af5c331138f914028e4642100ea3e7a24" id="r_af5c331138f914028e4642100ea3e7a24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5c331138f914028e4642100ea3e7a24">char_t</a></td></tr>
+<tr class="separator:af5c331138f914028e4642100ea3e7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7" id="r_a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplParams" colspan="2">template&lt;typename Object&gt; </td></tr>
+<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a05135.html">XmlAllocator</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9e2f482374d0d85e41688b19b06931c7">get_allocator</a> (Object const *object)</td></tr>
+<tr class="memdesc:a9e2f482374d0d85e41688b19b06931c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the <code><a class="el" href="a05135.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> instance that manages the memory for a given object.  <br /></td></tr>
+<tr class="separator:a9e2f482374d0d85e41688b19b06931c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ac84ecf0eca5d2db3249e4552c2a861a4" id="r_ac84ecf0eca5d2db3249e4552c2a861a4"><td class="memItemLeft" align="right" valign="top">static std::size_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac84ecf0eca5d2db3249e4552c2a861a4">kdefault_xml_memory_page_size</a> = 32768 - sizeof (<a class="el" href="a05139.html">XmlMemoryPage</a>)</td></tr>
+<tr class="memdesc:ac84ecf0eca5d2db3249e4552c2a861a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the default size of a memory page for XML allocation.  <br /></td></tr>
+<tr class="separator:ac84ecf0eca5d2db3249e4552c2a861a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-16/EN-13757: width=16 poly=0x3d65 init=0x0000 refin=false refout=false xorout=0xffff. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-16/EN-13757 </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a0ec185c74804bc460a768f4b032c1add" name="a0ec185c74804bc460a768f4b032c1add"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ec185c74804bc460a768f4b032c1add">&#9670;&#160;</a></span>ValueType</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="af5c331138f914028e4642100ea3e7a24" name="af5c331138f914028e4642100ea3e7a24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5c331138f914028e4642100ea3e7a24">&#9670;&#160;</a></span>char_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#a0ec185c74804bc460a768f4b032c1add">lumex::core::crc::parametric::crc16_en13757_spec_t::ValueType</a> = std::uint16_t</td>
+          <td class="memname">using <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a1cda2977266b0065e26829ed475d00e3" name="a1cda2977266b0065e26829ed475d00e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cda2977266b0065e26829ed475d00e3">&#9670;&#160;</a></span>kCatalogCheck</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a9e2f482374d0d85e41688b19b06931c7" name="a9e2f482374d0d85e41688b19b06931c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e2f482374d0d85e41688b19b06931c7">&#9670;&#160;</a></span>get_allocator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Object&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a05135.html">XmlAllocator</a> &amp; lumex::xml::memory::get_allocator </td>
+          <td>(</td>
+          <td class="paramtype">Object const *</td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves the <code><a class="el" href="a05135.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> instance that manages the memory for a given object. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Object</td><td>The type of the object (e.g., <code><a class="el" href="a05159.html" title="Base structure representing an XML node in the document tree.">XmlNodeBase</a></code>, <code><a class="el" href="a05119.html" title="Base structure for representing an XML attribute.">XmlAttributeBase</a></code>, <code><a class="el" href="a05195.html">xml_mem_str_header_t</a></code>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">object</td><td>A pointer to the object for which to retrieve the allocator. Must not be <code>nullptr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the <code><a class="el" href="a05135.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> that owns <code>object</code>'s memory.</dd></dl>
+<p>This function determines the <code><a class="el" href="a05139.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code> that contains <code>object</code> and then accesses the <code>allocator</code> pointer stored within that page. Since each page points back to its managing allocator (which is typically the <code><a class="el" href="a05131.html" title="Base structure representing an XML document, combining node and allocator functionalities.">XmlDocumentBase</a></code>), this provides a way to get the correct allocator for any object within an XML document. </p><dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if <code>object</code> is <code>nullptr</code> (debug builds only). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This is an internal utility function. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01677_a9e2f482374d0d85e41688b19b06931c7_icgraph.png" border="0" usemap="#aa01677_a9e2f482374d0d85e41688b19b06931c7_icgraph" alt=""/></div>
+<map name="aa01677_a9e2f482374d0d85e41688b19b06931c7_icgraph" id="aa01677_a9e2f482374d0d85e41688b19b06931c7_icgraph">
+<area shape="rect" title="Retrieves the XmlAllocator instance that manages the memory for a given object." alt="" coords="761,828,920,868"/>
+<area shape="rect" href="a05143.html#ada2567cc0764ef183d966076cb8521a5" title="Appends a new attribute with the specified name to the current node." alt="" coords="509,63,713,103"/>
+<area shape="poly" title=" " alt="" coords="835,815,820,677,794,485,777,386,758,294,735,218,711,163,682,130,648,105,651,101,686,126,716,160,740,216,763,293,783,385,800,484,826,676,840,814"/>
+<area shape="rect" href="a05143.html#a98517bc923b581acabf15a09a86976b7" title="append_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="509,237,713,277"/>
+<area shape="poly" title=" " alt="" coords="834,814,820,699,794,545,777,467,758,396,736,338,711,298,688,280,691,275,715,294,740,335,763,394,782,466,799,544,825,698,840,814"/>
+<area shape="rect" href="a05143.html#a6226c2329935d1fc5d905862a3b21da3" title="Appends a new child node of a specified type to the current node." alt="" coords="509,173,713,213"/>
+<area shape="poly" title=" " alt="" coords="836,814,823,685,800,509,783,420,763,339,739,272,726,247,711,227,698,216,701,211,715,224,730,244,744,270,768,337,788,419,805,509,829,685,841,814"/>
+<area shape="rect" href="a05143.html#ace7d9948e6fb922f91d513b2e7cc6655" title="Appends a copy of an existing attribute (proto) to the current node." alt="" coords="257,312,461,352"/>
+<area shape="poly" title=" " alt="" coords="834,815,820,711,794,574,778,506,758,445,736,396,711,365,685,346,655,331,623,321,590,315,524,311,461,315,461,309,524,305,591,309,624,316,657,326,687,341,715,361,741,394,763,443,783,505,800,573,825,710,840,814"/>
+<area shape="rect" href="a05143.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,563,209,603"/>
+<area shape="poly" title=" " alt="" coords="829,815,814,772,790,720,756,670,735,649,712,630,674,613,621,600,558,591,488,585,341,580,210,581,210,576,341,575,488,580,559,586,622,595,676,608,715,626,739,645,760,667,794,718,819,769,834,814"/>
+<area shape="rect" href="a05143.html#a1afe55c5a83f0973e3b62d4bf8a7d1c3" title="insert_attribute_after with a name of size characters at name, which need no terminating NUL (a range..." alt="" coords="509,885,713,925"/>
+<area shape="poly" title=" " alt="" coords="748,874,692,888,691,883,747,869"/>
+<area shape="rect" href="a05143.html#a209987dd4c7649b2062772d74c6a8bb3" title="Inserts a new attribute with the specified name after a given existing attribute." alt="" coords="509,949,713,989"/>
+<area shape="poly" title=" " alt="" coords="808,879,765,910,715,940,686,952,684,947,712,935,762,906,805,874"/>
+<area shape="rect" href="a05143.html#a907ba2d6ba1a4afcc1d3243b87746d68" title="insert_attribute_before with a name of size characters at name, which need no terminating NUL (a rang..." alt="" coords="509,1013,713,1053"/>
+<area shape="poly" title=" " alt="" coords="824,881,779,943,749,976,715,1004,693,1016,690,1011,712,999,746,972,775,940,820,878"/>
+<area shape="rect" href="a05143.html#a08bd76620887844f06b8806c8ca05227" title="Inserts a new attribute with the specified name before a given existing attribute." alt="" coords="509,1077,713,1117"/>
+<area shape="poly" title=" " alt="" coords="832,882,816,924,791,974,757,1024,715,1067,696,1080,693,1075,712,1063,753,1021,786,971,811,922,828,880"/>
+<area shape="rect" href="a05143.html#a8ac674a8eb55c7777142210558672170" title="Inserts a new child node of a specified type before a given existing child node." alt="" coords="509,1141,713,1181"/>
+<area shape="poly" title=" " alt="" coords="837,882,824,936,800,1003,765,1072,742,1103,715,1131,698,1143,695,1139,712,1127,738,1100,760,1069,796,1001,819,935,832,881"/>
+<area shape="rect" href="a05143.html#a62df8cc6d084b34512830bb14d04a8f2" title="Inserts a new child node of a specified type after a given existing child node." alt="" coords="509,1205,713,1245"/>
+<area shape="poly" title=" " alt="" coords="841,882,831,948,809,1032,793,1076,772,1119,747,1160,715,1195,699,1207,696,1203,712,1191,742,1156,768,1117,788,1074,804,1030,825,947,835,881"/>
+<area shape="rect" href="a05143.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="257,376,461,416"/>
+<area shape="poly" title=" " alt="" coords="834,815,819,715,793,587,777,523,757,466,736,421,712,393,694,384,670,378,607,373,534,376,462,384,461,378,534,371,607,368,671,373,696,379,715,389,740,419,762,464,782,522,799,585,824,714,839,814"/>
+<area shape="rect" href="a05143.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="5,627,209,667"/>
+<area shape="poly" title=" " alt="" coords="825,816,807,782,782,743,751,707,712,678,650,651,584,632,516,620,448,614,381,614,317,617,208,629,207,624,317,611,381,608,448,609,516,615,585,627,652,646,715,674,754,703,787,740,812,779,830,814"/>
+<area shape="rect" href="a05143.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="257,440,461,480"/>
+<area shape="poly" title=" " alt="" coords="836,815,827,750,806,670,790,628,769,588,743,551,712,519,694,509,670,500,607,485,533,475,461,468,462,463,534,469,608,480,672,495,697,504,715,515,747,547,774,585,795,626,811,668,832,749,841,814"/>
+<area shape="rect" href="a05143.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="5,756,209,796"/>
+<area shape="poly" title=" " alt="" coords="747,835,713,831,440,803,209,785,210,780,441,798,714,825,748,830"/>
+<area shape="rect" href="a01670.html#a05babdf187dfa6292de80d86d7470a11" title="Copies the name and value strings from a source XmlAttributeBase to a destination XmlAttributeBase." alt="" coords="530,403,693,443"/>
+<area shape="poly" title=" " alt="" coords="836,815,828,743,808,649,792,599,771,550,744,504,711,463,686,445,689,441,715,459,749,501,776,548,797,597,813,648,833,742,842,814"/>
+<area shape="rect" href="a05143.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="257,504,461,544"/>
+<area shape="poly" title=" " alt="" coords="834,815,822,759,800,690,784,654,764,621,740,590,712,565,684,547,653,534,589,517,523,511,462,512,462,507,523,506,590,512,655,529,686,543,715,561,744,587,769,618,789,652,805,688,828,757,839,814"/>
+<area shape="rect" href="a01672.html#aec8cf7d559fe456a7d4396307ffc5404" title="Copies the name and value strings and all attributes from a source XmlNodeBase to a destination XmlNo..." alt="" coords="523,720,699,760"/>
+<area shape="poly" title=" " alt="" coords="794,823,712,781,668,763,670,758,714,776,796,819"/>
+<area shape="rect" href="a01672.html#a11377e4dbc3c07bbcae59a081a6040b6" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="271,691,447,731"/>
+<area shape="poly" title=" " alt="" coords="821,818,802,790,777,759,747,732,712,710,680,699,646,690,576,683,508,685,447,693,447,688,508,680,576,678,647,685,681,693,714,706,750,727,781,756,806,786,825,815"/>
+<area shape="rect" href="a05143.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,823,209,863"/>
+<area shape="poly" title=" " alt="" coords="748,850,209,846,209,841,748,845"/>
+<area shape="rect" href="a05143.html#afc6e5a7c3b3dc02be7f5f003c5192d27" title="Prepends a new attribute with the specified name to the current node." alt="" coords="509,1269,713,1309"/>
+<area shape="poly" title=" " alt="" coords="837,882,819,970,790,1082,755,1189,736,1230,715,1259,700,1271,696,1267,711,1255,731,1228,750,1187,785,1081,813,969,832,881"/>
+<area shape="rect" href="a05143.html#a15e68847db6ff8e341f795e5be99f613" title="prepend_attribute with a name of size characters at name, which need no terminating NUL (a range of a..." alt="" coords="509,1333,713,1373"/>
+<area shape="poly" title=" " alt="" coords="838,882,822,983,795,1114,778,1180,759,1240,738,1289,715,1323,700,1335,697,1331,711,1320,733,1287,754,1238,773,1179,790,1113,817,982,833,881"/>
+<area shape="rect" href="a05143.html#a2b60652b5cf0a8218617bcc2256066b5" title="Prepends a new child node of a specified type to the current node." alt="" coords="509,1493,713,1533"/>
+<area shape="poly" title=" " alt="" coords="840,882,830,973,807,1100,771,1245,746,1317,716,1387,697,1418,676,1448,634,1495,630,1491,672,1445,693,1415,711,1384,741,1315,765,1243,802,1099,824,972,835,881"/>
+<area shape="rect" href="a05143.html#a6f070ed5f320f3b771a23e57e4565492" title="Removes a specified XmlAttribute from the current node." alt="" coords="509,1839,713,1879"/>
+<area shape="poly" title=" " alt="" coords="842,882,831,1060,808,1322,791,1458,771,1585,746,1692,731,1736,716,1771,701,1792,684,1811,647,1841,643,1836,680,1807,697,1789,711,1768,726,1734,740,1691,765,1584,786,1457,803,1321,826,1060,836,882"/>
+<area shape="rect" href="a05143.html#a65c439391e38b67b41e324daa3d3d390" title="Removes all attributes from the current node." alt="" coords="509,1903,713,1943"/>
+<area shape="poly" title=" " alt="" coords="841,882,827,1100,800,1420,782,1582,762,1724,740,1832,728,1869,715,1892,702,1905,698,1901,711,1889,723,1867,735,1831,757,1723,777,1581,794,1420,821,1100,836,882"/>
+<area shape="rect" href="a05143.html#ad1c60286d13be69a8220624272bbce51" title="Removes a specified child node from the current node." alt="" coords="509,1717,713,1757"/>
+<area shape="poly" title=" " alt="" coords="841,882,830,995,807,1161,770,1353,745,1451,716,1546,695,1596,671,1645,627,1718,623,1716,666,1642,690,1594,711,1544,740,1450,765,1352,802,1160,824,994,836,882"/>
+<area shape="rect" href="a05143.html#a755de6a01e5af91f33b90f9ac4022e84" title="Removes all child nodes from the current node." alt="" coords="509,1967,713,2007"/>
+<area shape="poly" title=" " alt="" coords="842,882,828,1113,802,1453,784,1625,764,1777,741,1892,729,1932,715,1956,702,1969,698,1965,711,1953,724,1930,736,1891,759,1776,779,1624,796,1453,823,1112,836,882"/>
+<area shape="rect" href="a05143.html#aed4795cbf9669bd00fcacd49e19a4447" title="Appends a new attribute with the specified name (string_view_t) to the current node." alt="" coords="257,5,461,45"/>
+<area shape="poly" title=" " alt="" coords="509,62,447,48,448,43,510,57"/>
+<area shape="rect" href="a00395.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="332,70,387,95"/>
+<area shape="poly" title=" " alt="" coords="496,85,387,85,387,80,496,80"/>
+<area shape="poly" title=" " alt="" coords="569,168,518,138,460,110,422,98,386,90,387,85,423,93,462,106,520,133,571,163"/>
+<area shape="rect" href="a05143.html#a3c7bd51171193d163b75123b6fcb858d" title="Appends a new child element with the specified name to the current node." alt="" coords="257,120,461,160"/>
+<area shape="poly" title=" " alt="" coords="503,173,453,163,455,157,504,168"/>
+<area shape="rect" href="a05143.html#a25d05a0cc347c9c670f4ec1df768742c" title="append_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="257,184,461,224"/>
+<area shape="poly" title=" " alt="" coords="496,201,462,202,462,197,496,196"/>
+<area shape="rect" href="a05143.html#a72fa49721a6ffa9200f240b4772e8a12" title="Appends a new child element with the specified name (string_view_t) to the current node." alt="" coords="257,248,461,288"/>
+<area shape="poly" title=" " alt="" coords="532,220,428,250,426,245,530,215"/>
+<area shape="rect" href="a05143.html#ab226afbbdb502d2c775736f8f2b2fca4" title="Inserts a new attribute with the specified name (string_view_t) after a given existing attribute." alt="" coords="257,885,461,925"/>
+<area shape="poly" title=" " alt="" coords="518,948,437,928,439,923,520,943"/>
+<area shape="rect" href="a05143.html#a715b4ab8ffbbd98d8fe0c84c68e3f28e" title="Inserts a new attribute with the specified name (string_view_t) before a given existing attribute." alt="" coords="257,949,461,989"/>
+<area shape="poly" title=" " alt="" coords="517,1073,508,1067,492,1051,483,1035,475,1019,460,1003,439,992,441,987,463,999,479,1016,488,1032,496,1048,511,1063,520,1069"/>
+<area shape="rect" href="a05143.html#ae8bb7651245fb6e302ffd4cb102d20c3" title="insert_child_after with a name of size characters at name, which need no terminating NUL (a range of ..." alt="" coords="257,1013,461,1053"/>
+<area shape="poly" title=" " alt="" coords="517,1137,508,1131,492,1115,483,1099,475,1083,460,1067,439,1056,441,1051,463,1063,479,1080,488,1096,496,1112,511,1127,520,1133"/>
+<area shape="rect" href="a05143.html#a33547ff6911a38d3cd5aafb699001b7a" title="Inserts a new child element with the specified name after a given existing child node." alt="" coords="257,1077,461,1117"/>
+<area shape="poly" title=" " alt="" coords="518,1140,437,1120,439,1115,520,1135"/>
+<area shape="rect" href="a05143.html#a91f2cdca9e92733aeb3496240735c5de" title="Inserts a new child element with the specified name (string_view_t) after a given existing child node..." alt="" coords="257,1141,461,1181"/>
+<area shape="poly" title=" " alt="" coords="496,1164,462,1164,462,1159,496,1159"/>
+<area shape="rect" href="a05143.html#aab7bcf34968c0972b2f2663112ac9cc6" title="insert_child_before with a name of size characters at name, which need no terminating NUL (a range of..." alt="" coords="257,1205,461,1245"/>
+<area shape="poly" title=" " alt="" coords="496,1228,462,1228,462,1223,496,1223"/>
+<area shape="rect" href="a05143.html#a382508de160ecc5107cf79c88c597b36" title="Inserts a new child element with the specified name before a given existing child node." alt="" coords="257,1269,461,1309"/>
+<area shape="poly" title=" " alt="" coords="520,1251,439,1272,437,1267,518,1246"/>
+<area shape="rect" href="a05143.html#a972e7ea652b109d8b1c1b383cae27905" title="Inserts a new child element with the specified name (string_view_t) before a given existing child nod..." alt="" coords="257,1333,461,1373"/>
+<area shape="poly" title=" " alt="" coords="520,1254,511,1259,496,1275,488,1291,479,1307,463,1323,441,1336,439,1331,460,1319,475,1304,483,1288,492,1272,508,1255,517,1249"/>
+<area shape="poly" title=" " alt="" coords="549,400,460,367,425,355,427,350,462,361,551,395"/>
+<area shape="poly" title=" " alt="" coords="516,415,461,409,462,404,517,410"/>
+<area shape="poly" title=" " alt="" coords="517,439,462,447,461,442,516,434"/>
+<area shape="poly" title=" " alt="" coords="560,451,462,494,429,506,427,501,460,490,558,446"/>
+<area shape="poly" title=" " alt="" coords="509,731,447,724,448,718,510,726"/>
+<area shape="poly" title=" " alt="" coords="320,685,268,650,208,617,179,605,181,600,210,612,271,645,323,680"/>
+<area shape="poly" title=" " alt="" coords="266,690,185,669,187,664,268,685"/>
+<area shape="poly" title=" " alt="" coords="270,737,185,759,184,753,268,731"/>
+<area shape="poly" title=" " alt="" coords="323,741,271,776,211,810,175,825,173,820,208,806,268,772,320,737"/>
+<area shape="rect" href="a05127.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="23,691,192,731"/>
+<area shape="poly" title=" " alt="" coords="258,713,192,713,192,708,258,708"/>
+<area shape="rect" href="a05143.html#a59b7df394f724928ed2edcd4feba7e3b" title="Prepends a new attribute with the specified name (string_view_t) to the current node." alt="" coords="257,1397,461,1437"/>
+<area shape="poly" title=" " alt="" coords="520,1318,511,1323,496,1339,488,1355,479,1371,463,1387,441,1400,439,1395,460,1383,475,1368,483,1352,492,1336,508,1319,517,1313"/>
+<area shape="rect" href="a05143.html#aa6f134b485f2cd2c478edf6c0af50243" title="Prepends a new child element with the specified name to the current node." alt="" coords="257,1461,461,1501"/>
+<area shape="poly" title=" " alt="" coords="496,1501,461,1497,462,1492,496,1496"/>
+<area shape="rect" href="a05143.html#ad1158e66c6a726feead88bf858821421" title="prepend_child with a name of size characters at name, which need no terminating NUL (a range of a lar..." alt="" coords="257,1525,461,1565"/>
+<area shape="poly" title=" " alt="" coords="496,1531,462,1535,461,1530,496,1525"/>
+<area shape="rect" href="a05143.html#a077e87bb4351f086653426a4b66560e3" title="Prepends a new child element with the specified name (string_view_t) to the current node." alt="" coords="257,1589,461,1629"/>
+<area shape="poly" title=" " alt="" coords="556,1541,462,1580,427,1592,426,1587,460,1575,554,1537"/>
+<area shape="rect" href="a00392.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="332,1846,387,1871"/>
+<area shape="poly" title=" " alt="" coords="496,1861,387,1861,387,1856,496,1856"/>
+<area shape="rect" href="a05143.html#a91d04cb37686560b2d32e81d1403a7dd" title="Removes an attribute with the specified name from the current node." alt="" coords="257,1896,461,1936"/>
+<area shape="poly" title=" " alt="" coords="510,1884,448,1899,447,1893,509,1879"/>
+<area shape="rect" href="a05143.html#aebbf6ee277fe4c7e95171e8db55c1705" title="remove_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="257,1960,461,2000"/>
+<area shape="poly" title=" " alt="" coords="521,1887,511,1893,496,1906,488,1921,479,1936,463,1950,441,1962,438,1957,460,1946,475,1932,483,1918,492,1903,508,1889,518,1882"/>
+<area shape="rect" href="a05143.html#a2da7fdb1ef394ec19945b7cdd906a8df" title="Removes an attribute with the specified name (string_view_t) from the current node." alt="" coords="257,2024,461,2064"/>
+<area shape="poly" title=" " alt="" coords="516,1889,511,1893,499,1907,492,1921,488,1952,483,1983,476,1998,463,2014,447,2026,443,2022,460,2010,472,1996,478,1981,483,1951,487,1920,495,1904,507,1889,512,1885"/>
+<area shape="poly" title=" " alt="" coords="576,1768,524,1803,462,1836,424,1849,388,1857,386,1852,422,1844,460,1831,521,1798,573,1763"/>
+<area shape="rect" href="a05143.html#a398241c262e713edf78677ccced9b7dd" title="Removes the first child node with the specified name from the current node." alt="" coords="257,1653,461,1693"/>
+<area shape="poly" title=" " alt="" coords="518,1716,437,1696,439,1691,520,1711"/>
+<area shape="rect" href="a05143.html#aa5d1dd2641f178f3e5418d6d6c8ac01c" title="remove_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="257,1717,461,1757"/>
+<area shape="poly" title=" " alt="" coords="496,1740,462,1740,462,1735,496,1735"/>
+<area shape="rect" href="a05143.html#aeec38af035a8b9e7aab29479fb8d0f5e" title="Removes the first child node with the specified name (string_view_t) from the current node." alt="" coords="257,1781,461,1821"/>
+<area shape="poly" title=" " alt="" coords="520,1763,439,1784,437,1779,518,1758"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ac84ecf0eca5d2db3249e4552c2a861a4" name="ac84ecf0eca5d2db3249e4552c2a861a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac84ecf0eca5d2db3249e4552c2a861a4">&#9670;&#160;</a></span>kdefault_xml_memory_page_size</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,159 +338,27 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint16_t lumex::core::crc::parametric::crc16_en13757_spec_t::kCatalogCheck = 0xC2B7U</td>
+          <td class="memname">std::size_t const lumex::xml::memory::kdefault_xml_memory_page_size = 32768 - sizeof (<a class="el" href="a05139.html">XmlMemoryPage</a>)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a3555cc3434bfad091f305a2d54fc489d" name="a3555cc3434bfad091f305a2d54fc489d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3555cc3434bfad091f305a2d54fc489d">&#9670;&#160;</a></span>kInit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_en13757_spec_t::kInit = 0x0000U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Defines the default size of a memory page for XML allocation. </p>
+<p>This constant specifies the size of the data region within an <code><a class="el" href="a05139.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code>, excluding the page's own metadata size. It is set to 32KB minus the size of <code><a class="el" href="a05139.html" title="Represents a single fixed-size memory page used by the XmlAllocator.">XmlMemoryPage</a></code> structure itself, to optimize for common system page sizes or cache lines. </p><dl class="section note"><dt>Note</dt><dd>This value can impact performance and memory footprint. Size of the memory page </dd></dl>
 
 </div>
 </div>
-<a id="ade094682733f0a45ca71e6625620d9b0" name="ade094682733f0a45ca71e6625620d9b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade094682733f0a45ca71e6625620d9b0">&#9670;&#160;</a></span>kPoly</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_en13757_spec_t::kPoly = 0x3D65U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afa624b3757719acbf321e1cf80aab67a" name="afa624b3757719acbf321e1cf80aab67a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa624b3757719acbf321e1cf80aab67a">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc16_en13757_spec_t::kRefIn = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8dfe1b4b30c359dbe9c612ef0e95d111" name="a8dfe1b4b30c359dbe9c612ef0e95d111"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8dfe1b4b30c359dbe9c612ef0e95d111">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc16_en13757_spec_t::kRefOut = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0cde7f14c4541d1019d4e0dcecdaeb46" name="a0cde7f14c4541d1019d4e0dcecdaeb46"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cde7f14c4541d1019d4e0dcecdaeb46">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc16_en13757_spec_t::kWidth = 16</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a638278f561293af50f4bb9676c798cff" name="a638278f561293af50f4bb9676c798cff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a638278f561293af50f4bb9676c798cff">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_en13757_spec_t::kXorOut = 0xFFFFU</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01677.html">crc16_en13757_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01669.html">xml</a></li><li class="navelem"><a class="el" href="a01677.html">memory</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

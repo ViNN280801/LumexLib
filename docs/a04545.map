@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::has_numeric_projection&lt; Iterator, Value, Predicate, Projection, bool &gt;" name="lumex::core::utility::ranges::Algorithm::Detail::has_numeric_projection&lt; Iterator, Value, Predicate, Projection, bool &gt;">
+<area shape="rect" id="Node000001" title="Third step: the projection is invocable with an element, gives a numeric type, and the comparison fit..." alt="" coords="5,79,229,163"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="58,5,177,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,45,120,78,115,78,115,45"/>
+</map>

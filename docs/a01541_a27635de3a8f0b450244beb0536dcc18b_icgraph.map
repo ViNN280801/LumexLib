@@ -1,0 +1,23 @@
+<map id="lumex::core::fmt::Detail::escape" name="lumex::core::fmt::Detail::escape">
+<area shape="rect" id="Node000001" title="The ? (debug) form of a string or a character." alt="" coords="1013,97,1191,137"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a1b6f1134ed1b74de247c05306eea0523" title=" " alt="" coords="788,50,965,90"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="999,98,965,91,966,86,1000,93"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a0225ca55fbb325de3eb470c53224d360" title=" " alt="" coords="563,186,740,226"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="1000,139,741,191,740,186,999,134"/>
+<area shape="rect" id="Node000003" href="$a03099.html#a16ef79c73db159e87e2fa860cdb76b82" title=" " alt="" coords="5,22,225,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="785,50,740,41,609,20,507,10,405,9,274,18,219,25,219,19,273,13,405,4,508,5,610,15,740,35,786,44"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a7898bf6375c2b5c9cb5388739286a138" title="Writes an integer given as sign + magnitude." alt="" coords="563,50,740,90"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="774,73,740,73,740,67,774,67"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="566,49,514,41,440,35,364,33,226,36,225,31,364,27,440,29,515,35,567,44"/>
+<area shape="rect" id="Node000005" href="$a03119.html#a63e555d41c58a3f16e9cdbc4a7b4be4c" title=" " alt="" coords="273,114,515,213"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="584,97,516,122,514,117,582,92"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a70073520a5772944d567f23f0c4f76af" title=" " alt="" coords="305,50,483,90"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="549,73,483,73,483,67,549,67"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="291,62,225,56,226,50,291,57"/>
+<area shape="poly" id="edge12_Node000007_Node000003" title=" " alt="" coords="576,232,509,246,431,254,390,254,350,250,310,241,272,227,245,212,220,193,177,147,145,101,123,64,128,61,149,98,181,144,224,189,248,207,274,222,312,236,351,244,391,248,431,249,508,241,575,227"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="549,192,514,186,515,181,550,186"/>
+<area shape="rect" id="Node000008" href="$a03123.html#a4bc6a825a1ee2c996cde58b722f70579" title=" " alt="" coords="298,287,490,327"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="599,234,516,271,462,290,461,285,514,266,597,230"/>
+<area shape="rect" id="Node000009" href="$a03131.html#a1f694ca6b4fcac1b2a8b2efd6bd2152b" title=" " alt="" coords="15,280,215,335"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="284,310,215,310,215,305,284,305"/>
+</map>

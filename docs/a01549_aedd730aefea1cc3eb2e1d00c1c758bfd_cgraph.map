@@ -1,0 +1,7 @@
+<map id="lumex::core::math::ops::avg" name="lumex::core::math::ops::avg">
+<area shape="rect" id="Node000001" title="Arithmetic mean of only the elements matching predicate, or ValueType{0} if none match (or the range ..." alt="" coords="5,37,155,77"/>
+<area shape="rect" id="Node000002" href="$a01551.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="203,5,365,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,43,189,38,189,43,155,48"/>
+<area shape="rect" id="Node000003" href="$a01551.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="209,69,359,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,66,196,73,195,78,154,72"/>
+</map>

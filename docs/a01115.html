@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathParseResult.hpp File Reference</title>
+<title>LumexLib: LumexCoreDumpGenerator.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,55 +105,546 @@ $(function(){initNavTree('a01115.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">XPathParseResult.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexCoreDumpGenerator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>xpath_parse_result_t</code>, the outcome of compiling an XPath expression.  
+<p>The crash dump subsystem of <code>lumex::utility</code>: <code>core_dump_generator</code>, the <code>DumpType</code> enumeration, <code>dump_configuration</code> and <code>dump_factory</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;ctime&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;system_error&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00989_source.html">lumex/core/optional/opt/LumexOptional.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01106_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01070_source.html">lumex/core/utility/os/LumexCheckOS.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01091_source.html">lumex/core/utility/ranges/LumexIteratorRange.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01067_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<code>#include &lt;csignal&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;errno.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;grp.h&gt;</code><br />
+<code>#include &lt;limits.h&gt;</code><br />
+<code>#include &lt;pthread.h&gt;</code><br />
+<code>#include &lt;signal.h&gt;</code><br />
+<code>#include &lt;sys/inotify.h&gt;</code><br />
+<code>#include &lt;sys/prctl.h&gt;</code><br />
+<code>#include &lt;sys/resource.h&gt;</code><br />
+<code>#include &lt;sys/select.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;sys/types.h&gt;</code><br />
+<code>#include &lt;sys/wait.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathParseResult.hpp:</div>
+Include dependency graph for LumexCoreDumpGenerator.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01116.png" border="0" usemap="#a_x_path_parse_result_8hpp" alt=""/></div>
+<div class="center"><img src="a01116.png" border="0" usemap="#aLumexCoreDumpGenerator_8hpp" alt=""/></div>
+<map name="aLumexCoreDumpGenerator_8hpp" id="aLumexCoreDumpGenerator_8hpp">
+<area shape="rect" title="The crash dump subsystem of lumex::utility: core_dump_generator, the DumpType enumeration,..." alt="" coords="2140,5,2367,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="2331,262,2512,287"/>
+<area shape="poly" title=" " alt="" coords="2346,28,2446,48,2488,61,2518,76,2550,105,2570,136,2575,153,2576,171,2572,189,2562,208,2549,225,2532,240,2493,260,2491,255,2529,235,2545,222,2558,205,2567,187,2571,170,2570,154,2565,139,2546,109,2515,81,2486,66,2444,53,2345,33"/>
+<area shape="rect" title=" " alt="" coords="40,86,126,111"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1682,28,1059,39,476,57,263,68,138,81,126,84,125,79,137,76,263,63,476,51,1059,34,1682,22,2140,16"/>
+<area shape="rect" title=" " alt="" coords="150,86,206,111"/>
+<area shape="poly" title=" " alt="" coords="2140,21,1697,25,1098,35,540,52,337,65,266,73,218,81,212,83,211,78,217,76,265,68,337,60,540,47,1098,29,1697,20,2140,16"/>
+<area shape="rect" title=" " alt="" coords="230,86,296,111"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1716,28,1149,40,621,58,429,69,315,81,305,84,303,79,314,76,428,63,621,52,1149,35,1716,23,2140,17"/>
+<area shape="rect" title=" " alt="" coords="2845,174,2916,199"/>
+<area shape="poly" title=" " alt="" coords="2368,26,2467,44,2519,58,2569,76,2587,86,2599,96,2610,107,2627,116,2683,136,2729,143,2776,150,2834,164,2841,166,2839,171,2833,169,2775,155,2728,149,2681,141,2624,121,2607,111,2595,100,2584,90,2567,81,2518,63,2466,49,2367,31"/>
+<area shape="rect" title=" " alt="" coords="371,86,438,111"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1742,28,1217,39,731,57,554,68,450,81,442,83,441,78,449,76,554,63,731,52,1217,34,1742,23,2140,17"/>
+<area shape="rect" title=" " alt="" coords="462,86,528,111"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1761,29,1264,40,805,58,639,69,541,81,533,83,532,78,540,76,638,63,805,53,1264,35,1761,23,2140,17"/>
+<area shape="rect" title=" " alt="" coords="552,86,611,111"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1777,28,1306,40,873,57,716,69,623,81,617,83,615,78,622,76,715,63,873,52,1306,35,1777,23,2140,17"/>
+<area shape="rect" title=" " alt="" coords="635,86,710,111"/>
+<area shape="poly" title=" " alt="" coords="2140,23,1358,44,955,61,809,71,722,81,712,84,711,79,721,76,808,65,954,55,1358,38,2140,18"/>
+<area shape="rect" title=" " alt="" coords="734,86,814,111"/>
+<area shape="poly" title=" " alt="" coords="2140,23,1412,45,1040,62,906,72,826,81,815,84,814,79,825,76,905,66,1040,57,1412,40,2140,18"/>
+<area shape="rect" title=" " alt="" coords="838,86,888,111"/>
+<area shape="poly" title=" " alt="" coords="2140,23,1454,44,1107,61,982,71,907,81,900,83,898,78,906,76,981,66,1107,56,1454,39,2140,18"/>
+<area shape="rect" title=" " alt="" coords="1034,262,1111,287"/>
+<area shape="poly" title=" " alt="" coords="2140,23,1863,29,1528,41,1239,58,1145,69,1116,75,1102,81,1087,98,1077,118,1066,164,1065,210,1069,248,1064,249,1060,210,1060,163,1072,116,1083,95,1099,77,1114,70,1144,64,1239,53,1528,36,1863,24,2140,17"/>
+<area shape="rect" title=" " alt="" coords="963,86,1038,111"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1891,27,1579,38,1276,55,1151,67,1057,81,1045,84,1043,79,1056,76,1151,62,1276,50,1578,33,1891,22,2140,17"/>
+<area shape="rect" title=" " alt="" coords="192,350,278,375"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1626,27,930,39,311,56,111,68,54,74,30,81,17,97,10,114,8,132,10,150,27,187,55,224,91,259,130,291,203,340,200,345,127,296,87,263,51,228,22,190,5,151,3,132,5,113,13,94,27,76,53,69,111,63,311,51,930,33,1626,22,2140,16"/>
+<area shape="rect" title=" " alt="" coords="515,350,574,375"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1110,42,594,59,428,70,380,75,360,81,332,112,325,127,323,146,330,169,347,200,417,293,436,311,458,326,503,348,501,352,455,331,432,315,413,296,342,203,325,171,318,146,320,126,328,109,357,76,379,70,428,64,593,54,1110,37,2140,17"/>
+<area shape="rect" title=" " alt="" coords="1316,86,1424,111"/>
+<area shape="poly" title=" " alt="" coords="2140,26,1766,48,1575,64,1437,81,1421,85,1420,80,1436,76,1575,58,1766,43,2140,21"/>
+<area shape="rect" title=" " alt="" coords="1448,86,1510,111"/>
+<area shape="poly" title=" " alt="" coords="2140,25,1808,45,1643,61,1524,81,1517,83,1515,78,1522,76,1642,56,1808,40,2140,20"/>
+<area shape="rect" title=" " alt="" coords="1535,86,1602,111"/>
+<area shape="poly" title=" " alt="" coords="2140,27,1854,48,1715,64,1614,81,1607,84,1605,78,1613,76,1714,58,1854,43,2139,22"/>
+<area shape="rect" title=" " alt="" coords="1626,86,1692,111"/>
+<area shape="poly" title=" " alt="" coords="2140,29,1902,52,1788,66,1706,81,1699,84,1697,78,1705,76,1787,61,1901,46,2140,24"/>
+<area shape="rect" title=" " alt="" coords="1717,86,1860,111"/>
+<area shape="poly" title=" " alt="" coords="2162,33,2025,54,1873,81,1852,86,1851,80,1872,76,2024,49,2161,28"/>
+<area shape="rect" title=" " alt="" coords="1884,86,1948,111"/>
+<area shape="poly" title=" " alt="" coords="2167,33,2067,53,1961,81,1955,83,1954,78,1959,76,2066,47,2166,28"/>
+<area shape="rect" title=" " alt="" coords="1972,86,2036,111"/>
+<area shape="poly" title=" " alt="" coords="2205,33,2132,54,2050,81,2046,83,2044,78,2049,76,2130,49,2204,28"/>
+<area shape="rect" href="a00989.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type&#45;safe nullab..." alt="" coords="1112,79,1291,119"/>
+<area shape="poly" title=" " alt="" coords="2140,23,1773,39,1541,57,1305,81,1304,76,1541,51,1773,34,2140,18"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1294,343,1507,383"/>
+<area shape="poly" title=" " alt="" coords="2140,22,1845,27,1476,38,1142,55,1022,67,952,81,937,90,927,100,917,111,901,121,864,135,828,145,758,154,693,154,632,153,576,156,523,170,499,183,475,201,452,225,431,256,423,276,424,284,430,293,463,303,538,314,770,332,1044,346,1280,356,1280,361,1044,352,769,337,537,319,462,308,427,297,419,286,418,275,426,253,448,222,471,197,496,178,521,165,575,150,632,147,693,149,758,148,827,139,862,130,899,116,914,107,923,96,934,85,950,76,1021,62,1141,50,1475,32,1845,22,2140,17"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="2107,255,2296,295"/>
+<area shape="poly" title=" " alt="" coords="2355,28,2417,46,2447,60,2475,76,2512,105,2541,136,2549,153,2552,171,2548,190,2537,209,2511,218,2455,231,2310,259,2309,253,2454,226,2509,213,2533,205,2543,188,2547,171,2544,155,2536,140,2509,109,2472,81,2445,64,2415,51,2354,33"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="2705,343,2960,383"/>
+<area shape="poly" title=" " alt="" coords="2368,19,2501,25,2650,36,2787,53,2843,64,2885,76,2902,85,2913,95,2938,116,2971,129,3001,133,3029,141,3042,150,3055,165,3063,189,3067,225,3065,264,3061,282,3053,296,3037,310,3013,322,2950,342,2949,337,3011,317,3034,305,3049,293,3056,280,3060,264,3062,226,3057,190,3050,168,3039,154,3027,146,3000,138,2970,134,2935,121,2909,99,2899,90,2883,81,2842,69,2786,58,2650,41,2501,30,2367,24"/>
+<area shape="rect" href="a01070.html" title="Cross&#45;platform OS macros." alt="" coords="2061,79,2236,119"/>
+<area shape="poly" title=" " alt="" coords="2238,33,2187,72,2184,68,2235,29"/>
+<area shape="rect" href="a01091.html" title="iterator_range, a pair of iterators that lets a range&#45;based for loop walk any sequence the iterators ..." alt="" coords="2638,79,2872,119"/>
+<area shape="poly" title=" " alt="" coords="2333,28,2624,75,2623,80,2332,33"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="2260,79,2461,119"/>
+<area shape="poly" title=" " alt="" coords="2272,29,2325,68,2321,73,2269,33"/>
+<area shape="rect" title=" " alt="" coords="2948,86,3016,111"/>
+<area shape="poly" title=" " alt="" coords="2367,22,2670,44,2820,59,2929,76,2940,79,2938,84,2928,81,2819,64,2670,49,2367,27"/>
+<area shape="rect" title=" " alt="" coords="3040,86,3105,111"/>
+<area shape="poly" title=" " alt="" coords="2367,19,2721,39,2900,55,2973,65,3029,76,3036,78,3034,83,3028,81,2972,70,2899,60,2721,44,2367,25"/>
+<area shape="rect" title=" " alt="" coords="3129,86,3197,111"/>
+<area shape="poly" title=" " alt="" coords="2367,18,2766,37,2970,53,3054,64,3118,76,3126,78,3125,83,3117,81,3053,69,2970,59,2765,42,2367,24"/>
+<area shape="rect" title=" " alt="" coords="3221,86,3284,111"/>
+<area shape="poly" title=" " alt="" coords="2367,17,2569,23,2812,33,3043,51,3138,62,3210,76,3217,78,3216,83,3209,81,3137,67,3042,56,2811,39,2569,28,2367,23"/>
+<area shape="rect" title=" " alt="" coords="3308,86,3381,111"/>
+<area shape="poly" title=" " alt="" coords="2367,17,2586,23,2854,33,3111,51,3216,62,3297,76,3306,79,3304,84,3296,81,3216,67,3110,56,2854,39,2586,28,2367,22"/>
+<area shape="rect" title=" " alt="" coords="3405,86,3460,111"/>
+<area shape="poly" title=" " alt="" coords="2367,19,2945,41,3230,57,3333,66,3394,76,3400,78,3399,83,3393,81,3332,72,3230,62,2944,46,2367,24"/>
+<area shape="rect" title=" " alt="" coords="3484,86,3554,111"/>
+<area shape="poly" title=" " alt="" coords="2367,19,2986,41,3295,58,3406,67,3473,76,3482,79,3480,84,3472,81,3406,72,3294,63,2986,47,2367,24"/>
+<area shape="rect" title=" " alt="" coords="3578,86,3662,111"/>
+<area shape="poly" title=" " alt="" coords="2367,16,2639,20,2985,29,3322,47,3462,60,3567,76,3579,79,3578,84,3566,81,3461,65,3322,53,2985,35,2639,25,2367,21"/>
+<area shape="rect" title=" " alt="" coords="3686,86,3760,111"/>
+<area shape="poly" title=" " alt="" coords="2367,18,3092,39,3462,56,3596,66,3675,76,3685,79,3684,84,3674,81,3595,71,3461,61,3091,45,2367,23"/>
+<area shape="rect" title=" " alt="" coords="3784,86,3884,111"/>
+<area shape="poly" title=" " alt="" coords="2367,16,2678,19,3083,29,3482,46,3647,60,3773,76,3788,79,3787,85,3772,81,3647,65,3482,52,3083,34,2678,25,2367,21"/>
+<area shape="rect" title=" " alt="" coords="3908,86,3997,111"/>
+<area shape="poly" title=" " alt="" coords="2368,18,3206,39,3644,56,3802,66,3897,76,3910,79,3909,84,3896,81,3802,71,3643,61,3206,44,2367,23"/>
+<area shape="rect" title=" " alt="" coords="4021,86,4137,111"/>
+<area shape="poly" title=" " alt="" coords="2368,18,3264,40,3736,57,3908,66,4010,76,4028,80,4027,85,4009,81,3907,72,3736,62,3264,45,2367,23"/>
+<area shape="rect" title=" " alt="" coords="4162,86,4260,111"/>
+<area shape="poly" title=" " alt="" coords="2367,17,3336,37,3851,55,4039,65,4150,76,4165,79,4164,85,4149,81,4038,70,3851,60,3336,43,2367,22"/>
+<area shape="rect" title=" " alt="" coords="4284,86,4370,111"/>
+<area shape="poly" title=" " alt="" coords="2367,17,2807,23,3399,35,3952,52,4153,63,4273,76,4285,79,4284,84,4272,81,4153,69,3952,58,3399,40,2807,28,2367,22"/>
+<area shape="rect" title=" " alt="" coords="4394,86,4490,111"/>
+<area shape="poly" title=" " alt="" coords="2367,17,3455,35,4041,53,4255,64,4382,76,4396,79,4395,85,4381,81,4255,69,4041,58,3455,40,2367,22"/>
+<area shape="rect" title=" " alt="" coords="4514,86,4602,111"/>
+<area shape="poly" title=" " alt="" coords="2367,16,2851,22,3516,33,4139,51,4367,62,4502,76,4515,79,4514,84,4501,81,4367,68,4139,56,3515,38,2851,27,2367,22"/>
+<area shape="rect" title=" " alt="" coords="4626,86,4700,111"/>
+<area shape="poly" title=" " alt="" coords="2367,16,2873,20,3573,30,4231,48,4472,60,4557,68,4614,76,4624,79,4623,84,4613,81,4556,73,4472,66,4231,53,3573,35,2873,25,2367,21"/>
+<area shape="rect" title=" " alt="" coords="1136,262,1222,287"/>
+<area shape="poly" title=" " alt="" coords="1162,121,1135,141,1115,168,1109,186,1115,206,1130,231,1151,251,1147,255,1126,234,1110,208,1104,186,1110,165,1131,137,1159,117"/>
+<area shape="rect" title=" " alt="" coords="724,262,834,287"/>
+<area shape="poly" title=" " alt="" coords="1112,114,892,146,801,160,763,169,755,187,754,208,759,229,767,249,762,251,754,231,749,208,750,185,760,165,800,155,891,140,1111,108"/>
+<area shape="rect" title=" " alt="" coords="2156,350,2248,375"/>
+<area shape="poly" title=" " alt="" coords="1198,119,1194,163,1198,185,1209,205,1227,217,1257,230,1351,255,1476,278,1621,299,1918,334,2142,355,2141,360,1918,339,1620,305,1476,284,1350,260,1256,235,1224,222,1205,208,1193,187,1189,163,1193,119"/>
+<area shape="rect" title=" " alt="" coords="1246,262,1306,287"/>
+<area shape="poly" title=" " alt="" coords="1186,121,1174,139,1164,161,1160,184,1165,205,1193,225,1241,253,1239,258,1190,230,1161,208,1154,184,1159,160,1169,137,1182,118"/>
+<area shape="rect" title=" " alt="" coords="1219,174,1294,199"/>
+<area shape="poly" title=" " alt="" coords="1217,118,1243,161,1239,164,1212,120"/>
+<area shape="rect" href="a00995.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f..." alt="" coords="774,167,992,207"/>
+<area shape="poly" title=" " alt="" coords="1130,121,970,165,968,160,1128,116"/>
+<area shape="rect" href="a00992.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,..." alt="" coords="441,255,648,295"/>
+<area shape="poly" title=" " alt="" coords="1112,113,1050,121,991,127,940,128,853,127,812,129,769,135,722,148,668,169,640,185,614,205,571,246,567,242,610,201,637,180,666,164,720,143,768,130,812,124,853,122,940,123,991,121,1049,116,1112,108"/>
+<area shape="poly" title=" " alt="" coords="1112,114,884,146,748,169,718,198,699,229,695,245,696,261,702,277,713,293,739,307,790,319,939,337,1117,350,1280,357,1279,362,1117,355,939,343,789,324,737,312,709,297,697,279,691,262,690,244,694,227,714,194,746,164,883,141,1112,108"/>
+<area shape="poly" title=" " alt="" coords="927,204,1034,254,1032,259,925,209"/>
+<area shape="poly" title=" " alt="" coords="959,204,1124,252,1132,255,1131,260,1122,257,958,209"/>
+<area shape="poly" title=" " alt="" coords="860,209,806,255,803,251,857,205"/>
+<area shape="poly" title=" " alt="" coords="911,205,974,253,997,275,1007,284,1022,292,1091,306,1210,319,1537,339,1887,352,2142,359,2142,364,1887,357,1537,344,1209,324,1090,312,1021,297,1004,289,994,279,970,257,908,209"/>
+<area shape="poly" title=" " alt="" coords="992,198,1111,219,1236,252,1241,254,1239,259,1234,257,1109,224,991,203"/>
+<area shape="rect" title=" " alt="" coords="858,262,908,287"/>
+<area shape="poly" title=" " alt="" coords="886,207,886,248,880,248,880,207"/>
+<area shape="poly" title=" " alt="" coords="806,209,636,254,634,249,805,204"/>
+<area shape="poly" title=" " alt="" coords="897,205,930,251,953,274,979,292,1032,311,1108,327,1280,350,1280,355,1108,333,1031,317,976,297,949,278,926,254,892,208"/>
+<area shape="poly" title=" " alt="" coords="992,191,1207,204,1601,226,1994,252,2094,261,2093,266,1993,257,1600,231,1207,209,991,196"/>
+<area shape="poly" title=" " alt="" coords="474,297,292,349,291,344,473,292"/>
+<area shape="poly" title=" " alt="" coords="547,295,547,336,542,336,542,295"/>
+<area shape="poly" title=" " alt="" coords="648,289,667,292,1000,328,1280,351,1280,357,999,333,667,297,648,295"/>
+<area shape="poly" title=" " alt="" coords="2204,295,2204,336,2199,336,2199,295"/>
+<area shape="poly" title=" " alt="" coords="2107,295,2089,297,1782,333,1521,356,1520,351,1781,328,2088,292,2106,289"/>
+<area shape="poly" title=" " alt="" coords="2297,288,2319,292,2691,343,2690,348,2319,297,2296,294"/>
+<area shape="poly" title=" " alt="" coords="2061,119,2049,121,1948,132,1847,139,1809,147,1785,159,1779,167,1779,177,1783,190,1794,205,1807,213,1832,221,1908,237,2094,261,2093,267,1907,242,1831,226,1805,218,1790,209,1779,192,1773,178,1774,166,1781,155,1807,142,1846,134,1947,127,2048,116,2060,114"/>
+<area shape="rect" href="a01109.html" title="Compiler identification and version macros." alt="" coords="1318,167,1576,207"/>
+<area shape="poly" title=" " alt="" coords="2061,119,2049,121,1921,138,1822,148,1595,169,1589,170,1589,165,1595,164,1822,142,1921,133,2048,116,2060,114"/>
+<area shape="poly" title=" " alt="" coords="2785,117,2853,164,2850,168,2782,121"/>
+<area shape="poly" title=" " alt="" coords="2860,116,2906,131,2943,151,2956,163,2963,177,2962,192,2953,208,2932,228,2904,246,2830,277,2738,303,2635,323,2528,338,2425,350,2261,362,2261,357,2425,344,2527,333,2634,317,2737,297,2828,272,2902,241,2929,224,2949,205,2957,191,2957,178,2951,166,2940,155,2904,136,2858,121"/>
+<area shape="poly" title=" " alt="" coords="2839,116,2884,132,2921,153,2934,165,2940,178,2940,193,2930,209,2916,218,2892,225,2823,237,2733,244,2632,249,2436,253,2319,257,2310,259,2309,253,2319,252,2436,248,2631,244,2733,239,2823,231,2891,220,2913,213,2926,205,2935,192,2935,180,2929,168,2918,157,2882,137,2837,121"/>
+<area shape="poly" title=" " alt="" coords="2860,116,2964,141,3004,153,3025,165,3045,198,3051,230,3044,262,3025,296,3011,309,2989,321,2931,341,2930,336,2986,316,3008,305,3021,293,3039,260,3046,230,3040,200,3021,169,3002,158,2963,146,2858,121"/>
+<area shape="rect" title=" " alt="" coords="2750,174,2821,199"/>
+<area shape="poly" title=" " alt="" coords="2765,118,2779,160,2774,162,2759,120"/>
+<area shape="poly" title=" " alt="" coords="2461,107,2666,134,2764,149,2834,164,2841,166,2840,171,2833,169,2763,154,2666,139,2461,113"/>
+<area shape="poly" title=" " alt="" coords="2260,120,2249,121,2162,130,2089,134,1964,135,1840,141,1768,151,1684,169,1657,178,1637,189,1617,200,1589,209,1519,224,1460,232,1357,235,1254,237,1194,243,1125,257,1115,260,1114,255,1124,252,1193,238,1253,231,1356,229,1459,226,1518,219,1588,204,1614,195,1634,184,1655,173,1682,164,1767,146,1839,136,1964,130,2089,129,2162,125,2248,116,2259,114"/>
+<area shape="poly" title=" " alt="" coords="2260,120,2249,121,2179,129,2119,131,2016,130,1968,131,1916,136,1859,148,1793,169,1776,178,1764,188,1752,199,1735,209,1623,250,1532,271,1319,297,1104,324,893,344,587,363,587,358,893,338,1104,319,1319,292,1531,265,1621,245,1732,204,1749,195,1761,184,1773,174,1791,164,1858,143,1915,131,1967,126,2016,124,2119,126,2178,123,2248,116,2259,114"/>
+<area shape="poly" title=" " alt="" coords="2260,120,2249,121,2172,129,2106,132,1994,130,1940,131,1884,136,1821,148,1748,169,1729,178,1717,189,1703,200,1684,209,1618,228,1561,238,1510,241,1461,241,1361,240,1303,245,1235,257,1224,260,1223,255,1234,252,1302,240,1361,235,1461,236,1509,236,1560,233,1617,223,1682,204,1700,195,1713,185,1727,174,1746,164,1820,143,1883,130,1940,125,1994,124,2106,126,2172,124,2248,116,2259,114"/>
+<area shape="poly" title=" " alt="" coords="2436,116,2497,138,2522,151,2537,165,2545,193,2545,232,2538,270,2526,296,2508,310,2481,322,2412,340,2333,353,2262,361,2261,356,2332,348,2411,335,2479,317,2505,306,2522,293,2533,269,2540,232,2540,194,2533,168,2519,156,2495,143,2435,121"/>
+<area shape="poly" title=" " alt="" coords="2260,119,2249,121,2159,130,2088,131,2019,140,1981,151,1938,169,1925,178,1916,189,1908,199,1893,209,1844,225,1777,239,1614,258,1447,270,1320,276,1320,271,1447,265,1614,253,1776,233,1843,220,1891,204,1904,195,1912,185,1921,174,1935,164,1979,146,2018,134,2088,126,2159,125,2248,116,2259,114"/>
+<area shape="poly" title=" " alt="" coords="2259,120,2249,121,2105,133,1983,136,1775,130,1675,128,1568,131,1448,144,1307,169,1297,172,1296,167,1306,164,1447,138,1568,126,1675,122,1775,125,1983,131,2105,128,2248,116,2259,115"/>
+<area shape="poly" title=" " alt="" coords="2260,121,2123,149,2047,169,2034,183,2027,199,2023,232,2018,265,2010,282,1995,297,1970,307,1927,317,1804,334,1521,358,1520,353,1804,329,1926,312,1969,302,1992,292,2006,279,2013,264,2018,231,2022,197,2030,181,2044,164,2122,144,2259,116"/>
+<area shape="poly" title=" " alt="" coords="2435,116,2497,137,2559,164,2629,205,2696,251,2800,332,2797,336,2693,255,2626,210,2556,169,2495,142,2434,121"/>
+<area shape="poly" title=" " alt="" coords="2458,116,2737,174,2736,179,2457,121"/>
+<area shape="rect" title=" " alt="" coords="2464,174,2523,199"/>
+<area shape="poly" title=" " alt="" coords="2393,117,2465,164,2462,169,2390,121"/>
+<area shape="rect" title=" " alt="" coords="1804,174,1880,199"/>
+<area shape="poly" title=" " alt="" coords="2260,119,2249,121,2150,134,2073,141,1996,150,1900,169,1888,172,1887,167,1898,164,1996,145,2072,135,2149,129,2248,116,2259,114"/>
+<area shape="rect" title=" " alt="" coords="2264,174,2318,199"/>
+<area shape="poly" title=" " alt="" coords="2346,121,2312,165,2307,162,2342,117"/>
+<area shape="rect" title=" " alt="" coords="2342,174,2440,199"/>
+<area shape="poly" title=" " alt="" coords="2370,118,2384,160,2379,162,2365,120"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="2057,167,2240,207"/>
+<area shape="poly" title=" " alt="" coords="2313,121,2210,164,2208,159,2311,116"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1726,255,1981,295"/>
+<area shape="poly" title=" " alt="" coords="2260,120,2001,169,1950,202,1890,248,1887,244,1947,197,1999,164,2259,115"/>
+<area shape="poly" title=" " alt="" coords="2211,204,2370,255,2368,260,2210,209"/>
+<area shape="poly" title=" " alt="" coords="2136,208,2097,255,2069,278,2039,297,1997,312,1942,324,1806,343,1656,355,1521,362,1521,356,1656,350,1805,338,1941,319,1996,307,2036,292,2066,274,2093,251,2132,205"/>
+<area shape="poly" title=" " alt="" coords="2163,206,2184,241,2180,244,2158,208"/>
+<area shape="poly" title=" " alt="" coords="1751,297,1517,343,1516,337,1750,292"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01117.png" border="0" usemap="#a_x_path_parse_result_8hppdep" alt=""/></div>
+<div class="center"><img src="a01117.png" border="0" usemap="#aLumexCoreDumpGenerator_8hppdep" alt=""/></div>
+<map name="aLumexCoreDumpGenerator_8hppdep" id="aLumexCoreDumpGenerator_8hppdep">
+<area shape="rect" title="The crash dump subsystem of lumex::utility: core_dump_generator, the DumpType enumeration,..." alt="" coords="2114,5,2341,31"/>
+<area shape="rect" href="a01112.html" title=" " alt="" coords="2019,79,2246,104"/>
+<area shape="poly" title=" " alt="" coords="2201,41,2151,80,2148,76,2198,37"/>
+<area shape="rect" href="a01418.html" title="Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,..." alt="" coords="2270,79,2377,104"/>
+<area shape="poly" title=" " alt="" coords="2256,37,2308,76,2305,80,2253,41"/>
+<area shape="rect" href="a00890.html" title="lumex_crash_handler, the singleton that writes a dump when the process crashes." alt="" coords="2233,225,2414,251"/>
+<area shape="poly" title=" " alt="" coords="2326,118,2326,225,2321,225,2321,118"/>
+<area shape="rect" href="a01163.html" title="Defines the lumex_environment class for cross&#45;platform environment variable management." alt="" coords="640,152,817,177"/>
+<area shape="poly" title=" " alt="" coords="2257,107,2041,127,1857,137,1696,140,1545,139,1234,137,1052,142,837,155,818,156,817,151,836,149,1051,137,1234,132,1545,134,1696,135,1857,132,2040,122,2256,101"/>
+<area shape="rect" href="a01277.html" title=" " alt="" coords="897,475,1041,500"/>
+<area shape="poly" title=" " alt="" coords="2257,107,2102,119,1912,127,1699,136,1478,147,1260,166,1157,179,1060,195,970,215,890,239,820,268,764,301,729,329,705,359,699,375,698,391,702,408,712,425,735,436,781,449,897,472,896,478,780,454,733,441,708,429,697,410,692,392,694,374,701,357,726,325,760,296,818,263,888,234,969,210,1059,190,1156,174,1260,161,1477,142,1699,130,1912,122,2102,114,2256,101"/>
+<area shape="rect" href="a00926.html" title="Temporary files and directories that delete themselves: temporary_file, temporary_directory and the f..." alt="" coords="292,306,453,331"/>
+<area shape="poly" title=" " alt="" coords="2257,106,2092,116,1891,119,1431,116,1196,116,976,120,782,132,699,142,628,155,577,167,538,180,502,198,458,227,414,269,384,307,379,304,410,265,455,223,499,194,536,175,575,162,627,149,699,136,782,127,976,115,1196,110,1431,111,1891,114,2092,111,2256,101"/>
+<area shape="rect" href="a00749.html" title="Cross&#45;platform replacement for &lt;filesystem&gt; (C++17) written in pure C++11, compiled into the lumex::f..." alt="" coords="1940,152,2104,177"/>
+<area shape="poly" title=" " alt="" coords="2259,110,2075,154,2074,149,2257,105"/>
+<area shape="rect" href="a01316.html" title=" " alt="" coords="2344,548,2577,573"/>
+<area shape="poly" title=" " alt="" coords="2391,91,2618,107,2758,125,2898,149,2941,155,2984,157,3064,158,3097,164,3124,177,3141,201,3147,238,3147,407,3142,419,3129,431,3082,453,3012,473,2927,493,2736,526,2565,551,2564,545,2735,521,2926,487,3011,468,3080,448,3126,426,3138,416,3142,406,3142,238,3136,203,3120,181,3096,169,3064,163,2984,162,2941,161,2898,155,2757,130,2617,113,2391,96"/>
+<area shape="rect" href="a00881.html" title="Defines the lumex_basic_stacktrace class and related utilities for capturing and symbolizing call sta..." alt="" coords="2459,152,2622,177"/>
+<area shape="poly" title=" " alt="" coords="2375,106,2504,149,2502,154,2373,111"/>
+<area shape="rect" href="a01055.html" title="Provides cross&#45;platform utilities for time and date manipulation." alt="" coords="1484,152,1611,177"/>
+<area shape="poly" title=" " alt="" coords="2257,107,2069,129,1887,146,1611,164,1611,159,1887,140,2069,124,2256,101"/>
+<area shape="rect" href="a00887.html" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in..." alt="" coords="2687,152,2885,177"/>
+<area shape="poly" title=" " alt="" coords="2391,99,2706,149,2705,155,2390,105"/>
+<area shape="rect" href="a00515.html" title=" " alt="" coords="3182,152,3331,177"/>
+<area shape="poly" title=" " alt="" coords="2391,92,2723,112,2942,129,3164,149,3182,151,3182,157,3163,155,2941,134,2723,118,2390,97"/>
+<area shape="rect" href="a00518.html" title=" " alt="" coords="3355,152,3571,177"/>
+<area shape="poly" title=" " alt="" coords="2391,92,2794,112,3344,149,3355,150,3355,156,3343,155,2794,117,2390,97"/>
+<area shape="rect" href="a00893.html" title=" " alt="" coords="1933,475,2113,500"/>
+<area shape="poly" title=" " alt="" coords="2398,253,2431,271,2456,297,2466,317,2470,335,2468,353,2462,370,2438,401,2403,429,2381,440,2352,450,2277,466,2193,477,2114,484,2113,479,2193,472,2276,460,2351,445,2379,435,2401,424,2434,397,2457,368,2463,352,2464,336,2461,318,2452,300,2427,275,2396,258"/>
+<area shape="rect" href="a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="2698,306,2829,331"/>
+<area shape="poly" title=" " alt="" coords="2416,250,2673,296,2708,303,2707,309,2672,301,2415,256"/>
+<area shape="rect" href="a00299.html" title=" " alt="" coords="2873,394,3057,419"/>
+<area shape="poly" title=" " alt="" coords="2806,334,2936,391,2934,396,2804,339"/>
+<area shape="rect" href="a00302.html" title=" " alt="" coords="2691,387,2849,427"/>
+<area shape="poly" title=" " alt="" coords="2768,345,2771,386,2766,387,2763,345"/>
+<area shape="rect" href="a01367.html" title="Environment module: lumex_environment, thread&#45;safe reading and writing of environment variables on Wi..." alt="" coords="469,225,618,251"/>
+<area shape="poly" title=" " alt="" coords="685,185,577,228,575,223,683,180"/>
+<area shape="rect" href="a01160.html" title=" " alt="" coords="642,225,818,251"/>
+<area shape="poly" title=" " alt="" coords="732,191,732,225,727,225,726,191"/>
+<area shape="poly" title=" " alt="" coords="632,248,761,261,862,268,961,277,1087,296,1163,315,1239,336,1438,379,1637,417,1947,472,1946,477,1636,422,1437,384,1237,341,1162,320,1085,301,960,282,861,273,760,266,631,253"/>
+<area shape="poly" title=" " alt="" coords="596,254,630,272,660,297,672,314,680,332,685,364,690,395,698,410,712,424,737,435,784,448,901,472,899,477,783,453,735,440,708,429,694,413,685,397,679,365,674,333,668,317,656,300,627,276,594,258"/>
+<area shape="poly" title=" " alt="" coords="505,259,401,308,398,304,503,254"/>
+<area shape="rect" href="a01058.html" title="High&#45;resolution stopwatch, callable timing helpers, and a thin LUMEX_MEASURE_TIME macro." alt="" coords="943,306,1074,331"/>
+<area shape="poly" title=" " alt="" coords="632,249,932,296,963,303,962,309,931,301,632,254"/>
+<area shape="rect" href="a00530.html" title=" " alt="" coords="72,306,268,331"/>
+<area shape="poly" title=" " alt="" coords="472,256,230,309,228,303,471,251"/>
+<area shape="rect" href="a00527.html" title=" " alt="" coords="477,299,647,339"/>
+<area shape="poly" title=" " alt="" coords="552,264,560,298,555,299,547,265"/>
+<area shape="rect" href="a01409.html" title="Temporary module: an RAII temporary directory that is removed when its owner is destroyed." alt="" coords="180,394,315,419"/>
+<area shape="poly" title=" " alt="" coords="345,342,267,396,264,392,342,337"/>
+<area shape="rect" href="a00929.html" title=" " alt="" coords="339,394,499,419"/>
+<area shape="poly" title=" " alt="" coords="388,342,415,392,410,395,384,345"/>
+<area shape="rect" href="a00347.html" title=" " alt="" coords="277,475,455,500"/>
+<area shape="poly" title=" " alt="" coords="279,425,348,472,345,477,276,430"/>
+<area shape="rect" href="a00350.html" title=" " alt="" coords="5,475,252,500"/>
+<area shape="poly" title=" " alt="" coords="218,430,149,477,146,472,215,425"/>
+<area shape="rect" href="a01412.html" title="Time module: lumex_time, the current date and time as text and timestamps in units from nanoseconds t..." alt="" coords="1186,394,1285,419"/>
+<area shape="poly" title=" " alt="" coords="1056,334,1204,392,1202,396,1054,339"/>
+<area shape="rect" href="a01061.html" title=" " alt="" coords="981,394,1111,419"/>
+<area shape="poly" title=" " alt="" coords="1022,343,1043,393,1038,395,1017,345"/>
+<area shape="poly" title=" " alt="" coords="1287,420,1304,424,1477,450,1651,468,1809,478,1933,483,1933,488,1808,483,1651,473,1477,456,1303,429,1286,426"/>
+<area shape="poly" title=" " alt="" coords="1181,426,1011,477,1010,472,1179,421"/>
+<area shape="rect" href="a00872.html" title=" " alt="" coords="2641,475,2798,500"/>
+<area shape="poly" title=" " alt="" coords="1298,407,2641,480,2641,486,1298,413"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="1082,548,1282,573"/>
+<area shape="poly" title=" " alt="" coords="1181,427,1148,447,1133,460,1122,476,1118,485,1118,495,1128,514,1144,531,1163,546,1159,550,1140,535,1123,517,1113,496,1113,485,1117,473,1129,457,1144,443,1179,423"/>
+<area shape="rect" href="a01202.html" title=" " alt="" coords="1452,548,1637,573"/>
+<area shape="poly" title=" " alt="" coords="1290,420,1304,424,1337,430,1367,432,1420,432,1445,434,1470,440,1495,452,1521,473,1534,490,1542,510,1547,547,1542,548,1537,512,1530,493,1517,477,1492,457,1468,445,1444,439,1420,437,1367,438,1337,436,1303,429,1289,426"/>
+<area shape="rect" href="a00509.html" title=" " alt="" coords="1364,475,1507,500"/>
+<area shape="poly" title=" " alt="" coords="1281,422,1405,472,1403,477,1279,427"/>
+<area shape="rect" href="a00512.html" title=" " alt="" coords="1131,475,1339,500"/>
+<area shape="poly" title=" " alt="" coords="1238,433,1238,474,1233,474,1233,433"/>
+<area shape="rect" href="a01376.html" title="Filesystem module: paths, directory iteration and file operations in the shape of C++17 &lt;filesystem&gt;,..." alt="" coords="1954,225,2090,251"/>
+<area shape="poly" title=" " alt="" coords="2025,191,2025,225,2019,225,2019,191"/>
+<area shape="rect" href="a00752.html" title=" " alt="" coords="1767,225,1930,251"/>
+<area shape="poly" title=" " alt="" coords="1980,185,1880,228,1878,223,1978,180"/>
+<area shape="poly" title=" " alt="" coords="2104,242,2300,264,2383,279,2412,287,2428,297,2442,317,2448,337,2447,355,2440,372,2427,387,2409,401,2361,425,2302,444,2238,460,2114,480,2113,475,2237,455,2301,439,2359,420,2406,396,2423,383,2435,369,2442,354,2443,338,2437,320,2424,301,2410,292,2382,284,2299,269,2104,247"/>
+<area shape="poly" title=" " alt="" coords="1940,253,1865,257,1776,258,1575,258,1474,261,1381,268,1301,281,1239,301,1218,314,1202,328,1181,360,1160,395,1145,412,1125,429,1071,458,1018,477,1017,472,1069,453,1122,424,1142,408,1156,391,1176,357,1198,325,1214,310,1237,296,1300,275,1381,262,1474,256,1575,253,1776,253,1865,252,1940,248"/>
+<area shape="poly" title=" " alt="" coords="1941,253,1716,270,1525,275,1356,274,1200,270,1043,267,876,269,687,279,465,301,423,309,423,303,464,296,687,273,876,263,1044,262,1200,265,1357,269,1525,270,1715,264,1940,248"/>
+<area shape="poly" title=" " alt="" coords="2104,241,2376,264,2502,279,2546,288,2573,296,2599,323,2639,374,2712,473,2708,476,2635,377,2595,327,2570,301,2545,293,2501,285,2376,269,2103,246"/>
+<area shape="poly" title=" " alt="" coords="2104,241,2315,262,2407,278,2438,287,2456,297,2466,315,2466,335,2460,356,2450,376,2424,409,2404,429,2368,453,2335,470,2304,481,2273,487,2208,493,2126,503,1992,515,1759,531,1282,558,1282,553,1758,525,1991,510,2126,497,2207,488,2273,482,2303,476,2333,465,2365,449,2400,425,2420,406,2445,373,2455,354,2461,335,2460,316,2452,301,2436,292,2406,283,2315,268,2104,246"/>
+<area shape="poly" title=" " alt="" coords="2104,242,2359,268,2470,283,2505,290,2522,297,2542,322,2557,348,2565,374,2569,400,2566,426,2557,452,2543,477,2522,502,2509,508,2484,514,2404,524,2157,541,1872,554,1638,561,1637,556,1872,548,2157,536,2403,519,2483,509,2508,503,2519,498,2538,474,2552,449,2561,425,2563,400,2560,375,2552,350,2538,325,2519,301,2504,295,2469,288,2358,273,2103,248"/>
+<area shape="rect" href="a01274.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="773,306,919,331"/>
+<area shape="poly" title=" " alt="" coords="1941,253,1787,266,1656,271,1433,271,1326,271,1212,274,1083,283,932,301,894,309,893,303,931,296,1083,278,1212,269,1326,266,1433,266,1656,266,1786,260,1940,248"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="1429,306,1620,331"/>
+<area shape="poly" title=" " alt="" coords="1941,254,1633,301,1592,309,1591,303,1632,296,1940,248"/>
+<area shape="rect" href="a01235.html" title=" " alt="" coords="1644,306,1808,331"/>
+<area shape="poly" title=" " alt="" coords="1963,257,1773,309,1772,303,1961,252"/>
+<area shape="rect" href="a01226.html" title=" " alt="" coords="1833,306,2011,331"/>
+<area shape="poly" title=" " alt="" coords="1997,261,1940,308,1937,303,1994,257"/>
+<area shape="rect" href="a01211.html" title=" " alt="" coords="2035,306,2209,331"/>
+<area shape="poly" title=" " alt="" coords="2050,257,2107,303,2104,308,2047,261"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="2233,306,2414,331"/>
+<area shape="poly" title=" " alt="" coords="2083,252,2276,303,2275,308,2082,257"/>
+<area shape="rect" href="a00263.html" title=" " alt="" coords="1250,299,1405,339"/>
+<area shape="poly" title=" " alt="" coords="1941,253,1793,268,1677,275,1563,283,1418,301,1405,304,1404,298,1418,296,1562,278,1677,269,1792,263,1940,248"/>
+<area shape="poly" title=" " alt="" coords="875,338,898,360,920,385,948,433,966,473,961,476,944,435,916,388,894,363,871,342"/>
+<area shape="rect" href="a01340.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="755,475,873,500"/>
+<area shape="poly" title=" " alt="" coords="779,338,741,358,725,372,712,388,706,407,712,425,724,441,739,454,774,472,771,477,736,458,720,445,708,428,701,407,708,385,721,368,738,354,777,334"/>
+<area shape="rect" href="a01271.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="722,394,906,419"/>
+<area shape="poly" title=" " alt="" coords="839,345,821,395,816,393,834,344"/>
+<area shape="poly" title=" " alt="" coords="887,499,1118,545,1117,551,886,504"/>
+<area shape="poly" title=" " alt="" coords="887,497,1201,532,1452,552,1451,557,1200,537,886,503"/>
+<area shape="rect" href="a01319.html" title=" " alt="" coords="339,548,622,573"/>
+<area shape="poly" title=" " alt="" coords="744,506,539,550,538,545,742,500"/>
+<area shape="poly" title=" " alt="" coords="886,497,1200,519,1614,536,2344,556,2344,561,1614,541,1199,524,886,503"/>
+<area shape="rect" href="a00440.html" title=" " alt="" coords="645,548,807,573"/>
+<area shape="poly" title=" " alt="" coords="790,511,743,550,740,545,786,507"/>
+<area shape="rect" href="a00443.html" title=" " alt="" coords="831,548,1058,573"/>
+<area shape="poly" title=" " alt="" coords="850,505,923,545,920,550,848,509"/>
+<area shape="poly" title=" " alt="" coords="817,433,817,474,811,474,811,433"/>
+<area shape="poly" title=" " alt="" coords="2572,183,2746,304,2743,308,2569,188"/>
+<area shape="rect" href="a00869.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="2727,225,2885,251"/>
+<area shape="poly" title=" " alt="" coords="2601,178,2761,223,2759,228,2599,184"/>
+<area shape="rect" href="a00884.html" title=" " alt="" coords="2438,225,2601,251"/>
+<area shape="poly" title=" " alt="" coords="2536,191,2526,226,2521,224,2531,190"/>
+<area shape="poly" title=" " alt="" coords="2795,264,2773,307,2768,304,2791,262"/>
+<area shape="poly" title=" " alt="" coords="2870,252,2952,280,2994,298,3032,319,3063,343,3082,369,3086,383,3086,398,3081,413,3071,428,3052,443,3026,455,2956,472,2875,482,2798,488,2798,482,2874,477,2955,467,3024,450,3050,438,3067,425,3076,411,3081,397,3081,384,3077,371,3059,346,3029,324,2991,303,2950,285,2868,257"/>
+<area shape="poly" title=" " alt="" coords="1471,177,1411,192,1347,215,1316,231,1288,251,1262,274,1240,300,1231,323,1228,349,1234,393,1229,394,1223,349,1225,322,1236,297,1258,270,1284,247,1314,227,1345,210,1410,186,1470,172"/>
+<area shape="rect" href="a01052.html" title=" " alt="" coords="1484,225,1611,251"/>
+<area shape="poly" title=" " alt="" coords="1550,191,1550,225,1545,225,1545,191"/>
+<area shape="poly" title=" " alt="" coords="2753,187,2733,205,2718,226,2715,247,2722,268,2735,288,2750,304,2746,307,2731,291,2717,271,2710,248,2713,224,2729,201,2749,183"/>
+<area shape="poly" title=" " alt="" coords="2796,190,2805,224,2800,226,2790,191"/>
+<area shape="rect" href="a00899.html" title=" " alt="" coords="2910,225,3107,251"/>
+<area shape="poly" title=" " alt="" coords="2839,179,2971,223,2969,228,2837,184"/>
+</map>
 </div>
 </div>
 <p><a href="a01115_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05134.html">lumex::xml::xpath::parser::xpath_parse_result_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the result of an XPath parsing operation.  <a href="a05134.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04363.html">lumex::core::utility::dump::dump_configuration</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comprehensive configuration class for crash dump generation.  <a href="a04363.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04367.html">lumex::core::utility::dump::dump_factory</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory class for creating and configuring crash dump generators.  <a href="a04367.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04371.html">lumex::core::utility::dump::core_dump_generator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform crash dump handler with comprehensive debugging support.  <a href="a04371.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01501.html">lumex::xml::xpath</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01586.html">lumex::core::utility</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01518.html">lumex::xml::xpath::parser</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01595.html">lumex::core::utility::dump</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01596.html">DumpTypeUtils</a></td></tr>
+<tr class="memdesc:a01596"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validation and utility functions for DumpType enum. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01597.html">lumex::core::utility::dump::DumpTypeUtils</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html">lumex::core::utility::dump::DumpTypeUtils::Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a856f2c67a6e56d5d99c36c0e8dea28a2" id="r_a856f2c67a6e56d5d99c36c0e8dea28a2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a856f2c67a6e56d5d99c36c0e8dea28a2">LUMEX_DUMP_CLASS_API</a>&#160;&#160;&#160;<a class="el" href="a00746.html#a2fcdc1371159ad0c9788ea500312a415">LUMEX_UTILITY_API</a></td></tr>
+<tr class="separator:a856f2c67a6e56d5d99c36c0e8dea28a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a298c9953ef4b7ed1e6ee266179744be7" id="r_a298c9953ef4b7ed1e6ee266179744be7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a298c9953ef4b7ed1e6ee266179744be7">LUMEX_DUMP_DATA_API</a></td></tr>
+<tr class="separator:a298c9953ef4b7ed1e6ee266179744be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a8ccf1bd2864104aaf2e850d72d393c19" id="r_a8ccf1bd2864104aaf2e850d72d393c19"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19">lumex::core::utility::dump::DumpType</a> : std::int8_t { <br />
+&#160;&#160;<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19af86553cc5ee5d4c46e196a1d160cea44">lumex::core::utility::dump::MINI_DUMP_NORMAL</a> = 0
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a40cc9c713d7282935aed84cae38d69e8">lumex::core::utility::dump::MINI_DUMP_WITH_DATA_SEGS</a> = 1
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a69ff42aca122b1ae86906976183b89c1">lumex::core::utility::dump::MINI_DUMP_WITH_FULL_MEMORY</a> = 2
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a56e50f0befce5802844736a94a8727ac">lumex::core::utility::dump::MINI_DUMP_WITH_HANDLE_DATA</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a1654087a0cd5f9d2c523b8a2f2bb418d">lumex::core::utility::dump::MINI_DUMP_FILTER_MEMORY</a> = 4
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a69d5658fe3f5348a288c48282f33a0e2">lumex::core::utility::dump::MINI_DUMP_SCAN_MEMORY</a> = 5
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a72f8ff715345f41ce2af6cbc93a8d7da">lumex::core::utility::dump::MINI_DUMP_WITH_UNLOADED_MODULES</a> = 6
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a2c2a358d0f56959e50640798a932badf">lumex::core::utility::dump::MINI_DUMP_WITH_INDIRECTLY_REFERENCED_MEMORY</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19ab731f53ec888dfd3e6267842c80f2c13">lumex::core::utility::dump::MINI_DUMP_FILTER_MODULE_PATHS</a> = 8
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19ad81cbc9a10def7efa2b72281220085c9">lumex::core::utility::dump::MINI_DUMP_WITH_PROCESS_THREAD_DATA</a> = 9
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a026f141f7b4b9d5b6f708c97cb57e7e3">lumex::core::utility::dump::MINI_DUMP_WITH_PRIVATE_READ_WRITE_MEMORY</a> = 10
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a600ca71628c28b396dfaed4d2b808f92">lumex::core::utility::dump::MINI_DUMP_WITHOUT_OPTIONAL_DATA</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a7b198cc64fdabd7db8f3d3fc7f26c7a6">lumex::core::utility::dump::MINI_DUMP_WITH_FULL_MEMORY_INFO</a> = 12
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19ad2b4540179f3c081fe0d19315ce1e69f">lumex::core::utility::dump::MINI_DUMP_WITH_THREAD_INFO</a> = 13
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a7b6b4bf7fb6694cc20ca441838c8d4ac">lumex::core::utility::dump::MINI_DUMP_WITH_CODE_SEGMENTS</a> = 14
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a862abc28385a0003c30474222bc794d2">lumex::core::utility::dump::MINI_DUMP_WITHOUT_AUXILIARY_STATE</a> = 15
+, <br />
+&#160;&#160;<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a7b9523fafe0b4671ffe9e1a4429c1b54">lumex::core::utility::dump::MINI_DUMP_WITH_FULL_AUXILIARY_STATE</a> = 16
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a8a68894fcc4e1df5546722f08e266e54">lumex::core::utility::dump::MINI_DUMP_WITH_PRIVATE_WRITE_COPY_MEMORY</a> = 17
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a72207fd91fad5718f1b540c92a73763b">lumex::core::utility::dump::MINI_DUMP_IGNORE_INACCESSIBLE_MEMORY</a> = 18
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a11db456efbc7c32e5bddf3504c0b49ba">lumex::core::utility::dump::MINI_DUMP_WITH_TOKEN_INFORMATION</a> = 19
+, <br />
+&#160;&#160;<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19acf042458a2225a06326c75ae7aa7922a">lumex::core::utility::dump::KERNEL_FULL_DUMP</a> = 20
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19ad56f41e4d3e37c4a67be80b7f32d100c">lumex::core::utility::dump::KERNEL_KERNEL_DUMP</a> = 21
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a822dbbaed89e068a415c67c7d3cbb728">lumex::core::utility::dump::KERNEL_SMALL_DUMP</a> = 22
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19ad4e2a6b1adf21e3e90b86042c974e60a">lumex::core::utility::dump::KERNEL_AUTOMATIC_DUMP</a> = 23
+, <br />
+&#160;&#160;<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a9f1a237a1f081c3126b239fc96054ffd">lumex::core::utility::dump::KERNEL_ACTIVE_DUMP</a> = 24
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a0161cca65bafb112cfa0a080e7fd4719">lumex::core::utility::dump::CORE_DUMP_FULL</a> = 25
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19af5588dcd19ef0355937643f25b463a88">lumex::core::utility::dump::DEFAULT_WINDOWS</a> = MINI_DUMP_WITH_FULL_MEMORY
+, <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19acf79fb41c645cbae74dc08d2dda86889">lumex::core::utility::dump::DEFAULT_UNIX</a> = CORE_DUMP_FULL
+, <br />
+&#160;&#160;<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19a3eb47c0801f946a2b7a32843449d5ba3">lumex::core::utility::dump::DEFAULT_AUTO</a> = -1
+<br />
+ }</td></tr>
+<tr class="memdesc:a8ccf1bd2864104aaf2e850d72d393c19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comprehensive enumeration of all supported crash dump types across platforms.  <a href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19">More...</a><br /></td></tr>
+<tr class="separator:a8ccf1bd2864104aaf2e850d72d393c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab994eafd3408b60051a6a4ea777d4317" id="r_ab994eafd3408b60051a6a4ea777d4317"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01597.html#ab994eafd3408b60051a6a4ea777d4317">lumex::core::utility::dump::DumpTypeUtils::is_valid</a> (<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> type) noexcept</td></tr>
+<tr class="memdesc:ab994eafd3408b60051a6a4ea777d4317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value is valid.  <br /></td></tr>
+<tr class="separator:ab994eafd3408b60051a6a4ea777d4317"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cba4007f1162902671974fb5941acd3" id="r_a3cba4007f1162902671974fb5941acd3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01597.html#a3cba4007f1162902671974fb5941acd3">lumex::core::utility::dump::DumpTypeUtils::is_windows_type</a> (<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> type) noexcept</td></tr>
+<tr class="memdesc:a3cba4007f1162902671974fb5941acd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a Windows-specific type.  <br /></td></tr>
+<tr class="separator:a3cba4007f1162902671974fb5941acd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25e9ad11a2f3abc72c2205613d1f9919" id="r_a25e9ad11a2f3abc72c2205613d1f9919"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01597.html#a25e9ad11a2f3abc72c2205613d1f9919">lumex::core::utility::dump::DumpTypeUtils::is_unix_type</a> (<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> type) noexcept</td></tr>
+<tr class="memdesc:a25e9ad11a2f3abc72c2205613d1f9919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a UNIX-specific type.  <br /></td></tr>
+<tr class="separator:a25e9ad11a2f3abc72c2205613d1f9919"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a960744d34cec40ab286f91eb9dcd40c6" id="r_a960744d34cec40ab286f91eb9dcd40c6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01597.html#a960744d34cec40ab286f91eb9dcd40c6">lumex::core::utility::dump::DumpTypeUtils::is_kernel_type</a> (<a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a> type) noexcept</td></tr>
+<tr class="memdesc:a960744d34cec40ab286f91eb9dcd40c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> is a kernel dump type.  <br /></td></tr>
+<tr class="separator:a960744d34cec40ab286f91eb9dcd40c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d677d1505b90caa6aa28dfc7968ed82" id="r_a7d677d1505b90caa6aa28dfc7968ed82"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01597.html#a7d677d1505b90caa6aa28dfc7968ed82">lumex::core::utility::dump::DumpTypeUtils::get_min_value</a> () noexcept</td></tr>
+<tr class="memdesc:a7d677d1505b90caa6aa28dfc7968ed82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum valid <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value.  <br /></td></tr>
+<tr class="separator:a7d677d1505b90caa6aa28dfc7968ed82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9bd9d1f6512395fa84a3e12a0977661" id="r_ad9bd9d1f6512395fa84a3e12a0977661"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19">DumpType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01597.html#ad9bd9d1f6512395fa84a3e12a0977661">lumex::core::utility::dump::DumpTypeUtils::get_max_value</a> () noexcept</td></tr>
+<tr class="memdesc:ad9bd9d1f6512395fa84a3e12a0977661"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum valid <a class="el" href="a01595.html#a8ccf1bd2864104aaf2e850d72d393c19" title="Comprehensive enumeration of all supported crash dump types across platforms.">DumpType</a> value.  <br /></td></tr>
+<tr class="separator:ad9bd9d1f6512395fa84a3e12a0977661"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2b9da98670ad6744370413e1529d2e35" id="r_a2b9da98670ad6744370413e1529d2e35"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#a2b9da98670ad6744370413e1529d2e35">lumex::core::utility::dump::DumpTypeUtils::Constants::MIN_DUMP_TYPE_VALUE</a> = 0</td></tr>
+<tr class="separator:a2b9da98670ad6744370413e1529d2e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6134dec000b7e65ca6b13b3c337e5e82" id="r_a6134dec000b7e65ca6b13b3c337e5e82"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#a6134dec000b7e65ca6b13b3c337e5e82">lumex::core::utility::dump::DumpTypeUtils::Constants::MAX_DUMP_TYPE_VALUE</a> = 25</td></tr>
+<tr class="separator:a6134dec000b7e65ca6b13b3c337e5e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aa8d474ba5f634a039b4b295eadae05" id="r_a3aa8d474ba5f634a039b4b295eadae05"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#a3aa8d474ba5f634a039b4b295eadae05">lumex::core::utility::dump::DumpTypeUtils::Constants::AUTO_DETECT_VALUE</a> = -1</td></tr>
+<tr class="separator:a3aa8d474ba5f634a039b4b295eadae05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c513090e51fdf43898fed0ee9397c46" id="r_a6c513090e51fdf43898fed0ee9397c46"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#a6c513090e51fdf43898fed0ee9397c46">lumex::core::utility::dump::DumpTypeUtils::Constants::WINDOWS_MAX_TYPE</a> = 24</td></tr>
+<tr class="separator:a6c513090e51fdf43898fed0ee9397c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee42ceecc8f748626a1c0aa1d1dc8d37" id="r_aee42ceecc8f748626a1c0aa1d1dc8d37"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#aee42ceecc8f748626a1c0aa1d1dc8d37">lumex::core::utility::dump::DumpTypeUtils::Constants::UNIX_MIN_TYPE</a> = 25</td></tr>
+<tr class="separator:aee42ceecc8f748626a1c0aa1d1dc8d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aac9ef55e0a8cb94eeb70736f6593fb" id="r_a8aac9ef55e0a8cb94eeb70736f6593fb"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#a8aac9ef55e0a8cb94eeb70736f6593fb">lumex::core::utility::dump::DumpTypeUtils::Constants::UNIX_MAX_TYPE</a> = 25</td></tr>
+<tr class="separator:a8aac9ef55e0a8cb94eeb70736f6593fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6b6ceeffc1c983147092e86b5722874" id="r_ad6b6ceeffc1c983147092e86b5722874"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#ad6b6ceeffc1c983147092e86b5722874">lumex::core::utility::dump::DumpTypeUtils::Constants::KERNEL_MIN_TYPE</a> = 20</td></tr>
+<tr class="separator:ad6b6ceeffc1c983147092e86b5722874"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd66e6a09d6b8c10bc57029d970079d9" id="r_acd66e6a09d6b8c10bc57029d970079d9"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#acd66e6a09d6b8c10bc57029d970079d9">lumex::core::utility::dump::DumpTypeUtils::Constants::KERNEL_MAX_TYPE</a> = 24</td></tr>
+<tr class="separator:acd66e6a09d6b8c10bc57029d970079d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f0617b8cdfbf965bb7e78cc5638fc62" id="r_a0f0617b8cdfbf965bb7e78cc5638fc62"><td class="memItemLeft" align="right" valign="top">static constexpr std::int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01598.html#a0f0617b8cdfbf965bb7e78cc5638fc62">lumex::core::utility::dump::DumpTypeUtils::Constants::KERNEL_ONLY_TYPE</a> = 26</td></tr>
+<tr class="separator:a0f0617b8cdfbf965bb7e78cc5638fc62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f21df461a8d52a1ac6d433c8def0456" id="r_a1f21df461a8d52a1ac6d433c8def0456"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html#a1f21df461a8d52a1ac6d433c8def0456">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants::CONTROL_CHAR_THRESHOLD</a> = 32</td></tr>
+<tr class="separator:a1f21df461a8d52a1ac6d433c8def0456"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdefb1fc053d60dda36ce56313f5000f" id="r_acdefb1fc053d60dda36ce56313f5000f"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html#acdefb1fc053d60dda36ce56313f5000f">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants::COLON_CHAR</a> = ':'</td></tr>
+<tr class="separator:acdefb1fc053d60dda36ce56313f5000f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03296a422b94724e0b1cb5c533dd7ef4" id="r_a03296a422b94724e0b1cb5c533dd7ef4"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html#a03296a422b94724e0b1cb5c533dd7ef4">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants::ASTERISK_CHAR</a> = '*'</td></tr>
+<tr class="separator:a03296a422b94724e0b1cb5c533dd7ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ec778756a39f40d88d409118f61e872" id="r_a3ec778756a39f40d88d409118f61e872"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html#a3ec778756a39f40d88d409118f61e872">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants::QUESTION_CHAR</a> = '?'</td></tr>
+<tr class="separator:a3ec778756a39f40d88d409118f61e872"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0b2452358a28caba418f0e2af8d56bb" id="r_ac0b2452358a28caba418f0e2af8d56bb"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html#ac0b2452358a28caba418f0e2af8d56bb">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants::QUOTE_CHAR</a> = '&quot;'</td></tr>
+<tr class="separator:ac0b2452358a28caba418f0e2af8d56bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14f5f56e692a8865260a73c2d419740f" id="r_a14f5f56e692a8865260a73c2d419740f"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html#a14f5f56e692a8865260a73c2d419740f">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants::LESS_THAN_CHAR</a> = '&lt;'</td></tr>
+<tr class="separator:a14f5f56e692a8865260a73c2d419740f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44dd74f6dc632b3ce2f40e0211350481" id="r_a44dd74f6dc632b3ce2f40e0211350481"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html#a44dd74f6dc632b3ce2f40e0211350481">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants::GREATER_THAN_CHAR</a> = '&gt;'</td></tr>
+<tr class="separator:a44dd74f6dc632b3ce2f40e0211350481"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4a444f3eb3e5c399b4f6024e840c961" id="r_aa4a444f3eb3e5c399b4f6024e840c961"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01599.html#aa4a444f3eb3e5c399b4f6024e840c961">lumex::core::utility::dump::DumpTypeUtils::CharacterConstants::PIPE_CHAR</a> = '|'</td></tr>
+<tr class="separator:aa4a444f3eb3e5c399b4f6024e840c961"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>xpath_parse_result_t</code>, the outcome of compiling an XPath expression. </p>
-<p>A result holds an error message, <code>nullptr</code> on success, and the offset of the error in the expression in <code>char_t</code> units. It converts to <code>true</code> on success, and <code>description()</code> returns the message or "No error". A default-constructed result reports an internal error. <code>XPathQuery::result()</code> and <code>XPathException::result()</code> return it. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>The crash dump subsystem of <code>lumex::utility</code>: <code>core_dump_generator</code>, the <code>DumpType</code> enumeration, <code>dump_configuration</code> and <code>dump_factory</code>. </p>
+<p><code>core_dump_generator</code> is a process-wide singleton that installs crash handlers and writes dumps on a crash or on request: minidumps through DbgHelp on Windows, where <code>DumpType</code> maps to <code>MINIDUMP_TYPE</code> flags, and core dumps on Unix-like systems, where it lifts the core size limit, points the kernel core pattern at its dump directory through <code>sudo</code> (restoring the previous pattern on destruction) and can copy the dumps that systemd-coredump collects. It also lets the application register a graceful shutdown handler: a console control handler on Windows, a thread that waits for SIGINT, SIGTERM or SIGHUP on POSIX systems. <code>dump_factory</code> builds and checks the configuration for a dump type and reports which types the platform supports.</p>
+<p>Every public member works from C++11. The template overloads that take a string-like argument (<code>dump_configuration::set_filename</code>, <code>set_directory</code> and <code>add_memory_filter</code>, and <code>core_dump_generator::generate_instance_dump</code>) take every type that converts implicitly to <code>std::string</code>, and from C++17 to <code>std::string_view</code>, in every standard (the constraint is SFINAE on <code>traits::string::is_string_convertible</code>, the C++11 form of the concept <code>StringLike</code>). <code>core_dump_generator::get_memory_filters_range</code> returns the <code>ranges::iterator_range</code> of this library in every standard (<code>core_dump_generator::memory_filters_range_t</code>). <code>core_dump_generator::get_optional_dump_directory</code> returns the optional of this library, <code><a class="el" href="a03407.html" title="A C++11 implementation of std::optional for type-safe nullable values.">lumex::core::optional::opt::optional</a>&lt;std::string&gt;</code>, in every standard (<code>core_dump_generator::optional_dump_directory_t</code>; it converts implicitly to and from <code>std::optional&lt;std::string&gt;</code> from C++17); <code>get_dump_directory_if_set</code> is the same on every standard.</p>
+<p><code>core_dump_generator::instance ()</code> returns the singleton after <code>initialize ()</code>; the instance carries its own copy of the dump directory and of the configuration (<code>get_instance_dump_directory</code>, <code>get_instance_configuration</code>, <code>is_instance_initialized</code>, <code>generate_instance_dump</code>). <code>initialize ()</code> and <code>set_dump_type ()</code> write the static state and keep the instance in step with it, so the instance API and the static API report the same directory and configuration.</p>
+<p>Most of the implementation is inline in this header; the static data members are defined in <code><a class="el" href="a01112.html">LumexCoreDumpGenerator.cpp</a></code>. Windows and Unix-like systems including Android are supported; on any other platform the header stops with <code>#error</code>. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a856f2c67a6e56d5d99c36c0e8dea28a2" name="a856f2c67a6e56d5d99c36c0e8dea28a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a856f2c67a6e56d5d99c36c0e8dea28a2">&#9670;&#160;</a></span>LUMEX_DUMP_CLASS_API</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_DUMP_CLASS_API&#160;&#160;&#160;<a class="el" href="a00746.html#a2fcdc1371159ad0c9788ea500312a415">LUMEX_UTILITY_API</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a298c9953ef4b7ed1e6ee266179744be7" name="a298c9953ef4b7ed1e6ee266179744be7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a298c9953ef4b7ed1e6ee266179744be7">&#9670;&#160;</a></span>LUMEX_DUMP_DATA_API</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_DUMP_DATA_API</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="a01115.html">XPathParseResult.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_82e46b41e01cf99ef5ab35b3165521e7.html">dump</a></li><li class="navelem"><a class="el" href="a01115.html">LumexCoreDumpGenerator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

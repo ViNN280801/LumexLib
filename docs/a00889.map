@@ -1,0 +1,16 @@
+<map id="WindowsSEHTranslator.hpp" name="WindowsSEHTranslator.hpp">
+<area shape="rect" id="Node000001" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in..." alt="" coords="213,5,411,31"/>
+<area shape="rect" id="Node000002" href="$a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="129,152,260,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="273,39,246,57,223,80,213,98,206,118,199,152,193,151,201,116,208,96,219,77,243,53,270,35"/>
+<area shape="rect" id="Node000005" href="$a00869.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="233,79,391,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="315,44,315,78,309,78,309,44"/>
+<area shape="rect" id="Node000007" href="$a00899.html" title=" " alt="" coords="416,79,613,104"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="361,33,480,76,479,81,359,38"/>
+<area shape="rect" id="Node000003" href="$a00299.html" title=" " alt="" coords="5,233,189,258"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,189,115,234,112,230,167,184"/>
+<area shape="rect" id="Node000004" href="$a00302.html" title=" " alt="" coords="213,225,371,265"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="222,184,269,223,266,227,219,188"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="282,113,217,154,214,150,279,109"/>
+<area shape="rect" id="Node000006" href="$a00872.html" title=" " alt="" coords="284,152,441,177"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="331,114,356,150,351,153,326,117"/>
+</map>

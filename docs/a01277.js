@@ -1,5 +1,4 @@
 var a01277 =
 [
-    [ "monitor", "a01278.html", "a01278" ],
-    [ "process", "a01283.html", "a01283" ]
+    [ "LUMEX_IMPLEMENTATION", "a01277.html#a07486181f1990291c2a348de8eb4c480", null ]
 ];

@@ -1,0 +1,8 @@
+<map id="LumexSplitCountWord.hpp" name="LumexSplitCountWord.hpp">
+<area shape="rect" id="Node000001" title="The slot word of the split&#45;count engine: a control block, the ticks of the loads in flight and the st..." alt="" coords="5,5,200,31"/>
+<area shape="rect" id="Node000002" href="$a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="9,152,196,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,43,71,60,63,79,61,99,68,118,91,150,87,153,63,121,56,100,57,78,67,58,79,40"/>
+<area shape="rect" id="Node000003" href="$a00812.html" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="71,79,270,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,39,160,76,157,80,122,43"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="151,116,117,153,113,150,148,112"/>
+</map>

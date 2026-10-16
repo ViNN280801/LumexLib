@@ -1,0 +1,7 @@
+<map id="lumex::core::hazard_pointer::hazard_pointer_obj_base&lt; T, D &gt;" name="lumex::core::hazard_pointer::hazard_pointer_obj_base&lt; T, D &gt;">
+<area shape="rect" id="Node000001" title="Base class of objects that hazard pointers protect ([saferecl.hp.base])." alt="" coords="252,34,432,89"/>
+<area shape="rect" id="Node000002" href="$a03223.html" title=" " alt="" coords="5,5,204,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,40,252,45,251,50,217,45"/>
+<area shape="rect" id="Node000003" href="$a03231.html" title=" " alt="" coords="17,70,192,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,79,251,72,252,78,206,85"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="lumex::core::utility::debug::capture_stack_trace" name="lumex::core::utility::debug::capture_stack_trace">
+<area shape="rect" id="Node000001" title="Capture current call stack in a formatted string." alt="" coords="5,69,215,109"/>
+<area shape="rect" id="Node000002" href="$a01593.html#a4dad8c6d93fb3d95899d83928473567c" title=" " alt="" coords="263,5,463,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,67,270,46,271,51,190,72"/>
+<area shape="rect" id="Node000003" href="$a01570.html#a6edd6a773e25b016b0dab32f38d58ff9" title="No arguments: an empty string, without creating a stream." alt="" coords="291,69,435,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,87,277,87,277,92,215,92"/>
+<area shape="rect" id="Node000004" href="$a01570.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="291,133,435,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="190,107,278,129,277,134,189,112"/>
+</map>

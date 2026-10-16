@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::filesystem::fs::Detail Namespace Reference</title>
+<title>LumexLib: LumexContracts File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,186 +103,86 @@ $(function(){initNavTree('a01361.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::filesystem::fs::Detail Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">LumexContracts File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a91cd3a30484a7ae2ca526d8809579acb" id="r_a91cd3a30484a7ae2ca526d8809579acb"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91cd3a30484a7ae2ca526d8809579acb">is_forbidden</a> (char chr) noexcept</td></tr>
-<tr class="separator:a91cd3a30484a7ae2ca526d8809579acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3244ed9dd864a653698dc515f12beed2" id="r_a3244ed9dd864a653698dc515f12beed2"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3244ed9dd864a653698dc515f12beed2">is_reserved_name</a> (std::string const &amp;) noexcept</td></tr>
-<tr class="separator:a3244ed9dd864a653698dc515f12beed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75f931473dff95752bbf968f5fe0fac7" id="r_a75f931473dff95752bbf968f5fe0fac7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75f931473dff95752bbf968f5fe0fac7">has_invalid_ending</a> (std::string const &amp;name) noexcept</td></tr>
-<tr class="separator:a75f931473dff95752bbf968f5fe0fac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ad25df4d388121e85aec9685b242a1920" id="r_ad25df4d388121e85aec9685b242a1920"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad25df4d388121e85aec9685b242a1920">constkForbiddenChars</a> = &quot;/&quot;</td></tr>
-<tr class="separator:ad25df4d388121e85aec9685b242a1920"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33c9a7b0f0be48e764770041262a925c" id="r_a33c9a7b0f0be48e764770041262a925c"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33c9a7b0f0be48e764770041262a925c">constkProblematicChars</a> = &quot;&amp;;|*?'\&quot;`[]()$&lt;&gt;{}^#\\%!&quot;</td></tr>
-<tr class="separator:a33c9a7b0f0be48e764770041262a925c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a75f931473dff95752bbf968f5fe0fac7" name="a75f931473dff95752bbf968f5fe0fac7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75f931473dff95752bbf968f5fe0fac7">&#9670;&#160;</a></span>has_invalid_ending()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::core::filesystem::fs::Detail::has_invalid_ending </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
+<p>Contracts module: <code>LUMEX_CONTRACT_ASSERT</code>, the contract assertion of C++26 (P2900) from C++11 on, with the violation handler and the types that describe a violation.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a01001_source.html">assert/LumexContractsAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01007_source.html">handler/LumexContractsHandler.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01010_source.html">location/LumexContractsSourceLocation.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00998_source.html">violation/LumexContractsViolation.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexContracts:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01361_a75f931473dff95752bbf968f5fe0fac7_cgraph.png" border="0" usemap="#aa01361_a75f931473dff95752bbf968f5fe0fac7_cgraph" alt=""/></div>
+<div class="center"><img src="a01362.png" border="0" usemap="#aLumexContracts" alt=""/></div>
+<map name="aLumexContracts" id="aLumexContracts">
+<area shape="rect" title="Contracts module: LUMEX_CONTRACT_ASSERT, the contract assertion of C++26 (P2900) from C++11 on,..." alt="" coords="630,5,758,31"/>
+<area shape="rect" href="a01001.html" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand..." alt="" coords="495,79,736,104"/>
+<area shape="poly" title=" " alt="" coords="682,33,641,71,638,67,678,29"/>
+<area shape="rect" href="a01007.html" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="5,152,268,192"/>
+<area shape="poly" title=" " alt="" coords="649,33,223,151,221,146,647,28"/>
+<area shape="rect" href="a00998.html" title="The enumerations assertion_kind, evaluation_semantic and detection_mode, and the class contract_viola..." alt="" coords="607,240,885,280"/>
+<area shape="poly" title=" " alt="" coords="713,29,734,50,751,78,761,117,764,157,756,227,751,226,758,157,756,117,746,80,730,53,709,33"/>
+<area shape="rect" href="a01010.html" title="source_location: the place in the program text that a contract violation names, on every C++ standard..." alt="" coords="873,328,1105,383"/>
+<area shape="poly" title=" " alt="" coords="714,29,759,61,818,110,881,170,938,238,960,276,977,314,972,316,955,279,933,242,877,174,814,114,755,66,711,33"/>
+<area shape="rect" title=" " alt="" coords="955,438,1022,463"/>
+<area shape="poly" title=" " alt="" coords="712,101,815,125,872,144,929,167,985,197,1037,233,1082,276,1119,327,1129,355,1126,369,1119,384,1102,404,1081,421,1036,442,1034,437,1079,416,1099,401,1114,381,1121,367,1123,356,1114,329,1078,279,1033,237,982,202,927,172,870,149,813,130,711,107"/>
+<area shape="rect" title=" " alt="" coords="292,159,357,185"/>
+<area shape="poly" title=" " alt="" coords="550,107,463,127,370,155,365,156,363,151,368,149,462,122,549,101"/>
+<area shape="poly" title=" " alt="" coords="540,107,269,152,269,147,540,101"/>
+<area shape="poly" title=" " alt="" coords="635,102,661,124,687,150,713,189,733,226,729,229,709,191,683,154,657,127,632,106"/>
+<area shape="poly" title=" " alt="" coords="651,102,703,123,767,153,835,192,900,238,937,276,967,315,962,318,933,279,896,242,833,196,764,158,701,128,649,107"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="425,431,638,471"/>
+<area shape="poly" title=" " alt="" coords="620,104,624,144,621,193,611,218,598,241,577,284,561,329,539,418,534,416,555,327,573,282,593,239,606,215,615,191,619,144,615,105"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="294,240,483,280"/>
+<area shape="poly" title=" " alt="" coords="618,105,614,147,606,172,592,194,575,206,550,218,488,239,487,234,548,213,572,202,588,190,601,170,609,146,613,104"/>
+<area shape="rect" href="a01118.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="381,152,577,192"/>
+<area shape="poly" title=" " alt="" coords="595,107,526,147,524,143,592,102"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="89,247,270,273"/>
+<area shape="poly" title=" " alt="" coords="149,191,170,234,165,236,144,194"/>
+<area shape="poly" title=" " alt="" coords="269,188,594,235,594,241,268,194"/>
+<area shape="poly" title=" " alt="" coords="113,194,94,215,79,241,74,260,79,279,104,318,132,343,166,360,211,380,260,400,312,415,412,436,410,441,310,420,258,405,209,385,164,365,129,347,100,322,74,281,69,260,74,239,90,212,109,191"/>
+<area shape="poly" title=" " alt="" coords="195,190,319,233,317,238,194,195"/>
+<area shape="poly" title=" " alt="" coords="767,278,812,326,836,355,862,381,905,408,947,430,944,435,902,413,859,385,832,359,808,330,763,282"/>
+<area shape="rect" title=" " alt="" coords="569,343,661,368"/>
+<area shape="poly" title=" " alt="" coords="720,282,646,336,643,332,717,278"/>
+<area shape="rect" title=" " alt="" coords="737,343,797,368"/>
+<area shape="poly" title=" " alt="" coords="753,280,764,329,759,330,748,281"/>
+<area shape="poly" title=" " alt="" coords="798,278,907,321,905,325,796,283"/>
+<area shape="poly" title=" " alt="" coords="741,281,716,332,698,360,676,385,643,409,607,428,604,423,640,405,672,381,694,356,712,329,736,279"/>
+<area shape="poly" title=" " alt="" coords="991,383,991,424,986,424,986,383"/>
+<area shape="poly" title=" " alt="" coords="873,382,641,431,640,425,872,377"/>
+<area shape="poly" title=" " alt="" coords="438,278,573,335,571,340,436,283"/>
+<area shape="poly" title=" " alt="" coords="295,281,257,301,241,314,228,329,221,343,218,356,220,368,228,381,255,400,300,416,354,428,411,437,411,442,353,433,298,421,253,405,224,384,215,370,213,356,216,341,224,327,238,310,255,296,293,276"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="239,335,493,375"/>
+<area shape="poly" title=" " alt="" coords="386,281,377,323,371,321,381,280"/>
+</map>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01361_a75f931473dff95752bbf968f5fe0fac7_icgraph.png" border="0" usemap="#aa01361_a75f931473dff95752bbf968f5fe0fac7_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a91cd3a30484a7ae2ca526d8809579acb" name="a91cd3a30484a7ae2ca526d8809579acb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91cd3a30484a7ae2ca526d8809579acb">&#9670;&#160;</a></span>is_forbidden()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::core::filesystem::fs::Detail::is_forbidden </td>
-          <td>(</td>
-          <td class="paramtype">char</td>          <td class="paramname"><span class="paramname"><em>chr</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01361_a91cd3a30484a7ae2ca526d8809579acb_cgraph.png" border="0" usemap="#aa01361_a91cd3a30484a7ae2ca526d8809579acb_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01361_a91cd3a30484a7ae2ca526d8809579acb_icgraph.png" border="0" usemap="#aa01361_a91cd3a30484a7ae2ca526d8809579acb_icgraph" alt=""/></div>
-</div>
-
+<div class="center"><img src="a01363.png" border="0" usemap="#aLumexContractsdep" alt=""/></div>
+<map name="aLumexContractsdep" id="aLumexContractsdep">
+<area shape="rect" title="Contracts module: LUMEX_CONTRACT_ASSERT, the contract assertion of C++26 (P2900) from C++11 on,..." alt="" coords="143,5,271,31"/>
+<area shape="rect" href="a00437.html" title=" " alt="" coords="5,79,179,104"/>
+<area shape="poly" title=" " alt="" coords="176,41,114,81,111,76,174,36"/>
+<area shape="rect" href="a00434.html" title=" " alt="" coords="203,79,442,104"/>
+<area shape="poly" title=" " alt="" coords="240,36,304,76,301,81,237,40"/>
+</map>
 </div>
 </div>
-<a id="a3244ed9dd864a653698dc515f12beed2" name="a3244ed9dd864a653698dc515f12beed2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3244ed9dd864a653698dc515f12beed2">&#9670;&#160;</a></span>is_reserved_name()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool lumex::core::filesystem::fs::Detail::is_reserved_name </td>
-          <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01361_a3244ed9dd864a653698dc515f12beed2_cgraph.png" border="0" usemap="#aa01361_a3244ed9dd864a653698dc515f12beed2_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01361_a3244ed9dd864a653698dc515f12beed2_icgraph.png" border="0" usemap="#aa01361_a3244ed9dd864a653698dc515f12beed2_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="ad25df4d388121e85aec9685b242a1920" name="ad25df4d388121e85aec9685b242a1920"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad25df4d388121e85aec9685b242a1920">&#9670;&#160;</a></span>constkForbiddenChars</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constchar* lumex::core::filesystem::fs::Detail::constkForbiddenChars = &quot;/&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a33c9a7b0f0be48e764770041262a925c" name="a33c9a7b0f0be48e764770041262a925c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33c9a7b0f0be48e764770041262a925c">&#9670;&#160;</a></span>constkProblematicChars</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constchar* lumex::core::filesystem::fs::Detail::constkProblematicChars = &quot;&amp;;|*?'\&quot;`[]()$&lt;&gt;{}^#\\%!&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<p><a href="a01361_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Contracts module: <code>LUMEX_CONTRACT_ASSERT</code>, the contract assertion of C++26 (P2900) from C++11 on, with the violation handler and the types that describe a violation. </p>
+<p>Link <code>lumex::contracts</code> (a compiled library; the macros are header-only, the handler slot and the default handler are compiled). Works from C++11. <code>LUMEX_CONTRACT_ASSERT (predicate);</code> checks the predicate with the evaluation semantic of the build (<code>ignore</code>, <code>observe</code>, <code>enforce</code>, <code>quick_enforce</code> or the compiler's own <code>contract_assert</code>; default <code>enforce</code>), chosen by the CMake option <code>LUMEX_CONTRACTS_SEMANTIC</code> or per translation unit by the macro <code>LUMEX_CONTRACTS_SEMANTIC</code>. A false predicate is reported to the handler installed with <code>set_violation_handler</code> as a <code>contract_violation</code> (comment, <code>source_location</code>, kind, semantic, detection mode, as in <code>&lt;contracts&gt;</code> of C++26). The names are in <code><a class="el" href="a01509.html">lumex::core::contracts</a></code>; only the <code>LUMEX_CONTRACT_ASSERT*</code> and <code>LUMEX_CONTRACTS_*</code> macros are global. The umbrella includes <code><a class="el" href="a01001.html" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand...">assert/LumexContractsAssert.hpp</a></code> (the macros), <code><a class="el" href="a01007.html" title="The contract-violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle...">handler/LumexContractsHandler.hpp</a></code> (the handler), <code><a class="el" href="a00998.html" title="The enumerations assertion_kind, evaluation_semantic and detection_mode, and the class contract_viola...">violation/LumexContractsViolation.hpp</a></code> (<code>contract_violation</code> and its enumerations) and <code><a class="el" href="a01010.html" title="source_location: the place in the program text that a contract violation names, on every C++ standard...">location/LumexContractsSourceLocation.hpp</a></code> (<code>source_location</code>). </p><dl class="section see"><dt>See also</dt><dd>The <code>README.md</code> page next to this umbrella (part of the documentation). </dd></dl>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01359.html">filesystem</a></li><li class="navelem"><a class="el" href="a01360.html">fs</a></li><li class="navelem"><a class="el" href="a01361.html">Detail</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_77a8419351938abae08e7136cdf99e60.html">contracts</a></li><li class="navelem"><a class="el" href="a01361.html">LumexContracts</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

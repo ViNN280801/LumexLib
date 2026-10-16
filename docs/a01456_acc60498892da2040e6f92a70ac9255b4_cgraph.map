@@ -1,0 +1,7 @@
+<map id="lumex::applied::resource_monitor::monitor::detail::format_name_entry" name="lumex::applied::resource_monitor::monitor::detail::format_name_entry">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,189,60"/>
+<area shape="rect" id="Node000002" href="$a01460.html#a765661df16a1d68eca933c5943f17427" title="Adds samples up, for example every process of one name." alt="" coords="237,13,420,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,30,224,30,224,35,189,35"/>
+<area shape="rect" id="Node000003" href="$a03407.html#ac51b2bdb2f09afa123abff9b974ae175" title="The contained value (copied) or default_value converted to T." alt="" coords="468,13,644,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="420,30,454,30,454,35,420,35"/>
+</map>

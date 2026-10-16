@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: ExpectedDetail.hpp File Reference</title>
+<title>LumexLib: example_string.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,342 +104,173 @@ $(function(){initNavTree('a00407.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">ExpectedDetail.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_string.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Internal helpers of <code>expected</code>: language helpers that C++11 lacks as <code>constexpr</code> (<code>fwd</code>, <code>mv</code>, <code>address_of</code>, <code>construct_at</code>, <code>destroy_at</code>), the constraints of the monadic operations, the traits behind the converting constructors and the comparisons, and <code>invoke_call</code>, the standard INVOKE for C++11.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;exception&gt;</code><br />
-<code>#include &lt;functional&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;new&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00413_source.html">ExpectedTypes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00398_source.html">lumex/core/expected/error/BadExpectedAccess.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00401_source.html">lumex/core/expected/error/Unexpected.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00653_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01403_source.html">lumex/core/string/LumexString</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for ExpectedDetail.hpp:</div>
+Include dependency graph for example_string.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00408.png" border="0" usemap="#a_expected_detail_8hpp" alt=""/></div>
+<div class="center"><img src="a00408.png" border="0" usemap="#aexample__string_8cpp" alt=""/></div>
+<map name="aexample__string_8cpp" id="aexample__string_8cpp">
+<area shape="rect" title=" " alt="" coords="445,5,596,31"/>
+<area shape="rect" title=" " alt="" coords="305,79,385,104"/>
+<area shape="poly" title=" " alt="" coords="491,33,389,76,387,71,489,28"/>
+<area shape="rect" title=" " alt="" coords="314,394,373,419"/>
+<area shape="poly" title=" " alt="" coords="568,28,609,47,629,61,645,77,660,98,668,118,671,165,671,238,671,294,663,317,644,341,612,364,582,377,552,382,523,381,460,378,424,380,385,389,381,391,379,386,384,384,424,375,459,372,523,376,552,376,581,372,610,360,640,337,658,315,665,293,666,238,666,165,663,119,656,101,641,80,625,65,606,52,566,33"/>
+<area shape="rect" href="a01403.html" title="String module: stringify, which concatenates the stream output of its arguments, joining and quoting ..." alt="" coords="409,79,632,104"/>
+<area shape="poly" title=" " alt="" coords="523,31,523,65,518,65,518,31"/>
+<area shape="rect" href="a00983.html" title="Concatenates the operator&lt;&lt; text of any number of arguments into one std::string." alt="" coords="1006,225,1195,251"/>
+<area shape="poly" title=" " alt="" coords="572,102,1038,219,1037,225,570,107"/>
+<area shape="rect" href="a00977.html" title="Joins the elements of a range into one string." alt="" coords="407,225,555,251"/>
+<area shape="poly" title=" " alt="" coords="501,106,478,126,459,153,456,168,457,183,467,212,462,214,452,184,450,167,454,151,474,123,498,102"/>
+<area shape="rect" href="a00980.html" title="Joins the elements of a range with each element wrapped in quotes." alt="" coords="469,152,631,177"/>
+<area shape="poly" title=" " alt="" coords="528,103,542,138,537,140,523,105"/>
+<area shape="rect" href="a00974.html" title="Normalizes text for case&#45;insensitive comparison." alt="" coords="5,306,188,331"/>
+<area shape="poly" title=" " alt="" coords="482,107,357,154,281,188,209,228,161,263,121,298,117,294,157,259,206,223,279,183,354,149,480,102"/>
+<area shape="poly" title=" " alt="" coords="1006,251,856,273,789,286,740,301,725,310,715,321,705,331,688,341,644,357,606,366,538,370,469,372,430,378,385,389,380,391,379,386,384,384,429,372,469,367,538,365,605,361,643,352,686,336,701,327,711,317,722,306,738,296,787,281,856,268,1005,246"/>
+<area shape="rect" title=" " alt="" coords="1627,394,1705,419"/>
+<area shape="poly" title=" " alt="" coords="1148,248,1349,305,1609,384,1618,387,1617,392,1608,389,1347,310,1146,253"/>
+<area shape="rect" title=" " alt="" coords="1729,394,1805,419"/>
+<area shape="poly" title=" " alt="" coords="1171,248,1401,296,1561,335,1717,384,1724,386,1723,392,1716,389,1559,341,1400,301,1170,253"/>
+<area shape="rect" title=" " alt="" coords="555,306,630,331"/>
+<area shape="poly" title=" " alt="" coords="1013,253,702,301,644,312,643,306,702,296,1012,248"/>
+<area shape="rect" title=" " alt="" coords="1931,570,2023,595"/>
+<area shape="poly" title=" " alt="" coords="1196,237,1339,243,1505,253,1661,270,1724,282,1772,296,1849,327,1908,359,1933,379,1956,404,1977,435,1998,474,2004,495,2003,518,1992,558,1987,557,1998,517,1998,496,1993,476,1972,438,1951,407,1929,383,1905,364,1847,332,1770,301,1723,287,1660,276,1505,258,1339,248,1196,243"/>
+<area shape="rect" title=" " alt="" coords="397,394,457,419"/>
+<area shape="poly" title=" " alt="" coords="1006,250,904,268,851,283,799,301,782,311,770,321,758,331,740,341,701,355,666,363,605,369,544,372,510,378,469,389,465,391,463,386,468,384,508,373,544,367,605,363,665,358,699,350,738,336,755,327,767,317,779,306,797,296,849,277,903,263,1005,245"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1649,475,1838,515"/>
+<area shape="poly" title=" " alt="" coords="1196,240,1357,254,1546,280,1636,299,1715,322,1778,351,1802,367,1820,385,1828,407,1821,429,1806,450,1787,468,1783,464,1802,446,1817,427,1822,407,1816,388,1799,371,1776,355,1713,327,1634,304,1545,285,1357,259,1195,245"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="307,563,561,603"/>
+<area shape="poly" title=" " alt="" coords="1100,252,1089,287,1069,335,1040,385,1021,409,1000,429,967,449,922,469,808,506,679,537,559,563,558,557,678,532,806,500,920,464,964,444,996,425,1017,405,1036,382,1065,332,1084,285,1095,250"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1390,563,1603,603"/>
+<area shape="poly" title=" " alt="" coords="1196,239,1473,258,1611,274,1667,284,1709,296,1753,312,1786,327,1815,349,1842,385,1861,420,1872,452,1870,484,1852,516,1837,529,1815,541,1757,558,1688,570,1617,578,1617,573,1687,565,1756,553,1813,536,1834,525,1848,513,1865,482,1867,453,1856,422,1837,388,1811,353,1784,331,1751,317,1708,301,1666,290,1610,279,1472,263,1195,244"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="811,299,1012,339"/>
+<area shape="poly" title=" " alt="" coords="1072,253,972,296,970,291,1070,248"/>
+<area shape="poly" title=" " alt="" coords="1798,512,1931,563,1929,568,1796,517"/>
+<area shape="poly" title=" " alt="" coords="1649,516,1636,517,1341,546,1047,566,782,577,575,583,575,578,782,572,1046,560,1340,541,1635,512,1648,510"/>
+<area shape="poly" title=" " alt="" coords="1688,517,1566,561,1565,556,1686,512"/>
+<area shape="poly" title=" " alt="" coords="811,333,550,366,385,389,380,391,378,386,384,384,550,361,810,328"/>
+<area shape="poly" title=" " alt="" coords="1012,333,1032,336,1119,345,1194,349,1321,352,1448,358,1522,368,1609,384,1622,387,1621,393,1608,389,1522,373,1448,364,1321,357,1194,355,1119,350,1031,341,1012,339"/>
+<area shape="poly" title=" " alt="" coords="1012,334,1032,336,1136,346,1225,349,1376,348,1449,349,1527,353,1615,364,1717,384,1727,387,1726,392,1716,389,1614,369,1526,358,1449,354,1376,353,1224,354,1135,351,1031,341,1012,339"/>
+<area shape="poly" title=" " alt="" coords="1012,333,1032,336,1108,344,1173,347,1284,348,1395,355,1459,366,1533,384,1558,393,1576,404,1593,414,1616,424,1681,439,1735,443,1788,450,1817,458,1851,472,1883,491,1913,514,1959,558,1955,562,1909,518,1880,496,1849,477,1816,463,1787,455,1734,449,1681,445,1614,429,1590,419,1573,408,1556,398,1532,389,1458,371,1394,360,1284,354,1173,353,1108,349,1031,341,1012,339"/>
+<area shape="poly" title=" " alt="" coords="811,338,792,341,700,352,629,358,558,367,469,389,464,391,462,386,468,384,557,362,628,352,700,347,791,336,810,333"/>
+<area shape="poly" title=" " alt="" coords="811,338,699,361,650,375,617,389,582,417,540,461,460,554,456,551,536,457,579,413,614,384,649,370,698,356,810,333"/>
+<area shape="poly" title=" " alt="" coords="1012,333,1032,336,1130,339,1258,338,1323,341,1382,348,1430,362,1449,372,1464,385,1471,395,1473,406,1464,428,1452,441,1439,449,1410,453,1382,458,1370,464,1359,476,1352,495,1359,513,1380,537,1408,555,1405,559,1377,541,1354,516,1347,495,1354,473,1366,460,1380,452,1409,448,1437,444,1449,437,1460,425,1467,406,1466,397,1460,388,1446,377,1428,367,1380,353,1322,346,1258,343,1130,344,1031,341,1012,339"/>
+<area shape="rect" title=" " alt="" coords="1269,394,1340,419"/>
+<area shape="poly" title=" " alt="" coords="1013,334,1150,359,1257,384,1264,386,1263,391,1256,389,1149,365,1012,339"/>
+<area shape="rect" title=" " alt="" coords="1364,394,1451,419"/>
+<area shape="poly" title=" " alt="" coords="1013,333,1032,336,1122,348,1193,355,1263,365,1352,384,1363,387,1361,392,1351,389,1262,370,1192,361,1121,353,1031,341,1012,338"/>
+<area shape="rect" title=" " alt="" coords="481,394,552,419"/>
+<area shape="poly" title=" " alt="" coords="811,340,677,366,572,389,562,392,561,387,571,384,676,360,810,334"/>
+<area shape="rect" title=" " alt="" coords="627,394,686,419"/>
+<area shape="poly" title=" " alt="" coords="841,341,771,363,699,389,695,391,693,386,697,384,770,358,839,336"/>
+<area shape="rect" title=" " alt="" coords="711,394,765,419"/>
+<area shape="poly" title=" " alt="" coords="873,341,777,390,774,385,870,336"/>
+<area shape="rect" title=" " alt="" coords="790,394,865,419"/>
+<area shape="poly" title=" " alt="" coords="894,341,851,386,847,382,890,337"/>
+<area shape="rect" title=" " alt="" coords="889,394,987,419"/>
+<area shape="poly" title=" " alt="" coords="920,338,933,380,928,381,915,340"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1063,387,1245,427"/>
+<area shape="poly" title=" " alt="" coords="968,336,1087,379,1085,384,966,341"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1369,475,1624,515"/>
+<area shape="poly" title=" " alt="" coords="1012,333,1032,336,1276,348,1426,361,1480,371,1509,385,1519,403,1522,423,1514,462,1509,461,1517,423,1514,404,1506,389,1478,376,1425,366,1276,353,1031,341,1012,339"/>
+<area shape="poly" title=" " alt="" coords="1246,422,1257,424,1363,439,1446,448,1636,472,1636,472,1635,477,1635,477,1446,454,1363,444,1256,429,1245,427"/>
+<area shape="poly" title=" " alt="" coords="1186,425,1257,472,1285,494,1314,512,1366,536,1418,556,1416,561,1364,541,1311,517,1282,498,1254,477,1183,429"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1062,482,1243,507"/>
+<area shape="poly" title=" " alt="" coords="1156,427,1156,468,1150,468,1151,427"/>
+<area shape="poly" title=" " alt="" coords="1499,515,1499,549,1494,549,1494,515"/>
+<area shape="poly" title=" " alt="" coords="472,252,364,385,360,382,468,249"/>
+<area shape="poly" title=" " alt="" coords="500,249,565,295,562,300,497,253"/>
+<area shape="poly" title=" " alt="" coords="555,237,825,246,1004,256,1195,270,1386,289,1561,314,1710,345,1771,364,1819,384,1846,401,1871,421,1913,468,1946,516,1967,556,1963,559,1941,519,1909,471,1867,425,1843,405,1817,389,1769,369,1709,350,1561,319,1385,294,1195,275,1004,261,825,251,555,242"/>
+<area shape="poly" title=" " alt="" coords="479,251,438,382,433,380,474,250"/>
+<area shape="poly" title=" " alt="" coords="454,253,417,274,374,303,334,342,317,364,304,388,298,411,300,435,308,457,320,480,355,520,394,552,390,556,352,524,316,483,303,460,295,436,293,411,300,386,313,361,330,338,371,299,414,269,451,248"/>
+<area shape="poly" title=" " alt="" coords="549,248,797,295,796,300,548,253"/>
+<area shape="poly" title=" " alt="" coords="486,250,514,380,508,381,481,251"/>
+<area shape="poly" title=" " alt="" coords="480,180,435,198,414,211,396,227,372,264,357,305,349,346,346,381,341,380,344,346,352,304,367,261,392,224,411,207,433,193,478,175"/>
+<area shape="poly" title=" " alt="" coords="556,177,588,292,583,293,551,179"/>
+<area shape="poly" title=" " alt="" coords="632,166,991,186,1474,219,1704,240,1897,264,2030,289,2066,303,2077,310,2081,318,2081,407,2073,453,2053,496,2027,533,2002,562,1998,558,2023,530,2048,494,2067,452,2075,406,2075,319,2073,314,2064,307,2028,294,1896,269,1704,246,1473,225,991,191,631,171"/>
+<area shape="poly" title=" " alt="" coords="500,180,419,204,330,237,290,256,258,277,236,298,229,319,229,406,232,433,241,456,256,478,274,497,318,530,365,555,363,559,316,535,271,501,252,481,237,459,227,434,223,407,223,318,232,295,254,273,287,252,328,232,418,199,499,175"/>
+<area shape="poly" title=" " alt="" coords="581,175,853,291,851,296,579,180"/>
+<area shape="poly" title=" " alt="" coords="540,179,504,217,500,213,536,176"/>
+<area shape="poly" title=" " alt="" coords="133,329,302,389,301,394,132,334"/>
+<area shape="poly" title=" " alt="" coords="169,329,273,351,385,384,391,386,389,391,384,389,271,357,168,334"/>
+<area shape="poly" title=" " alt="" coords="108,330,143,385,160,423,170,455,183,484,209,513,249,539,294,557,292,562,247,543,206,517,178,487,165,457,155,425,138,388,103,333"/>
+<area shape="rect" title=" " alt="" coords="64,394,129,419"/>
+<area shape="poly" title=" " alt="" coords="99,332,99,380,94,380,94,332"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00409.png" border="0" usemap="#a_expected_detail_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00407_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02526.html">lumex::core::expected::result::detail::is_std_expected_of&lt; X, T, E &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>X</code> is exactly <code>std::expected&lt;T, E&gt;</code> (false where the standard library has no <code>std::expected</code>).  <a href="a02526.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02530.html">lumex::core::expected::result::detail::value_tag</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: construct the value alternative (<code>val</code>).  <a href="a02530.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02534.html">lumex::core::expected::result::detail::error_tag</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: construct the error alternative (<code>unex</code>).  <a href="a02534.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02538.html">lumex::core::expected::result::detail::from_storage_tag</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: copy or move the alternative of an <code>expected</code> of the same type.  <a href="a02538.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02542.html">lumex::core::expected::result::detail::convert_tag</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: convert the alternative of an <code>expected&lt;U, G&gt;</code> (any other type), reading it through the observers of the source.  <a href="a02542.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02546.html">lumex::core::expected::result::detail::invoke_value_tag</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: build the value of an <code>expected</code> from the result of a call.  <a href="a02546.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02550.html">lumex::core::expected::result::detail::invoke_error_tag</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: build the error of an <code>expected</code> from the result of a call.  <a href="a02550.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02554.html">lumex::core::expected::result::detail::is_callable_with&lt; Fn, Args &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Fn</code> may be called with <code>Args...</code> (INVOKE, as <code>std::is_invocable</code>).  <a href="a02554.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02558.html">lumex::core::expected::result::detail::returns_expected_impl&lt; AlwaysVoid, Fn, Args &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02562.html">lumex::core::expected::result::detail::returns_expected_impl&lt; traits::meta::void_t&lt; invoke_result_t&lt; Fn, Args... &gt; &gt;, Fn, Args... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02566.html">lumex::core::expected::result::detail::returns_value_impl&lt; AlwaysVoid, Fn, Args &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02570.html">lumex::core::expected::result::detail::returns_value_impl&lt; traits::meta::void_t&lt; invoke_result_t&lt; Fn, Args... &gt; &gt;, Fn, Args... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02574.html">lumex::core::expected::result::detail::can_and_then&lt; Fn, ErrorType, ErrorArg, Args &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>and_then</code>: <code>Fn (Args...)</code> returns an <code>expected</code>, and the error can be copied into it.  <a href="a02574.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02578.html">lumex::core::expected::result::detail::can_or_else&lt; Fn, ValueType, ValueArg, Args &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>or_else</code>: <code>Fn (Args...)</code> returns an <code>expected</code>, and the value can be copied into it.  <a href="a02578.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02582.html">lumex::core::expected::result::detail::can_transform&lt; Fn, ErrorType, ErrorArg, Args &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>transform</code>: <code>Fn (Args...)</code> may be called (its result may be any type, <code>void</code> included), and the error can be copied.  <a href="a02582.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02586.html">lumex::core::expected::result::detail::can_transform_error&lt; Fn, ValueType, ValueArg, Args &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>transform_error</code>: <code>Fn (Args...)</code> returns a value (<code>void</code> cannot be an error type), and the value can be copied.  <a href="a02586.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02590.html">lumex::core::expected::result::detail::unexpected_from_expected&lt; ErrorType, U, G &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>unexpected&lt;ErrorType&gt;</code> can be built from an <code>expected&lt;U, G&gt;</code> in any of its four value categories (the standard's <code>__cons_from_expected</code> for the error part).  <a href="a02590.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02594.html">lumex::core::expected::result::detail::value_from_expected&lt; ValueType, U, G &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>ValueType</code> can be built from, or converted from, an <code>expected&lt;U, / G&gt;</code> in any of its four value categories (the standard's <code>converts-from-any-cvref</code>).  <a href="a02594.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02598.html">lumex::core::expected::result::detail::constructs_from_expected&lt; ValueType, ErrorType, U, G &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The converting constructors of <code>expected</code> step aside: <code>ValueType</code> or <code>unexpected&lt;ErrorType&gt;</code> can be built from the whole <code>expected&lt;U, G&gt;</code>, so the value constructor converts it instead. A <code>bool</code> value type never counts the value side: <code>expected&lt;int, E&gt;</code> is constructible into <code>bool</code> through its <code>operator bool</code>, yet <code>expected&lt;bool, E&gt;</code> still converts the value inside (the resolution of LWG 3836, which the value constructor backs by refusing every <code>expected</code> for a <code>bool</code>).  <a href="a02598.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02602.html">lumex::core::expected::result::detail::can_swap_values&lt; Self, T, E &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Constraints of <code>expected&lt;T, E&gt;::swap</code> ([expected.object.swap]/1). <code>Self</code> is the <code>expected</code> itself: a member template whose default argument does not depend on its own parameter is evaluated when the class is instantiated and rejects the whole class.  <a href="a02602.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02606.html">lumex::core::expected::result::detail::can_swap_errors&lt; Self, E &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Constraints of <code>expected&lt;void, E&gt;::swap</code> ([expected.void.swap]/1).  <a href="a02606.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02610.html">lumex::core::expected::result::detail::is_equality_comparable&lt; L, R, typename &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02614.html">lumex::core::expected::result::detail::is_equality_comparable&lt; L, R, traits::meta::void_t&lt; decltype(std::declval&lt; L const &amp; &gt;()==std::declval&lt; R const &amp; &gt;())&gt; &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>lhs == rhs</code> is well-formed for a <code>L const &amp;</code> and a <code>R const &amp;</code> and its result converts to <code>bool</code>.  <a href="a02614.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02618.html">lumex::core::expected::result::detail::invoke_detail::is_reference_wrapper&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02622.html">lumex::core::expected::result::detail::invoke_detail::is_reference_wrapper&lt; std::reference_wrapper&lt; U &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02626.html">lumex::core::expected::result::detail::invoke_detail::is_class_object&lt; Class, Object &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object operand is of the class of the member pointer (or derived).  <a href="a02626.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02630.html">lumex::core::expected::result::detail::invoke_detail::is_wrapped_object&lt; Object &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object operand is a <code>std::reference_wrapper</code>.  <a href="a02630.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02634.html">lumex::core::expected::result::detail::invoke_detail::is_pointer_object&lt; Class, Object &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object operand is neither: it is dereferenced (a pointer).  <a href="a02634.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06359.html">lumex::core::expected::result::detail::is_nothrow_swappable&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Such a <code>swap</code> is <code>noexcept</code> (<code>std::is_nothrow_swappable</code>, C++17).  <a href="a06359.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06363.html">lumex::core::expected::result::detail::is_swappable&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> has a swap of its own (found by argument-dependent lookup), or the <code>std::swap</code> fallback applies (<code>std::is_swappable</code>, C++17). Below C++17 the standard libraries differ for the fallback, so its Constraints are spelled out here.  <a href="a06363.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06367.html">lumex::core::expected::result::detail::is_unexpected&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a specialization of <code>unexpected</code>.  <a href="a06367.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01351.html">lumex::core::expected</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01355.html">lumex::core::expected::result</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01356.html">lumex::core::expected::result::detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01357.html">lumex::core::expected::result::detail::invoke_detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:aea6c5523b02e949c07f63c293a75a822" id="r_aea6c5523b02e949c07f63c293a75a822"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea6c5523b02e949c07f63c293a75a822">LUMEX_EXPECTED_CONSTEXPR_CXX20</a></td></tr>
-<tr class="memdesc:aea6c5523b02e949c07f63c293a75a822"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>constexpr</code> where the language lets a constant expression start the lifetime of an object in a union (<code>std::construct_at</code> on an inactive member, P0784, P1330) and contain a <code>try</code> block (P1002): C++20 with a <code>constexpr</code> of 201907L and <code>std::construct_at</code>; empty before.  <br /></td></tr>
-<tr class="separator:aea6c5523b02e949c07f63c293a75a822"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3a055e59d4b817392d8b7c4e755c0b7" id="r_af3a055e59d4b817392d8b7c4e755c0b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3a055e59d4b817392d8b7c4e755c0b7">LUMEX_EXPECTED_HAS_CONSTRUCT_AT</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:af3a055e59d4b817392d8b7c4e755c0b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2a92ef29889c8bb5806983828e58360" id="r_ae2a92ef29889c8bb5806983828e58360"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2a92ef29889c8bb5806983828e58360">LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS</a>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:ae2a92ef29889c8bb5806983828e58360"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the compiler compiles <code>try</code>, <code>catch</code> and <code>throw</code> (GCC and Clang: <code>__cpp_exceptions</code> or <code>__EXCEPTIONS</code>; MSVC: <code>_CPPUNWIND</code>), otherwise</p><ol type="1">
-<li>Internal: the paths that restore the old contents of an <code>expected</code> when a constructor throws are compiled by this macro, which a program cannot override (a program that sets <code>LUMEX_EXPECTED_HAS_EXCEPTIONS</code> to 0 with exceptions on must still get the strong guarantee, or a throwing constructor would leave a destroyed object behind). </li>
-</ol>
- <br /></td></tr>
-<tr class="separator:ae2a92ef29889c8bb5806983828e58360"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21d415227d3f51364d157db95cc7fae4" id="r_a21d415227d3f51364d157db95cc7fae4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21d415227d3f51364d157db95cc7fae4">LUMEX_EXPECTED_HAS_EXCEPTIONS</a>&#160;&#160;&#160;<a class="el" href="#ae2a92ef29889c8bb5806983828e58360">LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS</a></td></tr>
-<tr class="memdesc:a21d415227d3f51364d157db95cc7fae4"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>value ()</code> of an <code>expected</code> that holds an error throws <code><a class="el" href="a06343.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a></code>, 0 when it calls <code>std::terminate</code>.  <br /></td></tr>
-<tr class="separator:a21d415227d3f51364d157db95cc7fae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd993dc94a59bb81357eaa6ed99a85ba" id="r_abd993dc94a59bb81357eaa6ed99a85ba"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd993dc94a59bb81357eaa6ed99a85ba">LUMEX_EXPECTED_HAS_STD_CONVERSION</a>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:abd993dc94a59bb81357eaa6ed99a85ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>expected&lt;T, E&gt;</code> converts to and from <code>std::expected&lt;T, E&gt;</code> (the standard library has <code>std::expected</code>: <code>__cpp_lib_expected</code>, C++23), otherwise 0.  <br /></td></tr>
-<tr class="separator:abd993dc94a59bb81357eaa6ed99a85ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7d3bad0e289a747afaec77b33fc8aea" id="r_aa7d3bad0e289a747afaec77b33fc8aea"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7d3bad0e289a747afaec77b33fc8aea">LUMEX_EXPECTED_ADDRESSOF</a>(object)</td></tr>
-<tr class="separator:aa7d3bad0e289a747afaec77b33fc8aea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:afc9d12fcaed90d12ebdda43f89c93d15" id="r_afc9d12fcaed90d12ebdda43f89c93d15"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:afc9d12fcaed90d12ebdda43f89c93d15"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#afc9d12fcaed90d12ebdda43f89c93d15">lumex::core::expected::result::detail::remove_cvref_t</a> = traits::meta::CleanType&lt;T&gt;</td></tr>
-<tr class="memdesc:afc9d12fcaed90d12ebdda43f89c93d15"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> without <code>const</code>, <code>volatile</code> and reference (<code>std::remove_cvref_t</code> of C++20).  <br /></td></tr>
-<tr class="separator:afc9d12fcaed90d12ebdda43f89c93d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2291d2e33e7c35e20c9251018b05bdec" id="r_a2291d2e33e7c35e20c9251018b05bdec"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
-<tr class="memitem:a2291d2e33e7c35e20c9251018b05bdec"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a2291d2e33e7c35e20c9251018b05bdec">lumex::core::expected::result::detail::invoke_result_t</a> = traits::invoke::invoke_result_t&lt;Fn &amp;&amp;, Args...&gt;</td></tr>
-<tr class="memdesc:a2291d2e33e7c35e20c9251018b05bdec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result type of calling an <code>Fn</code> of the given value category with <code>Args...</code>; absent (a substitution failure) when the call is ill-formed.  <br /></td></tr>
-<tr class="separator:a2291d2e33e7c35e20c9251018b05bdec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a458f2859c4ad53c0b1457795b2fcf6a3" id="r_a458f2859c4ad53c0b1457795b2fcf6a3"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
-<tr class="memitem:a458f2859c4ad53c0b1457795b2fcf6a3"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a458f2859c4ad53c0b1457795b2fcf6a3">lumex::core::expected::result::detail::result_clean_t</a> = <a class="el" href="a01356.html#afc9d12fcaed90d12ebdda43f89c93d15">remove_cvref_t</a>&lt;<a class="el" href="a01356.html#a2291d2e33e7c35e20c9251018b05bdec">invoke_result_t</a>&lt;Fn, Args...&gt;&gt;</td></tr>
-<tr class="memdesc:a458f2859c4ad53c0b1457795b2fcf6a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The call result without <code>const</code>, <code>volatile</code> and reference; the type <code>and_then</code> and <code>or_else</code> return.  <br /></td></tr>
-<tr class="separator:a458f2859c4ad53c0b1457795b2fcf6a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95f73e04b1f01e9717c80276d9b54f6c" id="r_a95f73e04b1f01e9717c80276d9b54f6c"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
-<tr class="memitem:a95f73e04b1f01e9717c80276d9b54f6c"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a95f73e04b1f01e9717c80276d9b54f6c">lumex::core::expected::result::detail::result_xform_t</a></td></tr>
-<tr class="memdesc:a95f73e04b1f01e9717c80276d9b54f6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The call result without <code>const</code> and <code>volatile</code>; the value or error type <code>transform</code> and <code>transform_error</code> build.  <br /></td></tr>
-<tr class="separator:a95f73e04b1f01e9717c80276d9b54f6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4846885c00c176fb1cc825e283c2c62" id="r_af4846885c00c176fb1cc825e283c2c62"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
-<tr class="memitem:af4846885c00c176fb1cc825e283c2c62"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#af4846885c00c176fb1cc825e283c2c62">lumex::core::expected::result::detail::returns_expected</a> = <a class="el" href="a02558.html">returns_expected_impl</a>&lt;void, Fn, Args...&gt;</td></tr>
-<tr class="memdesc:af4846885c00c176fb1cc825e283c2c62"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Fn</code> may be called with <code>Args...</code> and the result, without <code>const</code>, <code>volatile</code> and reference, is an <code>expected</code>.  <br /></td></tr>
-<tr class="separator:af4846885c00c176fb1cc825e283c2c62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1118d127ed6a06300969153a92b5764" id="r_ad1118d127ed6a06300969153a92b5764"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
-<tr class="memitem:ad1118d127ed6a06300969153a92b5764"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#ad1118d127ed6a06300969153a92b5764">lumex::core::expected::result::detail::returns_value</a> = <a class="el" href="a02566.html">returns_value_impl</a>&lt;void, Fn, Args...&gt;</td></tr>
-<tr class="memdesc:ad1118d127ed6a06300969153a92b5764"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Fn</code> may be called with <code>Args...</code> and the result is not <code>void</code>.  <br /></td></tr>
-<tr class="separator:ad1118d127ed6a06300969153a92b5764"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8a84107209623635f4270b7b6c0d6339" id="r_a8a84107209623635f4270b7b6c0d6339"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a8a84107209623635f4270b7b6c0d6339"><td class="memTemplItemLeft" align="right" valign="top">constexpr T &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a8a84107209623635f4270b7b6c0d6339">lumex::core::expected::result::detail::fwd</a> (typename std::remove_reference&lt; T &gt;::type &amp;t) noexcept</td></tr>
-<tr class="memdesc:a8a84107209623635f4270b7b6c0d6339"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast&lt;T &amp;&amp;&gt; (t)</code>, the body of <code>std::forward</code> for a <code>constexpr</code> function of C++11, where <code>std::forward</code> is not <code>constexpr</code>.  <br /></td></tr>
-<tr class="separator:a8a84107209623635f4270b7b6c0d6339"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23933cdbbf11abf83fa4ce762534ecbf" id="r_a23933cdbbf11abf83fa4ce762534ecbf"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a23933cdbbf11abf83fa4ce762534ecbf"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::remove_reference&lt; T &gt;::type &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a23933cdbbf11abf83fa4ce762534ecbf">lumex::core::expected::result::detail::mv</a> (T &amp;&amp;t) noexcept</td></tr>
-<tr class="memdesc:a23933cdbbf11abf83fa4ce762534ecbf"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t)</code>, the body of <code>std::move</code> for a <code>constexpr</code> function of C++11, where <code>std::move</code> is not <code>constexpr</code>.  <br /></td></tr>
-<tr class="separator:a23933cdbbf11abf83fa4ce762534ecbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07d94bee6da20f2047136d97431d8d45" id="r_a07d94bee6da20f2047136d97431d8d45"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a07d94bee6da20f2047136d97431d8d45"><td class="memTemplItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a07d94bee6da20f2047136d97431d8d45">lumex::core::expected::result::detail::address_of</a> (T &amp;object) noexcept</td></tr>
-<tr class="memdesc:a07d94bee6da20f2047136d97431d8d45"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of <code>object</code> also when <code>T</code> overloads <code>operator&amp;</code>, usable in a constant expression from C++11 (<code>std::addressof</code> is <code>constexpr</code> only from C++17).  <br /></td></tr>
-<tr class="separator:a07d94bee6da20f2047136d97431d8d45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a530b8cd2ab418fa6df0c17235386995a" id="r_a530b8cd2ab418fa6df0c17235386995a"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a530b8cd2ab418fa6df0c17235386995a"><td class="memTemplItemLeft" align="right" valign="top">void *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a530b8cd2ab418fa6df0c17235386995a">lumex::core::expected::result::detail::voidify</a> (T &amp;object) noexcept</td></tr>
-<tr class="memdesc:a530b8cd2ab418fa6df0c17235386995a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of <code>object</code> as a <code>void *</code>, also for a <code>const</code> or <code>volatile</code> object.  <br /></td></tr>
-<tr class="separator:a530b8cd2ab418fa6df0c17235386995a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab0625e5174ad931757b0d5bcf1e84f9" id="r_aab0625e5174ad931757b0d5bcf1e84f9"><td class="memTemplParams" colspan="2">template&lt;typename G&gt; </td></tr>
-<tr class="memitem:aab0625e5174ad931757b0d5bcf1e84f9"><td class="memTemplItemLeft" align="right" valign="top">constexpr G &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#aab0625e5174ad931757b0d5bcf1e84f9">lumex::core::expected::result::detail::move_error</a> (<a class="el" href="a02474.html">error::unexpected</a>&lt; G &gt; &amp;unex) noexcept</td></tr>
-<tr class="memdesc:aab0625e5174ad931757b0d5bcf1e84f9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::move (unex).error ()</code> where <code>error () &amp;&amp;</code> of <code>unexpected</code> is not <code>constexpr</code>.  <br /></td></tr>
-<tr class="separator:aab0625e5174ad931757b0d5bcf1e84f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76c301e6299206edbae26117dde3bedc" id="r_a76c301e6299206edbae26117dde3bedc"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
-<tr class="memitem:a76c301e6299206edbae26117dde3bedc"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a76c301e6299206edbae26117dde3bedc">lumex::core::expected::result::detail::construct_at</a> (T *where, Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:a76c301e6299206edbae26117dde3bedc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the lifetime of a <code>T</code> at <code>where</code>, direct-non-list-initialized with <code>args...</code>: <code>std::construct_at</code>.  <br /></td></tr>
-<tr class="separator:a76c301e6299206edbae26117dde3bedc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac3cdf6524f1c94486d6cff93fba3008" id="r_aac3cdf6524f1c94486d6cff93fba3008"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:aac3cdf6524f1c94486d6cff93fba3008"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#aac3cdf6524f1c94486d6cff93fba3008">lumex::core::expected::result::detail::destroy_at</a> (T *where) noexcept</td></tr>
-<tr class="memdesc:aac3cdf6524f1c94486d6cff93fba3008"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ends the lifetime of the <code>T</code> at <code>where</code>: <code>std::destroy_at</code> for an object that is not an array.  <br /></td></tr>
-<tr class="separator:aac3cdf6524f1c94486d6cff93fba3008"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32b16d60d745c9c9149f741d862646d5" id="r_a32b16d60d745c9c9149f741d862646d5"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType, typename Arg&gt; </td></tr>
-<tr class="memitem:a32b16d60d745c9c9149f741d862646d5"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a32b16d60d745c9c9149f741d862646d5">lumex::core::expected::result::detail::throw_bad_expected_access</a> (Arg &amp;&amp;error)</td></tr>
-<tr class="memdesc:a32b16d60d745c9c9149f741d862646d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throws <code><a class="el" href="a06347.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a>&lt;E&gt;</code> that holds <code>error</code>; with exceptions off (<code>LUMEX_EXPECTED_HAS_EXCEPTIONS</code> is 0) calls <code>std::terminate</code>.  <br /></td></tr>
-<tr class="separator:a32b16d60d745c9c9149f741d862646d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec5d127a8ba19a9021889817a3dd0351" id="r_aec5d127a8ba19a9021889817a3dd0351"><td class="memTemplParams" colspan="2">template&lt;typename Member, typename Class, typename Object, typename... Args, typename = typename std::enable_if&lt;              std::is_function&lt;Member&gt;::value              &amp;&amp; invoke_detail::is_class_object&lt;Class, Object&gt;::value&gt;::type&gt; </td></tr>
-<tr class="memitem:aec5d127a8ba19a9021889817a3dd0351"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#aec5d127a8ba19a9021889817a3dd0351">lumex::core::expected::result::detail::invoke_call</a> (Member Class::*member, Object &amp;&amp;object, Args &amp;&amp;...args) -&gt; decltype((<a class="el" href="a01356.html#a8a84107209623635f4270b7b6c0d6339">detail::fwd</a>&lt; Object &gt;(object) .*member)(<a class="el" href="a01356.html#a8a84107209623635f4270b7b6c0d6339">detail::fwd</a>&lt; Args &gt;(args)...))</td></tr>
-<tr class="separator:aec5d127a8ba19a9021889817a3dd0351"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25fbb4abbe58ee12be745c098f39e695" id="r_a25fbb4abbe58ee12be745c098f39e695"><td class="memTemplParams" colspan="2">template&lt;typename Member, typename Class, typename Object, typename = typename std::enable_if&lt;              !std::is_function&lt;Member&gt;::value              &amp;&amp; invoke_detail::is_class_object&lt;Class, Object&gt;::value&gt;::type&gt; </td></tr>
-<tr class="memitem:a25fbb4abbe58ee12be745c098f39e695"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#a25fbb4abbe58ee12be745c098f39e695">lumex::core::expected::result::detail::invoke_call</a> (Member Class::*member, Object &amp;&amp;object) -&gt; decltype(<a class="el" href="a01356.html#a8a84107209623635f4270b7b6c0d6339">detail::fwd</a>&lt; Object &gt;(object).*member)</td></tr>
-<tr class="separator:a25fbb4abbe58ee12be745c098f39e695"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd5467274280d56ff855fff0eb867a58" id="r_afd5467274280d56ff855fff0eb867a58"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args, typename = typename std::enable_if&lt;!std::is_member_pointer&lt;              typename std::decay&lt;Fn&gt;::type&gt;::value&gt;::type&gt; </td></tr>
-<tr class="memitem:afd5467274280d56ff855fff0eb867a58"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01356.html#afd5467274280d56ff855fff0eb867a58">lumex::core::expected::result::detail::invoke_call</a> (Fn &amp;&amp;fn, Args &amp;&amp;...args) -&gt; decltype(<a class="el" href="a01356.html#a8a84107209623635f4270b7b6c0d6339">detail::fwd</a>&lt; Fn &gt;(fn)(<a class="el" href="a01356.html#a8a84107209623635f4270b7b6c0d6339">detail::fwd</a>&lt; Args &gt;(args)...))</td></tr>
-<tr class="separator:afd5467274280d56ff855fff0eb867a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c0b80a6f74a32424bed62d7597a6759" id="r_a5c0b80a6f74a32424bed62d7597a6759"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename std::enable_if&lt; detail::are_stringifiable&lt; Args... &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a5c0b80a6f74a32424bed62d7597a6759"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5c0b80a6f74a32424bed62d7597a6759">stringify</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a5c0b80a6f74a32424bed62d7597a6759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates the streamed text of <code>args</code>.  <br /></td></tr>
+<tr class="separator:a5c0b80a6f74a32424bed62d7597a6759"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Internal helpers of <code>expected</code>: language helpers that C++11 lacks as <code>constexpr</code> (<code>fwd</code>, <code>mv</code>, <code>address_of</code>, <code>construct_at</code>, <code>destroy_at</code>), the constraints of the monadic operations, the traits behind the converting constructors and the comparisons, and <code>invoke_call</code>, the standard INVOKE for C++11. </p>
-<p>Everything here lives in <code><a class="el" href="a01356.html">lumex::core::expected::result::detail</a></code> and is not an interface for consumers. The header exists so that the primary template and the <code>void</code> specialization of <code>expected</code> (and their storage in <code><a class="el" href="a00410.html" title="Internal storage of expected: the union of the two alternatives, and the layers that give expected th...">ExpectedStorage.hpp</a></code>) share one definition of each rule instead of repeating it in every overload. It builds on <code><a class="el" href="a00401.html" title="unexpected, the wrapper that carries an error into an expected; an analogue of C++23 std::unexpected.">Unexpected.hpp</a></code> (the traits of the error side) and only forward declares <code>expected</code>, so it is included by <code><a class="el" href="a00404.html" title="expected&lt;SuccessType, ErrorType&gt;, an implementation of C++23 std::expected usable from C++11,...">Expected.hpp</a></code>, <code><a class="el" href="a00416.html" title="The specialization expected&lt;void, ErrorType&gt; for operations that succeed without a value; an implemen...">ExpectedVoid.hpp</a></code> and <code><a class="el" href="a00410.html" title="Internal storage of expected: the union of the two alternatives, and the layers that give expected th...">ExpectedStorage.hpp</a></code>. It also defines <code>LUMEX_EXPECTED_CONSTEXPR_CXX20</code>, the specifier of the members that change the active alternative of the union. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aa7d3bad0e289a747afaec77b33fc8aea" name="aa7d3bad0e289a747afaec77b33fc8aea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7d3bad0e289a747afaec77b33fc8aea">&#9670;&#160;</a></span>LUMEX_EXPECTED_ADDRESSOF</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_EXPECTED_ADDRESSOF</td>
+          <td class="memname">int main </td>
           <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">std::addressof (<span class="keywordtype">object</span>)</div>
-</div><!-- fragment -->
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00407_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00407_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00407_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00407_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,60,31"/>
+<area shape="rect" href="a00407.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="108,5,184,31"/>
+<area shape="poly" title=" " alt="" coords="60,15,94,15,94,21,60,21"/>
+</map>
+</div>
+
 </div>
 </div>
-<a id="ae2a92ef29889c8bb5806983828e58360" name="ae2a92ef29889c8bb5806983828e58360"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2a92ef29889c8bb5806983828e58360">&#9670;&#160;</a></span>LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS</h2>
+<a id="a5c0b80a6f74a32424bed62d7597a6759" name="a5c0b80a6f74a32424bed62d7597a6759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c0b80a6f74a32424bed62d7597a6759">&#9670;&#160;</a></span>stringify()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args, typename std::enable_if&lt; detail::are_stringifiable&lt; Args... &gt;::value, int &gt;::type = 0&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS&#160;&#160;&#160;0</td>
+          <td class="memname">std::string lumex::core::string::utility::stringify </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>1 when the compiler compiles <code>try</code>, <code>catch</code> and <code>throw</code> (GCC and Clang: <code>__cpp_exceptions</code> or <code>__EXCEPTIONS</code>; MSVC: <code>_CPPUNWIND</code>), otherwise</p><ol type="1">
-<li>Internal: the paths that restore the old contents of an <code>expected</code> when a constructor throws are compiled by this macro, which a program cannot override (a program that sets <code>LUMEX_EXPECTED_HAS_EXCEPTIONS</code> to 0 with exceptions on must still get the strong guarantee, or a throwing constructor would leave a destroyed object behind). </li>
-</ol>
-</p>
-
+<p>Concatenates the streamed text of <code>args</code>. </p>
+<p>Takes part in overload resolution only when every argument is streamable (<code>detail::are_stringifiable</code>), in every standard. </p><dl class="section return"><dt>Returns</dt><dd>The text. Calling it with no arguments picks the overload below. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>O(total length of the text). </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00407_a5c0b80a6f74a32424bed62d7597a6759_icgraph.png" border="0" usemap="#aa00407_a5c0b80a6f74a32424bed62d7597a6759_icgraph" alt=""/></div>
+<map name="aa00407_a5c0b80a6f74a32424bed62d7597a6759_icgraph" id="aa00407_a5c0b80a6f74a32424bed62d7597a6759_icgraph">
+<area shape="rect" title="Concatenates the streamed text of args." alt="" coords="108,5,184,31"/>
+<area shape="rect" href="a00407.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" title=" " alt="" coords="94,21,60,21,60,15,94,15"/>
+</map>
 </div>
-</div>
-<a id="aea6c5523b02e949c07f63c293a75a822" name="aea6c5523b02e949c07f63c293a75a822"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea6c5523b02e949c07f63c293a75a822">&#9670;&#160;</a></span>LUMEX_EXPECTED_CONSTEXPR_CXX20</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_EXPECTED_CONSTEXPR_CXX20</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>constexpr</code> where the language lets a constant expression start the lifetime of an object in a union (<code>std::construct_at</code> on an inactive member, P0784, P1330) and contain a <code>try</code> block (P1002): C++20 with a <code>constexpr</code> of 201907L and <code>std::construct_at</code>; empty before. </p>
-<p>The members that change the active alternative of <code>expected</code> (construction from another <code>expected</code>, a non-trivial copy or move, assignment, <code>emplace</code>, <code>swap</code>) and the non-trivial destructor are marked with it; the observers, the converting and value constructors and the comparisons are <code>constexpr</code> from C++11 (see the class comment of <code>expected</code>). </p>
-
-</div>
-</div>
-<a id="af3a055e59d4b817392d8b7c4e755c0b7" name="af3a055e59d4b817392d8b7c4e755c0b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3a055e59d4b817392d8b7c4e755c0b7">&#9670;&#160;</a></span>LUMEX_EXPECTED_HAS_CONSTRUCT_AT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_EXPECTED_HAS_CONSTRUCT_AT&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a21d415227d3f51364d157db95cc7fae4" name="a21d415227d3f51364d157db95cc7fae4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21d415227d3f51364d157db95cc7fae4">&#9670;&#160;</a></span>LUMEX_EXPECTED_HAS_EXCEPTIONS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_EXPECTED_HAS_EXCEPTIONS&#160;&#160;&#160;<a class="el" href="#ae2a92ef29889c8bb5806983828e58360">LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>1 when <code>value ()</code> of an <code>expected</code> that holds an error throws <code><a class="el" href="a06343.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a></code>, 0 when it calls <code>std::terminate</code>. </p>
-<p>The default follows the compiler (see <code>LUMEX_EXPECTED_COMPILER_HAS_EXCEPTIONS</code>): 0 with <code>-fno-exceptions</code> (or MSVC without <code>/EHsc</code>), 1 otherwise. A program may define the macro as 0 before the first include of the library to get the terminating <code>value ()</code> with exceptions on; nothing else changes (<code>emplace</code>, assignment and <code>swap</code> keep their strong guarantee). Every translation unit of one program must see the same value (the functions are <code>inline</code>; MSVC reports a mismatch at link time through <code>detect_mismatch</code>, GCC and Clang do not detect it). </p>
-
-</div>
-</div>
-<a id="abd993dc94a59bb81357eaa6ed99a85ba" name="abd993dc94a59bb81357eaa6ed99a85ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd993dc94a59bb81357eaa6ed99a85ba">&#9670;&#160;</a></span>LUMEX_EXPECTED_HAS_STD_CONVERSION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_EXPECTED_HAS_STD_CONVERSION&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>1 when <code>expected&lt;T, E&gt;</code> converts to and from <code>std::expected&lt;T, E&gt;</code> (the standard library has <code>std::expected</code>: <code>__cpp_lib_expected</code>, C++23), otherwise 0. </p>
 
 </div>
 </div>
@@ -448,7 +279,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00407.html">ExpectedDetail.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_f85cebbf215c4883079d3ff3c4079860.html">string</a></li><li class="navelem"><a class="el" href="a00407.html">example_string.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

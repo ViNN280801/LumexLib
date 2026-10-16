@@ -1,0 +1,23 @@
+<map id="lumex::core::time::timer::measure_time" name="lumex::core::time::timer::measure_time">
+<area shape="rect" id="Node000001" title="Optionally gates timing/reporting via an environment variable, then measures callable and writes the ..." alt="" coords="5,149,164,189"/>
+<area shape="rect" id="Node000002" href="$a01582.html#a7a5e6044c994dc0aaa411d6703fc32f4" title="Default environment variable that enables measure_time reporting when env gating is on." alt="" coords="240,37,415,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,146,211,102,230,94,232,99,213,107,123,151"/>
+<area shape="rect" id="Node000003" href="$a01518.html#a133dac804e9421baedf88340deadad5b" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="232,117,423,157"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,156,218,148,218,154,164,161"/>
+<area shape="rect" id="Node000009" href="$a01582.html#a2cc90c92f6a2261ecfb8bc76e3943ed1" title="Invokes callable with args and returns elapsed wall&#45;clock time in milliseconds." alt="" coords="212,181,443,221"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="164,177,198,181,198,186,164,182"/>
+<area shape="rect" id="Node000010" href="$a01582.html#aa04009deb3c2f28294b819490ed44b27" title="Writes a measure&#45;time report line to out." alt="" coords="246,245,409,300"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="123,186,213,230,234,239,232,243,211,235,120,191"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a7e295dbaae2f46319c7256b862a1cd5e" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="491,109,683,164"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="423,134,477,134,477,139,423,139"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="731,57,952,112"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="682,114,716,107,718,113,683,120"/>
+<area shape="rect" id="Node000008" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="745,160,937,215"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="683,153,732,163,731,168,682,158"/>
+<area shape="rect" id="Node000006" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="1000,5,1201,60"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="952,60,986,53,987,58,953,65"/>
+<area shape="rect" id="Node000007" href="$a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="1005,108,1197,163"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="953,104,992,111,991,117,952,109"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="1050,108,1051,98,1060,89,1076,83,1101,81,1130,84,1146,92,1144,97,1128,90,1101,87,1077,89,1062,93,1056,100,1056,108"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="792,160,792,150,801,141,818,135,841,133,870,136,886,144,884,149,868,142,841,139,819,141,804,145,797,152,797,160"/>
+</map>

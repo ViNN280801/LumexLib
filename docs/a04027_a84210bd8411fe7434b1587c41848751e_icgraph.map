@@ -1,0 +1,10 @@
+<map id="lumex::core::span::view::span::begin" name="lumex::core::span::view::span::begin">
+<area shape="rect" id="Node000001" title="An iterator to the first element." alt="" coords="303,29,449,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="409,17,397,11,376,8,357,10,346,15,342,21,344,28,339,30,337,20,343,11,356,5,376,3,399,6,411,13"/>
+<area shape="rect" id="Node000002" href="$a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="289,39,254,36,181,32,108,36,61,45,60,39,108,31,181,27,255,31,289,34"/>
+<area shape="rect" id="Node000003" href="$a04027.html#ae5e8384b88145ebd85ef941e96e64e1d" title="A reverse iterator to the end of the reversed span." alt="" coords="108,69,255,109"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="290,70,256,77,254,72,289,65"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="94,69,60,59,61,54,95,63"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="205,57,197,51,181,48,168,50,160,54,157,61,158,68,153,69,151,60,156,51,166,45,181,43,199,46,209,53"/>
+</map>

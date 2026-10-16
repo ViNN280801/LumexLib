@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::numeric Namespace Reference</title>
+<title>LumexLib: lumex::applied::hardware::caps Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,2027 +106,428 @@ $(function(){initNavTree('a01428.html',''); initResizable(true); });
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::numeric Namespace Reference</div></div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::hardware::caps Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01429.html">Detail</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01437.html">ARMHWCAP</a></td></tr>
+<tr class="memdesc:a01437"><td class="mdescLeft">&#160;</td><td class="mdescRight">ARM feature flags for HWCAP (from getauxval) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01438.html">ARMHWCAP2</a></td></tr>
+<tr class="memdesc:a01438"><td class="mdescLeft">&#160;</td><td class="mdescRight">ARM feature flags for HWCAP2 (from getauxval) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01439.html">Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01434.html">CPUIDEBXFlags</a></td></tr>
+<tr class="memdesc:a01434"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID extended feature flags (EBX register, function 0x00000007, subfunction 0) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01435.html">CPUIDECX7Flags</a></td></tr>
+<tr class="memdesc:a01435"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID extended feature flags (ECX register, function 0x00000007, subfunction 0) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01432.html">CPUIDECXFlags</a></td></tr>
+<tr class="memdesc:a01432"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID feature flags (ECX register, function 0x00000001) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01436.html">CPUIDEDXExtFlags</a></td></tr>
+<tr class="memdesc:a01436"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID extended feature flags (EDX register, function 0x80000001) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01433.html">CPUIDEDXFlags</a></td></tr>
+<tr class="memdesc:a01433"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID feature flags (EDX register, function 0x00000001) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01430.html">CPUIDFunctions</a></td></tr>
+<tr class="memdesc:a01430"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPUID function numbers for feature detection. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01431.html">SIMDWidth</a></td></tr>
+<tr class="memdesc:a01431"><td class="mdescLeft">&#160;</td><td class="mdescRight">SIMD width constants. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04262.html">comparison_traits</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction describing comparison traits of two types.  <a href="a04262.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01703.html">CPUVectorizationDetector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPU vectorization capabilities detection utility class.  <a href="a01703.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04258.html">is_ordering</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for the three ordering classes of this header and, where <code>&lt;compare&gt;</code> is available, for the three of the standard (cv-qualifiers and a reference are ignored).  <a href="a04258.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01707.html">hardware_info_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comprehensive hardware information structure containing system specifications.  <a href="a01707.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04238.html">partial_ordering</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of a three-way comparison that may leave two values unordered (NaN against anything): less, equivalent, greater or unordered.  <a href="a04238.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01711.html">HardwareCapabilities</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware detection and capability assessment utility class.  <a href="a01711.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04294.html">safe_comparator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Universal thread-safe comparator for safe comparison of arithmetic types.  <a href="a04294.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04266.html">safe_compare_impl_helper</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Primary template for the safe-comparison implementation.  <a href="a04266.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04274.html">safe_compare_impl_helper&lt; T, T, typename std::enable_if&lt; std::is_floating_point&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &gt;::type &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization for identical floating-point types.  <a href="a04274.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04270.html">safe_compare_impl_helper&lt; T, T, typename std::enable_if&lt; std::is_integral&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &gt;::type &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization for identical types (maximum optimization)  <a href="a04270.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04282.html">safe_compare_impl_helper&lt; T, U, typename std::enable_if&lt; std::is_floating_point&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &amp;&amp;std::is_floating_point&lt; traits::meta::CleanType&lt; U &gt; &gt;::value &amp;&amp;!std::is_same&lt; traits::meta::CleanType&lt; T &gt;, traits::meta::CleanType&lt; U &gt; &gt;::value &gt;::type &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization for floating-point types.  <a href="a04282.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04278.html">safe_compare_impl_helper&lt; T, U, typename std::enable_if&lt; std::is_integral&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &amp;&amp;std::is_integral&lt; traits::meta::CleanType&lt; U &gt; &gt;::value &amp;&amp;!std::is_same&lt; traits::meta::CleanType&lt; T &gt;, traits::meta::CleanType&lt; U &gt; &gt;::value &gt;::type &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization for integer types.  <a href="a04278.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04286.html">safe_compare_impl_helper&lt; T, U, typename std::enable_if&lt;(std::is_integral&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &amp;&amp;std::is_floating_point&lt; traits::meta::CleanType&lt; U &gt; &gt;::value)||(std::is_floating_point&lt; traits::meta::CleanType&lt; T &gt; &gt;::value &amp;&amp;std::is_integral&lt; traits::meta::CleanType&lt; U &gt; &gt;::value)&gt;::type &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization for mixed types (integer + floating-point)  <a href="a04286.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04246.html">strong_ordering</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of a three-way comparison of a total order: less, equal or greater, where equal values are indistinguishable.  <a href="a04246.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04290.html">three_way_comparison_result</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction for the three-way comparison result type.  <a href="a04290.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04242.html">weak_ordering</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of a three-way comparison of a total preorder: less, equivalent or greater, where equivalent values may differ.  <a href="a04242.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:abd872c425a3594b8eb93584ab9adcf2a" id="r_abd872c425a3594b8eb93584ab9adcf2a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd872c425a3594b8eb93584ab9adcf2a">strong_ordering_t</a> = <a class="el" href="a04246.html">strong_ordering</a></td></tr>
-<tr class="memdesc:abd872c425a3594b8eb93584ab9adcf2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The strong ordering of this library: <code><a class="el" href="a04246.html" title="The result of a three-way comparison of a total order: less, equal or greater, where equal values are...">strong_ordering</a></code>, in every standard.  <br /></td></tr>
-<tr class="separator:abd872c425a3594b8eb93584ab9adcf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97c77a5eca86f81d90f27b52c982f1bc" id="r_a97c77a5eca86f81d90f27b52c982f1bc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97c77a5eca86f81d90f27b52c982f1bc">weak_ordering_t</a> = <a class="el" href="a04242.html">weak_ordering</a></td></tr>
-<tr class="memdesc:a97c77a5eca86f81d90f27b52c982f1bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weak ordering of this library: <code><a class="el" href="a04242.html" title="The result of a three-way comparison of a total preorder: less, equivalent or greater,...">weak_ordering</a></code>, in every standard.  <br /></td></tr>
-<tr class="separator:a97c77a5eca86f81d90f27b52c982f1bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf555520aafc55aff4faa92293fcac94" id="r_acf555520aafc55aff4faa92293fcac94"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf555520aafc55aff4faa92293fcac94">partial_ordering_t</a> = <a class="el" href="a04238.html">partial_ordering</a></td></tr>
-<tr class="separator:acf555520aafc55aff4faa92293fcac94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa75109d9241c9a7ca92491c1e2d34984" id="r_aa75109d9241c9a7ca92491c1e2d34984"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:aa75109d9241c9a7ca92491c1e2d34984"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa75109d9241c9a7ca92491c1e2d34984">three_way_comparison_result_t</a></td></tr>
-<tr class="memdesc:aa75109d9241c9a7ca92491c1e2d34984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for the three-way comparison result type.  <br /></td></tr>
-<tr class="separator:aa75109d9241c9a7ca92491c1e2d34984"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1b414f7575f721a4e30d9623cab353b" id="r_ab1b414f7575f721a4e30d9623cab353b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1b414f7575f721a4e30d9623cab353b">AtomicCharComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;char, true&gt;</td></tr>
-<tr class="memdesc:ab1b414f7575f721a4e30d9623cab353b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aliases for atomic (thread-safe) versions.  <br /></td></tr>
-<tr class="separator:ab1b414f7575f721a4e30d9623cab353b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f2a05500f9521f16e5a1c94ff518c44" id="r_a4f2a05500f9521f16e5a1c94ff518c44"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f2a05500f9521f16e5a1c94ff518c44">AtomicUCharComparator</a></td></tr>
-<tr class="memdesc:a4f2a05500f9521f16e5a1c94ff518c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for unsigned char.  <br /></td></tr>
-<tr class="separator:a4f2a05500f9521f16e5a1c94ff518c44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc9d945c5fb55e6f7e6f0806b8a2414f" id="r_adc9d945c5fb55e6f7e6f0806b8a2414f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc9d945c5fb55e6f7e6f0806b8a2414f">AtomicShortComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;short, true&gt;</td></tr>
-<tr class="memdesc:adc9d945c5fb55e6f7e6f0806b8a2414f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for short.  <br /></td></tr>
-<tr class="separator:adc9d945c5fb55e6f7e6f0806b8a2414f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37403d1812a3a4b5782a4967c44bf6f5" id="r_a37403d1812a3a4b5782a4967c44bf6f5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37403d1812a3a4b5782a4967c44bf6f5">AtomicUShortComparator</a></td></tr>
-<tr class="memdesc:a37403d1812a3a4b5782a4967c44bf6f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for unsigned short.  <br /></td></tr>
-<tr class="separator:a37403d1812a3a4b5782a4967c44bf6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fe2e7914f254fe599c4fc3db49c9c01" id="r_a9fe2e7914f254fe599c4fc3db49c9c01"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fe2e7914f254fe599c4fc3db49c9c01">AtomicIntComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;int, true&gt;</td></tr>
-<tr class="memdesc:a9fe2e7914f254fe599c4fc3db49c9c01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for int.  <br /></td></tr>
-<tr class="separator:a9fe2e7914f254fe599c4fc3db49c9c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accd9655d3d0c9e478c4cdabdca35e121" id="r_accd9655d3d0c9e478c4cdabdca35e121"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accd9655d3d0c9e478c4cdabdca35e121">AtomicUIntComparator</a></td></tr>
-<tr class="memdesc:accd9655d3d0c9e478c4cdabdca35e121"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for unsigned int.  <br /></td></tr>
-<tr class="separator:accd9655d3d0c9e478c4cdabdca35e121"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7912d5a2fe59af32ffea965d4e999146" id="r_a7912d5a2fe59af32ffea965d4e999146"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7912d5a2fe59af32ffea965d4e999146">AtomicLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long, true&gt;</td></tr>
-<tr class="memdesc:a7912d5a2fe59af32ffea965d4e999146"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for long.  <br /></td></tr>
-<tr class="separator:a7912d5a2fe59af32ffea965d4e999146"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa27e41ac76f568d41ff2908b05c30970" id="r_aa27e41ac76f568d41ff2908b05c30970"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa27e41ac76f568d41ff2908b05c30970">AtomicULongComparator</a></td></tr>
-<tr class="memdesc:aa27e41ac76f568d41ff2908b05c30970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for unsigned long.  <br /></td></tr>
-<tr class="separator:aa27e41ac76f568d41ff2908b05c30970"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa00ea275e2b8f5becffac7dd1d87a9db" id="r_aa00ea275e2b8f5becffac7dd1d87a9db"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa00ea275e2b8f5becffac7dd1d87a9db">AtomicLongLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long long, true&gt;</td></tr>
-<tr class="memdesc:aa00ea275e2b8f5becffac7dd1d87a9db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for long long.  <br /></td></tr>
-<tr class="separator:aa00ea275e2b8f5becffac7dd1d87a9db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8843b708d60094d73236b6250e2e95ab" id="r_a8843b708d60094d73236b6250e2e95ab"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8843b708d60094d73236b6250e2e95ab">AtomicULongLongComparator</a></td></tr>
-<tr class="memdesc:a8843b708d60094d73236b6250e2e95ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for unsigned long long.  <br /></td></tr>
-<tr class="separator:a8843b708d60094d73236b6250e2e95ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f736c5c623b3279116cf4b13aa5de09" id="r_a5f736c5c623b3279116cf4b13aa5de09"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f736c5c623b3279116cf4b13aa5de09">AtomicFloatComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;float, true&gt;</td></tr>
-<tr class="memdesc:a5f736c5c623b3279116cf4b13aa5de09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for float.  <br /></td></tr>
-<tr class="separator:a5f736c5c623b3279116cf4b13aa5de09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a448cd27a5b55e73399e8b1d49eeba67e" id="r_a448cd27a5b55e73399e8b1d49eeba67e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a448cd27a5b55e73399e8b1d49eeba67e">AtomicDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;double, true&gt;</td></tr>
-<tr class="memdesc:a448cd27a5b55e73399e8b1d49eeba67e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for double.  <br /></td></tr>
-<tr class="separator:a448cd27a5b55e73399e8b1d49eeba67e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fae060c3ea7e6e0fc4353394b817d84" id="r_a3fae060c3ea7e6e0fc4353394b817d84"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fae060c3ea7e6e0fc4353394b817d84">AtomicLongDoubleComparator</a></td></tr>
-<tr class="memdesc:a3fae060c3ea7e6e0fc4353394b817d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomic comparator for long double.  <br /></td></tr>
-<tr class="separator:a3fae060c3ea7e6e0fc4353394b817d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af72d01beda58eb6e348ec9d0ebf01376" id="r_af72d01beda58eb6e348ec9d0ebf01376"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af72d01beda58eb6e348ec9d0ebf01376">FastCharComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;char, false&gt;</td></tr>
-<tr class="memdesc:af72d01beda58eb6e348ec9d0ebf01376"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aliases for non-atomic versions (higher performance)  <br /></td></tr>
-<tr class="separator:af72d01beda58eb6e348ec9d0ebf01376"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f4dbe327963dfe132f9ef2829359f0a" id="r_a0f4dbe327963dfe132f9ef2829359f0a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f4dbe327963dfe132f9ef2829359f0a">FastUCharComparator</a></td></tr>
-<tr class="memdesc:a0f4dbe327963dfe132f9ef2829359f0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for unsigned char.  <br /></td></tr>
-<tr class="separator:a0f4dbe327963dfe132f9ef2829359f0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe317bd2feb25adbad63d667f0d466c3" id="r_abe317bd2feb25adbad63d667f0d466c3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe317bd2feb25adbad63d667f0d466c3">FastShortComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;short, false&gt;</td></tr>
-<tr class="memdesc:abe317bd2feb25adbad63d667f0d466c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for short.  <br /></td></tr>
-<tr class="separator:abe317bd2feb25adbad63d667f0d466c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2ff1c2e36456e9568a44a24636b246f" id="r_aa2ff1c2e36456e9568a44a24636b246f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2ff1c2e36456e9568a44a24636b246f">FastUShortComparator</a></td></tr>
-<tr class="memdesc:aa2ff1c2e36456e9568a44a24636b246f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for unsigned short.  <br /></td></tr>
-<tr class="separator:aa2ff1c2e36456e9568a44a24636b246f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbf230d727cbe01ac21efd6804c3d312" id="r_acbf230d727cbe01ac21efd6804c3d312"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbf230d727cbe01ac21efd6804c3d312">FastIntComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;int, false&gt;</td></tr>
-<tr class="memdesc:acbf230d727cbe01ac21efd6804c3d312"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for int.  <br /></td></tr>
-<tr class="separator:acbf230d727cbe01ac21efd6804c3d312"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac811f7b065c8e4ad13c4c47fb1540ef0" id="r_ac811f7b065c8e4ad13c4c47fb1540ef0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac811f7b065c8e4ad13c4c47fb1540ef0">FastUIntComparator</a></td></tr>
-<tr class="memdesc:ac811f7b065c8e4ad13c4c47fb1540ef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for unsigned int.  <br /></td></tr>
-<tr class="separator:ac811f7b065c8e4ad13c4c47fb1540ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7d219c50a435d34a060ccbbf02cd0c5" id="r_ae7d219c50a435d34a060ccbbf02cd0c5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7d219c50a435d34a060ccbbf02cd0c5">FastLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long, false&gt;</td></tr>
-<tr class="memdesc:ae7d219c50a435d34a060ccbbf02cd0c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for long.  <br /></td></tr>
-<tr class="separator:ae7d219c50a435d34a060ccbbf02cd0c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a977711cf6a9098a0511f984c0d472a18" id="r_a977711cf6a9098a0511f984c0d472a18"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a977711cf6a9098a0511f984c0d472a18">FastULongComparator</a></td></tr>
-<tr class="memdesc:a977711cf6a9098a0511f984c0d472a18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for unsigned long.  <br /></td></tr>
-<tr class="separator:a977711cf6a9098a0511f984c0d472a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e1976c01ddc9fb5e8d795d3e66a1123" id="r_a8e1976c01ddc9fb5e8d795d3e66a1123"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e1976c01ddc9fb5e8d795d3e66a1123">FastLongLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long long, false&gt;</td></tr>
-<tr class="memdesc:a8e1976c01ddc9fb5e8d795d3e66a1123"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for long long.  <br /></td></tr>
-<tr class="separator:a8e1976c01ddc9fb5e8d795d3e66a1123"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72a8b70b390213f4f30562d530942463" id="r_a72a8b70b390213f4f30562d530942463"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72a8b70b390213f4f30562d530942463">FastULongLongComparator</a></td></tr>
-<tr class="memdesc:a72a8b70b390213f4f30562d530942463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for unsigned long long.  <br /></td></tr>
-<tr class="separator:a72a8b70b390213f4f30562d530942463"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d811abdd5e29fbc349a5a1cdc18e0d7" id="r_a1d811abdd5e29fbc349a5a1cdc18e0d7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d811abdd5e29fbc349a5a1cdc18e0d7">FastFloatComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;float, false&gt;</td></tr>
-<tr class="memdesc:a1d811abdd5e29fbc349a5a1cdc18e0d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for float.  <br /></td></tr>
-<tr class="separator:a1d811abdd5e29fbc349a5a1cdc18e0d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73b515412a38726046ecae1c26c309e7" id="r_a73b515412a38726046ecae1c26c309e7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73b515412a38726046ecae1c26c309e7">FastDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;double, false&gt;</td></tr>
-<tr class="memdesc:a73b515412a38726046ecae1c26c309e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for double.  <br /></td></tr>
-<tr class="separator:a73b515412a38726046ecae1c26c309e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f2197a377561ffeadf719ed5d57549e" id="r_a2f2197a377561ffeadf719ed5d57549e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f2197a377561ffeadf719ed5d57549e">FastLongDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long double, false&gt;</td></tr>
-<tr class="memdesc:a2f2197a377561ffeadf719ed5d57549e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fast comparator for long double.  <br /></td></tr>
-<tr class="separator:a2f2197a377561ffeadf719ed5d57549e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7582e597ca2b38a5f191e5d85ae3bf10" id="r_a7582e597ca2b38a5f191e5d85ae3bf10"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7582e597ca2b38a5f191e5d85ae3bf10">SafeCharComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;char&gt;</td></tr>
-<tr class="memdesc:a7582e597ca2b38a5f191e5d85ae3bf10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default aliases (non-atomic for better performance)  <br /></td></tr>
-<tr class="separator:a7582e597ca2b38a5f191e5d85ae3bf10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada6cd97bbdd54db5dc8eabe2322f7a07" id="r_ada6cd97bbdd54db5dc8eabe2322f7a07"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada6cd97bbdd54db5dc8eabe2322f7a07">SafeUCharComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned char&gt;</td></tr>
-<tr class="memdesc:ada6cd97bbdd54db5dc8eabe2322f7a07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for unsigned char.  <br /></td></tr>
-<tr class="separator:ada6cd97bbdd54db5dc8eabe2322f7a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9cfe0bf340e7515222d46dbef44f6cc" id="r_ac9cfe0bf340e7515222d46dbef44f6cc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9cfe0bf340e7515222d46dbef44f6cc">SafeShortComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;short&gt;</td></tr>
-<tr class="memdesc:ac9cfe0bf340e7515222d46dbef44f6cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for short.  <br /></td></tr>
-<tr class="separator:ac9cfe0bf340e7515222d46dbef44f6cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4cb66e56d5db8c4d198726f147e3435" id="r_ae4cb66e56d5db8c4d198726f147e3435"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4cb66e56d5db8c4d198726f147e3435">SafeUShortComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned short&gt;</td></tr>
-<tr class="memdesc:ae4cb66e56d5db8c4d198726f147e3435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for unsigned short.  <br /></td></tr>
-<tr class="separator:ae4cb66e56d5db8c4d198726f147e3435"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada05c3776fa0a354b04c19cff398787c" id="r_ada05c3776fa0a354b04c19cff398787c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada05c3776fa0a354b04c19cff398787c">SafeIntComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;int&gt;</td></tr>
-<tr class="memdesc:ada05c3776fa0a354b04c19cff398787c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for int.  <br /></td></tr>
-<tr class="separator:ada05c3776fa0a354b04c19cff398787c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad8250abe8f070e4c3c655bf21386b22" id="r_aad8250abe8f070e4c3c655bf21386b22"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad8250abe8f070e4c3c655bf21386b22">SafeUIntComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned int&gt;</td></tr>
-<tr class="memdesc:aad8250abe8f070e4c3c655bf21386b22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for unsigned int.  <br /></td></tr>
-<tr class="separator:aad8250abe8f070e4c3c655bf21386b22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accf0cb76094270e459440a2e29ef43ce" id="r_accf0cb76094270e459440a2e29ef43ce"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accf0cb76094270e459440a2e29ef43ce">SafeLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long&gt;</td></tr>
-<tr class="memdesc:accf0cb76094270e459440a2e29ef43ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for long.  <br /></td></tr>
-<tr class="separator:accf0cb76094270e459440a2e29ef43ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4746ca6b9bdef1d4d52c189764532a9e" id="r_a4746ca6b9bdef1d4d52c189764532a9e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4746ca6b9bdef1d4d52c189764532a9e">SafeULongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned long&gt;</td></tr>
-<tr class="memdesc:a4746ca6b9bdef1d4d52c189764532a9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for unsigned long.  <br /></td></tr>
-<tr class="separator:a4746ca6b9bdef1d4d52c189764532a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af413b4d1fdccea1fe6564046ef64e59a" id="r_af413b4d1fdccea1fe6564046ef64e59a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af413b4d1fdccea1fe6564046ef64e59a">SafeLongLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long long&gt;</td></tr>
-<tr class="memdesc:af413b4d1fdccea1fe6564046ef64e59a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for long long.  <br /></td></tr>
-<tr class="separator:af413b4d1fdccea1fe6564046ef64e59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbe7ca1c254d9281e5f8b5c1e1ab22bc" id="r_acbe7ca1c254d9281e5f8b5c1e1ab22bc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbe7ca1c254d9281e5f8b5c1e1ab22bc">SafeULongLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned long long&gt;</td></tr>
-<tr class="separator:acbe7ca1c254d9281e5f8b5c1e1ab22bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea19196473b90ac1d6ff353c1d6d599d" id="r_aea19196473b90ac1d6ff353c1d6d599d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea19196473b90ac1d6ff353c1d6d599d">SafeFloatComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;float&gt;</td></tr>
-<tr class="memdesc:aea19196473b90ac1d6ff353c1d6d599d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for float.  <br /></td></tr>
-<tr class="separator:aea19196473b90ac1d6ff353c1d6d599d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bf01a14ab79ab41914d238d3089a944" id="r_a2bf01a14ab79ab41914d238d3089a944"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bf01a14ab79ab41914d238d3089a944">SafeDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;double&gt;</td></tr>
-<tr class="memdesc:a2bf01a14ab79ab41914d238d3089a944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for double.  <br /></td></tr>
-<tr class="separator:a2bf01a14ab79ab41914d238d3089a944"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e50baebf2ca5ab592ebafc6dcd5df28" id="r_a1e50baebf2ca5ab592ebafc6dcd5df28"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e50baebf2ca5ab592ebafc6dcd5df28">SafeLongDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long double&gt;</td></tr>
-<tr class="memdesc:a1e50baebf2ca5ab592ebafc6dcd5df28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparator for long double.  <br /></td></tr>
-<tr class="separator:a1e50baebf2ca5ab592ebafc6dcd5df28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a269e91c39ab3b8bc1e580d6c68f01571" id="r_a269e91c39ab3b8bc1e580d6c68f01571"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a269e91c39ab3b8bc1e580d6c68f01571"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a269e91c39ab3b8bc1e580d6c68f01571">is_eq</a> (Ordering value) noexcept</td></tr>
-<tr class="memdesc:a269e91c39ab3b8bc1e580d6c68f01571"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value == 0</code>: equivalent (equal).  <br /></td></tr>
-<tr class="separator:a269e91c39ab3b8bc1e580d6c68f01571"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d80a6cc06a9fd2782a79ab51dbf5e58" id="r_a3d80a6cc06a9fd2782a79ab51dbf5e58"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a3d80a6cc06a9fd2782a79ab51dbf5e58"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3d80a6cc06a9fd2782a79ab51dbf5e58">is_neq</a> (Ordering value) noexcept</td></tr>
-<tr class="memdesc:a3d80a6cc06a9fd2782a79ab51dbf5e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value != 0</code>: not equivalent, <code>unordered</code> included.  <br /></td></tr>
-<tr class="separator:a3d80a6cc06a9fd2782a79ab51dbf5e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ec3faea1c7513aed23ea5bb1462f22f" id="r_a2ec3faea1c7513aed23ea5bb1462f22f"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a2ec3faea1c7513aed23ea5bb1462f22f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2ec3faea1c7513aed23ea5bb1462f22f">is_lt</a> (Ordering value) noexcept</td></tr>
-<tr class="memdesc:a2ec3faea1c7513aed23ea5bb1462f22f"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value &lt; 0</code>: less.  <br /></td></tr>
-<tr class="separator:a2ec3faea1c7513aed23ea5bb1462f22f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12aee4e8f0ddf96792c35ddd772afb5a" id="r_a12aee4e8f0ddf96792c35ddd772afb5a"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a12aee4e8f0ddf96792c35ddd772afb5a"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a12aee4e8f0ddf96792c35ddd772afb5a">is_lteq</a> (Ordering value) noexcept</td></tr>
-<tr class="memdesc:a12aee4e8f0ddf96792c35ddd772afb5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value &lt;= 0</code>: less or equivalent.  <br /></td></tr>
-<tr class="separator:a12aee4e8f0ddf96792c35ddd772afb5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a339ffbabe12aaa74f8750cf4e04dffda" id="r_a339ffbabe12aaa74f8750cf4e04dffda"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a339ffbabe12aaa74f8750cf4e04dffda"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a339ffbabe12aaa74f8750cf4e04dffda">is_gt</a> (Ordering value) noexcept</td></tr>
-<tr class="memdesc:a339ffbabe12aaa74f8750cf4e04dffda"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value &gt; 0</code>: greater.  <br /></td></tr>
-<tr class="separator:a339ffbabe12aaa74f8750cf4e04dffda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91f0db883a81b8da7e271f41467907ad" id="r_a91f0db883a81b8da7e271f41467907ad"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a91f0db883a81b8da7e271f41467907ad"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a91f0db883a81b8da7e271f41467907ad">is_gteq</a> (Ordering value) noexcept</td></tr>
-<tr class="memdesc:a91f0db883a81b8da7e271f41467907ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value &gt;= 0</code>: greater or equivalent.  <br /></td></tr>
-<tr class="separator:a91f0db883a81b8da7e271f41467907ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a109b9f782dbf8f93ad1f73946ddaef2c" id="r_a109b9f782dbf8f93ad1f73946ddaef2c"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a109b9f782dbf8f93ad1f73946ddaef2c"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a109b9f782dbf8f93ad1f73946ddaef2c">is_equal</a> (Ordering const &amp;ordering) noexcept</td></tr>
-<tr class="memdesc:a109b9f782dbf8f93ad1f73946ddaef2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility that converts a comparison result to bool.  <br /></td></tr>
-<tr class="separator:a109b9f782dbf8f93ad1f73946ddaef2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e606036faa908fdc01c86aacf4e9160" id="r_a4e606036faa908fdc01c86aacf4e9160"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a4e606036faa908fdc01c86aacf4e9160"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4e606036faa908fdc01c86aacf4e9160">is_less</a> (Ordering const &amp;ordering) noexcept</td></tr>
-<tr class="memdesc:a4e606036faa908fdc01c86aacf4e9160"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility that converts a comparison result to bool.  <br /></td></tr>
-<tr class="separator:a4e606036faa908fdc01c86aacf4e9160"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31c729130c13b921089959234edad643" id="r_a31c729130c13b921089959234edad643"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a31c729130c13b921089959234edad643"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a31c729130c13b921089959234edad643">is_greater</a> (Ordering const &amp;ordering) noexcept</td></tr>
-<tr class="memdesc:a31c729130c13b921089959234edad643"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility that converts a comparison result to bool.  <br /></td></tr>
-<tr class="separator:a31c729130c13b921089959234edad643"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47acb48de335e09db9faf301f782fffe" id="r_a47acb48de335e09db9faf301f782fffe"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a47acb48de335e09db9faf301f782fffe"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a47acb48de335e09db9faf301f782fffe">is_less_equal</a> (Ordering const &amp;ordering) noexcept</td></tr>
-<tr class="memdesc:a47acb48de335e09db9faf301f782fffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility that converts a comparison result to bool.  <br /></td></tr>
-<tr class="separator:a47acb48de335e09db9faf301f782fffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a852efbb505af4c5cd2d749f003725da3" id="r_a852efbb505af4c5cd2d749f003725da3"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:a852efbb505af4c5cd2d749f003725da3"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a852efbb505af4c5cd2d749f003725da3">is_greater_equal</a> (Ordering const &amp;ordering) noexcept</td></tr>
-<tr class="memdesc:a852efbb505af4c5cd2d749f003725da3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility that converts a comparison result to bool.  <br /></td></tr>
-<tr class="separator:a852efbb505af4c5cd2d749f003725da3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa91111be1fec5e69c4d94426bc9fc56e" id="r_aa91111be1fec5e69c4d94426bc9fc56e"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
-<tr class="memitem:aa91111be1fec5e69c4d94426bc9fc56e"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa91111be1fec5e69c4d94426bc9fc56e">is_not_equal</a> (Ordering const &amp;ordering) noexcept</td></tr>
-<tr class="memdesc:aa91111be1fec5e69c4d94426bc9fc56e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility that converts a comparison result to bool.  <br /></td></tr>
-<tr class="separator:aa91111be1fec5e69c4d94426bc9fc56e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7fc2bde3b1ce75f73964781b0bb52fa" id="r_ac7fc2bde3b1ce75f73964781b0bb52fa"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:ac7fc2bde3b1ce75f73964781b0bb52fa"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac7fc2bde3b1ce75f73964781b0bb52fa">safe_compare</a> (T value1, U value2) noexcept</td></tr>
-<tr class="memdesc:ac7fc2bde3b1ce75f73964781b0bb52fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe comparison of two values of different types.  <br /></td></tr>
-<tr class="separator:ac7fc2bde3b1ce75f73964781b0bb52fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af598a2b315606e4ef5967f9c7a13883c" id="r_af598a2b315606e4ef5967f9c7a13883c"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:af598a2b315606e4ef5967f9c7a13883c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af598a2b315606e4ef5967f9c7a13883c">safe_greater_equal</a> (T value1, U value2) noexcept</td></tr>
-<tr class="memdesc:af598a2b315606e4ef5967f9c7a13883c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe greater-or-equal comparison.  <br /></td></tr>
-<tr class="separator:af598a2b315606e4ef5967f9c7a13883c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa3813d240cd57462f39de7cc00d8f2a" id="r_afa3813d240cd57462f39de7cc00d8f2a"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:afa3813d240cd57462f39de7cc00d8f2a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#afa3813d240cd57462f39de7cc00d8f2a">safe_less_equal</a> (T value1, U value2) noexcept</td></tr>
-<tr class="memdesc:afa3813d240cd57462f39de7cc00d8f2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe less-or-equal comparison.  <br /></td></tr>
-<tr class="separator:afa3813d240cd57462f39de7cc00d8f2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a26269bd181418134b6c80d606da910" id="r_a0a26269bd181418134b6c80d606da910"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:a0a26269bd181418134b6c80d606da910"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0a26269bd181418134b6c80d606da910">safe_less</a> (T value1, U value2) noexcept</td></tr>
-<tr class="memdesc:a0a26269bd181418134b6c80d606da910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe less-than comparison.  <br /></td></tr>
-<tr class="separator:a0a26269bd181418134b6c80d606da910"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58d8872e2515a252125737a4f9f985e3" id="r_a58d8872e2515a252125737a4f9f985e3"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:a58d8872e2515a252125737a4f9f985e3"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a58d8872e2515a252125737a4f9f985e3">safe_greater</a> (T value1, U value2) noexcept</td></tr>
-<tr class="memdesc:a58d8872e2515a252125737a4f9f985e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe greater-than comparison.  <br /></td></tr>
-<tr class="separator:a58d8872e2515a252125737a4f9f985e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71f844a5399232b059c8777310c85a92" id="r_a71f844a5399232b059c8777310c85a92"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:a71f844a5399232b059c8777310c85a92"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a71f844a5399232b059c8777310c85a92">safe_equal</a> (T value1, U value2) noexcept</td></tr>
-<tr class="memdesc:a71f844a5399232b059c8777310c85a92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe equality comparison.  <br /></td></tr>
-<tr class="separator:a71f844a5399232b059c8777310c85a92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7f9a54dda4ee2f82977b782a1a23a9e" id="r_af7f9a54dda4ee2f82977b782a1a23a9e"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:af7f9a54dda4ee2f82977b782a1a23a9e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af7f9a54dda4ee2f82977b782a1a23a9e">safe_not_equal</a> (T value1, U value2) noexcept</td></tr>
-<tr class="memdesc:af7f9a54dda4ee2f82977b782a1a23a9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe inequality comparison.  <br /></td></tr>
-<tr class="separator:af7f9a54dda4ee2f82977b782a1a23a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade679d0f6d8775607e52c0291a3e75b2" id="r_ade679d0f6d8775607e52c0291a3e75b2"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:ade679d0f6d8775607e52c0291a3e75b2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#aa75109d9241c9a7ca92491c1e2d34984">three_way_comparison_result_t</a>&lt; T, U &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ade679d0f6d8775607e52c0291a3e75b2">safe_three_way_compare</a> (T value1, U value2) noexcept</td></tr>
-<tr class="memdesc:ade679d0f6d8775607e52c0291a3e75b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe three-way comparison (the <code>&lt;=&gt;</code> category)  <br /></td></tr>
-<tr class="separator:ade679d0f6d8775607e52c0291a3e75b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a189aab4fc551091597fb6fc06770882e" id="r_a189aab4fc551091597fb6fc06770882e"><td class="memTemplParams" colspan="2">template&lt;typename TargetType, typename SourceType&gt; </td></tr>
-<tr class="memitem:a189aab4fc551091597fb6fc06770882e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a189aab4fc551091597fb6fc06770882e">fits_in_type</a> (SourceType value) noexcept</td></tr>
-<tr class="memdesc:a189aab4fc551091597fb6fc06770882e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a value fits the target type.  <br /></td></tr>
-<tr class="separator:a189aab4fc551091597fb6fc06770882e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af20c257c98ae42c04ba567036a586faa" id="r_af20c257c98ae42c04ba567036a586faa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af20c257c98ae42c04ba567036a586faa">__attribute__</a> ((visibility(&quot;default&quot;))) void <a class="el" href="a01703.html">CPUVectorizationDetector</a></td></tr>
+<tr class="separator:af20c257c98ae42c04ba567036a586faa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97570187769d61bc5662e50a6e3b9240" id="r_a97570187769d61bc5662e50a6e3b9240"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97570187769d61bc5662e50a6e3b9240">__attribute__</a> ((aligned(64))) cpu_vectorization_info_t</td></tr>
+<tr class="memdesc:a97570187769d61bc5662e50a6e3b9240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comprehensive CPU vectorization capabilities structure.  <br /></td></tr>
+<tr class="separator:a97570187769d61bc5662e50a6e3b9240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab859866b0c575b1a3e396b0b53fe9ed7" id="r_ab859866b0c575b1a3e396b0b53fe9ed7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab859866b0c575b1a3e396b0b53fe9ed7">get_mac_address</a> ()</td></tr>
+<tr class="memdesc:ab859866b0c575b1a3e396b0b53fe9ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the MAC address of the first active network interface.  <br /></td></tr>
+<tr class="separator:ab859866b0c575b1a3e396b0b53fe9ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a211e7ff7e7de8c55d405628d09595cd6" id="r_a211e7ff7e7de8c55d405628d09595cd6"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a211e7ff7e7de8c55d405628d09595cd6">generate_cryptographic_seed</a> ()</td></tr>
+<tr class="memdesc:a211e7ff7e7de8c55d405628d09595cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a cryptographically strong seed for unique identification.  <br /></td></tr>
+<tr class="separator:a211e7ff7e7de8c55d405628d09595cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a608abfdef5b5629469ce83a934389445" id="r_a608abfdef5b5629469ce83a934389445"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a608abfdef5b5629469ce83a934389445">constKMODULE_NAME</a> = &quot;HardwareCapabilities&quot;</td></tr>
+<tr class="memdesc:a608abfdef5b5629469ce83a934389445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module identifier for logging and debugging purposes.  <br /></td></tr>
+<tr class="separator:a608abfdef5b5629469ce83a934389445"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="ab1b414f7575f721a4e30d9623cab353b" name="ab1b414f7575f721a4e30d9623cab353b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1b414f7575f721a4e30d9623cab353b">&#9670;&#160;</a></span>AtomicCharComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ab1b414f7575f721a4e30d9623cab353b">lumex::core::utility::numeric::AtomicCharComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;char, true&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Aliases for atomic (thread-safe) versions. </p>
-<p>Ready-made types for multithreaded use. Every operation is lock-free thread-safe. </p><dl class="section note"><dt>Note</dt><dd>Use in multithreaded applications Atomic comparator for char </dd></dl>
-
-</div>
-</div>
-<a id="a448cd27a5b55e73399e8b1d49eeba67e" name="a448cd27a5b55e73399e8b1d49eeba67e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a448cd27a5b55e73399e8b1d49eeba67e">&#9670;&#160;</a></span>AtomicDoubleComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a448cd27a5b55e73399e8b1d49eeba67e">lumex::core::utility::numeric::AtomicDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;double, true&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Atomic comparator for double. </p>
-
-</div>
-</div>
-<a id="a5f736c5c623b3279116cf4b13aa5de09" name="a5f736c5c623b3279116cf4b13aa5de09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f736c5c623b3279116cf4b13aa5de09">&#9670;&#160;</a></span>AtomicFloatComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a5f736c5c623b3279116cf4b13aa5de09">lumex::core::utility::numeric::AtomicFloatComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;float, true&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Atomic comparator for float. </p>
-
-</div>
-</div>
-<a id="a9fe2e7914f254fe599c4fc3db49c9c01" name="a9fe2e7914f254fe599c4fc3db49c9c01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fe2e7914f254fe599c4fc3db49c9c01">&#9670;&#160;</a></span>AtomicIntComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a9fe2e7914f254fe599c4fc3db49c9c01">lumex::core::utility::numeric::AtomicIntComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;int, true&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Atomic comparator for int. </p>
-
-</div>
-</div>
-<a id="a7912d5a2fe59af32ffea965d4e999146" name="a7912d5a2fe59af32ffea965d4e999146"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7912d5a2fe59af32ffea965d4e999146">&#9670;&#160;</a></span>AtomicLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a7912d5a2fe59af32ffea965d4e999146">lumex::core::utility::numeric::AtomicLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long, true&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Atomic comparator for long. </p>
-
-</div>
-</div>
-<a id="a3fae060c3ea7e6e0fc4353394b817d84" name="a3fae060c3ea7e6e0fc4353394b817d84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fae060c3ea7e6e0fc4353394b817d84">&#9670;&#160;</a></span>AtomicLongDoubleComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a3fae060c3ea7e6e0fc4353394b817d84">lumex::core::utility::numeric::AtomicLongDoubleComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">long</span> double,</div>
-<div class="line">                      <span class="keyword">true</span>&gt;</div>
-<div class="ttc" id="aa04294_html"><div class="ttname"><a href="a04294.html">lumex::core::utility::numeric::safe_comparator</a></div><div class="ttdoc">Universal thread-safe comparator for safe comparison of arithmetic types.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:1951</div></div>
-</div><!-- fragment -->
-<p>Atomic comparator for long double. </p>
-
-</div>
-</div>
-<a id="aa00ea275e2b8f5becffac7dd1d87a9db" name="aa00ea275e2b8f5becffac7dd1d87a9db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa00ea275e2b8f5becffac7dd1d87a9db">&#9670;&#160;</a></span>AtomicLongLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#aa00ea275e2b8f5becffac7dd1d87a9db">lumex::core::utility::numeric::AtomicLongLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long long, true&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Atomic comparator for long long. </p>
-
-</div>
-</div>
-<a id="adc9d945c5fb55e6f7e6f0806b8a2414f" name="adc9d945c5fb55e6f7e6f0806b8a2414f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc9d945c5fb55e6f7e6f0806b8a2414f">&#9670;&#160;</a></span>AtomicShortComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#adc9d945c5fb55e6f7e6f0806b8a2414f">lumex::core::utility::numeric::AtomicShortComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;short, true&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Atomic comparator for short. </p>
-
-</div>
-</div>
-<a id="a4f2a05500f9521f16e5a1c94ff518c44" name="a4f2a05500f9521f16e5a1c94ff518c44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f2a05500f9521f16e5a1c94ff518c44">&#9670;&#160;</a></span>AtomicUCharComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a4f2a05500f9521f16e5a1c94ff518c44">lumex::core::utility::numeric::AtomicUCharComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> char,</div>
-<div class="line">                      <span class="keyword">true</span>&gt;</div>
-</div><!-- fragment -->
-<p>Atomic comparator for unsigned char. </p>
-
-</div>
-</div>
-<a id="accd9655d3d0c9e478c4cdabdca35e121" name="accd9655d3d0c9e478c4cdabdca35e121"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#accd9655d3d0c9e478c4cdabdca35e121">&#9670;&#160;</a></span>AtomicUIntComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#accd9655d3d0c9e478c4cdabdca35e121">lumex::core::utility::numeric::AtomicUIntComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> int,</div>
-<div class="line">                      <span class="keyword">true</span>&gt;</div>
-</div><!-- fragment -->
-<p>Atomic comparator for unsigned int. </p>
-
-</div>
-</div>
-<a id="aa27e41ac76f568d41ff2908b05c30970" name="aa27e41ac76f568d41ff2908b05c30970"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa27e41ac76f568d41ff2908b05c30970">&#9670;&#160;</a></span>AtomicULongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#aa27e41ac76f568d41ff2908b05c30970">lumex::core::utility::numeric::AtomicULongComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> long,</div>
-<div class="line">                      <span class="keyword">true</span>&gt;</div>
-</div><!-- fragment -->
-<p>Atomic comparator for unsigned long. </p>
-
-</div>
-</div>
-<a id="a8843b708d60094d73236b6250e2e95ab" name="a8843b708d60094d73236b6250e2e95ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8843b708d60094d73236b6250e2e95ab">&#9670;&#160;</a></span>AtomicULongLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a8843b708d60094d73236b6250e2e95ab">lumex::core::utility::numeric::AtomicULongLongComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> long,</div>
-<div class="line">                      <span class="keyword">true</span>&gt;</div>
-</div><!-- fragment -->
-<p>Atomic comparator for unsigned long long. </p>
-
-</div>
-</div>
-<a id="a37403d1812a3a4b5782a4967c44bf6f5" name="a37403d1812a3a4b5782a4967c44bf6f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37403d1812a3a4b5782a4967c44bf6f5">&#9670;&#160;</a></span>AtomicUShortComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a37403d1812a3a4b5782a4967c44bf6f5">lumex::core::utility::numeric::AtomicUShortComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> short,</div>
-<div class="line">                      <span class="keyword">true</span>&gt;</div>
-</div><!-- fragment -->
-<p>Atomic comparator for unsigned short. </p>
-
-</div>
-</div>
-<a id="af72d01beda58eb6e348ec9d0ebf01376" name="af72d01beda58eb6e348ec9d0ebf01376"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af72d01beda58eb6e348ec9d0ebf01376">&#9670;&#160;</a></span>FastCharComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#af72d01beda58eb6e348ec9d0ebf01376">lumex::core::utility::numeric::FastCharComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;char, false&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Aliases for non-atomic versions (higher performance) </p>
-<p>Ready-made types for single-threaded use. Maximum performance with no synchronization overhead. </p><dl class="section note"><dt>Note</dt><dd>Use only in a single-threaded context Fast comparator for char </dd></dl>
-
-</div>
-</div>
-<a id="a73b515412a38726046ecae1c26c309e7" name="a73b515412a38726046ecae1c26c309e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73b515412a38726046ecae1c26c309e7">&#9670;&#160;</a></span>FastDoubleComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a73b515412a38726046ecae1c26c309e7">lumex::core::utility::numeric::FastDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;double, false&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fast comparator for double. </p>
-
-</div>
-</div>
-<a id="a1d811abdd5e29fbc349a5a1cdc18e0d7" name="a1d811abdd5e29fbc349a5a1cdc18e0d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d811abdd5e29fbc349a5a1cdc18e0d7">&#9670;&#160;</a></span>FastFloatComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a1d811abdd5e29fbc349a5a1cdc18e0d7">lumex::core::utility::numeric::FastFloatComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;float, false&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fast comparator for float. </p>
-
-</div>
-</div>
-<a id="acbf230d727cbe01ac21efd6804c3d312" name="acbf230d727cbe01ac21efd6804c3d312"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbf230d727cbe01ac21efd6804c3d312">&#9670;&#160;</a></span>FastIntComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#acbf230d727cbe01ac21efd6804c3d312">lumex::core::utility::numeric::FastIntComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;int, false&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fast comparator for int. </p>
-
-</div>
-</div>
-<a id="ae7d219c50a435d34a060ccbbf02cd0c5" name="ae7d219c50a435d34a060ccbbf02cd0c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7d219c50a435d34a060ccbbf02cd0c5">&#9670;&#160;</a></span>FastLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ae7d219c50a435d34a060ccbbf02cd0c5">lumex::core::utility::numeric::FastLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long, false&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fast comparator for long. </p>
-
-</div>
-</div>
-<a id="a2f2197a377561ffeadf719ed5d57549e" name="a2f2197a377561ffeadf719ed5d57549e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f2197a377561ffeadf719ed5d57549e">&#9670;&#160;</a></span>FastLongDoubleComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a2f2197a377561ffeadf719ed5d57549e">lumex::core::utility::numeric::FastLongDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long double, false&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fast comparator for long double. </p>
-
-</div>
-</div>
-<a id="a8e1976c01ddc9fb5e8d795d3e66a1123" name="a8e1976c01ddc9fb5e8d795d3e66a1123"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e1976c01ddc9fb5e8d795d3e66a1123">&#9670;&#160;</a></span>FastLongLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a8e1976c01ddc9fb5e8d795d3e66a1123">lumex::core::utility::numeric::FastLongLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long long, false&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fast comparator for long long. </p>
-
-</div>
-</div>
-<a id="abe317bd2feb25adbad63d667f0d466c3" name="abe317bd2feb25adbad63d667f0d466c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe317bd2feb25adbad63d667f0d466c3">&#9670;&#160;</a></span>FastShortComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#abe317bd2feb25adbad63d667f0d466c3">lumex::core::utility::numeric::FastShortComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;short, false&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fast comparator for short. </p>
-
-</div>
-</div>
-<a id="a0f4dbe327963dfe132f9ef2829359f0a" name="a0f4dbe327963dfe132f9ef2829359f0a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f4dbe327963dfe132f9ef2829359f0a">&#9670;&#160;</a></span>FastUCharComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a0f4dbe327963dfe132f9ef2829359f0a">lumex::core::utility::numeric::FastUCharComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> char,</div>
-<div class="line">                      <span class="keyword">false</span>&gt;</div>
-</div><!-- fragment -->
-<p>Fast comparator for unsigned char. </p>
-
-</div>
-</div>
-<a id="ac811f7b065c8e4ad13c4c47fb1540ef0" name="ac811f7b065c8e4ad13c4c47fb1540ef0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac811f7b065c8e4ad13c4c47fb1540ef0">&#9670;&#160;</a></span>FastUIntComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ac811f7b065c8e4ad13c4c47fb1540ef0">lumex::core::utility::numeric::FastUIntComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> int,</div>
-<div class="line">                      <span class="keyword">false</span>&gt;</div>
-</div><!-- fragment -->
-<p>Fast comparator for unsigned int. </p>
-
-</div>
-</div>
-<a id="a977711cf6a9098a0511f984c0d472a18" name="a977711cf6a9098a0511f984c0d472a18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a977711cf6a9098a0511f984c0d472a18">&#9670;&#160;</a></span>FastULongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a977711cf6a9098a0511f984c0d472a18">lumex::core::utility::numeric::FastULongComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> long,</div>
-<div class="line">                      <span class="keyword">false</span>&gt;</div>
-</div><!-- fragment -->
-<p>Fast comparator for unsigned long. </p>
-
-</div>
-</div>
-<a id="a72a8b70b390213f4f30562d530942463" name="a72a8b70b390213f4f30562d530942463"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72a8b70b390213f4f30562d530942463">&#9670;&#160;</a></span>FastULongLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a72a8b70b390213f4f30562d530942463">lumex::core::utility::numeric::FastULongLongComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> long,</div>
-<div class="line">                      <span class="keyword">false</span>&gt;</div>
-</div><!-- fragment -->
-<p>Fast comparator for unsigned long long. </p>
-
-</div>
-</div>
-<a id="aa2ff1c2e36456e9568a44a24636b246f" name="aa2ff1c2e36456e9568a44a24636b246f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2ff1c2e36456e9568a44a24636b246f">&#9670;&#160;</a></span>FastUShortComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#aa2ff1c2e36456e9568a44a24636b246f">lumex::core::utility::numeric::FastUShortComparator</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_class" href="a04294.html">safe_comparator</a>&lt;<span class="keywordtype">unsigned</span> short,</div>
-<div class="line">                      <span class="keyword">false</span>&gt;</div>
-</div><!-- fragment -->
-<p>Fast comparator for unsigned short. </p>
-
-</div>
-</div>
-<a id="acf555520aafc55aff4faa92293fcac94" name="acf555520aafc55aff4faa92293fcac94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf555520aafc55aff4faa92293fcac94">&#9670;&#160;</a></span>partial_ordering_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#acf555520aafc55aff4faa92293fcac94">lumex::core::utility::numeric::partial_ordering_t</a> = <a class="el" href="a04238.html">partial_ordering</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The partial ordering of this library: <code><a class="el" href="a04238.html" title="The result of a three-way comparison that may leave two values unordered (NaN against anything): less...">partial_ordering</a></code>, in every standard. </p>
-
-</div>
-</div>
-<a id="a7582e597ca2b38a5f191e5d85ae3bf10" name="a7582e597ca2b38a5f191e5d85ae3bf10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7582e597ca2b38a5f191e5d85ae3bf10">&#9670;&#160;</a></span>SafeCharComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a7582e597ca2b38a5f191e5d85ae3bf10">lumex::core::utility::numeric::SafeCharComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;char&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Default aliases (non-atomic for better performance) </p>
-<p>Ready-made types with optimal defaults. Use non-atomic versions for maximum performance. </p><dl class="section note"><dt>Note</dt><dd>Recommended for most uses Safe comparator for char </dd></dl>
-
-</div>
-</div>
-<a id="a2bf01a14ab79ab41914d238d3089a944" name="a2bf01a14ab79ab41914d238d3089a944"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bf01a14ab79ab41914d238d3089a944">&#9670;&#160;</a></span>SafeDoubleComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a2bf01a14ab79ab41914d238d3089a944">lumex::core::utility::numeric::SafeDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;double&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for double. </p>
-
-</div>
-</div>
-<a id="aea19196473b90ac1d6ff353c1d6d599d" name="aea19196473b90ac1d6ff353c1d6d599d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea19196473b90ac1d6ff353c1d6d599d">&#9670;&#160;</a></span>SafeFloatComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#aea19196473b90ac1d6ff353c1d6d599d">lumex::core::utility::numeric::SafeFloatComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;float&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for float. </p>
-
-</div>
-</div>
-<a id="ada05c3776fa0a354b04c19cff398787c" name="ada05c3776fa0a354b04c19cff398787c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada05c3776fa0a354b04c19cff398787c">&#9670;&#160;</a></span>SafeIntComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ada05c3776fa0a354b04c19cff398787c">lumex::core::utility::numeric::SafeIntComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;int&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for int. </p>
-
-</div>
-</div>
-<a id="accf0cb76094270e459440a2e29ef43ce" name="accf0cb76094270e459440a2e29ef43ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#accf0cb76094270e459440a2e29ef43ce">&#9670;&#160;</a></span>SafeLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#accf0cb76094270e459440a2e29ef43ce">lumex::core::utility::numeric::SafeLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for long. </p>
-
-</div>
-</div>
-<a id="a1e50baebf2ca5ab592ebafc6dcd5df28" name="a1e50baebf2ca5ab592ebafc6dcd5df28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e50baebf2ca5ab592ebafc6dcd5df28">&#9670;&#160;</a></span>SafeLongDoubleComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a1e50baebf2ca5ab592ebafc6dcd5df28">lumex::core::utility::numeric::SafeLongDoubleComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long double&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for long double. </p>
-
-</div>
-</div>
-<a id="af413b4d1fdccea1fe6564046ef64e59a" name="af413b4d1fdccea1fe6564046ef64e59a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af413b4d1fdccea1fe6564046ef64e59a">&#9670;&#160;</a></span>SafeLongLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#af413b4d1fdccea1fe6564046ef64e59a">lumex::core::utility::numeric::SafeLongLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;long long&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for long long. </p>
-
-</div>
-</div>
-<a id="ac9cfe0bf340e7515222d46dbef44f6cc" name="ac9cfe0bf340e7515222d46dbef44f6cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9cfe0bf340e7515222d46dbef44f6cc">&#9670;&#160;</a></span>SafeShortComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ac9cfe0bf340e7515222d46dbef44f6cc">lumex::core::utility::numeric::SafeShortComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;short&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for short. </p>
-
-</div>
-</div>
-<a id="ada6cd97bbdd54db5dc8eabe2322f7a07" name="ada6cd97bbdd54db5dc8eabe2322f7a07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada6cd97bbdd54db5dc8eabe2322f7a07">&#9670;&#160;</a></span>SafeUCharComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ada6cd97bbdd54db5dc8eabe2322f7a07">lumex::core::utility::numeric::SafeUCharComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned char&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for unsigned char. </p>
-
-</div>
-</div>
-<a id="aad8250abe8f070e4c3c655bf21386b22" name="aad8250abe8f070e4c3c655bf21386b22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad8250abe8f070e4c3c655bf21386b22">&#9670;&#160;</a></span>SafeUIntComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#aad8250abe8f070e4c3c655bf21386b22">lumex::core::utility::numeric::SafeUIntComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned int&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for unsigned int. </p>
-
-</div>
-</div>
-<a id="a4746ca6b9bdef1d4d52c189764532a9e" name="a4746ca6b9bdef1d4d52c189764532a9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4746ca6b9bdef1d4d52c189764532a9e">&#9670;&#160;</a></span>SafeULongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a4746ca6b9bdef1d4d52c189764532a9e">lumex::core::utility::numeric::SafeULongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned long&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for unsigned long. </p>
-
-</div>
-</div>
-<a id="acbe7ca1c254d9281e5f8b5c1e1ab22bc" name="acbe7ca1c254d9281e5f8b5c1e1ab22bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbe7ca1c254d9281e5f8b5c1e1ab22bc">&#9670;&#160;</a></span>SafeULongLongComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#acbe7ca1c254d9281e5f8b5c1e1ab22bc">lumex::core::utility::numeric::SafeULongLongComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned long long&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Safe comparator for unsigned long long </p>
-
-</div>
-</div>
-<a id="ae4cb66e56d5db8c4d198726f147e3435" name="ae4cb66e56d5db8c4d198726f147e3435"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4cb66e56d5db8c4d198726f147e3435">&#9670;&#160;</a></span>SafeUShortComparator</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ae4cb66e56d5db8c4d198726f147e3435">lumex::core::utility::numeric::SafeUShortComparator</a> = <a class="el" href="a04294.html">safe_comparator</a>&lt;unsigned short&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe comparator for unsigned short. </p>
-
-</div>
-</div>
-<a id="abd872c425a3594b8eb93584ab9adcf2a" name="abd872c425a3594b8eb93584ab9adcf2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd872c425a3594b8eb93584ab9adcf2a">&#9670;&#160;</a></span>strong_ordering_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#abd872c425a3594b8eb93584ab9adcf2a">lumex::core::utility::numeric::strong_ordering_t</a> = <a class="el" href="a04246.html">strong_ordering</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The strong ordering of this library: <code><a class="el" href="a04246.html" title="The result of a three-way comparison of a total order: less, equal or greater, where equal values are...">strong_ordering</a></code>, in every standard. </p>
-
-</div>
-</div>
-<a id="aa75109d9241c9a7ca92491c1e2d34984" name="aa75109d9241c9a7ca92491c1e2d34984"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa75109d9241c9a7ca92491c1e2d34984">&#9670;&#160;</a></span>three_way_comparison_result_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#aa75109d9241c9a7ca92491c1e2d34984">lumex::core::utility::numeric::three_way_comparison_result_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> </div>
-<div class="line">    <span class="keyword">typename</span> <a class="code hl_typedef" href="a04290.html#a82406e06f130befd6b08e8d30282d8a4">three_way_comparison_result&lt;T, U&gt;::type</a></div>
-<div class="ttc" id="aa04290_html_a82406e06f130befd6b08e8d30282d8a4"><div class="ttname"><a href="a04290.html#a82406e06f130befd6b08e8d30282d8a4">lumex::core::utility::numeric::three_way_comparison_result::type</a></div><div class="ttdeci">typename std::conditional&lt; both_integral, strong_ordering_t, typename std::conditional&lt; both_floating||mixed_types, partial_ordering_t, void &gt;::type &gt;::type type</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:1876</div></div>
-</div><!-- fragment -->
-<p>Alias for the three-way comparison result type. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
-
-</div>
-</div>
-<a id="a97c77a5eca86f81d90f27b52c982f1bc" name="a97c77a5eca86f81d90f27b52c982f1bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97c77a5eca86f81d90f27b52c982f1bc">&#9670;&#160;</a></span>weak_ordering_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a97c77a5eca86f81d90f27b52c982f1bc">lumex::core::utility::numeric::weak_ordering_t</a> = <a class="el" href="a04242.html">weak_ordering</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The weak ordering of this library: <code><a class="el" href="a04242.html" title="The result of a three-way comparison of a total preorder: less, equivalent or greater,...">weak_ordering</a></code>, in every standard. </p>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a189aab4fc551091597fb6fc06770882e" name="a189aab4fc551091597fb6fc06770882e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a189aab4fc551091597fb6fc06770882e">&#9670;&#160;</a></span>fits_in_type()</h2>
+<a id="a97570187769d61bc5662e50a6e3b9240" name="a97570187769d61bc5662e50a6e3b9240"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97570187769d61bc5662e50a6e3b9240">&#9670;&#160;</a></span>__attribute__() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TargetType, typename SourceType&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::core::utility::numeric::fits_in_type </td>
+          <td class="memname">struct lumex::applied::hardware::caps::__attribute__ </td>
           <td>(</td>
-          <td class="paramtype">SourceType</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">(aligned(64))</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Check whether a value fits the target type. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">TargetType</td><td>Target type </td></tr>
-    <tr><td class="paramname">SourceType</td><td>Source value type </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Value of type SourceType to check </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the value fits TargetType without loss of data</dd></dl>
-<p>Checks whether a SourceType value can be converted safely to TargetType. For integers, checks value ranges. For floating-point types, rejects NaN and infinities. </p><dl class="section note"><dt>Note</dt><dd>No-throw; compile-time type check </dd></dl>
+<p>Comprehensive CPU vectorization capabilities structure. </p>
+<p>This structure encapsulates detailed information about CPU vectorization instruction sets and SIMD capabilities. It provides a unified interface for querying supported vectorization technologies across different CPU architectures (x86/x64, ARM, etc.).</p>
+<p>The structure is designed to be architecture-agnostic, providing consistent access patterns regardless of the underlying CPU architecture. Detection is performed using platform-specific mechanisms (CPUID for x86/x64, getauxval/proc for ARM).</p>
+<dl class="section note"><dt>Note</dt><dd>All boolean flags indicate runtime support, not compile-time availability </dd>
+<dd>
+Detection results are computed fresh on each call (no caching) </dd>
+<dd>
+Thread-safe - can be queried from any thread context</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="a01703.html#a0c41e02b6d1e0710680d86766b4732a1" title="Performs comprehensive CPU vectorization capabilities detection.">CPUVectorizationDetector::detect()</a> for structure population </dd>
+<dd>
+<a class="el" href="a01703.html" title="CPU vectorization capabilities detection utility class.">CPUVectorizationDetector</a> class for detection methods</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#a189aab4fc551091597fb6fc06770882e">fits_in_type&lt;unsigned char&gt;</a>(300)) {</div>
-<div class="line">  <span class="comment">// 300 does not fit in unsigned char (0-255)</span></div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code hl_namespace" href="a01428.html">caps</a> = <a class="code hl_function" href="a01703.html#a0c41e02b6d1e0710680d86766b4732a1">CPUVectorizationDetector::detect</a>();</div>
+<div class="line"><span class="keywordflow">if</span> (<a class="code hl_namespace" href="a01428.html">caps</a>.supports_avx2) {</div>
+<div class="line">    <span class="comment">// Use AVX2 optimized code path</span></div>
+<div class="line">} <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_namespace" href="a01428.html">caps</a>.supports_avx) {</div>
+<div class="line">    <span class="comment">// Use AVX optimized code path</span></div>
+<div class="line">} <span class="keywordflow">else</span> <span class="keywordflow">if</span> (caps.supports_sse42) {</div>
+<div class="line">    <span class="comment">// Use SSE4.2 optimized code path</span></div>
 <div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#a189aab4fc551091597fb6fc06770882e">fits_in_type&lt;int&gt;</a>(3.14f)) {</div>
-<div class="line">  <span class="comment">// 3.14f can be converted to int safely</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01428_html_a189aab4fc551091597fb6fc06770882e"><div class="ttname"><a href="#a189aab4fc551091597fb6fc06770882e">lumex::core::utility::numeric::fits_in_type</a></div><div class="ttdeci">bool fits_in_type(SourceType value) noexcept</div><div class="ttdoc">Check whether a value fits the target type.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2906</div></div>
-</div><!-- fragment --> 
+<div class="ttc" id="aa01428_html"><div class="ttname"><a href="a01428.html">lumex::applied::hardware::caps</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:74</div></div>
+<div class="ttc" id="aa01703_html_a0c41e02b6d1e0710680d86766b4732a1"><div class="ttname"><a href="a01703.html#a0c41e02b6d1e0710680d86766b4732a1">lumex::applied::hardware::caps::CPUVectorizationDetector::detect</a></div><div class="ttdeci">static cpu_vectorization_info_t detect()</div><div class="ttdoc">Performs comprehensive CPU vectorization capabilities detection.</div></div>
+</div><!-- fragment --> <p>SSE (Streaming SIMD Extensions) support</p>
+<p>Indicates support for the original SSE instruction set (SSE1), introduced with Intel Pentium III and AMD Athlon XP processors. Provides 128-bit SIMD operations for floating-point and integer data types.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports SSE instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support SSE instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on virtually all x86/x64 processors since ~1999</dd></dl>
+<p>SSE2 (Streaming SIMD Extensions 2) support</p>
+<p>Indicates support for SSE2 instruction set, introduced with Intel Pentium 4 and AMD Athlon 64 processors. Extends SSE with double-precision floating-point and additional integer operations.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports SSE2 instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support SSE2 instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on all x64 processors and most x86 processors since ~2001</dd></dl>
+<p>SSE3 (Streaming SIMD Extensions 3) support</p>
+<p>Indicates support for SSE3 instruction set, introduced with Intel Pentium 4 Prescott and AMD Athlon 64 processors. Adds horizontal operations and additional floating-point instructions.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports SSE3 instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support SSE3 instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on most processors since ~2004</dd></dl>
+<p>SSSE3 (Supplemental SSE3) support</p>
+<p>Indicates support for SSSE3 instruction set, introduced with Intel Core 2 and AMD processors. Adds shuffle and arithmetic instructions for improved performance in multimedia and cryptographic applications.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports SSSE3 instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support SSSE3 instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on most processors since ~2006</dd></dl>
+<p>SSE4.1 support</p>
+<p>Indicates support for SSE4.1 instruction set, introduced with Intel Core 2 Penryn processors. Adds dot product, rounding, and blending operations for improved multimedia and scientific computing performance.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports SSE4.1 instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support SSE4.1 instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on Intel processors since ~2007, AMD processors since ~2011</dd></dl>
+<p>SSE4.2 support</p>
+<p>Indicates support for SSE4.2 instruction set, introduced with Intel Core i7 Nehalem processors. Adds string processing, CRC32, and POPCNT instructions for improved text processing and data manipulation performance.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports SSE4.2 instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support SSE4.2 instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on Intel processors since ~2008, AMD processors since ~2011</dd></dl>
+<p>AVX (Advanced Vector Extensions) support</p>
+<p>Indicates support for AVX instruction set, introduced with Intel Sandy Bridge and AMD Bulldozer processors. Provides 256-bit SIMD operations for floating-point data types, doubling the width compared to SSE.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports AVX instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support AVX instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on processors since ~2011 </dd>
+<dd>
+Requires OS support for XSAVE/XRSTOR instructions</dd></dl>
+<p>AVX2 support</p>
+<p>Indicates support for AVX2 instruction set, introduced with Intel Haswell and AMD Excavator processors. Extends AVX with 256-bit integer operations, gather operations, and FMA (Fused Multiply-Add) support.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports AVX2 instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support AVX2 instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on processors since ~2013 </dd>
+<dd>
+Requires AVX support as prerequisite</dd></dl>
+<p>AVX-512 Foundation support</p>
+<p>Indicates support for AVX-512 Foundation instruction set, introduced with Intel Xeon Phi and Skylake-X processors. Provides 512-bit SIMD operations with mask registers and enhanced floating-point capabilities.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports AVX-512 Foundation instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support AVX-512 Foundation instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on high-end processors since ~2016 </dd>
+<dd>
+Requires AVX2 support as prerequisite </dd>
+<dd>
+May be disabled by microcode updates on some processors</dd></dl>
+<p>AVX-512 CD (Conflict Detection) support</p>
+<p>Indicates support for AVX-512 Conflict Detection instructions, which provide efficient conflict detection in parallel algorithms and hash table operations.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports AVX-512 CD instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support AVX-512 CD instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Requires AVX-512 Foundation support</dd></dl>
+<p>AVX-512 BW (Byte and Word) support</p>
+<p>Indicates support for AVX-512 Byte and Word instructions, which provide enhanced 8-bit and 16-bit integer operations for improved performance in multimedia and data processing applications.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports AVX-512 BW instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support AVX-512 BW instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Requires AVX-512 Foundation support</dd></dl>
+<p>AVX-512 DQ (Doubleword and Quadword) support</p>
+<p>Indicates support for AVX-512 Doubleword and Quadword instructions, which provide enhanced 32-bit and 64-bit integer operations.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports AVX-512 DQ instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support AVX-512 DQ instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Requires AVX-512 Foundation support</dd></dl>
+<p>AVX-512 VL (Vector Length) support</p>
+<p>Indicates support for AVX-512 Vector Length extensions, which allow AVX-512 instructions to operate on 128-bit and 256-bit registers in addition to 512-bit registers.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports AVX-512 VL instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support AVX-512 VL instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Requires AVX-512 Foundation support</dd></dl>
+<p>FMA3 (Fused Multiply-Add 3-operand) support</p>
+<p>Indicates support for FMA3 instruction set, which provides single-round floating-point multiply-add operations for improved accuracy and performance in scientific computing and signal processing.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports FMA3 instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support FMA3 instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on Intel Haswell and AMD Bulldozer processors and later </dd>
+<dd>
+Often bundled with AVX2 support</dd></dl>
+<p>FMA4 (Fused Multiply-Add 4-operand) support</p>
+<p>Indicates support for FMA4 instruction set, an AMD-specific variant of FMA with 4-operand instructions. Provides similar functionality to FMA3 but with different instruction encoding.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports FMA4 instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support FMA4 instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>AMD-specific, present on AMD Bulldozer and Piledriver processors </dd>
+<dd>
+Not supported on Intel processors</dd></dl>
+<p>NEON support (ARM Advanced SIMD)</p>
+<p>Indicates support for ARM NEON instruction set, which provides 64-bit and 128-bit SIMD operations for ARM processors. Equivalent to SSE/AVX on x86/x64 architectures.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports NEON instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support NEON instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on most ARMv7-A and ARMv8-A processors </dd>
+<dd>
+x86/x64 processors always return false</dd></dl>
+<p>SVE (Scalable Vector Extension) support</p>
+<p>Indicates support for ARM SVE instruction set, which provides scalable vector operations with variable-length vectors (128-2048 bits). Introduced with ARMv8.2-A architecture.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>CPU supports SVE instructions </td></tr>
+    <tr><td class="paramname">false</td><td>CPU does not support SVE instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Present on ARMv8.2-A and later processors (e.g., Fujitsu A64FX, ARM Neoverse) </dd>
+<dd>
+x86/x64 processors always return false</dd></dl>
+<p>Maximum SIMD register width in bits</p>
+<p>Indicates the maximum SIMD register width supported by the CPU. This value helps determine the optimal vectorization strategy and buffer alignment requirements.</p>
+<dl class="section note"><dt>Note</dt><dd>Unit: bits (e.g., 128, 256, 512) </dd>
+<dd>
+For x86/x64: 128 (SSE), 256 (AVX), or 512 (AVX-512) </dd>
+<dd>
+For ARM: 128 (NEON) or variable (SVE) </dd>
+<dd>
+Used for memory alignment and buffer size calculations</dd></dl>
+<p>Human-readable summary of supported vectorization technologies</p>
+<p>Contains a comma-separated list of supported vectorization instruction sets, formatted for display in logs, diagnostics, or user interfaces. Provides a quick overview of CPU capabilities.</p>
+<dl class="section user"><dt>Examples</dt><dd><ul>
+<li><code>"SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, AVX, AVX2, FMA3"</code></li>
+<li><code>"NEON, SVE"</code> </li>
+</ul>
+</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Automatically generated during detection </dd>
+<dd>
+Empty string if no vectorization support detected</dd></dl>
+
 </div>
 </div>
-<a id="a269e91c39ab3b8bc1e580d6c68f01571" name="a269e91c39ab3b8bc1e580d6c68f01571"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a269e91c39ab3b8bc1e580d6c68f01571">&#9670;&#160;</a></span>is_eq()</h2>
+<a id="af20c257c98ae42c04ba567036a586faa" name="af20c257c98ae42c04ba567036a586faa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af20c257c98ae42c04ba567036a586faa">&#9670;&#160;</a></span>__attribute__() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type lumex::core::utility::numeric::is_eq </td>
+          <td class="memname">lumex::applied::hardware::caps::__attribute__ </td>
           <td>(</td>
-          <td class="paramtype">Ordering</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">(visibility(&quot;default&quot;))</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>True for <code>value == 0</code>: equivalent (equal). </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td><code><a class="el" href="a04246.html" title="The result of a three-way comparison of a total order: less, equal or greater, where equal values are...">strong_ordering</a></code>, <code><a class="el" href="a04242.html" title="The result of a three-way comparison of a total preorder: less, equivalent or greater,...">weak_ordering</a></code> or <code><a class="el" href="a04238.html" title="The result of a three-way comparison that may leave two values unordered (NaN against anything): less...">partial_ordering</a></code> of this header (a standard ordering has <code>std::is_eq</code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The ordering. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if <code>value</code> is <code>equivalent</code>. </dd></dl>
-
 </div>
 </div>
-<a id="a109b9f782dbf8f93ad1f73946ddaef2c" name="a109b9f782dbf8f93ad1f73946ddaef2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a109b9f782dbf8f93ad1f73946ddaef2c">&#9670;&#160;</a></span>is_equal()</h2>
+<a id="a211e7ff7e7de8c55d405628d09595cd6" name="a211e7ff7e7de8c55d405628d09595cd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a211e7ff7e7de8c55d405628d09595cd6">&#9670;&#160;</a></span>generate_cryptographic_seed()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::core::utility::numeric::is_equal </td>
+          <td class="memname">std::uint64_t lumex::applied::hardware::caps::generate_cryptographic_seed </td>
           <td>(</td>
-          <td class="paramtype">Ordering const &amp;</td>          <td class="paramname"><span class="paramname"><em>ordering</em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Utility that converts a comparison result to bool. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>Comparison result type: <code><a class="el" href="#abd872c425a3594b8eb93584ab9adcf2a" title="The strong ordering of this library: strong_ordering, in every standard.">strong_ordering_t</a></code>, <code><a class="el" href="#a97c77a5eca86f81d90f27b52c982f1bc" title="The weak ordering of this library: weak_ordering, in every standard.">weak_ordering_t</a></code> or <code><a class="el" href="#acf555520aafc55aff4faa92293fcac94">partial_ordering_t</a></code>, which are the classes of <code><a class="el" href="a00632.html" title="strong_ordering, weak_ordering and partial_ordering, the comparison categories of &lt;compare&gt; (C++20) f...">LumexOrdering.hpp</a></code> in every standard. The <code>std::</code> orderings are accepted too (<code><a class="el" href="a04258.html" title="True for the three ordering classes of this header and, where &lt;compare&gt; is available,...">is_ordering</a></code>); any other type is rejected by a static assertion. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ordering</td><td>Three-way comparison result </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if ordering means equal</dd></dl>
-<p>Converts a three-way comparison result to bool equality. Useful for compatibility with existing code. <code>unordered</code> is not equal. </p><dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
-
-</div>
-</div>
-<a id="a31c729130c13b921089959234edad643" name="a31c729130c13b921089959234edad643"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31c729130c13b921089959234edad643">&#9670;&#160;</a></span>is_greater()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::is_greater </td>
-          <td>(</td>
-          <td class="paramtype">Ordering const &amp;</td>          <td class="paramname"><span class="paramname"><em>ordering</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Utility that converts a comparison result to bool. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>Comparison result type (see is_equal) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ordering</td><td>Three-way comparison result </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if ordering means greater</dd></dl>
-<p>Converts a three-way comparison result to bool "greater". </p><dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
+<p>Generates a cryptographically strong seed for unique identification. </p>
+<p>Uses hardware RNGs where available: CryptGenRandom on Windows, getentropy() or /dev/urandom on POSIX, std::random_device as fallback. </p><dl class="section return"><dt>Returns</dt><dd>64-bit random value suitable as a seed. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Intended for unique identifiers; call once per session. </dd>
+<dd>
+Thread safety: the function is thread-safe. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01428_a31c729130c13b921089959234edad643_icgraph.png" border="0" usemap="#aa01428_a31c729130c13b921089959234edad643_icgraph" alt=""/></div>
+<div class="center"><img src="a01428_a211e7ff7e7de8c55d405628d09595cd6_icgraph.png" border="0" usemap="#aa01428_a211e7ff7e7de8c55d405628d09595cd6_icgraph" alt=""/></div>
+<map name="aa01428_a211e7ff7e7de8c55d405628d09595cd6_icgraph" id="aa01428_a211e7ff7e7de8c55d405628d09595cd6_icgraph">
+<area shape="rect" title="Generates a cryptographically strong seed for unique identification." alt="" coords="108,5,368,45"/>
+<area shape="rect" href="a00452.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="a852efbb505af4c5cd2d749f003725da3" name="a852efbb505af4c5cd2d749f003725da3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a852efbb505af4c5cd2d749f003725da3">&#9670;&#160;</a></span>is_greater_equal()</h2>
+<a id="ab859866b0c575b1a3e396b0b53fe9ed7" name="ab859866b0c575b1a3e396b0b53fe9ed7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab859866b0c575b1a3e396b0b53fe9ed7">&#9670;&#160;</a></span>get_mac_address()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::core::utility::numeric::is_greater_equal </td>
+          <td class="memname">std::string lumex::applied::hardware::caps::get_mac_address </td>
           <td>(</td>
-          <td class="paramtype">Ordering const &amp;</td>          <td class="paramname"><span class="paramname"><em>ordering</em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Utility that converts a comparison result to bool. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>Comparison result type (see is_equal) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ordering</td><td>Three-way comparison result </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if ordering means greater or equal</dd></dl>
-<p>Converts a three-way comparison result to bool "greater or equal". <code>unordered</code> is neither. </p><dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
-
-</div>
-</div>
-<a id="a339ffbabe12aaa74f8750cf4e04dffda" name="a339ffbabe12aaa74f8750cf4e04dffda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a339ffbabe12aaa74f8750cf4e04dffda">&#9670;&#160;</a></span>is_gt()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type lumex::core::utility::numeric::is_gt </td>
-          <td>(</td>
-          <td class="paramtype">Ordering</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>True for <code>value &gt; 0</code>: greater. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>An ordering class of this header. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The ordering. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if <code>value</code> is <code>greater</code>. </dd></dl>
-
-</div>
-</div>
-<a id="a91f0db883a81b8da7e271f41467907ad" name="a91f0db883a81b8da7e271f41467907ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91f0db883a81b8da7e271f41467907ad">&#9670;&#160;</a></span>is_gteq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type lumex::core::utility::numeric::is_gteq </td>
-          <td>(</td>
-          <td class="paramtype">Ordering</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>True for <code>value &gt;= 0</code>: greater or equivalent. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>An ordering class of this header. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The ordering. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if <code>value</code> is <code>greater</code> or <code>equivalent</code>; false for <code>unordered</code>. </dd></dl>
-
-</div>
-</div>
-<a id="a4e606036faa908fdc01c86aacf4e9160" name="a4e606036faa908fdc01c86aacf4e9160"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e606036faa908fdc01c86aacf4e9160">&#9670;&#160;</a></span>is_less()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::is_less </td>
-          <td>(</td>
-          <td class="paramtype">Ordering const &amp;</td>          <td class="paramname"><span class="paramname"><em>ordering</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Utility that converts a comparison result to bool. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>Comparison result type (see is_equal) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ordering</td><td>Three-way comparison result </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if ordering means less</dd></dl>
-<p>Converts a three-way comparison result to bool "less". </p><dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
-
-</div>
-</div>
-<a id="a47acb48de335e09db9faf301f782fffe" name="a47acb48de335e09db9faf301f782fffe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47acb48de335e09db9faf301f782fffe">&#9670;&#160;</a></span>is_less_equal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::is_less_equal </td>
-          <td>(</td>
-          <td class="paramtype">Ordering const &amp;</td>          <td class="paramname"><span class="paramname"><em>ordering</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Utility that converts a comparison result to bool. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>Comparison result type (see is_equal) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ordering</td><td>Three-way comparison result </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if ordering means less or equal</dd></dl>
-<p>Converts a three-way comparison result to bool "less or equal". <code>unordered</code> is neither. </p><dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
-
-</div>
-</div>
-<a id="a2ec3faea1c7513aed23ea5bb1462f22f" name="a2ec3faea1c7513aed23ea5bb1462f22f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ec3faea1c7513aed23ea5bb1462f22f">&#9670;&#160;</a></span>is_lt()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type lumex::core::utility::numeric::is_lt </td>
-          <td>(</td>
-          <td class="paramtype">Ordering</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>True for <code>value &lt; 0</code>: less. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>An ordering class of this header. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The ordering. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if <code>value</code> is <code>less</code>. </dd></dl>
-
-</div>
-</div>
-<a id="a12aee4e8f0ddf96792c35ddd772afb5a" name="a12aee4e8f0ddf96792c35ddd772afb5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12aee4e8f0ddf96792c35ddd772afb5a">&#9670;&#160;</a></span>is_lteq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type lumex::core::utility::numeric::is_lteq </td>
-          <td>(</td>
-          <td class="paramtype">Ordering</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>True for <code>value &lt;= 0</code>: less or equivalent. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>An ordering class of this header. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The ordering. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if <code>value</code> is <code>less</code> or <code>equivalent</code>; false for <code>unordered</code>. </dd></dl>
-
-</div>
-</div>
-<a id="a3d80a6cc06a9fd2782a79ab51dbf5e58" name="a3d80a6cc06a9fd2782a79ab51dbf5e58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d80a6cc06a9fd2782a79ab51dbf5e58">&#9670;&#160;</a></span>is_neq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="a04250.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type lumex::core::utility::numeric::is_neq </td>
-          <td>(</td>
-          <td class="paramtype">Ordering</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>True for <code>value != 0</code>: not equivalent, <code>unordered</code> included. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>An ordering class of this header. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The ordering. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if <code>value</code> is not <code>equivalent</code>. </dd></dl>
-
-</div>
-</div>
-<a id="aa91111be1fec5e69c4d94426bc9fc56e" name="aa91111be1fec5e69c4d94426bc9fc56e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa91111be1fec5e69c4d94426bc9fc56e">&#9670;&#160;</a></span>is_not_equal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Ordering&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::is_not_equal </td>
-          <td>(</td>
-          <td class="paramtype">Ordering const &amp;</td>          <td class="paramname"><span class="paramname"><em>ordering</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Utility that converts a comparison result to bool. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Ordering</td><td>Comparison result type (see is_equal) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ordering</td><td>Three-way comparison result </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if ordering means not equal</dd></dl>
-<p>Converts a three-way comparison result to bool "not equal". <code>unordered</code> is not equal. </p><dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
-
-</div>
-</div>
-<a id="ac7fc2bde3b1ce75f73964781b0bb52fa" name="ac7fc2bde3b1ce75f73964781b0bb52fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7fc2bde3b1ce75f73964781b0bb52fa">&#9670;&#160;</a></span>safe_compare()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::safe_compare </td>
-          <td>(</td>
-          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Safe comparison of two values of different types. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value1</td><td>First value of type T </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value2</td><td>Second value of type U </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if value1 &gt;= value2</dd></dl>
-<p>Performs a safe comparison of two values of different types. Uses specialized algorithms to prevent overflow. Does not require a comparator object. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe, no-throw </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>T and U must be safely comparable (checked at compile-time) </dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> size = 200;</div>
-<div class="line"><span class="keywordtype">int</span> limit = 300;</div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#ac7fc2bde3b1ce75f73964781b0bb52fa">safe_compare</a>(size, limit)) {</div>
-<div class="line">  <span class="comment">// Safe comparison unsigned char &gt;= int</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01428_html_ac7fc2bde3b1ce75f73964781b0bb52fa"><div class="ttname"><a href="#ac7fc2bde3b1ce75f73964781b0bb52fa">lumex::core::utility::numeric::safe_compare</a></div><div class="ttdeci">bool safe_compare(T value1, U value2) noexcept</div><div class="ttdoc">Safe comparison of two values of different types.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2658</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="a71f844a5399232b059c8777310c85a92" name="a71f844a5399232b059c8777310c85a92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71f844a5399232b059c8777310c85a92">&#9670;&#160;</a></span>safe_equal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::safe_equal </td>
-          <td>(</td>
-          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Safe equality comparison. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value1</td><td>First value of type T </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value2</td><td>Second value of type U </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if value1 == value2</dd></dl>
-<p>Performs a safe equality comparison of two values of different types. Checks value ranges to prevent overflow. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe, no-throw </dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">int</span> <a class="code hl_namespace" href="a01351.html">expected</a> = 42;</div>
-<div class="line"><span class="keywordtype">float</span> actual = 42.0f;</div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#a71f844a5399232b059c8777310c85a92">safe_equal</a>(<a class="code hl_namespace" href="a01351.html">expected</a>, actual)) {</div>
-<div class="line">  <span class="comment">// Safe comparison int == float</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01351_html"><div class="ttname"><a href="a01351.html">lumex::core::expected</a></div><div class="ttdef"><b>Definition</b> BadExpectedAccess.hpp:95</div></div>
-<div class="ttc" id="aa01428_html_a71f844a5399232b059c8777310c85a92"><div class="ttname"><a href="#a71f844a5399232b059c8777310c85a92">lumex::core::utility::numeric::safe_equal</a></div><div class="ttdeci">bool safe_equal(T value1, U value2) noexcept</div><div class="ttdoc">Safe equality comparison.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2808</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="a58d8872e2515a252125737a4f9f985e3" name="a58d8872e2515a252125737a4f9f985e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58d8872e2515a252125737a4f9f985e3">&#9670;&#160;</a></span>safe_greater()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::safe_greater </td>
-          <td>(</td>
-          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Safe greater-than comparison. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value1</td><td>First value of type T </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value2</td><td>Second value of type U </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if value1 &gt; value2</dd></dl>
-<p>Performs a safe greater-than comparison of two values of different types. Checks value ranges to prevent overflow. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe, no-throw </dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">int</span> threshold = 100;</div>
-<div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> count = 150;</div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#a58d8872e2515a252125737a4f9f985e3">safe_greater</a>(count, threshold)) {</div>
-<div class="line">  <span class="comment">// Safe comparison unsigned char &gt; int</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01428_html_a58d8872e2515a252125737a4f9f985e3"><div class="ttname"><a href="#a58d8872e2515a252125737a4f9f985e3">lumex::core::utility::numeric::safe_greater</a></div><div class="ttdeci">bool safe_greater(T value1, U value2) noexcept</div><div class="ttdoc">Safe greater-than comparison.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2778</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="af598a2b315606e4ef5967f9c7a13883c" name="af598a2b315606e4ef5967f9c7a13883c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af598a2b315606e4ef5967f9c7a13883c">&#9670;&#160;</a></span>safe_greater_equal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::safe_greater_equal </td>
-          <td>(</td>
-          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Safe greater-or-equal comparison. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value1</td><td>First value of type T </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value2</td><td>Second value of type U </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if value1 &gt;= value2</dd></dl>
-<p>Alias for <a class="el" href="#ac7fc2bde3b1ce75f73964781b0bb52fa" title="Safe comparison of two values of different types.">safe_compare()</a> for readability. Performs the same safe range check. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe, no-throw </dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">float</span> f = 3.14f;</div>
-<div class="line"><span class="keywordtype">int</span> i = 3;</div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#af598a2b315606e4ef5967f9c7a13883c">safe_greater_equal</a>(f, i)) {</div>
-<div class="line">  <span class="comment">// Safe comparison float &gt;= int</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01428_html_af598a2b315606e4ef5967f9c7a13883c"><div class="ttname"><a href="#af598a2b315606e4ef5967f9c7a13883c">lumex::core::utility::numeric::safe_greater_equal</a></div><div class="ttdeci">bool safe_greater_equal(T value1, U value2) noexcept</div><div class="ttdoc">Safe greater-or-equal comparison.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2688</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="a0a26269bd181418134b6c80d606da910" name="a0a26269bd181418134b6c80d606da910"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a26269bd181418134b6c80d606da910">&#9670;&#160;</a></span>safe_less()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::safe_less </td>
-          <td>(</td>
-          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Safe less-than comparison. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value1</td><td>First value of type T </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value2</td><td>Second value of type U </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if value1 &lt; value2</dd></dl>
-<p>Performs a safe less-than comparison of two values of different types. Checks value ranges to prevent overflow. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe, no-throw </dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> size = 200;</div>
-<div class="line"><span class="keywordtype">int</span> limit = 300;</div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#a0a26269bd181418134b6c80d606da910">safe_less</a>(size, limit)) {</div>
-<div class="line">  <span class="comment">// Safe comparison unsigned char &lt; int</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01428_html_a0a26269bd181418134b6c80d606da910"><div class="ttname"><a href="#a0a26269bd181418134b6c80d606da910">lumex::core::utility::numeric::safe_less</a></div><div class="ttdeci">bool safe_less(T value1, U value2) noexcept</div><div class="ttdoc">Safe less-than comparison.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2748</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="afa3813d240cd57462f39de7cc00d8f2a" name="afa3813d240cd57462f39de7cc00d8f2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa3813d240cd57462f39de7cc00d8f2a">&#9670;&#160;</a></span>safe_less_equal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::safe_less_equal </td>
-          <td>(</td>
-          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Safe less-or-equal comparison. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value1</td><td>First value of type T </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value2</td><td>Second value of type U </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if value1 &lt;= value2</dd></dl>
-<p>Performs a safe less-or-equal comparison of two values of different types. Checks value ranges to prevent overflow. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe, no-throw </dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">int</span> i = 3;</div>
-<div class="line"><span class="keywordtype">float</span> f = 3.14f;</div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#afa3813d240cd57462f39de7cc00d8f2a">safe_less_equal</a>(i, f)) {</div>
-<div class="line">  <span class="comment">// Safe comparison int &lt;= float</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01428_html_afa3813d240cd57462f39de7cc00d8f2a"><div class="ttname"><a href="#afa3813d240cd57462f39de7cc00d8f2a">lumex::core::utility::numeric::safe_less_equal</a></div><div class="ttdeci">bool safe_less_equal(T value1, U value2) noexcept</div><div class="ttdoc">Safe less-or-equal comparison.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2718</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="af7f9a54dda4ee2f82977b782a1a23a9e" name="af7f9a54dda4ee2f82977b782a1a23a9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7f9a54dda4ee2f82977b782a1a23a9e">&#9670;&#160;</a></span>safe_not_equal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::core::utility::numeric::safe_not_equal </td>
-          <td>(</td>
-          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Safe inequality comparison. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value1</td><td>First value of type T </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value2</td><td>Second value of type U </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if value1 != value2</dd></dl>
-<p>Performs a safe inequality comparison of two values of different types. Checks value ranges to prevent overflow. </p><dl class="section note"><dt>Note</dt><dd>Thread-safe, no-throw </dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">int</span> threshold = 100;</div>
-<div class="line"><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> count = 150;</div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_function" href="#af7f9a54dda4ee2f82977b782a1a23a9e">safe_not_equal</a>(count, threshold)) {</div>
-<div class="line">  <span class="comment">// Safe comparison unsigned char != int</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01428_html_af7f9a54dda4ee2f82977b782a1a23a9e"><div class="ttname"><a href="#af7f9a54dda4ee2f82977b782a1a23a9e">lumex::core::utility::numeric::safe_not_equal</a></div><div class="ttdeci">bool safe_not_equal(T value1, U value2) noexcept</div><div class="ttdoc">Safe inequality comparison.</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2838</div></div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a id="ade679d0f6d8775607e52c0291a3e75b2" name="ade679d0f6d8775607e52c0291a3e75b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade679d0f6d8775607e52c0291a3e75b2">&#9670;&#160;</a></span>safe_three_way_compare()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#aa75109d9241c9a7ca92491c1e2d34984">three_way_comparison_result_t</a>&lt; T, U &gt; lumex::core::utility::numeric::safe_three_way_compare </td>
-          <td>(</td>
-          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U</td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Safe three-way comparison (the <code>&lt;=&gt;</code> category) </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>First type to compare </td></tr>
-    <tr><td class="paramname">U</td><td>Second type to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value1</td><td>First value of type T </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value2</td><td>Second value of type U </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Three-way comparison result: <code><a class="el" href="#abd872c425a3594b8eb93584ab9adcf2a" title="The strong ordering of this library: strong_ordering, in every standard.">strong_ordering_t</a></code> for two integer types, <code><a class="el" href="#acf555520aafc55aff4faa92293fcac94">partial_ordering_t</a></code> otherwise (see <a class="el" href="#aa75109d9241c9a7ca92491c1e2d34984" title="Alias for the three-way comparison result type.">three_way_comparison_result_t</a>)</dd></dl>
-<p>Performs a safe three-way comparison of two values of different types. Returns <a class="el" href="a04246.html" title="The result of a three-way comparison of a total order: less, equal or greater, where equal values are...">strong_ordering</a> for integer types, <a class="el" href="a04238.html" title="The result of a three-way comparison that may leave two values unordered (NaN against anything): less...">partial_ordering</a> for floating-point. Checks value ranges to prevent overflow. <code><a class="el" href="#abd872c425a3594b8eb93584ab9adcf2a" title="The strong ordering of this library: strong_ordering, in every standard.">strong_ordering_t</a></code> and <code><a class="el" href="#acf555520aafc55aff4faa92293fcac94">partial_ordering_t</a></code> are the classes of <a class="el" href="a00632.html" title="strong_ordering, weak_ordering and partial_ordering, the comparison categories of &lt;compare&gt; (C++20) f...">LumexOrdering.hpp</a> in every standard (they convert to the <code>std::</code> ones from C++20). </p><dl class="section note"><dt>Note</dt><dd>Thread-safe, no-throw </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">int</span> a = 42;</div>
-<div class="line"><span class="keywordtype">float</span> b = 42.0f;</div>
-<div class="line"><span class="keyword">auto</span> result = <a class="code hl_function" href="#ade679d0f6d8775607e52c0291a3e75b2">safe_three_way_compare</a>(a, b);</div>
-<div class="line"><span class="keywordflow">if</span> (result == <a class="code hl_variable" href="a04238.html#a0dcd1f2780db47e04c7d9c5d4e031332">partial_ordering_t::equivalent</a>) {</div>
-<div class="line">  <span class="comment">// Safe three-way comparison of int &lt;=&gt; float</span></div>
-<div class="line">}</div>
-<div class="ttc" id="aa01428_html_ade679d0f6d8775607e52c0291a3e75b2"><div class="ttname"><a href="#ade679d0f6d8775607e52c0291a3e75b2">lumex::core::utility::numeric::safe_three_way_compare</a></div><div class="ttdeci">three_way_comparison_result_t&lt; T, U &gt; safe_three_way_compare(T value1, U value2) noexcept</div><div class="ttdoc">Safe three-way comparison (the &lt;=&gt; category)</div><div class="ttdef"><b>Definition</b> LumexSafeNumericComparator.hpp:2874</div></div>
-<div class="ttc" id="aa04238_html_a0dcd1f2780db47e04c7d9c5d4e031332"><div class="ttname"><a href="a04238.html#a0dcd1f2780db47e04c7d9c5d4e031332">lumex::core::utility::numeric::partial_ordering::equivalent</a></div><div class="ttdeci">static partial_ordering const equivalent</div><div class="ttdoc">The operands are equivalent (equal).</div><div class="ttdef"><b>Definition</b> LumexOrdering.hpp:478</div></div>
-</div><!-- fragment --> <div class="dynheader">
+<p>Get the MAC address of the first active network interface. </p>
+<p>Cross-platform function to get the MAC address of the main network interface. On Windows, it uses GetAdaptersInfo, on Unix systems - getifaddrs. </p><dl class="section return"><dt>Returns</dt><dd>String with the MAC address in the format "XX:XX:XX:XX:XX:XX" or empty string on error. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The function returns the first found active interface. If there are no network interfaces, it returns an empty string. </dd>
+<dd>
+Thread safety: the function is thread-safe, but may be slow due to system calls. </dd></dl>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01428_ade679d0f6d8775607e52c0291a3e75b2_icgraph.png" border="0" usemap="#aa01428_ade679d0f6d8775607e52c0291a3e75b2_icgraph" alt=""/></div>
+<div class="center"><img src="a01428_ab859866b0c575b1a3e396b0b53fe9ed7_icgraph.png" border="0" usemap="#aa01428_ab859866b0c575b1a3e396b0b53fe9ed7_icgraph" alt=""/></div>
+<map name="aa01428_ab859866b0c575b1a3e396b0b53fe9ed7_icgraph" id="aa01428_ab859866b0c575b1a3e396b0b53fe9ed7_icgraph">
+<area shape="rect" title="Get the MAC address of the first active network interface." alt="" coords="108,5,296,45"/>
+<area shape="rect" href="a00452.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" title=" " alt="" coords="95,28,60,28,60,23,95,23"/>
+</map>
 </div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a608abfdef5b5629469ce83a934389445" name="a608abfdef5b5629469ce83a934389445"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a608abfdef5b5629469ce83a934389445">&#9670;&#160;</a></span>constKMODULE_NAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constchar* lumex::applied::hardware::caps::constKMODULE_NAME = &quot;HardwareCapabilities&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Module identifier for logging and debugging purposes. </p>
+<p>Static constant string used to identify this module in log outputs, error messages, and debugging information. Helps track the source of hardware detection operations in complex applications. </p>
 
 </div>
 </div>
@@ -2135,7 +536,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01428.html">numeric</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01427.html">hardware</a></li><li class="navelem"><a class="el" href="a01428.html">caps</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

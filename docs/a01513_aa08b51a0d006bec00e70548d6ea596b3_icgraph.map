@@ -1,0 +1,5 @@
+<map id="lumex::core::crc::catalog::crc_transport_uses_custom_spec_sentinel" name="lumex::core::crc::catalog::crc_transport_uses_custom_spec_sentinel">
+<area shape="rect" id="Node000001" title="Value of get_transport_crc_catalog_index when the mode is Custom." alt="" coords="295,5,501,60"/>
+<area shape="rect" id="Node000002" href="$a01513.html#aff135cedde198d23674676a920914cb8" title="Catalogue index in Catalog mode; otherwise crc_catalog_legacy_index or crc_transport_uses_custom_spec..." alt="" coords="5,13,247,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="281,35,247,35,247,30,281,30"/>
+</map>

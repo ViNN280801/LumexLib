@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::optional::opt::detail::optional_union&lt; T, TrivialDestructor, NonConstAssign, NonConstCtor &gt; Union Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03514.html',''); initResizable(true); });
+$(function(){initNavTree('a03511.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,25 @@ $(function(){initNavTree('a03514.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::reflection::field_reflection::detail::any_field&lt; I &gt; Member List</div></div>
+  <div class="headertitle"><div class="title">lumex::core::optional::opt::detail::optional_union&lt; T, TrivialDestructor, NonConstAssign, NonConstCtor &gt; Union Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03514.html">lumex::core::reflection::field_reflection::detail::any_field&lt; I &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03514.html#ade0609e7ef3ab2eba72905d7bb8ed686">operator Type</a>() const</td><td class="entry"><a class="el" href="a03514.html">lumex::core::reflection::field_reflection::detail::any_field&lt; I &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>{ dummy, value }</code>, the union of [optional.optional.general]. The value is stored without <code>const</code> (as both standard libraries do), so that an <code>optional&lt;const U&gt;</code> can be re-emplaced in a constant expression.  
+ <a href="#details">More...</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, bool TrivialDestructor = std::is_trivially_destructible&lt;T&gt;::value, bool NonConstAssign = has_nonconst_copy_assign&lt;T&gt;::value, bool NonConstCtor = has_nonconst_copy_ctor&lt;T&gt;::value&gt;<br />
+union lumex::core::optional::opt::detail::optional_union&lt; T, TrivialDestructor, NonConstAssign, NonConstCtor &gt;</div><p><code>{ dummy, value }</code>, the union of [optional.optional.general]. The value is stored without <code>const</code> (as both standard libraries do), so that an <code>optional&lt;const U&gt;</code> can be re-emplaced in a constant expression. </p>
+<p>Eight forms. Whether the destructor is trivial (<code>T</code> trivially destructible) or empty (the value is destroyed by <code><a class="el" href="a03547.html" title="The union, the flag and the destructor; this form is for a trivially destructible T,...">opt_destruct_base</a></code>) selects two. The other two flags tell a <code>T</code> whose copy assignment (<code>NonConstAssign</code>) or copy constructor (<code>NonConstCtor</code>) takes a non-const reference (<code>std::auto_ptr</code>). The implicit copy operation of a class that holds such a <code>T</code> takes a non-const reference too, and the layers declare theirs <code>= default</code> with <code>const &amp;</code>, which is ill-formed before C++20 (P0641). The union therefore declares the copy operation that cannot work deleted, with a <code>const &amp;</code> parameter, and so fixes the signature of every layer above; the move operations are defaulted (a <code>T</code> with <code>T &amp;operator= (T &amp;&amp;) = default</code> stays move assignable). For any other <code>T</code> it declares nothing. </p>
+</div><hr/>The documentation for this union was generated from the following file:<ul>
+<li><a class="el" href="a00995_source.html">LumexOptionalDetail.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01552.html">optional</a></li><li class="navelem"><a class="el" href="a01553.html">opt</a></li><li class="navelem"><a class="el" href="a01554.html">detail</a></li><li class="navelem"><a class="el" href="a03511.html">optional_union</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

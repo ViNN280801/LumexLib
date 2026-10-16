@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02858.html',''); initResizable(true); });
+$(function(){initNavTree('a02855.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,390 @@ $(function(){initNavTree('a02858.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::unwrap_named&lt; T &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a02852.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02858.html">lumex::core::fmt::Detail::unwrap_named&lt; T &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02858.html#ad55d4b66a368619a6a1d4108a3757e1a">type</a> typedef</td><td class="entry"><a class="el" href="a02858.html">lumex::core::fmt::Detail::unwrap_named&lt; T &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>The layer that destroys the active alternative: [expected.object.dtor]/1.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00908_source.html">ExpectedStorage.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02854.png" border="0" usemap="#alumex_1_1core_1_1expected_1_1result_1_1detail_1_1storage_1_1expected__destruct__base_3_01T_00_01E_00_01false_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1expected_1_1result_1_1detail_1_1storage_1_1expected__destruct__base_3_01T_00_01E_00_01false_01_4_inherit__map" id="alumex_1_1core_1_1expected_1_1result_1_1detail_1_1storage_1_1expected__destruct__base_3_01T_00_01E_00_01false_01_4_inherit__map">
+<area shape="rect" title="The layer that destroys the active alternative: [expected.object.dtor]/1." alt="" coords="11,181,199,251"/>
+<area shape="rect" href="a02847.html" title="has_val and the union of [expected.object.general], the constructors that start one alternative,..." alt="" coords="5,79,205,133"/>
+<area shape="poly" title=" " alt="" coords="99,147,100,181,94,181,94,147"/>
+<area shape="poly" title=" " alt="" coords="117,147,116,181,111,181,111,147"/>
+<area shape="rect" title=" " alt="" coords="35,5,176,31"/>
+<area shape="poly" title=" " alt="" coords="108,45,108,78,103,78,103,45"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02853.png" border="0" usemap="#alumex_1_1core_1_1expected_1_1result_1_1detail_1_1storage_1_1expected__destruct__base_3_01T_00_01E_00_01false_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1core_1_1expected_1_1result_1_1detail_1_1storage_1_1expected__destruct__base_3_01T_00_01E_00_01false_01_4_coll__map" id="alumex_1_1core_1_1expected_1_1result_1_1detail_1_1storage_1_1expected__destruct__base_3_01T_00_01E_00_01false_01_4_coll__map">
+<area shape="rect" title="The layer that destroys the active alternative: [expected.object.dtor]/1." alt="" coords="623,62,811,131"/>
+<area shape="rect" href="a02847.html" title="has_val and the union of [expected.object.general], the constructors that start one alternative,..." alt="" coords="373,69,573,124"/>
+<area shape="poly" title=" " alt="" coords="587,103,622,103,623,108,587,108"/>
+<area shape="poly" title=" " alt="" coords="587,85,623,85,622,91,587,90"/>
+<area shape="rect" title=" " alt="" coords="49,5,191,31"/>
+<area shape="poly" title=" " alt="" coords="196,31,235,39,374,71,372,76,234,45,194,36"/>
+<area shape="rect" href="a02831.html" title=" " alt="" coords="13,55,227,139"/>
+<area shape="poly" title=" " alt="" coords="241,94,373,94,373,99,241,99"/>
+<area shape="rect" href="a02843.html" title=" " alt="" coords="5,163,235,262"/>
+<area shape="poly" title=" " alt="" coords="247,168,389,122,391,127,249,173"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a48a9b00a49a9fe738f87b7c6d8924b6c" id="r_a48a9b00a49a9fe738f87b7c6d8924b6c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48a9b00a49a9fe738f87b7c6d8924b6c">storage_type</a> = <a class="el" href="a02847.html">expected_storage</a>&lt;T, E&gt;</td></tr>
+<tr class="separator:a48a9b00a49a9fe738f87b7c6d8924b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aac21d824f82f8a862a8548abfd3bad" id="r_a3aac21d824f82f8a862a8548abfd3bad"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02851.html#a3aac21d824f82f8a862a8548abfd3bad">storage_type</a></td></tr>
+<tr class="separator:a3aac21d824f82f8a862a8548abfd3bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_a02847"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_types_a02847')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="a02847.html">lumex::core::expected::result::detail::storage::expected_storage&lt; T, E &gt;</a></td></tr>
+<tr class="memitem:a27e9b5048961d547099e5e27d51cefe6 inherit pub_types_a02847" id="r_a27e9b5048961d547099e5e27d51cefe6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#a27e9b5048961d547099e5e27d51cefe6">val_type</a> = typename std::remove_cv&lt;T&gt;::type</td></tr>
+<tr class="memdesc:a27e9b5048961d547099e5e27d51cefe6 inherit pub_types_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of <code>val</code>: <code>remove_cv_t&lt;T&gt;</code>.  <br /></td></tr>
+<tr class="separator:a27e9b5048961d547099e5e27d51cefe6 inherit pub_types_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8fbb9a4948a5b1372971a8ae197c88a inherit pub_types_a02847" id="r_ab8fbb9a4948a5b1372971a8ae197c88a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#ab8fbb9a4948a5b1372971a8ae197c88a">union_type</a></td></tr>
+<tr class="memdesc:ab8fbb9a4948a5b1372971a8ae197c88a inherit pub_types_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">The union <code>{ val, unex }</code>.  <br /></td></tr>
+<tr class="separator:ab8fbb9a4948a5b1372971a8ae197c88a inherit pub_types_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace3479a7ac9cc22180c4800b9fb84453 inherit pub_types_a02847" id="r_ace3479a7ac9cc22180c4800b9fb84453"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#ace3479a7ac9cc22180c4800b9fb84453">swap_mode</a></td></tr>
+<tr class="memdesc:ace3479a7ac9cc22180c4800b9fb84453 inherit pub_types_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">How a value and an error are exchanged: 0 for <code><a class="el" href="a02911.html" title="Placeholder success type for expected&lt;void, ErrorType&gt;.">Unit</a></code> (the <code>void</code> specialization moves the error only), 1 when <code>E</code> is nothrow move constructible, 2 otherwise.  <br /></td></tr>
+<tr class="separator:ace3479a7ac9cc22180c4800b9fb84453 inherit pub_types_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a563af06a4874120e7e222f16fa9866c2" id="r_a563af06a4874120e7e222f16fa9866c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a563af06a4874120e7e222f16fa9866c2">expected_destruct_base</a> (<a class="el" href="a02851.html">expected_destruct_base</a> const &amp;)=default</td></tr>
+<tr class="separator:a563af06a4874120e7e222f16fa9866c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc3801c00c7daa1bab58553576fbf13" id="r_a1dc3801c00c7daa1bab58553576fbf13"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dc3801c00c7daa1bab58553576fbf13">expected_destruct_base</a> (<a class="el" href="a02851.html">expected_destruct_base</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a1dc3801c00c7daa1bab58553576fbf13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac28d38a0c66d0d6692dcfb68ae82f032" id="r_ac28d38a0c66d0d6692dcfb68ae82f032"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02851.html">expected_destruct_base</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac28d38a0c66d0d6692dcfb68ae82f032">operator=</a> (<a class="el" href="a02851.html">expected_destruct_base</a> const &amp;)=default</td></tr>
+<tr class="separator:ac28d38a0c66d0d6692dcfb68ae82f032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4cce7f49249fe39cb7af73cc115e7bb" id="r_ac4cce7f49249fe39cb7af73cc115e7bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02851.html">expected_destruct_base</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4cce7f49249fe39cb7af73cc115e7bb">operator=</a> (<a class="el" href="a02851.html">expected_destruct_base</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:ac4cce7f49249fe39cb7af73cc115e7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37952c8375adb06f55772cf25779bc4c" id="r_a37952c8375adb06f55772cf25779bc4c"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37952c8375adb06f55772cf25779bc4c">~expected_destruct_base</a> ()</td></tr>
+<tr class="memdesc:a37952c8375adb06f55772cf25779bc4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys <code>val</code> if <code>has_value ()</code>, otherwise <code>unex</code>.  <br /></td></tr>
+<tr class="separator:a37952c8375adb06f55772cf25779bc4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a02847"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_a02847')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a02847.html">lumex::core::expected::result::detail::storage::expected_storage&lt; T, E &gt;</a></td></tr>
+<tr class="memitem:a73885ecff15c51b575ae662aa8190c9e inherit pub_methods_a02847" id="r_a73885ecff15c51b575ae662aa8190c9e"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a73885ecff15c51b575ae662aa8190c9e inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#a73885ecff15c51b575ae662aa8190c9e">expected_storage</a> (<a class="el" href="a02707.html">value_tag</a>, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a73885ecff15c51b575ae662aa8190c9e inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts <code>val</code> with <code>args...</code>; <code>has_value ()</code> is <code>true</code>.  <br /></td></tr>
+<tr class="separator:a73885ecff15c51b575ae662aa8190c9e inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a303b37588edc9b1011754fa28383bc4e inherit pub_methods_a02847" id="r_a303b37588edc9b1011754fa28383bc4e"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a303b37588edc9b1011754fa28383bc4e inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#a303b37588edc9b1011754fa28383bc4e">expected_storage</a> (<a class="el" href="a02711.html">error_tag</a>, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a303b37588edc9b1011754fa28383bc4e inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts <code>unex</code> with <code>args...</code>; <code>has_value ()</code> is <code>false</code>.  <br /></td></tr>
+<tr class="separator:a303b37588edc9b1011754fa28383bc4e inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb5f50881d4cba8ab4d871c8deec4055 inherit pub_methods_a02847" id="r_afb5f50881d4cba8ab4d871c8deec4055"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:afb5f50881d4cba8ab4d871c8deec4055 inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#afb5f50881d4cba8ab4d871c8deec4055">expected_storage</a> (<a class="el" href="a02723.html">invoke_value_tag</a> tag, Fn &amp;&amp;fn, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:afb5f50881d4cba8ab4d871c8deec4055 inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts <code>val</code> with the result of <code>invoke_call (fn, args...)</code>.  <br /></td></tr>
+<tr class="separator:afb5f50881d4cba8ab4d871c8deec4055 inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d51904426e2e6f697e539b1a495a5c8 inherit pub_methods_a02847" id="r_a4d51904426e2e6f697e539b1a495a5c8"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:a4d51904426e2e6f697e539b1a495a5c8 inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#a4d51904426e2e6f697e539b1a495a5c8">expected_storage</a> (<a class="el" href="a02727.html">invoke_error_tag</a> tag, Fn &amp;&amp;fn, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a4d51904426e2e6f697e539b1a495a5c8 inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts <code>unex</code> with the result of <code>invoke_call (fn, args...)</code>.  <br /></td></tr>
+<tr class="separator:a4d51904426e2e6f697e539b1a495a5c8 inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42ce2c4a222dd75cc821efa0109ab616 inherit pub_methods_a02847" id="r_a42ce2c4a222dd75cc821efa0109ab616"><td class="memTemplParams" colspan="2">template&lt;typename Rhs&gt; </td></tr>
+<tr class="memitem:a42ce2c4a222dd75cc821efa0109ab616 inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#a42ce2c4a222dd75cc821efa0109ab616">expected_storage</a> (<a class="el" href="a02715.html">from_storage_tag</a>, Rhs &amp;&amp;rhs)</td></tr>
+<tr class="memdesc:a42ce2c4a222dd75cc821efa0109ab616 inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies or moves the alternative of another storage of the same type: [expected.object.cons]/6 and /12.  <br /></td></tr>
+<tr class="separator:a42ce2c4a222dd75cc821efa0109ab616 inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a248267f736f364dadd6dc926bd0f08bd inherit pub_methods_a02847" id="r_a248267f736f364dadd6dc926bd0f08bd"><td class="memTemplParams" colspan="2">template&lt;typename Rhs&gt; </td></tr>
+<tr class="memitem:a248267f736f364dadd6dc926bd0f08bd inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#a248267f736f364dadd6dc926bd0f08bd">expected_storage</a> (<a class="el" href="a02719.html">convert_tag</a>, Rhs &amp;&amp;rhs)</td></tr>
+<tr class="memdesc:a248267f736f364dadd6dc926bd0f08bd inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the alternative of an <code>expected&lt;U, G&gt;</code>: the converting constructors of [expected.object.cons]/19 and [expected.void.cons]/14.  <br /></td></tr>
+<tr class="separator:a248267f736f364dadd6dc926bd0f08bd inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa22251b92c968a4dc3f08cb88fe846c1 inherit pub_methods_a02847" id="r_aa22251b92c968a4dc3f08cb88fe846c1"><td class="memTemplParams" colspan="2">template&lt;typename Rhs&gt; </td></tr>
+<tr class="memitem:aa22251b92c968a4dc3f08cb88fe846c1 inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#aa22251b92c968a4dc3f08cb88fe846c1">init_value</a> (std::false_type, Rhs &amp;&amp;rhs)</td></tr>
+<tr class="memdesc:aa22251b92c968a4dc3f08cb88fe846c1 inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">The conversion of a value from a source (the class <code><a class="el" href="a02847.html#a27e9b5048961d547099e5e27d51cefe6" title="The type of val: remove_cv_t&lt;T&gt;.">val_type</a></code> is built from <code>*rhs</code>).  <br /></td></tr>
+<tr class="separator:aa22251b92c968a4dc3f08cb88fe846c1 inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bd7a33ae63eb902c288cfb3e1bb8576 inherit pub_methods_a02847" id="r_a8bd7a33ae63eb902c288cfb3e1bb8576"><td class="memTemplParams" colspan="2">template&lt;typename Rhs&gt; </td></tr>
+<tr class="memitem:a8bd7a33ae63eb902c288cfb3e1bb8576 inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#a8bd7a33ae63eb902c288cfb3e1bb8576">init_value</a> (std::true_type, Rhs &amp;&amp;)</td></tr>
+<tr class="memdesc:a8bd7a33ae63eb902c288cfb3e1bb8576 inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a02911.html" title="Placeholder success type for expected&lt;void, ErrorType&gt;.">Unit</a></code> stands for <code>void</code>: there is no value to read.  <br /></td></tr>
+<tr class="separator:a8bd7a33ae63eb902c288cfb3e1bb8576 inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac152306992f18e0f7f5d020b20848405 inherit pub_methods_a02847" id="r_ac152306992f18e0f7f5d020b20848405"><td class="memTemplParams" colspan="2">template&lt;typename Rhs&gt; </td></tr>
+<tr class="memitem:ac152306992f18e0f7f5d020b20848405 inherit pub_methods_a02847"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a02847.html#ac152306992f18e0f7f5d020b20848405">assign_from</a> (Rhs &amp;&amp;rhs)</td></tr>
+<tr class="memdesc:ac152306992f18e0f7f5d020b20848405 inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the contents of another storage of the same type: [expected.object.assign]/2 and /7.  <br /></td></tr>
+<tr class="separator:ac152306992f18e0f7f5d020b20848405 inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbaff536eceb3a3476f0a5ac8ad0a39c inherit pub_methods_a02847" id="r_adbaff536eceb3a3476f0a5ac8ad0a39c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#adbaff536eceb3a3476f0a5ac8ad0a39c">swap_storage</a> (<a class="el" href="a02847.html">expected_storage</a> &amp;rhs)</td></tr>
+<tr class="memdesc:adbaff536eceb3a3476f0a5ac8ad0a39c inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the contents with another storage: Table 72 of [expected.object.swap] and Table 73 of [expected.void.swap].  <br /></td></tr>
+<tr class="separator:adbaff536eceb3a3476f0a5ac8ad0a39c inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fde6d3bf968ff3d670b32ac2f58db43 inherit pub_methods_a02847" id="r_a5fde6d3bf968ff3d670b32ac2f58db43"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#a5fde6d3bf968ff3d670b32ac2f58db43">swap_value_with_error</a> (std::integral_constant&lt; int, 0 &gt;, <a class="el" href="a02847.html">expected_storage</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a5fde6d3bf968ff3d670b32ac2f58db43 inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>this</code> is a success and <code>rhs</code> holds an error, for <code>expected&lt;void, / E&gt;</code>: [expected.void.swap]: the error is moved across.  <br /></td></tr>
+<tr class="separator:a5fde6d3bf968ff3d670b32ac2f58db43 inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a1de0013e47660e134becd66c6d942 inherit pub_methods_a02847" id="r_a72a1de0013e47660e134becd66c6d942"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#a72a1de0013e47660e134becd66c6d942">swap_value_with_error</a> (std::integral_constant&lt; int, 1 &gt;, <a class="el" href="a02847.html">expected_storage</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a72a1de0013e47660e134becd66c6d942 inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>this</code> holds a value, <code>rhs</code> an error, and <code>E</code> is nothrow move constructible: park the error, move the value across, put the error back ([expected.object.swap], Table 72).  <br /></td></tr>
+<tr class="separator:a72a1de0013e47660e134becd66c6d942 inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf5a4bd0f1572b0a5e2b5bd8c35f8adf inherit pub_methods_a02847" id="r_aaf5a4bd0f1572b0a5e2b5bd8c35f8adf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#aaf5a4bd0f1572b0a5e2b5bd8c35f8adf">swap_value_with_error</a> (std::integral_constant&lt; int, 2 &gt;, <a class="el" href="a02847.html">expected_storage</a> &amp;rhs)</td></tr>
+<tr class="memdesc:aaf5a4bd0f1572b0a5e2b5bd8c35f8adf inherit pub_methods_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight">As above, but <code>E</code> may throw when moved: park the value instead.  <br /></td></tr>
+<tr class="separator:aaf5a4bd0f1572b0a5e2b5bd8c35f8adf inherit pub_methods_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_attribs_a02847"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_a02847')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="a02847.html">lumex::core::expected::result::detail::storage::expected_storage&lt; T, E &gt;</a></td></tr>
+<tr class="memitem:a45da9f1afe2f303efa9f07c4c8220dc0 inherit pub_attribs_a02847" id="r_a45da9f1afe2f303efa9f07c4c8220dc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02847.html#ab8fbb9a4948a5b1372971a8ae197c88a">union_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#a45da9f1afe2f303efa9f07c4c8220dc0">m_storage</a></td></tr>
+<tr class="memdesc:a45da9f1afe2f303efa9f07c4c8220dc0 inherit pub_attribs_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>val</code> or <code>unex</code>.  <br /></td></tr>
+<tr class="separator:a45da9f1afe2f303efa9f07c4c8220dc0 inherit pub_attribs_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a755a6980d53b81d28f819dae68b99162 inherit pub_attribs_a02847" id="r_a755a6980d53b81d28f819dae68b99162"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02843.html">has_val_flag</a>&lt; std::alignment_of&lt; <a class="el" href="a02847.html#ab8fbb9a4948a5b1372971a8ae197c88a">union_type</a> &gt;::value &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02847.html#a755a6980d53b81d28f819dae68b99162">m_has_value</a></td></tr>
+<tr class="memdesc:a755a6980d53b81d28f819dae68b99162 inherit pub_attribs_a02847"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>has_val</code>.  <br /></td></tr>
+<tr class="separator:a755a6980d53b81d28f819dae68b99162 inherit pub_attribs_a02847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename E&gt;<br />
+struct lumex::core::expected::result::detail::storage::expected_destruct_base&lt; T, E, false &gt;</div><p>The layer that destroys the active alternative: [expected.object.dtor]/1. </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a3aac21d824f82f8a862a8548abfd3bad" name="a3aac21d824f82f8a862a8548abfd3bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aac21d824f82f8a862a8548abfd3bad">&#9670;&#160;</a></span>storage_type <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02851.html">lumex::core::expected::result::detail::storage::expected_destruct_base</a>&lt; T, E, Trivial &gt;::storage_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48a9b00a49a9fe738f87b7c6d8924b6c" name="a48a9b00a49a9fe738f87b7c6d8924b6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48a9b00a49a9fe738f87b7c6d8924b6c">&#9670;&#160;</a></span>storage_type <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02851.html">lumex::core::expected::result::detail::storage::expected_destruct_base</a>&lt; T, E, false &gt;::storage_type = <a class="el" href="a02847.html">expected_storage</a>&lt;T, E&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a563af06a4874120e7e222f16fa9866c2" name="a563af06a4874120e7e222f16fa9866c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a563af06a4874120e7e222f16fa9866c2">&#9670;&#160;</a></span>expected_destruct_base() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02851.html">lumex::core::expected::result::detail::storage::expected_destruct_base</a>&lt; T, E, false &gt;::expected_destruct_base </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02851.html">expected_destruct_base</a>&lt; T, E, false &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02855_a563af06a4874120e7e222f16fa9866c2_cgraph.png" border="0" usemap="#aa02855_a563af06a4874120e7e222f16fa9866c2_cgraph" alt=""/></div>
+<map name="aa02855_a563af06a4874120e7e222f16fa9866c2_cgraph" id="aa02855_a563af06a4874120e7e222f16fa9866c2_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,193,113"/>
+<area shape="poly" title=" " alt="" coords="62,28,65,18,72,10,84,5,99,3,119,6,131,14,128,18,117,11,99,8,85,10,75,14,69,21,67,30"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02855_a563af06a4874120e7e222f16fa9866c2_icgraph.png" border="0" usemap="#aa02855_a563af06a4874120e7e222f16fa9866c2_icgraph" alt=""/></div>
+<map name="aa02855_a563af06a4874120e7e222f16fa9866c2_icgraph" id="aa02855_a563af06a4874120e7e222f16fa9866c2_icgraph">
+<area shape="rect" title=" " alt="" coords="244,107,432,191"/>
+<area shape="poly" title=" " alt="" coords="375,96,361,88,338,85,320,87,307,92,299,98,296,107,291,105,295,95,304,87,318,82,338,80,363,83,378,92"/>
+<area shape="rect" href="a02855.html#a1dc3801c00c7daa1bab58553576fbf13" title=" " alt="" coords="7,5,195,89"/>
+<area shape="poly" title=" " alt="" coords="230,106,194,90,196,85,232,101"/>
+<area shape="rect" href="a02855.html#ac4cce7f49249fe39cb7af73cc115e7bb" title=" " alt="" coords="5,114,196,183"/>
+<area shape="poly" title=" " alt="" coords="230,151,196,151,196,146,230,146"/>
+<area shape="rect" href="a02855.html#ac28d38a0c66d0d6692dcfb68ae82f032" title=" " alt="" coords="5,207,196,277"/>
+<area shape="poly" title=" " alt="" coords="232,193,190,210,188,205,230,188"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1dc3801c00c7daa1bab58553576fbf13" name="a1dc3801c00c7daa1bab58553576fbf13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dc3801c00c7daa1bab58553576fbf13">&#9670;&#160;</a></span>expected_destruct_base() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02851.html">lumex::core::expected::result::detail::storage::expected_destruct_base</a>&lt; T, E, false &gt;::expected_destruct_base </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02851.html">expected_destruct_base</a>&lt; T, E, false &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02855_a1dc3801c00c7daa1bab58553576fbf13_cgraph.png" border="0" usemap="#aa02855_a1dc3801c00c7daa1bab58553576fbf13_cgraph" alt=""/></div>
+<map name="aa02855_a1dc3801c00c7daa1bab58553576fbf13_cgraph" id="aa02855_a1dc3801c00c7daa1bab58553576fbf13_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,193,113"/>
+<area shape="rect" href="a02855.html#a563af06a4874120e7e222f16fa9866c2" title=" " alt="" coords="241,29,429,113"/>
+<area shape="poly" title=" " alt="" coords="194,69,227,69,227,74,194,74"/>
+<area shape="poly" title=" " alt="" coords="289,28,292,18,302,10,316,5,335,3,360,6,375,14,372,19,358,11,335,8,317,10,304,14,297,21,294,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a37952c8375adb06f55772cf25779bc4c" name="a37952c8375adb06f55772cf25779bc4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37952c8375adb06f55772cf25779bc4c">&#9670;&#160;</a></span>~expected_destruct_base()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02851.html">lumex::core::expected::result::detail::storage::expected_destruct_base</a>&lt; T, E, false &gt;::~<a class="el" href="a02851.html">expected_destruct_base</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destroys <code>val</code> if <code>has_value ()</code>, otherwise <code>unex</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02855_a37952c8375adb06f55772cf25779bc4c_cgraph.png" border="0" usemap="#aa02855_a37952c8375adb06f55772cf25779bc4c_cgraph" alt=""/></div>
+<map name="aa02855_a37952c8375adb06f55772cf25779bc4c_cgraph" id="aa02855_a37952c8375adb06f55772cf25779bc4c_cgraph">
+<area shape="rect" title="Destroys val if has_value (), otherwise unex." alt="" coords="5,15,200,99"/>
+<area shape="rect" href="a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="248,5,439,45"/>
+<area shape="poly" title=" " alt="" coords="200,42,234,37,235,42,201,47"/>
+<area shape="rect" href="a01533.html#aac3cdf6524f1c94486d6cff93fba3008" title="Ends the lifetime of the T at where: std::destroy_at for an object that is not an array." alt="" coords="249,69,438,109"/>
+<area shape="poly" title=" " alt="" coords="201,68,235,72,235,78,200,73"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac4cce7f49249fe39cb7af73cc115e7bb" name="ac4cce7f49249fe39cb7af73cc115e7bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4cce7f49249fe39cb7af73cc115e7bb">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02851.html">expected_destruct_base</a> &amp; <a class="el" href="a02851.html">lumex::core::expected::result::detail::storage::expected_destruct_base</a>&lt; T, E, false &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02851.html">expected_destruct_base</a>&lt; T, E, false &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02855_ac4cce7f49249fe39cb7af73cc115e7bb_cgraph.png" border="0" usemap="#aa02855_ac4cce7f49249fe39cb7af73cc115e7bb_cgraph" alt=""/></div>
+<map name="aa02855_ac4cce7f49249fe39cb7af73cc115e7bb_cgraph" id="aa02855_ac4cce7f49249fe39cb7af73cc115e7bb_cgraph">
+<area shape="rect" title=" " alt="" coords="5,37,196,106"/>
+<area shape="rect" href="a02855.html#a563af06a4874120e7e222f16fa9866c2" title=" " alt="" coords="244,29,432,113"/>
+<area shape="poly" title=" " alt="" coords="196,69,231,69,231,74,196,74"/>
+<area shape="poly" title=" " alt="" coords="291,28,295,18,304,10,318,5,338,3,363,6,378,14,375,19,361,11,338,8,320,10,307,14,299,21,296,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac28d38a0c66d0d6692dcfb68ae82f032" name="ac28d38a0c66d0d6692dcfb68ae82f032"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac28d38a0c66d0d6692dcfb68ae82f032">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02851.html">expected_destruct_base</a> &amp; <a class="el" href="a02851.html">lumex::core::expected::result::detail::storage::expected_destruct_base</a>&lt; T, E, false &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02851.html">expected_destruct_base</a>&lt; T, E, false &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02855_ac28d38a0c66d0d6692dcfb68ae82f032_cgraph.png" border="0" usemap="#aa02855_ac28d38a0c66d0d6692dcfb68ae82f032_cgraph" alt=""/></div>
+<map name="aa02855_ac28d38a0c66d0d6692dcfb68ae82f032_cgraph" id="aa02855_ac28d38a0c66d0d6692dcfb68ae82f032_cgraph">
+<area shape="rect" title=" " alt="" coords="5,37,196,106"/>
+<area shape="rect" href="a02855.html#a563af06a4874120e7e222f16fa9866c2" title=" " alt="" coords="244,29,432,113"/>
+<area shape="poly" title=" " alt="" coords="196,69,231,69,231,74,196,74"/>
+<area shape="poly" title=" " alt="" coords="291,28,295,18,304,10,318,5,338,3,363,6,378,14,375,19,361,11,338,8,320,10,307,14,299,21,296,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00908_source.html">ExpectedStorage.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01532.html">result</a></li><li class="navelem"><a class="el" href="a01533.html">detail</a></li><li class="navelem"><a class="el" href="a01535.html">storage</a></li><li class="navelem"><a class="el" href="a02855.html">expected_destruct_base&lt; T, E, false &gt;</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

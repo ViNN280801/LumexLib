@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlParseResult.cpp File Reference</title>
+<title>LumexLib: LumexContractsAssert.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,36 +104,565 @@ $(function(){initNavTree('a01001.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XmlParseResult.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexContractsAssert.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdlib&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00962_source.html">lumex/xml/document/XmlDocumentBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00998_source.html">lumex/xml/text/XmlParser.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01022_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01004_source.html">XmlParseResult.hpp</a>&quot;</code><br />
+
+<p><code>LUMEX_CONTRACT_ASSERT (expr)</code>, the contract assertion of C++26 (<code>contract_assert</code>, P2900) on every standard, and the macros that choose its evaluation semantic.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01007_source.html">lumex/core/contracts/handler/LumexContractsHandler.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01010_source.html">lumex/core/contracts/location/LumexContractsSourceLocation.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00998_source.html">lumex/core/contracts/violation/LumexContractsViolation.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01118_source.html">lumex/core/utility/macros/LumexMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlParseResult.cpp:</div>
+Include dependency graph for LumexContractsAssert.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01002.png" border="0" usemap="#a_xml_parse_result_8cpp" alt=""/></div>
+<div class="center"><img src="a01002.png" border="0" usemap="#aLumexContractsAssert_8hpp" alt=""/></div>
+<map name="aLumexContractsAssert_8hpp" id="aLumexContractsAssert_8hpp">
+<area shape="rect" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand..." alt="" coords="339,5,536,31"/>
+<area shape="rect" title=" " alt="" coords="144,365,211,390"/>
+<area shape="poly" title=" " alt="" coords="339,30,162,51,90,66,66,73,54,81,33,109,18,136,10,163,8,190,12,218,20,246,52,308,67,327,87,343,132,363,130,368,85,347,64,331,47,311,15,248,7,219,3,190,5,162,13,134,28,106,50,77,64,68,89,60,161,46,338,24"/>
+<area shape="rect" title=" " alt="" coords="65,86,130,111"/>
+<area shape="poly" title=" " alt="" coords="361,33,260,53,150,81,141,84,140,79,149,76,259,48,360,28"/>
+<area shape="rect" href="a01007.html" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="391,79,654,119"/>
+<area shape="poly" title=" " alt="" coords="453,29,493,67,490,71,449,33"/>
+<area shape="rect" href="a00998.html" title="The enumerations assertion_kind, evaluation_semantic and detection_mode, and the class contract_viola..." alt="" coords="206,167,485,207"/>
+<area shape="poly" title=" " alt="" coords="423,33,401,54,381,80,364,117,354,154,349,152,359,115,376,77,397,50,419,29"/>
+<area shape="rect" href="a01010.html" title="source_location: the place in the program text that a contract violation names, on every C++ standard..." alt="" coords="61,255,293,309"/>
+<area shape="poly" title=" " alt="" coords="397,33,348,52,293,81,239,119,216,142,196,168,181,204,177,241,172,240,176,202,191,165,212,139,236,115,290,76,346,47,395,28"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="416,357,629,397"/>
+<area shape="poly" title=" " alt="" coords="519,28,636,50,770,81,833,99,890,119,936,141,968,165,985,186,992,206,999,254,1006,284,1006,297,998,311,981,321,950,331,861,347,643,371,642,366,860,342,949,325,979,317,994,307,1001,296,1001,284,993,255,987,207,980,188,965,169,934,146,888,124,832,104,768,86,635,55,518,33"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="765,167,955,207"/>
+<area shape="poly" title=" " alt="" coords="503,28,582,48,666,76,749,116,819,157,816,162,746,121,664,81,580,53,501,33"/>
+<area shape="rect" href="a01118.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="1059,79,1255,119"/>
+<area shape="poly" title=" " alt="" coords="536,23,767,44,1040,76,1046,77,1045,82,1040,81,766,50,536,29"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="560,174,741,199"/>
+<area shape="poly" title=" " alt="" coords="554,117,622,164,619,168,551,121"/>
+<area shape="poly" title=" " alt="" coords="483,121,399,163,397,158,481,116"/>
+<area shape="poly" title=" " alt="" coords="525,119,525,344,520,344,520,119"/>
+<area shape="poly" title=" " alt="" coords="600,116,770,161,769,166,599,121"/>
+<area shape="poly" title=" " alt="" coords="366,205,382,228,395,255,401,284,398,298,391,311,364,331,321,348,225,371,224,366,320,342,362,326,387,308,393,296,395,284,390,257,377,231,361,209"/>
+<area shape="rect" title=" " alt="" coords="561,269,653,295"/>
+<area shape="poly" title=" " alt="" coords="402,204,560,262,558,267,400,209"/>
+<area shape="rect" title=" " alt="" coords="318,269,378,295"/>
+<area shape="poly" title=" " alt="" coords="349,207,350,256,345,256,343,207"/>
+<area shape="poly" title=" " alt="" coords="311,209,239,250,236,246,308,205"/>
+<area shape="poly" title=" " alt="" coords="368,205,415,253,498,345,494,348,411,256,365,209"/>
+<area shape="poly" title=" " alt="" coords="180,310,180,351,175,351,175,310"/>
+<area shape="poly" title=" " alt="" coords="277,307,437,351,436,356,276,312"/>
+<area shape="poly" title=" " alt="" coords="803,209,673,257,650,266,648,261,671,252,801,204"/>
+<area shape="poly" title=" " alt="" coords="808,209,763,230,719,257,703,271,693,284,682,297,666,311,628,335,589,354,586,349,625,330,662,307,678,293,689,280,699,267,716,253,761,225,806,204"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="729,262,983,302"/>
+<area shape="poly" title=" " alt="" coords="862,207,860,248,855,248,856,207"/>
+</map>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01003.png" border="0" usemap="#aLumexContractsAssert_8hppdep" alt=""/></div>
+<map name="aLumexContractsAssert_8hppdep" id="aLumexContractsAssert_8hppdep">
+<area shape="rect" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand..." alt="" coords="108,5,305,31"/>
+<area shape="rect" href="a01361.html" title="Contracts module: LUMEX_CONTRACT_ASSERT, the contract assertion of C++26 (P2900) from C++11 on,..." alt="" coords="143,79,271,104"/>
+<area shape="poly" title=" " alt="" coords="209,44,209,78,204,78,204,44"/>
+<area shape="rect" href="a00437.html" title=" " alt="" coords="5,152,179,177"/>
+<area shape="poly" title=" " alt="" coords="176,114,114,154,111,150,174,109"/>
+<area shape="rect" href="a00434.html" title=" " alt="" coords="203,152,442,177"/>
+<area shape="poly" title=" " alt="" coords="240,109,304,150,301,154,237,113"/>
+</map>
+</div>
+</div>
+<p><a href="a01001_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02091.html">lumex::core::contracts::detail::observe_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The emulated semantics that check the predicate. Each has the static function <code>violated</code>, called on the failing path only (static members, one type per semantic: GCC 8 mistakes overloaded <code>noinline</code> inline functions of a namespace for redeclarations).  <a href="a02091.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02095.html">lumex::core::contracts::detail::enforce_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02099.html">lumex::core::contracts::detail::quick_enforce_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html">lumex::core::contracts</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01510.html">lumex::core::contracts::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a133994066bd2f18c62aae4195a0c4bac" id="r_a133994066bd2f18c62aae4195a0c4bac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a133994066bd2f18c62aae4195a0c4bac">LUMEX_CONTRACTS_HAS_NATIVE</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a133994066bd2f18c62aae4195a0c4bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the compiler implements P2900 (<code>contract_assert</code> as a keyword), otherwise 0. <code>__cpp_contracts</code> of 201906L is the withdrawn contracts of the C++20 draft (GCC <code>-fcontracts</code>), which has no <code>contract_assert</code>, and does not count. May be defined by the user to 0 or 1 before the first include.  <br /></td></tr>
+<tr class="separator:a133994066bd2f18c62aae4195a0c4bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed4c6046d4ec40e4947c0c6665d73e25" id="r_aed4c6046d4ec40e4947c0c6665d73e25"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed4c6046d4ec40e4947c0c6665d73e25">LUMEX_CONTRACTS_CATCH_EXCEPTIONS</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:aed4c6046d4ec40e4947c0c6665d73e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac58936873bb931dc70f6011068f29d1a" id="r_ac58936873bb931dc70f6011068f29d1a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac58936873bb931dc70f6011068f29d1a">LUMEX_CONTRACTS_SEMANTIC_ID_ignore</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:ac58936873bb931dc70f6011068f29d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5db304f9d3a528285cba0d9ddf140f1" id="r_aa5db304f9d3a528285cba0d9ddf140f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5db304f9d3a528285cba0d9ddf140f1">LUMEX_CONTRACTS_SEMANTIC_ID_observe</a>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:aa5db304f9d3a528285cba0d9ddf140f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9be03df9c570c1517f5af589f2f5462a" id="r_a9be03df9c570c1517f5af589f2f5462a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9be03df9c570c1517f5af589f2f5462a">LUMEX_CONTRACTS_SEMANTIC_ID_enforce</a>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:a9be03df9c570c1517f5af589f2f5462a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa520440948268a8bab55d177a1b57360" id="r_aa520440948268a8bab55d177a1b57360"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa520440948268a8bab55d177a1b57360">LUMEX_CONTRACTS_SEMANTIC_ID_quick_enforce</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:aa520440948268a8bab55d177a1b57360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8a7334201fa40a2a5efd9e282e0769b" id="r_ab8a7334201fa40a2a5efd9e282e0769b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8a7334201fa40a2a5efd9e282e0769b">LUMEX_CONTRACTS_SEMANTIC_ID_p2900</a>&#160;&#160;&#160;5</td></tr>
+<tr class="separator:ab8a7334201fa40a2a5efd9e282e0769b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a561ccf0b8888d3953e6c3c9475e36131" id="r_a561ccf0b8888d3953e6c3c9475e36131"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a561ccf0b8888d3953e6c3c9475e36131">LUMEX_CONTRACTS_DETAIL_PASTE_</a>(a,  b)</td></tr>
+<tr class="separator:a561ccf0b8888d3953e6c3c9475e36131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61f3f06b777a89856e0e623b69239364" id="r_a61f3f06b777a89856e0e623b69239364"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61f3f06b777a89856e0e623b69239364">LUMEX_CONTRACTS_DETAIL_PASTE</a>(a,  b)</td></tr>
+<tr class="separator:a61f3f06b777a89856e0e623b69239364"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaea47991ac4c13697154e96b9b921859" id="r_aaea47991ac4c13697154e96b9b921859"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaea47991ac4c13697154e96b9b921859">LUMEX_CONTRACTS_DETAIL_REQUESTED</a>&#160;&#160;&#160;enforce</td></tr>
+<tr class="separator:aaea47991ac4c13697154e96b9b921859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f69b9ec431a0e087878b9dd57742a2b" id="r_a5f69b9ec431a0e087878b9dd57742a2b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f69b9ec431a0e087878b9dd57742a2b">LUMEX_CONTRACTS_REQUESTED_SEMANTIC</a></td></tr>
+<tr class="memdesc:a5f69b9ec431a0e087878b9dd57742a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The semantic that was asked for, as a number: 1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 p2900.  <br /></td></tr>
+<tr class="separator:a5f69b9ec431a0e087878b9dd57742a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae51e201cd1cb1fcc79e3d595713921f6" id="r_ae51e201cd1cb1fcc79e3d595713921f6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae51e201cd1cb1fcc79e3d595713921f6">LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC</a>&#160;&#160;&#160;<a class="el" href="#a5f69b9ec431a0e087878b9dd57742a2b">LUMEX_CONTRACTS_REQUESTED_SEMANTIC</a></td></tr>
+<tr class="memdesc:ae51e201cd1cb1fcc79e3d595713921f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The semantic <code>LUMEX_CONTRACT_ASSERT</code> has in this translation unit: 1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 the compiler's own <code>contract_assert</code>.  <br /></td></tr>
+<tr class="separator:ae51e201cd1cb1fcc79e3d595713921f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02bdeb98d2b4154e70633e4346653855" id="r_a02bdeb98d2b4154e70633e4346653855"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02bdeb98d2b4154e70633e4346653855">LUMEX_CONTRACTS_DETAIL_LIKELY</a>(condition)</td></tr>
+<tr class="separator:a02bdeb98d2b4154e70633e4346653855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9489fb820e489fafab4cf992b414be5d" id="r_a9489fb820e489fafab4cf992b414be5d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9489fb820e489fafab4cf992b414be5d">LUMEX_CONTRACTS_DETAIL_LOCATION</a></td></tr>
+<tr class="separator:a9489fb820e489fafab4cf992b414be5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed8a134aa35a758ff27b5d9b9732180f" id="r_aed8a134aa35a758ff27b5d9b9732180f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a>(tag,  comment, ...)</td></tr>
+<tr class="separator:aed8a134aa35a758ff27b5d9b9732180f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e9e06a2ed250581b8a23efecc432cbc" id="r_a0e9e06a2ed250581b8a23efecc432cbc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e9e06a2ed250581b8a23efecc432cbc">LUMEX_CONTRACT_ASSERT_IGNORE</a>(...)</td></tr>
+<tr class="memdesc:a0e9e06a2ed250581b8a23efecc432cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>ignore</code> semantic: the predicate is compiled, never evaluated.  <br /></td></tr>
+<tr class="separator:a0e9e06a2ed250581b8a23efecc432cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25042bd23d9291dadecd2a3bb096802c" id="r_a25042bd23d9291dadecd2a3bb096802c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25042bd23d9291dadecd2a3bb096802c">LUMEX_CONTRACT_ASSERT_OBSERVE</a>(...)</td></tr>
+<tr class="memdesc:a25042bd23d9291dadecd2a3bb096802c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>observe</code> semantic: report a false predicate, then continue.  <br /></td></tr>
+<tr class="separator:a25042bd23d9291dadecd2a3bb096802c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8018d5c8562a08df0c9fc69dfe368025" id="r_a8018d5c8562a08df0c9fc69dfe368025"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8018d5c8562a08df0c9fc69dfe368025">LUMEX_CONTRACT_ASSERT_ENFORCE</a>(...)</td></tr>
+<tr class="memdesc:a8018d5c8562a08df0c9fc69dfe368025"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>enforce</code> semantic: report a false predicate, then abort.  <br /></td></tr>
+<tr class="separator:a8018d5c8562a08df0c9fc69dfe368025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ce3a58051666b8451141648b5fb8b66" id="r_a6ce3a58051666b8451141648b5fb8b66"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ce3a58051666b8451141648b5fb8b66">LUMEX_CONTRACT_ASSERT_QUICK_ENFORCE</a>(...)</td></tr>
+<tr class="memdesc:a6ce3a58051666b8451141648b5fb8b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>quick_enforce</code> semantic: stop at once on a false predicate.  <br /></td></tr>
+<tr class="separator:a6ce3a58051666b8451141648b5fb8b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeec66ab42c1cb092875d3e0e92accfd0" id="r_aeec66ab42c1cb092875d3e0e92accfd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeec66ab42c1cb092875d3e0e92accfd0">LUMEX_CONTRACT_ASSERT_P2900</a>(...)</td></tr>
+<tr class="memdesc:aeec66ab42c1cb092875d3e0e92accfd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The compiler's <code>contract_assert</code> where <code>LUMEX_CONTRACTS_HAS_NATIVE</code> is 1, otherwise <code>LUMEX_CONTRACT_ASSERT_ENFORCE</code>. Use as a statement.  <br /></td></tr>
+<tr class="separator:aeec66ab42c1cb092875d3e0e92accfd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6f18f840949f3be564cc8c46c5800fb" id="r_aa6f18f840949f3be564cc8c46c5800fb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6f18f840949f3be564cc8c46c5800fb">LUMEX_CONTRACT_ASSERT</a>(...)</td></tr>
+<tr class="memdesc:aa6f18f840949f3be564cc8c46c5800fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The contract assertion, with the semantic of the translation unit (see the file description).  <br /></td></tr>
+<tr class="separator:aa6f18f840949f3be564cc8c46c5800fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>LUMEX_CONTRACT_ASSERT (expr)</code>, the contract assertion of C++26 (<code>contract_assert</code>, P2900) on every standard, and the macros that choose its evaluation semantic. </p>
+<p>Use <code>LUMEX_CONTRACT_ASSERT (predicate);</code> where C++26 would write <code>contract_assert (predicate);</code>: in a function body, as a statement. The predicate is contextually converted to <code>bool</code> ([stmt.contract.assert]); an expression that does not convert does not compile. The macro is variadic, so a comma in a template argument list needs no extra parentheses (<code>LUMEX_CONTRACT_ASSERT (std::is_same&lt;A, B&gt;::value)</code>), and the text of the predicate as written (before macro expansion) is what a violation reports as its <code>comment ()</code>. Outside C++26 the macro expands to an expression, so it also works in a <code>constexpr</code> function body from C++11 (an assertion that holds adds nothing at run time and nothing at compile time; one that fails during constant evaluation is a compile error) and in <code>if (...) ...; else</code> without braces.</p>
+<p>Evaluation semantic ([basic.contract.eval]). Exactly one of five is in force for a translation unit, chosen by the first of these that exists:</p><ol type="1">
+<li>the macro <code>LUMEX_CONTRACTS_SEMANTIC</code> defined before this header is first included (<code>#define LUMEX_CONTRACTS_SEMANTIC observe</code>, or <code>-DLUMEX_CONTRACTS_SEMANTIC=observe</code>);</li>
+<li>the macro <code>LUMEX_CONTRACTS_BUILD_SEMANTIC</code> that the CMake option <code>LUMEX_CONTRACTS_SEMANTIC</code> puts on the target <code>lumex::contracts</code> (the choice of the build);</li>
+<li><code>enforce</code>. The values are written as the bare words <code>ignore</code>, <code>observe</code>, <code>enforce</code>, <code>quick_enforce</code> and <code>p2900</code>; anything else is an error. They mean:</li>
+</ol>
+<ul>
+<li><code>ignore</code>: the predicate is compiled and checked for syntax and types but never evaluated, and nothing is reported.</li>
+<li><code>observe</code>: the predicate is evaluated once; a false one is reported to the violation handler, and the program continues after the handler returns.</li>
+<li><code>enforce</code> (the default, as [basic.contract.eval] recommends): the same, then <code>std::abort ()</code> when the handler returns. A handler that throws lets the exception out instead.</li>
+<li><code>quick_enforce</code>: the predicate is evaluated once; a false one stops the program at once (a trap instruction) without calling a handler.</li>
+<li><code>p2900</code>: the macro is the compiler's own <code>contract_assert</code> where it exists (<code>__cpp_contracts</code> of 202502L or more, which is <code>LUMEX_CONTRACTS_HAS_NATIVE</code>), and the compiler's own flags and handler then decide the semantic; where it does not exist the semantic is <code>enforce</code>. <code>LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC</code> is 1, 2, 3, 4 for the four emulated ones and 5 when the native <code>contract_assert</code> is used. <code>LUMEX_CONTRACT_ASSERT_IGNORE</code>, <code>_OBSERVE</code>, <code>_ENFORCE</code>, <code>_QUICK_ENFORCE</code> and <code>_P2900</code> are the same macro with the semantic fixed, whatever the choice above. The first four are always the emulation of this header; the library handler slot is used by <code>observe</code> and <code>enforce</code> only.</li>
+</ul>
+<p>The predicate is evaluated exactly once with <code>observe</code>, <code>enforce</code> and <code>quick_enforce</code>, and zero times with <code>ignore</code>, never twice, and <code>NDEBUG</code> has no effect on any of this (a contract assertion is not <code>assert</code>; to switch the checks off in a release build choose <code>ignore</code> for it). An exception that leaves the predicate propagates as any exception would ([basic.contract.eval] would report it as a violation of detection mode <code>evaluation_exception</code>); defining <code>LUMEX_CONTRACTS_CATCH_EXCEPTIONS</code> to 1 before the first include does that instead, at the price of a lambda in every expansion (so no use inside <code>constexpr</code> functions before C++17) and the code size of a try block. The violation path is not <code>noexcept</code>: the handler may throw. The <code>observe</code> and <code>enforce</code> paths build a <code>contract_violation</code> of kind <code>assert</code> and call <code>invoke_violation_handler</code>.</p>
+<p><code>LUMEX_ASSERT</code> of the utility module is a different facility and is not touched: it is always active and its handler is fixed. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aa6f18f840949f3be564cc8c46c5800fb" name="aa6f18f840949f3be564cc8c46c5800fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6f18f840949f3be564cc8c46c5800fb">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (enforce_t, #__VA_ARGS__, __VA_ARGS__)</div>
+<div class="ttc" id="aa01001_html_aed8a134aa35a758ff27b5d9b9732180f"><div class="ttname"><a href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_CHECK(tag, comment,...)</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:297</div></div>
+</div><!-- fragment -->
+<p>The contract assertion, with the semantic of the translation unit (see the file description). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">...</td><td>The predicate, contextually converted to <code>bool</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8018d5c8562a08df0c9fc69dfe368025" name="a8018d5c8562a08df0c9fc69dfe368025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8018d5c8562a08df0c9fc69dfe368025">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_ENFORCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_ENFORCE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (enforce_t, #__VA_ARGS__, __VA_ARGS__)</div>
+</div><!-- fragment -->
+<p>The <code>enforce</code> semantic: report a false predicate, then abort. </p>
+
+</div>
+</div>
+<a id="a0e9e06a2ed250581b8a23efecc432cbc" name="a0e9e06a2ed250581b8a23efecc432cbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e9e06a2ed250581b8a23efecc432cbc">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_IGNORE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_IGNORE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span><span class="keyword">&gt;</span> (<span class="keyword">false</span> &amp;&amp; <span class="keyword">static_cast&lt;</span><span class="keywordtype">bool</span><span class="keyword">&gt;</span> ((__VA_ARGS__)))</div>
+</div><!-- fragment -->
+<p>The <code>ignore</code> semantic: the predicate is compiled, never evaluated. </p>
+
+</div>
+</div>
+<a id="a25042bd23d9291dadecd2a3bb096802c" name="a25042bd23d9291dadecd2a3bb096802c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25042bd23d9291dadecd2a3bb096802c">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_OBSERVE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_OBSERVE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (observe_t, #__VA_ARGS__, __VA_ARGS__)</div>
+</div><!-- fragment -->
+<p>The <code>observe</code> semantic: report a false predicate, then continue. </p>
+
+</div>
+</div>
+<a id="aeec66ab42c1cb092875d3e0e92accfd0" name="aeec66ab42c1cb092875d3e0e92accfd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeec66ab42c1cb092875d3e0e92accfd0">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_P2900</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_P2900</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (enforce_t, #__VA_ARGS__, __VA_ARGS__)</div>
+</div><!-- fragment -->
+<p>The compiler's <code>contract_assert</code> where <code>LUMEX_CONTRACTS_HAS_NATIVE</code> is 1, otherwise <code>LUMEX_CONTRACT_ASSERT_ENFORCE</code>. Use as a statement. </p>
+
+</div>
+</div>
+<a id="a6ce3a58051666b8451141648b5fb8b66" name="a6ce3a58051666b8451141648b5fb8b66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce3a58051666b8451141648b5fb8b66">&#9670;&#160;</a></span>LUMEX_CONTRACT_ASSERT_QUICK_ENFORCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACT_ASSERT_QUICK_ENFORCE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aed8a134aa35a758ff27b5d9b9732180f">LUMEX_CONTRACTS_DETAIL_CHECK</a> (quick_enforce_t, #__VA_ARGS__, __VA_ARGS__)</div>
+</div><!-- fragment -->
+<p>The <code>quick_enforce</code> semantic: stop at once on a false predicate. </p>
+
+</div>
+</div>
+<a id="aed4c6046d4ec40e4947c0c6665d73e25" name="aed4c6046d4ec40e4947c0c6665d73e25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed4c6046d4ec40e4947c0c6665d73e25">&#9670;&#160;</a></span>LUMEX_CONTRACTS_CATCH_EXCEPTIONS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_CATCH_EXCEPTIONS&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed8a134aa35a758ff27b5d9b9732180f" name="aed8a134aa35a758ff27b5d9b9732180f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed8a134aa35a758ff27b5d9b9732180f">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_CHECK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_CHECK</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>tag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>comment</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  (<a class="code hl_define" href="#a02bdeb98d2b4154e70633e4346653855">LUMEX_CONTRACTS_DETAIL_LIKELY</a> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">bool</span><span class="keyword">&gt;</span> ((__VA_ARGS__)))          \</div>
+<div class="line">       ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span><span class="keyword">&gt;</span> (0)                                                \</div>
+<div class="line">       : ::<a class="code hl_namespace" href="a01425.html">lumex</a>::core::<a class="code hl_namespace" href="a01509.html">contracts</a>::detail::tag::violated (                    \</div>
+<div class="line">             comment, <a class="code hl_define" href="#a9489fb820e489fafab4cf992b414be5d">LUMEX_CONTRACTS_DETAIL_LOCATION</a>,                        \</div>
+<div class="line">             ::<a class="code hl_namespace" href="a01425.html">lumex</a>::core::<a class="code hl_namespace" href="a01509.html">contracts</a>::detection_mode::predicate_false))</div>
+<div class="ttc" id="aa01001_html_a02bdeb98d2b4154e70633e4346653855"><div class="ttname"><a href="#a02bdeb98d2b4154e70633e4346653855">LUMEX_CONTRACTS_DETAIL_LIKELY</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_LIKELY(condition)</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:198</div></div>
+<div class="ttc" id="aa01001_html_a9489fb820e489fafab4cf992b414be5d"><div class="ttname"><a href="#a9489fb820e489fafab4cf992b414be5d">LUMEX_CONTRACTS_DETAIL_LOCATION</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_LOCATION</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:201</div></div>
+<div class="ttc" id="aa01425_html"><div class="ttname"><a href="a01425.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01509_html"><div class="ttname"><a href="a01509.html">lumex::core::contracts</a></div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:212</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a02bdeb98d2b4154e70633e4346653855" name="a02bdeb98d2b4154e70633e4346653855"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02bdeb98d2b4154e70633e4346653855">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_LIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_LIKELY</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>condition</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(condition)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9489fb820e489fafab4cf992b414be5d" name="a9489fb820e489fafab4cf992b414be5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9489fb820e489fafab4cf992b414be5d">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_LOCATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_LOCATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_class" href="a02111.html">::lumex::core::contracts::source_location</a> (                                 \</div>
+<div class="line">      __FILE__, <a class="code hl_define" href="a01118.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a>,                                          \</div>
+<div class="line">      <span class="keyword">static_cast&lt;</span>std::uint_least32_t<span class="keyword">&gt;</span> (__LINE__),                            \</div>
+<div class="line">      <span class="keyword">static_cast&lt;</span>std::uint_least32_t<span class="keyword">&gt;</span> (<a class="code hl_define" href="a01010.html#a9a981869722fa42e2a913bb8105422b6">LUMEX_CONTRACTS_BUILTIN_COLUMN</a>))</div>
+<div class="ttc" id="aa01010_html_a9a981869722fa42e2a913bb8105422b6"><div class="ttname"><a href="a01010.html#a9a981869722fa42e2a913bb8105422b6">LUMEX_CONTRACTS_BUILTIN_COLUMN</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_BUILTIN_COLUMN</div><div class="ttdoc">The column of the place where the macro is expanded (__builtin_COLUMN ()), or 0 where the compiler ha...</div><div class="ttdef"><b>Definition</b> LumexContractsSourceLocation.hpp:127</div></div>
+<div class="ttc" id="aa01118_html_aaae5674dd2d0d351d585e646e72118fd"><div class="ttname"><a href="a01118.html#aaae5674dd2d0d351d585e646e72118fd">LUMEX_FUNCTION_NAME</a></div><div class="ttdeci">#define LUMEX_FUNCTION_NAME</div><div class="ttdef"><b>Definition</b> LumexMacros.hpp:44</div></div>
+<div class="ttc" id="aa02111_html"><div class="ttname"><a href="a02111.html">lumex::core::contracts::source_location</a></div><div class="ttdoc">File, function, line and column of a place in the program text.</div><div class="ttdef"><b>Definition</b> LumexContractsSourceLocation.hpp:171</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a61f3f06b777a89856e0e623b69239364" name="a61f3f06b777a89856e0e623b69239364"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61f3f06b777a89856e0e623b69239364">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_PASTE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_PASTE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#a561ccf0b8888d3953e6c3c9475e36131">LUMEX_CONTRACTS_DETAIL_PASTE_</a> (a, b)</div>
+<div class="ttc" id="aa01001_html_a561ccf0b8888d3953e6c3c9475e36131"><div class="ttname"><a href="#a561ccf0b8888d3953e6c3c9475e36131">LUMEX_CONTRACTS_DETAIL_PASTE_</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_PASTE_(a, b)</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:151</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a561ccf0b8888d3953e6c3c9475e36131" name="a561ccf0b8888d3953e6c3c9475e36131"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a561ccf0b8888d3953e6c3c9475e36131">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_PASTE_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_PASTE_</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">a##b</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aaea47991ac4c13697154e96b9b921859" name="aaea47991ac4c13697154e96b9b921859"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaea47991ac4c13697154e96b9b921859">&#9670;&#160;</a></span>LUMEX_CONTRACTS_DETAIL_REQUESTED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_DETAIL_REQUESTED&#160;&#160;&#160;enforce</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae51e201cd1cb1fcc79e3d595713921f6" name="ae51e201cd1cb1fcc79e3d595713921f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae51e201cd1cb1fcc79e3d595713921f6">&#9670;&#160;</a></span>LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_EFFECTIVE_SEMANTIC&#160;&#160;&#160;<a class="el" href="#a5f69b9ec431a0e087878b9dd57742a2b">LUMEX_CONTRACTS_REQUESTED_SEMANTIC</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The semantic <code>LUMEX_CONTRACT_ASSERT</code> has in this translation unit: 1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 the compiler's own <code>contract_assert</code>. </p>
+
+</div>
+</div>
+<a id="a133994066bd2f18c62aae4195a0c4bac" name="a133994066bd2f18c62aae4195a0c4bac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a133994066bd2f18c62aae4195a0c4bac">&#9670;&#160;</a></span>LUMEX_CONTRACTS_HAS_NATIVE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_HAS_NATIVE&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when the compiler implements P2900 (<code>contract_assert</code> as a keyword), otherwise 0. <code>__cpp_contracts</code> of 201906L is the withdrawn contracts of the C++20 draft (GCC <code>-fcontracts</code>), which has no <code>contract_assert</code>, and does not count. May be defined by the user to 0 or 1 before the first include. </p>
+
+</div>
+</div>
+<a id="a5f69b9ec431a0e087878b9dd57742a2b" name="a5f69b9ec431a0e087878b9dd57742a2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f69b9ec431a0e087878b9dd57742a2b">&#9670;&#160;</a></span>LUMEX_CONTRACTS_REQUESTED_SEMANTIC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_REQUESTED_SEMANTIC</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#a61f3f06b777a89856e0e623b69239364">LUMEX_CONTRACTS_DETAIL_PASTE</a> (LUMEX_CONTRACTS_SEMANTIC_ID_,                 \</div>
+<div class="line">                                <a class="code hl_define" href="#aaea47991ac4c13697154e96b9b921859">LUMEX_CONTRACTS_DETAIL_REQUESTED</a>)</div>
+<div class="ttc" id="aa01001_html_a61f3f06b777a89856e0e623b69239364"><div class="ttname"><a href="#a61f3f06b777a89856e0e623b69239364">LUMEX_CONTRACTS_DETAIL_PASTE</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_PASTE(a, b)</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:152</div></div>
+<div class="ttc" id="aa01001_html_aaea47991ac4c13697154e96b9b921859"><div class="ttname"><a href="#aaea47991ac4c13697154e96b9b921859">LUMEX_CONTRACTS_DETAIL_REQUESTED</a></div><div class="ttdeci">#define LUMEX_CONTRACTS_DETAIL_REQUESTED</div><div class="ttdef"><b>Definition</b> LumexContractsAssert.hpp:159</div></div>
+</div><!-- fragment -->
+<p>The semantic that was asked for, as a number: 1 ignore, 2 observe, 3 enforce, 4 quick_enforce, 5 p2900. </p>
+
+</div>
+</div>
+<a id="a9be03df9c570c1517f5af589f2f5462a" name="a9be03df9c570c1517f5af589f2f5462a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9be03df9c570c1517f5af589f2f5462a">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_enforce</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_enforce&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac58936873bb931dc70f6011068f29d1a" name="ac58936873bb931dc70f6011068f29d1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac58936873bb931dc70f6011068f29d1a">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_ignore</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_ignore&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa5db304f9d3a528285cba0d9ddf140f1" name="aa5db304f9d3a528285cba0d9ddf140f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5db304f9d3a528285cba0d9ddf140f1">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_observe</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_observe&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab8a7334201fa40a2a5efd9e282e0769b" name="ab8a7334201fa40a2a5efd9e282e0769b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8a7334201fa40a2a5efd9e282e0769b">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_p2900</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_p2900&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa520440948268a8bab55d177a1b57360" name="aa520440948268a8bab55d177a1b57360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa520440948268a8bab55d177a1b57360">&#9670;&#160;</a></span>LUMEX_CONTRACTS_SEMANTIC_ID_quick_enforce</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_SEMANTIC_ID_quick_enforce&#160;&#160;&#160;4</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -145,7 +674,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a01001.html">XmlParseResult.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_77a8419351938abae08e7136cdf99e60.html">contracts</a></li><li class="navelem"><a class="el" href="dir_551ab2c9fb2f7dec6c5fc94023ed0957.html">assert</a></li><li class="navelem"><a class="el" href="a01001.html">LumexContractsAssert.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

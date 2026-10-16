@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$a05135.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document." alt="" coords="44,5,203,45"/>
+<area shape="rect" id="Node000001" href="$a05131.html" title="Base structure representing an XML document, combining node and allocator functionalities." alt="" coords="289,35,459,75"/>
+<area shape="poly" id="edge375_Node000000_Node000001" title=" " alt="" coords="217,34,289,42,289,47,216,39"/>
+<area shape="rect" id="Node000002" href="$a05159.html" title="Base structure representing an XML node in the document tree." alt="" coords="5,70,241,95"/>
+<area shape="poly" id="edge376_Node000002_Node000001" title=" " alt="" coords="250,66,289,61,290,67,251,71"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, 1 &gt;::expected_move_base" name="lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, 1 &gt;::expected_move_base">
+<area shape="rect" id="Node000001" title="Moves the alternative of rhs." alt="" coords="5,29,220,99"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="66,29,68,19,77,10,92,5,113,3,138,6,154,14,151,19,137,11,113,8,93,10,80,15,73,21,71,30"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a23933cdbbf11abf83fa4ce762534ecbf" title="static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t), the body of std::move for a constexpr function of C++11,..." alt="" coords="268,44,435,84"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="220,61,254,61,254,67,220,67"/>
+</map>

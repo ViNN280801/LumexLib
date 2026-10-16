@@ -1,0 +1,16 @@
+<map id="lumex::core::expected::result::detail::reinit" name="lumex::core::expected::result::detail::reinit">
+<area shape="rect" id="Node000001" title="reinit&#45;expected (T = N, U = O): ends the life of oldval and starts newval with args...." alt="" coords="5,16,172,56"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="683,5,849,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,28,220,25,462,21,669,22,669,27,462,26,220,31,172,33"/>
+<area shape="rect" id="Node000003" href="$a01533.html#acccbbbed047c705e9d0dfb50a3e29221" title="reinit&#45;expected when the old object is the Unit that stands for void: there is nothing to destroy or ..." alt="" coords="220,41,387,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,46,207,51,206,56,172,51"/>
+<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="387,58,669,32,669,37,387,63"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="897,99,1088,139"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="358,93,396,108,435,119,554,134,674,139,787,136,884,129,884,134,788,141,674,144,554,140,434,124,394,113,356,98"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="435,69,635,109"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="387,73,421,76,421,81,387,78"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="607,67,680,46,681,52,608,72"/>
+<area shape="rect" id="Node000006" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="683,69,849,109"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="635,87,669,87,669,92,635,92"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="850,98,884,102,883,107,849,103"/>
+</map>

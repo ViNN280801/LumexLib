@@ -1,0 +1,33 @@
+<map id="LumexSpanStdIterators.hpp" name="LumexSpanStdIterators.hpp">
+<area shape="rect" id="Node000001" title="is_contiguous_iterator for the iterator classes of the standard libraries below C++20." alt="" coords="462,5,665,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,174,76,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="518,33,329,89,88,169,83,171,81,166,86,164,328,84,516,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="1029,262,1121,287"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="641,28,751,50,877,81,936,99,989,119,1032,141,1061,165,1073,184,1080,207,1081,248,1076,249,1074,207,1068,187,1057,168,1029,146,987,124,935,104,875,86,750,55,640,33"/>
+<area shape="rect" id="Node000004" href="$a01040.html" title="Constants, the byte type and the traits behind span." alt="" coords="481,79,646,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="559,31,557,65,552,65,554,31"/>
+<area shape="poly" id="edge18_Node000004_Node000001" title=" " alt="" coords="569,78,569,44,574,44,574,79"/>
+<area shape="poly" id="edge7_Node000004_Node000002" title=" " alt="" coords="481,107,299,127,193,145,88,169,81,171,80,166,87,164,191,139,298,121,480,101"/>
+<area shape="poly" id="edge9_Node000004_Node000003" title=" " alt="" coords="647,104,771,124,840,142,907,164,973,202,1048,252,1045,256,970,207,905,169,839,147,770,130,646,109"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="991,174,1047,199"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="647,104,800,125,887,142,973,164,980,166,979,171,972,169,886,148,799,131,646,109"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="100,174,171,199"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="481,111,340,132,261,149,183,169,176,171,174,166,181,164,260,144,339,127,480,105"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="195,174,305,199"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="489,121,317,169,305,173,304,168,316,164,488,116"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="329,174,416,199"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="521,121,414,171,411,166,518,116"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="440,174,500,199"/>
+<area shape="poly" id="edge10_Node000004_Node000009" title=" " alt="" coords="544,121,495,166,492,162,540,117"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="525,174,602,199"/>
+<area shape="poly" id="edge11_Node000004_Node000010" title=" " alt="" coords="566,119,566,160,561,160,561,119"/>
+<area shape="rect" id="Node000011" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="677,167,866,207"/>
+<area shape="poly" id="edge12_Node000004_Node000011" title=" " alt="" coords="612,116,713,159,710,164,610,121"/>
+<area shape="rect" id="Node000012" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="512,255,767,295"/>
+<area shape="poly" id="edge16_Node000004_Node000012" title=" " alt="" coords="584,117,601,139,616,166,630,204,638,241,632,242,625,205,612,168,597,142,580,120"/>
+<area shape="rect" id="Node000013" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="791,255,1005,295"/>
+<area shape="poly" id="edge17_Node000004_Node000013" title=" " alt="" coords="647,104,713,112,782,125,841,142,864,153,880,165,892,182,899,202,904,241,898,241,894,203,887,184,876,169,861,157,839,147,781,130,712,118,646,109"/>
+<area shape="poly" id="edge13_Node000011_Node000003" title=" " alt="" coords="849,204,1017,252,1027,255,1025,260,1016,257,848,209"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="742,209,683,249,680,244,739,205"/>
+<area shape="poly" id="edge15_Node000011_Node000013" title=" " alt="" coords="802,205,859,244,856,249,799,209"/>
+</map>

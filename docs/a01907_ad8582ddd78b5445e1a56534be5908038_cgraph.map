@@ -1,0 +1,5 @@
+<map id="lumex::applied::settings::ini::LumexSettingsINI::load" name="lumex::applied::settings::ini::LumexSettingsINI::load">
+<area shape="rect" id="Node000001" title="Loads and parses an INI file from the given path." alt="" coords="5,13,211,53"/>
+<area shape="rect" id="Node000002" href="$a01907.html#ad7d89bb26cb39d1ce799779febe35edb" title="Performs a static check on an INI file for basic validity." alt="" coords="259,5,437,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,30,245,30,245,35,211,35"/>
+</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['deprecated_20list_0',['Deprecated List',['../a01247.html',1,'']]]
+  ['count_20engine_0',['Verification of the split-count engine',['../a06614.html',1,'']]]
 ];

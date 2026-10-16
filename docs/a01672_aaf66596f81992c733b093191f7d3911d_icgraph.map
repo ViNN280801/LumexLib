@@ -1,0 +1,15 @@
+<map id="lumex::xml::node::insert_node_before" name="lumex::xml::node::insert_node_before">
+<area shape="rect" id="Node000001" title="Inserts a child node before an existing sibling node." alt="" coords="509,133,691,173"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a62df8cc6d084b34512830bb14d04a8f2" title="Inserts a new child node of a specified type after a given existing child node." alt="" coords="257,69,461,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="511,132,434,112,435,107,512,127"/>
+<area shape="rect" id="Node000006" href="$a05143.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="257,133,461,173"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="495,156,462,156,462,151,495,151"/>
+<area shape="rect" id="Node000007" href="$a05143.html#af6a8f01f7d0918676c09fd1e00157dc3" title="Moves an existing XmlNode (moved) to be inserted before a specified child node." alt="" coords="257,197,461,237"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="512,179,435,200,434,195,511,174"/>
+<area shape="rect" id="Node000003" href="$a05143.html#aab7bcf34968c0972b2f2663112ac9cc6" title="insert_child_before with a name of size characters at name, which need no terminating NUL (a range of..." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="266,68,185,48,187,43,268,63"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a382508de160ecc5107cf79c88c597b36" title="Inserts a new child element with the specified name before a given existing child node." alt="" coords="5,69,209,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="244,92,210,92,210,87,244,87"/>
+<area shape="rect" id="Node000005" href="$a05143.html#a972e7ea652b109d8b1c1b383cae27905" title="Inserts a new child element with the specified name (string_view_t) before a given existing child nod..." alt="" coords="5,133,209,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="268,115,187,136,185,131,266,110"/>
+</map>

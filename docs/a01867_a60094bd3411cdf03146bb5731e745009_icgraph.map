@@ -1,0 +1,11 @@
+<map id="lumex::applied::serial::probe::SerialProber::SerialProber" name="lumex::applied::serial::probe::SerialProber::SerialProber">
+<area shape="rect" id="Node000001" title="Creates a session for port_path; the port is not opened yet." alt="" coords="216,124,379,179"/>
+<area shape="rect" id="Node000002" href="$a01867.html#aa8020d760bfd17ec23e6a1d3c0e358ad" title="Moves the session, including an open port, into other." alt="" coords="5,5,168,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,119,167,74,145,62,147,58,169,69,245,114"/>
+<area shape="rect" id="Node000003" href="$a01867.html#aa9aff66a1a0294c1520a0dfd668f35b1" title="Not copyable: the session owns one open port." alt="" coords="5,84,168,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,136,168,129,169,124,203,131"/>
+<area shape="rect" id="Node000004" href="$a01867.html#adb6024418e5d30b4be86e7e460a1f1e6" title="Moves the session, including an open port, into other." alt="" coords="5,163,168,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="203,171,169,178,168,172,202,166"/>
+<area shape="rect" id="Node000005" href="$a01867.html#a8b9e8e7242a2a133211228bfc7551b57" title="Not copyable: the session owns one open port." alt="" coords="5,241,168,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="243,188,169,231,145,244,143,239,167,226,241,183"/>
+</map>

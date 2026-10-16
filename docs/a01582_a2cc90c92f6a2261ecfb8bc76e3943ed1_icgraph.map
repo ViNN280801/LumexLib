@@ -1,0 +1,8 @@
+<map id="lumex::core::time::timer::measure_execution_time" name="lumex::core::time::timer::measure_execution_time">
+<area shape="rect" id="Node000001" title="Invokes callable with args and returns elapsed wall&#45;clock time in milliseconds." alt="" coords="315,5,545,45"/>
+<area shape="rect" id="Node000002" href="$a00509.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="301,24,108,24,60,26,60,21,108,19,301,19"/>
+<area shape="rect" id="Node000003" href="$a01582.html#ac2a95e66868e1a2cc9cc1da9676e38c8" title="Optionally gates timing/reporting via an environment variable, then measures callable and writes the ..." alt="" coords="108,33,267,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="301,43,267,47,266,42,300,38"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="94,39,60,33,61,28,95,34"/>
+</map>

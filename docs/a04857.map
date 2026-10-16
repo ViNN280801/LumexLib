@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::traits::string::is_string_convertible&lt; T &gt;" name="lumex::core::utility::traits::string::is_string_convertible&lt; T &gt;">
+<area shape="rect" id="Node000001" title="T converts implicitly to std::string or to std::string_view (the latter from C++17; the C++11 form of..." alt="" coords="249,20,433,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,201,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,45,249,45,249,50,215,50"/>
+</map>

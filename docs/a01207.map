@@ -1,0 +1,15 @@
+<map id="LumexSettingsGuard.hpp" name="LumexSettingsGuard.hpp">
+<area shape="rect" id="Node000001" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="408,5,595,31"/>
+<area shape="rect" id="Node000002" href="$a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="354,79,473,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="477,42,431,80,427,76,474,38"/>
+<area shape="rect" id="Node000007" href="$a01202.html" title=" " alt="" coords="497,79,682,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="529,38,575,76,572,80,526,42"/>
+<area shape="rect" id="Node000003" href="$a00320.html" title=" " alt="" coords="5,152,171,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="345,110,145,154,144,149,343,104"/>
+<area shape="rect" id="Node000004" href="$a00314.html" title=" " alt="" coords="195,152,394,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="383,114,317,154,314,150,380,109"/>
+<area shape="rect" id="Node000005" href="$a00311.html" title=" " alt="" coords="418,152,649,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="447,109,514,150,511,154,445,114"/>
+<area shape="rect" id="Node000006" href="$a00317.html" title=" " alt="" coords="673,152,871,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="487,104,710,149,709,155,486,109"/>
+</map>

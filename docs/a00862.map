@@ -1,0 +1,31 @@
+<map id="LumexWStringView.hpp" name="LumexWStringView.hpp">
+<area shape="rect" id="Node000001" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11." alt="" coords="985,5,1161,31"/>
+<area shape="rect" id="Node000002" href="$a01406.html" title="String view module: the C++11 implementation of std::string_view and its relatives,..." alt="" coords="1005,79,1141,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1075,44,1075,78,1070,78,1070,44"/>
+<area shape="rect" id="Node000003" href="$a01280.html" title="Text parsers for the Linux /proc/stat and /proc/meminfo files the resource monitor samples." alt="" coords="321,159,457,185"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="991,98,756,117,612,133,469,155,435,162,434,157,468,149,612,128,755,112,991,93"/>
+<area shape="rect" id="Node000008" href="$a01307.html" title="Text parsers for Linux /proc/&lt;pid&gt; files, the executable name rules and the process tree rules of Lum..." alt="" coords="481,159,664,185"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="992,106,677,155,637,162,636,157,676,149,991,100"/>
+<area shape="rect" id="Node000009" href="$a00290.html" title=" " alt="" coords="689,159,875,185"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="1014,110,829,162,827,157,1013,105"/>
+<area shape="rect" id="Node000010" href="$a00287.html" title=" " alt="" coords="900,152,1061,192"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="1049,115,1005,154,1002,150,1046,111"/>
+<area shape="rect" id="Node000011" href="$a00281.html" title=" " alt="" coords="1085,152,1247,192"/>
+<area shape="poly" id="edge12_Node000002_Node000011" title=" " alt="" coords="1100,111,1144,150,1141,154,1096,115"/>
+<area shape="rect" id="Node000012" href="$a00284.html" title=" " alt="" coords="1271,152,1432,192"/>
+<area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="1131,105,1283,149,1281,154,1129,110"/>
+<area shape="rect" id="Node000013" href="$a00293.html" title=" " alt="" coords="1456,152,1617,192"/>
+<area shape="poly" id="edge14_Node000002_Node000013" title=" " alt="" coords="1155,101,1445,149,1456,152,1455,157,1444,155,1154,106"/>
+<area shape="rect" id="Node000014" href="$a00296.html" title=" " alt="" coords="1641,159,1840,185"/>
+<area shape="poly" id="edge15_Node000002_Node000014" title=" " alt="" coords="1155,96,1370,117,1630,149,1675,157,1674,162,1630,155,1370,122,1154,101"/>
+<area shape="rect" id="Node000004" href="$a01286.html" title=" " alt="" coords="5,240,140,265"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="327,191,123,242,122,237,325,185"/>
+<area shape="rect" id="Node000005" href="$a01304.html" title=" " alt="" coords="389,240,572,265"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="415,192,467,237,464,241,412,196"/>
+<area shape="rect" id="Node000006" href="$a01301.html" title=" " alt="" coords="596,240,787,265"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="450,186,644,237,643,242,449,191"/>
+<area shape="rect" id="Node000007" href="$a01295.html" title=" " alt="" coords="165,240,365,265"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="359,194,286,242,283,238,356,190"/>
+<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="550,196,497,241,494,237,546,192"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="605,190,674,238,671,242,602,195"/>
+</map>

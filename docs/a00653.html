@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexTypeTraits.hpp File Reference</title>
+<title>LumexLib: XmlConstants.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,316 +104,288 @@ $(function(){initNavTree('a00653.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexTypeTraits.hpp File Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">XmlConstants.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Every general-purpose type trait of LumexLib, one sub-namespace of <code><a class="el" href="a01436.html">lumex::core::utility::traits</a></code> per topic: <code>meta</code>, <code>invoke</code>, <code>stream</code>, <code>range</code>, <code>string</code>, <code>tuple</code>, <code>value</code>, <code>enums</code>, <code>numeric</code>.  
+<p>Constants of the XML module: parse and format option flags, the masks of the node and attribute header word, and the character class tables of the parser.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;functional&gt;</code><br />
-<code>#include &lt;iterator&gt;</code><br />
-<code>#include &lt;limits&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;ostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;tuple&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;optional&gt;</code><br />
-<code>#include &lt;string_view&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00617_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01124_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexTypeTraits.hpp:</div>
+Include dependency graph for XmlConstants.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00654.png" border="0" usemap="#a_lumex_type_traits_8hpp" alt=""/></div>
+<div class="center"><img src="a00654.png" border="0" usemap="#aXmlConstants_8hpp" alt=""/></div>
+<map name="aXmlConstants_8hpp" id="aXmlConstants_8hpp">
+<area shape="rect" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade..." alt="" coords="97,5,239,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,61,111"/>
+<area shape="poly" title=" " alt="" coords="148,33,68,81,65,77,145,29"/>
+<area shape="rect" title=" " alt="" coords="86,86,157,111"/>
+<area shape="poly" title=" " alt="" coords="163,32,138,75,134,72,158,30"/>
+<area shape="rect" title=" " alt="" coords="181,86,248,111"/>
+<area shape="poly" title=" " alt="" coords="178,30,202,72,198,75,173,32"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="273,79,527,119"/>
+<area shape="poly" title=" " alt="" coords="206,28,330,72,328,77,204,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="293,167,507,207"/>
+<area shape="poly" title=" " alt="" coords="403,119,403,153,397,153,397,119"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00655.png" border="0" usemap="#a_lumex_type_traits_8hppdep" alt=""/></div>
+<div class="center"><img src="a00655.png" border="0" usemap="#aXmlConstants_8hppdep" alt=""/></div>
+<map name="aXmlConstants_8hppdep" id="aXmlConstants_8hppdep">
+<area shape="rect" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade..." alt="" coords="1699,5,1840,31"/>
+<area shape="rect" href="a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="1899,445,1991,471"/>
+<area shape="poly" title=" " alt="" coords="1854,18,2348,40,2621,57,2820,76,2884,80,2948,76,3067,65,3117,67,3138,72,3157,81,3172,94,3183,112,3190,136,3192,165,3192,312,3189,324,3180,335,3148,355,3099,373,3034,388,2870,414,2675,432,2470,445,2274,453,1992,460,1991,455,2274,448,2469,440,2675,427,2869,408,3033,383,3097,368,3146,350,3177,331,3184,321,3187,311,3187,165,3184,137,3178,115,3168,98,3154,86,3136,77,3116,72,3067,70,2948,81,2884,85,2820,81,2621,62,2348,45,1854,24"/>
+<area shape="rect" href="a00647.html" title=" " alt="" coords="43,299,309,324"/>
+<area shape="poly" title=" " alt="" coords="1685,29,1164,81,1072,88,984,87,900,82,820,73,670,50,532,31,466,26,402,27,339,34,277,50,216,76,155,113,94,163,33,227,26,239,26,249,32,259,43,268,77,284,116,296,114,301,75,289,41,272,28,262,21,250,21,237,29,224,91,159,152,109,214,71,276,45,338,29,402,21,466,21,532,25,671,45,821,68,901,77,984,82,1072,82,1164,76,1685,23"/>
+<area shape="rect" href="a00599.html" title=" " alt="" coords="1241,79,1362,104"/>
+<area shape="poly" title=" " alt="" coords="1685,33,1374,81,1363,83,1362,78,1373,76,1685,28"/>
+<area shape="rect" href="a00701.html" title=" " alt="" coords="1386,79,1518,104"/>
+<area shape="poly" title=" " alt="" coords="1702,36,1508,81,1507,76,1701,31"/>
+<area shape="rect" href="a00539.html" title=" " alt="" coords="1047,225,1211,251"/>
+<area shape="poly" title=" " alt="" coords="1685,25,1438,44,1316,60,1266,70,1229,81,1195,94,1169,107,1148,124,1129,153,1123,171,1122,190,1128,224,1123,225,1117,191,1118,170,1124,151,1144,121,1166,102,1193,89,1227,76,1265,65,1315,55,1438,39,1685,20"/>
+<area shape="rect" href="a00719.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes..." alt="" coords="1542,79,1653,104"/>
+<area shape="poly" title=" " alt="" coords="1728,39,1629,81,1626,76,1726,34"/>
+<area shape="rect" href="a00680.html" title=" " alt="" coords="1454,225,1557,251"/>
+<area shape="poly" title=" " alt="" coords="1783,43,1792,73,1798,109,1796,146,1790,163,1780,179,1697,200,1558,230,1557,225,1695,195,1777,175,1786,161,1791,145,1793,109,1787,74,1778,44"/>
+<area shape="rect" href="a00722.html" title=" " alt="" coords="2821,225,2963,251"/>
+<area shape="poly" title=" " alt="" coords="1848,31,2828,223,2827,228,1847,36"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="3037,225,3152,251"/>
+<area shape="poly" title=" " alt="" coords="1854,17,2111,24,2452,45,2626,62,2786,85,2921,114,2976,131,3020,150,3043,166,3063,186,3090,223,3085,226,3059,189,3040,170,3017,154,2974,136,2919,119,2785,90,2625,68,2452,50,2111,30,1854,22"/>
+<area shape="rect" href="a00713.html" title="Header&#45;only helpers of the XML implementation: encoding detection and buffer conversion,..." alt="" coords="1893,152,2000,177"/>
+<area shape="poly" title=" " alt="" coords="1811,35,1844,53,1876,77,1914,115,1940,150,1936,153,1910,119,1873,81,1841,58,1808,39"/>
+<area shape="rect" href="a00389.html" title=" " alt="" coords="1930,519,2051,544"/>
+<area shape="poly" title=" " alt="" coords="1963,481,1985,517,1980,520,1958,484"/>
+<area shape="rect" href="a00395.html" title=" " alt="" coords="2075,519,2197,544"/>
+<area shape="poly" title=" " alt="" coords="1992,473,2103,516,2102,521,1990,478"/>
+<area shape="rect" href="a00392.html" title=" " alt="" coords="1639,519,1761,544"/>
+<area shape="poly" title=" " alt="" coords="1890,477,1743,521,1742,516,1889,472"/>
+<area shape="rect" href="a00398.html" title=" " alt="" coords="1785,519,1906,544"/>
+<area shape="poly" title=" " alt="" coords="1918,481,1864,521,1861,516,1915,477"/>
+<area shape="poly" title=" " alt="" coords="1667,92,1994,111,2439,144,2653,164,2832,186,2955,210,2989,223,2999,230,3003,237,3003,312,3000,322,2993,332,2966,349,2925,365,2872,379,2735,403,2572,423,2400,437,2235,448,1992,459,1992,454,2235,443,2400,432,2572,417,2734,398,2870,374,2924,360,2964,345,2989,328,2995,320,2997,311,2997,239,2995,233,2987,228,2954,216,2831,192,2652,170,2439,149,1994,117,1666,98"/>
+<area shape="rect" href="a00638.html" title="XPathNode, an item of an XPath result: either an XML node or an attribute together with its element." alt="" coords="531,152,653,177"/>
+<area shape="poly" title=" " alt="" coords="1528,107,1270,133,1019,150,653,166,653,161,1019,145,1269,128,1528,101"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="588,445,697,471"/>
+<area shape="poly" title=" " alt="" coords="1529,107,1375,121,1244,129,1022,133,800,136,671,142,519,155,430,155,341,145,175,119,107,118,79,123,55,132,35,148,20,170,11,200,8,238,8,311,13,331,26,350,47,366,76,381,150,406,239,425,336,438,432,447,588,454,588,460,431,452,335,443,238,430,148,411,74,386,44,371,22,353,8,334,3,312,3,238,6,199,16,168,31,144,52,128,77,118,107,112,176,114,342,140,431,150,519,149,671,137,800,131,1022,128,1244,124,1374,116,1528,101"/>
+<area shape="rect" href="a00542.html" title=" " alt="" coords="1421,152,1600,177"/>
+<area shape="poly" title=" " alt="" coords="1573,115,1528,154,1524,150,1570,111"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="1287,225,1430,251"/>
+<area shape="poly" title=" " alt="" coords="1529,109,1453,130,1421,142,1400,154,1386,170,1376,190,1364,226,1359,224,1371,188,1382,167,1397,150,1419,137,1452,124,1528,104"/>
+<area shape="rect" href="a00743.html" title="XmlDocument, the owner of an XML tree: loading from files, streams, strings and memory buffers,..." alt="" coords="1625,152,1767,177"/>
+<area shape="poly" title=" " alt="" coords="1627,110,1680,149,1677,154,1624,114"/>
+<area shape="rect" href="a00728.html" title=" " alt="" coords="1581,225,1784,251"/>
+<area shape="poly" title=" " alt="" coords="1667,103,1735,123,1763,136,1781,150,1786,163,1786,175,1771,196,1746,214,1718,228,1716,223,1743,209,1767,192,1781,173,1781,164,1777,154,1760,141,1733,128,1665,108"/>
+<area shape="rect" href="a00731.html" title=" " alt="" coords="1139,152,1295,177"/>
+<area shape="poly" title=" " alt="" coords="1529,107,1284,155,1283,149,1528,102"/>
+<area shape="poly" title=" " alt="" coords="1529,107,1458,127,1429,140,1411,154,1407,164,1407,173,1420,192,1445,209,1472,223,1470,228,1442,214,1417,196,1402,175,1402,163,1407,150,1426,135,1456,122,1528,102"/>
+<area shape="poly" title=" " alt="" coords="667,176,749,196,836,223,862,236,888,248,990,270,1079,280,1157,282,1232,279,1306,274,1386,273,1476,279,1581,296,1641,310,1688,325,1790,370,1866,408,1926,443,1923,447,1864,413,1788,374,1686,330,1640,315,1579,301,1475,285,1386,279,1306,280,1232,284,1157,287,1078,286,989,276,886,253,859,241,834,228,747,201,666,182"/>
+<area shape="rect" href="a00578.html" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="731,299,869,324"/>
+<area shape="poly" title=" " alt="" coords="518,172,455,181,399,196,378,206,367,218,365,232,374,249,390,258,422,267,517,283,731,304,730,309,516,288,421,272,388,263,370,253,359,233,362,216,375,202,397,191,454,176,517,167"/>
+<area shape="rect" href="a00650.html" title="Comparison of XPath nodes by document order, used to sort node sets." alt="" coords="43,225,309,251"/>
+<area shape="poly" title=" " alt="" coords="518,180,248,228,247,223,517,175"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="384,225,504,251"/>
+<area shape="poly" title=" " alt="" coords="555,186,471,228,469,223,553,181"/>
+<area shape="rect" href="a00641.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="681,225,823,251"/>
+<area shape="poly" title=" " alt="" coords="633,181,725,223,723,228,631,186"/>
+<area shape="rect" href="a00632.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="893,299,1011,324"/>
+<area shape="poly" title=" " alt="" coords="609,187,635,220,669,248,701,259,759,272,894,298,893,303,758,277,700,264,667,253,631,223,605,190"/>
+<area shape="poly" title=" " alt="" coords="597,190,607,282,627,397,641,444,635,446,621,398,602,283,592,191"/>
+<area shape="rect" href="a00581.html" title=" " alt="" coords="899,225,1023,251"/>
+<area shape="poly" title=" " alt="" coords="667,177,900,223,899,228,666,182"/>
+<area shape="rect" href="a00572.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="1003,372,1146,397"/>
+<area shape="poly" title=" " alt="" coords="861,325,1028,369,1026,374,860,330"/>
+<area shape="rect" href="a00575.html" title=" " alt="" coords="1004,445,1145,471"/>
+<area shape="poly" title=" " alt="" coords="1077,411,1077,445,1072,445,1072,411"/>
+<area shape="rect" href="a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="1265,445,1391,471"/>
+<area shape="poly" title=" " alt="" coords="1133,399,1285,443,1283,448,1131,404"/>
+<area shape="rect" href="a00605.html" title=" " alt="" coords="1417,519,1543,544"/>
+<area shape="poly" title=" " alt="" coords="1368,474,1454,516,1452,521,1365,479"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="1269,519,1392,544"/>
+<area shape="poly" title=" " alt="" coords="1332,484,1333,518,1328,518,1326,484"/>
+<area shape="poly" title=" " alt="" coords="179,264,179,298,173,298,173,264"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="863,372,979,397"/>
+<area shape="poly" title=" " alt="" coords="254,251,863,371,862,376,253,256"/>
+<area shape="poly" title=" " alt="" coords="838,247,843,248,945,257,1031,261,1178,263,1325,269,1411,279,1511,296,1577,311,1628,327,1741,370,1839,408,1918,443,1916,448,1837,413,1739,374,1626,332,1576,316,1510,301,1410,284,1324,274,1178,268,1031,266,944,262,842,253,837,253"/>
+<area shape="poly" title=" " alt="" coords="836,251,951,274,998,286,1024,296,1042,314,1056,334,1073,371,1068,373,1051,336,1038,317,1021,301,996,291,950,280,835,256"/>
+<area shape="rect" href="a00644.html" title=" " alt="" coords="1171,372,1312,397"/>
+<area shape="poly" title=" " alt="" coords="838,247,942,267,1054,296,1147,333,1219,369,1217,374,1144,338,1052,301,941,272,837,252"/>
+<area shape="poly" title=" " alt="" coords="800,253,918,296,916,301,799,258"/>
+<area shape="rect" href="a00563.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="1359,299,1499,324"/>
+<area shape="poly" title=" " alt="" coords="838,247,843,248,1130,280,1360,302,1359,308,1129,285,842,253,837,253"/>
+<area shape="rect" href="a00566.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="1349,372,1510,397"/>
+<area shape="poly" title=" " alt="" coords="837,248,964,269,1105,296,1261,334,1387,369,1385,374,1259,339,1103,301,963,274,836,253"/>
+<area shape="poly" title=" " alt="" coords="740,264,721,300,651,446,646,444,716,297,736,261"/>
+<area shape="poly" title=" " alt="" coords="944,338,929,373,924,371,939,336"/>
+<area shape="poly" title=" " alt="" coords="1016,325,1192,369,1190,375,1015,330"/>
+<area shape="poly" title=" " alt="" coords="1459,330,1513,364,1578,395,1665,420,1754,437,1835,448,1899,453,1899,458,1834,453,1753,442,1664,425,1576,400,1510,368,1456,334"/>
+<area shape="poly" title=" " alt="" coords="1355,329,1137,374,1136,369,1354,324"/>
+<area shape="poly" title=" " alt="" coords="1346,324,991,375,980,376,979,371,990,369,1345,319"/>
+<area shape="rect" href="a00560.html" title=" " alt="" coords="1589,372,1728,397"/>
+<area shape="poly" title=" " alt="" coords="1483,326,1620,369,1618,374,1481,331"/>
+<area shape="poly" title=" " alt="" coords="1432,338,1432,372,1427,372,1427,338"/>
+<area shape="poly" title=" " alt="" coords="1524,395,1900,449,1899,454,1523,401"/>
+<area shape="poly" title=" " alt="" coords="1402,407,1347,447,1344,443,1399,403"/>
+<area shape="poly" title=" " alt="" coords="1441,410,1478,518,1473,519,1436,411"/>
+<area shape="poly" title=" " alt="" coords="1428,412,1419,442,1405,472,1380,500,1353,520,1350,516,1377,496,1400,469,1414,440,1423,411"/>
+<area shape="rect" href="a00569.html" title=" " alt="" coords="1569,445,1729,471"/>
+<area shape="poly" title=" " alt="" coords="1481,399,1612,443,1610,448,1480,404"/>
+<area shape="poly" title=" " alt="" coords="1335,399,1324,400,967,434,698,456,697,451,967,429,1324,395,1335,394"/>
+<area shape="poly" title=" " alt="" coords="1611,180,1545,184,1474,184,1343,183,1293,187,1263,198,1256,206,1256,216,1262,231,1277,249,1297,265,1324,276,1357,284,1394,288,1479,289,1573,283,1668,276,1758,273,1835,278,1866,285,1892,296,1910,311,1923,329,1940,371,1947,413,1948,445,1943,445,1942,413,1935,372,1919,331,1906,314,1889,301,1865,290,1834,283,1758,278,1669,282,1574,289,1480,294,1394,293,1356,289,1322,281,1294,269,1273,253,1258,233,1251,217,1251,204,1260,193,1292,182,1343,177,1474,179,1545,179,1611,175"/>
+<area shape="poly" title=" " alt="" coords="1625,183,1418,228,1417,223,1624,178"/>
+<area shape="poly" title=" " alt="" coords="2013,163,2161,169,2338,179,2493,197,2547,209,2576,223,2601,258,2609,289,2602,317,2582,342,2551,364,2512,382,2465,398,2413,412,2297,433,2180,447,1992,459,1992,454,2179,442,2297,428,2411,407,2464,393,2510,377,2549,359,2578,338,2597,315,2603,289,2596,260,2573,227,2545,214,2492,202,2338,185,2161,174,2013,169"/>
+<area shape="poly" title=" " alt="" coords="1880,173,1212,233,1212,228,1880,168"/>
+<area shape="poly" title=" " alt="" coords="1953,191,1954,220,1948,252,1933,279,1909,312,1845,382,1781,442,1743,473,1693,496,1640,512,1544,529,1543,524,1639,507,1691,491,1740,468,1777,438,1841,378,1905,309,1929,277,1943,250,1948,220,1948,191"/>
+<area shape="poly" title=" " alt="" coords="1927,189,1890,223,1843,253,1798,271,1739,288,1594,323,1313,376,1312,370,1593,318,1738,283,1797,265,1840,248,1886,218,1923,185"/>
+<area shape="poly" title=" " alt="" coords="1920,187,1864,222,1797,253,1719,276,1639,292,1500,310,1499,304,1638,287,1718,271,1795,248,1862,217,1917,183"/>
+<area shape="poly" title=" " alt="" coords="1936,191,1917,221,1893,253,1844,294,1790,329,1738,356,1694,374,1692,370,1736,351,1788,324,1841,290,1889,249,1913,218,1932,188"/>
+<area shape="poly" title=" " alt="" coords="1945,192,1937,222,1922,252,1895,287,1864,320,1796,376,1729,419,1677,448,1675,443,1727,415,1793,372,1860,316,1891,284,1918,249,1932,220,1940,191"/>
+<area shape="poly" title=" " alt="" coords="1880,173,1779,180,1217,190,852,203,726,214,688,220,670,227,651,251,638,280,631,311,629,342,633,402,642,444,636,445,628,402,624,342,626,310,633,278,646,249,666,223,687,215,726,209,852,198,1217,184,1779,175,1879,168"/>
+<area shape="poly" title=" " alt="" coords="1880,173,1779,180,1569,192,1406,198,1243,207,1035,228,1024,229,1023,224,1034,223,1243,202,1406,193,1569,186,1778,175,1879,167"/>
+<area shape="poly" title=" " alt="" coords="1880,175,1442,228,1431,230,1430,224,1441,223,1879,169"/>
+<area shape="poly" title=" " alt="" coords="1888,184,1729,228,1728,223,1887,178"/>
+<area shape="poly" title=" " alt="" coords="1880,179,1875,180,1722,203,1570,228,1557,230,1557,225,1569,223,1721,198,1874,175,1879,174"/>
+<area shape="poly" title=" " alt="" coords="2014,165,2355,184,2581,201,2810,223,2822,224,2821,229,2809,228,2581,206,2355,189,2014,170"/>
+<area shape="poly" title=" " alt="" coords="2014,165,2420,185,2695,202,2975,223,3037,229,3036,234,2974,228,2695,207,2420,191,2014,170"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="2637,225,2797,251"/>
+<area shape="poly" title=" " alt="" coords="2014,167,2279,189,2619,223,2637,225,2637,230,2618,228,2278,195,2013,173"/>
+<area shape="rect" href="a00548.html" title=" " alt="" coords="2062,225,2194,251"/>
+<area shape="poly" title=" " alt="" coords="1992,180,2097,223,2095,228,1990,185"/>
+<area shape="rect" href="a00677.html" title=" " alt="" coords="2219,225,2387,251"/>
+<area shape="poly" title=" " alt="" coords="2014,176,2241,223,2240,228,2013,181"/>
+<area shape="rect" href="a00683.html" title=" " alt="" coords="2411,225,2562,251"/>
+<area shape="poly" title=" " alt="" coords="2014,171,2399,223,2412,224,2411,230,2398,228,2013,176"/>
+</map>
 </div>
 </div>
 <p><a href="a00653_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04426.html">lumex::core::utility::traits::meta::make_void&lt;... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04430.html">lumex::core::utility::traits::meta::has_type&lt; T, typename &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04434.html">lumex::core::utility::traits::meta::has_type&lt; T, void_t&lt; typename T::type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04438.html">lumex::core::utility::traits::meta::type_identity&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>type</code> is <code>T</code>. Used to keep a parameter out of template argument deduction (C++20 <code>std::type_identity</code>).  <a href="a04438.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04442.html">lumex::core::utility::traits::meta::default_return&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper providing a default value for a type, primarily meant for exception-safe fallbacks.  <a href="a04442.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04446.html">lumex::core::utility::traits::meta::default_return&lt; void &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04450.html">lumex::core::utility::traits::meta::default_return&lt; T * &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04454.html">lumex::core::utility::traits::meta::indirection_of&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>type</code> is what a pointer or reference points to: <code>T</code> for <code>T *</code>, <code>T &amp;</code> and <code>T</code> itself.  <a href="a04454.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04458.html">lumex::core::utility::traits::meta::indirection_of&lt; T * &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04462.html">lumex::core::utility::traits::meta::indirection_of&lt; T &amp; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04466.html">lumex::core::utility::traits::meta::is_extractible&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a value that can be copied out of raw bytes: trivially copyable, standard layout, neither a pointer nor a reference, and neither <code>const</code> nor <code>volatile</code> (the C++11 form of the concept <code>Extractible</code>).  <a href="a04466.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04470.html">lumex::core::utility::traits::meta::is_byte_like&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is <code>std::byte</code> (C++17), <code>char</code> or <code>unsigned char</code>, without <code>const</code> or <code>volatile</code> (the C++11 form of the concept <code>ByteLike</code>).  <a href="a04470.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04474.html">lumex::core::utility::traits::meta::is_pointer_to_class&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a pointer to a class type (the C++11 form of the concept <code>PointerToClass</code>). A pointer to a union, an enum or a fundamental type is not a pointer to a class, and neither is a reference.  <a href="a04474.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04478.html">lumex::core::utility::traits::meta::is_lvalue_ref_to_class&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is an lvalue reference to a class type (the C++11 form of the concept <code>LvalueRefToClass</code>). An rvalue reference is not one.  <a href="a04478.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04482.html">lumex::core::utility::traits::meta::is_complete_type&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is complete at the point of the first use of the trait (<code>sizeof (T)</code> is valid; the C++11 form of the concept <code>CompleteType</code>). <code>void</code>, a function type and an array of unknown bound are not complete.  <a href="a04482.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04486.html">lumex::core::utility::traits::meta::is_complete_type&lt; T, void_t&lt; decltype(sizeof(T))&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04490.html">lumex::core::utility::traits::meta::preserves_cv&lt; From, To &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Going from <code>From</code> to <code>To</code> does not drop <code>const</code> or <code>volatile</code>: every qualifier of <code>From</code> is also on <code>To</code> (the C++11 form of the concept <code>PreserveCV</code>).  <a href="a04490.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04494.html">lumex::core::utility::traits::meta::is_derived_from&lt; Derived, Base &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Derived</code> is derived from <code>Base</code> through a public and unambiguous base, or is the same class (the C++11 form of the C++20 concept <code>std::derived_from</code>, which <code>meta</code> does not otherwise have; the cast helpers need it).  <a href="a04494.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04498.html">lumex::core::utility::traits::invoke::detail::is_reference_wrapper&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04502.html">lumex::core::utility::traits::invoke::detail::is_reference_wrapper&lt; std::reference_wrapper&lt; U &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04506.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04510.html">lumex::core::utility::traits::invoke::detail::invoke_impl&lt; MT B::* &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04514.html">lumex::core::utility::traits::invoke::detail::invoke_result_impl&lt; AlwaysVoid, typename,... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04518.html">lumex::core::utility::traits::invoke::detail::invoke_result_impl&lt; meta::void_t&lt; decltype(INVOKE(std::declval&lt; F &gt;(), std::declval&lt; Args &gt;()...))&gt;, F, Args... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04522.html">lumex::core::utility::traits::invoke::invoke_result&lt; Func, Args &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04530.html">lumex::core::utility::traits::invoke::result_of&lt; Func(Args...)&gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04534.html">lumex::core::utility::traits::invoke::is_invocable&lt; Func, Args &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04542.html">lumex::core::utility::traits::invoke::is_callable_signature&lt; Func(Args...)&gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04546.html">lumex::core::utility::traits::invoke::is_callable&lt; Func, Args &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type trait checking whether Func is Callable with Args... (Callable Named Requirement).  <a href="a04546.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04550.html">lumex::core::utility::traits::stream::detail::is_streamable_expression&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::declval&lt;std::ostream &amp;&gt;() &lt;&lt; std::declval&lt;T&gt;()</code> compiles.  <a href="a04550.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04554.html">lumex::core::utility::traits::stream::detail::is_streamable_expression&lt; T, meta::void_t&lt; decltype(std::declval&lt; std::ostream &amp; &gt;()&lt;&lt; std::declval&lt; T &gt;())&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04558.html">lumex::core::utility::traits::stream::detail::is_address_streamed&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Smart pointers that <a class="el" href="a01393.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args.">lumex::core::string::utility::stringify</a> streams as their raw address through its own operator&lt;&lt; overloads, which the expression check above cannot see. The standard library has the same overloads only since C++20 and only in newer releases (libstdc++ 12), so stringify keeps its own in every standard.  <a href="a04558.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04562.html">lumex::core::utility::traits::stream::detail::is_address_streamed&lt; std::unique_ptr&lt; T, D &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04566.html">lumex::core::utility::traits::stream::detail::is_address_streamed&lt; std::shared_ptr&lt; T &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04570.html">lumex::core::utility::traits::stream::is_ostreamable&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::declval&lt;std::ostream &amp;&gt;() &lt;&lt; std::declval&lt;T&gt;()</code> is well-formed: exactly what the standard library streams, without the smart-pointer extras of <code><a class="el" href="a04586.html" title="std::true_type when std::declval&lt;std::ostream &amp;&gt;() &lt;&lt; std::declval&lt;T&gt;() is well-formed (or,...">is_streamable</a></code>.  <a href="a04570.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04578.html">lumex::core::utility::traits::stream::all_ostreamable&lt;&gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04582.html">lumex::core::utility::traits::stream::all_ostreamable&lt; First, Rest... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::true_type</code> when <code>std::declval&lt;std::ostream &amp;&gt;() &lt;&lt; std::declval&lt;T&gt;()</code> is well-formed (or, below C++20, <code>T</code> is a <code>std::unique_ptr</code> / <code>std::shared_ptr</code>), otherwise <code>std::false_type</code>.  <a href="a04586.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04594.html">lumex::core::utility::traits::stream::all_streamable&lt;&gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04598.html">lumex::core::utility::traits::stream::all_streamable&lt; First, Rest... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04602.html">lumex::core::utility::traits::range::range_reference&lt; Range, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>type</code> is what <code>*std::begin(range)</code> yields for a <code>Range const &amp;</code> that has <code>std::begin</code>, <code>std::end</code>, <code>!=</code> and <code>++</code>; absent otherwise, so it can drive SFINAE.  <a href="a04602.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04606.html">lumex::core::utility::traits::range::range_reference&lt; Range, meta::void_t&lt; decltype(std::begin(std::declval&lt; Range const &amp; &gt;()) !=std::end(std::declval&lt; Range const &amp; &gt;())), decltype(++std::declval&lt; decltype(std::begin(std::declval&lt; Range const &amp; &gt;())) &amp; &gt;()), decltype(*std::begin(std::declval&lt; Range const &amp; &gt;()))&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04610.html">lumex::core::utility::traits::range::is_iterable&lt; Range, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Range const &amp;</code> can be walked (see <code><a class="el" href="a04602.html" title="type is what *std::begin(range) yields for a Range const &amp; that has std::begin, std::end,...">range_reference</a></code>).  <a href="a04610.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04614.html">lumex::core::utility::traits::range::is_iterable&lt; Range, meta::void_t&lt; typename range_reference&lt; Range &gt;::type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04618.html">lumex::core::utility::traits::range::has_streamable_elements&lt; Range, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Range</code> is iterable and its elements (after <code>std::decay</code>) are streamable.  <a href="a04618.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04622.html">lumex::core::utility::traits::range::has_streamable_elements&lt; Range, meta::void_t&lt; typename range_reference&lt; Range &gt;::type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04626.html">lumex::core::utility::traits::range::has_elements_convertible_to&lt; Range, To, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Range</code> is iterable and its element reference converts to <code>To</code> (for example <code>std::string const &amp;</code>).  <a href="a04626.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04630.html">lumex::core::utility::traits::range::has_elements_convertible_to&lt; Range, To, meta::void_t&lt; typename range_reference&lt; Range &gt;::type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04634.html">lumex::core::utility::traits::range::has_key_type&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> has a nested type <code>key_type</code> (associative containers).  <a href="a04634.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04638.html">lumex::core::utility::traits::range::has_key_type&lt; T, meta::void_t&lt; typename T::key_type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04642.html">lumex::core::utility::traits::range::has_mapped_type&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> has a nested type <code>mapped_type</code> (maps).  <a href="a04642.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04646.html">lumex::core::utility::traits::range::has_mapped_type&lt; T, meta::void_t&lt; typename T::mapped_type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04650.html">lumex::core::utility::traits::range::has_convertible_size&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::declval&lt;T&gt;().size()</code> exists and converts to <code>std::size_t</code>.  <a href="a04650.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04654.html">lumex::core::utility::traits::range::has_convertible_size&lt; T, meta::void_t&lt; decltype(std::declval&lt; T &gt;().size())&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04658.html">lumex::core::utility::traits::range::has_convertible_indexed_access&lt; T, To, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::declval&lt;T&gt;()[std::size_t]</code> exists and its result converts to <code>To</code> (for example a byte type for a byte buffer).  <a href="a04658.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04662.html">lumex::core::utility::traits::range::has_convertible_indexed_access&lt; T, To, meta::void_t&lt; decltype(std::declval&lt; T &gt;()[std::declval&lt; std::size_t &gt;()])&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04666.html">lumex::core::utility::traits::string::is_string_like&lt; T, Char, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a contiguous string of <code>Char</code>: it has <code>data()</code> convertible to <code>Char const *</code>, <code>size()</code>, <code>T::npos</code> and <code>T::value_type == Char</code>.  <a href="a04666.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04670.html">lumex::core::utility::traits::string::is_string_like&lt; T, Char, meta::void_t&lt; typename T::value_type, decltype(T::npos), decltype(std::declval&lt; T const &amp; &gt;().size()), decltype(std::declval&lt; T const &amp; &gt;().data())&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04674.html">lumex::core::utility::traits::string::is_any_string&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a string of its own <code>value_type</code> (see <code><a class="el" href="a04666.html" title="T is a contiguous string of Char: it has data() convertible to Char const *, size(),...">is_string_like</a></code>), for any character type: <code>std::string</code>, <code>std::wstring</code>, string views.  <a href="a04674.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04678.html">lumex::core::utility::traits::string::is_any_string&lt; T, meta::void_t&lt; typename T::value_type &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04682.html">lumex::core::utility::traits::string::is_string_convertible&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> converts implicitly to <code>std::string</code> or to <code>std::string_view</code> (the latter from C++17; the C++11 form of the concept <code>StringLike</code>).  <a href="a04682.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04686.html">lumex::core::utility::traits::tuple::is_pair_like&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a <code>std::pair</code> or a two-element <code>std::tuple</code>.  <a href="a04686.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04690.html">lumex::core::utility::traits::tuple::is_pair_like&lt; std::pair&lt; First, Second &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04694.html">lumex::core::utility::traits::tuple::is_pair_like&lt; std::tuple&lt; First, Second &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04698.html">lumex::core::utility::traits::value::is_optional&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04702.html">lumex::core::utility::traits::value::is_optional&lt; T const &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04706.html">lumex::core::utility::traits::value::is_optional&lt; T volatile &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04710.html">lumex::core::utility::traits::value::is_optional&lt; T const volatile &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04714.html">lumex::core::utility::traits::value::is_optional&lt; lumex::core::optional::opt::optional&lt; T &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04718.html">lumex::core::utility::traits::value::is_optional&lt; std::optional&lt; T &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04722.html">lumex::core::utility::traits::value::is_expected&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is a <code><a class="el" href="a02522.html" title="Implementation of C++23 std::expected&lt;T, E&gt; for C++11 and newer.">lumex::core::expected::result::expected</a>&lt;S, E&gt;</code>.  <a href="a04722.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04726.html">lumex::core::utility::traits::value::is_expected&lt; lumex::core::expected::result::expected&lt; S, E &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04730.html">lumex::core::utility::traits::value::is_optional_like&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> looks like an optional: <code>has_value ()</code> and unary <code>*</code> work on a <code>T const &amp;</code> (std::optional, LumexLib optional, similar wrappers).  <a href="a04730.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04734.html">lumex::core::utility::traits::value::is_optional_like&lt; T, meta::void_t&lt; decltype(std::declval&lt; T const &amp; &gt;().has_value()), decltype(*std::declval&lt; T const &amp; &gt;())&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04738.html">lumex::core::utility::traits::enums::is_reflected_enum&lt; T, Enable &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is an enum with a <code>to_string (T)</code> found by argument-dependent lookup that returns something convertible to <code>char const *</code>, as generated by <code>LUMEX_DEFINE_REFLECTED_ENUM</code> at namespace scope.  <a href="a04738.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04742.html">lumex::core::utility::traits::enums::is_reflected_enum&lt; T, meta::void_t&lt; decltype(to_string(std::declval&lt; T &gt;()))&gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04746.html">lumex::core::utility::traits::numeric::is_safe_comparable&lt; T, U &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Both types (without cv / reference) are arithmetic with a specialized <code>std::numeric_limits</code>, so <code><a class="el" href="a06379.html" title="Universal thread-safe comparator for safe comparison of arithmetic types.">safe_comparator</a></code> can compare them.  <a href="a04746.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01375.html">lumex::core::optional</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01673.html">lumex::xml::constants</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01376.html">lumex::core::optional::opt</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01351.html">lumex::core::expected</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01355.html">lumex::core::expected::result</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01409.html">lumex::core::utility</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01436.html">lumex::core::utility::traits</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01437.html">lumex::core::utility::traits::meta</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01438.html">lumex::core::utility::traits::invoke</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01439.html">lumex::core::utility::traits::invoke::detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01440.html">lumex::core::utility::traits::stream</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01441.html">lumex::core::utility::traits::stream::detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01442.html">lumex::core::utility::traits::range</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01443.html">lumex::core::utility::traits::string</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01444.html">lumex::core::utility::traits::tuple</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01445.html">lumex::core::utility::traits::value</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01446.html">lumex::core::utility::traits::enums</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01447.html">lumex::core::utility::traits::numeric</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html">lumex::xml::constants::Constants</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:ac89eed2501e6875f3f45fac66df7d004" id="r_ac89eed2501e6875f3f45fac66df7d004"><td class="memTemplParams" colspan="2">template&lt;typename... Ts&gt; </td></tr>
-<tr class="memitem:ac89eed2501e6875f3f45fac66df7d004"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01437.html#ac89eed2501e6875f3f45fac66df7d004">lumex::core::utility::traits::meta::void_t</a> = typename <a class="el" href="a04426.html">make_void</a>&lt;Ts...&gt;::type</td></tr>
-<tr class="separator:ac89eed2501e6875f3f45fac66df7d004"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05ad396a9f8ac20cc83c0a856aec1510" id="r_a05ad396a9f8ac20cc83c0a856aec1510"><td class="memTemplParams" colspan="2">template&lt;typename TypeToClean&gt; </td></tr>
-<tr class="memitem:a05ad396a9f8ac20cc83c0a856aec1510"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01437.html#a05ad396a9f8ac20cc83c0a856aec1510">lumex::core::utility::traits::meta::CleanType</a></td></tr>
-<tr class="separator:a05ad396a9f8ac20cc83c0a856aec1510"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc02419d3b465284115ab8aeba6ec53d" id="r_adc02419d3b465284115ab8aeba6ec53d"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:adc02419d3b465284115ab8aeba6ec53d"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01437.html#adc02419d3b465284115ab8aeba6ec53d">lumex::core::utility::traits::meta::CleanTypeOf</a> = <a class="el" href="a01437.html#a05ad396a9f8ac20cc83c0a856aec1510">CleanType</a>&lt;T&gt;</td></tr>
-<tr class="separator:adc02419d3b465284115ab8aeba6ec53d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd77a2242871400fb3bbb3a9ec30e895" id="r_abd77a2242871400fb3bbb3a9ec30e895"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:abd77a2242871400fb3bbb3a9ec30e895"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01437.html#abd77a2242871400fb3bbb3a9ec30e895">lumex::core::utility::traits::meta::RemovePtr</a> = typename std::remove_pointer&lt;T&gt;::type</td></tr>
-<tr class="separator:abd77a2242871400fb3bbb3a9ec30e895"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46f5c4d90e5f8ff4fa1fecccdf3bbb2f" id="r_a46f5c4d90e5f8ff4fa1fecccdf3bbb2f"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a46f5c4d90e5f8ff4fa1fecccdf3bbb2f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01437.html#a46f5c4d90e5f8ff4fa1fecccdf3bbb2f">lumex::core::utility::traits::meta::indirection_of_t</a> = typename <a class="el" href="a04454.html">indirection_of</a>&lt;T&gt;::type</td></tr>
-<tr class="separator:a46f5c4d90e5f8ff4fa1fecccdf3bbb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18993038d7df3aedaeeb999287ff42b2" id="r_a18993038d7df3aedaeeb999287ff42b2"><td class="memTemplParams" colspan="2">template&lt;typename Func, typename... Args&gt; </td></tr>
-<tr class="memitem:a18993038d7df3aedaeeb999287ff42b2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01438.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a> = typename <a class="el" href="a04522.html">invoke_result</a>&lt;Func, Args...&gt;::type</td></tr>
-<tr class="separator:a18993038d7df3aedaeeb999287ff42b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae297a2898f6459ac9ef2c4a1dd537fe8" id="r_ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memTemplParams" colspan="2">template&lt;typename Sig&gt; </td></tr>
-<tr class="memitem:ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01438.html#ae297a2898f6459ac9ef2c4a1dd537fe8">lumex::core::utility::traits::invoke::result_of_t</a> = typename <a class="el" href="a04526.html">result_of</a>&lt;Sig&gt;::type</td></tr>
-<tr class="separator:ae297a2898f6459ac9ef2c4a1dd537fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a553ef5e6a8844ea79f5f8cef788a8388" id="r_a553ef5e6a8844ea79f5f8cef788a8388"><td class="memTemplParams" colspan="2">template&lt;typename TargetType, typename SourceType&gt; </td></tr>
-<tr class="memitem:a553ef5e6a8844ea79f5f8cef788a8388"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a01437.html#a05ad396a9f8ac20cc83c0a856aec1510">CleanType</a>&lt; TargetType &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01437.html#a553ef5e6a8844ea79f5f8cef788a8388">lumex::core::utility::traits::meta::safe_cast</a> (SourceType &amp;&amp;value) noexcept(noexcept(static_cast&lt; <a class="el" href="a01437.html#a05ad396a9f8ac20cc83c0a856aec1510">CleanType</a>&lt; TargetType &gt; &gt;(std::forward&lt; SourceType &gt;(value))))</td></tr>
-<tr class="separator:a553ef5e6a8844ea79f5f8cef788a8388"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ba7e4193163e68cb15bccd03b229d9c" id="r_a8ba7e4193163e68cb15bccd03b229d9c"><td class="memTemplParams" colspan="2">template&lt;typename Func, typename... Args, typename FuncDecayed = typename std::decay&lt;Func&gt;::type&gt; </td></tr>
-<tr class="memitem:a8ba7e4193163e68cb15bccd03b229d9c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01439.html#a8ba7e4193163e68cb15bccd03b229d9c">lumex::core::utility::traits::invoke::detail::INVOKE</a> (Func &amp;&amp;func, Args &amp;&amp;...args) -&gt; decltype(<a class="el" href="a04506.html">invoke_impl</a>&lt; FuncDecayed &gt;::call(std::forward&lt; Func &gt;(func), std::forward&lt; Args &gt;(args)...))</td></tr>
-<tr class="separator:a8ba7e4193163e68cb15bccd03b229d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ab76dffab61a2799669395df3bee6691e" id="r_ab76dffab61a2799669395df3bee6691e"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITuintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ab76dffab61a2799669395df3bee6691e">lumex::xml::constants::Constants::kxml_memory_block_alignment</a> = sizeof (void *)</td></tr>
+<tr class="memdesc:ab76dffab61a2799669395df3bee6691e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alignment of memory blocks.  <br /></td></tr>
+<tr class="separator:ab76dffab61a2799669395df3bee6691e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abba4c5e5b4a560ec2b754780ea214a24" id="r_abba4c5e5b4a560ec2b754780ea214a24"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITuintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#abba4c5e5b4a560ec2b754780ea214a24">lumex::xml::constants::Constants::kxml_memory_page_contents_shared_mask</a> = 64</td></tr>
+<tr class="memdesc:abba4c5e5b4a560ec2b754780ea214a24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask for shared contents.  <br /></td></tr>
+<tr class="separator:abba4c5e5b4a560ec2b754780ea214a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3918a95b091efb1fa77a393b373d332" id="r_ab3918a95b091efb1fa77a393b373d332"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITuintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ab3918a95b091efb1fa77a393b373d332">lumex::xml::constants::Constants::kxml_memory_page_name_allocated_mask</a> = 32</td></tr>
+<tr class="memdesc:ab3918a95b091efb1fa77a393b373d332"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask for allocated name.  <br /></td></tr>
+<tr class="separator:ab3918a95b091efb1fa77a393b373d332"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a2d187a64db496ca36432ca0e5eacdd" id="r_a8a2d187a64db496ca36432ca0e5eacdd"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITuintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a8a2d187a64db496ca36432ca0e5eacdd">lumex::xml::constants::Constants::kxml_memory_page_value_allocated_mask</a> = 16</td></tr>
+<tr class="memdesc:a8a2d187a64db496ca36432ca0e5eacdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask for allocated value.  <br /></td></tr>
+<tr class="separator:a8a2d187a64db496ca36432ca0e5eacdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a374ec1849bdbb6e65c41bdf0c7f50a7f" id="r_a374ec1849bdbb6e65c41bdf0c7f50a7f"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITuintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a374ec1849bdbb6e65c41bdf0c7f50a7f">lumex::xml::constants::Constants::kxml_memory_page_type_mask</a> = 15</td></tr>
+<tr class="memdesc:a374ec1849bdbb6e65c41bdf0c7f50a7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask for node type.  <br /></td></tr>
+<tr class="separator:a374ec1849bdbb6e65c41bdf0c7f50a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754bb39b1d14ef12afc5f0ee3919a811" id="r_a754bb39b1d14ef12afc5f0ee3919a811"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITuintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a754bb39b1d14ef12afc5f0ee3919a811">lumex::xml::constants::Constants::kxml_memory_page_name_allocated_or_shared_mask</a></td></tr>
+<tr class="separator:a754bb39b1d14ef12afc5f0ee3919a811"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab45c8862bcda6c9b8781f172020b34ff" id="r_ab45c8862bcda6c9b8781f172020b34ff"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITuintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ab45c8862bcda6c9b8781f172020b34ff">lumex::xml::constants::Constants::kxml_memory_page_value_allocated_or_shared_mask</a></td></tr>
+<tr class="separator:ab45c8862bcda6c9b8781f172020b34ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fc2a596ec2ccf28362ef12698c76531" id="r_a9fc2a596ec2ccf28362ef12698c76531"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::array&lt; unsigned char, 256 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a9fc2a596ec2ccf28362ef12698c76531">lumex::xml::constants::Constants::kchartype_table</a></td></tr>
+<tr class="separator:a9fc2a596ec2ccf28362ef12698c76531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b94ea2ece446233b6622666c5f89b77" id="r_a5b94ea2ece446233b6622666c5f89b77"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::array&lt; unsigned char, 256 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a5b94ea2ece446233b6622666c5f89b77">lumex::xml::constants::Constants::kchartypex_table</a></td></tr>
+<tr class="separator:a5b94ea2ece446233b6622666c5f89b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab366084f35963fa5d3ddd537350719ae" id="r_ab366084f35963fa5d3ddd537350719ae"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ab366084f35963fa5d3ddd537350719ae">lumex::xml::constants::Constants::kparse_minimal</a> = 0x0000</td></tr>
+<tr class="separator:ab366084f35963fa5d3ddd537350719ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25e9b3e32e16520528a86a771a1306e0" id="r_a25e9b3e32e16520528a86a771a1306e0"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a25e9b3e32e16520528a86a771a1306e0">lumex::xml::constants::Constants::kparse_pi</a> = 0x0001</td></tr>
+<tr class="separator:a25e9b3e32e16520528a86a771a1306e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa13c7ca01045e049f66c643cd6fa03c8" id="r_aa13c7ca01045e049f66c643cd6fa03c8"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#aa13c7ca01045e049f66c643cd6fa03c8">lumex::xml::constants::Constants::kparse_comments</a> = 0x0002</td></tr>
+<tr class="separator:aa13c7ca01045e049f66c643cd6fa03c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a0915539a4e1b4c306dd9178ecd4bd0" id="r_a7a0915539a4e1b4c306dd9178ecd4bd0"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a7a0915539a4e1b4c306dd9178ecd4bd0">lumex::xml::constants::Constants::kparse_cdata</a> = 0x0004</td></tr>
+<tr class="separator:a7a0915539a4e1b4c306dd9178ecd4bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a8f0fd36689e4305b7495a4468d3f63" id="r_a4a8f0fd36689e4305b7495a4468d3f63"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a4a8f0fd36689e4305b7495a4468d3f63">lumex::xml::constants::Constants::kparse_ws_pcdata</a> = 0x0008</td></tr>
+<tr class="separator:a4a8f0fd36689e4305b7495a4468d3f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f505f325d6b52a813e3ce110155dc66" id="r_a5f505f325d6b52a813e3ce110155dc66"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a5f505f325d6b52a813e3ce110155dc66">lumex::xml::constants::Constants::kparse_escapes</a> = 0x0010</td></tr>
+<tr class="separator:a5f505f325d6b52a813e3ce110155dc66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a417e0269513ea6c24bd35fcb61441032" id="r_a417e0269513ea6c24bd35fcb61441032"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a417e0269513ea6c24bd35fcb61441032">lumex::xml::constants::Constants::kparse_eol</a> = 0x0020</td></tr>
+<tr class="separator:a417e0269513ea6c24bd35fcb61441032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dc5e283a1b54b4139389b627e619ac3" id="r_a5dc5e283a1b54b4139389b627e619ac3"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a5dc5e283a1b54b4139389b627e619ac3">lumex::xml::constants::Constants::kparse_wconv_attribute</a> = 0x0040</td></tr>
+<tr class="separator:a5dc5e283a1b54b4139389b627e619ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af04f931cdb21723ff8a0ce8f31980338" id="r_af04f931cdb21723ff8a0ce8f31980338"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#af04f931cdb21723ff8a0ce8f31980338">lumex::xml::constants::Constants::kparse_wnorm_attribute</a> = 0x0080</td></tr>
+<tr class="separator:af04f931cdb21723ff8a0ce8f31980338"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf080cf99fb9fd0b2f32e5d0ac29c469" id="r_acf080cf99fb9fd0b2f32e5d0ac29c469"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#acf080cf99fb9fd0b2f32e5d0ac29c469">lumex::xml::constants::Constants::kparse_declaration</a> = 0x0100</td></tr>
+<tr class="separator:acf080cf99fb9fd0b2f32e5d0ac29c469"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0247d83d05e8251a973aefd4213fc37" id="r_aa0247d83d05e8251a973aefd4213fc37"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#aa0247d83d05e8251a973aefd4213fc37">lumex::xml::constants::Constants::kparse_doctype</a> = 0x0200</td></tr>
+<tr class="separator:aa0247d83d05e8251a973aefd4213fc37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a079c315b1883083a515de5ccc4fc5f63" id="r_a079c315b1883083a515de5ccc4fc5f63"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a079c315b1883083a515de5ccc4fc5f63">lumex::xml::constants::Constants::kparse_ws_pcdata_single</a> = 0x0400</td></tr>
+<tr class="separator:a079c315b1883083a515de5ccc4fc5f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95c6e7a4733fa7a8238e5bd7916d7bd7" id="r_a95c6e7a4733fa7a8238e5bd7916d7bd7"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a95c6e7a4733fa7a8238e5bd7916d7bd7">lumex::xml::constants::Constants::kparse_trim_pcdata</a> = 0x0800</td></tr>
+<tr class="separator:a95c6e7a4733fa7a8238e5bd7916d7bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a808a892c5ffd9e48fc79778ab123e8e0" id="r_a808a892c5ffd9e48fc79778ab123e8e0"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a808a892c5ffd9e48fc79778ab123e8e0">lumex::xml::constants::Constants::kparse_fragment</a> = 0x1000</td></tr>
+<tr class="separator:a808a892c5ffd9e48fc79778ab123e8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7269180f4c63b85d16c9138a4799655" id="r_ae7269180f4c63b85d16c9138a4799655"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ae7269180f4c63b85d16c9138a4799655">lumex::xml::constants::Constants::kparse_embed_pcdata</a> = 0x2000</td></tr>
+<tr class="separator:ae7269180f4c63b85d16c9138a4799655"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae34b2fd422e53973bd0e9d172f40151a" id="r_ae34b2fd422e53973bd0e9d172f40151a"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ae34b2fd422e53973bd0e9d172f40151a">lumex::xml::constants::Constants::kparse_merge_pcdata</a> = 0x4000</td></tr>
+<tr class="separator:ae34b2fd422e53973bd0e9d172f40151a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb4452aac1ab84bc44f662063e968b14" id="r_adb4452aac1ab84bc44f662063e968b14"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#adb4452aac1ab84bc44f662063e968b14">lumex::xml::constants::Constants::kparse_default</a> = <a class="el" href="a01674.html#a7a0915539a4e1b4c306dd9178ecd4bd0">kparse_cdata</a> | <a class="el" href="a01674.html#a5f505f325d6b52a813e3ce110155dc66">kparse_escapes</a> | <a class="el" href="a01674.html#a5dc5e283a1b54b4139389b627e619ac3">kparse_wconv_attribute</a> | <a class="el" href="a01674.html#a417e0269513ea6c24bd35fcb61441032">kparse_eol</a></td></tr>
+<tr class="separator:adb4452aac1ab84bc44f662063e968b14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75daa045e069bb00ea980ea13840a193" id="r_a75daa045e069bb00ea980ea13840a193"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a75daa045e069bb00ea980ea13840a193">lumex::xml::constants::Constants::kparse_full</a></td></tr>
+<tr class="separator:a75daa045e069bb00ea980ea13840a193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78b5e41015a9c3dc0616bda1925b5c11" id="r_a78b5e41015a9c3dc0616bda1925b5c11"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a78b5e41015a9c3dc0616bda1925b5c11">lumex::xml::constants::Constants::kformat_indent</a> = 0x01</td></tr>
+<tr class="separator:a78b5e41015a9c3dc0616bda1925b5c11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae00cbbe6a303d4120c1f17c90bd99a73" id="r_ae00cbbe6a303d4120c1f17c90bd99a73"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ae00cbbe6a303d4120c1f17c90bd99a73">lumex::xml::constants::Constants::kformat_write_bom</a> = 0x02</td></tr>
+<tr class="separator:ae00cbbe6a303d4120c1f17c90bd99a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad782a179a772f00e51280edcb1ef4168" id="r_ad782a179a772f00e51280edcb1ef4168"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ad782a179a772f00e51280edcb1ef4168">lumex::xml::constants::Constants::kformat_raw</a> = 0x04</td></tr>
+<tr class="separator:ad782a179a772f00e51280edcb1ef4168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a651178432a8e26475d64f6d1f7c8f64d" id="r_a651178432a8e26475d64f6d1f7c8f64d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a651178432a8e26475d64f6d1f7c8f64d">lumex::xml::constants::Constants::kformat_no_declaration</a> = 0x08</td></tr>
+<tr class="separator:a651178432a8e26475d64f6d1f7c8f64d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad52a4e5a68193354ef8a522490079854" id="r_ad52a4e5a68193354ef8a522490079854"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ad52a4e5a68193354ef8a522490079854">lumex::xml::constants::Constants::kformat_no_escapes</a> = 0x10</td></tr>
+<tr class="separator:ad52a4e5a68193354ef8a522490079854"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a471a09d5bf81b44cdca26b00d08a90d8" id="r_a471a09d5bf81b44cdca26b00d08a90d8"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a471a09d5bf81b44cdca26b00d08a90d8">lumex::xml::constants::Constants::kformat_save_file_text</a> = 0x20</td></tr>
+<tr class="separator:a471a09d5bf81b44cdca26b00d08a90d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cdd77720983f76b093517c27b41e8db" id="r_a4cdd77720983f76b093517c27b41e8db"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a4cdd77720983f76b093517c27b41e8db">lumex::xml::constants::Constants::kformat_indent_attributes</a> = 0x40</td></tr>
+<tr class="separator:a4cdd77720983f76b093517c27b41e8db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa26e722e058a6f9a0080e392719fbbe8" id="r_aa26e722e058a6f9a0080e392719fbbe8"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#aa26e722e058a6f9a0080e392719fbbe8">lumex::xml::constants::Constants::kformat_no_empty_element_tags</a> = 0x80</td></tr>
+<tr class="separator:aa26e722e058a6f9a0080e392719fbbe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bb4132c783998ec2621703295510e07" id="r_a2bb4132c783998ec2621703295510e07"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a2bb4132c783998ec2621703295510e07">lumex::xml::constants::Constants::kformat_skip_control_chars</a> = 0x100</td></tr>
+<tr class="separator:a2bb4132c783998ec2621703295510e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65e3445d73713740ec866527b807c662" id="r_a65e3445d73713740ec866527b807c662"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a65e3445d73713740ec866527b807c662">lumex::xml::constants::Constants::kformat_attribute_single_quote</a> = 0x200</td></tr>
+<tr class="separator:a65e3445d73713740ec866527b807c662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a478cbc16b15d8de593e973afb59c68" id="r_a7a478cbc16b15d8de593e973afb59c68"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a7a478cbc16b15d8de593e973afb59c68">lumex::xml::constants::Constants::kformat_default</a> = <a class="el" href="a01674.html#a78b5e41015a9c3dc0616bda1925b5c11">kformat_indent</a></td></tr>
+<tr class="separator:a7a478cbc16b15d8de593e973afb59c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a773cc37ddf1257c05bb9147f3025a1f4" id="r_a773cc37ddf1257c05bb9147f3025a1f4"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a773cc37ddf1257c05bb9147f3025a1f4">lumex::xml::constants::Constants::kdefault_double_precision</a> = 0x11</td></tr>
+<tr class="separator:a773cc37ddf1257c05bb9147f3025a1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e23c79b04aa2fa44d5c38e034cfcf57" id="r_a2e23c79b04aa2fa44d5c38e034cfcf57"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a2e23c79b04aa2fa44d5c38e034cfcf57">lumex::xml::constants::Constants::kdefault_float_precision</a> = 0x9</td></tr>
+<tr class="separator:a2e23c79b04aa2fa44d5c38e034cfcf57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab63398b727c705f5004ed081635eca8d" id="r_ab63398b727c705f5004ed081635eca8d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ab63398b727c705f5004ed081635eca8d">lumex::xml::constants::Constants::kDecimalBase</a> = 10</td></tr>
+<tr class="separator:ab63398b727c705f5004ed081635eca8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c72f499927d4e75e2f2214559cb1f9d" id="r_a9c72f499927d4e75e2f2214559cb1f9d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a9c72f499927d4e75e2f2214559cb1f9d">lumex::xml::constants::Constants::kHexadecimalBase</a> = 16</td></tr>
+<tr class="separator:a9c72f499927d4e75e2f2214559cb1f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae674e28bd119ad83959401758fc56491" id="r_ae674e28bd119ad83959401758fc56491"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITunsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#ae674e28bd119ad83959401758fc56491">lumex::xml::constants::Constants::kHexCharOffsetLimit</a> = 6</td></tr>
+<tr class="separator:ae674e28bd119ad83959401758fc56491"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35c4c0ee9daecbfab3439c897cc49884" id="r_a35c4c0ee9daecbfab3439c897cc49884"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a35c4c0ee9daecbfab3439c897cc49884">lumex::xml::constants::Constants::kSizeOfU8Bytes</a> = 8</td></tr>
+<tr class="separator:a35c4c0ee9daecbfab3439c897cc49884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1549cf15d01ffc48308b5ccbb364dcb8" id="r_a1549cf15d01ffc48308b5ccbb364dcb8"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a1549cf15d01ffc48308b5ccbb364dcb8">lumex::xml::constants::Constants::kTrueStringLength</a> = 4</td></tr>
+<tr class="separator:a1549cf15d01ffc48308b5ccbb364dcb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6157230fb011d5eca308214276d43237" id="r_a6157230fb011d5eca308214276d43237"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01674.html#a6157230fb011d5eca308214276d43237">lumex::xml::constants::Constants::kFalseStringLength</a> = 5</td></tr>
+<tr class="separator:a6157230fb011d5eca308214276d43237"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Every general-purpose type trait of LumexLib, one sub-namespace of <code><a class="el" href="a01436.html">lumex::core::utility::traits</a></code> per topic: <code>meta</code>, <code>invoke</code>, <code>stream</code>, <code>range</code>, <code>string</code>, <code>tuple</code>, <code>value</code>, <code>enums</code>, <code>numeric</code>. </p>
-<p>Traits that depend on a module's own types (for example the formatter traits of <code>core/fmt</code>) stay in that module. </p>
+<div class="textblock"><p>Constants of the XML module: parse and format option flags, the masks of the node and attribute header word, and the character class tables of the parser. </p>
+<p>Everything is in <code><a class="el" href="a01674.html">lumex::xml::constants::Constants</a></code>. The <code>kparse_*</code> flags are OR-ed into the <code>options</code> argument of the <code>XmlDocument</code> load functions and <code>XmlNode::append_buffer</code>; <code>kparse_default</code> enables CDATA, escapes, end-of-line normalization and whitespace conversion in attribute values, and <code>kparse_full</code> adds processing instructions, comments, the declaration and the document type. The <code>kformat_*</code> flags control <code>XmlDocument::save</code>, <code>XmlDocument::save_file</code> and <code>XmlNode::print</code>; <code>kformat_default</code> is <code>kformat_indent</code>. <code>kdefault_double_precision</code> (17) and <code>kdefault_float_precision</code> (9) are the significant digits used when a <code>double</code> or a <code>float</code> is stored as text without an explicit precision.</p>
+<p>The remaining constants serve the implementation: the <code>kxml_memory_page_*</code> masks select the node type and the allocation flags in the low bits of a header word, and <code>kchartype_table</code> and <code>kchartypex_table</code> give the character classes of <code>chartype_t</code> and <code>chartypex_t</code> (<code><a class="el" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,...">XmlTypes.hpp</a></code>) for each byte, tested through <code>LUMEX_XML_IS_CHARTYPE</code> and <code>LUMEX_XML_IS_CHARTYPEX</code> (<code><a class="el" href="a00710.html" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa...">XmlMacros.hpp</a></code>). </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_ff11623c7d0e1bf06b7d828827ccbe0f.html">traits</a></li><li class="navelem"><a class="el" href="a00653.html">LumexTypeTraits.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_ed1d4ee9250f0ca396e47bd7541f9786.html">constants</a></li><li class="navelem"><a class="el" href="a00653.html">XmlConstants.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,7 @@
+<map id="lumex::xml::xpath::variable::new_xpath_variable" name="lumex::xml::xpath::variable::new_xpath_variable">
+<area shape="rect" id="Node000001" title="Factory function to create a new XPath variable based on its type." alt="" coords="5,5,160,60"/>
+<area shape="rect" id="Node000002" href="$a01680.html#a8d071b6248d853a14d7dbc4f01968013" title="Factory function to create a new XPath variable of a specific type." alt="" coords="208,5,363,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,30,194,30,194,35,160,35"/>
+<area shape="rect" id="Node000003" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="411,13,553,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,30,397,30,397,35,363,35"/>
+</map>

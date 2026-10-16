@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::result::detail::storage::expected_traits&lt; T, E &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02826.html',''); initResizable(true); });
+$(function(){initNavTree('a02823.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,22 +103,486 @@ $(function(){initNavTree('a02826.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::counting_buffer&lt; Char &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="a02820.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::detail::storage::expected_traits&lt; T, E &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02826.html">lumex::core::fmt::Detail::counting_buffer&lt; Char &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02826.html#a903d9a7c9bd7b65f7358ca85f0f6f296">append</a>(Char const *first, Char const *stop) override</td><td class="entry"><a class="el" href="a02826.html">lumex::core::fmt::Detail::counting_buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02814.html#aa54539fce5f7666a0702f9a3fb7657c1">lumex::core::fmt::Detail::buffer::append</a>(std::basic_string&lt; Char &gt; const &amp;text)</td><td class="entry"><a class="el" href="a02814.html">lumex::core::fmt::Detail::buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02826.html#a4b4a8130b4b310621ee7a4a7cf26f8a0">count</a>() const noexcept</td><td class="entry"><a class="el" href="a02826.html">lumex::core::fmt::Detail::counting_buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02826.html#a892c61733993ac466e5e92a8ee19930c">push_back</a>(Char) override</td><td class="entry"><a class="el" href="a02826.html">lumex::core::fmt::Detail::counting_buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02814.html#a966c18e72fc3490cc1f3fdf6aea2a666">~buffer</a>()=default</td><td class="entry"><a class="el" href="a02814.html">lumex::core::fmt::Detail::buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<p>The conditions the standard puts on the special member functions of <code>expected&lt;T, E&gt;</code>, evaluated once for a pair of types.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00908_source.html">ExpectedStorage.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a54b3580039f3d69d60259a7f0006f4ba" id="r_a54b3580039f3d69d60259a7f0006f4ba"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54b3580039f3d69d60259a7f0006f4ba">trivial_destructor</a></td></tr>
+<tr class="memdesc:a54b3580039f3d69d60259a7f0006f4ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.dtor]/2.  <br /></td></tr>
+<tr class="separator:a54b3580039f3d69d60259a7f0006f4ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a599a943fddacda93fd101aac3b329798" id="r_a599a943fddacda93fd101aac3b329798"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a599a943fddacda93fd101aac3b329798">copy_constructible</a></td></tr>
+<tr class="memdesc:a599a943fddacda93fd101aac3b329798"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.cons]/9: the copy constructor exists.  <br /></td></tr>
+<tr class="separator:a599a943fddacda93fd101aac3b329798"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a220d7637003ba8b3754f8754a76fa2fb" id="r_a220d7637003ba8b3754f8754a76fa2fb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a220d7637003ba8b3754f8754a76fa2fb">nothrow_copy_constructible</a></td></tr>
+<tr class="memdesc:a220d7637003ba8b3754f8754a76fa2fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy constructor cannot throw (not required by the standard, which declares it without an exception specification; [res.on.exception.handling]/5 lets an implementation add one, and the standard libraries do).  <br /></td></tr>
+<tr class="separator:a220d7637003ba8b3754f8754a76fa2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74979c2d053646a827eb18e83fad05c2" id="r_a74979c2d053646a827eb18e83fad05c2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74979c2d053646a827eb18e83fad05c2">trivially_copy_constructible</a></td></tr>
+<tr class="memdesc:a74979c2d053646a827eb18e83fad05c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.cons]/10: the copy constructor is trivial.  <br /></td></tr>
+<tr class="separator:a74979c2d053646a827eb18e83fad05c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac200b86ee9403e778a65f127bd885137" id="r_ac200b86ee9403e778a65f127bd885137"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac200b86ee9403e778a65f127bd885137">move_constructible</a></td></tr>
+<tr class="memdesc:ac200b86ee9403e778a65f127bd885137"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.cons]/11: the move constructor exists.  <br /></td></tr>
+<tr class="separator:ac200b86ee9403e778a65f127bd885137"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a652825f55506ba494ecab3a47e229fe4" id="r_a652825f55506ba494ecab3a47e229fe4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a652825f55506ba494ecab3a47e229fe4">nothrow_move_constructible</a></td></tr>
+<tr class="memdesc:a652825f55506ba494ecab3a47e229fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.cons]/15: the move constructor is <code>noexcept</code>.  <br /></td></tr>
+<tr class="separator:a652825f55506ba494ecab3a47e229fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c79b76d851409b2289316cdcaab840d" id="r_a5c79b76d851409b2289316cdcaab840d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c79b76d851409b2289316cdcaab840d">trivially_move_constructible</a></td></tr>
+<tr class="memdesc:a5c79b76d851409b2289316cdcaab840d"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.cons]/16: the move constructor is trivial.  <br /></td></tr>
+<tr class="separator:a5c79b76d851409b2289316cdcaab840d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a864c78651a8debb773f20238d30a07" id="r_a1a864c78651a8debb773f20238d30a07"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a864c78651a8debb773f20238d30a07">copy_assignable</a></td></tr>
+<tr class="memdesc:a1a864c78651a8debb773f20238d30a07"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.assign]/4: the copy assignment exists.  <br /></td></tr>
+<tr class="separator:a1a864c78651a8debb773f20238d30a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7426f5ecdca58fe04f760f406ec9fb97" id="r_a7426f5ecdca58fe04f760f406ec9fb97"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7426f5ecdca58fe04f760f406ec9fb97">nothrow_copy_assignable</a></td></tr>
+<tr class="memdesc:a7426f5ecdca58fe04f760f406ec9fb97"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy assignment cannot throw (an exception specification the standard does not give, added as above).  <br /></td></tr>
+<tr class="separator:a7426f5ecdca58fe04f760f406ec9fb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab016f20efa88ceec48bbcfddb12fd899" id="r_ab016f20efa88ceec48bbcfddb12fd899"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab016f20efa88ceec48bbcfddb12fd899">trivially_copy_assignable</a></td></tr>
+<tr class="memdesc:ab016f20efa88ceec48bbcfddb12fd899"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.assign]/5: the copy assignment is trivial.  <br /></td></tr>
+<tr class="separator:ab016f20efa88ceec48bbcfddb12fd899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cd7a4dd14cfedc7f74cb168fb886fc6" id="r_a3cd7a4dd14cfedc7f74cb168fb886fc6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3cd7a4dd14cfedc7f74cb168fb886fc6">move_assignable</a></td></tr>
+<tr class="memdesc:a3cd7a4dd14cfedc7f74cb168fb886fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.assign]/6: the move assignment exists.  <br /></td></tr>
+<tr class="separator:a3cd7a4dd14cfedc7f74cb168fb886fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d53c4909d0cd06d7529e28e5d386583" id="r_a6d53c4909d0cd06d7529e28e5d386583"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d53c4909d0cd06d7529e28e5d386583">nothrow_move_assignable</a></td></tr>
+<tr class="memdesc:a6d53c4909d0cd06d7529e28e5d386583"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.assign]/9: the move assignment is <code>noexcept</code>.  <br /></td></tr>
+<tr class="separator:a6d53c4909d0cd06d7529e28e5d386583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c7267b708f4669ae91c2fb849340322" id="r_a9c7267b708f4669ae91c2fb849340322"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c7267b708f4669ae91c2fb849340322">trivially_move_assignable</a></td></tr>
+<tr class="memdesc:a9c7267b708f4669ae91c2fb849340322"><td class="mdescLeft">&#160;</td><td class="mdescRight">[expected.object.assign]/10: the move assignment is trivial.  <br /></td></tr>
+<tr class="separator:a9c7267b708f4669ae91c2fb849340322"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0533aa074bc758e9893bca8396101bf5" id="r_a0533aa074bc758e9893bca8396101bf5"><td class="memTemplParams" colspan="2">template&lt;bool Exists, bool Trivial&gt; </td></tr>
+<tr class="memitem:a0533aa074bc758e9893bca8396101bf5"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0533aa074bc758e9893bca8396101bf5">member_kind</a> = std::integral_constant&lt;int, !Exists ? 2 : (Trivial ? 0 : 1)&gt;</td></tr>
+<tr class="memdesc:a0533aa074bc758e9893bca8396101bf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">What a layer does with its special member function: 0 leaves it to the compiler (trivial), 1 writes it out, 2 deletes it.  <br /></td></tr>
+<tr class="separator:a0533aa074bc758e9893bca8396101bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa521ca6b9717a3b1f3e6a76668abfa21" id="r_aa521ca6b9717a3b1f3e6a76668abfa21"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa521ca6b9717a3b1f3e6a76668abfa21">copy_constructor_kind</a></td></tr>
+<tr class="memdesc:aa521ca6b9717a3b1f3e6a76668abfa21"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the copy constructor.  <br /></td></tr>
+<tr class="separator:aa521ca6b9717a3b1f3e6a76668abfa21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc9a5b32677641483630264f9f3fbdbc" id="r_adc9a5b32677641483630264f9f3fbdbc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc9a5b32677641483630264f9f3fbdbc">move_constructor_kind</a></td></tr>
+<tr class="memdesc:adc9a5b32677641483630264f9f3fbdbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the move constructor.  <br /></td></tr>
+<tr class="separator:adc9a5b32677641483630264f9f3fbdbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d353bcf796359a4c54e9ee14fb85d5c" id="r_a8d353bcf796359a4c54e9ee14fb85d5c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d353bcf796359a4c54e9ee14fb85d5c">copy_assignment_kind</a> = <a class="el" href="#a0533aa074bc758e9893bca8396101bf5">member_kind</a>&lt;copy_assignable::value, trivially_copy_assignable::value&gt;</td></tr>
+<tr class="memdesc:a8d353bcf796359a4c54e9ee14fb85d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the copy assignment.  <br /></td></tr>
+<tr class="separator:a8d353bcf796359a4c54e9ee14fb85d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3694563178582a6241fa5e729d03ce17" id="r_a3694563178582a6241fa5e729d03ce17"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3694563178582a6241fa5e729d03ce17">move_assignment_kind</a> = <a class="el" href="#a0533aa074bc758e9893bca8396101bf5">member_kind</a>&lt;move_assignable::value, trivially_move_assignable::value&gt;</td></tr>
+<tr class="memdesc:a3694563178582a6241fa5e729d03ce17"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layer of the move assignment.  <br /></td></tr>
+<tr class="separator:a3694563178582a6241fa5e729d03ce17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename E&gt;<br />
+struct lumex::core::expected::result::detail::storage::expected_traits&lt; T, E &gt;</div><p>The conditions the standard puts on the special member functions of <code>expected&lt;T, E&gt;</code>, evaluated once for a pair of types. </p>
+<p><code>T</code> is the value type as written (possibly <code>const</code>), as the standard writes <code>is_copy_constructible_v&lt;T&gt;</code>; <code>expected&lt;void, E&gt;</code> uses <code><a class="el" href="a02911.html" title="Placeholder success type for expected&lt;void, ErrorType&gt;.">Unit</a></code> for <code>T</code>, for which every condition holds, so the conditions of [expected.void] follow from those of [expected.object] with nothing left of <code>T</code>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Value type (<code><a class="el" href="a02911.html" title="Placeholder success type for expected&lt;void, ErrorType&gt;.">Unit</a></code> for <code>void</code>). </td></tr>
+    <tr><td class="paramname">E</td><td>Error type. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a1a864c78651a8debb773f20238d30a07" name="a1a864c78651a8debb773f20238d30a07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a864c78651a8debb773f20238d30a07">&#9670;&#160;</a></span>copy_assignable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::copy_assignable</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_copy_assignable&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_copy_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_copy_assignable&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_copy_constructible&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; (std::is_nothrow_move_constructible&lt;T&gt;::value</div>
+<div class="line">                    || std::is_nothrow_move_constructible&lt;E&gt;::value)&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.assign]/4: the copy assignment exists. </p>
+
+</div>
+</div>
+<a id="a8d353bcf796359a4c54e9ee14fb85d5c" name="a8d353bcf796359a4c54e9ee14fb85d5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d353bcf796359a4c54e9ee14fb85d5c">&#9670;&#160;</a></span>copy_assignment_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::copy_assignment_kind = <a class="el" href="#a0533aa074bc758e9893bca8396101bf5">member_kind</a>&lt;copy_assignable::value, trivially_copy_assignable::value&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The layer of the copy assignment. </p>
+
+</div>
+</div>
+<a id="a599a943fddacda93fd101aac3b329798" name="a599a943fddacda93fd101aac3b329798"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a599a943fddacda93fd101aac3b329798">&#9670;&#160;</a></span>copy_constructible</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::copy_constructible</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;bool,</div>
+<div class="line">                               std::is_copy_constructible&lt;T&gt;::value</div>
+<div class="line">                                   &amp;&amp; std::is_copy_constructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.cons]/9: the copy constructor exists. </p>
+
+</div>
+</div>
+<a id="aa521ca6b9717a3b1f3e6a76668abfa21" name="aa521ca6b9717a3b1f3e6a76668abfa21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa521ca6b9717a3b1f3e6a76668abfa21">&#9670;&#160;</a></span>copy_constructor_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::copy_constructor_kind</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_typedef" href="#a0533aa074bc758e9893bca8396101bf5">member_kind</a>&lt;copy_constructible::value,</div>
+<div class="line">                    trivially_copy_constructible::value&gt;</div>
+<div class="ttc" id="aa02823_html_a0533aa074bc758e9893bca8396101bf5"><div class="ttname"><a href="#a0533aa074bc758e9893bca8396101bf5">lumex::core::expected::result::detail::storage::expected_traits::member_kind</a></div><div class="ttdeci">std::integral_constant&lt; int, !Exists ? 2 :(Trivial ? 0 :1)&gt; member_kind</div><div class="ttdoc">What a layer does with its special member function: 0 leaves it to the compiler (trivial),...</div><div class="ttdef"><b>Definition</b> ExpectedStorage.hpp:406</div></div>
+</div><!-- fragment -->
+<p>The layer of the copy constructor. </p>
+
+</div>
+</div>
+<a id="a0533aa074bc758e9893bca8396101bf5" name="a0533aa074bc758e9893bca8396101bf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0533aa074bc758e9893bca8396101bf5">&#9670;&#160;</a></span>member_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+<div class="memtemplate">
+template&lt;bool Exists, bool Trivial&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::member_kind = std::integral_constant&lt;int, !Exists ? 2 : (Trivial ? 0 : 1)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>What a layer does with its special member function: 0 leaves it to the compiler (trivial), 1 writes it out, 2 deletes it. </p>
+
+</div>
+</div>
+<a id="a3cd7a4dd14cfedc7f74cb168fb886fc6" name="a3cd7a4dd14cfedc7f74cb168fb886fc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cd7a4dd14cfedc7f74cb168fb886fc6">&#9670;&#160;</a></span>move_assignable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::move_assignable</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_move_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_move_assignable&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_move_constructible&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_move_assignable&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; (std::is_nothrow_move_constructible&lt;T&gt;::value</div>
+<div class="line">                    || std::is_nothrow_move_constructible&lt;E&gt;::value)&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.assign]/6: the move assignment exists. </p>
+
+</div>
+</div>
+<a id="a3694563178582a6241fa5e729d03ce17" name="a3694563178582a6241fa5e729d03ce17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3694563178582a6241fa5e729d03ce17">&#9670;&#160;</a></span>move_assignment_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::move_assignment_kind = <a class="el" href="#a0533aa074bc758e9893bca8396101bf5">member_kind</a>&lt;move_assignable::value, trivially_move_assignable::value&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The layer of the move assignment. </p>
+
+</div>
+</div>
+<a id="ac200b86ee9403e778a65f127bd885137" name="ac200b86ee9403e778a65f127bd885137"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac200b86ee9403e778a65f127bd885137">&#9670;&#160;</a></span>move_constructible</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::move_constructible</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;bool,</div>
+<div class="line">                               std::is_move_constructible&lt;T&gt;::value</div>
+<div class="line">                                   &amp;&amp; std::is_move_constructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.cons]/11: the move constructor exists. </p>
+
+</div>
+</div>
+<a id="adc9a5b32677641483630264f9f3fbdbc" name="adc9a5b32677641483630264f9f3fbdbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc9a5b32677641483630264f9f3fbdbc">&#9670;&#160;</a></span>move_constructor_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::move_constructor_kind</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> <a class="code hl_typedef" href="#a0533aa074bc758e9893bca8396101bf5">member_kind</a>&lt;move_constructible::value,</div>
+<div class="line">                    trivially_move_constructible::value&gt;</div>
+</div><!-- fragment -->
+<p>The layer of the move constructor. </p>
+
+</div>
+</div>
+<a id="a7426f5ecdca58fe04f760f406ec9fb97" name="a7426f5ecdca58fe04f760f406ec9fb97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7426f5ecdca58fe04f760f406ec9fb97">&#9670;&#160;</a></span>nothrow_copy_assignable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::nothrow_copy_assignable</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_nothrow_copy_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_nothrow_copy_assignable&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_nothrow_copy_constructible&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_nothrow_copy_assignable&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>The copy assignment cannot throw (an exception specification the standard does not give, added as above). </p>
+
+</div>
+</div>
+<a id="a220d7637003ba8b3754f8754a76fa2fb" name="a220d7637003ba8b3754f8754a76fa2fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a220d7637003ba8b3754f8754a76fa2fb">&#9670;&#160;</a></span>nothrow_copy_constructible</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::nothrow_copy_constructible</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_nothrow_copy_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_nothrow_copy_constructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>The copy constructor cannot throw (not required by the standard, which declares it without an exception specification; [res.on.exception.handling]/5 lets an implementation add one, and the standard libraries do). </p>
+
+</div>
+</div>
+<a id="a6d53c4909d0cd06d7529e28e5d386583" name="a6d53c4909d0cd06d7529e28e5d386583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d53c4909d0cd06d7529e28e5d386583">&#9670;&#160;</a></span>nothrow_move_assignable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::nothrow_move_assignable</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_nothrow_move_assignable&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_nothrow_move_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_nothrow_move_assignable&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_nothrow_move_constructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.assign]/9: the move assignment is <code>noexcept</code>. </p>
+
+</div>
+</div>
+<a id="a652825f55506ba494ecab3a47e229fe4" name="a652825f55506ba494ecab3a47e229fe4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a652825f55506ba494ecab3a47e229fe4">&#9670;&#160;</a></span>nothrow_move_constructible</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::nothrow_move_constructible</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_nothrow_move_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_nothrow_move_constructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.cons]/15: the move constructor is <code>noexcept</code>. </p>
+
+</div>
+</div>
+<a id="a54b3580039f3d69d60259a7f0006f4ba" name="a54b3580039f3d69d60259a7f0006f4ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54b3580039f3d69d60259a7f0006f4ba">&#9670;&#160;</a></span>trivial_destructor</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::trivial_destructor</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_trivially_destructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_destructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.dtor]/2. </p>
+
+</div>
+</div>
+<a id="ab016f20efa88ceec48bbcfddb12fd899" name="ab016f20efa88ceec48bbcfddb12fd899"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab016f20efa88ceec48bbcfddb12fd899">&#9670;&#160;</a></span>trivially_copy_assignable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::trivially_copy_assignable</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_trivially_copy_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_copy_assignable&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_destructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_copy_constructible&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_copy_assignable&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_destructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.assign]/5: the copy assignment is trivial. </p>
+
+</div>
+</div>
+<a id="a74979c2d053646a827eb18e83fad05c2" name="a74979c2d053646a827eb18e83fad05c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74979c2d053646a827eb18e83fad05c2">&#9670;&#160;</a></span>trivially_copy_constructible</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::trivially_copy_constructible</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_trivially_copy_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_copy_constructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.cons]/10: the copy constructor is trivial. </p>
+
+</div>
+</div>
+<a id="a9c7267b708f4669ae91c2fb849340322" name="a9c7267b708f4669ae91c2fb849340322"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c7267b708f4669ae91c2fb849340322">&#9670;&#160;</a></span>trivially_move_assignable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::trivially_move_assignable</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_trivially_move_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_move_assignable&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_destructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_move_constructible&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_move_assignable&lt;E&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_destructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.assign]/10: the move assignment is trivial. </p>
+
+</div>
+</div>
+<a id="a5c79b76d851409b2289316cdcaab840d" name="a5c79b76d851409b2289316cdcaab840d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c79b76d851409b2289316cdcaab840d">&#9670;&#160;</a></span>trivially_move_constructible</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename E&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02823.html">lumex::core::expected::result::detail::storage::expected_traits</a>&lt; T, E &gt;::trivially_move_constructible</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::integral_constant&lt;</div>
+<div class="line">      bool, std::is_trivially_move_constructible&lt;T&gt;::value</div>
+<div class="line">                &amp;&amp; std::is_trivially_move_constructible&lt;E&gt;::value&gt;</div>
+</div><!-- fragment -->
+<p>[expected.object.cons]/16: the move constructor is trivial. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00908_source.html">ExpectedStorage.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01532.html">result</a></li><li class="navelem"><a class="el" href="a01533.html">detail</a></li><li class="navelem"><a class="el" href="a01535.html">storage</a></li><li class="navelem"><a class="el" href="a02823.html">expected_traits</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

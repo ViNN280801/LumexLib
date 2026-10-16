@@ -1,0 +1,28 @@
+<map id="lumex::core::filesystem::fs::filesystem_result::error_code" name="lumex::core::filesystem::fs::filesystem_result::error_code">
+<area shape="rect" id="Node000001" title="Retrieves the error code if the operation was unsuccessful." alt="" coords="481,205,656,259"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a52e549d1699eefae69e6a33e2b8822a4" title="Recursively copies a file or a directory (and its contents) from one location to another." alt="" coords="228,29,433,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="539,196,492,142,463,114,432,90,396,72,399,67,435,86,467,110,496,138,543,192"/>
+<area shape="rect" id="Node000003" href="$a02967.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,79,180,134"/>
+<area shape="poly" id="edge11_Node000001_Node000003" title=" " alt="" coords="530,198,485,163,432,134,369,116,302,106,238,102,180,103,180,97,238,97,303,101,370,111,434,130,488,158,533,193"/>
+<area shape="rect" id="Node000004" href="$a02967.html#ac6b98f64a82c62b08cd7b86bfac5c76e" title="Creates all directories in the specified path_arg, including any missing parent directories." alt="" coords="243,439,418,494"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="546,272,498,338,468,373,435,406,385,441,382,437,432,402,464,370,494,335,542,269"/>
+<area shape="rect" id="Node000007" href="$a02939.html#a8e62863dbaf8db594824d75a69292275" title="Factory method for creating an unsuccessful filesystem_result." alt="" coords="237,248,425,288"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="468,250,425,256,424,251,467,245"/>
+<area shape="rect" id="Node000008" href="$a02967.html#a538ee94b70991213bf07c01bc51b3af4" title="Moves a file from one location to another." alt="" coords="243,337,418,391"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="509,268,382,339,379,334,506,264"/>
+<area shape="rect" id="Node000009" href="$a02967.html#ab88255f0532696ecffda0491931b6dfd" title="Recursively removes a file or a directory and all its contents." alt="" coords="243,169,418,223"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="467,219,418,212,418,207,468,214"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="371,18,357,11,331,8,308,10,294,15,289,21,292,28,286,30,284,20,291,10,307,5,331,3,358,6,373,13"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="235,75,181,88,180,83,233,70"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="132,68,118,61,93,58,71,60,58,65,52,71,52,79,46,79,47,69,55,60,70,55,93,53,120,56,135,64"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="370,428,356,421,331,418,309,420,296,425,290,431,290,439,284,439,285,429,293,420,308,415,331,413,358,416,373,424"/>
+<area shape="rect" id="Node000005" href="$a00260.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="65,274,120,299"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="269,434,226,406,156,349,104,301,108,297,160,345,230,402,272,430"/>
+<area shape="rect" id="Node000006" href="$a02967.html#a5168b663198b53cd34ffad9098fea240" title="Replaces the content of a file without ever leaving it truncated." alt="" coords="5,439,180,494"/>
+<area shape="poly" id="edge8_Node000004_Node000006" title=" " alt="" coords="229,469,180,469,180,464,229,464"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="132,428,118,421,93,418,71,420,58,425,52,431,52,439,46,439,47,429,55,420,70,415,93,413,120,416,135,424"/>
+<area shape="poly" id="edge13_Node000008_Node000008" title=" " alt="" coords="370,326,356,318,331,315,309,317,296,322,290,328,290,337,284,337,285,326,293,318,308,312,331,310,358,313,373,321"/>
+<area shape="poly" id="edge16_Node000009_Node000003" title=" " alt="" coords="244,166,165,137,167,132,246,161"/>
+<area shape="poly" id="edge15_Node000009_Node000005" title=" " alt="" coords="247,231,121,279,120,274,245,226"/>
+<area shape="poly" id="edge17_Node000009_Node000009" title=" " alt="" coords="370,158,356,150,331,147,309,149,296,154,290,160,290,169,284,169,285,158,293,150,308,144,331,142,358,145,373,153"/>
+</map>

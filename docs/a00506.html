@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexMakeShared.hpp File Reference</title>
+<title>LumexLib: example_span_std_conversion.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,65 +104,130 @@ $(function(){initNavTree('a00506.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexMakeShared.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_span_std_conversion.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>make_shared</code> and <code>allocate_shared</code>: create the object and its control block in one allocation ([util.smartptr.shared.create]).  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00491_source.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlKinds.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00494_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrAccess.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00500_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrTraits.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00515_source.html">lumex/core/smart_ptr/shared/LumexSharedPtr.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01400_source.html">lumex/core/span/LumexSpan</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexMakeShared.hpp:</div>
+Include dependency graph for example_span_std_conversion.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00507.png" border="0" usemap="#a_lumex_make_shared_8hpp" alt=""/></div>
+<div class="center"><img src="a00507.png" border="0" usemap="#aexample__span__std__conversion_8cpp" alt=""/></div>
+<map name="aexample__span__std__conversion_8cpp" id="aexample__span__std__conversion_8cpp">
+<area shape="rect" title=" " alt="" coords="168,5,417,31"/>
+<area shape="rect" title=" " alt="" coords="5,321,76,346"/>
+<area shape="poly" title=" " alt="" coords="245,33,197,52,152,81,117,114,95,145,78,180,61,226,50,268,45,307,39,306,44,267,55,225,73,178,90,142,113,111,148,77,195,47,243,28"/>
+<area shape="rect" title=" " alt="" coords="162,79,229,104"/>
+<area shape="poly" title=" " alt="" coords="277,33,225,72,222,68,274,29"/>
+<area shape="rect" title=" " alt="" coords="253,79,333,104"/>
+<area shape="poly" title=" " alt="" coords="295,31,295,65,290,65,290,31"/>
+<area shape="rect" title=" " alt="" coords="357,79,420,104"/>
+<area shape="poly" title=" " alt="" coords="311,29,362,68,359,72,308,33"/>
+<area shape="rect" href="a01400.html" title="Span module: a C++11 implementation of the C++20 std::span." alt="" coords="579,79,790,104"/>
+<area shape="poly" title=" " alt="" coords="361,28,603,73,602,79,360,33"/>
+<area shape="rect" href="a01040.html" title="Constants, the byte type and the traits behind span." alt="" coords="587,233,783,258"/>
+<area shape="poly" title=" " alt="" coords="687,104,687,219,682,219,682,104"/>
+<area shape="rect" href="a01046.html" title="C++11 implementation of std::span (C++20): a non&#45;owning view of a contiguous sequence of objects." alt="" coords="932,152,1093,177"/>
+<area shape="poly" title=" " alt="" coords="742,101,943,146,942,152,741,107"/>
+<area shape="poly" title=" " alt="" coords="587,259,384,283,146,316,90,326,89,321,146,311,383,277,586,253"/>
+<area shape="rect" title=" " alt="" coords="1018,321,1074,346"/>
+<area shape="poly" title=" " alt="" coords="775,255,887,277,1007,311,1011,312,1009,317,1005,316,885,282,774,261"/>
+<area shape="rect" title=" " alt="" coords="799,321,909,346"/>
+<area shape="poly" title=" " alt="" coords="711,256,818,312,816,317,708,260"/>
+<area shape="rect" title=" " alt="" coords="129,409,200,434"/>
+<area shape="poly" title=" " alt="" coords="587,256,348,280,245,297,211,306,192,315,179,333,171,353,166,395,160,395,166,352,174,330,188,311,209,301,244,292,348,275,586,250"/>
+<area shape="rect" title=" " alt="" coords="203,321,289,346"/>
+<area shape="poly" title=" " alt="" coords="587,260,451,283,301,316,292,319,290,314,300,311,450,277,586,255"/>
+<area shape="rect" title=" " alt="" coords="776,409,868,434"/>
+<area shape="poly" title=" " alt="" coords="684,258,680,303,684,328,694,352,708,369,725,383,764,403,762,408,722,387,704,373,689,355,679,330,675,303,679,258"/>
+<area shape="rect" title=" " alt="" coords="933,321,993,346"/>
+<area shape="poly" title=" " alt="" coords="739,255,826,279,923,311,927,313,925,317,921,316,825,284,738,261"/>
+<area shape="rect" title=" " alt="" coords="545,321,622,346"/>
+<area shape="poly" title=" " alt="" coords="671,260,610,314,607,310,668,256"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1199,313,1389,353"/>
+<area shape="poly" title=" " alt="" coords="773,255,1186,315,1185,320,772,261"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1293,401,1548,441"/>
+<area shape="poly" title=" " alt="" coords="698,256,747,312,787,351,830,366,886,376,1021,388,1162,393,1280,399,1280,404,1162,398,1020,393,885,382,829,371,785,356,744,316,694,260"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1055,401,1269,441"/>
+<area shape="poly" title=" " alt="" coords="690,257,707,304,723,330,744,351,765,363,794,373,870,390,957,403,1042,411,1041,416,956,408,869,395,793,378,763,368,740,355,718,333,702,307,685,259"/>
+<area shape="rect" href="a01049.html" title="is_contiguous_iterator for the iterator classes of the standard libraries below C++20." alt="" coords="313,313,520,353"/>
+<area shape="poly" title=" " alt="" coords="640,261,484,311,483,306,638,256"/>
+<area shape="poly" title=" " alt="" coords="1200,354,882,413,881,408,1199,348"/>
+<area shape="poly" title=" " alt="" coords="1325,352,1382,391,1379,396,1322,356"/>
+<area shape="poly" title=" " alt="" coords="1265,356,1205,396,1202,391,1262,352"/>
+<area shape="poly" title=" " alt="" coords="485,311,639,260,640,265,487,316"/>
+<area shape="poly" title=" " alt="" coords="360,356,214,407,212,402,358,351"/>
+<area shape="poly" title=" " alt="" coords="510,351,763,406,762,411,509,356"/>
+<area shape="poly" title=" " alt="" coords="932,168,722,172,460,182,226,200,143,212,115,220,97,228,79,244,65,265,48,309,43,307,60,263,75,241,94,223,113,215,142,207,225,195,460,177,722,167,932,163"/>
+<area shape="poly" title=" " alt="" coords="962,180,750,232,749,227,960,175"/>
+<area shape="poly" title=" " alt="" coords="1018,177,1043,307,1038,308,1013,178"/>
+<area shape="poly" title=" " alt="" coords="1003,179,877,312,874,309,999,176"/>
+<area shape="poly" title=" " alt="" coords="932,175,733,198,490,231,375,251,276,272,203,293,179,304,165,315,156,333,153,354,158,395,153,396,148,354,151,332,161,312,176,300,201,289,275,267,374,246,489,226,733,193,932,170"/>
+<area shape="poly" title=" " alt="" coords="1028,176,1056,209,1086,255,1097,280,1102,306,1100,331,1088,355,1074,367,1054,378,1001,395,940,408,882,417,881,412,939,403,1000,390,1052,373,1071,363,1084,352,1095,330,1097,307,1092,282,1082,257,1052,212,1023,179"/>
+<area shape="poly" title=" " alt="" coords="1012,178,973,308,968,307,1006,177"/>
+<area shape="poly" title=" " alt="" coords="1066,175,1123,194,1182,223,1231,261,1270,301,1267,305,1228,265,1179,228,1121,199,1064,180"/>
+<area shape="poly" title=" " alt="" coords="1094,166,1203,173,1329,184,1446,200,1493,211,1528,223,1564,239,1590,256,1611,279,1630,312,1637,334,1630,355,1614,368,1591,380,1530,400,1529,395,1589,375,1611,364,1625,352,1631,334,1625,314,1607,282,1587,260,1561,244,1526,228,1491,216,1445,206,1329,189,1203,178,1093,171"/>
+<area shape="poly" title=" " alt="" coords="1060,175,1099,194,1117,207,1132,224,1153,264,1164,308,1168,351,1168,387,1163,387,1163,351,1159,309,1148,266,1128,227,1113,211,1096,198,1058,180"/>
+<area shape="rect" href="a01043.html" title="The switch of the precondition checks of span: the macro LUMEX_SPAN_CHECKS and the macro LUMEX_SPAN_C..." alt="" coords="1337,225,1515,265"/>
+<area shape="poly" title=" " alt="" coords="1078,175,1324,223,1323,228,1077,180"/>
+<area shape="poly" title=" " alt="" coords="1397,268,1337,308,1334,303,1394,264"/>
+<area shape="poly" title=" " alt="" coords="1430,266,1425,310,1417,334,1403,355,1383,369,1355,381,1283,401,1282,396,1353,376,1381,364,1399,351,1412,332,1420,309,1424,265"/>
+<area shape="rect" title=" " alt="" coords="1554,321,1615,346"/>
+<area shape="poly" title=" " alt="" coords="1464,263,1551,312,1549,316,1461,268"/>
+<area shape="rect" title=" " alt="" coords="1464,321,1529,346"/>
+<area shape="poly" title=" " alt="" coords="1444,264,1480,308,1476,311,1440,267"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00508.png" border="0" usemap="#a_lumex_make_shared_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00506_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01385.html">lumex::core::smart_ptr</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac243d4e88836c3a0895003c2c3fb6e9f" id="r_ac243d4e88836c3a0895003c2c3fb6e9f"><td class="memTemplParams" colspan="2">template&lt;class T, class A, class... Args&gt; </td></tr>
-<tr class="memitem:ac243d4e88836c3a0895003c2c3fb6e9f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03686.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01385.html#ac243d4e88836c3a0895003c2c3fb6e9f">lumex::core::smart_ptr::allocate_shared</a> (A const &amp;alloc, Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:ac243d4e88836c3a0895003c2c3fb6e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code>T</code> constructed from <code class="param">args</code> in one allocation made with a copy of <code class="param">alloc</code>.  <br /></td></tr>
-<tr class="separator:ac243d4e88836c3a0895003c2c3fb6e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5f9b825794c24606e999e4108a2a9bd" id="r_af5f9b825794c24606e999e4108a2a9bd"><td class="memTemplParams" colspan="2">template&lt;class T, class... Args&gt; </td></tr>
-<tr class="memitem:af5f9b825794c24606e999e4108a2a9bd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03686.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01385.html#af5f9b825794c24606e999e4108a2a9bd">lumex::core::smart_ptr::make_shared</a> (Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:af5f9b825794c24606e999e4108a2a9bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code>T</code> constructed from <code class="param">args</code> in one allocation.  <br /></td></tr>
-<tr class="separator:af5f9b825794c24606e999e4108a2a9bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>make_shared</code> and <code>allocate_shared</code>: create the object and its control block in one allocation ([util.smartptr.shared.create]). </p>
-<p><code>allocate_shared&lt;T&gt; (alloc, args...)</code> allocates ONE block with a copy of <code class="param">alloc</code> rebound to the block type and constructs the object in it with <code>allocator_traits::construct</code> of an allocator rebound to the value type; the block is deallocated with a rebound copy of the allocator when the last owner and the last weak pointer are gone (the object is destroyed with <code>allocator_traits::destroy</code> as soon as the last owner is gone, and its memory stays with the block until then). <code>make_shared&lt;T&gt; (args...)</code> is the same with the module's allocator (<code>operator new</code>, aligned for the type on every standard, over-aligned types included) and constructs the object with <code>::new (p) T (args...)</code>. If the constructor throws, the memory goes back to the allocator and the exception propagates. A class with a base <code>enable_shared_from_this</code> has its weak reference set; a class with only the standard <code>std::enable_shared_from_this</code> base is rejected by a <code>static_assert</code>, as by <code>shared_ptr (Y *)</code>.</p>
-<p>The array forms of C++20 (<code>make_shared&lt;T[]&gt;</code>, <code>make_shared&lt;T[N]&gt;</code>) are not provided; naming one is a compile error with a message. Allocators must have raw pointers. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00506_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00506_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00506_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00506_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,125,60,150"/>
+<area shape="rect" href="a01565.html#a1057d64ff5f47361ae80276a4f2cab85" title="The bytes of a span as a read&#45;only span of byte." alt="" coords="108,29,255,69"/>
+<area shape="poly" title=" " alt="" coords="47,122,107,79,118,73,120,78,109,84,50,126"/>
+<area shape="rect" href="a04027.html#ab5393aa7cdc476762748852718a134b7" title="The number of elements." alt="" coords="108,117,255,157"/>
+<area shape="poly" title=" " alt="" coords="60,135,94,135,94,140,60,140"/>
+<area shape="rect" href="a00449.html#a765661df16a1d68eca933c5943f17427" title="Adds samples up, for example every process of one name." alt="" coords="155,182,207,207"/>
+<area shape="poly" title=" " alt="" coords="61,147,109,167,143,179,141,184,107,172,59,152"/>
+<area shape="poly" title=" " alt="" coords="153,29,151,20,156,11,166,5,181,3,199,6,209,13,205,17,197,11,181,8,168,10,160,14,157,21,158,28"/>
+<area shape="poly" title=" " alt="" coords="153,117,151,108,156,99,166,93,181,91,199,94,209,101,205,105,197,99,181,96,168,98,160,102,157,109,158,116"/>
+</map>
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_f49348c03cbbd10cc8855c06335ffde3.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_c7186a63cc4042f6da140f12fedf3760.html">make</a></li><li class="navelem"><a class="el" href="a00506.html">LumexMakeShared.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_105904fcb25bcfb5016e41ac15f378dd.html">span</a></li><li class="navelem"><a class="el" href="a00506.html">example_span_std_conversion.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

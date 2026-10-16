@@ -1,0 +1,7 @@
+<map id="lumex::xml::utility::get_value_ullong" name="lumex::xml::utility::get_value_ullong">
+<area shape="rect" id="Node000001" title=" " alt="" coords="244,37,387,77"/>
+<area shape="rect" id="Node000002" href="$a05115.html#adf984b7d352ce6d8d63aeaa0d608306b" title="Converts the attribute&#39;s value to an unsigned long long." alt="" coords="9,5,192,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,47,192,42,192,36,231,42"/>
+<area shape="rect" id="Node000003" href="$a05187.html#a6bab2adcf794264fda7114649688fae3" title="Converts the text object&#39;s value to an unsigned long long." alt="" coords="5,69,196,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,73,197,78,196,72,230,67"/>
+</map>

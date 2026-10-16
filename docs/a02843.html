@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::result::detail::storage::has_val_flag&lt; Alignment &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02846.html',''); initResizable(true); });
+$(function(){initNavTree('a02843.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,19 +103,163 @@ $(function(){initNavTree('a02846.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::named_arg_t&lt; Char, T &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a02840.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::detail::storage::has_val_flag&lt; Alignment &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02846.html">lumex::core::fmt::Detail::named_arg_t&lt; Char, T &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02846.html#aeff16f0f2ff5f3529cb5059a909617f6">name</a></td><td class="entry"><a class="el" href="a02846.html">lumex::core::fmt::Detail::named_arg_t&lt; Char, T &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02846.html#ad132c2f1ee3fb790a3c46d486bf37571">value</a></td><td class="entry"><a class="el" href="a02846.html">lumex::core::fmt::Detail::named_arg_t&lt; Char, T &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>has_val</code> of [expected.object.general]: a <code>bool</code> in a class as large as the alignment of the union before it.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00908_source.html">ExpectedStorage.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a295e4af10a04496b172bb02fd8019f4b" id="r_a295e4af10a04496b172bb02fd8019f4b"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a295e4af10a04496b172bb02fd8019f4b">has_val_flag</a> (bool present) noexcept</td></tr>
+<tr class="memdesc:a295e4af10a04496b172bb02fd8019f4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores <code>present</code>.  <br /></td></tr>
+<tr class="separator:a295e4af10a04496b172bb02fd8019f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273d91f2b879955aee56b16b8857b17c" id="r_a273d91f2b879955aee56b16b8857b17c"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a273d91f2b879955aee56b16b8857b17c">operator bool</a> () const noexcept</td></tr>
+<tr class="memdesc:a273d91f2b879955aee56b16b8857b17c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The flag.  <br /></td></tr>
+<tr class="separator:a273d91f2b879955aee56b16b8857b17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc2429892066e2f6de49a39e842b0d47" id="r_adc2429892066e2f6de49a39e842b0d47"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02843.html">has_val_flag</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc2429892066e2f6de49a39e842b0d47">operator=</a> (bool present) noexcept</td></tr>
+<tr class="memdesc:adc2429892066e2f6de49a39e842b0d47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores <code>present</code>.  <br /></td></tr>
+<tr class="separator:adc2429892066e2f6de49a39e842b0d47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a4bb85020eb61aac5592cbb11cec04fa9" id="r_a4bb85020eb61aac5592cbb11cec04fa9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bb85020eb61aac5592cbb11cec04fa9">m_flag</a></td></tr>
+<tr class="memdesc:a4bb85020eb61aac5592cbb11cec04fa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The flag.  <br /></td></tr>
+<tr class="separator:a4bb85020eb61aac5592cbb11cec04fa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;std::size_t Alignment&gt;<br />
+struct lumex::core::expected::result::detail::storage::has_val_flag&lt; Alignment &gt;</div><p><code>has_val</code> of [expected.object.general]: a <code>bool</code> in a class as large as the alignment of the union before it. </p>
+<p>A plain <code>bool</code> after a union of 4 bytes leaves 3 bytes of tail padding in the storage. The storage is a base class of <code>expected</code> (a chain of them), and the Itanium C++ ABI lets a derived class use the tail padding of a base that is not a POD, so the compiler may copy only the 5 bytes in front of the padding. GCC 13 then builds a trivially copyable <code>expected&lt;int, unsigned&gt;</code> that a function returns in one 8-byte register through a stack slot (a 4-byte store for the value, a 1-byte store for the flag, an 8-byte load that must wait for both: a store-forwarding stall, counter <code>LD_BLOCKS.STORE_FORWARD</code>, one per call chain). A data member always occupies its whole <code>sizeof</code>, so the padding that this class holds is not a base's tail padding, the storage has none, and the compiler keeps the object in the register as it does for the members of <code>std::expected</code> (which has no base classes). <code>sizeof</code> and the alignment of <code>expected</code> do not change: the size of a union is a multiple of its alignment, so <code>sizeof (union) + alignment</code> is also what the <code>bool</code> and its padding made. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Alignment</td><td>Alignment of the union before the flag. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a295e4af10a04496b172bb02fd8019f4b" name="a295e4af10a04496b172bb02fd8019f4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a295e4af10a04496b172bb02fd8019f4b">&#9670;&#160;</a></span>has_val_flag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t Alignment&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02843.html">lumex::core::expected::result::detail::storage::has_val_flag</a>&lt; Alignment &gt;::has_val_flag </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>present</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stores <code>present</code>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a273d91f2b879955aee56b16b8857b17c" name="a273d91f2b879955aee56b16b8857b17c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a273d91f2b879955aee56b16b8857b17c">&#9670;&#160;</a></span>operator bool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t Alignment&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02843.html">lumex::core::expected::result::detail::storage::has_val_flag</a>&lt; Alignment &gt;::operator bool </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The flag. </p>
+
+</div>
+</div>
+<a id="adc2429892066e2f6de49a39e842b0d47" name="adc2429892066e2f6de49a39e842b0d47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc2429892066e2f6de49a39e842b0d47">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t Alignment&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02843.html">has_val_flag</a> &amp; <a class="el" href="a02843.html">lumex::core::expected::result::detail::storage::has_val_flag</a>&lt; Alignment &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>present</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stores <code>present</code>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4bb85020eb61aac5592cbb11cec04fa9" name="a4bb85020eb61aac5592cbb11cec04fa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bb85020eb61aac5592cbb11cec04fa9">&#9670;&#160;</a></span>m_flag</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t Alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a02843.html">lumex::core::expected::result::detail::storage::has_val_flag</a>&lt; Alignment &gt;::m_flag</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The flag. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00908_source.html">ExpectedStorage.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01532.html">result</a></li><li class="navelem"><a class="el" href="a01533.html">detail</a></li><li class="navelem"><a class="el" href="a01535.html">storage</a></li><li class="navelem"><a class="el" href="a02843.html">has_val_flag</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

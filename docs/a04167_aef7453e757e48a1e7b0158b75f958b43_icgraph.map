@@ -1,0 +1,35 @@
+<map id="lumex::core::string_view::view::lumex_basic_string_view::size" name="lumex::core::string_view::view::lumex_basic_string_view::size">
+<area shape="rect" id="Node000001" title="The number of characters." alt="" coords="489,449,676,503"/>
+<area shape="rect" id="Node000002" href="$a02039.html#abf0c2c4214bf10c4e53c7f7a3b5f5d33" title="Decodes a Base64 string." alt="" coords="243,5,435,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="578,435,569,356,546,255,528,202,505,150,476,102,440,59,424,48,427,43,443,55,480,99,510,148,533,200,552,254,574,355,583,434"/>
+<area shape="rect" id="Node000003" href="$a02039.html#a360afd49df79519220388de49571f5a4" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="243,69,435,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="575,435,562,368,538,284,520,240,498,198,471,158,440,123,423,112,427,107,443,119,475,155,502,195,525,238,543,282,567,366,580,434"/>
+<area shape="rect" id="Node000004" href="$a02047.html#a60f7824316d61b0bddf6388be5f4110f" title="Encodes the characters of a string view into a Base64 string." alt="" coords="243,133,435,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="571,436,555,380,528,313,490,245,467,215,440,187,422,176,425,171,443,183,471,211,495,242,533,311,560,378,576,434"/>
+<area shape="rect" id="Node000005" href="$a01461.html#a338216e93dcc183c0b94bcc5f00f0579" title="The file name of a /proc/&lt;pid&gt;/exe link target." alt="" coords="248,198,431,253"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="563,437,543,397,515,351,480,306,440,266,423,255,426,251,443,262,484,302,519,348,547,395,568,435"/>
+<area shape="rect" id="Node000006" href="$a02051.html#a1d9c71796e7ea3011f64939ff07a92f6" title="Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the ..." alt="" coords="262,277,417,331"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="549,440,500,391,440,345,416,332,418,327,443,340,503,387,552,436"/>
+<area shape="rect" id="Node000007" href="$a01461.html#ab85d8b416a2ab829a4f6ab529a0fb87c" title="The Linux name rule: does a process named name match the requested name?" alt="" coords="248,355,431,410"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="498,446,440,424,411,413,413,408,442,419,500,441"/>
+<area shape="rect" id="Node000008" href="$a00290.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="312,434,367,459"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="476,466,367,453,367,447,476,460"/>
+<area shape="rect" id="Node000009" href="$a05115.html#aa13144828d356822926f495ad376f662" title="Assigns a string_view_t as the attribute&#39;s value." alt="" coords="246,484,433,524"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="476,491,433,496,433,491,475,486"/>
+<area shape="rect" id="Node000010" href="$a05187.html#a5fd089e0964587b6b63692d2627e76b1" title="Assignment operator for a string_view_t." alt="" coords="244,548,435,588"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="510,511,442,538,407,550,406,545,440,534,508,506"/>
+<area shape="rect" id="Node000011" href="$a01456.html#a6717a3ed5cd72967d51be31b9a06e15b" title="The value of a Key: &lt;number&gt; kB line, as /proc/meminfo and /proc/&lt;pid&gt;/status write them." alt="" coords="247,613,431,667"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="549,516,501,560,443,602,419,615,416,610,440,598,497,556,545,512"/>
+<area shape="rect" id="Node000014" href="$a01456.html#a0e67ec54524f7f56bec9c2d60b10aafa" title="Parses the text of /proc/stat." alt="" coords="247,691,431,746"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="567,517,546,555,518,600,483,644,443,682,426,693,423,689,440,678,480,640,514,596,541,553,562,514"/>
+<area shape="rect" id="Node000015" href="$a05115.html#a7a36fb5f2f3a3ab150c6754ffb38e4db" title="Sets the value of the XML attribute from a string_view_t." alt="" coords="247,771,431,811"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="576,517,559,572,532,638,494,704,470,734,443,761,425,773,422,768,440,757,466,730,490,701,527,635,554,570,571,516"/>
+<area shape="rect" id="Node000016" href="$a05143.html#aa15caa513c7570b4cd374f9f364cabc3" title="Sets the value of the XML node from a string_view_t." alt="" coords="237,835,441,875"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="580,517,567,584,542,666,524,709,502,751,475,790,443,825,427,837,423,832,440,821,471,787,497,748,519,707,537,665,562,583,575,516"/>
+<area shape="rect" id="Node000017" href="$a01671.html#a3c5deb31f79c24e9ee3be945e125e6bd" title=" " alt="" coords="268,899,411,939"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="583,517,573,595,550,695,532,747,509,798,479,846,443,889,412,908,410,903,440,885,475,843,504,796,527,745,545,693,568,594,578,517"/>
+<area shape="rect" id="Node000012" href="$a01456.html#adb9007f2be00ed6f67e4ea5fb3bcf1af" title="Parses the text of /proc/meminfo." alt="" coords="5,574,189,629"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="233,626,189,619,190,613,234,621"/>
+<area shape="rect" id="Node000013" href="$a01461.html#abfd03a410a583bd4d98d8452b164f802" title="Parses the text of /proc/&lt;pid&gt;/status." alt="" coords="6,653,189,707"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="234,660,189,668,188,662,233,655"/>
+</map>

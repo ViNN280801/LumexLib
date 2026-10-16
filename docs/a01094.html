@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathLexer.cpp File Reference</title>
+<title>LumexLib: LumexRanges.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,45 +104,377 @@ $(function(){initNavTree('a01094.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XPathLexer.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexRanges.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00950_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01097_source.html">XPathLexer.hpp</a>&quot;</code><br />
+
+<p><code>get_nearest_to()</code>, which finds the element of a sorted range whose value is numerically nearest to a given value.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01388_source.html">lumex/core/math/LumexMath</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01106_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01133_source.html">lumex/core/utility/functional/LumexFunctional.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01067_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathLexer.cpp:</div>
+Include dependency graph for LumexRanges.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01095.png" border="0" usemap="#a_x_path_lexer_8cpp" alt=""/></div>
+<div class="center"><img src="a01095.png" border="0" usemap="#aLumexRanges_8hpp" alt=""/></div>
+<map name="aLumexRanges_8hpp" id="aLumexRanges_8hpp">
+<area shape="rect" title="get_nearest_to(), which finds the element of a sorted range whose value is numerically nearest to a g..." alt="" coords="681,5,823,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,91,111"/>
+<area shape="poly" title=" " alt="" coords="681,22,570,27,427,37,268,55,110,81,96,85,95,79,109,76,268,49,426,32,569,22,680,17"/>
+<area shape="rect" title=" " alt="" coords="267,174,354,199"/>
+<area shape="poly" title=" " alt="" coords="681,28,579,47,524,62,470,81,440,99,412,121,342,168,339,164,409,117,437,94,468,76,522,57,578,42,680,23"/>
+<area shape="rect" title=" " alt="" coords="2893,262,2963,287"/>
+<area shape="poly" title=" " alt="" coords="824,16,1063,19,1418,29,1835,46,2263,76,2366,79,2458,71,2619,52,2694,52,2730,57,2766,67,2803,82,2839,102,2877,130,2915,165,2928,184,2934,206,2935,249,2930,249,2929,207,2923,186,2911,168,2874,134,2837,107,2800,87,2765,72,2729,63,2693,58,2620,58,2458,77,2366,84,2263,81,1835,52,1417,34,1062,25,824,21"/>
+<area shape="rect" title=" " alt="" coords="334,350,426,375"/>
+<area shape="poly" title=" " alt="" coords="680,23,539,28,373,39,230,57,181,68,155,81,126,112,116,128,111,148,113,172,125,203,150,243,190,293,211,308,243,322,321,346,320,351,241,327,208,312,186,297,146,246,121,206,108,173,105,147,111,126,122,108,152,77,179,63,229,51,373,34,539,23,680,17"/>
+<area shape="rect" title=" " alt="" coords="2525,350,2585,375"/>
+<area shape="poly" title=" " alt="" coords="824,16,1172,19,1679,29,2197,47,2413,60,2576,76,2685,84,2773,88,2813,94,2854,108,2896,130,2942,165,2972,195,2992,227,2996,244,2995,262,2990,279,2978,297,2958,308,2922,318,2817,337,2599,361,2598,356,2816,331,2921,313,2956,303,2974,293,2985,277,2990,261,2991,245,2987,229,2968,198,2938,169,2893,135,2852,113,2812,100,2772,93,2685,89,2576,81,2413,65,2197,52,1679,34,1172,25,823,21"/>
+<area shape="rect" href="a01388.html" title="Math module: mathematical constants as LUMEX_MATH_CONSTANTS_* macros, and numeric helpers such as NaN..." alt="" coords="2037,86,2251,111"/>
+<area shape="poly" title=" " alt="" coords="824,19,1807,76,2024,89,2024,94,1807,81,823,25"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="787,255,976,295"/>
+<area shape="poly" title=" " alt="" coords="758,30,785,106,805,156,830,205,856,242,852,245,826,208,801,159,780,108,753,32"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1471,343,1726,383"/>
+<area shape="poly" title=" " alt="" coords="824,18,1157,37,1334,54,1407,64,1462,76,1519,89,1565,101,1585,110,1604,123,1622,141,1640,165,1649,186,1653,208,1650,253,1637,296,1620,332,1615,330,1632,294,1645,252,1648,208,1644,188,1635,168,1618,144,1601,127,1582,115,1563,106,1517,95,1461,81,1406,69,1333,59,1156,42,823,23"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="451,343,664,383"/>
+<area shape="poly" title=" " alt="" coords="703,33,651,51,594,79,540,118,517,141,498,168,494,189,492,223,495,262,502,294,513,313,527,331,523,334,509,316,498,296,490,263,487,224,488,188,494,166,513,138,536,114,591,75,649,47,701,28"/>
+<area shape="rect" href="a01133.html" title="identity and less, the function objects of this library that correspond to std::identity (C++20) and ..." alt="" coords="166,79,399,119"/>
+<area shape="poly" title=" " alt="" coords="681,33,413,79,412,74,680,28"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="1249,79,1450,119"/>
+<area shape="poly" title=" " alt="" coords="824,25,1235,81,1235,86,823,30"/>
+<area shape="rect" href="a00938.html" title="Mathematical constants as LUMEX_MATH_CONSTANTS_* macros." alt="" coords="2643,174,2901,199"/>
+<area shape="poly" title=" " alt="" coords="2235,109,2668,169,2668,175,2234,114"/>
+<area shape="rect" href="a00935.html" title="Numeric helpers: NaN/Inf checks, exact floating&#45;point comparison, checked narrowing casts,..." alt="" coords="2067,174,2221,199"/>
+<area shape="poly" title=" " alt="" coords="2147,112,2147,160,2141,160,2141,112"/>
+<area shape="poly" title=" " alt="" coords="2221,190,2488,213,2655,230,2823,252,2879,262,2879,267,2822,257,2655,236,2488,218,2221,195"/>
+<area shape="poly" title=" " alt="" coords="2090,202,2021,224,1949,257,1937,267,1929,278,1920,288,1905,297,1865,308,1805,316,1634,327,1416,332,1175,333,714,334,542,337,439,345,425,349,424,343,438,340,541,332,714,329,1175,328,1416,326,1634,321,1804,310,1864,302,1903,292,1916,284,1925,274,1933,263,1947,252,2019,219,2088,197"/>
+<area shape="poly" title=" " alt="" coords="2222,190,2274,197,2331,209,2391,227,2447,252,2490,289,2536,338,2532,341,2486,293,2444,257,2389,232,2330,214,2273,202,2221,195"/>
+<area shape="rect" title=" " alt="" coords="2069,262,2131,287"/>
+<area shape="poly" title=" " alt="" coords="2140,201,2115,250,2110,248,2135,198"/>
+<area shape="rect" title=" " alt="" coords="1687,262,1758,287"/>
+<area shape="poly" title=" " alt="" coords="2084,202,1772,267,1771,262,2083,197"/>
+<area shape="rect" title=" " alt="" coords="2156,262,2223,287"/>
+<area shape="poly" title=" " alt="" coords="2153,198,2179,248,2174,251,2148,201"/>
+<area shape="rect" title=" " alt="" coords="1833,262,1892,287"/>
+<area shape="poly" title=" " alt="" coords="2095,202,2009,226,1912,257,1906,259,1904,254,1910,252,2007,221,2094,197"/>
+<area shape="rect" title=" " alt="" coords="2247,262,2321,287"/>
+<area shape="poly" title=" " alt="" coords="2166,197,2254,252,2251,257,2163,202"/>
+<area shape="rect" title=" " alt="" coords="2346,262,2433,287"/>
+<area shape="poly" title=" " alt="" coords="2181,197,2342,255,2340,260,2179,202"/>
+<area shape="rect" title=" " alt="" coords="2775,350,2833,375"/>
+<area shape="poly" title=" " alt="" coords="2221,187,2370,195,2545,209,2698,228,2752,239,2782,253,2796,271,2804,293,2809,336,2803,337,2799,294,2791,274,2778,257,2750,244,2697,233,2545,214,2370,201,2221,193"/>
+<area shape="poly" title=" " alt="" coords="2067,195,990,270,990,264,2067,189"/>
+<area shape="poly" title=" " alt="" coords="2129,202,2057,257,2000,297,1953,312,1888,325,1740,348,1739,343,1887,320,1952,307,1997,292,2054,253,2126,197"/>
+<area shape="poly" title=" " alt="" coords="2112,202,2059,226,2000,257,1976,279,1965,288,1949,297,1873,313,1745,325,1388,345,994,357,678,364,678,358,994,352,1388,340,1744,320,1872,307,1947,292,1962,284,1972,275,1997,252,2056,221,2110,197"/>
+<area shape="rect" href="a01121.html" title="Macros that declare an exception class in one line." alt="" coords="2507,255,2767,295"/>
+<area shape="poly" title=" " alt="" coords="2216,197,2512,250,2511,255,2215,202"/>
+<area shape="poly" title=" " alt="" coords="787,295,775,297,680,310,606,317,533,326,439,345,427,348,426,343,438,340,532,321,606,312,680,305,774,292,786,290"/>
+<area shape="poly" title=" " alt="" coords="977,289,995,292,1240,323,1458,347,1457,352,1239,329,994,297,976,295"/>
+<area shape="poly" title=" " alt="" coords="808,297,646,341,644,336,807,292"/>
+<area shape="poly" title=" " alt="" coords="2620,297,2578,342,2574,338,2616,293"/>
+<area shape="poly" title=" " alt="" coords="2677,292,2769,341,2767,346,2674,297"/>
+<area shape="poly" title=" " alt="" coords="292,118,305,160,300,161,287,120"/>
+<area shape="poly" title=" " alt="" coords="253,121,230,142,213,168,199,203,193,233,197,261,213,293,234,316,262,333,292,345,321,353,320,358,290,350,259,338,231,320,208,296,192,263,188,232,194,201,208,165,226,138,250,117"/>
+<area shape="poly" title=" " alt="" coords="400,107,556,128,642,144,726,164,778,184,829,204,996,248,1166,286,1458,339,1457,344,1165,291,995,254,827,209,776,189,725,169,641,149,555,134,399,112"/>
+<area shape="poly" title=" " alt="" coords="271,120,261,139,253,161,250,184,257,205,275,230,295,252,345,288,399,316,453,336,451,341,397,321,342,293,292,256,270,233,252,208,245,185,248,160,256,137,266,117"/>
+<area shape="poly" title=" " alt="" coords="1249,105,793,129,550,147,450,158,374,169,359,173,358,168,373,164,449,153,549,142,792,123,1248,100"/>
+<area shape="poly" title=" " alt="" coords="1450,98,1727,107,2075,120,2392,140,2507,151,2574,164,2592,173,2604,184,2615,195,2632,204,2697,226,2751,233,2805,238,2874,252,2884,255,2882,260,2873,257,2805,243,2750,238,2696,231,2630,209,2612,199,2600,188,2589,178,2572,169,2506,156,2392,145,2075,126,1727,112,1450,104"/>
+<area shape="poly" title=" " alt="" coords="1249,104,1050,112,816,125,610,144,538,156,497,169,476,185,456,205,425,251,403,298,389,338,384,336,398,296,420,249,452,202,472,181,495,164,537,150,610,138,816,119,1050,106,1248,99"/>
+<area shape="poly" title=" " alt="" coords="1451,110,1588,133,1650,148,1693,164,1717,180,1734,196,1758,231,1782,264,1799,279,1822,292,1863,303,1935,313,2134,333,2511,358,2511,363,2134,338,1934,319,1862,308,1820,297,1796,283,1778,267,1754,234,1730,200,1713,184,1691,169,1648,153,1587,139,1450,115"/>
+<area shape="poly" title=" " alt="" coords="1451,110,1569,133,1621,148,1656,164,1677,183,1693,205,1716,248,1711,250,1689,208,1673,186,1653,169,1619,153,1568,138,1450,115"/>
+<area shape="poly" title=" " alt="" coords="1451,106,1569,127,1632,143,1693,164,1734,184,1774,207,1838,251,1835,256,1771,211,1732,188,1691,169,1630,148,1568,132,1450,111"/>
+<area shape="poly" title=" " alt="" coords="1450,101,1798,124,2015,142,2234,164,2526,200,2715,228,2781,241,2811,253,2822,273,2825,295,2817,338,2812,337,2819,295,2817,274,2808,257,2779,247,2715,234,2525,205,2233,169,2015,147,1797,129,1450,107"/>
+<area shape="poly" title=" " alt="" coords="1451,110,1547,131,1586,147,1611,165,1623,184,1630,206,1633,250,1626,294,1615,331,1610,329,1621,292,1627,250,1625,207,1618,187,1607,168,1584,151,1546,136,1450,115"/>
+<area shape="poly" title=" " alt="" coords="1249,106,812,132,613,150,549,159,520,169,509,186,503,206,502,227,505,249,520,292,539,330,534,332,515,294,500,250,497,227,498,205,504,184,517,165,548,154,612,144,812,126,1248,101"/>
+<area shape="rect" title=" " alt="" coords="1120,174,1197,199"/>
+<area shape="poly" title=" " alt="" coords="1307,121,1200,171,1197,166,1304,116"/>
+<area shape="rect" title=" " alt="" coords="1222,174,1298,199"/>
+<area shape="poly" title=" " alt="" coords="1330,121,1285,166,1281,162,1327,117"/>
+<area shape="rect" title=" " alt="" coords="1322,174,1377,199"/>
+<area shape="poly" title=" " alt="" coords="1352,119,1352,160,1347,160,1347,119"/>
+<area shape="rect" title=" " alt="" coords="1401,174,1476,199"/>
+<area shape="poly" title=" " alt="" coords="1372,117,1418,162,1414,166,1368,121"/>
+<area shape="rect" title=" " alt="" coords="1501,174,1598,199"/>
+<area shape="poly" title=" " alt="" coords="1396,116,1509,166,1507,171,1394,121"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="531,167,714,207"/>
+<area shape="poly" title=" " alt="" coords="1249,114,728,177,727,171,1248,108"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="841,167,1095,207"/>
+<area shape="poly" title=" " alt="" coords="1263,121,1069,166,1068,161,1262,116"/>
+<area shape="poly" title=" " alt="" coords="683,204,810,248,809,253,681,209"/>
+<area shape="poly" title=" " alt="" coords="604,208,586,230,572,256,562,293,559,329,554,328,557,292,567,254,582,227,600,205"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="581,262,763,287"/>
+<area shape="poly" title=" " alt="" coords="636,206,660,249,656,251,632,208"/>
+<area shape="poly" title=" " alt="" coords="983,206,992,226,1000,250,1000,274,990,296,975,306,949,314,871,330,678,354,677,349,870,325,947,309,973,301,986,293,995,273,994,251,988,228,978,208"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01096.png" border="0" usemap="#aLumexRanges_8hppdep" alt=""/></div>
+<map name="aLumexRanges_8hppdep" id="aLumexRanges_8hppdep">
+<area shape="rect" title="get_nearest_to(), which finds the element of a sorted range whose value is numerically nearest to a g..." alt="" coords="2252,5,2395,31"/>
+<area shape="rect" href="a01418.html" title="Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,..." alt="" coords="2270,79,2377,104"/>
+<area shape="poly" title=" " alt="" coords="2326,44,2326,78,2321,78,2321,44"/>
+<area shape="rect" href="a00890.html" title="lumex_crash_handler, the singleton that writes a dump when the process crashes." alt="" coords="2233,225,2414,251"/>
+<area shape="poly" title=" " alt="" coords="2326,118,2326,225,2321,225,2321,118"/>
+<area shape="rect" href="a01163.html" title="Defines the lumex_environment class for cross&#45;platform environment variable management." alt="" coords="640,152,817,177"/>
+<area shape="poly" title=" " alt="" coords="2256,95,1673,110,1260,128,837,155,818,156,817,151,836,149,1260,122,1673,105,2256,90"/>
+<area shape="rect" href="a01277.html" title=" " alt="" coords="897,475,1041,500"/>
+<area shape="poly" title=" " alt="" coords="2256,95,1945,104,1731,116,1502,134,1273,160,1062,196,969,217,887,242,817,270,764,301,729,329,705,359,699,375,698,391,702,408,712,425,735,436,781,449,897,472,896,478,780,454,733,441,708,429,697,410,692,392,694,374,701,357,726,325,760,296,815,265,885,237,968,212,1061,190,1272,155,1501,128,1731,110,1945,99,2256,89"/>
+<area shape="rect" href="a00926.html" title="Temporary files and directories that delete themselves: temporary_file, temporary_directory and the f..." alt="" coords="292,306,453,331"/>
+<area shape="poly" title=" " alt="" coords="2256,95,1392,113,908,131,732,142,628,155,577,167,538,180,502,198,458,227,414,269,384,307,379,304,410,265,455,223,499,194,536,175,575,162,627,149,731,137,908,125,1391,108,2256,90"/>
+<area shape="rect" href="a00749.html" title="Cross&#45;platform replacement for &lt;filesystem&gt; (C++17) written in pure C++11, compiled into the lumex::f..." alt="" coords="1940,152,2104,177"/>
+<area shape="poly" title=" " alt="" coords="2259,110,2075,154,2074,149,2257,105"/>
+<area shape="rect" href="a01316.html" title=" " alt="" coords="2344,548,2577,573"/>
+<area shape="poly" title=" " alt="" coords="2391,91,2618,107,2758,125,2898,149,2941,155,2984,157,3064,158,3097,164,3124,177,3141,201,3147,238,3147,407,3142,419,3129,431,3082,453,3012,473,2927,493,2736,526,2565,551,2564,545,2735,521,2926,487,3011,468,3080,448,3126,426,3138,416,3142,406,3142,238,3136,203,3120,181,3096,169,3064,163,2984,162,2941,161,2898,155,2757,130,2617,113,2391,96"/>
+<area shape="rect" href="a00881.html" title="Defines the lumex_basic_stacktrace class and related utilities for capturing and symbolizing call sta..." alt="" coords="2459,152,2622,177"/>
+<area shape="poly" title=" " alt="" coords="2375,106,2504,149,2502,154,2373,111"/>
+<area shape="rect" href="a01055.html" title="Provides cross&#45;platform utilities for time and date manipulation." alt="" coords="1483,152,1609,177"/>
+<area shape="poly" title=" " alt="" coords="2256,100,1610,161,1609,156,2256,95"/>
+<area shape="rect" href="a00887.html" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in..." alt="" coords="2687,152,2885,177"/>
+<area shape="poly" title=" " alt="" coords="2391,99,2706,149,2705,155,2390,105"/>
+<area shape="rect" href="a00515.html" title=" " alt="" coords="3182,152,3331,177"/>
+<area shape="poly" title=" " alt="" coords="2391,92,2723,112,2942,129,3164,149,3182,151,3182,157,3163,155,2941,134,2723,118,2390,97"/>
+<area shape="rect" href="a00518.html" title=" " alt="" coords="3355,152,3571,177"/>
+<area shape="poly" title=" " alt="" coords="2391,92,2794,112,3344,149,3355,150,3355,156,3343,155,2794,117,2390,97"/>
+<area shape="rect" href="a00893.html" title=" " alt="" coords="1933,475,2113,500"/>
+<area shape="poly" title=" " alt="" coords="2398,253,2431,271,2456,297,2466,317,2470,335,2468,353,2462,370,2438,401,2403,429,2381,440,2352,450,2277,466,2193,477,2114,484,2113,479,2193,472,2276,460,2351,445,2379,435,2401,424,2434,397,2457,368,2463,352,2464,336,2461,318,2452,300,2427,275,2396,258"/>
+<area shape="rect" href="a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="2698,306,2829,331"/>
+<area shape="poly" title=" " alt="" coords="2416,250,2673,296,2708,303,2707,309,2672,301,2415,256"/>
+<area shape="rect" href="a00299.html" title=" " alt="" coords="2873,394,3057,419"/>
+<area shape="poly" title=" " alt="" coords="2806,334,2936,391,2934,396,2804,339"/>
+<area shape="rect" href="a00302.html" title=" " alt="" coords="2691,387,2849,427"/>
+<area shape="poly" title=" " alt="" coords="2768,345,2771,386,2766,387,2763,345"/>
+<area shape="rect" href="a01367.html" title="Environment module: lumex_environment, thread&#45;safe reading and writing of environment variables on Wi..." alt="" coords="469,225,618,251"/>
+<area shape="poly" title=" " alt="" coords="685,185,577,228,575,223,683,180"/>
+<area shape="rect" href="a01160.html" title=" " alt="" coords="642,225,818,251"/>
+<area shape="poly" title=" " alt="" coords="732,191,732,225,727,225,726,191"/>
+<area shape="poly" title=" " alt="" coords="632,248,761,261,862,268,961,277,1087,296,1163,315,1239,336,1438,379,1637,417,1947,472,1946,477,1636,422,1437,384,1237,341,1162,320,1085,301,960,282,861,273,760,266,631,253"/>
+<area shape="poly" title=" " alt="" coords="596,254,630,272,660,297,672,314,680,332,685,364,690,395,698,410,712,424,737,435,784,448,901,472,899,477,783,453,735,440,708,429,694,413,685,397,679,365,674,333,668,317,656,300,627,276,594,258"/>
+<area shape="poly" title=" " alt="" coords="505,259,401,308,398,304,503,254"/>
+<area shape="rect" href="a01058.html" title="High&#45;resolution stopwatch, callable timing helpers, and a thin LUMEX_MEASURE_TIME macro." alt="" coords="943,306,1074,331"/>
+<area shape="poly" title=" " alt="" coords="632,249,932,296,963,303,962,309,931,301,632,254"/>
+<area shape="rect" href="a00530.html" title=" " alt="" coords="72,306,268,331"/>
+<area shape="poly" title=" " alt="" coords="472,256,230,309,228,303,471,251"/>
+<area shape="rect" href="a00527.html" title=" " alt="" coords="477,299,647,339"/>
+<area shape="poly" title=" " alt="" coords="552,264,560,298,555,299,547,265"/>
+<area shape="rect" href="a01409.html" title="Temporary module: an RAII temporary directory that is removed when its owner is destroyed." alt="" coords="180,394,315,419"/>
+<area shape="poly" title=" " alt="" coords="345,342,267,396,264,392,342,337"/>
+<area shape="rect" href="a00929.html" title=" " alt="" coords="339,394,499,419"/>
+<area shape="poly" title=" " alt="" coords="388,342,415,392,410,395,384,345"/>
+<area shape="rect" href="a00347.html" title=" " alt="" coords="277,475,455,500"/>
+<area shape="poly" title=" " alt="" coords="279,425,348,472,345,477,276,430"/>
+<area shape="rect" href="a00350.html" title=" " alt="" coords="5,475,252,500"/>
+<area shape="poly" title=" " alt="" coords="218,430,149,477,146,472,215,425"/>
+<area shape="rect" href="a01412.html" title="Time module: lumex_time, the current date and time as text and timestamps in units from nanoseconds t..." alt="" coords="1186,394,1285,419"/>
+<area shape="poly" title=" " alt="" coords="1056,334,1204,392,1202,396,1054,339"/>
+<area shape="rect" href="a01061.html" title=" " alt="" coords="981,394,1111,419"/>
+<area shape="poly" title=" " alt="" coords="1022,343,1043,393,1038,395,1017,345"/>
+<area shape="poly" title=" " alt="" coords="1287,420,1304,424,1477,450,1651,468,1809,478,1933,483,1933,488,1808,483,1651,473,1477,456,1303,429,1286,426"/>
+<area shape="poly" title=" " alt="" coords="1181,426,1011,477,1010,472,1179,421"/>
+<area shape="rect" href="a00872.html" title=" " alt="" coords="2641,475,2798,500"/>
+<area shape="poly" title=" " alt="" coords="1298,407,2641,480,2641,486,1298,413"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="1082,548,1282,573"/>
+<area shape="poly" title=" " alt="" coords="1181,427,1148,447,1133,460,1122,476,1118,485,1118,495,1128,514,1144,531,1163,546,1159,550,1140,535,1123,517,1113,496,1113,485,1117,473,1129,457,1144,443,1179,423"/>
+<area shape="rect" href="a01202.html" title=" " alt="" coords="1452,548,1637,573"/>
+<area shape="poly" title=" " alt="" coords="1290,420,1304,424,1337,430,1367,432,1420,432,1445,434,1470,440,1495,452,1521,473,1534,490,1542,510,1547,547,1542,548,1537,512,1530,493,1517,477,1492,457,1468,445,1444,439,1420,437,1367,438,1337,436,1303,429,1289,426"/>
+<area shape="rect" href="a00509.html" title=" " alt="" coords="1364,475,1507,500"/>
+<area shape="poly" title=" " alt="" coords="1281,422,1405,472,1403,477,1279,427"/>
+<area shape="rect" href="a00512.html" title=" " alt="" coords="1131,475,1339,500"/>
+<area shape="poly" title=" " alt="" coords="1238,433,1238,474,1233,474,1233,433"/>
+<area shape="rect" href="a01376.html" title="Filesystem module: paths, directory iteration and file operations in the shape of C++17 &lt;filesystem&gt;,..." alt="" coords="1954,225,2090,251"/>
+<area shape="poly" title=" " alt="" coords="2025,191,2025,225,2019,225,2019,191"/>
+<area shape="rect" href="a00752.html" title=" " alt="" coords="1767,225,1930,251"/>
+<area shape="poly" title=" " alt="" coords="1980,185,1880,228,1878,223,1978,180"/>
+<area shape="poly" title=" " alt="" coords="2104,242,2300,264,2383,279,2412,287,2428,297,2442,317,2448,337,2447,355,2440,372,2427,387,2409,401,2361,425,2302,444,2238,460,2114,480,2113,475,2237,455,2301,439,2359,420,2406,396,2423,383,2435,369,2442,354,2443,338,2437,320,2424,301,2410,292,2382,284,2299,269,2104,247"/>
+<area shape="poly" title=" " alt="" coords="1940,253,1865,257,1776,258,1575,258,1474,261,1381,268,1301,281,1239,301,1218,314,1202,328,1181,360,1160,395,1145,412,1125,429,1071,458,1018,477,1017,472,1069,453,1122,424,1142,408,1156,391,1176,357,1198,325,1214,310,1237,296,1300,275,1381,262,1474,256,1575,253,1776,253,1865,252,1940,248"/>
+<area shape="poly" title=" " alt="" coords="1941,253,1716,270,1525,275,1356,274,1200,270,1043,267,876,269,687,279,465,301,423,309,423,303,464,296,687,273,876,263,1044,262,1200,265,1357,269,1525,270,1715,264,1940,248"/>
+<area shape="poly" title=" " alt="" coords="2104,241,2376,264,2502,279,2546,288,2573,296,2599,323,2639,374,2712,473,2708,476,2635,377,2595,327,2570,301,2545,293,2501,285,2376,269,2103,246"/>
+<area shape="poly" title=" " alt="" coords="2104,241,2315,262,2407,278,2438,287,2456,297,2466,315,2466,335,2460,356,2450,376,2424,409,2404,429,2368,453,2335,470,2304,481,2273,487,2208,493,2126,503,1992,515,1759,531,1282,558,1282,553,1758,525,1991,510,2126,497,2207,488,2273,482,2303,476,2333,465,2365,449,2400,425,2420,406,2445,373,2455,354,2461,335,2460,316,2452,301,2436,292,2406,283,2315,268,2104,246"/>
+<area shape="poly" title=" " alt="" coords="2104,242,2359,268,2470,283,2505,290,2522,297,2542,322,2557,348,2565,374,2569,400,2566,426,2557,452,2543,477,2522,502,2509,508,2484,514,2404,524,2157,541,1872,554,1638,561,1637,556,1872,548,2157,536,2403,519,2483,509,2508,503,2519,498,2538,474,2552,449,2561,425,2563,400,2560,375,2552,350,2538,325,2519,301,2504,295,2469,288,2358,273,2103,248"/>
+<area shape="rect" href="a01274.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="773,306,919,331"/>
+<area shape="poly" title=" " alt="" coords="1941,253,1787,266,1656,271,1433,271,1326,271,1212,274,1083,283,932,301,894,309,893,303,931,296,1083,278,1212,269,1326,266,1433,266,1656,266,1786,260,1940,248"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="1429,306,1620,331"/>
+<area shape="poly" title=" " alt="" coords="1941,254,1633,301,1592,309,1591,303,1632,296,1940,248"/>
+<area shape="rect" href="a01235.html" title=" " alt="" coords="1644,306,1808,331"/>
+<area shape="poly" title=" " alt="" coords="1963,257,1773,309,1772,303,1961,252"/>
+<area shape="rect" href="a01226.html" title=" " alt="" coords="1833,306,2011,331"/>
+<area shape="poly" title=" " alt="" coords="1997,261,1940,308,1937,303,1994,257"/>
+<area shape="rect" href="a01211.html" title=" " alt="" coords="2035,306,2209,331"/>
+<area shape="poly" title=" " alt="" coords="2050,257,2107,303,2104,308,2047,261"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="2233,306,2414,331"/>
+<area shape="poly" title=" " alt="" coords="2083,252,2276,303,2275,308,2082,257"/>
+<area shape="rect" href="a00263.html" title=" " alt="" coords="1250,299,1405,339"/>
+<area shape="poly" title=" " alt="" coords="1941,253,1793,268,1677,275,1563,283,1418,301,1405,304,1404,298,1418,296,1562,278,1677,269,1792,263,1940,248"/>
+<area shape="poly" title=" " alt="" coords="875,338,898,360,920,385,948,433,966,473,961,476,944,435,916,388,894,363,871,342"/>
+<area shape="rect" href="a01340.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="755,475,873,500"/>
+<area shape="poly" title=" " alt="" coords="779,338,741,358,725,372,712,388,706,407,712,425,724,441,739,454,774,472,771,477,736,458,720,445,708,428,701,407,708,385,721,368,738,354,777,334"/>
+<area shape="rect" href="a01271.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="722,394,906,419"/>
+<area shape="poly" title=" " alt="" coords="839,345,821,395,816,393,834,344"/>
+<area shape="poly" title=" " alt="" coords="887,499,1118,545,1117,551,886,504"/>
+<area shape="poly" title=" " alt="" coords="887,497,1201,532,1452,552,1451,557,1200,537,886,503"/>
+<area shape="rect" href="a01319.html" title=" " alt="" coords="339,548,622,573"/>
+<area shape="poly" title=" " alt="" coords="744,506,539,550,538,545,742,500"/>
+<area shape="poly" title=" " alt="" coords="886,497,1200,519,1614,536,2344,556,2344,561,1614,541,1199,524,886,503"/>
+<area shape="rect" href="a00440.html" title=" " alt="" coords="645,548,807,573"/>
+<area shape="poly" title=" " alt="" coords="790,511,743,550,740,545,786,507"/>
+<area shape="rect" href="a00443.html" title=" " alt="" coords="831,548,1058,573"/>
+<area shape="poly" title=" " alt="" coords="850,505,923,545,920,550,848,509"/>
+<area shape="poly" title=" " alt="" coords="817,433,817,474,811,474,811,433"/>
+<area shape="poly" title=" " alt="" coords="2572,183,2746,304,2743,308,2569,188"/>
+<area shape="rect" href="a00869.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="2727,225,2885,251"/>
+<area shape="poly" title=" " alt="" coords="2601,178,2761,223,2759,228,2599,184"/>
+<area shape="rect" href="a00884.html" title=" " alt="" coords="2438,225,2601,251"/>
+<area shape="poly" title=" " alt="" coords="2536,191,2526,226,2521,224,2531,190"/>
+<area shape="poly" title=" " alt="" coords="2795,264,2773,307,2768,304,2791,262"/>
+<area shape="poly" title=" " alt="" coords="2870,252,2952,280,2994,298,3032,319,3063,343,3082,369,3086,383,3086,398,3081,413,3071,428,3052,443,3026,455,2956,472,2875,482,2798,488,2798,482,2874,477,2955,467,3024,450,3050,438,3067,425,3076,411,3081,397,3081,384,3077,371,3059,346,3029,324,2991,303,2950,285,2868,257"/>
+<area shape="poly" title=" " alt="" coords="1470,177,1410,192,1347,215,1316,232,1287,251,1262,274,1240,300,1231,323,1228,349,1234,393,1229,394,1223,349,1225,322,1236,297,1258,270,1284,247,1313,227,1345,211,1409,187,1469,172"/>
+<area shape="rect" href="a01052.html" title=" " alt="" coords="1483,225,1609,251"/>
+<area shape="poly" title=" " alt="" coords="1549,191,1549,225,1543,225,1543,191"/>
+<area shape="poly" title=" " alt="" coords="2753,187,2733,205,2718,226,2715,247,2722,268,2735,288,2750,304,2746,307,2731,291,2717,271,2710,248,2713,224,2729,201,2749,183"/>
+<area shape="poly" title=" " alt="" coords="2796,190,2805,224,2800,226,2790,191"/>
+<area shape="rect" href="a00899.html" title=" " alt="" coords="2910,225,3107,251"/>
+<area shape="poly" title=" " alt="" coords="2839,179,2971,223,2969,228,2837,184"/>
+</map>
+</div>
+</div>
+<p><a href="a01094_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04479.html">lumex::core::utility::ranges::Algorithm::Detail::projected_result&lt; Iterator, Projection, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>invoke_projection (projection, *iterator)</code> is well-formed; <code>type</code> is its result.  <a href="a04479.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04483.html">lumex::core::utility::ranges::Algorithm::Detail::projected_result&lt; Iterator, Projection, typename std::enable_if&lt; traits::invoke::is_invocable&lt; Projection &amp;, decltype(*std::declval&lt; Iterator &amp; &gt;())&gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04487.html">lumex::core::utility::ranges::Algorithm::Detail::category_of_iterator&lt; Iterator, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::iterator_traits&lt;Iterator&gt;::iterator_category</code>; no <code>type</code> for anything without one. A pointer to a function or to <code>void</code> is left out before the traits are asked: libstdc++ 8 forms <code>void &amp;</code> in <code>iterator_traits&lt;void *&gt;</code> and stops with an error instead of leaving the traits empty.  <a href="a04487.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04491.html">lumex::core::utility::ranges::Algorithm::Detail::category_of_iterator&lt; Iterator, traits::meta::void_t&lt; typename std::iterator_traits&lt; Iterator &gt;::iterator_category &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04495.html">lumex::core::utility::ranges::Algorithm::Detail::iterator_category_of&lt; Iterator, bool &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04499.html">lumex::core::utility::ranges::Algorithm::Detail::iterator_category_of&lt; Iterator, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04503.html">lumex::core::utility::ranges::Algorithm::Detail::is_bidirectional_iterator&lt; Iterator, typename &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04507.html">lumex::core::utility::ranges::Algorithm::Detail::is_bidirectional_iterator&lt; Iterator, traits::meta::void_t&lt; typename iterator_category_of&lt; Iterator &gt;::type &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04511.html">lumex::core::utility::ranges::Algorithm::Detail::is_sentinel_for&lt; Sentinel, Iterator, typename &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04515.html">lumex::core::utility::ranges::Algorithm::Detail::is_sentinel_for&lt; Sentinel, Iterator, traits::meta::void_t&lt; decltype(std::declval&lt; Iterator const &amp; &gt;()==std::declval&lt; Sentinel const &amp; &gt;()), decltype(std::declval&lt; Iterator const &amp; &gt;() !=std::declval&lt; Sentinel const &amp; &gt;())&gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04519.html">lumex::core::utility::ranges::Algorithm::Detail::is_order_between&lt; Predicate, Value, Projected, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The comparison can be called as <code>pred (projected, value)</code> and <code>pred (value, projected)</code> and gives something convertible to <code>bool</code>.  <a href="a04519.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04523.html">lumex::core::utility::ranges::Algorithm::Detail::is_order_between&lt; Predicate, Value, Projected, traits::meta::void_t&lt; decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Projected &gt;(), std::declval&lt; Value const &amp; &gt;())), decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Value const &amp; &gt;(), std::declval&lt; Projected &gt;()))&gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04527.html">lumex::core::utility::ranges::Algorithm::Detail::is_order_for&lt; Iterator, Value, Predicate, Projection, typename &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04531.html">lumex::core::utility::ranges::Algorithm::Detail::is_order_for&lt; Iterator, Value, Predicate, Projection, traits::meta::void_t&lt; typename projected_result&lt; Iterator, Projection &gt;::type &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04535.html">lumex::core::utility::ranges::Algorithm::Detail::range_types&lt; Range, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The iterator and sentinel types of an lvalue range (<code>Range</code> is a reference type); no members for anything else, so a temporary range finds no overload.  <a href="a04535.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04539.html">lumex::core::utility::ranges::Algorithm::Detail::range_types&lt; Range, typename std::enable_if&lt; std::is_lvalue_reference&lt; Range &gt;::value, traits::meta::void_t&lt; decltype(begin(std::declval&lt; Range &gt;())), decltype(end(std::declval&lt; Range &gt;()))&gt; &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04543.html">lumex::core::utility::ranges::Algorithm::Detail::element_before_value&lt; Predicate, Projection &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">"The element is ordered before the value": <code>pred (projected element, value)</code>, the call <code>std::lower_bound</code> makes.  <a href="a04543.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04547.html">lumex::core::utility::ranges::Algorithm::Detail::has_numeric_projection&lt; Iterator, Value, Predicate, Projection, bool &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Third step: the projection is invocable with an element, gives a numeric type, and the comparison fits the value and that type.  <a href="a04547.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04551.html">lumex::core::utility::ranges::Algorithm::Detail::has_numeric_projection&lt; Iterator, Value, Predicate, Projection, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04555.html">lumex::core::utility::ranges::Algorithm::Detail::has_valid_iterators&lt; Iterator, Sentinel, Value, Predicate, Projection, bool &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second step: the iterator is bidirectional and the sentinel fits it; only then are the callables looked at.  <a href="a04555.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04559.html">lumex::core::utility::ranges::Algorithm::Detail::has_valid_iterators&lt; Iterator, Sentinel, Value, Predicate, Projection, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04563.html">lumex::core::utility::ranges::Algorithm::Detail::is_nearest_call&lt; Iterator, Sentinel, Value, Predicate, Projection &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The iterator and sentinel overload of <code>get_nearest_to</code> exists for these types.  <a href="a04563.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04567.html">lumex::core::utility::ranges::Algorithm::Detail::is_nearest_range_call&lt; Range, Value, Predicate, Projection, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The range overload of <code>get_nearest_to</code> exists for these types.  <a href="a04567.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04571.html">lumex::core::utility::ranges::Algorithm::Detail::is_nearest_range_call&lt; Range, Value, Predicate, Projection, traits::meta::void_t&lt; typename range_types&lt; Range &gt;::iterator &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06560.html">lumex::core::utility::ranges::Algorithm::Detail::is_numeric&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A "real" numeric type: any integral type except <code>bool</code>, or any floating-point type (cv-qualifiers ignored).  <a href="a06560.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01586.html">lumex::core::utility</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01608.html">lumex::core::utility::ranges</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01609.html">lumex::core::utility::ranges::Algorithm</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01610.html">lumex::core::utility::ranges::Algorithm::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a1b56a450e15cc28e53421e2f7d8fd7b4" id="r_a1b56a450e15cc28e53421e2f7d8fd7b4"><td class="memTemplParams" colspan="2">template&lt;typename Projection, typename Argument&gt; </td></tr>
+<tr class="memitem:a1b56a450e15cc28e53421e2f7d8fd7b4"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01610.html#a1b56a450e15cc28e53421e2f7d8fd7b4">lumex::core::utility::ranges::Algorithm::Detail::invoke_projection</a> (Projection &amp;projection, Argument &amp;&amp;argument) -&gt; decltype(std::invoke(projection, std::forward&lt; Argument &gt;(argument)))</td></tr>
+<tr class="memdesc:a1b56a450e15cc28e53421e2f7d8fd7b4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>projection (argument)</code> with the INVOKE rules: a callable, or a pointer to a data member or a member function (<code>std::invoke</code>, C++17).  <br /></td></tr>
+<tr class="separator:a1b56a450e15cc28e53421e2f7d8fd7b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abef5f7c3d2178dabfde845fb876bf38c" id="r_abef5f7c3d2178dabfde845fb876bf38c"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
+<tr class="memitem:abef5f7c3d2178dabfde845fb876bf38c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01610.html#abef5f7c3d2178dabfde845fb876bf38c">lumex::core::utility::ranges::Algorithm::Detail::begin_of</a> (Range &amp;&amp;range) -&gt; decltype(begin(std::forward&lt; Range &gt;(range)))</td></tr>
+<tr class="separator:abef5f7c3d2178dabfde845fb876bf38c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66202dfc4f2374989b80f34adf0ba9ac" id="r_a66202dfc4f2374989b80f34adf0ba9ac"><td class="memTemplParams" colspan="2">template&lt;typename Range&gt; </td></tr>
+<tr class="memitem:a66202dfc4f2374989b80f34adf0ba9ac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01610.html#a66202dfc4f2374989b80f34adf0ba9ac">lumex::core::utility::ranges::Algorithm::Detail::end_of</a> (Range &amp;&amp;range) -&gt; decltype(end(std::forward&lt; Range &gt;(range)))</td></tr>
+<tr class="separator:a66202dfc4f2374989b80f34adf0ba9ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1b3a468e3bc9e2ca02b75c1f0829aa" id="r_a6f1b3a468e3bc9e2ca02b75c1f0829aa"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Value, typename Predicate, typename Projection&gt; </td></tr>
+<tr class="memitem:a6f1b3a468e3bc9e2ca02b75c1f0829aa"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01610.html#a6f1b3a468e3bc9e2ca02b75c1f0829aa">lumex::core::utility::ranges::Algorithm::Detail::lower_bound_of</a> (Iterator first, Iterator last, Value const &amp;value, Predicate &amp;predicate, Projection &amp;projection)</td></tr>
+<tr class="separator:a6f1b3a468e3bc9e2ca02b75c1f0829aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a355239355da779ff320602768f793190" id="r_a355239355da779ff320602768f793190"><td class="memTemplParams" colspan="2">template&lt;typename Iterator&gt; </td></tr>
+<tr class="memitem:a355239355da779ff320602768f793190"><td class="memTemplItemLeft" align="right" valign="top">constexpr Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01610.html#a355239355da779ff320602768f793190">lumex::core::utility::ranges::Algorithm::Detail::iterator_at</a> (Iterator, Iterator last)</td></tr>
+<tr class="memdesc:a355239355da779ff320602768f793190"><td class="mdescLeft">&#160;</td><td class="mdescRight">The iterator that <code>last</code> stands for: <code>last</code> itself when it is an iterator of the same type, the iterator reached by walking from <code>first</code> when it is a sentinel of another type.  <br /></td></tr>
+<tr class="separator:a355239355da779ff320602768f793190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9273c2f485ae9911c19b5ebe3ad6f236" id="r_a9273c2f485ae9911c19b5ebe3ad6f236"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Sentinel&gt; </td></tr>
+<tr class="memitem:a9273c2f485ae9911c19b5ebe3ad6f236"><td class="memTemplItemLeft" align="right" valign="top">constexpr Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01610.html#a9273c2f485ae9911c19b5ebe3ad6f236">lumex::core::utility::ranges::Algorithm::Detail::iterator_at</a> (Iterator first, Sentinel const &amp;last)</td></tr>
+<tr class="separator:a9273c2f485ae9911c19b5ebe3ad6f236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec0a81087adec6bd2d38380a680fb136" id="r_aec0a81087adec6bd2d38380a680fb136"><td class="memTemplParams" colspan="2">template&lt;typename IteratorType, typename Sentinel, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04563.html">Detail::is_nearest_call</a>&lt; IteratorType, Sentinel, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:aec0a81087adec6bd2d38380a680fb136"><td class="memTemplItemLeft" align="right" valign="top">constexpr IteratorType&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01609.html#aec0a81087adec6bd2d38380a680fb136">lumex::core::utility::ranges::Algorithm::get_nearest_to</a> (IteratorType first, Sentinel last, ValueType const &amp;value, Predicate pred=Predicate(), Projection proj=Projection())</td></tr>
+<tr class="memdesc:aec0a81087adec6bd2d38380a680fb136"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the iterator whose (projected) value is numerically nearest to <code>value</code>.  <br /></td></tr>
+<tr class="separator:aec0a81087adec6bd2d38380a680fb136"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdb08d96519514d27aa1d6345cc1ad6b" id="r_abdb08d96519514d27aa1d6345cc1ad6b"><td class="memTemplParams" colspan="2">template&lt;typename RangeType, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04567.html">Detail::is_nearest_range_call</a>&lt; RangeType, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:abdb08d96519514d27aa1d6345cc1ad6b"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a04535.html">Detail::range_types</a>&lt; RangeType &gt;::iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01609.html#abdb08d96519514d27aa1d6345cc1ad6b">lumex::core::utility::ranges::Algorithm::get_nearest_to</a> (RangeType &amp;&amp;range, ValueType const &amp;value, Predicate pred=Predicate(), Projection proj=Projection())</td></tr>
+<tr class="memdesc:abdb08d96519514d27aa1d6345cc1ad6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Range-based overload of <a class="el" href="a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value.">get_nearest_to()</a>.  <br /></td></tr>
+<tr class="separator:abdb08d96519514d27aa1d6345cc1ad6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fd1a5acf2f1fed8edeee1309059b06f" id="r_a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memTemplItemLeft" align="right" valign="top">constexpr Detail::integral_distance&lt; T, U &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01610.html#a0fd1a5acf2f1fed8edeee1309059b06f">lumex::core::utility::ranges::Algorithm::Detail::distance</a> (T a, U b)</td></tr>
+<tr class="memdesc:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Absolute difference |a - b| of two integers, computed without an intermediate signed underflow for unsigned types.  <br /></td></tr>
+<tr class="separator:a0fd1a5acf2f1fed8edeee1309059b06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>get_nearest_to()</code>, which finds the element of a sorted range whose value is numerically nearest to a given value. </p>
+<p>Works from C++11. It searches for the first element not ordered before the value (<code>std::ranges::lower_bound</code> from C++20, <code>std::lower_bound</code> below) and then compares the element found with its predecessor, so the range must be sorted by the same comparison and projection. It accepts an iterator and sentinel pair or a range, plus an optional comparison and projection as the standard range algorithms do, and returns the end iterator only for an empty range. The distance and the numeric trait come from the <code>lumex::math</code> module.</p>
+<p>The constraints are one <code>std::enable_if</code> form in every standard, so a call that does not fit finds no overload: the iterators are bidirectional, the sentinel compares with them, the projection is invocable with an element and gives a numeric type, the comparison is invocable with the value and the projected element in both orders, and the value type is numeric. From C++20 (<code>LUMEX_HAS_STD_RANGES</code>) the iterator, sentinel, range and comparison requirements are the standard concepts (<code>std::bidirectional_iterator</code>, <code>std::sentinel_for</code>, <code>std::ranges::bidirectional_range</code>, <code>std::indirect_strict_weak_order</code>), which also accept the iterators of the C++20 views that claim a weaker <code>iterator_category</code>; below C++20 they are the C++11 forms (<code>iterator_category</code>, the comparisons <code>==</code> and <code>!=</code>, the invocability of the callables).</p>
+<p>A projection is a callable or a pointer to a data member or to a member function without arguments, called as <code>std::invoke</code> does: <code>std::invoke</code> itself from C++17, a private equivalent over <code>std::mem_fn</code> below it. The default projection is <code>functional::identity</code> and the default comparison is <code>functional::less</code> (own function objects in every standard; they convert to <code>std::identity</code> and <code>std::less&lt;void&gt;</code> where the standard has them).</p>
+<p>A range argument must outlive the call: an lvalue, or from C++20 a range that is <code>std::ranges::borrowed_range</code> (<code>std::span</code>, <code>std::string_view</code>, <code>std::views::iota</code>). A temporary container finds no overload. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_4c93ace1da67964a3ff55b959013373d.html">parser</a></li><li class="navelem"><a class="el" href="dir_2f8488fdbf169117866699aa1d08d080.html">lexer</a></li><li class="navelem"><a class="el" href="a01094.html">XPathLexer.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_744eb6191250a2578639062ac2c20809.html">ranges</a></li><li class="navelem"><a class="el" href="a01094.html">LumexRanges.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

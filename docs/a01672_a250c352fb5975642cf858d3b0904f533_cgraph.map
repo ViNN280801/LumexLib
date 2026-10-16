@@ -1,0 +1,17 @@
+<map id="lumex::xml::node::append_new_node" name="lumex::xml::node::append_new_node">
+<area shape="rect" id="Node000001" title="Appends a newly allocated child node of a specified type to the current node." alt="" coords="5,38,197,78"/>
+<area shape="rect" id="Node000002" href="$a01672.html#a8a54b20652c8781b21677e83ae9dec6d" title="Allocates a new XmlNodeBase object using the provided allocator." alt="" coords="245,20,480,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,46,231,43,232,48,198,51"/>
+<area shape="rect" id="Node000008" href="$a01672.html#ae19ea447d9f1af4a7fb59b9f194ff981" title="Appends a child node to the end of a node&#39;s child list." alt="" coords="247,69,478,95"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="198,64,234,67,233,73,197,69"/>
+<area shape="rect" id="Node000003" href="$a05135.html#a23666d6049ee4ccf8e92f7c2c56cf8cf" title="Allocates memory for an object from the allocator&#39;s managed pages." alt="" coords="528,5,703,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="480,30,514,30,514,35,480,35"/>
+<area shape="rect" id="Node000004" href="$a05135.html#a52ba49868e2058ba6c0dbeb923c16c02" title="Allocates a block of memory from the allocator&#39;s managed pages." alt="" coords="751,5,925,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="703,30,737,30,737,35,703,35"/>
+<area shape="rect" id="Node000005" href="$a05135.html#a9066c8946ee3cffc78c015c7464c6206" title="Allocates memory for large objects or strings that do not fit in the current memory page (out&#45;of&#45;band..." alt="" coords="973,5,1148,60"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="925,30,960,30,960,35,925,35"/>
+<area shape="rect" id="Node000006" href="$a05135.html#a1fb1c756bdb1dc9834c3cca336dc7090" title="Allocates a new XmlMemoryPage of a specified data size." alt="" coords="1196,13,1409,53"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1148,30,1182,30,1182,35,1148,35"/>
+<area shape="rect" id="Node000007" href="$a05139.html#a9358bd45d40685274a0b0bcbeb7030d2" title="Constructs an XmlMemoryPage object in a pre&#45;allocated memory block." alt="" coords="1457,13,1665,53"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1409,30,1443,30,1443,35,1409,35"/>
+</map>

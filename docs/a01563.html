@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::smart_ptr::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01566.html',''); initResizable(true); });
+$(function(){initNavTree('a01563.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,33 +103,599 @@ $(function(){initNavTree('a01566.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::logger::logger::logger_config_t Member List</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::smart_ptr::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03899.html">access</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The friend of the pointer classes (see the file text).  <a href="a03899.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03927.html">block_allocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The allocator of control blocks that no allocator was given for.  <a href="a03927.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03839.html">ctl_base</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The polymorphic control block (see the file text).  <a href="a03839.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03855.html">ctl_holder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A block that owns one strong reference to another block and the stored pointer of an alias (see the file text).  <a href="a03855.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03847.html">ctl_inplace</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The control block of <code>make_shared</code> / <code>allocate_shared</code>: block and object in one allocation.  <a href="a03847.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03843.html">ctl_ptr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A control block over a pointer, a deleter and an allocator.  <a href="a03843.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03995.html">ctl_std</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03859.html">ctl_weak_holder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The holder of an alias that the engine of <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> cannot pack: it owns one WEAK reference to another block and the stored pointer.  <a href="a03859.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03963.html">default_array_deleter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>delete[] p</code> for an array.  <a href="a03963.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03959.html">default_deleter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>delete p</code> for a single object.  <a href="a03959.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03979.html">default_deleter_for</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The deleter <code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">shared_ptr</a>&lt;T&gt; (Y *)</code> uses: <code>delete[]</code> for array <code>T</code>.  <a href="a03979.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03983.html">default_deleter_for&lt; U[], Y &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03987.html">default_deleter_for&lt; U[N], Y &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03919.html">ebo_member</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores a <code>T</code> that is usually empty (a deleter, an allocator).  <a href="a03919.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03923.html">ebo_member&lt; T, Tag, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03891.html">esft_dispatch</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the weak reference of the <code><a class="el" href="a03871.html" title="Base class that gives an object access to the shared_ptr that owns it.">enable_shared_from_this</a></code> base of <code>Y</code>, if it has one.  <a href="a03891.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03895.html">esft_dispatch&lt; Y, esft_found_t&lt; U &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03879.html">esft_found_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of the probe: the class has a base <code><a class="el" href="a03871.html" title="Base class that gives an object access to the shared_ptr that owns it.">enable_shared_from_this</a>&lt;U&gt;</code>.  <a href="a03879.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03875.html">esft_none_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of the probe when a class has no <code><a class="el" href="a03871.html" title="Base class that gives an object access to the shared_ptr that owns it.">enable_shared_from_this</a></code> base.  <a href="a03875.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03883.html">esft_probe_result</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The probe result for <code>Y</code>: <code><a class="el" href="a03879.html" title="Result of the probe: the class has a base enable_shared_from_this&lt;U&gt;.">esft_found_t</a>&lt;U&gt;</code> or <code><a class="el" href="a03875.html" title="Result of the probe when a class has no enable_shared_from_this base.">esft_none_t</a></code>.  <a href="a03883.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03951.html">is_deleter_for</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code>d (p)</code> is well-formed for a <code>D</code> lvalue and a <code>P</code> lvalue.  <a href="a03951.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03955.html">is_deleter_for&lt; D, P, typename make_void&lt; decltype(std::declval&lt; D &amp; &gt;()(std::declval&lt; P &amp; &gt;()))&gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03915.html">is_final_class</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03967.html">is_implicit_deleter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03975.html">is_implicit_deleter&lt; default_array_deleter&lt; Y &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03971.html">is_implicit_deleter&lt; default_deleter&lt; Y &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03931.html">is_new_compatible</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03935.html">is_new_compatible&lt; Y, U[]&gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03939.html">is_new_compatible&lt; Y, U[N]&gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03943.html">is_ptr_compatible</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03947.html">is_ptr_compatible&lt; Y[N], U[]&gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03887.html">is_std_esft_only</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03999.html">lumex_owner_deleter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03907.html">make_void</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps any list of types to <code>void</code> (the C++17 <code>void_t</code> for C++11).  <a href="a03907.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03835.html">split_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One packed counter word <code>{count:32, ext:32}</code> (see the file text).  <a href="a03835.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03991.html">std_owner_key</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03911.html">type_id_storage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static storage whose address identifies the type <code>T</code> (see the file text).  <a href="a03911.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a277e6ded451b01456aadd0d07940efb6" id="r_a277e6ded451b01456aadd0d07940efb6"><td class="memTemplParams" colspan="2">template&lt;class Block, class Alloc, class Make&gt; </td></tr>
+<tr class="memitem:a277e6ded451b01456aadd0d07940efb6"><td class="memTemplItemLeft" align="right" valign="top">Block *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a277e6ded451b01456aadd0d07940efb6">create_block</a> (Alloc const &amp;alloc, Make make)</td></tr>
+<tr class="memdesc:a277e6ded451b01456aadd0d07940efb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates one object of <code class="param">Block</code> with the allocator <code class="param">Alloc</code> rebound to it, constructs it with <code class="param">make</code> and frees the memory if the construction throws.  <br /></td></tr>
+<tr class="separator:a277e6ded451b01456aadd0d07940efb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0c5039f4cc087e18a21196551196d0f" id="r_ab0c5039f4cc087e18a21196551196d0f"><td class="memTemplParams" colspan="2">template&lt;class Block, class Alloc&gt; </td></tr>
+<tr class="memitem:ab0c5039f4cc087e18a21196551196d0f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab0c5039f4cc087e18a21196551196d0f">destroy_block</a> (Block *block, Alloc const &amp;alloc) noexcept</td></tr>
+<tr class="memdesc:ab0c5039f4cc087e18a21196551196d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys <code class="param">block</code> and deallocates it with the allocator <code class="param">alloc</code> rebound to the block type.  <br /></td></tr>
+<tr class="separator:ab0c5039f4cc087e18a21196551196d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c0f810a88ce8c5badd5267e9ea27274" id="r_a7c0f810a88ce8c5badd5267e9ea27274"><td class="memTemplParams" colspan="2">template&lt;class U, class Y&gt; </td></tr>
+<tr class="memitem:a7c0f810a88ce8c5badd5267e9ea27274"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03879.html">esft_found_t</a>&lt; U &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7c0f810a88ce8c5badd5267e9ea27274">esft_probe</a> (<a class="el" href="a03871.html">enable_shared_from_this</a>&lt; U &gt; const volatile *, Y *, typename std::enable_if&lt; std::is_convertible&lt; Y *, <a class="el" href="a03871.html">enable_shared_from_this</a>&lt; U &gt; const volatile * &gt;<a class="el" href="#a2160fb6c20228d4d5420ff46776554f0">::value</a>, int &gt;::type=0)</td></tr>
+<tr class="separator:a7c0f810a88ce8c5badd5267e9ea27274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0281b7b50b5760926edb697eb292fb65" id="r_a0281b7b50b5760926edb697eb292fb65"><td class="memTemplParams" colspan="2">template&lt;class U, class Y&gt; </td></tr>
+<tr class="memitem:a0281b7b50b5760926edb697eb292fb65"><td class="memTemplItemLeft" align="right" valign="top">std::true_type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0281b7b50b5760926edb697eb292fb65">std_esft_probe</a> (std::enable_shared_from_this&lt; U &gt; const volatile *, Y *, typename std::enable_if&lt; std::is_convertible&lt; Y *, std::enable_shared_from_this&lt; U &gt; const volatile * &gt;<a class="el" href="#a2160fb6c20228d4d5420ff46776554f0">::value</a>, int &gt;::type=0)</td></tr>
+<tr class="separator:a0281b7b50b5760926edb697eb292fb65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a287a156e43b3043948bcd3c47dfb25b1" id="r_a287a156e43b3043948bcd3c47dfb25b1"><td class="memItemLeft" align="right" valign="top">std::false_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a287a156e43b3043948bcd3c47dfb25b1">std_esft_probe</a> (...)</td></tr>
+<tr class="separator:a287a156e43b3043948bcd3c47dfb25b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abecc8c6fa95e845e1c541c78b2bbb129" id="r_abecc8c6fa95e845e1c541c78b2bbb129"><td class="memTemplParams" colspan="2">template&lt;class Y&gt; </td></tr>
+<tr class="memitem:abecc8c6fa95e845e1c541c78b2bbb129"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abecc8c6fa95e845e1c541c78b2bbb129">check_std_enable_shared_from_this</a> () noexcept</td></tr>
+<tr class="memdesc:abecc8c6fa95e845e1c541c78b2bbb129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rejects, with a <code>static_assert</code>, a class that derives from <code>std::enable_shared_from_this</code> and not from the module's own base.  <br /></td></tr>
+<tr class="separator:abecc8c6fa95e845e1c541c78b2bbb129"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9cd1672b0c39fe40c0b5bc9b023deb0" id="r_ad9cd1672b0c39fe40c0b5bc9b023deb0"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:ad9cd1672b0c39fe40c0b5bc9b023deb0"><td class="memTemplItemLeft" align="right" valign="top">void const *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad9cd1672b0c39fe40c0b5bc9b023deb0">type_id</a> () noexcept</td></tr>
+<tr class="memdesc:ad9cd1672b0c39fe40c0b5bc9b023deb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The identity of <code>T</code>: the same pointer for the same type, in one program.  <br /></td></tr>
+<tr class="separator:ad9cd1672b0c39fe40c0b5bc9b023deb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa36c43f47a4baeb729963704a158eeb5" id="r_aa36c43f47a4baeb729963704a158eeb5"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa36c43f47a4baeb729963704a158eeb5">allocate_aligned</a> (std::size_t bytes, std::size_t alignment)</td></tr>
+<tr class="separator:aa36c43f47a4baeb729963704a158eeb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a275195d522f31643de7f5240a63d9dc8" id="r_a275195d522f31643de7f5240a63d9dc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a275195d522f31643de7f5240a63d9dc8">deallocate_aligned</a> (void *block, std::size_t alignment) noexcept</td></tr>
+<tr class="memdesc:a275195d522f31643de7f5240a63d9dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases memory from <code>allocate_aligned</code> with the same <code class="param">alignment</code>.  <br /></td></tr>
+<tr class="separator:a275195d522f31643de7f5240a63d9dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16e61ca945081ca0fb8d440ae4fb8636" id="r_a16e61ca945081ca0fb8d440ae4fb8636"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a16e61ca945081ca0fb8d440ae4fb8636"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a16e61ca945081ca0fb8d440ae4fb8636">operator==</a> (<a class="el" href="a03927.html">block_allocator</a>&lt; T &gt; const &amp;, <a class="el" href="a03927.html">block_allocator</a>&lt; U &gt; const &amp;) noexcept</td></tr>
+<tr class="separator:a16e61ca945081ca0fb8d440ae4fb8636"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae567e0428ef2a3f8aedd5f78e96e662f" id="r_ae567e0428ef2a3f8aedd5f78e96e662f"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:ae567e0428ef2a3f8aedd5f78e96e662f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae567e0428ef2a3f8aedd5f78e96e662f">operator!=</a> (<a class="el" href="a03927.html">block_allocator</a>&lt; T &gt; const &amp;, <a class="el" href="a03927.html">block_allocator</a>&lt; U &gt; const &amp;) noexcept</td></tr>
+<tr class="separator:ae567e0428ef2a3f8aedd5f78e96e662f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a102dd89dfe4d2e0bbedef481dcac422c" id="r_a102dd89dfe4d2e0bbedef481dcac422c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03875.html">esft_none_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a102dd89dfe4d2e0bbedef481dcac422c">esft_probe</a> (...)</td></tr>
+<tr class="separator:a102dd89dfe4d2e0bbedef481dcac422c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2160fb6c20228d4d5420ff46776554f0" id="r_a2160fb6c20228d4d5420ff46776554f0"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a2160fb6c20228d4d5420ff46776554f0"><td class="memTemplItemLeft" align="right" valign="top">char&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2160fb6c20228d4d5420ff46776554f0">type_id_storage&lt; T &gt;::value</a> = 0</td></tr>
+<tr class="separator:a2160fb6c20228d4d5420ff46776554f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="aa36c43f47a4baeb729963704a158eeb5" name="aa36c43f47a4baeb729963704a158eeb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa36c43f47a4baeb729963704a158eeb5">&#9670;&#160;</a></span>allocate_aligned()</h2>
 
-<p>This is the complete list of members for <a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01566.html#aae5d7053ea5316f097b20d012f63168a">buffer_size</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01566.html#a953c0d4e83f02905ce6b1c9c7c2cf1d5">buffering_enabled</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01566.html#a87478af9bd066ce176cf12a2140d1cbc">buffering_trigger_configured</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01566.html#af503481fb430b49b73ffcbc84fa935f5">buffering_trigger_level</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01566.html#ae9b1ae4a7df855dc4f6393c2714f4349">create_hint_file</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01566.html#a5ae646db41a0ac7d949c18720bf94c05">describe_frame</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01566.html#a97319db82eaa6fcc577ac399ab45701a">func_name_mode</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01566.html#a23ca22a2be2bd4e82328d0015072eccc">kBufferSize</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01566.html#aeef098ed099f2b75ba3ae4dd6de9cedd">kMaxStackTraceFrames</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01566.html#a856136325857a61277e56a6addb90977">log_level</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01566.html#ac774d5a72c073d225f2996c5802366a3">logger_config_t</a>()=default</td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01566.html#a7c39579c2c9fd9f8755b7d55ef0cc9fa">logger_config_t</a>(LogLevel level, FunctionNameMode funcMode, bool timestamped, bool stackTrace=false, short maxFrames=kMaxStackTraceFrames, bool hintFile=true, std::unordered_set&lt; std::string &gt; const &amp;preset=std::unordered_set&lt; std::string &gt;{}) noexcept</td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01566.html#a7de974061b2dcdcce25593f0a56bbfa6">preset_components</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01566.html#a855f83e645721bff3b36b9fb6dfaa847">show_stack_trace</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01566.html#a342e2d01cfc81f015d11195b0fc3eb03">stack_trace_max_frames</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01566.html#a24d17df880d0492bf215282f3cdbca56">use_timestamped_logs</a></td><td class="entry"><a class="el" href="a01566.html">lumex::applied::logger::logger::logger_config_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * lumex::core::smart_ptr::detail::allocate_aligned </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>bytes</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>alignment</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Allocates <code class="param">bytes</code> aligned to <code class="param">alignment</code> (a power of two); throws <code>std::bad_alloc</code>. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01563_aa36c43f47a4baeb729963704a158eeb5_icgraph.png" border="0" usemap="#aa01563_aa36c43f47a4baeb729963704a158eeb5_icgraph" alt=""/></div>
+<map name="aa01563_aa36c43f47a4baeb729963704a158eeb5_icgraph" id="aa01563_aa36c43f47a4baeb729963704a158eeb5_icgraph">
+<area shape="rect" title=" " alt="" coords="217,84,369,139"/>
+<area shape="rect" href="a03927.html#a6373ccdac54096527832b465be12a451" title=" " alt="" coords="14,5,161,60"/>
+<area shape="poly" title=" " alt="" coords="208,82,158,63,160,58,210,77"/>
+<area shape="rect" href="a03855.html#acb92a456a5dea376bd4e767dbabf1a61" title="Creates a holder for owner and pointer." alt="" coords="5,84,169,139"/>
+<area shape="poly" title=" " alt="" coords="204,114,169,114,169,109,204,109"/>
+<area shape="rect" href="a03859.html#aadee5382437982a62605f9875a7edd26" title="Creates a holder for owner and pointer." alt="" coords="8,163,167,217"/>
+<area shape="poly" title=" " alt="" coords="210,146,160,165,158,160,208,141"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="abecc8c6fa95e845e1c541c78b2bbb129" name="abecc8c6fa95e845e1c541c78b2bbb129"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abecc8c6fa95e845e1c541c78b2bbb129">&#9670;&#160;</a></span>check_std_enable_shared_from_this()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Y&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::smart_ptr::detail::check_std_enable_shared_from_this </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rejects, with a <code>static_assert</code>, a class that derives from <code>std::enable_shared_from_this</code> and not from the module's own base. </p>
+<p>Called by every operation that creates the owner of a new object (<code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">shared_ptr</a> (Y *)</code> and its variants, <code>make_shared</code>, <code>allocate_shared</code>): the standard base could not be set, so <code>shared_from_this ()</code> of it would throw later. Turned off by <code>LUMEX_SMART_PTR_ALLOW_STD_ENABLE_SHARED_FROM_THIS</code>. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01563_abecc8c6fa95e845e1c541c78b2bbb129_icgraph.png" border="0" usemap="#aa01563_abecc8c6fa95e845e1c541c78b2bbb129_icgraph" alt=""/></div>
+<map name="aa01563_abecc8c6fa95e845e1c541c78b2bbb129_icgraph" id="aa01563_abecc8c6fa95e845e1c541c78b2bbb129_icgraph">
+<area shape="rect" title="Rejects, with a static_assert, a class that derives from std::enable_shared_from_this and not from th..." alt="" coords="551,94,771,149"/>
+<area shape="rect" href="a01562.html#ac243d4e88836c3a0895003c2c3fb6e9f" title="Creates a T constructed from args in one allocation made with a copy of alloc." alt="" coords="323,5,481,45"/>
+<area shape="poly" title=" " alt="" coords="583,91,502,60,467,48,469,43,504,55,584,86"/>
+<area shape="rect" href="a03863.html#a333e6195e552a1569667f52ca12b0455" title="Takes ownership of p; the object is deleted with delete (delete[] for an array type)." alt="" coords="301,69,503,109"/>
+<area shape="poly" title=" " alt="" coords="537,109,503,104,503,99,538,103"/>
+<area shape="rect" href="a03863.html#a244948b00c0c25bd96f353510185b856" title=" " alt="" coords="301,133,503,173"/>
+<area shape="poly" title=" " alt="" coords="538,139,503,143,503,138,537,134"/>
+<area shape="rect" href="a03863.html#a91478eda83c5e572f6b83910ce4d7a6a" title="As above, with an allocator for the control block." alt="" coords="301,197,503,237"/>
+<area shape="poly" title=" " alt="" coords="584,156,504,188,469,200,467,195,502,183,583,151"/>
+<area shape="rect" href="a01562.html#af5f9b825794c24606e999e4108a2a9bd" title="Creates a T constructed from args in one allocation." alt="" coords="108,5,253,45"/>
+<area shape="poly" title=" " alt="" coords="308,28,253,28,253,23,308,23"/>
+<area shape="rect" href="a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a277e6ded451b01456aadd0d07940efb6" name="a277e6ded451b01456aadd0d07940efb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a277e6ded451b01456aadd0d07940efb6">&#9670;&#160;</a></span>create_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Block, class Alloc, class Make&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Block * lumex::core::smart_ptr::detail::create_block </td>
+          <td>(</td>
+          <td class="paramtype">Alloc const &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Make</td>          <td class="paramname"><span class="paramname"><em>make</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocates one object of <code class="param">Block</code> with the allocator <code class="param">Alloc</code> rebound to it, constructs it with <code class="param">make</code> and frees the memory if the construction throws. </p>
+<p><code class="param">make</code> is a callable that takes the memory and placement-news the block into it. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01563_a277e6ded451b01456aadd0d07940efb6_icgraph.png" border="0" usemap="#aa01563_a277e6ded451b01456aadd0d07940efb6_icgraph" alt=""/></div>
+<map name="aa01563_a277e6ded451b01456aadd0d07940efb6_icgraph" id="aa01563_a277e6ded451b01456aadd0d07940efb6_icgraph">
+<area shape="rect" title="Allocates one object of Block with the allocator Alloc rebound to it, constructs it with make and fre..." alt="" coords="520,91,703,131"/>
+<area shape="rect" href="a03847.html#a95f558d550641bc52b405eb65a814cc8" title="Allocates a block and constructs the object in it from args." alt="" coords="301,5,472,60"/>
+<area shape="poly" title=" " alt="" coords="540,89,464,63,466,58,542,84"/>
+<area shape="rect" href="a03843.html#aaae03fcf0dd57bc527b2a16ce6f51324" title="Allocates and constructs a block." alt="" coords="314,84,459,139"/>
+<area shape="poly" title=" " alt="" coords="507,114,459,114,459,109,507,109"/>
+<area shape="rect" href="a03995.html#a0a6c3ea863906e8dee2185a0288877ed" title="Allocates a block that owns owner." alt="" coords="314,163,459,217"/>
+<area shape="poly" title=" " alt="" coords="542,138,460,167,459,162,540,133"/>
+<area shape="rect" href="a01562.html#a0f7e35c6ff6b5552331b1d5449faf6cc" title="Wraps a std::shared_ptr, taking it over (no extra reference of it)." alt="" coords="108,138,253,178"/>
+<area shape="poly" title=" " alt="" coords="300,179,253,172,254,167,300,174"/>
+<area shape="rect" href="a01562.html#ac2864e50b7539f646b6e1f278485d428" title="Wraps a std::shared_ptr (see the file text)." alt="" coords="108,202,253,242"/>
+<area shape="poly" title=" " alt="" coords="300,206,254,213,253,208,300,201"/>
+<area shape="rect" href="a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,209,60,235"/>
+<area shape="poly" title=" " alt="" coords="94,225,60,225,60,219,94,219"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a275195d522f31643de7f5240a63d9dc8" name="a275195d522f31643de7f5240a63d9dc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a275195d522f31643de7f5240a63d9dc8">&#9670;&#160;</a></span>deallocate_aligned()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::smart_ptr::detail::deallocate_aligned </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>block</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>alignment</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Releases memory from <code>allocate_aligned</code> with the same <code class="param">alignment</code>. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01563_a275195d522f31643de7f5240a63d9dc8_icgraph.png" border="0" usemap="#aa01563_a275195d522f31643de7f5240a63d9dc8_icgraph" alt=""/></div>
+<map name="aa01563_a275195d522f31643de7f5240a63d9dc8_icgraph" id="aa01563_a275195d522f31643de7f5240a63d9dc8_icgraph">
+<area shape="rect" title="Releases memory from allocate_aligned with the same alignment." alt="" coords="217,84,385,139"/>
+<area shape="rect" href="a03855.html#acb92a456a5dea376bd4e767dbabf1a61" title="Creates a holder for owner and pointer." alt="" coords="5,5,169,60"/>
+<area shape="poly" title=" " alt="" coords="213,82,161,63,163,58,214,77"/>
+<area shape="rect" href="a03859.html#aadee5382437982a62605f9875a7edd26" title="Creates a holder for owner and pointer." alt="" coords="8,84,167,139"/>
+<area shape="poly" title=" " alt="" coords="203,114,167,114,167,109,203,109"/>
+<area shape="rect" href="a03927.html#acd47087a841b976c7bf298d9c76035fd" title=" " alt="" coords="6,163,169,217"/>
+<area shape="poly" title=" " alt="" coords="214,146,163,165,161,160,213,141"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab0c5039f4cc087e18a21196551196d0f" name="ab0c5039f4cc087e18a21196551196d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0c5039f4cc087e18a21196551196d0f">&#9670;&#160;</a></span>destroy_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Block, class Alloc&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::smart_ptr::detail::destroy_block </td>
+          <td>(</td>
+          <td class="paramtype">Block *</td>          <td class="paramname"><span class="paramname"><em>block</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Alloc const &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destroys <code class="param">block</code> and deallocates it with the allocator <code class="param">alloc</code> rebound to the block type. </p>
+<p>The allocator is copied before the block is destroyed, because it lives inside the block. </p>
+
+</div>
+</div>
+<a id="a7c0f810a88ce8c5badd5267e9ea27274" name="a7c0f810a88ce8c5badd5267e9ea27274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c0f810a88ce8c5badd5267e9ea27274">&#9670;&#160;</a></span>esft_probe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class U, class Y&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03879.html">esft_found_t</a>&lt; U &gt; lumex::core::smart_ptr::detail::esft_probe </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03871.html">enable_shared_from_this</a>&lt; U &gt; const volatile *</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Y *</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">typename std::enable_if&lt; std::is_convertible&lt; Y *, <a class="el" href="a03871.html">enable_shared_from_this</a>&lt; U &gt; const volatile * &gt;<a class="el" href="#a2160fb6c20228d4d5420ff46776554f0">::value</a>, int &gt;::type</td>          <td class="paramname"><span class="paramname"><em></em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae567e0428ef2a3f8aedd5f78e96e662f" name="ae567e0428ef2a3f8aedd5f78e96e662f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae567e0428ef2a3f8aedd5f78e96e662f">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::smart_ptr::detail::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03927.html">block_allocator</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a03927.html">block_allocator</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16e61ca945081ca0fb8d440ae4fb8636" name="a16e61ca945081ca0fb8d440ae4fb8636"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16e61ca945081ca0fb8d440ae4fb8636">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::smart_ptr::detail::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a03927.html">block_allocator</a>&lt; T &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a03927.html">block_allocator</a>&lt; U &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a287a156e43b3043948bcd3c47dfb25b1" name="a287a156e43b3043948bcd3c47dfb25b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a287a156e43b3043948bcd3c47dfb25b1">&#9670;&#160;</a></span>std_esft_probe() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::false_type lumex::core::smart_ptr::detail::std_esft_probe </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0281b7b50b5760926edb697eb292fb65" name="a0281b7b50b5760926edb697eb292fb65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0281b7b50b5760926edb697eb292fb65">&#9670;&#160;</a></span>std_esft_probe() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class U, class Y&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::true_type lumex::core::smart_ptr::detail::std_esft_probe </td>
+          <td>(</td>
+          <td class="paramtype">std::enable_shared_from_this&lt; U &gt; const volatile *</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Y *</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">typename std::enable_if&lt; std::is_convertible&lt; Y *, std::enable_shared_from_this&lt; U &gt; const volatile * &gt;<a class="el" href="#a2160fb6c20228d4d5420ff46776554f0">::value</a>, int &gt;::type</td>          <td class="paramname"><span class="paramname"><em></em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad9cd1672b0c39fe40c0b5bc9b023deb0" name="ad9cd1672b0c39fe40c0b5bc9b023deb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9cd1672b0c39fe40c0b5bc9b023deb0">&#9670;&#160;</a></span>type_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void const  * lumex::core::smart_ptr::detail::type_id </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The identity of <code>T</code>: the same pointer for the same type, in one program. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01563_ad9cd1672b0c39fe40c0b5bc9b023deb0_icgraph.png" border="0" usemap="#aa01563_ad9cd1672b0c39fe40c0b5bc9b023deb0_icgraph" alt=""/></div>
+<map name="aa01563_ad9cd1672b0c39fe40c0b5bc9b023deb0_icgraph" id="aa01563_ad9cd1672b0c39fe40c0b5bc9b023deb0_icgraph">
+<area shape="rect" title="The identity of T: the same pointer for the same type, in one program." alt="" coords="301,117,449,157"/>
+<area shape="rect" href="a01562.html#a6e3d9dcac0bec89fe26be2e26f03f67d" title="A pointer to the deleter of type D that p owns, or null." alt="" coords="108,5,253,45"/>
+<area shape="poly" title=" " alt="" coords="335,111,252,60,228,48,230,43,255,55,337,107"/>
+<area shape="rect" href="a03843.html#a63bc202fdb1e6ddd3ab85f9a9f9e74ca" title=" " alt="" coords="108,70,253,125"/>
+<area shape="poly" title=" " alt="" coords="287,122,253,115,255,110,289,117"/>
+<area shape="rect" href="a03995.html#aaa06ea0e79a22ae6fe925e2d458ec4aa" title=" " alt="" coords="108,149,253,203"/>
+<area shape="poly" title=" " alt="" coords="288,157,254,164,253,159,287,152"/>
+<area shape="rect" href="a01562.html#a90a10e20ac0ae6ad39579fd8d528e1c1" title="Wraps a shared_ptr of this module into a std::shared_ptr." alt="" coords="108,228,253,268"/>
+<area shape="poly" title=" " alt="" coords="336,168,255,217,228,230,226,226,252,212,333,163"/>
+<area shape="rect" href="a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,125,60,150"/>
+<area shape="poly" title=" " alt="" coords="117,54,110,59,72,94,44,126,40,123,68,90,106,55,114,50"/>
+<area shape="poly" title=" " alt="" coords="117,224,106,217,69,184,41,152,45,149,72,180,110,213,120,219"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a102dd89dfe4d2e0bbedef481dcac422c" name="a102dd89dfe4d2e0bbedef481dcac422c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a102dd89dfe4d2e0bbedef481dcac422c">&#9670;&#160;</a></span>esft_probe</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03875.html">esft_none_t</a> lumex::core::smart_ptr::detail::esft_probe(...) </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2160fb6c20228d4d5420ff46776554f0" name="a2160fb6c20228d4d5420ff46776554f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2160fb6c20228d4d5420ff46776554f0">&#9670;&#160;</a></span>type_id_storage&lt; T &gt;::value</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">char <a class="el" href="a03911.html">lumex::core::smart_ptr::detail::type_id_storage</a>&lt; T &gt;::value = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01562.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a01563.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

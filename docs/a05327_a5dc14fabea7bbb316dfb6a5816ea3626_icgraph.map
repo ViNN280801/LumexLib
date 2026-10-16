@@ -1,0 +1,17 @@
+<map id="lumex::xml::xpath::variable::XPathVariable::next" name="lumex::xml::xpath::variable::XPathVariable::next">
+<area shape="rect" id="Node000001" title="Gets a pointer to the next variable in a linked list." alt="" coords="772,101,983,141"/>
+<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="918,90,904,83,877,80,854,82,840,87,835,93,838,100,833,102,830,92,837,82,853,77,877,75,905,78,920,85"/>
+<area shape="rect" id="Node000002" href="$a05347.html#ab37f5ebf628ae27ccad60b41c7286ef9" title="Adds a new variable to the set or retrieves an existing one." alt="" coords="276,101,503,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="758,117,724,116,551,116,503,118,503,112,551,111,724,111,758,112"/>
+<area shape="rect" id="Node000007" href="$a05327.html#aec33910cbaec3c530f1ca4aed2126962" title="Sets the next variable in the linked list." alt="" coords="551,126,724,181"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="759,140,725,144,724,139,758,135"/>
+<area shape="rect" id="Node000003" href="$a05347.html#a3073c328483b4fa675a412b1783a1406" title="Sets the boolean value of an existing variable." alt="" coords="5,5,228,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,99,227,60,190,48,191,43,229,55,331,94"/>
+<area shape="rect" id="Node000004" href="$a05347.html#ab3e57ba2cb4341216ebeb3084355b64b" title="Sets the string value of an existing variable." alt="" coords="5,69,228,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="262,109,228,105,229,100,263,104"/>
+<area shape="rect" id="Node000005" href="$a05347.html#a4e6e98b074e72ec24556eedaf4e8da1e" title="Sets the numeric value of an existing variable." alt="" coords="5,133,228,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="263,139,229,143,228,138,262,134"/>
+<area shape="rect" id="Node000006" href="$a05347.html#a15d701b795ad633ec27d534c5236ba0d" title="Sets the node&#45;set value of an existing variable." alt="" coords="5,197,228,237"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="331,149,229,188,191,200,190,195,227,183,329,144"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="537,143,503,139,503,133,537,138"/>
+</map>

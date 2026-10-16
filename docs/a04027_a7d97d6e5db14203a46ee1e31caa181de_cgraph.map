@@ -1,0 +1,6 @@
+<map id="lumex::core::span::view::span::at" name="lumex::core::span::view::span::at">
+<area shape="rect" id="Node000001" title="The element at index, checked (C++26 in the standard)." alt="" coords="5,29,152,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="42,30,40,20,46,11,59,5,79,3,102,6,114,13,111,17,100,11,79,8,60,10,49,15,45,21,47,28"/>
+<area shape="rect" id="Node000002" href="$a01566.html#a7aeff79089621667da4b6131d3548e5a" title="Throws std::out_of_range; keeps the throw out of the inline accessors." alt="" coords="200,22,347,77"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="152,47,186,47,186,52,152,52"/>
+</map>

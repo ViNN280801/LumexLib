@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexEnvironment.cpp File Reference</title>
+<title>LumexLib: example_generators_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,59 +104,88 @@ $(function(){initNavTree('a00353.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexEnvironment.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_generators_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;cctype&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00356_source.html">LumexEnvironment.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01382_source.html">lumex/core/generators/LumexGenerators</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexEnvironment.cpp:</div>
+Include dependency graph for example_generators_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00354.png" border="0" usemap="#a_lumex_environment_8cpp" alt=""/></div>
+<div class="center"><img src="a00354.png" border="0" usemap="#aexample__generators__workflow_8cpp" alt=""/></div>
+<map name="aexample__generators__workflow_8cpp" id="aexample__generators__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="63,5,219,45"/>
+<area shape="rect" title=" " alt="" coords="5,277,85,302"/>
+<area shape="poly" title=" " alt="" coords="136,47,57,265,52,263,131,45"/>
+<area shape="rect" title=" " alt="" coords="110,277,173,302"/>
+<area shape="poly" title=" " alt="" coords="144,46,144,263,139,263,139,46"/>
+<area shape="rect" href="a01382.html" title="Generators module: number_generator, random integral and floating&#45;point numbers from the uniform,..." alt="" coords="219,93,389,133"/>
+<area shape="poly" title=" " alt="" coords="180,43,256,84,254,89,177,48"/>
+<area shape="rect" href="a00932.html" title="Defines the number_generator template class for versatile random number generation." alt="" coords="224,181,467,221"/>
+<area shape="poly" title=" " alt="" coords="316,133,333,168,328,170,311,135"/>
+<area shape="poly" title=" " alt="" coords="265,224,98,272,91,274,89,269,97,267,264,219"/>
+<area shape="poly" title=" " alt="" coords="297,224,185,272,182,273,180,268,183,267,295,219"/>
+<area shape="rect" title=" " alt="" coords="591,277,657,302"/>
+<area shape="poly" title=" " alt="" coords="425,219,500,241,580,267,585,269,583,274,578,272,499,246,423,224"/>
+<area shape="rect" title=" " alt="" coords="681,277,740,302"/>
+<area shape="poly" title=" " alt="" coords="467,217,567,238,670,267,675,269,673,274,669,272,566,243,466,222"/>
+<area shape="rect" title=" " alt="" coords="764,277,836,302"/>
+<area shape="poly" title=" " alt="" coords="467,212,605,233,680,248,753,267,761,269,759,274,751,272,679,253,604,238,467,217"/>
+<area shape="rect" title=" " alt="" coords="934,453,1026,478"/>
+<area shape="poly" title=" " alt="" coords="468,207,681,230,779,247,849,267,885,284,912,301,934,323,957,356,974,398,981,438,976,439,969,400,952,359,930,327,909,305,883,288,847,272,778,252,680,235,467,213"/>
+<area shape="rect" title=" " alt="" coords="197,277,257,302"/>
+<area shape="poly" title=" " alt="" coords="319,224,256,271,253,266,316,220"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="383,269,566,309"/>
+<area shape="poly" title=" " alt="" coords="377,220,435,259,432,264,374,224"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="328,445,541,485"/>
+<area shape="poly" title=" " alt="" coords="336,223,308,265,270,311,251,325,235,333,220,342,208,359,201,378,208,396,223,409,248,421,315,441,313,446,246,426,220,413,203,399,196,378,203,356,216,338,232,329,249,321,266,307,303,262,331,220"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="218,357,473,397"/>
+<area shape="poly" title=" " alt="" coords="348,222,348,343,343,343,343,222"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="497,365,679,390"/>
+<area shape="poly" title=" " alt="" coords="503,308,562,354,559,358,499,312"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="753,357,943,397"/>
+<area shape="poly" title=" " alt="" coords="560,307,750,352,749,357,559,312"/>
+<area shape="poly" title=" " alt="" coords="567,304,643,326,673,340,693,356,701,377,693,399,672,415,639,429,556,450,554,445,637,424,669,411,689,396,696,377,689,359,671,345,641,331,565,309"/>
+<area shape="poly" title=" " alt="" coords="880,396,951,443,948,447,877,400"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="655,445,910,485"/>
+<area shape="poly" title=" " alt="" coords="835,399,808,436,804,432,831,396"/>
+<area shape="poly" title=" " alt="" coords="754,400,543,445,542,440,753,395"/>
+<area shape="poly" title=" " alt="" coords="368,396,406,434,403,437,364,400"/>
+</map>
 </div>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01340.html">lumex::core::environment</a></td></tr>
-<tr class="memdesc:a01340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains classes and utilities for environment variable interaction. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01341.html">lumex::core::environment::env</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a133dac804e9421baedf88340deadad5b" id="r_a133dac804e9421baedf88340deadad5b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01341.html#a133dac804e9421baedf88340deadad5b">lumex::core::environment::env::is_env_set</a> (<a class="el" href="a02422.html#a069e608139c4cd3e397d64f8b7d5657b">lumex_environment::string_type</a> const &amp;name)</td></tr>
-<tr class="memdesc:a133dac804e9421baedf88340deadad5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an environment variable is set to a non-empty value.  <br /></td></tr>
-<tr class="separator:a133dac804e9421baedf88340deadad5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4773a4875c22bf328b9834b55316947e" id="r_a4773a4875c22bf328b9834b55316947e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01341.html#a4773a4875c22bf328b9834b55316947e">lumex::core::environment::env::is_env_truthy</a> (<a class="el" href="a02422.html#a069e608139c4cd3e397d64f8b7d5657b">lumex_environment::string_type</a> const &amp;name)</td></tr>
-<tr class="memdesc:a4773a4875c22bf328b9834b55316947e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an environment variable is "truthy" (enabled).  <br /></td></tr>
-<tr class="separator:a4773a4875c22bf328b9834b55316947e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00353_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00353_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00353_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00353_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,20,60,45"/>
+<area shape="rect" href="a03215.html#a347e7f8450eab090b752d6da1d9ab0e8" title="Generates a sequence (vector) of random numbers." alt="" coords="108,5,316,60"/>
+<area shape="poly" title=" " alt="" coords="60,30,95,30,95,35,60,35"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -165,7 +194,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_11061250c6f9b78e671467056317b947.html">environment</a></li><li class="navelem"><a class="el" href="dir_74ef07624c3093f5dc0ef86dcc133c5f.html">env</a></li><li class="navelem"><a class="el" href="a00353.html">LumexEnvironment.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_e8d6585c0a3ccc095622008e70435a51.html">generators</a></li><li class="navelem"><a class="el" href="a00353.html">example_generators_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

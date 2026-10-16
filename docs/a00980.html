@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlNode.cpp File Reference</title>
+<title>LumexLib: LumexQuote.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,549 +104,175 @@ $(function(){initNavTree('a00980.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XmlNode.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexQuote.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00962_source.html">lumex/xml/document/XmlDocumentBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00968_source.html">lumex/xml/memory/XmlAllocator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01004_source.html">lumex/xml/text/XmlParseResult.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01010_source.html">lumex/xml/text/XmlText.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01013_source.html">lumex/xml/tree/XmlTreeWalker.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01016_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01022_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01025_source.html">lumex/xml/writer/IXmlWriter.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01031_source.html">lumex/xml/writer/XmlBufferedWriter.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01043_source.html">lumex/xml/writer/XmlWriterStream.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01085_source.html">lumex/xml/xpath/node/XPathNode.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01091_source.html">lumex/xml/xpath/node/XPathNodeSet.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01121_source.html">lumex/xml/xpath/query/XPathQuery.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01145_source.html">lumex/xml/xpath/variable/XPathVariableSet.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00983_source.html">XmlNode.hpp</a>&quot;</code><br />
+
+<p>Joins the elements of a range with each element wrapped in quotes.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00977_source.html">lumex/core/string/text/LumexJoin.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01106_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01067_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlNode.cpp:</div>
+Include dependency graph for LumexQuote.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00981.png" border="0" usemap="#a_xml_node_8cpp" alt=""/></div>
+<div class="center"><img src="a00981.png" border="0" usemap="#aLumexQuote_8hpp" alt=""/></div>
+<map name="aLumexQuote_8hpp" id="aLumexQuote_8hpp">
+<area shape="rect" title="Joins the elements of a range with each element wrapped in quotes." alt="" coords="128,5,261,31"/>
+<area shape="rect" title=" " alt="" coords="93,174,168,199"/>
+<area shape="poly" title=" " alt="" coords="192,32,143,162,138,160,187,30"/>
+<area shape="rect" title=" " alt="" coords="149,262,208,287"/>
+<area shape="poly" title=" " alt="" coords="182,33,130,87,104,125,84,168,79,187,84,206,94,221,107,234,138,255,135,259,104,238,90,224,79,208,73,187,79,166,99,123,126,84,178,29"/>
+<area shape="rect" title=" " alt="" coords="223,438,315,463"/>
+<area shape="poly" title=" " alt="" coords="161,33,114,55,64,89,42,109,24,132,12,158,8,187,8,274,13,308,29,337,51,362,80,384,112,402,146,416,211,436,209,441,144,421,110,406,77,388,48,366,24,340,8,310,3,275,3,186,7,157,19,130,38,106,60,84,111,51,158,28"/>
+<area shape="rect" href="a00977.html" title="Joins the elements of a range into one string." alt="" coords="198,79,365,119"/>
+<area shape="poly" title=" " alt="" coords="210,29,252,67,248,71,207,33"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1475,431,1730,471"/>
+<area shape="poly" title=" " alt="" coords="262,16,605,23,837,32,1079,47,1307,68,1409,82,1499,97,1573,115,1631,136,1668,159,1678,172,1681,186,1681,275,1676,316,1663,355,1646,391,1628,420,1624,417,1641,388,1658,353,1671,315,1676,274,1676,187,1673,175,1664,163,1628,140,1572,120,1497,102,1408,87,1306,73,1079,52,837,37,605,28,262,21"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="586,167,787,207"/>
+<area shape="poly" title=" " alt="" coords="234,28,377,76,617,160,616,165,375,81,232,33"/>
+<area shape="poly" title=" " alt="" coords="248,121,165,169,163,165,245,117"/>
+<area shape="poly" title=" " alt="" coords="274,120,226,208,198,252,193,249,222,205,269,118"/>
+<area shape="poly" title=" " alt="" coords="264,121,140,256,134,281,137,306,147,331,162,354,200,396,239,428,236,432,196,400,157,357,142,333,132,308,129,281,135,253,260,117"/>
+<area shape="rect" title=" " alt="" coords="233,262,303,287"/>
+<area shape="poly" title=" " alt="" coords="283,119,277,207,273,249,268,248,272,206,278,119"/>
+<area shape="rect" title=" " alt="" coords="327,262,387,287"/>
+<area shape="poly" title=" " alt="" coords="292,118,349,248,344,250,288,120"/>
+<area shape="poly" title=" " alt="" coords="365,101,658,120,1043,152,1231,173,1394,197,1518,223,1560,238,1587,253,1602,270,1613,290,1622,334,1621,379,1614,418,1609,417,1616,378,1617,334,1608,291,1598,273,1584,257,1558,242,1517,228,1393,202,1230,178,1042,158,657,125,365,106"/>
+<area shape="poly" title=" " alt="" coords="365,114,582,161,581,166,364,119"/>
+<area shape="poly" title=" " alt="" coords="586,195,413,215,316,233,221,257,215,259,213,254,219,252,315,228,413,210,586,190"/>
+<area shape="poly" title=" " alt="" coords="608,209,550,230,493,257,432,299,375,346,292,430,288,426,371,343,428,295,491,252,548,225,606,204"/>
+<area shape="poly" title=" " alt="" coords="586,202,456,223,315,257,309,259,307,254,314,252,455,218,585,196"/>
+<area shape="poly" title=" " alt="" coords="589,209,500,231,407,257,401,259,399,254,406,252,499,225,588,204"/>
+<area shape="poly" title=" " alt="" coords="788,185,990,191,1229,202,1342,211,1439,222,1512,236,1537,244,1554,253,1570,269,1583,289,1599,333,1606,377,1607,416,1602,416,1601,378,1594,334,1578,292,1566,273,1550,257,1535,248,1511,241,1438,227,1342,216,1229,207,990,196,788,191"/>
+<area shape="rect" title=" " alt="" coords="1073,262,1143,287"/>
+<area shape="poly" title=" " alt="" coords="788,196,919,218,1062,252,1069,254,1067,259,1061,257,918,223,787,201"/>
+<area shape="rect" title=" " alt="" coords="1167,262,1254,287"/>
+<area shape="poly" title=" " alt="" coords="788,193,961,214,1060,231,1157,252,1167,255,1166,260,1155,257,1059,236,961,219,787,198"/>
+<area shape="rect" title=" " alt="" coords="1279,262,1337,287"/>
+<area shape="poly" title=" " alt="" coords="788,192,1048,217,1175,234,1267,252,1273,254,1272,259,1266,257,1174,239,1047,222,787,197"/>
+<area shape="rect" title=" " alt="" coords="1361,262,1439,287"/>
+<area shape="poly" title=" " alt="" coords="788,191,1089,216,1240,233,1350,252,1359,255,1358,260,1349,257,1240,239,1089,222,788,196"/>
+<area shape="rect" title=" " alt="" coords="1463,262,1539,287"/>
+<area shape="poly" title=" " alt="" coords="788,189,1140,214,1320,231,1451,252,1461,255,1460,260,1450,257,1320,237,1139,219,787,195"/>
+<area shape="rect" title=" " alt="" coords="514,262,569,287"/>
+<area shape="poly" title=" " alt="" coords="655,209,575,257,573,253,652,205"/>
+<area shape="rect" title=" " alt="" coords="593,262,668,287"/>
+<area shape="poly" title=" " alt="" coords="676,209,648,252,644,249,671,206"/>
+<area shape="rect" title=" " alt="" coords="693,262,790,287"/>
+<area shape="poly" title=" " alt="" coords="702,206,728,249,724,252,697,208"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="866,255,1049,295"/>
+<area shape="poly" title=" " alt="" coords="749,204,883,248,882,253,748,209"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="640,431,853,471"/>
+<area shape="poly" title=" " alt="" coords="607,209,544,231,520,243,505,256,501,265,501,273,505,294,508,342,513,361,527,381,544,393,570,404,637,425,635,430,568,409,542,397,523,385,508,363,503,343,500,295,495,274,495,264,501,253,517,239,542,226,605,204"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="537,343,791,383"/>
+<area shape="poly" title=" " alt="" coords="748,205,780,225,805,253,812,275,805,296,783,321,755,339,752,335,779,317,800,293,807,275,800,256,776,229,745,209"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="867,350,1048,375"/>
+<area shape="poly" title=" " alt="" coords="960,295,960,336,955,336,955,295"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1072,343,1261,383"/>
+<area shape="poly" title=" " alt="" coords="1006,292,1108,335,1105,340,1004,297"/>
+<area shape="poly" title=" " alt="" coords="925,297,856,345,813,384,776,422,772,418,809,380,853,341,922,293"/>
+<area shape="poly" title=" " alt="" coords="1072,384,1060,385,850,410,642,429,329,450,329,445,642,424,850,405,1060,380,1072,378"/>
+<area shape="poly" title=" " alt="" coords="1262,379,1491,425,1490,431,1261,384"/>
+<area shape="poly" title=" " alt="" coords="1072,385,856,431,855,425,1071,380"/>
+<area shape="poly" title=" " alt="" coords="685,381,720,419,716,422,681,385"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00982.png" border="0" usemap="#aLumexQuote_8hppdep" alt=""/></div>
+<map name="aLumexQuote_8hppdep" id="aLumexQuote_8hppdep">
+<area shape="rect" title="Joins the elements of a range with each element wrapped in quotes." alt="" coords="715,5,848,31"/>
+<area shape="rect" href="a01403.html" title="String module: stringify, which concatenates the stream output of its arguments, joining and quoting ..." alt="" coords="729,79,833,104"/>
+<area shape="poly" title=" " alt="" coords="784,44,784,78,779,78,779,44"/>
+<area shape="rect" href="a00869.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="417,152,575,177"/>
+<area shape="poly" title=" " alt="" coords="719,110,546,154,545,149,718,105"/>
+<area shape="rect" href="a01274.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="623,152,769,177"/>
+<area shape="poly" title=" " alt="" coords="758,115,713,154,710,150,754,111"/>
+<area shape="rect" href="a00407.html" title=" " alt="" coords="793,152,943,177"/>
+<area shape="poly" title=" " alt="" coords="809,111,854,150,851,154,805,115"/>
+<area shape="rect" href="a00410.html" title=" " alt="" coords="967,152,1182,177"/>
+<area shape="poly" title=" " alt="" coords="846,105,1024,149,1023,155,845,110"/>
+<area shape="rect" href="a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="263,225,393,251"/>
+<area shape="poly" title=" " alt="" coords="456,185,359,228,356,223,453,180"/>
+<area shape="rect" href="a00872.html" title=" " alt="" coords="417,225,575,251"/>
+<area shape="poly" title=" " alt="" coords="499,191,499,225,493,225,493,191"/>
+<area shape="rect" href="a00299.html" title=" " alt="" coords="200,306,384,331"/>
+<area shape="poly" title=" " alt="" coords="319,264,300,307,295,304,314,262"/>
+<area shape="rect" href="a00302.html" title=" " alt="" coords="408,299,565,339"/>
+<area shape="poly" title=" " alt="" coords="366,255,448,296,446,301,364,259"/>
+<area shape="rect" href="a01340.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="720,306,837,331"/>
+<area shape="poly" title=" " alt="" coords="667,188,652,202,641,217,636,234,640,249,655,268,675,283,721,304,719,309,673,288,652,272,635,252,630,233,636,215,648,198,664,184"/>
+<area shape="rect" href="a01277.html" title=" " alt="" coords="649,225,793,251"/>
+<area shape="poly" title=" " alt="" coords="707,189,719,224,714,226,702,191"/>
+<area shape="rect" href="a01271.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="817,225,1001,251"/>
+<area shape="poly" title=" " alt="" coords="747,179,873,223,871,228,745,184"/>
+<area shape="rect" href="a01319.html" title=" " alt="" coords="5,387,288,412"/>
+<area shape="poly" title=" " alt="" coords="707,331,247,389,246,384,706,325"/>
+<area shape="rect" href="a01316.html" title=" " alt="" coords="313,387,546,412"/>
+<area shape="poly" title=" " alt="" coords="711,337,485,389,484,384,710,332"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="571,387,771,412"/>
+<area shape="poly" title=" " alt="" coords="752,342,690,389,686,384,749,338"/>
+<area shape="rect" href="a01202.html" title=" " alt="" coords="795,387,981,412"/>
+<area shape="poly" title=" " alt="" coords="809,338,872,384,869,389,806,342"/>
+<area shape="rect" href="a00440.html" title=" " alt="" coords="1005,387,1166,412"/>
+<area shape="poly" title=" " alt="" coords="841,332,1038,384,1036,389,839,337"/>
+<area shape="rect" href="a00443.html" title=" " alt="" coords="1191,387,1417,412"/>
+<area shape="poly" title=" " alt="" coords="852,327,1222,384,1221,389,851,332"/>
+<area shape="poly" title=" " alt="" coords="878,261,801,308,798,303,875,256"/>
+</map>
+</div>
+</div>
+<p><a href="a00980_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01567.html">lumex::core::string</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01568.html">lumex::core::string::text</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01569.html">lumex::core::string::text::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7f14902237d6fd53b62ea287105d1c31" id="r_a7f14902237d6fd53b62ea287105d1c31"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f14902237d6fd53b62ea287105d1c31">unspecified_bool_xml_node</a> (<a class="el" href="a04966.html">XmlNode</a> ***)</td></tr>
-<tr class="separator:a7f14902237d6fd53b62ea287105d1c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a647665f2ca21227b6053327ad22ae43a" id="r_a647665f2ca21227b6053327ad22ae43a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a647665f2ca21227b6053327ad22ae43a">text_output_escaped</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a> type, unsigned int flags)</td></tr>
-<tr class="separator:a647665f2ca21227b6053327ad22ae43a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf60e317ab315b5cb3eb74f99c1c7818" id="r_adf60e317ab315b5cb3eb74f99c1c7818"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf60e317ab315b5cb3eb74f99c1c7818">text_output</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str, <a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a> type, unsigned int flags)</td></tr>
-<tr class="separator:adf60e317ab315b5cb3eb74f99c1c7818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e97a025d5f0d5027445d44145586231" id="r_a9e97a025d5f0d5027445d44145586231"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e97a025d5f0d5027445d44145586231">text_output_cdata</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
-<tr class="separator:a9e97a025d5f0d5027445d44145586231"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c50f986d8e0bd24c89594197a5dc0e9" id="r_a1c50f986d8e0bd24c89594197a5dc0e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c50f986d8e0bd24c89594197a5dc0e9">text_output_indent</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int depth)</td></tr>
-<tr class="separator:a1c50f986d8e0bd24c89594197a5dc0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdf88c166fbef8feba73a11656d1a2a5" id="r_afdf88c166fbef8feba73a11656d1a2a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdf88c166fbef8feba73a11656d1a2a5">node_output_comment</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
-<tr class="separator:afdf88c166fbef8feba73a11656d1a2a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a759553362006542d7aa6079a39a24bf4" id="r_a759553362006542d7aa6079a39a24bf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a759553362006542d7aa6079a39a24bf4">node_output_pi_value</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *str)</td></tr>
-<tr class="separator:a759553362006542d7aa6079a39a24bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aec0d3f33d23989698e84beb2403d60" id="r_a1aec0d3f33d23989698e84beb2403d60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1aec0d3f33d23989698e84beb2403d60">node_output_attributes</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a04982.html">XmlNodeBase</a> *node, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int flags, unsigned int depth)</td></tr>
-<tr class="separator:a1aec0d3f33d23989698e84beb2403d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3781da2446a997aeab30b3a127de9a9d" id="r_a3781da2446a997aeab30b3a127de9a9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3781da2446a997aeab30b3a127de9a9d">node_output_start</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a04982.html">XmlNodeBase</a> *node, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *indent, std::size_t indent_length, unsigned int flags, unsigned int depth)</td></tr>
-<tr class="separator:a3781da2446a997aeab30b3a127de9a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08731803b31fe1bac86107d608100f94" id="r_a08731803b31fe1bac86107d608100f94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08731803b31fe1bac86107d608100f94">node_output_end</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a04982.html">XmlNodeBase</a> *node)</td></tr>
-<tr class="separator:a08731803b31fe1bac86107d608100f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cf6a87493cf624f41e7e716ca14c5b5" id="r_a9cf6a87493cf624f41e7e716ca14c5b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cf6a87493cf624f41e7e716ca14c5b5">node_output_simple</a> (<a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;writer, <a class="el" href="a04982.html">XmlNodeBase</a> *node, unsigned int flags)</td></tr>
-<tr class="separator:a9cf6a87493cf624f41e7e716ca14c5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d6d763661d76d87d32100556e13793" id="r_a32d6d763661d76d87d32100556e13793"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
+<tr class="memitem:a32d6d763661d76d87d32100556e13793"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04803.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04763.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01569.html#a32d6d763661d76d87d32100556e13793">lumex::core::string::text::Detail::quote_each</a> (Range const &amp;range, Separator const &amp;separator, char mark)</td></tr>
+<tr class="memdesc:a32d6d763661d76d87d32100556e13793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joins <code>range</code>, wrapping each element (converted to <code>std::string const &amp;</code>) in <code>mark</code>.  <br /></td></tr>
+<tr class="separator:a32d6d763661d76d87d32100556e13793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae6445322407323613ef63ab3d415d0e" id="r_aae6445322407323613ef63ab3d415d0e"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
+<tr class="memitem:aae6445322407323613ef63ab3d415d0e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04803.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04763.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01568.html#aae6445322407323613ef63ab3d415d0e">lumex::core::string::text::quote</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
+<tr class="memdesc:aae6445322407323613ef63ab3d415d0e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>join</code> with every element wrapped in double quotes (<code>"element"</code>), C++11 to C++17.  <br /></td></tr>
+<tr class="separator:aae6445322407323613ef63ab3d415d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a151d3e147d42afb9d3c34da8b1386821" id="r_a151d3e147d42afb9d3c34da8b1386821"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
+<tr class="memitem:a151d3e147d42afb9d3c34da8b1386821"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04803.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04763.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01568.html#a151d3e147d42afb9d3c34da8b1386821">lumex::core::string::text::quote_double</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
+<tr class="memdesc:a151d3e147d42afb9d3c34da8b1386821"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>quote</code>; named for symmetry with <code>quote_single</code>.  <br /></td></tr>
+<tr class="separator:a151d3e147d42afb9d3c34da8b1386821"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bf415e00fbac5e4e52b81fe02659546" id="r_a9bf415e00fbac5e4e52b81fe02659546"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
+<tr class="memitem:a9bf415e00fbac5e4e52b81fe02659546"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04803.html">lumex::core::utility::traits::range::has_elements_convertible_to</a>&lt; Range, std::stringconst &amp; &gt;::value &amp;&amp;<a class="el" href="a04763.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01568.html#a9bf415e00fbac5e4e52b81fe02659546">lumex::core::string::text::quote_single</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
+<tr class="memdesc:a9bf415e00fbac5e4e52b81fe02659546"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>join</code> with every element wrapped in single quotes (&lsquo;'element&rsquo;`), C++11 to C++17.  <br /></td></tr>
+<tr class="separator:a9bf415e00fbac5e4e52b81fe02659546"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a1aec0d3f33d23989698e84beb2403d60" name="a1aec0d3f33d23989698e84beb2403d60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1aec0d3f33d23989698e84beb2403d60">&#9670;&#160;</a></span>node_output_attributes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_attributes </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a1aec0d3f33d23989698e84beb2403d60_cgraph.png" border="0" usemap="#aa00980_a1aec0d3f33d23989698e84beb2403d60_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a1aec0d3f33d23989698e84beb2403d60_icgraph.png" border="0" usemap="#aa00980_a1aec0d3f33d23989698e84beb2403d60_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="afdf88c166fbef8feba73a11656d1a2a5" name="afdf88c166fbef8feba73a11656d1a2a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afdf88c166fbef8feba73a11656d1a2a5">&#9670;&#160;</a></span>node_output_comment()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_comment </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_afdf88c166fbef8feba73a11656d1a2a5_icgraph.png" border="0" usemap="#aa00980_afdf88c166fbef8feba73a11656d1a2a5_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a08731803b31fe1bac86107d608100f94" name="a08731803b31fe1bac86107d608100f94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08731803b31fe1bac86107d608100f94">&#9670;&#160;</a></span>node_output_end()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_end </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a08731803b31fe1bac86107d608100f94_icgraph.png" border="0" usemap="#aa00980_a08731803b31fe1bac86107d608100f94_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a759553362006542d7aa6079a39a24bf4" name="a759553362006542d7aa6079a39a24bf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a759553362006542d7aa6079a39a24bf4">&#9670;&#160;</a></span>node_output_pi_value()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_pi_value </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a759553362006542d7aa6079a39a24bf4_icgraph.png" border="0" usemap="#aa00980_a759553362006542d7aa6079a39a24bf4_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a9cf6a87493cf624f41e7e716ca14c5b5" name="a9cf6a87493cf624f41e7e716ca14c5b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9cf6a87493cf624f41e7e716ca14c5b5">&#9670;&#160;</a></span>node_output_simple()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void node_output_simple </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a9cf6a87493cf624f41e7e716ca14c5b5_cgraph.png" border="0" usemap="#aa00980_a9cf6a87493cf624f41e7e716ca14c5b5_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a9cf6a87493cf624f41e7e716ca14c5b5_icgraph.png" border="0" usemap="#aa00980_a9cf6a87493cf624f41e7e716ca14c5b5_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a3781da2446a997aeab30b3a127de9a9d" name="a3781da2446a997aeab30b3a127de9a9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3781da2446a997aeab30b3a127de9a9d">&#9670;&#160;</a></span>node_output_start()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool node_output_start </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a04982.html">XmlNodeBase</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a3781da2446a997aeab30b3a127de9a9d_cgraph.png" border="0" usemap="#aa00980_a3781da2446a997aeab30b3a127de9a9d_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a3781da2446a997aeab30b3a127de9a9d_icgraph.png" border="0" usemap="#aa00980_a3781da2446a997aeab30b3a127de9a9d_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="adf60e317ab315b5cb3eb74f99c1c7818" name="adf60e317ab315b5cb3eb74f99c1c7818"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf60e317ab315b5cb3eb74f99c1c7818">&#9670;&#160;</a></span>text_output()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void text_output </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_adf60e317ab315b5cb3eb74f99c1c7818_cgraph.png" border="0" usemap="#aa00980_adf60e317ab315b5cb3eb74f99c1c7818_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_adf60e317ab315b5cb3eb74f99c1c7818_icgraph.png" border="0" usemap="#aa00980_adf60e317ab315b5cb3eb74f99c1c7818_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a9e97a025d5f0d5027445d44145586231" name="a9e97a025d5f0d5027445d44145586231"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e97a025d5f0d5027445d44145586231">&#9670;&#160;</a></span>text_output_cdata()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void text_output_cdata </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a9e97a025d5f0d5027445d44145586231_icgraph.png" border="0" usemap="#aa00980_a9e97a025d5f0d5027445d44145586231_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a647665f2ca21227b6053327ad22ae43a" name="a647665f2ca21227b6053327ad22ae43a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a647665f2ca21227b6053327ad22ae43a">&#9670;&#160;</a></span>text_output_escaped()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void text_output_escaped </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">chartypex_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a647665f2ca21227b6053327ad22ae43a_icgraph.png" border="0" usemap="#aa00980_a647665f2ca21227b6053327ad22ae43a_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a1c50f986d8e0bd24c89594197a5dc0e9" name="a1c50f986d8e0bd24c89594197a5dc0e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c50f986d8e0bd24c89594197a5dc0e9">&#9670;&#160;</a></span>text_output_indent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void text_output_indent </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05030.html">XmlBufferedWriter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *</td>          <td class="paramname"><span class="paramname"><em>indent</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>indent_length</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>depth</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a1c50f986d8e0bd24c89594197a5dc0e9_icgraph.png" border="0" usemap="#aa00980_a1c50f986d8e0bd24c89594197a5dc0e9_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a7f14902237d6fd53b62ea287105d1c31" name="a7f14902237d6fd53b62ea287105d1c31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f14902237d6fd53b62ea287105d1c31">&#9670;&#160;</a></span>unspecified_bool_xml_node()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void unspecified_bool_xml_node </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a04966.html">XmlNode</a> ***</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00980_a7f14902237d6fd53b62ea287105d1c31_icgraph.png" border="0" usemap="#aa00980_a7f14902237d6fd53b62ea287105d1c31_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Joins the elements of a range with each element wrapped in quotes. </p>
+<p><code>quote</code> and <code>quote_double</code> wrap the text in double quotes, <code>quote_single</code> in single quotes. Elements must convert to <code>std::string const &amp;</code> (<code>std::string</code>, <code>char const *</code>, ...). Quote characters inside an element are not escaped. C++20 builds on <code>std::ranges</code> and <code>join</code>; C++11 to C++17 use one explicit loop with the same result.</p>
+<p>C++20 takes the range as <code>input_range auto const &amp;</code>: a view that is not iterable through const (<code>std::views::filter</code>) must be materialized first. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_29d6ff05bf0fbfd630b35569eea8b892.html">node</a></li><li class="navelem"><a class="el" href="a00980.html">XmlNode.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="dir_7f2a87a12e57e05b49f1824eaaf6f6a8.html">text</a></li><li class="navelem"><a class="el" href="a00980.html">LumexQuote.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

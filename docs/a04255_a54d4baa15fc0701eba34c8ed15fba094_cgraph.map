@@ -1,0 +1,9 @@
+<map id="lumex::core::time::timer::lumex_timer::lumex_timer" name="lumex::core::time::timer::lumex_timer::lumex_timer">
+<area shape="rect" id="Node000001" title="Defaulted constructor; the timer measures zero elapsed time until started/stopped." alt="" coords="5,84,161,139"/>
+<area shape="rect" id="Node000002" href="$a04255.html#a841cbadb2bff15c6af5bb54d10c0ce8b" title="Returns the elapsed time between the last start_timer()/stop_timer() pair." alt="" coords="209,5,365,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,81,203,62,204,67,156,86"/>
+<area shape="rect" id="Node000003" href="$a04255.html#a8d05254792e04d5de4368d494ee18a3d" title="Starts (or restarts) the timer." alt="" coords="209,84,365,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,109,196,109,196,114,162,114"/>
+<area shape="rect" id="Node000004" href="$a04255.html#a64a6f8f7aa1babb2698ec5aff42c2e03" title="Stops the timer." alt="" coords="209,163,365,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="156,136,204,155,203,160,154,141"/>
+</map>

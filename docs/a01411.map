@@ -1,0 +1,7 @@
+<map id="LumexTemporary" name="LumexTemporary">
+<area shape="rect" id="Node000001" title="Temporary module: an RAII temporary directory that is removed when its owner is destroyed." alt="" coords="146,5,281,31"/>
+<area shape="rect" id="Node000002" href="$a00347.html" title=" " alt="" coords="5,79,184,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,40,117,81,114,76,180,36"/>
+<area shape="rect" id="Node000003" href="$a00350.html" title=" " alt="" coords="209,79,455,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,36,313,76,310,81,244,40"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::error_or" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::error_or">
+<area shape="rect" id="Node000001" title="Returns the stored error if present, otherwise the default error." alt="" coords="236,29,419,84"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="366,18,352,11,327,8,307,10,294,15,288,21,288,29,283,29,283,19,291,10,306,5,327,3,353,6,368,14"/>
+<area shape="rect" id="Node000002" href="$a02919.html#a1e3029352d1e7d2dcfd3c4e465e48c3b" title="Returns the error by move if present, otherwise the default error." alt="" coords="5,29,188,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,59,188,59,188,54,222,54"/>
+</map>

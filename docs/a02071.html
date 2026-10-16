@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::circular_buffer::circular_buffer&lt; T, Allocator &gt;::basic_iterator&lt; IsConst &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02074.html',''); initResizable(true); });
+$(function(){initNavTree('a02071.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,1092 @@ $(function(){initNavTree('a02074.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc7_rohc_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
+<a href="a02068.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::circular_buffer::circular_buffer&lt; T, Allocator &gt;::basic_iterator&lt; IsConst &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02074.html#aeb625a8a617ef95be5ef06e6fa9d6fae">kCatalogCheck</a></td><td class="entry"><a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02074.html#abc824c71db29ec469bfc4c216c43cd82">kInit</a></td><td class="entry"><a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02074.html#a4f8e95b70fe004bbf690e1975eb59f96">kPoly</a></td><td class="entry"><a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02074.html#a3cc9027f71981424e086a58cf93a7927">kRefIn</a></td><td class="entry"><a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02074.html#ab29bdbeac793bfc3f90e0ee03e421b3b">kRefOut</a></td><td class="entry"><a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02074.html#a3d9f6aac055e20b3de1fd658c3013b5d">kWidth</a></td><td class="entry"><a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02074.html#a91dacfc1d25c458147277996e252aa5f">kXorOut</a></td><td class="entry"><a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02074.html#ac820a62f1014109a3b2d7e22bcb6da0d">ValueType</a> typedef</td><td class="entry"><a class="el" href="a02074.html">lumex::core::crc::parametric::crc7_rohc_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Random-access iterator over the logical element sequence.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00941_source.html">CircularBuffer.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a83af07d1e1b9911200304ca1418b2ead" id="r_a83af07d1e1b9911200304ca1418b2ead"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83af07d1e1b9911200304ca1418b2ead">iterator_category</a> = std::random_access_iterator_tag</td></tr>
+<tr class="memdesc:a83af07d1e1b9911200304ca1418b2ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator category.  <br /></td></tr>
+<tr class="separator:a83af07d1e1b9911200304ca1418b2ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a030649e27eed58dfd26c9ecd85fcbf7e" id="r_a030649e27eed58dfd26c9ecd85fcbf7e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a030649e27eed58dfd26c9ecd85fcbf7e">value_type</a> = T</td></tr>
+<tr class="memdesc:a030649e27eed58dfd26c9ecd85fcbf7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element type the iterator points to.  <br /></td></tr>
+<tr class="separator:a030649e27eed58dfd26c9ecd85fcbf7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53b6bad10cdd819e3269a2fcd6ded8a1" id="r_a53b6bad10cdd819e3269a2fcd6ded8a1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a> = std::ptrdiff_t</td></tr>
+<tr class="separator:a53b6bad10cdd819e3269a2fcd6ded8a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab498c9aaf24f4e3769a0e858d52ffe42" id="r_ab498c9aaf24f4e3769a0e858d52ffe42"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab498c9aaf24f4e3769a0e858d52ffe42">pointer</a></td></tr>
+<tr class="memdesc:ab498c9aaf24f4e3769a0e858d52ffe42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer type.  <br /></td></tr>
+<tr class="separator:ab498c9aaf24f4e3769a0e858d52ffe42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfda66befc5ebc9a297ba313bd917b70" id="r_adfda66befc5ebc9a297ba313bd917b70"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfda66befc5ebc9a297ba313bd917b70">reference</a></td></tr>
+<tr class="memdesc:adfda66befc5ebc9a297ba313bd917b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference type.  <br /></td></tr>
+<tr class="separator:adfda66befc5ebc9a297ba313bd917b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a95909d6dd41d59ed0755ee54775ac5b4" id="r_a95909d6dd41d59ed0755ee54775ac5b4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95909d6dd41d59ed0755ee54775ac5b4">basic_iterator</a> ()</td></tr>
+<tr class="memdesc:a95909d6dd41d59ed0755ee54775ac5b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Creates a singular iterator.  <br /></td></tr>
+<tr class="separator:a95909d6dd41d59ed0755ee54775ac5b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad06768f84636519c3b5622925ff7de00" id="r_ad06768f84636519c3b5622925ff7de00"><td class="memTemplParams" colspan="2">template&lt;bool OtherConst, class = typename std::enable_if&lt;IsConst &amp;&amp; !OtherConst&gt;::type&gt; </td></tr>
+<tr class="memitem:ad06768f84636519c3b5622925ff7de00"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad06768f84636519c3b5622925ff7de00">basic_iterator</a> (<a class="el" href="a02071.html">basic_iterator</a>&lt; OtherConst &gt; const &amp;other)</td></tr>
+<tr class="memdesc:ad06768f84636519c3b5622925ff7de00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion from the non-const iterator to the const iterator.  <br /></td></tr>
+<tr class="separator:ad06768f84636519c3b5622925ff7de00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eff715716244a5493b9446a0898bc68" id="r_a3eff715716244a5493b9446a0898bc68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#adfda66befc5ebc9a297ba313bd917b70">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3eff715716244a5493b9446a0898bc68">operator*</a> () const</td></tr>
+<tr class="memdesc:a3eff715716244a5493b9446a0898bc68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dereference operator.  <br /></td></tr>
+<tr class="separator:a3eff715716244a5493b9446a0898bc68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8437bbd60326088369789fec6c1a30bc" id="r_a8437bbd60326088369789fec6c1a30bc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab498c9aaf24f4e3769a0e858d52ffe42">pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8437bbd60326088369789fec6c1a30bc">operator-&gt;</a> () const</td></tr>
+<tr class="memdesc:a8437bbd60326088369789fec6c1a30bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Member-access operator.  <br /></td></tr>
+<tr class="separator:a8437bbd60326088369789fec6c1a30bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf0d01f777ee2f7a66c8f58de7cb83bc" id="r_adf0d01f777ee2f7a66c8f58de7cb83bc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#adfda66befc5ebc9a297ba313bd917b70">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf0d01f777ee2f7a66c8f58de7cb83bc">operator[]</a> (<a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a> n) const</td></tr>
+<tr class="memdesc:adf0d01f777ee2f7a66c8f58de7cb83bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscript operator.  <br /></td></tr>
+<tr class="separator:adf0d01f777ee2f7a66c8f58de7cb83bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30c9de3aa0ca09e55d079f055aa09bc3" id="r_a30c9de3aa0ca09e55d079f055aa09bc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30c9de3aa0ca09e55d079f055aa09bc3">operator++</a> ()</td></tr>
+<tr class="memdesc:a30c9de3aa0ca09e55d079f055aa09bc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix increment. Advances the iterator to the next element.  <br /></td></tr>
+<tr class="separator:a30c9de3aa0ca09e55d079f055aa09bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8765cca54e75a47df12f189872de1615" id="r_a8765cca54e75a47df12f189872de1615"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8765cca54e75a47df12f189872de1615">operator++</a> (int)</td></tr>
+<tr class="memdesc:a8765cca54e75a47df12f189872de1615"><td class="mdescLeft">&#160;</td><td class="mdescRight">Postfix increment. Advances the iterator to the next element.  <br /></td></tr>
+<tr class="separator:a8765cca54e75a47df12f189872de1615"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0758120d01517eb2892bd17e8c7b9378" id="r_a0758120d01517eb2892bd17e8c7b9378"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0758120d01517eb2892bd17e8c7b9378">operator--</a> ()</td></tr>
+<tr class="memdesc:a0758120d01517eb2892bd17e8c7b9378"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix decrement. Moves the iterator to the previous element.  <br /></td></tr>
+<tr class="separator:a0758120d01517eb2892bd17e8c7b9378"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a287d2a993b49fb16db8d16fc6a99c2a0" id="r_a287d2a993b49fb16db8d16fc6a99c2a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a287d2a993b49fb16db8d16fc6a99c2a0">operator--</a> (int)</td></tr>
+<tr class="memdesc:a287d2a993b49fb16db8d16fc6a99c2a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Postfix decrement. Moves the iterator to the previous element.  <br /></td></tr>
+<tr class="separator:a287d2a993b49fb16db8d16fc6a99c2a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48f90f9586c43cdbc3e933d5080d6a95" id="r_a48f90f9586c43cdbc3e933d5080d6a95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48f90f9586c43cdbc3e933d5080d6a95">operator+=</a> (<a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a> n)</td></tr>
+<tr class="memdesc:a48f90f9586c43cdbc3e933d5080d6a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Addition assignment. Advances the iterator by <code>n</code> positions.  <br /></td></tr>
+<tr class="separator:a48f90f9586c43cdbc3e933d5080d6a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5591069d0eea43c4d3315b731d597ef6" id="r_a5591069d0eea43c4d3315b731d597ef6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5591069d0eea43c4d3315b731d597ef6">operator-=</a> (<a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a> n)</td></tr>
+<tr class="memdesc:a5591069d0eea43c4d3315b731d597ef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtraction assignment. Moves the iterator back by <code>n</code> positions.  <br /></td></tr>
+<tr class="separator:a5591069d0eea43c4d3315b731d597ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fb6a2d5a3b397417678bd5111c29ad8" id="r_a3fb6a2d5a3b397417678bd5111c29ad8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fb6a2d5a3b397417678bd5111c29ad8">operator+</a> (<a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a> n) const</td></tr>
+<tr class="memdesc:a3fb6a2d5a3b397417678bd5111c29ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Addition. Creates a new iterator advanced by <code>n</code> positions.  <br /></td></tr>
+<tr class="separator:a3fb6a2d5a3b397417678bd5111c29ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e2bb373065fef5508e02ddc11eb2e0e" id="r_a8e2bb373065fef5508e02ddc11eb2e0e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e2bb373065fef5508e02ddc11eb2e0e">operator-</a> (<a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a> n) const</td></tr>
+<tr class="memdesc:a8e2bb373065fef5508e02ddc11eb2e0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtraction. Creates a new iterator moved back by <code>n</code> positions.  <br /></td></tr>
+<tr class="separator:a8e2bb373065fef5508e02ddc11eb2e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:aed32cf49ca0a75d12706bf1c3a880be6" id="r_aed32cf49ca0a75d12706bf1c3a880be6"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed32cf49ca0a75d12706bf1c3a880be6">circular_buffer</a></td></tr>
+<tr class="separator:aed32cf49ca0a75d12706bf1c3a880be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d75b0ad2bf90990fb68262ea85a8eba" id="r_a7d75b0ad2bf90990fb68262ea85a8eba"><td class="memTemplParams" colspan="2">template&lt;bool&gt; </td></tr>
+<tr class="memitem:a7d75b0ad2bf90990fb68262ea85a8eba"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">basic_iterator</a></td></tr>
+<tr class="separator:a7d75b0ad2bf90990fb68262ea85a8eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6f53c433f07f237f9bbea2e4c4b0792" id="r_af6f53c433f07f237f9bbea2e4c4b0792"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02071.html">basic_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6f53c433f07f237f9bbea2e4c4b0792">operator+</a> (<a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a> n, <a class="el" href="a02071.html">basic_iterator</a> iter)</td></tr>
+<tr class="memdesc:af6f53c433f07f237f9bbea2e4c4b0792"><td class="mdescLeft">&#160;</td><td class="mdescRight">Friend addition. Creates a new iterator advanced by <code>n</code> positions.  <br /></td></tr>
+<tr class="separator:af6f53c433f07f237f9bbea2e4c4b0792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac65e508134f2cff5a5124e7d29560c4b" id="r_ac65e508134f2cff5a5124e7d29560c4b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac65e508134f2cff5a5124e7d29560c4b">operator-</a> (<a class="el" href="a02071.html">basic_iterator</a> const &amp;lhs, <a class="el" href="a02071.html">basic_iterator</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:ac65e508134f2cff5a5124e7d29560c4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Difference. Distance between two iterators of one buffer.  <br /></td></tr>
+<tr class="separator:ac65e508134f2cff5a5124e7d29560c4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37d17b0ac28a6da928d766407396da01" id="r_a37d17b0ac28a6da928d766407396da01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37d17b0ac28a6da928d766407396da01">operator==</a> (<a class="el" href="a02071.html">basic_iterator</a> const &amp;lhs, <a class="el" href="a02071.html">basic_iterator</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a37d17b0ac28a6da928d766407396da01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison.  <br /></td></tr>
+<tr class="separator:a37d17b0ac28a6da928d766407396da01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0173cb328996beb23145d82da566d49" id="r_af0173cb328996beb23145d82da566d49"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0173cb328996beb23145d82da566d49">operator!=</a> (<a class="el" href="a02071.html">basic_iterator</a> const &amp;lhs, <a class="el" href="a02071.html">basic_iterator</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:af0173cb328996beb23145d82da566d49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison.  <br /></td></tr>
+<tr class="separator:af0173cb328996beb23145d82da566d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a0460bf61ccb3001a555dc86235ff9f" id="r_a8a0460bf61ccb3001a555dc86235ff9f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a0460bf61ccb3001a555dc86235ff9f">operator&lt;</a> (<a class="el" href="a02071.html">basic_iterator</a> const &amp;lhs, <a class="el" href="a02071.html">basic_iterator</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a8a0460bf61ccb3001a555dc86235ff9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">"less" operator. Compares the positions of two iterators.  <br /></td></tr>
+<tr class="separator:a8a0460bf61ccb3001a555dc86235ff9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac37a25f1954416c81b18612fc90c5d55" id="r_ac37a25f1954416c81b18612fc90c5d55"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac37a25f1954416c81b18612fc90c5d55">operator&gt;</a> (<a class="el" href="a02071.html">basic_iterator</a> const &amp;lhs, <a class="el" href="a02071.html">basic_iterator</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:ac37a25f1954416c81b18612fc90c5d55"><td class="mdescLeft">&#160;</td><td class="mdescRight">"greater" operator. Compares the positions of two iterators.  <br /></td></tr>
+<tr class="separator:ac37a25f1954416c81b18612fc90c5d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e15c199e08bd7510b40c91b2cbb04ac" id="r_a4e15c199e08bd7510b40c91b2cbb04ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e15c199e08bd7510b40c91b2cbb04ac">operator&lt;=</a> (<a class="el" href="a02071.html">basic_iterator</a> const &amp;lhs, <a class="el" href="a02071.html">basic_iterator</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a4e15c199e08bd7510b40c91b2cbb04ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">"less or equal" operator. Compares the positions of two iterators.  <br /></td></tr>
+<tr class="separator:a4e15c199e08bd7510b40c91b2cbb04ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c6e9c592d5802a03c65b543ec7b66f6" id="r_a3c6e9c592d5802a03c65b543ec7b66f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c6e9c592d5802a03c65b543ec7b66f6">operator&gt;=</a> (<a class="el" href="a02071.html">basic_iterator</a> const &amp;lhs, <a class="el" href="a02071.html">basic_iterator</a> const &amp;rhs)</td></tr>
+<tr class="memdesc:a3c6e9c592d5802a03c65b543ec7b66f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">"greater or equal" operator. Compares the positions of two iterators.  <br /></td></tr>
+<tr class="separator:a3c6e9c592d5802a03c65b543ec7b66f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt;<br />
+template&lt;bool IsConst&gt;<br />
+class lumex::core::circular_buffer::circular_buffer&lt; T, Allocator &gt;::basic_iterator&lt; IsConst &gt;</div><p>Random-access iterator over the logical element sequence. </p>
+<p><code>iterator</code> and <code><a class="el" href="a02055.html#a4d39a15fa82f4542c15fa7c146fd68d7" title="Random-access iterator to const elements.">const_iterator</a></code> are the two instances of this template. The iterator walks the buffer elements with random access, like a pointer or an iterator of <code>std::vector</code>; <code><a class="el" href="a02055.html#a4d39a15fa82f4542c15fa7c146fd68d7" title="Random-access iterator to const elements.">const_iterator</a></code> cannot modify elements. An <code>iterator</code> converts to a <code><a class="el" href="a02055.html#a4d39a15fa82f4542c15fa7c146fd68d7" title="Random-access iterator to const elements.">const_iterator</a></code>, and the two compare with each other in both directions.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">IsConst</td><td><code>true</code> for the iterator that gives const access. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a53b6bad10cdd819e3269a2fcd6ded8a1" name="a53b6bad10cdd819e3269a2fcd6ded8a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53b6bad10cdd819e3269a2fcd6ded8a1">&#9670;&#160;</a></span>difference_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::difference_type = std::ptrdiff_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Type used for the difference between two iterators. </p>
+
+</div>
+</div>
+<a id="a83af07d1e1b9911200304ca1418b2ead" name="a83af07d1e1b9911200304ca1418b2ead"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83af07d1e1b9911200304ca1418b2ead">&#9670;&#160;</a></span>iterator_category</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::iterator_category = std::random_access_iterator_tag</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Iterator category. </p>
+
+</div>
+</div>
+<a id="ab498c9aaf24f4e3769a0e858d52ffe42" name="ab498c9aaf24f4e3769a0e858d52ffe42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab498c9aaf24f4e3769a0e858d52ffe42">&#9670;&#160;</a></span>pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::pointer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> <span class="keyword">typename</span> std::conditional&lt;IsConst, T <span class="keyword">const</span> *,</div>
+<div class="line">                                              T *&gt;::type</div>
+</div><!-- fragment -->
+<p>Pointer type. </p>
+
+</div>
+</div>
+<a id="adfda66befc5ebc9a297ba313bd917b70" name="adfda66befc5ebc9a297ba313bd917b70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfda66befc5ebc9a297ba313bd917b70">&#9670;&#160;</a></span>reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::reference</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> </div>
+<div class="line">        <span class="keyword">typename</span> std::conditional&lt;IsConst, T <span class="keyword">const</span> &amp;,</div>
+<div class="line">                                  T &amp;&gt;::type</div>
+</div><!-- fragment -->
+<p>Reference type. </p>
+
+</div>
+</div>
+<a id="a030649e27eed58dfd26c9ecd85fcbf7e" name="a030649e27eed58dfd26c9ecd85fcbf7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a030649e27eed58dfd26c9ecd85fcbf7e">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::value_type = T</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Element type the iterator points to. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a95909d6dd41d59ed0755ee54775ac5b4" name="a95909d6dd41d59ed0755ee54775ac5b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95909d6dd41d59ed0755ee54775ac5b4">&#9670;&#160;</a></span>basic_iterator() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;::basic_iterator&lt; IsConst &gt;::basic_iterator </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default constructor. Creates a singular iterator. </p>
+
+</div>
+</div>
+<a id="ad06768f84636519c3b5622925ff7de00" name="ad06768f84636519c3b5622925ff7de00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad06768f84636519c3b5622925ff7de00">&#9670;&#160;</a></span>basic_iterator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<div class="memtemplate">
+template&lt;bool OtherConst, class = typename std::enable_if&lt;IsConst &amp;&amp; !OtherConst&gt;::type&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;::basic_iterator&lt; IsConst &gt;::basic_iterator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; OtherConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Conversion from the non-const iterator to the const iterator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>Source iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3eff715716244a5493b9446a0898bc68" name="a3eff715716244a5493b9446a0898bc68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3eff715716244a5493b9446a0898bc68">&#9670;&#160;</a></span>operator*()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#adfda66befc5ebc9a297ba313bd917b70">reference</a> <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dereference operator. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the element the iterator points to. </dd></dl>
+
+</div>
+</div>
+<a id="a3fb6a2d5a3b397417678bd5111c29ad8" name="a3fb6a2d5a3b397417678bd5111c29ad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fb6a2d5a3b397417678bd5111c29ad8">&#9670;&#160;</a></span>operator+()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator+ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a></td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Addition. Creates a new iterator advanced by <code>n</code> positions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Number of positions to shift. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>New iterator shifted by <code>n</code> positions. </dd></dl>
+
+</div>
+</div>
+<a id="a30c9de3aa0ca09e55d079f055aa09bc3" name="a30c9de3aa0ca09e55d079f055aa09bc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30c9de3aa0ca09e55d079f055aa09bc3">&#9670;&#160;</a></span>operator++() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> &amp; <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator++ </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Prefix increment. Advances the iterator to the next element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to this iterator after increment. </dd></dl>
+
+</div>
+</div>
+<a id="a8765cca54e75a47df12f189872de1615" name="a8765cca54e75a47df12f189872de1615"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8765cca54e75a47df12f189872de1615">&#9670;&#160;</a></span>operator++() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator++ </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Postfix increment. Advances the iterator to the next element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Copy of the iterator before increment. </dd></dl>
+
+</div>
+</div>
+<a id="a48f90f9586c43cdbc3e933d5080d6a95" name="a48f90f9586c43cdbc3e933d5080d6a95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48f90f9586c43cdbc3e933d5080d6a95">&#9670;&#160;</a></span>operator+=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> &amp; <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator+= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a></td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Addition assignment. Advances the iterator by <code>n</code> positions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Number of positions to move (may be negative). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to this iterator after the move. </dd></dl>
+
+</div>
+</div>
+<a id="a8e2bb373065fef5508e02ddc11eb2e0e" name="a8e2bb373065fef5508e02ddc11eb2e0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e2bb373065fef5508e02ddc11eb2e0e">&#9670;&#160;</a></span>operator-()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator- </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a></td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Subtraction. Creates a new iterator moved back by <code>n</code> positions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Number of positions to shift. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>New iterator shifted by <code>n</code> positions. </dd></dl>
+
+</div>
+</div>
+<a id="a0758120d01517eb2892bd17e8c7b9378" name="a0758120d01517eb2892bd17e8c7b9378"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0758120d01517eb2892bd17e8c7b9378">&#9670;&#160;</a></span>operator--() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> &amp; <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator-- </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Prefix decrement. Moves the iterator to the previous element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to this iterator after decrement. </dd></dl>
+
+</div>
+</div>
+<a id="a287d2a993b49fb16db8d16fc6a99c2a0" name="a287d2a993b49fb16db8d16fc6a99c2a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a287d2a993b49fb16db8d16fc6a99c2a0">&#9670;&#160;</a></span>operator--() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator-- </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Postfix decrement. Moves the iterator to the previous element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Copy of the iterator before decrement. </dd></dl>
+
+</div>
+</div>
+<a id="a5591069d0eea43c4d3315b731d597ef6" name="a5591069d0eea43c4d3315b731d597ef6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5591069d0eea43c4d3315b731d597ef6">&#9670;&#160;</a></span>operator-=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> &amp; <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator-= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a></td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Subtraction assignment. Moves the iterator back by <code>n</code> positions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Number of positions to move (may be negative). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to this iterator after the move. </dd></dl>
+
+</div>
+</div>
+<a id="a8437bbd60326088369789fec6c1a30bc" name="a8437bbd60326088369789fec6c1a30bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8437bbd60326088369789fec6c1a30bc">&#9670;&#160;</a></span>operator-&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab498c9aaf24f4e3769a0e858d52ffe42">pointer</a> <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator-&gt; </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Member-access operator. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the element the iterator points to. </dd></dl>
+
+</div>
+</div>
+<a id="adf0d01f777ee2f7a66c8f58de7cb83bc" name="adf0d01f777ee2f7a66c8f58de7cb83bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf0d01f777ee2f7a66c8f58de7cb83bc">&#9670;&#160;</a></span>operator[]()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#adfda66befc5ebc9a297ba313bd917b70">reference</a> <a class="el" href="a02055.html">lumex::core::circular_buffer::circular_buffer</a>&lt; T, Allocator &gt;<a class="el" href="#a7d75b0ad2bf90990fb68262ea85a8eba">::basic_iterator</a>&lt; IsConst &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a></td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Subscript operator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Offset from the iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the element <code>n</code> positions after the iterator. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="a7d75b0ad2bf90990fb68262ea85a8eba" name="a7d75b0ad2bf90990fb68262ea85a8eba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d75b0ad2bf90990fb68262ea85a8eba">&#9670;&#160;</a></span>basic_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<div class="memtemplate">
+template&lt;bool&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="a02071.html">basic_iterator</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed32cf49ca0a75d12706bf1c3a880be6" name="aed32cf49ca0a75d12706bf1c3a880be6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed32cf49ca0a75d12706bf1c3a880be6">&#9670;&#160;</a></span>circular_buffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="a02055.html">circular_buffer</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af0173cb328996beb23145d82da566d49" name="af0173cb328996beb23145d82da566d49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0173cb328996beb23145d82da566d49">&#9670;&#160;</a></span>operator!=</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The first iterator. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The second iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the iterators point at different elements or different buffers, otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="af6f53c433f07f237f9bbea2e4c4b0792" name="af6f53c433f07f237f9bbea2e4c4b0792"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6f53c433f07f237f9bbea2e4c4b0792">&#9670;&#160;</a></span>operator+</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02071.html">basic_iterator</a> operator+ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a></td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt;</td>          <td class="paramname"><span class="paramname"><em>iter</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Friend addition. Creates a new iterator advanced by <code>n</code> positions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Number of positions to shift. </td></tr>
+    <tr><td class="paramname">iter</td><td>Source iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>New iterator shifted by <code>n</code> positions. </dd></dl>
+
+</div>
+</div>
+<a id="ac65e508134f2cff5a5124e7d29560c4b" name="ac65e508134f2cff5a5124e7d29560c4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac65e508134f2cff5a5124e7d29560c4b">&#9670;&#160;</a></span>operator-</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a53b6bad10cdd819e3269a2fcd6ded8a1">difference_type</a> operator- </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Difference. Distance between two iterators of one buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The iterator at the end of the distance. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The iterator at the start of the distance. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Position difference <code>lhs - rhs</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Found for every mix of <code>iterator</code> and <code><a class="el" href="a02055.html#a4d39a15fa82f4542c15fa7c146fd68d7" title="Random-access iterator to const elements.">const_iterator</a></code>. </dd></dl>
+
+</div>
+</div>
+<a id="a8a0460bf61ccb3001a555dc86235ff9f" name="a8a0460bf61ccb3001a555dc86235ff9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a0460bf61ccb3001a555dc86235ff9f">&#9670;&#160;</a></span>operator&lt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>"less" operator. Compares the positions of two iterators. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The first iterator. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The second iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> precedes <code>rhs</code>, otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a4e15c199e08bd7510b40c91b2cbb04ac" name="a4e15c199e08bd7510b40c91b2cbb04ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e15c199e08bd7510b40c91b2cbb04ac">&#9670;&#160;</a></span>operator&lt;=</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>"less or equal" operator. Compares the positions of two iterators. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The first iterator. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The second iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> precedes or equals <code>rhs</code>, otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a37d17b0ac28a6da928d766407396da01" name="a37d17b0ac28a6da928d766407396da01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37d17b0ac28a6da928d766407396da01">&#9670;&#160;</a></span>operator==</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The first iterator. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The second iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if both iterators point at the same element in the same buffer, otherwise <code>false</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Found for every mix of <code>iterator</code> and <code><a class="el" href="a02055.html#a4d39a15fa82f4542c15fa7c146fd68d7" title="Random-access iterator to const elements.">const_iterator</a></code>. </dd></dl>
+
+</div>
+</div>
+<a id="ac37a25f1954416c81b18612fc90c5d55" name="ac37a25f1954416c81b18612fc90c5d55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac37a25f1954416c81b18612fc90c5d55">&#9670;&#160;</a></span>operator&gt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>"greater" operator. Compares the positions of two iterators. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The first iterator. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The second iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> follows <code>rhs</code>, otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a3c6e9c592d5802a03c65b543ec7b66f6" name="a3c6e9c592d5802a03c65b543ec7b66f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c6e9c592d5802a03c65b543ec7b66f6">&#9670;&#160;</a></span>operator&gt;=</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, class Allocator = std::allocator&lt;T&gt;&gt; </div>
+<div class="memtemplate">
+template&lt;bool IsConst&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02071.html">basic_iterator</a>&lt; IsConst &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>"greater or equal" operator. Compares the positions of two iterators. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The first iterator. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The second iterator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <code>lhs</code> follows or equals <code>rhs</code>, otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a00941_source.html">CircularBuffer.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01508.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a02055.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a02071.html">basic_iterator</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

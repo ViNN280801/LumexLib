@@ -1,0 +1,13 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::and_then" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::and_then">
+<area shape="rect" id="Node000001" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (const lvalue), and returns its expected." alt="" coords="5,95,188,149"/>
+<area shape="rect" id="Node000002" href="$a02919.html#a9e60352e1b421c19aba7be15c54afa10" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (lvalue), and returns its expected." alt="" coords="236,29,419,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,93,222,84,224,89,189,99"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="709,95,876,135"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="189,133,287,143,405,151,533,153,661,145,710,136,711,141,662,150,533,159,405,157,286,149,188,138"/>
+<area shape="rect" id="Node000004" href="$a01533.html#aec5d127a8ba19a9021889817a3dd0351" title=" " alt="" coords="467,95,661,135"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="188,118,453,114,453,120,188,123"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="283,29,283,19,291,10,306,5,327,3,353,6,368,14,366,18,352,11,327,8,307,10,294,15,288,21,288,29"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="419,57,535,65,662,81,707,90,706,95,661,86,535,71,419,63"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="419,77,470,89,469,95,418,82"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="662,113,696,113,696,118,662,118"/>
+</map>

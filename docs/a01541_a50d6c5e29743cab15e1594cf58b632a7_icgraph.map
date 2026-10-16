@@ -1,0 +1,19 @@
+<map id="lumex::core::fmt::Detail::append_ascii" name="lumex::core::fmt::Detail::append_ascii">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1019,115,1196,155"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a818162ff93668f48df1c55821b00846f" title="value with at least width digits, zero padded, with sign." alt="" coords="793,115,971,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1005,138,971,138,971,133,1005,133"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a754034de35d8ea974e37818b711109a8" title="Writes time following the checked chrono&#45;specs [it, end)." alt="" coords="343,58,520,98"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="1032,114,899,78,822,61,745,49,657,42,568,49,504,61,503,55,568,43,657,36,746,43,823,56,900,72,1033,109"/>
+<area shape="rect" id="Node000005" href="$a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,143,269,256"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="1017,161,971,170,796,198,658,215,520,220,343,217,269,212,269,207,343,211,520,215,658,209,795,193,970,165,1016,156"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a40ff57adf446dd2e2b97a65f9e817121" title=" " alt="" coords="568,58,745,98"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="789,115,735,101,736,95,791,109"/>
+<area shape="poly" id="edge8_Node000002_Node000004" title=" " alt="" coords="779,134,677,126,568,113,507,101,508,95,568,107,677,121,780,128"/>
+<area shape="rect" id="Node000007" href="$a01541.html#ad543c02880402a3b7f724bbf0650fb51" title="Count of a duration as {} / Q print it." alt="" coords="343,162,520,202"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="780,152,746,157,520,178,520,173,745,151,779,147"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="554,81,520,81,520,75,554,75"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="374,106,270,151,268,146,371,101"/>
+<area shape="rect" id="Node000006" href="$a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,5,295,119"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="329,75,295,73,295,68,329,70"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="329,191,269,195,269,189,329,186"/>
+</map>

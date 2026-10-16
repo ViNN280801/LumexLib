@@ -1,0 +1,19 @@
+<map id="lumex::core::string_view::view::lumex_basic_string_view::empty" name="lumex::core::string_view::view::lumex_basic_string_view::empty">
+<area shape="rect" id="Node000001" title="true when the view has no characters." alt="" coords="296,253,483,307"/>
+<area shape="rect" id="Node000002" href="$a02039.html#abf0c2c4214bf10c4e53c7f7a3b5f5d33" title="Decodes a Base64 string." alt="" coords="31,5,223,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="372,241,353,198,325,149,290,100,246,59,222,46,224,41,250,55,294,97,330,146,357,195,377,239"/>
+<area shape="rect" id="Node000003" href="$a02039.html#a360afd49df79519220388de49571f5a4" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="31,69,223,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="363,243,314,181,282,150,247,124,222,111,224,107,249,119,285,146,318,177,367,240"/>
+<area shape="rect" id="Node000004" href="$a04167.html#a81cf4fc2b41a2d52cdc4cb10cf8f1dfe" title=" " alt="" coords="9,134,245,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="333,248,247,202,219,191,220,186,249,198,336,243"/>
+<area shape="rect" id="Node000005" href="$a02051.html#a1d9c71796e7ea3011f64939ff07a92f6" title="Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the ..." alt="" coords="49,213,204,267"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="282,266,204,254,205,249,283,261"/>
+<area shape="rect" id="Node000006" href="$a01461.html#ab85d8b416a2ab829a4f6ab529a0fb87c" title="The Linux name rule: does a process named name match the requested name?" alt="" coords="35,291,218,346"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="283,298,219,308,218,303,282,293"/>
+<area shape="rect" id="Node000007" href="$a00290.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="99,370,154,395"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="337,317,295,340,249,360,199,374,155,382,154,377,198,369,247,355,292,335,334,312"/>
+<area shape="rect" id="Node000008" href="$a04167.html#a650ec5045e5af9d7f97937be1396093a" title=" " alt="" coords="5,419,248,474"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="358,319,309,365,249,409,224,422,221,417,247,404,306,361,354,315"/>
+<area shape="rect" id="Node000009" href="$a01461.html#aed847477a88ce98cee280fdd2732ab07" title="The Windows name rule: equal without regard to ASCII case, with or without .exe on either side." alt="" coords="29,498,224,553"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="374,321,354,360,326,405,291,449,250,487,226,502,223,497,246,483,287,446,321,402,349,358,369,319"/>
+</map>

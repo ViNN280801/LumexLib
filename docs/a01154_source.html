@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexHardware Source File</title>
+<title>LumexLib: LumexHazardPointerBatch.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a01154_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexHardware</div></div>
+  <div class="headertitle"><div class="title">LumexHazardPointerBatch.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a01154.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,16 +145,91 @@ $(function(){initNavTree('a01154_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="a00089.html">caps/LumexCPUVectorizationCapabilities.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="a00095.html">caps/LumexHardwareCapabilities.hpp</a>&quot;</span></div>
-<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">LumexCPUVectorizationCapabilities.hpp</a></div><div class="ttdoc">Run-time detection of the SIMD instruction sets that the processor and the operating system support.</div></div>
-<div class="ttc" id="aa00095_html"><div class="ttname"><a href="a00095.html">LumexHardwareCapabilities.hpp</a></div><div class="ttdoc">Hardware inventory (processor, memory, graphics adapter) and the decision whether an application shou...</div></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#ifndef LUMEX_CORE_HAZARD_POINTER_HOLDER_HAZARD_POINTER_BATCH_HPP</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#define LUMEX_CORE_HAZARD_POINTER_HOLDER_HAZARD_POINTER_BATCH_HPP</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#include &quot;<a class="code" href="a01148.html">lumex/core/hazard_pointer/engine/LumexHazardPointerEngine.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#include &quot;<a class="code" href="a01157.html">lumex/core/hazard_pointer/holder/LumexHazardPointerHolder.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#include &quot;<a class="code" href="a01400.html">lumex/core/span/LumexSpan</a>&quot;</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#include &quot;<a class="code" href="a01127.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01425.html">lumex</a></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>{</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01488.html">core</a></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>{</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01544.html">hazard_pointer</a></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>{</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">inline</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="}">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="a01544.html#a065793a2b525314276ceaf0af8c0f23e">   78</a></span><a class="code hl_function" href="a01544.html#a065793a2b525314276ceaf0af8c0f23e">make_hazard_pointer_batch</a> (<a class="code hl_class" href="a04027.html">span::view::span&lt;hazard_pointer&gt;</a> hps)</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>{</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  std::size_t needed = 0;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; hps.<a class="code hl_function" href="a04027.html#ab5393aa7cdc476762748852718a134b7">size</a> (); ++i)</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      <span class="keywordflow">if</span> (hps[i].empty ())</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>          ++needed;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="keywordflow">if</span> (needed == 0)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  std::vector&lt;engine::slot_t *&gt; slots (needed);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  <a class="code hl_function" href="a01546.html#a05ed59c81364fd53de26142343a8b795">engine::acquire_slots</a> (slots.data (), needed);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  std::size_t next = 0;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; hps.<a class="code hl_function" href="a04027.html#ab5393aa7cdc476762748852718a134b7">size</a> (); ++i)</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>      <span class="keywordflow">if</span> (hps[i].empty ())</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>          <a class="code hl_function" href="a03311.html#a49b4c6de52ac4748816a8346d63295d6">detail::holder_access::slot</a> (hps[i]) = slots[next];</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>          ++next;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
+</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keyword">inline</span> <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00110" data-start="{" data-end="}">
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="a01544.html#afa28bea08e303f9ff638bd1eaca00e41">  110</a></span><a class="code hl_function" href="a01544.html#afa28bea08e303f9ff638bd1eaca00e41">clear_hazard_pointer_batch</a> (<a class="code hl_class" href="a04027.html">span::view::span&lt;hazard_pointer&gt;</a> hps)</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>{</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; hps.size (); ++i)</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      hps[i] = <a class="code hl_class" href="a03299.html">hazard_pointer</a> ();</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
+</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>} <span class="comment">// namespace hazard_pointer</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_HAZARD_POINTER_HOLDER_HAZARD_POINTER_BATCH_HPP</span></div>
+<div class="ttc" id="aa01127_html"><div class="ttname"><a href="a01127.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
+<div class="ttc" id="aa01127_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<div class="ttc" id="aa01148_html"><div class="ttname"><a href="a01148.html">LumexHazardPointerEngine.hpp</a></div><div class="ttdoc">The engine behind hazard_pointer: hazard slots, retired nodes, the entry points compiled into lumex::...</div></div>
+<div class="ttc" id="aa01157_html"><div class="ttname"><a href="a01157.html">LumexHazardPointerHolder.hpp</a></div><div class="ttdoc">hazard_pointer, the owner of one hazard slot, with make_hazard_pointer, swap and the extension clean_...</div></div>
+<div class="ttc" id="aa01400_html"><div class="ttname"><a href="a01400.html">LumexSpan</a></div><div class="ttdoc">Span module: a C++11 implementation of the C++20 std::span.</div></div>
+<div class="ttc" id="aa01425_html"><div class="ttname"><a href="a01425.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01488_html"><div class="ttname"><a href="a01488.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:116</div></div>
+<div class="ttc" id="aa01544_html"><div class="ttname"><a href="a01544.html">lumex::core::hazard_pointer</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:77</div></div>
+<div class="ttc" id="aa01544_html_a065793a2b525314276ceaf0af8c0f23e"><div class="ttname"><a href="a01544.html#a065793a2b525314276ceaf0af8c0f23e">lumex::core::hazard_pointer::make_hazard_pointer_batch</a></div><div class="ttdeci">void make_hazard_pointer_batch(span::view::span&lt; hazard_pointer &gt; hps)</div><div class="ttdoc">Gives every empty element a hazard slot, all or none.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerBatch.hpp:78</div></div>
+<div class="ttc" id="aa01544_html_afa28bea08e303f9ff638bd1eaca00e41"><div class="ttname"><a href="a01544.html#afa28bea08e303f9ff638bd1eaca00e41">lumex::core::hazard_pointer::clear_hazard_pointer_batch</a></div><div class="ttdeci">void clear_hazard_pointer_batch(span::view::span&lt; hazard_pointer &gt; hps) noexcept</div><div class="ttdoc">Ends the protection of every non-empty element and empties it.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerBatch.hpp:110</div></div>
+<div class="ttc" id="aa01546_html_a05ed59c81364fd53de26142343a8b795"><div class="ttname"><a href="a01546.html#a05ed59c81364fd53de26142343a8b795">lumex::core::hazard_pointer::engine::acquire_slots</a></div><div class="ttdeci">void acquire_slots(slot_t **out, std::size_t count)</div><div class="ttdoc">Takes count hazard slots at once, all or none.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerDomain.cpp:810</div></div>
+<div class="ttc" id="aa03299_html"><div class="ttname"><a href="a03299.html">lumex::core::hazard_pointer::hazard_pointer</a></div><div class="ttdoc">Owner of one hazard slot ([saferecl.hp.holder]).</div><div class="ttdef"><b>Definition</b> LumexHazardPointerHolder.hpp:97</div></div>
+<div class="ttc" id="aa03311_html_a49b4c6de52ac4748816a8346d63295d6"><div class="ttname"><a href="a03311.html#a49b4c6de52ac4748816a8346d63295d6">lumex::core::hazard_pointer::detail::holder_access::slot</a></div><div class="ttdeci">static engine::slot_t *&amp; slot(hazard_pointer &amp;holder) noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerHolder.hpp:360</div></div>
+<div class="ttc" id="aa04027_html"><div class="ttname"><a href="a04027.html">lumex::core::span::view::span</a></div><div class="ttdoc">A non-owning view of a contiguous sequence of objects.</div><div class="ttdef"><b>Definition</b> LumexSpan.hpp:149</div></div>
+<div class="ttc" id="aa04027_html_ab5393aa7cdc476762748852718a134b7"><div class="ttname"><a href="a04027.html#ab5393aa7cdc476762748852718a134b7">lumex::core::span::view::span::size</a></div><div class="ttdeci">constexpr size_type size() const noexcept</div><div class="ttdoc">The number of elements.</div><div class="ttdef"><b>Definition</b> LumexSpan.hpp:681</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_67ca2fc5a6ed9c37068e27e587cd4bd5.html">hardware</a></li><li class="navelem"><a class="el" href="a01154.html">LumexHardware</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_6af0c2de0c279f8479476a3ac4c68aac.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="dir_115e35c88b355c5290d87d334cea88f4.html">holder</a></li><li class="navelem"><a class="el" href="a01154.html">LumexHazardPointerBatch.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

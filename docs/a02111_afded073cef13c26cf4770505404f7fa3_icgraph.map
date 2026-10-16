@@ -1,0 +1,15 @@
+<map id="lumex::core::contracts::source_location::column" name="lumex::core::contracts::source_location::column">
+<area shape="rect" id="Node000001" title="The column; 0 when unknown." alt="" coords="735,107,923,147"/>
+<area shape="rect" id="Node000002" href="$a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="496,59,687,114"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="721,111,686,105,687,100,722,106"/>
+<area shape="rect" id="Node000007" href="$a02111.html#ad0754d961dbd88026624e60dbdfebb9a" title="A location of the given values." alt="" coords="500,138,683,193"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="722,147,683,153,683,148,721,142"/>
+<area shape="rect" id="Node000003" href="$a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,37,448,77"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="482,76,448,72,449,67,483,71"/>
+<area shape="rect" id="Node000006" href="$a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="323,102,378,127"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="483,102,379,114,378,109,482,97"/>
+<area shape="rect" id="Node000004" href="$a02095.html#ace41f89e39c053ae9e4935b8e7b3acc3" title="enforce: the handler runs, then the program is aborted." alt="" coords="7,5,204,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="239,46,204,41,205,36,240,40"/>
+<area shape="rect" id="Node000005" href="$a02091.html#aab54f7f089e730f7d04344425c9d05f4" title="observe: the handler runs, the program continues." alt="" coords="5,69,205,109"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="240,74,206,79,205,74,239,69"/>
+</map>

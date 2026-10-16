@@ -1,0 +1,15 @@
+<map id="lumex::applied::logging::log::LumexLogging::info" name="lumex::applied::logging::log::LumexLogging::info">
+<area shape="rect" id="Node000001" title="Log an INFO&#45;level message." alt="" coords="847,140,1033,180"/>
+<area shape="rect" id="Node000002" href="$a01711.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="5,61,256,115"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="913,131,863,83,832,61,798,44,721,22,642,11,561,8,481,12,405,22,334,34,216,63,215,58,333,29,404,16,481,7,561,3,642,6,722,17,800,39,835,56,867,79,917,127"/>
+<area shape="rect" id="Node000003" href="$a01903.html#af9bac403ac10a4c027b0b3b3e7242dab" title="Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD&#45;HHMMSS&gt; backup file." alt="" coords="588,54,799,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="863,138,779,111,780,106,865,133"/>
+<area shape="rect" id="Node000004" href="$a01711.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="589,133,797,187"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="833,163,798,163,798,157,833,157"/>
+<area shape="rect" id="Node000005" href="$a01711.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="304,133,540,187"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="871,186,799,203,740,210,693,212,588,203,518,190,519,185,588,197,693,206,739,204,798,197,870,181"/>
+<area shape="rect" id="Node000006" href="$a00440.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="666,263,721,289"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="901,190,853,219,800,246,759,261,722,272,720,267,757,256,798,241,851,214,898,185"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="576,163,540,163,540,157,576,157"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="297,132,241,118,242,113,299,127"/>
+</map>

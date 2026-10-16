@@ -1,0 +1,18 @@
+<map id="lumex::applied::resource_monitor::process::detail::descendants_of" name="lumex::applied::resource_monitor::process::detail::descendants_of">
+<area shape="rect" id="Node000001" title="Every process below one process: its children, their children, and so on." alt="" coords="869,67,1052,122"/>
+<area shape="rect" id="Node000002" href="$a01823.html#a536e5b8a5303fd999c96f3d257046351" title="Finds every process below one process: its children, their children, and so on." alt="" coords="581,27,821,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="856,81,821,76,822,71,856,76"/>
+<area shape="rect" id="Node000006" href="$a01461.html#ab09c4e1b3214362a5927245f139cad05" title="Groups processes into trees, so that every process is counted once." alt="" coords="610,106,793,161"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="856,113,793,122,792,117,855,108"/>
+<area shape="rect" id="Node000003" href="$a01823.html#a6dab1e927389c40d7ef02763946f8643" title=" " alt="" coords="5,27,245,82"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="589,27,533,17,413,8,294,17,224,30,223,25,293,12,413,3,534,12,590,22"/>
+<area shape="rect" id="Node000004" href="$a01823.html#af7f3caf609e5155aa7f5245fc231101f" title="Samples one process, with the processes below it." alt="" coords="293,27,533,82"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="568,57,534,57,534,52,568,52"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="280,57,246,57,246,52,280,52"/>
+<area shape="rect" id="Node000005" href="$a00449.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="98,113,153,138"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="289,88,153,121,152,116,288,83"/>
+<area shape="rect" id="Node000007" href="$a01823.html#a223f546f37ce831bc11c81cdfb10e29f" title="Samples the processes with this executable name, with the processes below them." alt="" coords="293,106,533,161"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="596,136,534,136,534,131,596,131"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="299,105,225,85,226,80,301,100"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="280,132,153,129,153,123,280,127"/>
+</map>

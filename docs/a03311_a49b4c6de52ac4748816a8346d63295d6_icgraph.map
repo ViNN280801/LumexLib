@@ -1,0 +1,12 @@
+<map id="lumex::core::hazard_pointer::detail::holder_access::slot" name="lumex::core::hazard_pointer::detail::holder_access::slot">
+<area shape="rect" id="Node000001" title=" " alt="" coords="544,45,713,100"/>
+<area shape="rect" id="Node000002" href="$a03311.html#a6743f391cd0165050e4f597c935f7a7a" title=" " alt="" coords="327,9,496,64"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="530,59,496,53,496,48,531,54"/>
+<area shape="rect" id="Node000005" href="$a01544.html#a065793a2b525314276ceaf0af8c0f23e" title="Gives every empty element a hazard slot, all or none." alt="" coords="108,84,279,139"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="531,84,279,106,279,101,530,79"/>
+<area shape="rect" id="Node000003" href="$a01544.html#ab1c692679886fcb3aa4271b5fd82a319" title="Makes a holder that owns a slot ([saferecl.hp.holder.nonmem])." alt="" coords="108,5,279,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="313,38,279,37,279,32,313,32"/>
+<area shape="rect" id="Node000004" href="$a00524.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,60,60,85"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="95,60,61,68,60,63,94,55"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="94,90,60,82,61,77,95,85"/>
+</map>

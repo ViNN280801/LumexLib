@@ -1,0 +1,10 @@
+<map id="lumex::core::crc::parametric::Detail::validate_spec" name="lumex::core::crc::parametric::Detail::validate_spec">
+<area shape="rect" id="Node000001" title=" " alt="" coords="529,63,735,103"/>
+<area shape="rect" id="Node000002" href="$a01516.html#a5856886f034656cadd23124196c18d1e" title=" " alt="" coords="276,5,481,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="529,62,467,48,468,43,530,57"/>
+<area shape="rect" id="Node000003" href="$a01516.html#a6e2e923e3124605b86a90270b60afe11" title=" " alt="" coords="5,92,228,132"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="516,92,228,108,228,103,515,87"/>
+<area shape="rect" id="Node000004" href="$a01516.html#a03c301792e5ead24fcb7daf5c23cf815" title=" " alt="" coords="276,120,481,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="530,108,468,123,467,117,529,103"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="262,130,228,127,229,121,263,125"/>
+</map>

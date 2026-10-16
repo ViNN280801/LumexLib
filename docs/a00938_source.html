@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlAttribute.hpp Source File</title>
+<title>LumexLib: LumexMathConstants.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a00938_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">XmlAttribute.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexMathConstants.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a00938.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -144,318 +144,123 @@ $(function(){initNavTree('a00938_source.html',''); initResizable(true); });
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment"> * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#ifndef LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_HPP</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#define LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_HPP</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#pragma clang diagnostic push</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wpadded&quot;</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage&quot;</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#if __has_warning(&quot;-Wunsafe-buffer-usage-in-libc-call&quot;)</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage-in-libc-call&quot;</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wswitch-enum&quot;</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#if __has_warning(&quot;-Wnrvo&quot;)</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wnrvo&quot;</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wheader-hygiene&quot;</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wused-but-marked-unused&quot;</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-var-template&quot;</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wdeprecated-redundant-constexpr-static-def&quot;</span></div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#if __has_warning(&quot;-Wvariadic-macro-arguments-omitted&quot;)</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wvariadic-macro-arguments-omitted&quot;</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunused-result&quot;</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wextra-semi-stmt&quot;</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexpansion-to-defined&quot;</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexit-time-destructors&quot;</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-func-template&quot;</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wfloat-equal&quot;</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#include &quot;<a class="code" href="a00932.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#include &quot;<a class="code" href="a00584.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#include &quot;<a class="code" href="a01019.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#include &quot;<a class="code" href="a00944.html">XmlAttributeBase.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01248.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>{</div>
-<div class="foldopen" id="foldopen00101" data-start="{" data-end="}">
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="a01492.html">  101</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01492.html">xml</a></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>{</div>
-<div class="foldopen" id="foldopen00103" data-start="{" data-end="}">
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="a01493.html">  103</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01493.html">attribute</a></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>{</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01507.html">lumex::xml::types</a>;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="a01508.html">lumex::xml::types::Types</a>;</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span></div>
-<div class="foldopen" id="foldopen00124" data-start="{" data-end="};">
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="a04938.html">  124</a></span><span class="keyword">class </span><a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>{</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="a04938.html#a58b3a3e023e19bf5fe95bbbb16ddedda">  126</a></span>  <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_friend" href="a04938.html#a58b3a3e023e19bf5fe95bbbb16ddedda">XmlAttributeIterator</a>;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="a04938.html#ae6de052414d8de2416bfda106ca51d8d">  129</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="a04938.html#ae6de052414d8de2416bfda106ca51d8d">unspecified_bool_type</a> = void (*) (<a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> ***);</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span></div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> ();</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">explicit</span> <a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> (<a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *attr);</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span></div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keyword">operator</span> <a class="code hl_typedef" href="a04938.html#ae6de052414d8de2416bfda106ca51d8d">unspecified_bool_type</a> () <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span></div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a5d17ec464b8ebfc9d3bfe094803213c0">operator!</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span></div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#ac48ac5d5097027144f43cfd9fefeae50">operator== </a>(<a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> <span class="keyword">const</span> &amp;other) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#aee5f265bfade0ee2569c7e68d821b441">operator!= </a>(<a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> <span class="keyword">const</span> &amp;other) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span></div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a972020e230548bcfb4084a6d7c4ac9c5">operator&lt; </a>(<a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> <span class="keyword">const</span> &amp;other) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span></div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a19bca41b6662eaaea1a5fe10baff570e">operator&gt; </a>(<a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> <span class="keyword">const</span> &amp;other) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span></div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#ad0db3c238649935e9e31f1c2e9159723">operator&lt;= </a>(<a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> <span class="keyword">const</span> &amp;other) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span></div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a37a6d5fb6c8463b12e6aa5a06af93ca3">operator&gt;= </a>(<a class="code hl_function" href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">XmlAttribute</a> <span class="keyword">const</span> &amp;other) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned boolean indicates whether the &quot;</span></div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                             <span class="stringliteral">&quot;attribute is empty; discarding it &quot;</span></div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                             <span class="stringliteral">&quot;negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a34871aa9b33fe76794bf89c03f6ee3cf">empty</a> () const;</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned attribute name (C-style string) &quot;</span></div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                             <span class="stringliteral">&quot;should be used; discarding it &quot;</span></div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                             <span class="stringliteral">&quot;negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *<a class="code hl_function" href="a04938.html#a6f9d3f69f96f19b22f4d2888a6747af6">name</a> () const;</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned attribute value (C-style string) &quot;</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>                             <span class="stringliteral">&quot;should be used; discarding it &quot;</span></div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>                             <span class="stringliteral">&quot;negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *<a class="code hl_function" href="a04938.html#a40dc4738d939dd04914625f44b5e01c8">value</a> () const;</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span></div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *<a class="code hl_function" href="a04938.html#abb7b38925b73fbe1fa967deb1a9838fe">as_string</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *def = <span class="stringliteral">&quot;&quot;</span>) const;</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>  <span class="comment">// Get attribute value as a number, or the default value if the attribute</span></div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>  <span class="comment">// is empty or has no value</span></div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned value is the default value; &quot;</span></div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">int</span> <a class="code hl_function" href="a04938.html#a60197dee0eb2b25d5e4e1f8d857630fd">as_int</a> (<span class="keywordtype">int</span> def = 0) const;</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span> </div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned value is the default value; &quot;</span></div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code hl_function" href="a04938.html#a3f541ed5ee221bb0e96aad7b3273caed">as_uint</a> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> def = 0) const;</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned value is the default value; &quot;</span></div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">double</span> <a class="code hl_function" href="a04938.html#a7e6beb5b9cc23610b1fa289fd052f78f">as_double</a> (<span class="keywordtype">double</span> def = 0) const;</div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned value is the default value; &quot;</span></div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">float</span> <a class="code hl_function" href="a04938.html#a2400242f3d9ec9cbeba2a3147af82350">as_float</a> (<span class="keywordtype">float</span> def = 0) const;</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned value is the default value; &quot;</span></div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_function" href="a04938.html#a1000b87b582c20c1afdde2a70a2e47aa">as_llong</a> (<span class="keywordtype">long</span> <span class="keywordtype">long</span> def = 0) const;</div>
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned value is the default value; &quot;</span></div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_function" href="a04938.html#adf984b7d352ce6d8d63aeaa0d608306b">as_ullong</a> (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span> def = 0) const;</div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span> </div>
-<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned value is the default value; &quot;</span></div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#aca25f5d9c4c12f528d05891b16ca099c">as_bool</a> (<span class="keywordtype">bool</span> def = false) const;</div>
-<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span> </div>
-<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>  <span class="comment">// Set attribute name/value (returns false if attribute is empty or there is</span></div>
-<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>  <span class="comment">// not enough memory)</span></div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a442774c703a6a3ab1c8fbfe114b903e2">set_name</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *rhs);</div>
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span></div>
-<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a442774c703a6a3ab1c8fbfe114b903e2">set_name</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *rhs, <a class="code hl_namespace" href="a01350.html">std</a>::<span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span></div>
-<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>  <span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00448" data-start="{" data-end="}">
-<div class="line"><a id="l00448" name="l00448"></a><span class="lineno"><a class="line" href="a04938.html#abdb9ba56752a9b703189e5d27baa679e">  448</a></span>  <a class="code hl_function" href="a04938.html#a442774c703a6a3ab1c8fbfe114b903e2">set_name</a> (<a class="code hl_typedef" href="a01508.html#a58bde010f6e0971e98340b8e9c0573f5">string_view_t</a> rhs)</div>
-<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>  {</div>
-<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a04938.html#a442774c703a6a3ab1c8fbfe114b903e2">set_name</a> (rhs.data (), rhs.size ());</div>
-<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>  }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#ifndef LUMEX_CORE_MATH_CONSTANTS_HPP</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#define LUMEX_CORE_MATH_CONSTANTS_HPP</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">// 50 digits precision</span></div>
+<div class="foldopen" id="foldopen00052" data-start="" data-end="">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="a00938.html#a90c8706d5ca0db2bdfc18ba319992a14">   52</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_PI                                               \</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">  3.14159265358979323846264338327950288419716939937510</span></div>
 </div>
-<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span></div>
-<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *rhs);</div>
-<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span></div>
-<div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *rhs, std::size_t size);</div>
-<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span></div>
-<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>  <span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00492" data-start="{" data-end="}">
-<div class="line"><a id="l00492" name="l00492"></a><span class="lineno"><a class="line" href="a04938.html#a7a36fb5f2f3a3ab150c6754ffb38e4db">  492</a></span>  <a class="code hl_function" href="a04938.html#a7a36fb5f2f3a3ab150c6754ffb38e4db">set_value</a> (<a class="code hl_typedef" href="a01508.html#a58bde010f6e0971e98340b8e9c0573f5">string_view_t</a> rhs)</div>
-<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>  {</div>
-<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (rhs.<a class="code hl_function" href="a03990.html#aff8d326ef9c6866116899f0eac72cfea">data</a> (), rhs.<a class="code hl_function" href="a03990.html#aef7453e757e48a1e7b0158b75f958b43">size</a> ());</div>
-<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>  }</div>
+<div class="foldopen" id="foldopen00054" data-start="" data-end="">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="a00938.html#a19da021499da8bb1b451b3fddc8fb557">   54</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_EULER_NUMBER                                     \</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">  2.71828182845904523536028747135266249775724709369995</span></div>
 </div>
-<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span> </div>
-<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>  <span class="comment">// Set attribute value with type conversion (numbers are converted to</span></div>
-<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>  <span class="comment">// strings, boolean is converted to &quot;true&quot;/&quot;false&quot;)</span></div>
-<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">int</span> rhs);</div>
-<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span></div>
-<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> rhs);</div>
-<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span></div>
-<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">long</span> rhs);</div>
-<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span></div>
-<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> rhs);</div>
-<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span></div>
-<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">double</span> rhs);</div>
-<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span></div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">double</span> rhs, <span class="keywordtype">int</span> precision);</div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span></div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">float</span> rhs);</div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span></div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">float</span> rhs, <span class="keywordtype">int</span> precision);</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span></div>
-<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">bool</span> rhs);</div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span></div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">long</span> <span class="keywordtype">long</span> rhs);</div>
-<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span></div>
-<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">bool</span> <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span> rhs);</div>
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span> </div>
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>  <span class="comment">// Set attribute value (equivalent to set_value without error checking)</span></div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *rhs);</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span></div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">int</span> rhs);</div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span></div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> rhs);</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span></div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">long</span> rhs);</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span></div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> rhs);</div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span></div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">double</span> rhs);</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span></div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">float</span> rhs);</div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span></div>
-<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">bool</span> rhs);</div>
-<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span></div>
-<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>  <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;</div>
-<div class="foldopen" id="foldopen00747" data-start="{" data-end="}">
-<div class="line"><a id="l00747" name="l00747"></a><span class="lineno"><a class="line" href="a04938.html#aa13144828d356822926f495ad376f662">  747</a></span>  <a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<a class="code hl_typedef" href="a01508.html#a58bde010f6e0971e98340b8e9c0573f5">string_view_t</a> rhs)</div>
-<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>  {</div>
-<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>    <a class="code hl_function" href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">set_value</a> (rhs.<a class="code hl_function" href="a03990.html#aff8d326ef9c6866116899f0eac72cfea">data</a> (), rhs.<a class="code hl_function" href="a03990.html#aef7453e757e48a1e7b0158b75f958b43">size</a> ());</div>
-<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>  }</div>
+<div class="foldopen" id="foldopen00056" data-start="" data-end="">
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="a00938.html#ae463bd7911974e01edea620fd45b83c5">   56</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_GOLDEN_RATIO                                     \</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">  1.61803398874989484820458683436563811772030917980576</span></div>
 </div>
-<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span></div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">long</span> <span class="keywordtype">long</span> rhs);</div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span></div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> &amp;<a class="code hl_function" href="a04938.html#a955073ff2eca3bfc5070516af70406b9">operator= </a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span> rhs);</div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span> </div>
-<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>  <span class="comment">// Get next/previous attribute in the attribute list of the parent node</span></div>
-<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned attribute should be used; &quot;</span></div>
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> <a class="code hl_function" href="a04938.html#afc2f57264c98deb2e092e1088c63ee88">next_attribute</a> () const;</div>
-<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span> </div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned attribute should be used; &quot;</span></div>
-<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_class" href="a04938.html">XmlAttribute</a> <a class="code hl_function" href="a04938.html#ac94493c68b46f2d5fd103672281f9daf">previous_attribute</a> () const;</div>
-<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span> </div>
-<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned hash value should be used; &quot;</span></div>
-<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>                             <span class="stringliteral">&quot;discarding it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_namespace" href="a01350.html">std</a>::<span class="keywordtype">size_t</span> <a class="code hl_function" href="a04938.html#afd9dc5dc49925561063a7f766b6c4b06">hash_value</a> () const;</div>
-<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span> </div>
-<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>  <span class="comment">// Get internal pointer</span></div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>  <a class="code hl_define" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (<span class="stringliteral">&quot;The returned pointer should be used; discarding &quot;</span></div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>                             <span class="stringliteral">&quot;it negates the purpose of the getter&quot;</span>)</div>
-<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *<a class="code hl_function" href="a04938.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb">get</a> () const;</div>
-<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span></div>
-<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>  <a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a> <span class="keywordtype">void</span> <a class="code hl_function" href="a04938.html#ac1708ba37008b5b32435fd3706d74f02">set</a> (<a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *attr);</div>
-<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span> </div>
-<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span>private:</div>
-<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>  <a class="code hl_struct" href="a04942.html">XmlAttributeBase</a> *m_attr;</div>
-<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>};</div>
+<div class="foldopen" id="foldopen00058" data-start="" data-end="">
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="a00938.html#aba10c6bd3213d21a2c30a477b3f0c70f">   58</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SILVER_RATIO                                     \</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">  2.41421356237309504880168872420969807856967187537694</span></div>
 </div>
-<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span> </div>
-<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
-<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span><span class="keywordtype">bool</span> operator&amp;&amp; (<a class="code hl_class" href="a04938.html">XmlAttribute</a> const &amp;lhs, <span class="keywordtype">bool</span> rhs);</div>
-<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span> </div>
-<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
-<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span><span class="keywordtype">bool</span> operator|| (<a class="code hl_class" href="a04938.html">XmlAttribute</a> const &amp;lhs, <span class="keywordtype">bool</span> rhs);</div>
-<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>} <span class="comment">// namespace attribute</span></div>
+<div class="foldopen" id="foldopen00060" data-start="" data-end="">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="a00938.html#a01815a919ddc9f8bcc22aa6f8ac19bcd">   60</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_EULER_MASCHERONI                                 \</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">  0.57721566490153286060651209008240243104215933593992</span></div>
 </div>
-<div class="foldopen" id="foldopen00854" data-start="{" data-end="}">
-<div class="line"><a id="l00854" name="l00854"></a><span class="lineno"><a class="line" href="a01494.html">  854</a></span>namespace <a class="code hl_namespace" href="a01494.html">utility</a></div>
-<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>{</div>
-<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
-<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span><span class="keywordtype">bool</span> <a class="code hl_function" href="a01494.html#a2ba3bf150e471b2392f8a8ba5d48a749">is_attribute_of</a> (<a class="code hl_struct" href="a04942.html">attribute::XmlAttributeBase</a> *attr,</div>
-<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>                      <a class="code hl_struct" href="a04982.html">node::XmlNodeBase</a> *<a class="code hl_namespace" href="a01495.html">node</a>);</div>
-<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>} <span class="comment">// namespace utility</span></div>
+<div class="foldopen" id="foldopen00062" data-start="" data-end="">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="a00938.html#aa3bce4463ada8aec1f335bc22ea4ac37">   62</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SQRT_2                                           \</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">  1.41421356237309504880168872420969807856967187537694</span></div>
 </div>
-<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>} <span class="comment">// namespace xml</span></div>
+<div class="foldopen" id="foldopen00064" data-start="" data-end="">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="a00938.html#abe793637b3b3e52d88c1e4093a110e5f">   64</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SQRT_3                                           \</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">  1.73205080756887729352744634150587236694280525381038</span></div>
 </div>
-<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span> </div>
-<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span><span class="preprocessor">#pragma clang diagnostic pop</span></div>
-<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span> </div>
-<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_ATTRIBUTE_XML_ATTRIBUTE_HPP</span></div>
-<div class="ttc" id="aa00584_html"><div class="ttname"><a href="a00584.html">LumexAttributes.hpp</a></div><div class="ttdoc">LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P...</div></div>
-<div class="ttc" id="aa00584_html_af6aeadbda428235a14f147ade9783f8f"><div class="ttname"><a href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_NODISCARD(msg)</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:143</div></div>
-<div class="ttc" id="aa00932_html"><div class="ttname"><a href="a00932.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00932_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:96</div></div>
-<div class="ttc" id="aa00944_html"><div class="ttname"><a href="a00944.html">XmlAttributeBase.hpp</a></div><div class="ttdoc">Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it.</div></div>
-<div class="ttc" id="aa01019_html"><div class="ttname"><a href="a01019.html">XmlMacros.hpp</a></div><div class="ttdoc">Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa...</div></div>
-<div class="ttc" id="aa01248_html"><div class="ttname"><a href="a01248.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
-<div class="ttc" id="aa01350_html"><div class="ttname"><a href="a01350.html">std</a></div><div class="ttdef"><b>Definition</b> LumexStacktraceEntry.hpp:455</div></div>
-<div class="ttc" id="aa01492_html"><div class="ttname"><a href="a01492.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:102</div></div>
-<div class="ttc" id="aa01493_html"><div class="ttname"><a href="a01493.html">lumex::xml::attribute</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:104</div></div>
-<div class="ttc" id="aa01494_html"><div class="ttname"><a href="a01494.html">lumex::xml::utility</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:855</div></div>
-<div class="ttc" id="aa01494_html_a2ba3bf150e471b2392f8a8ba5d48a749"><div class="ttname"><a href="a01494.html#a2ba3bf150e471b2392f8a8ba5d48a749">lumex::xml::utility::is_attribute_of</a></div><div class="ttdeci">bool is_attribute_of(attribute::XmlAttributeBase *attr, node::XmlNodeBase *node)</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:528</div></div>
-<div class="ttc" id="aa01495_html"><div class="ttname"><a href="a01495.html">lumex::xml::node</a></div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:96</div></div>
-<div class="ttc" id="aa01507_html"><div class="ttname"><a href="a01507.html">lumex::xml::types</a></div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:74</div></div>
-<div class="ttc" id="aa01508_html"><div class="ttname"><a href="a01508.html">lumex::xml::types::Types</a></div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:76</div></div>
-<div class="ttc" id="aa01508_html_a58bde010f6e0971e98340b8e9c0573f5"><div class="ttname"><a href="a01508.html#a58bde010f6e0971e98340b8e9c0573f5">lumex::xml::types::Types::string_view_t</a></div><div class="ttdeci">lumex::core::string_view::view::lumex_string_view string_view_t</div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:79</div></div>
-<div class="ttc" id="aa01508_html_af5c331138f914028e4642100ea3e7a24"><div class="ttname"><a href="a01508.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a></div><div class="ttdeci">char char_t</div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:77</div></div>
-<div class="ttc" id="aa03990_html_aef7453e757e48a1e7b0158b75f958b43"><div class="ttname"><a href="a03990.html#aef7453e757e48a1e7b0158b75f958b43">lumex::core::string_view::view::lumex_basic_string_view::size</a></div><div class="ttdeci">constexpr size_type size() const noexcept</div><div class="ttdoc">The number of characters.</div><div class="ttdef"><b>Definition</b> LumexBasicStringView.hpp:1286</div></div>
-<div class="ttc" id="aa03990_html_aff8d326ef9c6866116899f0eac72cfea"><div class="ttname"><a href="a03990.html#aff8d326ef9c6866116899f0eac72cfea">lumex::core::string_view::view::lumex_basic_string_view::data</a></div><div class="ttdeci">constexpr const_pointer data() const noexcept</div><div class="ttdoc">The pointer to the first character; null for a default view.</div><div class="ttdef"><b>Definition</b> LumexBasicStringView.hpp:1358</div></div>
-<div class="ttc" id="aa04938_html"><div class="ttname"><a href="a04938.html">lumex::xml::attribute::XmlAttribute</a></div><div class="ttdoc">Represents an XML attribute, providing a safe and convenient interface for accessing and modifying it...</div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:125</div></div>
-<div class="ttc" id="aa04938_html_a027809a975f6fc6cc4263eb4885fdfc8"><div class="ttname"><a href="a04938.html#a027809a975f6fc6cc4263eb4885fdfc8">lumex::xml::attribute::XmlAttribute::XmlAttribute</a></div><div class="ttdeci">XmlAttribute()</div><div class="ttdoc">Default constructor. Constructs an empty (null) attribute.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:54</div></div>
-<div class="ttc" id="aa04938_html_a0bbf2ddf1ea68f4ed3612fe0a45849eb"><div class="ttname"><a href="a04938.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb">lumex::xml::attribute::XmlAttribute::get</a></div><div class="ttdeci">XmlAttributeBase * get() const</div><div class="ttdoc">Retrieves the raw internal XmlAttributeBase pointer wrapped by this XmlAttribute object.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:257</div></div>
-<div class="ttc" id="aa04938_html_a1000b87b582c20c1afdde2a70a2e47aa"><div class="ttname"><a href="a04938.html#a1000b87b582c20c1afdde2a70a2e47aa">lumex::xml::attribute::XmlAttribute::as_llong</a></div><div class="ttdeci">long long as_llong(long long def=0) const</div><div class="ttdoc">Converts the attribute&#39;s value to a long long.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:203</div></div>
-<div class="ttc" id="aa04938_html_a19bca41b6662eaaea1a5fe10baff570e"><div class="ttname"><a href="a04938.html#a19bca41b6662eaaea1a5fe10baff570e">lumex::xml::attribute::XmlAttribute::operator&gt;</a></div><div class="ttdeci">bool operator&gt;(XmlAttribute const &amp;other) const</div><div class="ttdoc">Compares two XmlAttribute objects using the greater-than operator.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:102</div></div>
-<div class="ttc" id="aa04938_html_a2400242f3d9ec9cbeba2a3147af82350"><div class="ttname"><a href="a04938.html#a2400242f3d9ec9cbeba2a3147af82350">lumex::xml::attribute::XmlAttribute::as_float</a></div><div class="ttdeci">float as_float(float def=0) const</div><div class="ttdoc">Converts the attribute&#39;s value to a float.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:183</div></div>
-<div class="ttc" id="aa04938_html_a34871aa9b33fe76794bf89c03f6ee3cf"><div class="ttname"><a href="a04938.html#a34871aa9b33fe76794bf89c03f6ee3cf">lumex::xml::attribute::XmlAttribute::empty</a></div><div class="ttdeci">bool empty() const</div><div class="ttdoc">Checks if the XmlAttribute object is empty.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:223</div></div>
-<div class="ttc" id="aa04938_html_a37a6d5fb6c8463b12e6aa5a06af93ca3"><div class="ttname"><a href="a04938.html#a37a6d5fb6c8463b12e6aa5a06af93ca3">lumex::xml::attribute::XmlAttribute::operator&gt;=</a></div><div class="ttdeci">bool operator&gt;=(XmlAttribute const &amp;other) const</div><div class="ttdoc">Compares two XmlAttribute objects using the greater-than-or-equal-to operator.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:116</div></div>
-<div class="ttc" id="aa04938_html_a3f541ed5ee221bb0e96aad7b3273caed"><div class="ttname"><a href="a04938.html#a3f541ed5ee221bb0e96aad7b3273caed">lumex::xml::attribute::XmlAttribute::as_uint</a></div><div class="ttdeci">unsigned int as_uint(unsigned int def=0) const</div><div class="ttdoc">Converts the attribute&#39;s value to an unsigned int.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:163</div></div>
-<div class="ttc" id="aa04938_html_a40dc4738d939dd04914625f44b5e01c8"><div class="ttname"><a href="a04938.html#a40dc4738d939dd04914625f44b5e01c8">lumex::xml::attribute::XmlAttribute::value</a></div><div class="ttdeci">char_t const * value() const</div><div class="ttdoc">Retrieves the value of the XML attribute as a C-style string.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:240</div></div>
-<div class="ttc" id="aa04938_html_a442774c703a6a3ab1c8fbfe114b903e2"><div class="ttname"><a href="a04938.html#a442774c703a6a3ab1c8fbfe114b903e2">lumex::xml::attribute::XmlAttribute::set_name</a></div><div class="ttdeci">bool set_name(char_t const *rhs)</div><div class="ttdoc">Sets the name of the XML attribute from a null-terminated C-style string.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:351</div></div>
-<div class="ttc" id="aa04938_html_a4f9cd4cb2c3e5f1096da48b53848b155"><div class="ttname"><a href="a04938.html#a4f9cd4cb2c3e5f1096da48b53848b155">lumex::xml::attribute::XmlAttribute::set_value</a></div><div class="ttdeci">bool set_value(char_t const *rhs)</div><div class="ttdoc">Sets the value of the XML attribute from a null-terminated C-style string.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:374</div></div>
-<div class="ttc" id="aa04938_html_a58b3a3e023e19bf5fe95bbbb16ddedda"><div class="ttname"><a href="a04938.html#a58b3a3e023e19bf5fe95bbbb16ddedda">lumex::xml::attribute::XmlAttribute::XmlAttributeIterator</a></div><div class="ttdeci">friend class XmlAttributeIterator</div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:126</div></div>
-<div class="ttc" id="aa04938_html_a5d17ec464b8ebfc9d3bfe094803213c0"><div class="ttname"><a href="a04938.html#a5d17ec464b8ebfc9d3bfe094803213c0">lumex::xml::attribute::XmlAttribute::operator!</a></div><div class="ttdeci">bool operator!() const</div><div class="ttdoc">Overloads the logical NOT operator.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:74</div></div>
-<div class="ttc" id="aa04938_html_a60197dee0eb2b25d5e4e1f8d857630fd"><div class="ttname"><a href="a04938.html#a60197dee0eb2b25d5e4e1f8d857630fd">lumex::xml::attribute::XmlAttribute::as_int</a></div><div class="ttdeci">int as_int(int def=0) const</div><div class="ttdoc">Converts the attribute&#39;s value to an int.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:153</div></div>
-<div class="ttc" id="aa04938_html_a6f9d3f69f96f19b22f4d2888a6747af6"><div class="ttname"><a href="a04938.html#a6f9d3f69f96f19b22f4d2888a6747af6">lumex::xml::attribute::XmlAttribute::name</a></div><div class="ttdeci">char_t const * name() const</div><div class="ttdoc">Retrieves the name of the XML attribute.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:230</div></div>
-<div class="ttc" id="aa04938_html_a7a36fb5f2f3a3ab150c6754ffb38e4db"><div class="ttname"><a href="a04938.html#a7a36fb5f2f3a3ab150c6754ffb38e4db">lumex::xml::attribute::XmlAttribute::set_value</a></div><div class="ttdeci">bool set_value(string_view_t rhs)</div><div class="ttdoc">Sets the value of the XML attribute from a string_view_t.</div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:492</div></div>
-<div class="ttc" id="aa04938_html_a7e6beb5b9cc23610b1fa289fd052f78f"><div class="ttname"><a href="a04938.html#a7e6beb5b9cc23610b1fa289fd052f78f">lumex::xml::attribute::XmlAttribute::as_double</a></div><div class="ttdeci">double as_double(double def=0) const</div><div class="ttdoc">Converts the attribute&#39;s value to a double.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:173</div></div>
-<div class="ttc" id="aa04938_html_a955073ff2eca3bfc5070516af70406b9"><div class="ttname"><a href="a04938.html#a955073ff2eca3bfc5070516af70406b9">lumex::xml::attribute::XmlAttribute::operator=</a></div><div class="ttdeci">XmlAttribute &amp; operator=(char_t const *rhs)</div><div class="ttdoc">Assigns a null-terminated C-style string as the attribute&#39;s value.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:271</div></div>
-<div class="ttc" id="aa04938_html_a972020e230548bcfb4084a6d7c4ac9c5"><div class="ttname"><a href="a04938.html#a972020e230548bcfb4084a6d7c4ac9c5">lumex::xml::attribute::XmlAttribute::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(XmlAttribute const &amp;other) const</div><div class="ttdoc">Compares two XmlAttribute objects using the less-than operator.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:95</div></div>
-<div class="ttc" id="aa04938_html_abb7b38925b73fbe1fa967deb1a9838fe"><div class="ttname"><a href="a04938.html#abb7b38925b73fbe1fa967deb1a9838fe">lumex::xml::attribute::XmlAttribute::as_string</a></div><div class="ttdeci">char_t const * as_string(char_t const *def=&quot;&quot;) const</div><div class="ttdoc">Retrieves the attribute&#39;s value as a C-style string, or a default value if the attribute is empty.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:143</div></div>
-<div class="ttc" id="aa04938_html_ac1708ba37008b5b32435fd3706d74f02"><div class="ttname"><a href="a04938.html#ac1708ba37008b5b32435fd3706d74f02">lumex::xml::attribute::XmlAttribute::set</a></div><div class="ttdeci">void set(XmlAttributeBase *attr)</div><div class="ttdoc">Sets the internal XmlAttributeBase pointer for this XmlAttribute object.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:264</div></div>
-<div class="ttc" id="aa04938_html_ac48ac5d5097027144f43cfd9fefeae50"><div class="ttname"><a href="a04938.html#ac48ac5d5097027144f43cfd9fefeae50">lumex::xml::attribute::XmlAttribute::operator==</a></div><div class="ttdeci">bool operator==(XmlAttribute const &amp;other) const</div><div class="ttdoc">Compares two XmlAttribute objects for equality.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:81</div></div>
-<div class="ttc" id="aa04938_html_ac94493c68b46f2d5fd103672281f9daf"><div class="ttname"><a href="a04938.html#ac94493c68b46f2d5fd103672281f9daf">lumex::xml::attribute::XmlAttribute::previous_attribute</a></div><div class="ttdeci">XmlAttribute previous_attribute() const</div><div class="ttdoc">Retrieves the previous attribute in the list of attributes belonging to the same parent node.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:132</div></div>
-<div class="ttc" id="aa04938_html_aca25f5d9c4c12f528d05891b16ca099c"><div class="ttname"><a href="a04938.html#aca25f5d9c4c12f528d05891b16ca099c">lumex::xml::attribute::XmlAttribute::as_bool</a></div><div class="ttdeci">bool as_bool(bool def=false) const</div><div class="ttdoc">Converts the attribute&#39;s value to a bool.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:193</div></div>
-<div class="ttc" id="aa04938_html_ad0db3c238649935e9e31f1c2e9159723"><div class="ttname"><a href="a04938.html#ad0db3c238649935e9e31f1c2e9159723">lumex::xml::attribute::XmlAttribute::operator&lt;=</a></div><div class="ttdeci">bool operator&lt;=(XmlAttribute const &amp;other) const</div><div class="ttdoc">Compares two XmlAttribute objects using the less-than-or-equal-to operator.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:109</div></div>
-<div class="ttc" id="aa04938_html_adf984b7d352ce6d8d63aeaa0d608306b"><div class="ttname"><a href="a04938.html#adf984b7d352ce6d8d63aeaa0d608306b">lumex::xml::attribute::XmlAttribute::as_ullong</a></div><div class="ttdeci">unsigned long long as_ullong(unsigned long long def=0) const</div><div class="ttdoc">Converts the attribute&#39;s value to an unsigned long long.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:213</div></div>
-<div class="ttc" id="aa04938_html_ae6de052414d8de2416bfda106ca51d8d"><div class="ttname"><a href="a04938.html#ae6de052414d8de2416bfda106ca51d8d">lumex::xml::attribute::XmlAttribute::unspecified_bool_type</a></div><div class="ttdeci">void(*)(XmlAttribute ***) unspecified_bool_type</div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:129</div></div>
-<div class="ttc" id="aa04938_html_aee5f265bfade0ee2569c7e68d821b441"><div class="ttname"><a href="a04938.html#aee5f265bfade0ee2569c7e68d821b441">lumex::xml::attribute::XmlAttribute::operator!=</a></div><div class="ttdeci">bool operator!=(XmlAttribute const &amp;other) const</div><div class="ttdoc">Compares two XmlAttribute objects for inequality.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:88</div></div>
-<div class="ttc" id="aa04938_html_afc2f57264c98deb2e092e1088c63ee88"><div class="ttname"><a href="a04938.html#afc2f57264c98deb2e092e1088c63ee88">lumex::xml::attribute::XmlAttribute::next_attribute</a></div><div class="ttdeci">XmlAttribute next_attribute() const</div><div class="ttdoc">Retrieves the next attribute in the list of attributes belonging to the same parent node.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:123</div></div>
-<div class="ttc" id="aa04938_html_afd9dc5dc49925561063a7f766b6c4b06"><div class="ttname"><a href="a04938.html#afd9dc5dc49925561063a7f766b6c4b06">lumex::xml::attribute::XmlAttribute::hash_value</a></div><div class="ttdeci">std::size_t hash_value() const</div><div class="ttdoc">Calculates a hash value for the XmlAttribute object.</div><div class="ttdef"><b>Definition</b> XmlAttribute.cpp:250</div></div>
-<div class="ttc" id="aa04942_html"><div class="ttname"><a href="a04942.html">lumex::xml::attribute::XmlAttributeBase</a></div><div class="ttdoc">Base structure for representing an XML attribute.</div><div class="ttdef"><b>Definition</b> XmlAttributeBase.hpp:117</div></div>
-<div class="ttc" id="aa04982_html"><div class="ttname"><a href="a04982.html">lumex::xml::node::XmlNodeBase</a></div><div class="ttdoc">Base structure representing an XML node in the document tree.</div><div class="ttdef"><b>Definition</b> XmlNodeBase.hpp:116</div></div>
+<div class="foldopen" id="foldopen00066" data-start="" data-end="">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="a00938.html#aaebdebb6d64cd6af2b802a2a67c6a0c9">   66</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SQRT_5                                           \</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">  2.23606797749978969640917366873127623544061835961152</span></div>
+</div>
+<div class="foldopen" id="foldopen00068" data-start="" data-end="">
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="a00938.html#adcc545543b2bd5f761780e7b8237015c">   68</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_LN_2                                             \</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">  0.69314718055994530941723212145817656807550013436025</span></div>
+</div>
+<div class="foldopen" id="foldopen00070" data-start="" data-end="">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="a00938.html#a92087a0c1ff74ac5a19409f9827e0c03">   70</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_LN_10                                            \</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">  2.30258509299404568401799145468436420760110148862877</span></div>
+</div>
+<div class="foldopen" id="foldopen00072" data-start="" data-end="">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="a00938.html#af63c12a7f019726dcb0722629ce6f49e">   72</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_APERY                                            \</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">  1.20205690315959428539973816151144999076498629234049</span></div>
+</div>
+<div class="foldopen" id="foldopen00074" data-start="" data-end="">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="a00938.html#a824e19d313acb83c37a4add873bd5cfe">   74</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_CATALAN                                          \</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">  0.91596559417721901505460351493238411077414937428167</span></div>
+</div>
+<div class="foldopen" id="foldopen00076" data-start="" data-end="">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="a00938.html#a71a248e9bc4d1f68cbf6337a9f786433">   76</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_LEMNISCATE                                       \</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">  5.24411510858423962092967917978223882736550990286324</span></div>
+</div>
+<div class="foldopen" id="foldopen00078" data-start="" data-end="">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="a00938.html#a624c7000a4b4d3096d532f65a5b5166c">   78</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_GAMMA_1_4                                        \</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">  3.62560990822190831193068515586767200299516768288006</span></div>
+</div>
+<div class="foldopen" id="foldopen00080" data-start="" data-end="">
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="a00938.html#a9637afd78ca1def8450057980f52325f">   80</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_GAMMA_1_3                                        \</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">  2.67893853470774763365569294097467764412868937795730</span></div>
+</div>
+<div class="foldopen" id="foldopen00082" data-start="" data-end="">
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="a00938.html#a65030713db7d289fd18c665e3eb25101">   82</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES                       \</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">  1.902160583104 </span><span class="comment">// 12 digits from calculla, no 50 digit source easily</span></div>
+</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                 <span class="comment">// available</span></div>
+<div class="foldopen" id="foldopen00085" data-start="" data-end="">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="a00938.html#a0c997a0c0890aca3816782b8ef4b8b4c">   85</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER                                   \</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">  1.32471795724474602596090885447809734073440405690173</span></div>
+</div>
+<div class="foldopen" id="foldopen00087" data-start="" data-end="">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="a00938.html#ad08c1e3d45f6bcd519583c4cf904f29f">   87</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_RECIPROCAL_PI                                    \</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">  0.31830988618379067153776752674502872406891929148091</span></div>
+</div>
+<div class="foldopen" id="foldopen00089" data-start="" data-end="">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="a00938.html#a953dede6a9a9740fb0e4e90f22ebb1bb">   89</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_SQRT_PI                                          \</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">  1.77245385090551602729816748334114518279754945612239</span></div>
+</div>
+<div class="foldopen" id="foldopen00091" data-start="" data-end="">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="a00938.html#a34e8ed5a85456096dcd3ba5c8c8526bc">   91</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI                                  \</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">  0.56418958354775628694807945156077258584405062932899</span></div>
+</div>
+<div class="foldopen" id="foldopen00093" data-start="" data-end="">
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="a00938.html#a07299359a3e831b42a9dc68b20029f76">   93</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT                              \</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">  0.01745329251994329576923690768488612713442871888541 </span><span class="comment">// (pi/180)</span></div>
+</div>
+<div class="foldopen" id="foldopen00095" data-start="" data-end="">
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="a00938.html#a973ad186d224eb2b533085db9109fadb">   95</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION                             \</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">  9.80665000000000000000000000000000000000000000000000 </span><span class="comment">// Standard Gravity on</span></div>
+</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                                                       <span class="comment">// Earth (m/s^2)</span></div>
+<div class="foldopen" id="foldopen00098" data-start="" data-end="">
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="a00938.html#ae0a9d59070a4da7ef40198827b7bae2a">   98</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_LIGHT_SPEED                                      \</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">  299792458.000000000000000000000000000000000000000000 </span><span class="comment">// Speed of Light in</span></div>
+</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                                                       <span class="comment">// Vacuum (m/s)</span></div>
+<div class="foldopen" id="foldopen00101" data-start="" data-end="">
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="a00938.html#aff4b7903e7fa7a3be57542688b7f3da7">  101</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT                                  \</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="preprocessor">  6.62607015e-34 </span><span class="comment">// Planck Constant (J.s), exact (SI 2019)</span></div>
+</div>
+<div class="foldopen" id="foldopen00103" data-start="" data-end="">
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="a00938.html#a81d3814edd34efc7ab9be4e794006ccf">  103</a></span><span class="preprocessor">#define LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT                                \</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">  6.02214076e23 </span><span class="comment">// Avogadro Constant (mol^-1), exact (SI 2019)</span></div>
+</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_MATH_CONSTANTS_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_67864fa9b126ea0c63c4a33fb4799790.html">attribute</a></li><li class="navelem"><a class="el" href="a00938.html">XmlAttribute.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_d223f57be190bde72e88025a46faedd4.html">math</a></li><li class="navelem"><a class="el" href="dir_3e6c35e348a445e7cf0fb5d49f1e3ff7.html">constants</a></li><li class="navelem"><a class="el" href="a00938.html">LumexMathConstants.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

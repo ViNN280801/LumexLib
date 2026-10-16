@@ -1,0 +1,11 @@
+<map id="lumex::core::string_view::view::detail::hash_chars" name="lumex::core::string_view::view::detail::hash_chars">
+<area shape="rect" id="Node000001" title="The hash of size characters at data (may be null if size is 0)." alt="" coords="5,84,149,139"/>
+<area shape="rect" id="Node000002" href="$a01574.html#ae45f6da8a478a48f87d579194da8c487" title=" " alt="" coords="197,84,341,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,109,183,109,183,114,149,114"/>
+<area shape="rect" id="Node000003" href="$a01574.html#aaa308bfa9064fa6b21b9d948d3d11974" title=" " alt="" coords="389,5,533,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="335,81,381,63,383,68,337,86"/>
+<area shape="rect" id="Node000004" href="$a01574.html#a079a0b1b80e2deedbcd4533653a64b7d" title="The hash of the characters of a view: the same value in every C++ standard, with every compiler and s..." alt="" coords="389,84,533,139"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="341,109,375,109,375,114,341,114"/>
+<area shape="rect" id="Node000005" href="$a01574.html#af41b2ee76e2c87911026b6bcbe5cd5e5" title="Eight bytes as a little&#45;endian integer, on any byte order." alt="" coords="389,163,533,217"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="337,136,383,155,381,160,335,141"/>
+</map>

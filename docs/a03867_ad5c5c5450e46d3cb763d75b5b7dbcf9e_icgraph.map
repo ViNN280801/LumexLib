@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::weak_ptr::lock" name="lumex::core::smart_ptr::weak_ptr::lock">
+<area shape="rect" id="Node000001" title="An owner of the observed object, or an empty shared_ptr when it is gone." alt="" coords="108,5,259,45"/>
+<area shape="rect" id="Node000002" href="$a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>

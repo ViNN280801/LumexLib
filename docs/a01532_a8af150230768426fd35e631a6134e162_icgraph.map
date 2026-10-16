@@ -1,0 +1,9 @@
+<map id="lumex::core::expected::result::failure" name="lumex::core::expected::result::failure">
+<area shape="rect" id="Node000001" title="Creates a marker for a failed call that carries an error." alt="" coords="272,29,439,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="387,17,376,11,355,8,337,10,327,15,323,21,325,28,319,30,317,20,323,11,336,5,355,3,378,6,390,13"/>
+<area shape="rect" id="Node000002" href="$a00335.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="258,52,60,52,60,47,258,47"/>
+<area shape="rect" id="Node000003" href="$a00338.html#a7812c02118e45cbb954e31f14f2fb778" title=" " alt="" coords="108,62,224,87"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="259,65,225,70,224,64,258,60"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="94,64,60,57,61,52,95,58"/>
+</map>

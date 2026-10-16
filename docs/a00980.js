@@ -1,15 +1,7 @@
 var a00980 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00980.html#a07486181f1990291c2a348de8eb4c480", null ],
-    [ "node_output_attributes", "a00980.html#a1aec0d3f33d23989698e84beb2403d60", null ],
-    [ "node_output_comment", "a00980.html#afdf88c166fbef8feba73a11656d1a2a5", null ],
-    [ "node_output_end", "a00980.html#a08731803b31fe1bac86107d608100f94", null ],
-    [ "node_output_pi_value", "a00980.html#a759553362006542d7aa6079a39a24bf4", null ],
-    [ "node_output_simple", "a00980.html#a9cf6a87493cf624f41e7e716ca14c5b5", null ],
-    [ "node_output_start", "a00980.html#a3781da2446a997aeab30b3a127de9a9d", null ],
-    [ "text_output", "a00980.html#adf60e317ab315b5cb3eb74f99c1c7818", null ],
-    [ "text_output_cdata", "a00980.html#a9e97a025d5f0d5027445d44145586231", null ],
-    [ "text_output_escaped", "a00980.html#a647665f2ca21227b6053327ad22ae43a", null ],
-    [ "text_output_indent", "a00980.html#a1c50f986d8e0bd24c89594197a5dc0e9", null ],
-    [ "unspecified_bool_xml_node", "a00980.html#a7f14902237d6fd53b62ea287105d1c31", null ]
+    [ "lumex::core::string::text::quote", "a01568.html#aae6445322407323613ef63ab3d415d0e", null ],
+    [ "lumex::core::string::text::quote_double", "a01568.html#a151d3e147d42afb9d3c34da8b1386821", null ],
+    [ "lumex::core::string::text::Detail::quote_each", "a01569.html#a32d6d763661d76d87d32100556e13793", null ],
+    [ "lumex::core::string::text::quote_single", "a01568.html#a9bf415e00fbac5e4e52b81fe02659546", null ]
 ];

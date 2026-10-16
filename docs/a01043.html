@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlWriterStream.hpp File Reference</title>
+<title>LumexLib: LumexSpanChecks.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,54 +104,334 @@ $(function(){initNavTree('a01043.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">XmlWriterStream.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexSpanChecks.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>XmlWriterStream</code>, an <code>IXmlWriter</code> that writes to a narrow or a wide standard output stream.  
+<p>The switch of the precondition checks of <code>span</code>: the macro <code>LUMEX_SPAN_CHECKS</code> and the macro <code>LUMEX_SPAN_CHECKED</code> that the members use.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01025_source.html">IXmlWriter.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlWriterStream.hpp:</div>
+Include dependency graph for LumexSpanChecks.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01044.png" border="0" usemap="#a_xml_writer_stream_8hpp" alt=""/></div>
+<div class="center"><img src="a01044.png" border="0" usemap="#aLumexSpanChecks_8hpp" alt=""/></div>
+<map name="aLumexSpanChecks_8hpp" id="aLumexSpanChecks_8hpp">
+<area shape="rect" title="The switch of the precondition checks of span: the macro LUMEX_SPAN_CHECKS and the macro LUMEX_SPAN_C..." alt="" coords="118,5,291,31"/>
+<area shape="rect" title=" " alt="" coords="10,86,71,111"/>
+<area shape="poly" title=" " alt="" coords="180,33,80,82,78,77,178,28"/>
+<area shape="rect" title=" " alt="" coords="96,86,161,111"/>
+<area shape="poly" title=" " alt="" coords="194,33,152,78,148,74,191,29"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="186,79,375,119"/>
+<area shape="poly" title=" " alt="" coords="219,29,254,67,250,70,215,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="401,167,614,207"/>
+<area shape="poly" title=" " alt="" coords="264,28,325,47,389,76,440,114,482,154,478,158,437,118,386,81,324,52,262,33"/>
+<area shape="rect" title=" " alt="" coords="5,174,97,199"/>
+<area shape="poly" title=" " alt="" coords="229,121,98,172,96,167,227,116"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="121,167,376,207"/>
+<area shape="poly" title=" " alt="" coords="276,120,263,154,258,153,271,118"/>
+<area shape="poly" title=" " alt="" coords="334,116,444,159,442,164,332,121"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01045.png" border="0" usemap="#a_xml_writer_stream_8hppdep" alt=""/></div>
+<div class="center"><img src="a01045.png" border="0" usemap="#aLumexSpanChecks_8hppdep" alt=""/></div>
+<map name="aLumexSpanChecks_8hppdep" id="aLumexSpanChecks_8hppdep">
+<area shape="rect" title="The switch of the precondition checks of span: the macro LUMEX_SPAN_CHECKS and the macro LUMEX_SPAN_C..." alt="" coords="1345,5,1518,31"/>
+<area shape="rect" href="a01046.html" title="C++11 implementation of std::span (C++20): a non&#45;owning view of a contiguous sequence of objects." alt="" coords="1368,79,1495,104"/>
+<area shape="poly" title=" " alt="" coords="1434,44,1434,78,1429,78,1429,44"/>
+<area shape="rect" href="a01400.html" title="Span module: a C++11 implementation of the C++20 std::span." alt="" coords="1382,152,1481,177"/>
+<area shape="poly" title=" " alt="" coords="1434,118,1434,152,1429,152,1429,118"/>
+<area shape="rect" href="a00953.html" title="Base64 encoding: the encoder class of the lumex::base64 library." alt="" coords="419,225,521,251"/>
+<area shape="poly" title=" " alt="" coords="1369,169,1016,186,780,203,541,228,521,231,520,226,540,223,780,198,1016,181,1368,164"/>
+<area shape="rect" href="a00404.html" title=" " alt="" coords="254,379,414,405"/>
+<area shape="poly" title=" " alt="" coords="1368,170,956,190,746,207,671,217,628,228,598,249,580,274,562,300,533,326,499,345,463,360,394,382,393,377,461,355,496,340,530,322,558,297,576,271,594,245,626,223,670,212,746,201,956,184,1368,164"/>
+<area shape="rect" href="a00950.html" title="Run&#45;time CRC computation by catalogue index or by explicit parameters, and the process&#45;wide 8&#45;bit tra..." alt="" coords="678,225,843,251"/>
+<area shape="poly" title=" " alt="" coords="1369,173,856,228,844,229,843,224,855,223,1368,168"/>
+<area shape="rect" href="a00383.html" title=" " alt="" coords="439,379,571,405"/>
+<area shape="poly" title=" " alt="" coords="1368,170,976,190,778,207,707,217,667,228,638,248,620,270,604,296,580,326,521,381,518,377,576,322,600,293,616,267,634,244,665,223,706,212,777,202,975,184,1367,164"/>
+<area shape="rect" href="a00944.html" title="Header&#45;only CRC engines for every algorithm of the CRC RevEng catalogue up to 64 bits." alt="" coords="868,225,1053,251"/>
+<area shape="poly" title=" " alt="" coords="1369,177,1042,228,1042,223,1368,172"/>
+<area shape="rect" href="a01154.html" title="make_hazard_pointer_batch and clear_hazard_pointer_batch, which fill and empty many holders at once (..." alt="" coords="1105,225,1328,251"/>
+<area shape="poly" title=" " alt="" coords="1382,184,1255,228,1253,223,1380,179"/>
+<area shape="rect" href="a01103.html" title="as&lt;T&gt;(), which reads a trivially copyable value out of a raw byte buffer through std::memcpy,..." alt="" coords="1352,225,1511,251"/>
+<area shape="poly" title=" " alt="" coords="1434,191,1434,225,1429,225,1429,191"/>
+<area shape="rect" href="a00515.html" title=" " alt="" coords="4155,379,4305,405"/>
+<area shape="poly" title=" " alt="" coords="1463,183,1523,222,1575,248,1624,256,1718,264,2014,282,2858,317,3703,348,3999,360,4145,369,4183,377,4182,382,4144,375,3999,365,3702,353,2857,322,2013,287,1718,270,1624,261,1573,253,1521,226,1460,187"/>
+<area shape="rect" href="a00494.html" title=" " alt="" coords="1586,225,1730,251"/>
+<area shape="poly" title=" " alt="" coords="1484,179,1619,223,1618,228,1483,184"/>
+<area shape="rect" href="a00503.html" title=" " alt="" coords="1755,225,1940,251"/>
+<area shape="poly" title=" " alt="" coords="1495,173,1776,223,1775,228,1494,178"/>
+<area shape="rect" href="a00500.html" title=" " alt="" coords="1964,225,2171,251"/>
+<area shape="poly" title=" " alt="" coords="1494,169,1964,223,1963,229,1494,175"/>
+<area shape="rect" href="a00506.html" title=" " alt="" coords="2195,225,2444,251"/>
+<area shape="poly" title=" " alt="" coords="1495,167,2184,223,2195,224,2194,229,2183,228,1494,172"/>
+<area shape="rect" href="a00497.html" title=" " alt="" coords="2468,225,2677,251"/>
+<area shape="poly" title=" " alt="" coords="1494,165,1899,185,2176,202,2457,223,2468,224,2467,229,2456,228,2175,207,1899,190,1494,170"/>
+<area shape="rect" href="a00956.html" title=" " alt="" coords="420,299,520,324"/>
+<area shape="poly" title=" " alt="" coords="473,264,473,298,467,298,467,264"/>
+<area shape="rect" href="a01355.html" title="Base64 module: encoding, decoding and syntax checks of Base64 text." alt="" coords="277,299,391,324"/>
+<area shape="poly" title=" " alt="" coords="436,260,359,301,357,296,433,255"/>
+<area shape="poly" title=" " alt="" coords="337,338,337,379,331,379,331,338"/>
+<area shape="rect" href="a00401.html" title=" " alt="" coords="5,379,231,405"/>
+<area shape="poly" title=" " alt="" coords="288,331,153,382,151,377,286,326"/>
+<area shape="rect" href="a01364.html" title="CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue&#39;s n..." alt="" coords="665,299,752,324"/>
+<area shape="poly" title=" " alt="" coords="746,263,720,300,716,297,742,260"/>
+<area shape="rect" href="a00947.html" title=" " alt="" coords="828,299,992,324"/>
+<area shape="poly" title=" " alt="" coords="800,254,885,296,883,301,798,259"/>
+<area shape="poly" title=" " alt="" coords="664,332,538,382,536,377,663,327"/>
+<area shape="rect" href="a00386.html" title=" " alt="" coords="595,379,793,405"/>
+<area shape="poly" title=" " alt="" coords="707,338,699,379,694,378,701,337"/>
+<area shape="poly" title=" " alt="" coords="904,257,753,301,751,296,903,252"/>
+<area shape="poly" title=" " alt="" coords="946,263,921,300,917,297,942,260"/>
+<area shape="rect" href="a01385.html" title="Hazard pointer module: hazard_pointer, hazard_pointer_obj_base and make_hazard_pointer,..." alt="" coords="1137,299,1296,324"/>
+<area shape="poly" title=" " alt="" coords="1219,264,1219,298,1214,298,1214,264"/>
+<area shape="rect" href="a00800.html" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="1308,379,1531,405"/>
+<area shape="poly" title=" " alt="" coords="1263,327,1388,377,1386,382,1261,332"/>
+<area shape="rect" href="a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="1157,460,1383,500"/>
+<area shape="poly" title=" " alt="" coords="1232,335,1247,371,1261,418,1269,459,1264,460,1255,419,1242,373,1227,337"/>
+<area shape="rect" href="a00524.html" title=" " alt="" coords="817,379,1027,405"/>
+<area shape="poly" title=" " alt="" coords="1157,330,969,382,968,377,1156,325"/>
+<area shape="rect" href="a00521.html" title=" " alt="" coords="1051,372,1233,412"/>
+<area shape="poly" title=" " alt="" coords="1197,336,1163,374,1159,370,1193,332"/>
+<area shape="poly" title=" " alt="" coords="1387,414,1306,462,1303,457,1384,410"/>
+<area shape="rect" href="a01418.html" title="Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,..." alt="" coords="2037,299,2143,324"/>
+<area shape="poly" title=" " alt="" coords="1525,247,1530,248,2037,303,2036,309,1530,253,1524,253"/>
+<area shape="rect" href="a00890.html" title="lumex_crash_handler, the singleton that writes a dump when the process crashes." alt="" coords="3545,467,3726,493"/>
+<area shape="poly" title=" " alt="" coords="2157,321,2162,321,2295,334,2408,341,2600,345,2792,349,2905,356,3038,369,3192,391,3344,417,3579,465,3578,470,3343,422,3192,396,3038,375,2905,361,2792,354,2600,350,2408,347,2295,340,2162,327,2157,326"/>
+<area shape="rect" href="a01163.html" title="Defines the lumex_environment class for cross&#45;platform environment variable management." alt="" coords="2001,379,2179,405"/>
+<area shape="poly" title=" " alt="" coords="2093,338,2093,379,2087,379,2087,338"/>
+<area shape="rect" href="a01277.html" title=" " alt="" coords="2545,724,2689,749"/>
+<area shape="poly" title=" " alt="" coords="2157,318,2228,335,2266,348,2301,365,2333,387,2359,412,2376,443,2382,480,2382,568,2387,599,2400,626,2421,649,2446,670,2506,701,2564,721,2562,726,2504,706,2443,674,2417,653,2396,629,2382,600,2377,568,2377,480,2371,445,2354,416,2330,391,2299,370,2264,353,2227,340,2156,323"/>
+<area shape="rect" href="a00926.html" title="Temporary files and directories that delete themselves: temporary_file, temporary_directory and the f..." alt="" coords="2180,555,2341,581"/>
+<area shape="poly" title=" " alt="" coords="2137,328,2167,346,2193,370,2224,419,2244,472,2256,520,2262,555,2257,556,2251,521,2239,473,2219,421,2189,374,2164,350,2134,332"/>
+<area shape="rect" href="a00749.html" title="Cross&#45;platform replacement for &lt;filesystem&gt; (C++17) written in pure C++11, compiled into the lumex::f..." alt="" coords="2861,379,3025,405"/>
+<area shape="poly" title=" " alt="" coords="2157,321,2162,321,2358,344,2553,362,2861,385,2861,390,2553,367,2358,349,2162,327,2156,326"/>
+<area shape="rect" href="a01316.html" title=" " alt="" coords="1789,797,2023,823"/>
+<area shape="poly" title=" " alt="" coords="2023,316,1917,321,1793,332,1677,349,1631,361,1598,374,1570,394,1537,425,1467,509,1433,560,1402,614,1376,669,1355,725,1351,738,1355,748,1374,758,1412,768,1524,784,1660,795,1789,803,1789,808,1660,801,1524,789,1411,773,1372,763,1351,751,1346,738,1350,723,1371,667,1397,611,1429,557,1463,506,1534,421,1566,390,1595,370,1630,355,1676,344,1792,326,1917,316,2023,311"/>
+<area shape="rect" href="a00881.html" title="Defines the lumex_basic_stacktrace class and related utilities for capturing and symbolizing call sta..." alt="" coords="3746,379,3909,405"/>
+<area shape="poly" title=" " alt="" coords="2157,321,2162,321,3746,386,3746,391,2162,327,2157,326"/>
+<area shape="rect" href="a01055.html" title="Provides cross&#45;platform utilities for time and date manipulation." alt="" coords="1849,379,1976,405"/>
+<area shape="poly" title=" " alt="" coords="2051,332,1942,382,1940,377,2048,327"/>
+<area shape="rect" href="a00887.html" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in..." alt="" coords="3933,379,4132,405"/>
+<area shape="poly" title=" " alt="" coords="2157,321,2162,321,2429,343,2656,351,2855,350,3041,345,3227,340,3427,339,3654,348,3921,369,3971,377,3970,382,3920,375,3654,353,3427,345,3228,345,3041,350,2855,355,2656,356,2429,348,2162,327,2157,326"/>
+<area shape="poly" title=" " alt="" coords="2157,321,2162,321,2319,335,2463,344,2719,350,2944,345,3154,336,3364,328,3589,327,3845,339,3988,351,4145,369,4184,377,4183,382,4144,375,3988,357,3844,344,3589,332,3364,333,3154,341,2944,351,2719,355,2463,349,2319,340,2162,327,2157,326"/>
+<area shape="rect" href="a00518.html" title=" " alt="" coords="1609,379,1825,405"/>
+<area shape="poly" title=" " alt="" coords="2024,328,1776,382,1775,377,2023,323"/>
+<area shape="rect" href="a00893.html" title=" " alt="" coords="2340,724,2520,749"/>
+<area shape="poly" title=" " alt="" coords="3710,493,3841,523,3893,536,3917,546,3927,568,3924,579,3917,590,3897,597,3850,605,3694,623,3229,668,2533,727,2520,728,2520,723,2532,721,3228,662,3693,618,3850,599,3895,592,3914,586,3919,577,3921,569,3913,550,3891,541,3839,528,3708,498"/>
+<area shape="rect" href="a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="4079,555,4210,581"/>
+<area shape="poly" title=" " alt="" coords="3712,493,3738,497,3900,520,4061,545,4095,553,4094,558,4060,551,3899,526,3738,503,3711,498"/>
+<area shape="rect" href="a00299.html" title=" " alt="" coords="4066,643,4250,669"/>
+<area shape="poly" title=" " alt="" coords="4151,594,4159,643,4153,643,4146,595"/>
+<area shape="rect" href="a00302.html" title=" " alt="" coords="4274,636,4431,676"/>
+<area shape="poly" title=" " alt="" coords="4188,584,4306,633,4304,638,4186,588"/>
+<area shape="rect" href="a01367.html" title="Environment module: lumex_environment, thread&#45;safe reading and writing of environment variables on Wi..." alt="" coords="2017,467,2166,493"/>
+<area shape="poly" title=" " alt="" coords="2093,418,2094,467,2088,467,2088,418"/>
+<area shape="rect" href="a01160.html" title=" " alt="" coords="1817,467,1993,493"/>
+<area shape="poly" title=" " alt="" coords="2052,413,1933,470,1931,465,2050,408"/>
+<area shape="poly" title=" " alt="" coords="2090,507,2087,545,2089,590,2101,635,2111,656,2125,674,2152,686,2206,699,2340,721,2339,727,2205,704,2151,691,2122,678,2107,659,2096,637,2084,590,2082,544,2084,507"/>
+<area shape="poly" title=" " alt="" coords="2101,505,2130,600,2150,646,2170,674,2200,690,2242,700,2345,712,2451,716,2533,721,2545,723,2544,728,2532,727,2451,721,2344,717,2241,706,2198,695,2167,678,2145,648,2125,602,2095,507"/>
+<area shape="poly" title=" " alt="" coords="2129,497,2237,553,2235,558,2127,501"/>
+<area shape="rect" href="a01058.html" title="High&#45;resolution stopwatch, callable timing helpers, and a thin LUMEX_MEASURE_TIME macro." alt="" coords="1509,555,1639,581"/>
+<area shape="poly" title=" " alt="" coords="2027,498,2005,503,1906,518,1829,526,1752,534,1653,551,1621,558,1620,553,1652,545,1751,529,1828,521,1906,513,2004,497,2026,493"/>
+<area shape="rect" href="a00530.html" title=" " alt="" coords="1664,555,1860,581"/>
+<area shape="poly" title=" " alt="" coords="2031,499,1810,558,1809,553,2030,494"/>
+<area shape="rect" href="a00527.html" title=" " alt="" coords="1884,548,2053,588"/>
+<area shape="poly" title=" " alt="" coords="2063,503,1998,550,1995,546,2060,499"/>
+<area shape="rect" href="a01409.html" title="Temporary module: an RAII temporary directory that is removed when its owner is destroyed." alt="" coords="1919,643,2053,669"/>
+<area shape="poly" title=" " alt="" coords="2209,587,2026,646,2025,641,2207,582"/>
+<area shape="rect" href="a00929.html" title=" " alt="" coords="2181,643,2341,669"/>
+<area shape="poly" title=" " alt="" coords="2263,594,2263,643,2258,643,2258,594"/>
+<area shape="rect" href="a00347.html" title=" " alt="" coords="2137,724,2315,749"/>
+<area shape="poly" title=" " alt="" coords="2038,671,2189,721,2187,726,2036,676"/>
+<area shape="rect" href="a00350.html" title=" " alt="" coords="1865,724,2112,749"/>
+<area shape="poly" title=" " alt="" coords="1990,682,1991,723,1986,724,1984,683"/>
+<area shape="rect" href="a01412.html" title="Time module: lumex_time, the current date and time as text and timestamps in units from nanoseconds t..." alt="" coords="1601,643,1699,669"/>
+<area shape="poly" title=" " alt="" coords="1596,590,1641,641,1637,645,1592,593"/>
+<area shape="rect" href="a01061.html" title=" " alt="" coords="1723,643,1854,669"/>
+<area shape="poly" title=" " alt="" coords="1619,584,1759,641,1757,646,1617,588"/>
+<area shape="poly" title=" " alt="" coords="1698,670,1712,673,1804,690,1883,700,2018,707,2154,710,2328,721,2340,723,2340,728,2327,727,2154,715,2018,712,1883,705,1804,695,1711,679,1697,675"/>
+<area shape="poly" title=" " alt="" coords="1698,670,1712,673,1835,693,1940,704,2033,708,2120,709,2301,707,2408,711,2533,721,2545,723,2544,728,2532,727,2408,716,2301,713,2120,714,2033,714,1940,709,1835,699,1711,679,1697,675"/>
+<area shape="rect" href="a00872.html" title=" " alt="" coords="3834,724,3991,749"/>
+<area shape="poly" title=" " alt="" coords="1697,670,1712,673,1893,695,2119,709,2375,716,2646,719,3175,718,3586,721,3834,731,3833,736,3586,727,3175,723,2646,724,2375,721,2119,714,1892,700,1711,679,1696,675"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="2626,797,2826,823"/>
+<area shape="poly" title=" " alt="" coords="1639,682,1629,717,1631,733,1638,747,1651,753,1678,759,1769,770,2045,787,2365,799,2626,805,2626,811,2365,804,2045,793,1768,775,1678,764,1650,758,1635,751,1626,735,1624,716,1634,680"/>
+<area shape="rect" href="a01202.html" title=" " alt="" coords="3564,797,3749,823"/>
+<area shape="poly" title=" " alt="" coords="1694,672,1805,722,1829,736,1855,747,1902,755,1972,761,2170,772,2701,783,3234,788,3553,795,3564,796,3564,801,3553,800,3234,793,2701,788,2170,777,1972,767,1901,760,1853,752,1827,741,1802,726,1692,677"/>
+<area shape="rect" href="a00509.html" title=" " alt="" coords="1648,724,1791,749"/>
+<area shape="poly" title=" " alt="" coords="1672,677,1710,722,1706,725,1668,681"/>
+<area shape="rect" href="a00512.html" title=" " alt="" coords="1365,724,1573,749"/>
+<area shape="poly" title=" " alt="" coords="1610,677,1498,726,1496,722,1608,672"/>
+<area shape="rect" href="a01376.html" title="Filesystem module: paths, directory iteration and file operations in the shape of C++17 &lt;filesystem&gt;,..." alt="" coords="2875,467,3011,493"/>
+<area shape="poly" title=" " alt="" coords="2946,418,2946,467,2941,467,2941,418"/>
+<area shape="rect" href="a00752.html" title=" " alt="" coords="3035,467,3198,493"/>
+<area shape="poly" title=" " alt="" coords="2982,409,3093,465,3090,470,2979,413"/>
+<area shape="poly" title=" " alt="" coords="2862,485,2764,491,2655,502,2558,522,2521,535,2494,550,2476,569,2462,591,2444,641,2435,688,2433,724,2427,723,2430,688,2439,639,2458,589,2472,566,2491,546,2518,530,2556,517,2654,497,2763,486,2861,480"/>
+<area shape="poly" title=" " alt="" coords="2862,490,2652,515,2561,532,2530,541,2515,550,2503,572,2502,595,2510,619,2524,644,2564,689,2601,722,2598,726,2560,693,2520,647,2505,622,2497,596,2498,570,2511,546,2528,536,2559,526,2651,509,2861,485"/>
+<area shape="poly" title=" " alt="" coords="2862,493,2412,551,2342,560,2341,555,2411,545,2861,488"/>
+<area shape="poly" title=" " alt="" coords="3002,493,3024,497,3087,501,3195,501,3481,500,3629,502,3761,510,3862,523,3896,533,3917,546,3932,567,3940,591,3943,616,3942,642,3932,690,3921,725,3916,723,3927,688,3937,641,3938,617,3935,592,3927,570,3914,550,3894,538,3861,528,3761,515,3629,508,3481,505,3195,506,3087,506,3023,503,3001,498"/>
+<area shape="poly" title=" " alt="" coords="2861,485,2776,491,2686,503,2607,522,2578,535,2559,550,2544,571,2543,584,2553,593,2573,604,2600,618,2632,641,2667,674,2703,723,2719,762,2727,796,2722,797,2714,763,2698,725,2663,678,2629,645,2597,623,2570,608,2550,597,2538,585,2539,569,2555,546,2575,530,2605,517,2685,497,2776,486,2861,480"/>
+<area shape="poly" title=" " alt="" coords="3002,493,3024,497,3089,501,3198,503,3491,504,3643,507,3780,514,3885,526,3922,535,3945,546,3995,591,4013,616,4026,642,4033,669,4032,696,4023,724,4005,751,3974,762,3909,774,3746,800,3745,795,3908,769,3973,756,4002,747,4019,721,4027,695,4028,669,4021,644,4009,619,3991,595,3942,550,3920,540,3884,531,3779,519,3643,512,3491,509,3198,508,3088,507,3023,503,3001,498"/>
+<area shape="rect" href="a01274.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="3757,555,3903,581"/>
+<area shape="poly" title=" " alt="" coords="3002,493,3024,497,3133,512,3225,519,3384,522,3543,525,3636,532,3745,545,3782,553,3781,558,3744,551,3635,537,3542,530,3384,528,3225,525,3132,517,3023,503,3001,498"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="2748,555,2939,581"/>
+<area shape="poly" title=" " alt="" coords="2920,504,2860,557,2856,553,2917,500"/>
+<area shape="rect" href="a01235.html" title=" " alt="" coords="2963,555,3127,581"/>
+<area shape="poly" title=" " alt="" coords="2971,500,3032,553,3028,557,2967,504"/>
+<area shape="rect" href="a01226.html" title=" " alt="" coords="3151,555,3330,581"/>
+<area shape="poly" title=" " alt="" coords="3000,494,3199,553,3197,558,2999,499"/>
+<area shape="rect" href="a01211.html" title=" " alt="" coords="3354,555,3527,581"/>
+<area shape="poly" title=" " alt="" coords="3005,493,3024,497,3113,513,3183,523,3342,545,3381,553,3380,558,3342,551,3182,528,3112,518,3023,503,3004,498"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="3551,555,3733,581"/>
+<area shape="poly" title=" " alt="" coords="3003,493,3024,497,3168,517,3281,524,3395,529,3540,545,3582,553,3581,558,3539,551,3394,535,3281,529,3167,522,3023,503,3002,498"/>
+<area shape="rect" href="a00263.html" title=" " alt="" coords="2569,548,2723,588"/>
+<area shape="poly" title=" " alt="" coords="2888,499,2715,550,2713,545,2886,494"/>
+<area shape="poly" title=" " alt="" coords="3767,586,3745,591,3438,641,3136,682,2689,732,2689,727,3135,677,3438,635,3744,585,3766,581"/>
+<area shape="rect" href="a01340.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="3457,724,3574,749"/>
+<area shape="poly" title=" " alt="" coords="3768,587,3664,615,3598,638,3574,658,3553,682,3524,725,3520,722,3549,679,3570,655,3595,634,3663,610,3766,582"/>
+<area shape="rect" href="a01271.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="3609,643,3793,669"/>
+<area shape="poly" title=" " alt="" coords="3801,591,3721,645,3718,641,3798,586"/>
+<area shape="poly" title=" " alt="" coords="3443,746,2826,803,2826,798,3443,741"/>
+<area shape="poly" title=" " alt="" coords="3553,753,3633,795,3631,799,3551,758"/>
+<area shape="rect" href="a01319.html" title=" " alt="" coords="3073,797,3355,823"/>
+<area shape="poly" title=" " alt="" coords="3451,755,3267,800,3266,795,3449,750"/>
+<area shape="poly" title=" " alt="" coords="3443,743,2023,807,2023,802,3443,737"/>
+<area shape="rect" href="a00440.html" title=" " alt="" coords="3379,797,3540,823"/>
+<area shape="poly" title=" " alt="" coords="3499,762,3471,798,3467,795,3495,759"/>
+<area shape="rect" href="a00443.html" title=" " alt="" coords="3774,797,4001,823"/>
+<area shape="poly" title=" " alt="" coords="3588,748,3824,795,3823,800,3587,754"/>
+<area shape="poly" title=" " alt="" coords="3660,677,3546,726,3543,721,3658,672"/>
+<area shape="poly" title=" " alt="" coords="3864,409,4123,553,4120,558,3861,414"/>
+<area shape="rect" href="a00869.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="4065,467,4224,493"/>
+<area shape="poly" title=" " alt="" coords="3887,406,4100,465,4098,470,3885,411"/>
+<area shape="rect" href="a00884.html" title=" " alt="" coords="3750,467,3913,493"/>
+<area shape="poly" title=" " alt="" coords="3831,418,3833,467,3828,467,3826,418"/>
+<area shape="poly" title=" " alt="" coords="4147,506,4147,555,4142,555,4142,506"/>
+<area shape="poly" title=" " alt="" coords="4215,493,4308,521,4357,540,4401,562,4436,587,4458,614,4463,629,4463,645,4457,661,4445,678,4422,690,4381,701,4259,717,4118,729,3992,736,3992,731,4117,724,4259,712,4380,695,4420,685,4442,674,4452,659,4458,644,4458,630,4453,617,4432,590,4398,566,4355,545,4307,526,4213,499"/>
+<area shape="poly" title=" " alt="" coords="1852,411,1837,415,1781,427,1729,434,1639,445,1600,457,1564,476,1530,505,1499,549,1492,568,1499,587,1519,609,1545,626,1573,638,1601,646,1600,651,1572,643,1542,631,1516,613,1494,589,1487,568,1494,547,1526,502,1561,471,1598,452,1638,440,1728,428,1780,421,1836,409,1851,406"/>
+<area shape="rect" href="a01052.html" title=" " alt="" coords="1665,467,1792,493"/>
+<area shape="poly" title=" " alt="" coords="1875,413,1757,470,1754,465,1872,408"/>
+<area shape="poly" title=" " alt="" coords="4035,418,4041,458,4047,479,4056,499,4070,516,4086,531,4120,553,4117,558,4083,535,4066,519,4052,501,4042,481,4035,459,4030,419"/>
+<area shape="poly" title=" " alt="" coords="4062,412,4130,465,4127,469,4059,416"/>
+<area shape="rect" href="a00899.html" title=" " alt="" coords="4249,467,4446,493"/>
+<area shape="poly" title=" " alt="" coords="4092,406,4303,465,4301,470,4090,411"/>
+</map>
 </div>
 </div>
 <p><a href="a01043_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05042.html">lumex::xml::writer::XmlWriterStream</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <code><a class="el" href="a05026.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a C++ standard output stream.  <a href="a05042.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html">lumex::xml::writer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01564.html">lumex::core::span</a></td></tr>
+<tr class="memdesc:a01564"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>span</code> module: a non-owning view of a contiguous sequence. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01565.html">lumex::core::span::view</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01566.html">lumex::core::span::view::detail</a></td></tr>
+<tr class="memdesc:a01566"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helpers of the module. Not part of the public interface. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a94053c1d4f83bfa2acf25eb2da873adf" id="r_a94053c1d4f83bfa2acf25eb2da873adf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94053c1d4f83bfa2acf25eb2da873adf">LUMEX_SPAN_CHECKS</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a94053c1d4f83bfa2acf25eb2da873adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the preconditions of <code>span</code> are checked, 0 when they are not.  <br /></td></tr>
+<tr class="separator:a94053c1d4f83bfa2acf25eb2da873adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be1bc0de3af1c3249e9f7d93f6e68d7" id="r_a5be1bc0de3af1c3249e9f7d93f6e68d7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5be1bc0de3af1c3249e9f7d93f6e68d7">LUMEX_SPAN_MISMATCH_GUARD</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a5be1bc0de3af1c3249e9f7d93f6e68d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when a translation unit records the value of <code>LUMEX_SPAN_CHECKS</code> for the linker (MSVC only), 0 when it does not. Informational: computed from <code>LUMEX_SPAN_NO_MISMATCH_GUARD</code>, defined on every compiler so that the plumbing can be tested without MSVC; on a compiler other than MSVC nothing is recorded whatever the value is.  <br /></td></tr>
+<tr class="separator:a5be1bc0de3af1c3249e9f7d93f6e68d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a959b069e36185f626ee5b3174a573d9d" id="r_a959b069e36185f626ee5b3174a573d9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a959b069e36185f626ee5b3174a573d9d">LUMEX_SPAN_CHECKED</a>(condition, ...)</td></tr>
+<tr class="memdesc:a959b069e36185f626ee5b3174a573d9d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>LUMEX_SPAN_CHECKED (condition, expression...)</code> is <code>expression</code>, preceded by the check of <code>condition</code> when <code>LUMEX_SPAN_CHECKS</code> is 1.  <br /></td></tr>
+<tr class="separator:a959b069e36185f626ee5b3174a573d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a0569ab3ae5c1850ef98967b69fa07d89" id="r_a0569ab3ae5c1850ef98967b69fa07d89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01566.html#a0569ab3ae5c1850ef98967b69fa07d89">lumex::core::span::view::detail::check_failed</a> (char const *condition, char const *file, int line) noexcept</td></tr>
+<tr class="memdesc:a0569ab3ae5c1850ef98967b69fa07d89"><td class="mdescLeft">&#160;</td><td class="mdescRight">The handler of a violated precondition: prints <code>LUMEX_SPAN_CHECKS: &lt;condition&gt; failed at &lt;file&gt;:&lt;line&gt;</code> to standard error and aborts. It returns <code>void</code>, so the check is the conditional <code>condition ? static_cast&lt;void&gt; (0) : check_failed (...)</code>: both operands are <code>void</code> and no cast of a <code>void</code> expression is needed (<code>-Wuseless-cast</code>), and <code>[[noreturn]]</code> goes with a <code>void</code> return on MSVC (C4646). Not <code>constexpr</code>, so a violated check in a constant expression is a compile error. On the MSVC debug runtime <code>std::abort</code> may show a modal dialog.  <br /></td></tr>
+<tr class="separator:a0569ab3ae5c1850ef98967b69fa07d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>XmlWriterStream</code>, an <code>IXmlWriter</code> that writes to a narrow or a wide standard output stream. </p>
-<p>A narrow stream receives the bytes as they are. A wide stream receives them as <code>wchar_t</code> units, so the output must be in the <code>wchar_t</code> encoding; <code>XmlDocument::save</code> and <code>XmlNode::print</code> use <code>encoding_wchar</code> for wide streams. The writer does not own the stream. Consumers include the file through <code>lumex/xml/LumexXml</code>. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>The switch of the precondition checks of <code>span</code>: the macro <code>LUMEX_SPAN_CHECKS</code> and the macro <code>LUMEX_SPAN_CHECKED</code> that the members use. </p>
+<p>The preconditions of <code>std::span</code> (an index below <code>size ()</code>, <code>front</code> and <code>back</code> of a span that is not empty, <code>first</code>, <code>last</code> and <code>subspan</code> within the size, a count equal to a static extent, [span.cons], [span.sub], [span.elem]) are checked when <code>LUMEX_SPAN_CHECKS</code> is 1 and are not checked when it is 0. A violated check calls the handler of this header, <code>detail::check_failed</code>, which prints <code>LUMEX_SPAN_CHECKS: &lt;condition&gt; failed at &lt;file&gt;:&lt;line&gt;</code> to standard error and calls <code>std::abort</code>, in every build mode. The handler is an inline function of this header, so the module has no link dependency. With the checks off the members are the code they were before the checks existed. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a959b069e36185f626ee5b3174a573d9d" name="a959b069e36185f626ee5b3174a573d9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a959b069e36185f626ee5b3174a573d9d">&#9670;&#160;</a></span>LUMEX_SPAN_CHECKED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SPAN_CHECKED</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>condition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  ((condition) ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span><span class="keyword">&gt;</span> (0)                                        \</div>
+<div class="line">               : <a class="code hl_function" href="a01566.html#a0569ab3ae5c1850ef98967b69fa07d89">::lumex::core::span::view::detail::check_failed</a> (            \</div>
+<div class="line">                     #condition, __FILE__, __LINE__),                         \</div>
+<div class="line">   __VA_ARGS__)</div>
+<div class="ttc" id="aa01566_html_a0569ab3ae5c1850ef98967b69fa07d89"><div class="ttname"><a href="a01566.html#a0569ab3ae5c1850ef98967b69fa07d89">lumex::core::span::view::detail::check_failed</a></div><div class="ttdeci">void check_failed(char const *condition, char const *file, int line) noexcept</div><div class="ttdoc">The handler of a violated precondition: prints LUMEX_SPAN_CHECKS: &lt;condition&gt; failed at &lt;file&gt;:&lt;line&gt;...</div><div class="ttdef"><b>Definition</b> LumexSpanChecks.hpp:146</div></div>
+</div><!-- fragment -->
+<p><code>LUMEX_SPAN_CHECKED (condition, expression...)</code> is <code>expression</code>, preceded by the check of <code>condition</code> when <code>LUMEX_SPAN_CHECKS</code> is 1. </p>
+<p>An expression, so that it can stand in a <code>return</code> of a C++11 <code>constexpr</code> function and in a mem-initializer. In a constant expression a true condition adds nothing and a false one is not a constant expression (the handler is not <code>constexpr</code>): the compiler rejects the program. The condition is evaluated once, or not at all when the checks are off; it may not have a comma outside parentheses. The expression after the condition may. </p>
+
+</div>
+</div>
+<a id="a94053c1d4f83bfa2acf25eb2da873adf" name="a94053c1d4f83bfa2acf25eb2da873adf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94053c1d4f83bfa2acf25eb2da873adf">&#9670;&#160;</a></span>LUMEX_SPAN_CHECKS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SPAN_CHECKS&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when the preconditions of <code>span</code> are checked, 0 when they are not. </p>
+<p>The default is 1 when <code>NDEBUG</code> is not defined and 0 when it is. A program may define the macro as 0 or 1 before the first include of the library (<code>-DLUMEX_SPAN_CHECKS=1</code> keeps the checks in a release build). Every translation unit of one program must see the same value: the members of <code>span</code> are inline templates, and two units that differ would hand the linker two bodies of one function (MSVC reports a mismatch at link time through <code>detect_mismatch</code> in the translation units of a program; the compiled modules of LumexLib do not record the value, see <code>LUMEX_SPAN_NO_MISMATCH_GUARD</code>; GCC and Clang do not detect it). A violated check calls the inline handler of this header: it needs nothing to link. </p>
+
+</div>
+</div>
+<a id="a5be1bc0de3af1c3249e9f7d93f6e68d7" name="a5be1bc0de3af1c3249e9f7d93f6e68d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5be1bc0de3af1c3249e9f7d93f6e68d7">&#9670;&#160;</a></span>LUMEX_SPAN_MISMATCH_GUARD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_SPAN_MISMATCH_GUARD&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when a translation unit records the value of <code>LUMEX_SPAN_CHECKS</code> for the linker (MSVC only), 0 when it does not. Informational: computed from <code>LUMEX_SPAN_NO_MISMATCH_GUARD</code>, defined on every compiler so that the plumbing can be tested without MSVC; on a compiler other than MSVC nothing is recorded whatever the value is. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a01043.html">XmlWriterStream.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_0b9d47685954fb3c729094f86312e9aa.html">span</a></li><li class="navelem"><a class="el" href="dir_b10b7088fa2a9965451f9973f18a4684.html">view</a></li><li class="navelem"><a class="el" href="a01043.html">LumexSpanChecks.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

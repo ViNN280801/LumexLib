@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::json::schema::LumexJsonSchemaTraverser Class Reference</title>
+<title>LumexLib: lumex::core::optional::opt::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,44 +104,990 @@ $(function(){initNavTree('a01554.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01551.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::json::schema::LumexJsonSchemaTraverser Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::optional::opt::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Stateless schema walker. All members are static.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00113_source.html">LumexJsonSchemaTraverser.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a56c5f4e9cd2510e1f96aca3fb98b6b89" id="r_a56c5f4e9cd2510e1f96aca3fb98b6b89"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56c5f4e9cd2510e1f96aca3fb98b6b89">LumexJsonSchemaTraverser</a> ()=delete</td></tr>
-<tr class="separator:a56c5f4e9cd2510e1f96aca3fb98b6b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03635.html">and_then_result</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code>and_then</code>: <code>remove_cvref_t</code> of the call, which must be a specialization of <code>optional</code>; absent otherwise.  <a href="a03635.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03639.html">and_then_result&lt; typename std::enable_if&lt; is_optional_specialization&lt; remove_cvref_t&lt; invoke_result_t&lt; Fn, Arg &gt; &gt; &gt;::value &gt;::type, Fn, Arg &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03471.html">assigns_from_any_cvref</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>T</code> is assignable from <code>W</code> of any of the four forms ([optional.assign]/21).  <a href="a03471.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03451.html">conjunction</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::conjunction</code> of C++17: the first false trait ends the evaluation, so a later trait is not instantiated. The constraints of the converting operations name the cheap exclusions first (<code>T</code> is <code>U</code>, <code>U</code> is <code>optional</code>) so that a <code>T</code> whose constructor template tests <code>is_copy_constructible&lt;optional&lt;T&gt;&gt;</code> (such as <code>std::any</code>) is not asked about <code>optional&lt;T&gt;</code> while <code>optional&lt;T&gt;</code> is being declared.  <a href="a03451.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03455.html">conjunction&lt; B &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03459.html">conjunction&lt; B, Rest... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03467.html">converts_from_any_cvref</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>converts-from-any-cvref&lt;T, W&gt;</code> of [optional.ctor]/1: <code>T</code> is constructible or convertible from <code>W</code> of any of the four forms.  <a href="a03467.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03595.html">copy_assign_kind</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03555.html">copy_ctor_kind</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">0 deleted, 1 trivial, 2 written out ([optional.ctor]/6).  <a href="a03555.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03499.html">empty_member</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The member of the union that is active while no value is held.  <a href="a03499.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03503.html">has_nonconst_copy_assign</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> has a copy assignment that takes a non-const reference (<code>T &amp;operator= (T &amp;)</code>, as <code>std::auto_ptr</code>) and none that takes a const one.  <a href="a03503.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03507.html">has_nonconst_copy_ctor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> has a copy constructor that takes a non-const reference and none that takes a const one.  <a href="a03507.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03487.html">invoke_result_impl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03491.html">invoke_result_impl&lt; void_t&lt; decltype(detail::invoke(std::declval&lt; Fn &gt;(), std::declval&lt; Args &gt;()...))&gt;, Fn, Args... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03495.html">invoke_tag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag: build the value from the result of a call.  <a href="a03495.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03475.html">is_cv_bool</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is <code>bool</code>, with or without <code>const</code> and <code>volatile</code>.  <a href="a03475.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03439.html">is_optional_specialization</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is a specialization of <code>optional</code> (no cv, no reference).  <a href="a03439.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03443.html">is_optional_specialization&lt; optional&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03479.html">is_reference_wrapper</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03483.html">is_reference_wrapper&lt; std::reference_wrapper&lt; U &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03399.html">is_std_optional</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is a specialization of <code>std::optional</code>.  <a href="a03399.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03403.html">is_std_optional&lt; std::optional&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03447.html">is_tag_type</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>T</code> is <code><a class="el" href="a03675.html" title="A tag type used to indicate in-place construction of the contained value.">in_place_t</a></code> or <code><a class="el" href="a03667.html" title="A tag type used to indicate the absence of a value in optional.">nullopt_t</a></code>, cv-qualified or not: the types an <code>optional</code> may not hold.  <a href="a03447.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03643.html">is_transform_target</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>U</code> can be held by an <code>optional</code> and constructed from the call result <code>R</code>. From C++17 a prvalue result of the type <code>U</code> itself is built in place (guaranteed elision), so <code>U</code> need not be movable.  <a href="a03643.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03435.html">make_void</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CWG 1558 safe <code>void_t</code>.  <a href="a03435.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03615.html">move_assign_kind</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03575.html">move_ctor_kind</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03463.html">negation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::negation</code> of C++17.  <a href="a03463.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03599.html">opt_copy_assign_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03611.html">opt_copy_assign_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03603.html">opt_copy_assign_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03607.html">opt_copy_assign_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03559.html">opt_copy_ctor_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03571.html">opt_copy_ctor_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03563.html">opt_copy_ctor_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03567.html">opt_copy_ctor_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03547.html">opt_destruct_base</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The union, the flag and the destructor; this form is for a trivially destructible <code>T</code>, so the destructor is trivial.  <a href="a03547.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03551.html">opt_destruct_base&lt; T, false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The same for a <code>T</code> with a non-trivial destructor.  <a href="a03551.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03619.html">opt_move_assign_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03631.html">opt_move_assign_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03623.html">opt_move_assign_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03627.html">opt_move_assign_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03579.html">opt_move_ctor_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03591.html">opt_move_ctor_base&lt; T, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03583.html">opt_move_ctor_base&lt; T, 1 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03587.html">opt_move_ctor_base&lt; T, 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03511.html">optional_union</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>{ dummy, value }</code>, the union of [optional.optional.general]. The value is stored without <code>const</code> (as both standard libraries do), so that an <code>optional&lt;const U&gt;</code> can be re-emplaced in a constant expression.  <a href="a03511.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03531.html">optional_union&lt; T, false, false, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03539.html">optional_union&lt; T, false, false, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03535.html">optional_union&lt; T, false, true, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03543.html">optional_union&lt; T, false, true, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03515.html">optional_union&lt; T, true, false, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03523.html">optional_union&lt; T, true, false, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03519.html">optional_union&lt; T, true, true, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03527.html">optional_union&lt; T, true, true, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03663.html">or_else_enabled</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>or_else</code> is viable: <code>Fn ()</code> returns <code>Opt</code> and the value can be copied or moved (<code>Allowed</code>, computed from <code>T</code> by the caller).  <a href="a03663.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03655.html">or_else_result_is</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>Fn ()</code> is a valid call whose result, without cv and reference, is <code>Opt</code>.  <a href="a03655.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03659.html">or_else_result_is&lt; void_t&lt; invoke_result_t&lt; Fn &gt; &gt;, Fn, Opt &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03647.html">transform_result</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code>transform</code>: <code>optional&lt;remove_cv_t&lt;call result&gt;&gt;</code>; absent when the call is ill-formed or its result cannot be held.  <a href="a03647.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03651.html">transform_result&lt; typename std::enable_if&lt; is_transform_target&lt; typename std::remove_cv&lt; invoke_result_t&lt; Fn, Arg &gt; &gt;::type, invoke_result_t&lt; Fn, Arg &gt; &gt;::value &gt;::type, Fn, Arg &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a1933c607554e5bae08d9a21ea3396cab" id="r_a1933c607554e5bae08d9a21ea3396cab"><td class="memItemLeft" align="right" valign="top">static nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1933c607554e5bae08d9a21ea3396cab">run</a> (nlohmann::json const &amp;schema, nlohmann::json const &amp;input, <a class="el" href="a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33">LumexJsonSchemaCheckMode</a> mode=<a class="el" href="a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107">LumexJsonSchemaCheckMode::validate_and_normalize</a>, std::string const &amp;<a class="el" href="a01248.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>=&quot;$&quot;)</td></tr>
-<tr class="memdesc:a1933c607554e5bae08d9a21ea3396cab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walks <code>input</code> against <code>schema</code>.  <br /></td></tr>
-<tr class="separator:a1933c607554e5bae08d9a21ea3396cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad28937f6b24e177cf6da3fc42900d00a" id="r_ad28937f6b24e177cf6da3fc42900d00a"><td class="memItemLeft" align="right" valign="top">static nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad28937f6b24e177cf6da3fc42900d00a">parse</a> (<a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a> raw)</td></tr>
-<tr class="memdesc:ad28937f6b24e177cf6da3fc42900d00a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses raw text into a document.  <br /></td></tr>
-<tr class="separator:ad28937f6b24e177cf6da3fc42900d00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a7decd168ca183c20f3213e7261c33134" id="r_a7decd168ca183c20f3213e7261c33134"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a7decd168ca183c20f3213e7261c33134"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7decd168ca183c20f3213e7261c33134">remove_cvref_t</a></td></tr>
+<tr class="memdesc:a7decd168ca183c20f3213e7261c33134"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::remove_cvref_t</code> of C++20.  <br /></td></tr>
+<tr class="separator:a7decd168ca183c20f3213e7261c33134"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3220550a0b98aa55e21baf378674adaa" id="r_a3220550a0b98aa55e21baf378674adaa"><td class="memTemplParams" colspan="2">template&lt;typename... Ts&gt; </td></tr>
+<tr class="memitem:a3220550a0b98aa55e21baf378674adaa"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3220550a0b98aa55e21baf378674adaa">void_t</a> = typename <a class="el" href="a03435.html">make_void</a>&lt;Ts...&gt;::type</td></tr>
+<tr class="memdesc:a3220550a0b98aa55e21baf378674adaa"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::void_t</code> of C++17.  <br /></td></tr>
+<tr class="separator:a3220550a0b98aa55e21baf378674adaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78a8245a75aa534b73cd7ef1aa21440f" id="r_a78a8245a75aa534b73cd7ef1aa21440f"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a78a8245a75aa534b73cd7ef1aa21440f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a78a8245a75aa534b73cd7ef1aa21440f">is_swappable</a> = std::is_swappable&lt;T&gt;</td></tr>
+<tr class="separator:a78a8245a75aa534b73cd7ef1aa21440f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3e57f08475c1637c5be5a848574f3e" id="r_a8a3e57f08475c1637c5be5a848574f3e"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a8a3e57f08475c1637c5be5a848574f3e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8a3e57f08475c1637c5be5a848574f3e">is_nothrow_swappable</a> = std::is_nothrow_swappable&lt;T&gt;</td></tr>
+<tr class="separator:a8a3e57f08475c1637c5be5a848574f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81da0389c44b87c6405b12fee881fea0" id="r_a81da0389c44b87c6405b12fee881fea0"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:a81da0389c44b87c6405b12fee881fea0"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a81da0389c44b87c6405b12fee881fea0">invoke_result_t</a> = typename <a class="el" href="a03487.html">invoke_result_impl</a>&lt;void, Fn, Args...&gt;::type</td></tr>
+<tr class="memdesc:a81da0389c44b87c6405b12fee881fea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of <code>INVOKE (declval&lt;Fn&gt; (), declval&lt;Args&gt; ()...)</code>; absent (a substitution failure) when the call is ill-formed.  <br /></td></tr>
+<tr class="separator:a81da0389c44b87c6405b12fee881fea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a082ca03541f76bc3739cf1d6618c70e8" id="r_a082ca03541f76bc3739cf1d6618c70e8"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a082ca03541f76bc3739cf1d6618c70e8"><td class="memTemplItemLeft" align="right" valign="top">constexpr T &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a082ca03541f76bc3739cf1d6618c70e8">fwd</a> (typename std::remove_reference&lt; T &gt;::type &amp;t) noexcept</td></tr>
+<tr class="memdesc:a082ca03541f76bc3739cf1d6618c70e8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast&lt;T &amp;&amp;&gt; (t)</code>: <code>std::forward</code> is not <code>constexpr</code> in C++11.  <br /></td></tr>
+<tr class="separator:a082ca03541f76bc3739cf1d6618c70e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9d8ef4b7c161c6d9f3b76e79f498671" id="r_ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::remove_reference&lt; T &gt;::type &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad9d8ef4b7c161c6d9f3b76e79f498671">mv</a> (T &amp;&amp;t) noexcept</td></tr>
+<tr class="memdesc:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t)</code>: <code>std::move</code> is not <code>constexpr</code> in C++11.  <br /></td></tr>
+<tr class="separator:ad9d8ef4b7c161c6d9f3b76e79f498671"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2accfaa04f297a6e4c12a36448e19ef" id="r_ae2accfaa04f297a6e4c12a36448e19ef"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ae2accfaa04f297a6e4c12a36448e19ef"><td class="memTemplItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae2accfaa04f297a6e4c12a36448e19ef">address_of</a> (T &amp;object) noexcept</td></tr>
+<tr class="memdesc:ae2accfaa04f297a6e4c12a36448e19ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of <code>object</code> also when <code>T</code> overloads <code>operator&amp;</code>, usable in a constant expression from C++11.  <br /></td></tr>
+<tr class="separator:ae2accfaa04f297a6e4c12a36448e19ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ebf297c5727c955b66997cc5db2918a" id="r_a3ebf297c5727c955b66997cc5db2918a"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a3ebf297c5727c955b66997cc5db2918a"><td class="memTemplItemLeft" align="right" valign="top">void *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3ebf297c5727c955b66997cc5db2918a">voidify</a> (T &amp;object) noexcept</td></tr>
+<tr class="memdesc:a3ebf297c5727c955b66997cc5db2918a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The address of <code>object</code> as a <code>void *</code>, also for a <code>const</code> object.  <br /></td></tr>
+<tr class="separator:a3ebf297c5727c955b66997cc5db2918a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d4cf60aacd9a54ae35907dc79d7a005" id="r_a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2d4cf60aacd9a54ae35907dc79d7a005">construct_at</a> (T *where, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::construct_at</code>: <code>constexpr</code> from C++20, a placement new before. <code>T</code> is not <code>const</code>: the union stores the value without it.  <br /></td></tr>
+<tr class="separator:a2d4cf60aacd9a54ae35907dc79d7a005"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97bb07d234b056ff0d820f562d7ae2d9" id="r_a97bb07d234b056ff0d820f562d7ae2d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97bb07d234b056ff0d820f562d7ae2d9">throw_bad_optional_access</a> ()</td></tr>
+<tr class="memdesc:a97bb07d234b056ff0d820f562d7ae2d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throws <code><a class="el" href="a03683.html" title="Exception thrown when attempting to access the value of an empty optional.">lumex_bad_optional_access</a></code>; a function, so that the <code>constexpr</code> observers of C++11 can name it in a conditional expression.  <br /></td></tr>
+<tr class="separator:a97bb07d234b056ff0d820f562d7ae2d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac50c233dd99e0fa65e3082c86c9c226b" id="r_ac50c233dd99e0fa65e3082c86c9c226b"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:ac50c233dd99e0fa65e3082c86c9c226b"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, Obj &amp;&amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac50c233dd99e0fa65e3082c86c9c226b">member_target</a> (Obj &amp;&amp;obj) noexcept</td></tr>
+<tr class="memdesc:ac50c233dd99e0fa65e3082c86c9c226b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is an object of the class (or derived from it).  <br /></td></tr>
+<tr class="separator:ac50c233dd99e0fa65e3082c86c9c226b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5b2b7d6080ebd656edfb4bc77f9de2f" id="r_ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a03479.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(std::declval&lt; Obj &gt;().get())&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae5b2b7d6080ebd656edfb4bc77f9de2f">member_target</a> (Obj &amp;&amp;obj) noexcept</td></tr>
+<tr class="memdesc:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is a <code>std::reference_wrapper</code>.  <br /></td></tr>
+<tr class="separator:ae5b2b7d6080ebd656edfb4bc77f9de2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a481def8468f96f311ba579b656bdc84d" id="r_a481def8468f96f311ba579b656bdc84d"><td class="memTemplParams" colspan="2">template&lt;typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:a481def8468f96f311ba579b656bdc84d"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt;!<a class="el" href="a03479.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(*std::declval&lt; Obj &gt;())&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a481def8468f96f311ba579b656bdc84d">member_target</a> (Obj &amp;&amp;obj)</td></tr>
+<tr class="memdesc:a481def8468f96f311ba579b656bdc84d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object of a pointer to member, when the first argument is a pointer-like object.  <br /></td></tr>
+<tr class="separator:a481def8468f96f311ba579b656bdc84d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bc25abebadae33c51fef4b1338ff576" id="r_a5bc25abebadae33c51fef4b1338ff576"><td class="memTemplParams" colspan="2">template&lt;typename Member, typename Class, typename Obj, typename... Args&gt; </td></tr>
+<tr class="memitem:a5bc25abebadae33c51fef4b1338ff576"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5bc25abebadae33c51fef4b1338ff576">invoke</a> (Member Class::*pmf, Obj &amp;&amp;obj, Args &amp;&amp;...args) -&gt; typename std::enable_if&lt; std::is_function&lt; Member &gt;::value, decltype((detail::member_target&lt; Class &gt;(detail::fwd&lt; Obj &gt;(obj)) .*pmf)(detail::fwd&lt; Args &gt;(args)...))&gt;::type</td></tr>
+<tr class="memdesc:a5bc25abebadae33c51fef4b1338ff576"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a pointer to a member function.  <br /></td></tr>
+<tr class="separator:a5bc25abebadae33c51fef4b1338ff576"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2425032f49c0a1e321a29743d8cb1e0b" id="r_a2425032f49c0a1e321a29743d8cb1e0b"><td class="memTemplParams" colspan="2">template&lt;typename Member, typename Class, typename Obj&gt; </td></tr>
+<tr class="memitem:a2425032f49c0a1e321a29743d8cb1e0b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2425032f49c0a1e321a29743d8cb1e0b">invoke</a> (Member Class::*pmd, Obj &amp;&amp;obj) -&gt; typename std::enable_if&lt; !std::is_function&lt; Member &gt;::value, decltype(detail::member_target&lt; Class &gt;(detail::fwd&lt; Obj &gt;(obj)) .*pmd)&gt;::type</td></tr>
+<tr class="memdesc:a2425032f49c0a1e321a29743d8cb1e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a pointer to a data member.  <br /></td></tr>
+<tr class="separator:a2425032f49c0a1e321a29743d8cb1e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e079a46148550bb63fe6ff5249f2989" id="r_a6e079a46148550bb63fe6ff5249f2989"><td class="memTemplParams" colspan="2">template&lt;typename Fn, typename... Args&gt; </td></tr>
+<tr class="memitem:a6e079a46148550bb63fe6ff5249f2989"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a6e079a46148550bb63fe6ff5249f2989">invoke</a> (Fn &amp;&amp;fn, Args &amp;&amp;...args) -&gt; decltype(detail::fwd&lt; Fn &gt;(fn)(detail::fwd&lt; Args &gt;(args)...))</td></tr>
+<tr class="memdesc:a6e079a46148550bb63fe6ff5249f2989"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>INVOKE</code> of a function object or a function pointer.  <br /></td></tr>
+<tr class="separator:a6e079a46148550bb63fe6ff5249f2989"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Stateless schema walker. All members are static. </p>
-<p>Rules per node:</p><ul>
-<li><code>const</code> present: <code>null</code> input passes; any other value must equal it.</li>
-<li><code>type</code> contains <code>object</code>: the input must be an object. Each property in <code>properties</code> is walked when present and not <code>null</code>. A missing or <code>null</code> required object/array is an error unless its own <code>type</code> allows <code>null</code> (then the result holds <code>null</code>). A missing required leaf becomes <code>null</code>.</li>
-<li><code>type</code> contains <code>array</code>: the input must be an array. With <code>items</code>, every element is walked; without it, the array passes through unchanged.</li>
-<li>Otherwise the node is a leaf: <code>null</code> input passes; any other value must match one of the listed types and, when present, <code>enum</code>. A float with a zero fractional part satisfies <code>integer</code>.</li>
-</ul>
-<p>A schema node without <code>const</code> must have <code>type</code>; a node missing both throws <code>nlohmann::json::out_of_range</code>. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a56c5f4e9cd2510e1f96aca3fb98b6b89" name="a56c5f4e9cd2510e1f96aca3fb98b6b89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56c5f4e9cd2510e1f96aca3fb98b6b89">&#9670;&#160;</a></span>LumexJsonSchemaTraverser()</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a81da0389c44b87c6405b12fee881fea0" name="a81da0389c44b87c6405b12fee881fea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81da0389c44b87c6405b12fee881fea0">&#9670;&#160;</a></span>invoke_result_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Fn, typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::invoke_result_t = typename <a class="el" href="a03487.html">invoke_result_impl</a>&lt;void, Fn, Args...&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of <code>INVOKE (declval&lt;Fn&gt; (), declval&lt;Args&gt; ()...)</code>; absent (a substitution failure) when the call is ill-formed. </p>
+
+</div>
+</div>
+<a id="a8a3e57f08475c1637c5be5a848574f3e" name="a8a3e57f08475c1637c5be5a848574f3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a3e57f08475c1637c5be5a848574f3e">&#9670;&#160;</a></span>is_nothrow_swappable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::is_nothrow_swappable = std::is_nothrow_swappable&lt;T&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78a8245a75aa534b73cd7ef1aa21440f" name="a78a8245a75aa534b73cd7ef1aa21440f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78a8245a75aa534b73cd7ef1aa21440f">&#9670;&#160;</a></span>is_swappable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::is_swappable = std::is_swappable&lt;T&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7decd168ca183c20f3213e7261c33134" name="a7decd168ca183c20f3213e7261c33134"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7decd168ca183c20f3213e7261c33134">&#9670;&#160;</a></span>remove_cvref_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::remove_cvref_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> </div>
+<div class="line">    <span class="keyword">typename</span> std::remove_cv&lt;typename std::remove_reference&lt;T&gt;::type&gt;::type</div>
+</div><!-- fragment -->
+<p><code>std::remove_cvref_t</code> of C++20. </p>
+
+</div>
+</div>
+<a id="a3220550a0b98aa55e21baf378674adaa" name="a3220550a0b98aa55e21baf378674adaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3220550a0b98aa55e21baf378674adaa">&#9670;&#160;</a></span>void_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Ts&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using lumex::core::optional::opt::detail::void_t = typename <a class="el" href="a03435.html">make_void</a>&lt;Ts...&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>std::void_t</code> of C++17. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae2accfaa04f297a6e4c12a36448e19ef" name="ae2accfaa04f297a6e4c12a36448e19ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2accfaa04f297a6e4c12a36448e19ef">&#9670;&#160;</a></span>address_of()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * lumex::core::optional::opt::detail::address_of </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The address of <code>object</code> also when <code>T</code> overloads <code>operator&amp;</code>, usable in a constant expression from C++11. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_ae2accfaa04f297a6e4c12a36448e19ef_cgraph.png" border="0" usemap="#aa01554_ae2accfaa04f297a6e4c12a36448e19ef_cgraph" alt=""/></div>
+<map name="aa01554_ae2accfaa04f297a6e4c12a36448e19ef_cgraph" id="aa01554_ae2accfaa04f297a6e4c12a36448e19ef_cgraph">
+<area shape="rect" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11." alt="" coords="5,29,180,69"/>
+<area shape="poly" title=" " alt="" coords="60,30,58,20,63,11,75,5,93,3,113,6,124,13,122,17,111,11,93,8,76,10,67,15,63,21,65,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_ae2accfaa04f297a6e4c12a36448e19ef_icgraph.png" border="0" usemap="#aa01554_ae2accfaa04f297a6e4c12a36448e19ef_icgraph" alt=""/></div>
+<map name="aa01554_ae2accfaa04f297a6e4c12a36448e19ef_icgraph" id="aa01554_ae2accfaa04f297a6e4c12a36448e19ef_icgraph">
+<area shape="rect" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11." alt="" coords="745,170,920,210"/>
+<area shape="poly" title=" " alt="" coords="873,159,859,152,833,149,810,151,796,156,791,162,794,169,788,171,786,161,793,151,809,146,833,144,860,147,875,154"/>
+<area shape="rect" href="a03547.html#ab533b5304b0d2c0211f379f48f03e9f9" title="Starts the value&#39;s life with args...; the flag is set last, so a throwing constructor leaves the obje..." alt="" coords="16,36,201,91"/>
+<area shape="poly" title=" " alt="" coords="812,160,792,132,765,101,733,72,696,50,633,29,567,15,500,9,433,9,368,13,307,20,202,41,201,35,306,15,368,8,433,3,500,4,568,10,635,23,698,45,736,68,769,97,796,128,816,157"/>
+<area shape="rect" href="a03551.html#a980d708c48acedf4965cba31d51c383a" title=" " alt="" coords="5,212,212,267"/>
+<area shape="poly" title=" " alt="" coords="819,224,800,258,773,294,739,329,699,355,662,370,625,380,548,387,470,382,394,367,322,345,256,319,154,270,157,265,258,314,323,340,395,362,471,377,548,382,624,374,661,365,696,351,735,325,769,291,795,255,815,222"/>
+<area shape="rect" href="a03407.html#a1e564417cf51b225defdabded89165f3" title=" " alt="" coords="492,148,697,232"/>
+<area shape="poly" title=" " alt="" coords="731,193,697,193,697,188,731,188"/>
+<area shape="rect" href="a03407.html#a81ab8ef683a80dcf6c879e6c8fbbc12f" title=" " alt="" coords="492,256,697,340"/>
+<area shape="poly" title=" " alt="" coords="777,219,689,259,686,254,775,214"/>
+<area shape="rect" href="a01554.html#a3ebf297c5727c955b66997cc5db2918a" title="The address of object as a void *, also for a const object." alt="" coords="515,84,675,124"/>
+<area shape="poly" title=" " alt="" coords="772,167,696,138,661,126,663,121,698,133,774,162"/>
+<area shape="poly" title=" " alt="" coords="635,72,621,65,595,62,572,64,558,69,553,75,556,83,550,84,548,74,555,65,571,59,595,57,622,60,637,67"/>
+<area shape="rect" href="a01554.html#a2d4cf60aacd9a54ae35907dc79d7a005" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="260,84,444,124"/>
+<area shape="poly" title=" " alt="" coords="501,106,444,106,444,101,501,101"/>
+<area shape="poly" title=" " alt="" coords="246,89,201,82,202,76,247,84"/>
+<area shape="poly" title=" " alt="" coords="305,133,159,215,156,210,303,128"/>
+<area shape="poly" title=" " alt="" coords="393,72,379,65,352,62,329,64,314,69,309,75,312,83,307,84,304,74,311,65,327,59,352,57,380,60,396,67"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2d4cf60aacd9a54ae35907dc79d7a005" name="a2d4cf60aacd9a54ae35907dc79d7a005"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d4cf60aacd9a54ae35907dc79d7a005">&#9670;&#160;</a></span>construct_at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T * lumex::core::optional::opt::detail::construct_at </td>
+          <td>(</td>
+          <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>where</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>std::construct_at</code>: <code>constexpr</code> from C++20, a placement new before. <code>T</code> is not <code>const</code>: the union stores the value without it. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a2d4cf60aacd9a54ae35907dc79d7a005_cgraph.png" border="0" usemap="#aa01554_a2d4cf60aacd9a54ae35907dc79d7a005_cgraph" alt=""/></div>
+<map name="aa01554_a2d4cf60aacd9a54ae35907dc79d7a005_cgraph" id="aa01554_a2d4cf60aacd9a54ae35907dc79d7a005_cgraph">
+<area shape="rect" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="5,73,189,113"/>
+<area shape="poly" title=" " alt="" coords="56,74,54,64,60,54,75,49,97,47,123,50,137,57,134,62,121,55,97,52,76,54,64,59,59,65,61,72"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="237,29,397,69"/>
+<area shape="poly" title=" " alt="" coords="189,72,223,65,224,71,190,78"/>
+<area shape="rect" href="a01554.html#a3ebf297c5727c955b66997cc5db2918a" title="The address of object as a void *, also for a const object." alt="" coords="237,117,397,157"/>
+<area shape="poly" title=" " alt="" coords="190,109,224,116,223,121,189,114"/>
+<area shape="poly" title=" " alt="" coords="277,30,275,20,281,10,296,5,317,3,342,6,356,13,353,18,341,11,317,8,297,10,285,15,280,21,282,28"/>
+<area shape="poly" title=" " alt="" coords="277,118,275,108,281,98,296,93,317,91,342,94,356,101,353,106,341,99,317,96,297,98,285,103,280,109,282,116"/>
+<area shape="rect" href="a01554.html#ae2accfaa04f297a6e4c12a36448e19ef" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11." alt="" coords="445,117,620,157"/>
+<area shape="poly" title=" " alt="" coords="398,135,432,135,432,140,398,140"/>
+<area shape="poly" title=" " alt="" coords="493,118,490,108,497,98,511,93,533,91,558,94,571,101,569,106,556,99,533,96,512,98,500,103,495,109,498,116"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a2d4cf60aacd9a54ae35907dc79d7a005_icgraph.png" border="0" usemap="#aa01554_a2d4cf60aacd9a54ae35907dc79d7a005_icgraph" alt=""/></div>
+<map name="aa01554_a2d4cf60aacd9a54ae35907dc79d7a005_icgraph" id="aa01554_a2d4cf60aacd9a54ae35907dc79d7a005_icgraph">
+<area shape="rect" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="260,53,444,93"/>
+<area shape="poly" title=" " alt="" coords="393,41,379,34,352,31,329,33,314,38,309,44,312,52,307,53,304,43,311,34,327,28,352,26,380,29,396,36"/>
+<area shape="rect" href="a03547.html#ab533b5304b0d2c0211f379f48f03e9f9" title="Starts the value&#39;s life with args...; the flag is set last, so a throwing constructor leaves the obje..." alt="" coords="16,5,201,60"/>
+<area shape="poly" title=" " alt="" coords="246,58,201,51,202,45,247,53"/>
+<area shape="rect" href="a03551.html#a980d708c48acedf4965cba31d51c383a" title=" " alt="" coords="5,84,212,139"/>
+<area shape="poly" title=" " alt="" coords="247,92,213,97,212,92,246,87"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a082ca03541f76bc3739cf1d6618c70e8" name="a082ca03541f76bc3739cf1d6618c70e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a082ca03541f76bc3739cf1d6618c70e8">&#9670;&#160;</a></span>fwd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp;&amp; lumex::core::optional::opt::detail::fwd </td>
+          <td>(</td>
+          <td class="paramtype">typename std::remove_reference&lt; T &gt;::type &amp;</td>          <td class="paramname"><span class="paramname"><em>t</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>static_cast&lt;T &amp;&amp;&gt; (t)</code>: <code>std::forward</code> is not <code>constexpr</code> in C++11. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a082ca03541f76bc3739cf1d6618c70e8_cgraph.png" border="0" usemap="#aa01554_a082ca03541f76bc3739cf1d6618c70e8_cgraph" alt=""/></div>
+<map name="aa01554_a082ca03541f76bc3739cf1d6618c70e8_cgraph" id="aa01554_a082ca03541f76bc3739cf1d6618c70e8_cgraph">
+<area shape="rect" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="5,29,165,69"/>
+<area shape="poly" title=" " alt="" coords="55,29,53,20,58,11,69,5,85,3,104,6,114,13,111,17,102,11,85,8,71,10,62,14,59,21,60,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a082ca03541f76bc3739cf1d6618c70e8_icgraph.png" border="0" usemap="#aa01554_a082ca03541f76bc3739cf1d6618c70e8_icgraph" alt=""/></div>
+<map name="aa01554_a082ca03541f76bc3739cf1d6618c70e8_icgraph" id="aa01554_a082ca03541f76bc3739cf1d6618c70e8_icgraph">
+<area shape="rect" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="1080,955,1240,995"/>
+<area shape="poly" title=" " alt="" coords="1204,944,1189,937,1160,934,1135,936,1120,941,1114,947,1117,954,1112,956,1109,946,1117,936,1134,931,1160,929,1190,932,1206,939"/>
+<area shape="rect" href="a03407.html#a40f507affaf3bf46c0590585c03c2e27" title=" " alt="" coords="5,92,211,176"/>
+<area shape="poly" title=" " alt="" coords="1157,942,1152,774,1145,658,1134,533,1118,410,1096,297,1067,205,1049,169,1030,143,988,104,943,73,893,49,841,31,787,18,730,11,673,8,615,9,500,22,392,43,294,69,212,96,210,91,292,64,390,38,499,16,615,4,673,3,731,6,787,13,843,26,895,44,945,69,992,100,1034,139,1054,166,1072,203,1101,296,1123,409,1139,533,1150,658,1157,774,1162,942"/>
+<area shape="rect" href="a03407.html#af6db964415aec338326d300c1a01d9a4" title=" " alt="" coords="259,200,464,284"/>
+<area shape="poly" title=" " alt="" coords="1156,942,1148,802,1127,609,1110,512,1089,423,1062,352,1047,325,1030,305,1000,281,968,260,897,229,822,209,744,200,667,198,593,202,465,220,464,215,592,196,667,192,745,194,823,204,899,224,970,256,1003,277,1034,301,1051,322,1067,350,1094,422,1115,511,1132,608,1153,802,1161,942"/>
+<area shape="rect" href="a03407.html#a93ba72bd9ee3b5c2372bc315ec590ee1" title=" " alt="" coords="5,200,211,284"/>
+<area shape="poly" title=" " alt="" coords="1157,942,1149,790,1130,577,1113,468,1092,369,1064,289,1048,259,1030,236,985,194,941,160,897,133,854,112,811,96,767,86,724,81,679,80,586,88,487,108,260,166,189,202,186,198,258,161,486,103,586,83,679,74,724,75,768,81,812,91,856,107,900,128,944,156,988,190,1034,232,1052,256,1069,287,1097,368,1119,467,1135,576,1155,790,1162,941"/>
+<area shape="rect" href="a03407.html#a2681e04e72e151c8ba4314a949cf5030" title=" " alt="" coords="5,308,211,392"/>
+<area shape="poly" title=" " alt="" coords="1155,942,1142,823,1118,663,1102,582,1081,509,1057,451,1044,428,1030,412,1004,394,971,378,930,365,884,354,777,340,658,332,534,330,414,333,211,344,211,339,413,328,534,325,658,327,778,334,885,349,932,360,973,373,1007,389,1034,408,1049,425,1062,448,1086,508,1107,581,1124,662,1148,822,1160,942"/>
+<area shape="rect" href="a03547.html#ab533b5304b0d2c0211f379f48f03e9f9" title="Starts the value&#39;s life with args...; the flag is set last, so a throwing constructor leaves the obje..." alt="" coords="523,847,708,901"/>
+<area shape="poly" title=" " alt="" coords="1134,946,1090,901,1062,880,1031,865,991,852,949,844,863,838,781,843,708,854,708,849,780,838,863,833,949,839,992,847,1033,860,1065,876,1093,897,1138,942"/>
+<area shape="rect" href="a03551.html#a980d708c48acedf4965cba31d51c383a" title=" " alt="" coords="512,937,719,992"/>
+<area shape="poly" title=" " alt="" coords="1066,976,719,969,719,964,1066,971"/>
+<area shape="rect" href="a01554.html#a2d4cf60aacd9a54ae35907dc79d7a005" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="807,898,991,938"/>
+<area shape="poly" title=" " alt="" coords="1066,957,990,941,991,935,1067,952"/>
+<area shape="rect" href="a03407.html#a266e52d34a5e184d128f954abd954feb" title=" " alt="" coords="797,1037,1002,1121"/>
+<area shape="poly" title=" " alt="" coords="1098,1003,1003,1041,1001,1036,1096,998"/>
+<area shape="rect" href="a03407.html#ab741e54555e718d2e1a2b3a8e6020088" title=" " alt="" coords="513,1077,718,1161"/>
+<area shape="poly" title=" " alt="" coords="1147,1009,1129,1041,1103,1076,1071,1110,1033,1135,995,1150,954,1160,871,1168,790,1163,718,1151,719,1145,791,1157,871,1162,953,1155,993,1145,1031,1130,1068,1106,1099,1073,1124,1038,1143,1006"/>
+<area shape="rect" href="a01554.html#a6e079a46148550bb63fe6ff5249f2989" title="INVOKE of a function object or a function pointer." alt="" coords="281,511,441,551"/>
+<area shape="poly" title=" " alt="" coords="1153,942,1139,840,1113,707,1097,641,1077,583,1055,536,1030,507,1011,496,986,487,923,476,847,473,762,476,588,495,442,519,441,513,587,490,762,471,847,468,924,471,988,482,1013,491,1034,503,1059,534,1082,581,1102,640,1119,706,1144,839,1159,941"/>
+<area shape="rect" href="a01554.html#a2425032f49c0a1e321a29743d8cb1e0b" title="INVOKE of a pointer to a data member." alt="" coords="281,575,441,615"/>
+<area shape="poly" title=" " alt="" coords="1151,943,1137,892,1114,832,1079,773,1056,746,1030,724,1011,713,986,704,926,692,854,685,777,682,626,678,561,672,511,661,486,646,463,630,433,618,435,613,465,625,489,641,513,656,562,667,626,673,777,677,855,680,926,687,988,699,1013,708,1034,720,1060,743,1083,769,1119,830,1142,891,1156,941"/>
+<area shape="rect" href="a01554.html#a5bc25abebadae33c51fef4b1338ff576" title="INVOKE of a pointer to a member function." alt="" coords="535,403,695,443"/>
+<area shape="poly" title=" " alt="" coords="1154,942,1140,832,1115,686,1099,614,1079,549,1056,497,1030,463,993,437,952,419,909,407,863,400,774,399,696,408,695,403,774,394,864,395,910,402,954,414,996,433,1034,459,1061,494,1084,547,1104,613,1121,685,1146,831,1159,941"/>
+<area shape="rect" href="a03407.html#aa9d945c2261070ef030cbe448cef2a52" title=" " alt="" coords="5,664,211,748"/>
+<area shape="poly" title=" " alt="" coords="1140,945,1095,886,1065,857,1031,834,999,821,961,810,870,795,764,787,651,783,429,778,334,773,258,762,210,749,211,744,259,757,334,767,429,773,651,777,764,781,870,790,962,805,1001,816,1033,829,1069,853,1099,882,1144,942"/>
+<area shape="rect" href="a03407.html#a65fe132109831697f977d44cb7a79034" title=" " alt="" coords="259,664,464,748"/>
+<area shape="poly" title=" " alt="" coords="1148,943,1131,901,1107,853,1074,807,1053,787,1031,770,987,751,927,736,855,725,775,717,609,709,464,707,464,702,609,703,775,712,855,719,928,731,989,746,1033,765,1057,782,1078,803,1112,851,1136,899,1153,941"/>
+<area shape="rect" href="a01554.html#a481def8468f96f311ba579b656bdc84d" title="The object of a pointer to member, when the first argument is a pointer&#45;like object." alt="" coords="535,592,695,647"/>
+<area shape="poly" title=" " alt="" coords="1154,942,1144,882,1123,806,1107,767,1086,730,1061,697,1030,668,1006,655,972,645,884,631,786,624,696,622,696,616,786,619,885,626,973,640,1008,651,1034,664,1065,693,1091,727,1112,765,1128,804,1149,880,1160,942"/>
+<area shape="rect" href="a01554.html#ac50c233dd99e0fa65e3082c86c9c226b" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="819,541,979,596"/>
+<area shape="poly" title=" " alt="" coords="1155,942,1145,874,1124,787,1108,742,1087,697,1062,655,1030,617,1006,599,978,587,981,582,1009,595,1034,613,1066,651,1092,694,1113,740,1129,786,1151,873,1160,941"/>
+<area shape="rect" href="a03407.html#aea80b10f6a4fbb84deff6a7b314a0220" title=" " alt="" coords="797,1197,1002,1281"/>
+<area shape="poly" title=" " alt="" coords="1149,1010,1105,1093,1072,1139,1034,1180,1004,1201,1001,1197,1030,1176,1068,1136,1100,1090,1144,1007"/>
+<area shape="rect" href="a03547.html#abcde1a2174763d1f08c277ec39cfe91c" title=" " alt="" coords="806,1305,993,1360"/>
+<area shape="poly" title=" " alt="" coords="1159,1009,1147,1070,1125,1147,1109,1187,1088,1226,1063,1263,1034,1295,1015,1308,994,1319,992,1314,1012,1304,1030,1291,1059,1259,1084,1223,1104,1185,1120,1145,1142,1069,1153,1008"/>
+<area shape="rect" href="a03547.html#a94d2a22a7e40d13820ac7dabf8f8a5de" title=" " alt="" coords="806,1384,993,1439"/>
+<area shape="poly" title=" " alt="" coords="1156,1010,1137,1096,1108,1204,1073,1306,1054,1346,1034,1373,1015,1388,994,1398,992,1393,1012,1383,1030,1370,1049,1343,1068,1304,1103,1202,1132,1094,1151,1009"/>
+<area shape="rect" href="a03551.html#acb9fb0ade2c0c190b02e32048f68f817" title=" " alt="" coords="767,1463,1032,1517"/>
+<area shape="poly" title=" " alt="" coords="1158,1010,1141,1111,1114,1243,1097,1309,1078,1369,1057,1418,1034,1452,1019,1465,1015,1460,1030,1448,1052,1415,1073,1367,1092,1307,1109,1242,1136,1110,1153,1009"/>
+<area shape="rect" href="a03551.html#ac5297e4eaffe58eeb368c4a00a4f9754" title=" " alt="" coords="767,1541,1032,1596"/>
+<area shape="poly" title=" " alt="" coords="1159,1010,1145,1126,1120,1282,1103,1360,1083,1431,1060,1490,1034,1530,1019,1543,1015,1539,1030,1527,1055,1488,1078,1430,1097,1359,1114,1281,1140,1126,1154,1009"/>
+<area shape="rect" href="a03407.html#aa1ddd2747fe93c8f87880bc507fbf5b0" title=" " alt="" coords="513,1601,718,1685"/>
+<area shape="poly" title=" " alt="" coords="1161,1010,1151,1142,1129,1323,1113,1415,1092,1497,1066,1565,1050,1590,1034,1609,1011,1623,980,1634,899,1646,807,1651,718,1651,718,1645,807,1646,899,1641,979,1628,1009,1618,1030,1605,1046,1587,1061,1562,1086,1496,1107,1414,1124,1322,1146,1142,1156,1009"/>
+<area shape="rect" href="a03407.html#a9deda45a1fd6aa355cf1a7aad8b651e4" title=" " alt="" coords="797,1747,1002,1831"/>
+<area shape="poly" title=" " alt="" coords="1160,1009,1148,1155,1123,1361,1106,1466,1086,1564,1062,1646,1034,1705,1014,1729,989,1749,986,1744,1010,1725,1030,1702,1057,1644,1081,1563,1101,1465,1118,1360,1142,1155,1155,1009"/>
+<area shape="rect" href="a03407.html#ac8ef4d6872f0ab0644f17e0127c6733c" title=" " alt="" coords="513,1713,718,1797"/>
+<area shape="poly" title=" " alt="" coords="1161,1009,1152,1149,1130,1344,1113,1443,1092,1533,1066,1607,1051,1636,1034,1657,1003,1683,972,1699,942,1705,911,1707,846,1704,808,1705,767,1713,719,1726,718,1721,766,1707,808,1700,846,1699,911,1701,941,1700,970,1694,1000,1679,1030,1654,1046,1633,1061,1605,1087,1532,1108,1442,1125,1343,1146,1149,1156,1009"/>
+<area shape="rect" href="a03407.html#a655ba02c62bd075b6e3a2183d162fb91" title=" " alt="" coords="513,1824,718,1908"/>
+<area shape="poly" title=" " alt="" coords="1160,1010,1144,1196,1117,1462,1099,1594,1079,1710,1058,1797,1046,1826,1034,1844,1011,1858,980,1868,899,1878,807,1880,718,1877,718,1872,807,1875,899,1873,979,1862,1009,1853,1030,1840,1041,1824,1052,1795,1074,1709,1094,1593,1111,1461,1139,1196,1155,1009"/>
+<area shape="rect" href="a03407.html#a7851b717e002e8de688c73e0ffd6c90b" title=" " alt="" coords="513,1969,718,2053"/>
+<area shape="poly" title=" " alt="" coords="1161,1009,1149,1232,1124,1557,1107,1721,1086,1864,1062,1972,1049,2008,1034,2029,999,2053,961,2069,921,2078,879,2081,836,2079,794,2073,718,2054,719,2049,795,2068,837,2073,878,2075,920,2073,960,2064,997,2049,1030,2026,1044,2005,1057,1970,1081,1863,1102,1720,1119,1557,1144,1231,1156,1009"/>
+<area shape="rect" href="a03407.html#ac51b2bdb2f09afa123abff9b974ae175" title=" " alt="" coords="797,1931,1002,2015"/>
+<area shape="poly" title=" " alt="" coords="1162,1009,1153,1188,1132,1447,1116,1583,1094,1708,1067,1813,1052,1855,1034,1889,1014,1913,990,1933,987,1928,1011,1909,1030,1886,1047,1853,1062,1812,1089,1707,1110,1582,1127,1447,1148,1187,1156,1009"/>
+<area shape="poly" title=" " alt="" coords="249,197,206,179,208,174,251,192"/>
+<area shape="poly" title=" " alt="" coords="401,190,386,182,361,179,342,181,328,185,320,192,316,200,311,199,315,189,325,181,341,175,361,173,388,177,404,185"/>
+<area shape="poly" title=" " alt="" coords="245,245,211,245,211,239,245,239"/>
+<area shape="poly" title=" " alt="" coords="251,292,208,310,206,305,249,287"/>
+<area shape="poly" title=" " alt="" coords="794,904,708,891,708,886,794,899"/>
+<area shape="poly" title=" " alt="" coords="794,938,719,950,718,945,793,933"/>
+<area shape="poly" title=" " alt="" coords="944,886,928,879,899,877,874,879,859,884,854,889,856,897,851,899,848,888,856,879,873,873,899,871,929,874,946,882"/>
+<area shape="poly" title=" " alt="" coords="940,1027,924,1019,899,1016,879,1018,865,1023,857,1029,853,1038,848,1036,852,1026,862,1018,878,1013,899,1011,926,1014,943,1022"/>
+<area shape="poly" title=" " alt="" coords="784,1098,719,1108,718,1102,783,1093"/>
+<area shape="poly" title=" " alt="" coords="604,391,587,339,558,276,539,245,517,215,492,188,463,166,434,150,403,138,337,124,272,119,211,121,211,116,272,114,338,118,404,133,436,145,465,161,495,184,521,211,544,242,563,274,592,337,609,390"/>
+<area shape="poly" title=" " alt="" coords="575,398,419,286,422,282,578,393"/>
+<area shape="poly" title=" " alt="" coords="545,401,210,281,212,276,547,396"/>
+<area shape="poly" title=" " alt="" coords="521,422,396,413,258,394,210,383,211,378,259,389,396,407,522,417"/>
+<area shape="poly" title=" " alt="" coords="543,451,513,464,465,495,422,514,420,509,463,490,511,460,541,446"/>
+<area shape="poly" title=" " alt="" coords="592,456,537,512,503,541,465,566,440,578,438,573,463,561,499,536,534,508,588,452"/>
+<area shape="poly" title=" " alt="" coords="659,392,643,385,615,382,591,384,576,389,571,395,573,402,568,404,565,394,573,384,590,379,615,377,645,380,661,387"/>
+<area shape="poly" title=" " alt="" coords="522,428,460,435,392,448,323,469,260,502,217,537,180,581,151,625,129,665,125,663,146,623,176,577,213,534,257,497,321,465,391,443,459,429,521,423"/>
+<area shape="poly" title=" " alt="" coords="598,457,542,538,506,585,466,629,424,666,421,662,462,626,502,582,538,535,593,454"/>
+<area shape="poly" title=" " alt="" coords="245,709,211,709,211,703,245,703"/>
+<area shape="poly" title=" " alt="" coords="401,654,386,646,361,643,342,645,328,649,320,656,316,664,311,663,315,653,325,645,341,639,361,637,388,641,404,649"/>
+<area shape="poly" title=" " alt="" coords="805,572,667,575,512,582,442,588,441,583,512,577,667,570,805,567"/>
+<area shape="poly" title=" " alt="" coords="833,538,654,446,656,441,835,533"/>
+<area shape="poly" title=" " alt="" coords="806,588,696,608,695,603,805,583"/>
+<area shape="poly" title=" " alt="" coords="943,531,927,523,899,520,876,522,861,527,854,533,854,541,849,541,849,531,858,522,875,517,899,515,928,518,945,526"/>
+<area shape="poly" title=" " alt="" coords="804,1743,697,1688,699,1683,806,1738"/>
+<area shape="poly" title=" " alt="" coords="940,1736,924,1728,899,1725,879,1727,865,1732,857,1739,853,1747,848,1745,852,1735,862,1727,878,1722,899,1720,926,1723,943,1732"/>
+<area shape="poly" title=" " alt="" coords="782,1778,718,1770,719,1765,783,1772"/>
+<area shape="poly" title=" " alt="" coords="784,1823,719,1841,718,1835,782,1818"/>
+<area shape="poly" title=" " alt="" coords="784,1991,719,2000,718,1995,783,1986"/>
+<area shape="poly" title=" " alt="" coords="940,1920,924,1912,899,1909,879,1911,865,1916,857,1923,853,1931,848,1929,852,1919,862,1911,878,1906,899,1904,926,1907,943,1916"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6e079a46148550bb63fe6ff5249f2989" name="a6e079a46148550bb63fe6ff5249f2989"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e079a46148550bb63fe6ff5249f2989">&#9670;&#160;</a></span>invoke() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Fn, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::optional::opt::detail::invoke </td>
+          <td>(</td>
+          <td class="paramtype">Fn &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>fn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt; decltype (detail::fwd&lt;Fn&gt; (fn) (detail::fwd&lt;Args&gt; (args)...))
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>INVOKE</code> of a function object or a function pointer. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a6e079a46148550bb63fe6ff5249f2989_cgraph.png" border="0" usemap="#aa01554_a6e079a46148550bb63fe6ff5249f2989_cgraph" alt=""/></div>
+<map name="aa01554_a6e079a46148550bb63fe6ff5249f2989_cgraph" id="aa01554_a6e079a46148550bb63fe6ff5249f2989_cgraph">
+<area shape="rect" title="INVOKE of a function object or a function pointer." alt="" coords="5,20,165,60"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="629,29,789,69"/>
+<area shape="poly" title=" " alt="" coords="165,26,213,21,321,18,430,21,616,36,615,41,429,27,321,24,213,27,166,31"/>
+<area shape="rect" href="a01554.html#a5bc25abebadae33c51fef4b1338ff576" title="INVOKE of a pointer to a member function." alt="" coords="213,60,373,100"/>
+<area shape="poly" title=" " alt="" coords="166,53,200,59,199,65,165,58"/>
+<area shape="poly" title=" " alt="" coords="670,30,668,20,674,10,688,5,709,3,734,6,747,13,744,18,732,11,709,8,689,10,677,15,673,21,675,28"/>
+<area shape="poly" title=" " alt="" coords="373,71,615,54,615,59,374,77"/>
+<area shape="poly" title=" " alt="" coords="254,60,252,50,258,41,272,35,293,33,318,36,331,44,328,48,316,41,293,39,273,41,261,45,257,51,259,59"/>
+<area shape="rect" href="a01554.html#ac50c233dd99e0fa65e3082c86c9c226b" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="421,111,581,166"/>
+<area shape="poly" title=" " alt="" coords="365,97,408,110,407,115,364,103"/>
+<area shape="poly" title=" " alt="" coords="564,109,649,72,651,77,566,114"/>
+<area shape="poly" title=" " alt="" coords="460,111,461,101,468,92,482,87,501,85,525,88,538,96,536,100,523,93,501,90,483,92,471,97,466,103,466,111"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2425032f49c0a1e321a29743d8cb1e0b" name="a2425032f49c0a1e321a29743d8cb1e0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2425032f49c0a1e321a29743d8cb1e0b">&#9670;&#160;</a></span>invoke() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Member, typename Class, typename Obj&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::optional::opt::detail::invoke </td>
+          <td>(</td>
+          <td class="paramtype">Member Class::*</td>          <td class="paramname"><span class="paramname"><em>pmd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>&#160;) -&gt; typename std::enable_if&lt;
+    !std::is_function&lt;Member&gt;::value,
+    decltype (detail::member_target&lt;Class&gt; (detail::fwd&lt;Obj&gt; (obj))
+              .*pmd)&gt;::type
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>INVOKE</code> of a pointer to a data member. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a2425032f49c0a1e321a29743d8cb1e0b_cgraph.png" border="0" usemap="#aa01554_a2425032f49c0a1e321a29743d8cb1e0b_cgraph" alt=""/></div>
+<map name="aa01554_a2425032f49c0a1e321a29743d8cb1e0b_cgraph" id="aa01554_a2425032f49c0a1e321a29743d8cb1e0b_cgraph">
+<area shape="rect" title="INVOKE of a pointer to a data member." alt="" coords="5,60,165,100"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="629,29,789,69"/>
+<area shape="poly" title=" " alt="" coords="119,58,163,37,213,21,266,13,320,8,429,7,531,16,617,28,616,33,530,21,429,13,321,13,267,18,214,27,165,42,122,62"/>
+<area shape="rect" href="a01554.html#a5bc25abebadae33c51fef4b1338ff576" title="INVOKE of a pointer to a member function." alt="" coords="213,60,373,100"/>
+<area shape="poly" title=" " alt="" coords="166,77,200,77,200,83,166,83"/>
+<area shape="rect" href="a01554.html#ac50c233dd99e0fa65e3082c86c9c226b" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="421,111,581,166"/>
+<area shape="poly" title=" " alt="" coords="158,97,214,109,313,123,407,131,407,136,313,128,213,115,157,103"/>
+<area shape="poly" title=" " alt="" coords="670,30,668,20,674,10,688,5,709,3,734,6,747,13,744,18,732,11,709,8,689,10,677,15,673,21,675,28"/>
+<area shape="poly" title=" " alt="" coords="373,71,615,54,615,59,374,77"/>
+<area shape="poly" title=" " alt="" coords="254,60,252,50,258,41,272,35,293,33,318,36,331,44,328,48,316,41,293,39,273,41,261,45,257,51,259,59"/>
+<area shape="poly" title=" " alt="" coords="365,97,408,110,407,115,364,103"/>
+<area shape="poly" title=" " alt="" coords="564,109,649,72,651,77,566,114"/>
+<area shape="poly" title=" " alt="" coords="460,111,461,101,468,92,482,87,501,85,525,88,538,96,536,100,523,93,501,90,483,92,471,97,466,103,466,111"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5bc25abebadae33c51fef4b1338ff576" name="a5bc25abebadae33c51fef4b1338ff576"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bc25abebadae33c51fef4b1338ff576">&#9670;&#160;</a></span>invoke() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Member, typename Class, typename Obj, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto lumex::core::optional::opt::detail::invoke </td>
+          <td>(</td>
+          <td class="paramtype">Member Class::*</td>          <td class="paramname"><span class="paramname"><em>pmf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt; typename std::enable_if&lt;
+        std::is_function&lt;Member&gt;::value,
+        decltype ((detail::member_target&lt;Class&gt; (detail::fwd&lt;Obj&gt; (obj))
+                   .*pmf) (detail::fwd&lt;Args&gt; (args)...))&gt;::type
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>INVOKE</code> of a pointer to a member function. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a5bc25abebadae33c51fef4b1338ff576_cgraph.png" border="0" usemap="#aa01554_a5bc25abebadae33c51fef4b1338ff576_cgraph" alt=""/></div>
+<map name="aa01554_a5bc25abebadae33c51fef4b1338ff576_cgraph" id="aa01554_a5bc25abebadae33c51fef4b1338ff576_cgraph">
+<area shape="rect" title="INVOKE of a pointer to a member function." alt="" coords="5,29,165,69"/>
+<area shape="poly" title=" " alt="" coords="46,30,44,20,50,10,64,5,85,3,110,6,123,13,120,18,108,11,85,8,65,10,53,15,49,21,51,28"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="421,29,581,69"/>
+<area shape="poly" title=" " alt="" coords="165,32,213,27,293,23,374,27,408,30,408,36,373,32,293,28,214,32,166,38"/>
+<area shape="rect" href="a01554.html#ac50c233dd99e0fa65e3082c86c9c226b" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="213,66,373,121"/>
+<area shape="poly" title=" " alt="" coords="166,64,200,71,199,76,165,69"/>
+<area shape="poly" title=" " alt="" coords="462,30,460,20,466,10,480,5,501,3,526,6,539,13,536,18,524,11,501,8,481,10,469,15,465,21,467,28"/>
+<area shape="poly" title=" " alt="" coords="373,74,407,66,408,72,374,79"/>
+<area shape="poly" title=" " alt="" coords="252,66,253,56,260,47,274,41,293,39,317,42,330,50,328,55,315,47,293,45,275,47,263,51,258,58,258,66"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a5bc25abebadae33c51fef4b1338ff576_icgraph.png" border="0" usemap="#aa01554_a5bc25abebadae33c51fef4b1338ff576_icgraph" alt=""/></div>
+<map name="aa01554_a5bc25abebadae33c51fef4b1338ff576_icgraph" id="aa01554_a5bc25abebadae33c51fef4b1338ff576_icgraph">
+<area shape="rect" title="INVOKE of a pointer to a member function." alt="" coords="512,289,672,329"/>
+<area shape="poly" title=" " alt="" coords="631,277,617,270,592,267,570,269,557,274,552,280,554,288,549,289,547,279,553,270,569,264,592,262,619,265,633,272"/>
+<area shape="rect" href="a03407.html#a40f507affaf3bf46c0590585c03c2e27" title=" " alt="" coords="5,5,211,89"/>
+<area shape="poly" title=" " alt="" coords="582,276,568,228,545,172,510,116,488,92,463,72,434,57,403,45,338,31,272,28,211,31,211,26,272,22,338,26,404,40,436,52,465,68,492,88,514,113,549,169,573,226,588,275"/>
+<area shape="rect" href="a03407.html#af6db964415aec338326d300c1a01d9a4" title=" " alt="" coords="259,107,464,191"/>
+<area shape="poly" title=" " alt="" coords="556,282,462,212,433,193,436,189,466,208,559,278"/>
+<area shape="rect" href="a03407.html#a93ba72bd9ee3b5c2372bc315ec590ee1" title=" " alt="" coords="5,117,211,201"/>
+<area shape="poly" title=" " alt="" coords="513,287,210,194,212,189,515,282"/>
+<area shape="rect" href="a03407.html#a2681e04e72e151c8ba4314a949cf5030" title=" " alt="" coords="5,235,211,319"/>
+<area shape="poly" title=" " alt="" coords="498,305,211,286,211,281,498,300"/>
+<area shape="rect" href="a01554.html#a6e079a46148550bb63fe6ff5249f2989" title="INVOKE of a function object or a function pointer." alt="" coords="281,317,441,357"/>
+<area shape="poly" title=" " alt="" coords="499,323,442,330,441,324,498,317"/>
+<area shape="rect" href="a01554.html#a2425032f49c0a1e321a29743d8cb1e0b" title="INVOKE of a pointer to a data member." alt="" coords="281,381,441,421"/>
+<area shape="poly" title=" " alt="" coords="542,337,465,371,431,383,429,378,463,366,539,332"/>
+<area shape="rect" href="a03407.html#aa9d945c2261070ef030cbe448cef2a52" title=" " alt="" coords="5,468,211,552"/>
+<area shape="poly" title=" " alt="" coords="571,341,525,390,497,415,465,435,429,447,366,462,211,493,210,488,365,457,428,442,463,430,494,410,522,386,567,338"/>
+<area shape="rect" href="a03407.html#a65fe132109831697f977d44cb7a79034" title=" " alt="" coords="259,520,464,604"/>
+<area shape="poly" title=" " alt="" coords="573,342,526,407,466,479,418,522,415,518,462,475,522,404,569,339"/>
+<area shape="poly" title=" " alt="" coords="245,105,210,91,212,86,247,100"/>
+<area shape="poly" title=" " alt="" coords="397,96,383,88,361,85,344,87,331,92,324,98,321,107,316,105,319,95,328,87,342,82,361,80,385,83,400,92"/>
+<area shape="poly" title=" " alt="" coords="245,156,211,158,211,152,245,151"/>
+<area shape="poly" title=" " alt="" coords="267,199,193,237,190,232,265,194"/>
+<area shape="poly" title=" " alt="" coords="245,541,210,534,211,528,246,536"/>
+<area shape="poly" title=" " alt="" coords="397,510,383,502,361,499,344,500,331,505,324,512,321,520,316,519,319,509,328,501,342,495,361,493,385,497,400,505"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a481def8468f96f311ba579b656bdc84d" name="a481def8468f96f311ba579b656bdc84d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a481def8468f96f311ba579b656bdc84d">&#9670;&#160;</a></span>member_target() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Class, typename Obj&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;!<a class="el" href="a03479.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(*std::declval&lt; Obj &gt;())&gt;::type lumex::core::optional::opt::detail::member_target </td>
+          <td>(</td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The object of a pointer to member, when the first argument is a pointer-like object. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a481def8468f96f311ba579b656bdc84d_cgraph.png" border="0" usemap="#aa01554_a481def8468f96f311ba579b656bdc84d_cgraph" alt=""/></div>
+<map name="aa01554_a481def8468f96f311ba579b656bdc84d_cgraph" id="aa01554_a481def8468f96f311ba579b656bdc84d_cgraph">
+<area shape="rect" title="The object of a pointer to member, when the first argument is a pointer&#45;like object." alt="" coords="5,22,165,77"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="421,29,581,69"/>
+<area shape="poly" title=" " alt="" coords="165,32,213,27,293,23,374,27,408,30,408,36,373,32,293,28,214,32,166,38"/>
+<area shape="rect" href="a01554.html#ac50c233dd99e0fa65e3082c86c9c226b" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="213,66,373,121"/>
+<area shape="poly" title=" " alt="" coords="166,64,200,71,199,76,165,69"/>
+<area shape="poly" title=" " alt="" coords="462,30,460,20,466,10,480,5,501,3,526,6,539,13,536,18,524,11,501,8,481,10,469,15,465,21,467,28"/>
+<area shape="poly" title=" " alt="" coords="373,74,407,66,408,72,374,79"/>
+<area shape="poly" title=" " alt="" coords="252,66,253,56,260,47,274,41,293,39,317,42,330,50,328,55,315,47,293,45,275,47,263,51,258,58,258,66"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac50c233dd99e0fa65e3082c86c9c226b" name="ac50c233dd99e0fa65e3082c86c9c226b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac50c233dd99e0fa65e3082c86c9c226b">&#9670;&#160;</a></span>member_target() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Class, typename Obj&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, Obj &amp;&amp; &gt;::type lumex::core::optional::opt::detail::member_target </td>
+          <td>(</td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The object of a pointer to member, when the first argument is an object of the class (or derived from it). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_ac50c233dd99e0fa65e3082c86c9c226b_cgraph.png" border="0" usemap="#aa01554_ac50c233dd99e0fa65e3082c86c9c226b_cgraph" alt=""/></div>
+<map name="aa01554_ac50c233dd99e0fa65e3082c86c9c226b_cgraph" id="aa01554_ac50c233dd99e0fa65e3082c86c9c226b_cgraph">
+<area shape="rect" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="5,29,165,84"/>
+<area shape="poly" title=" " alt="" coords="44,29,45,19,52,10,66,5,85,3,109,6,122,14,120,18,107,11,85,8,67,10,55,15,50,21,50,29"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="213,37,373,77"/>
+<area shape="poly" title=" " alt="" coords="166,54,200,54,200,59,166,59"/>
+<area shape="poly" title=" " alt="" coords="254,37,252,27,258,18,272,12,293,10,318,13,331,20,328,25,316,18,293,15,273,17,261,22,257,28,259,36"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_ac50c233dd99e0fa65e3082c86c9c226b_icgraph.png" border="0" usemap="#aa01554_ac50c233dd99e0fa65e3082c86c9c226b_icgraph" alt=""/></div>
+<map name="aa01554_ac50c233dd99e0fa65e3082c86c9c226b_icgraph" id="aa01554_ac50c233dd99e0fa65e3082c86c9c226b_icgraph">
+<area shape="rect" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="720,170,880,225"/>
+<area shape="poly" title=" " alt="" coords="834,159,822,151,800,149,782,151,770,155,764,162,764,170,759,170,759,160,767,151,780,145,800,143,824,146,837,154"/>
+<area shape="rect" href="a01554.html#a2425032f49c0a1e321a29743d8cb1e0b" title="INVOKE of a pointer to a data member." alt="" coords="281,5,441,45"/>
+<area shape="poly" title=" " alt="" coords="726,167,604,114,463,60,428,48,429,43,465,55,606,109,728,162"/>
+<area shape="rect" href="a01554.html#a5bc25abebadae33c51fef4b1338ff576" title="INVOKE of a pointer to a member function." alt="" coords="512,177,672,217"/>
+<area shape="poly" title=" " alt="" coords="706,200,672,200,672,195,706,195"/>
+<area shape="rect" href="a01554.html#a481def8468f96f311ba579b656bdc84d" title="The object of a pointer to member, when the first argument is a pointer&#45;like object." alt="" coords="512,242,672,297"/>
+<area shape="poly" title=" " alt="" coords="709,232,672,245,670,239,707,227"/>
+<area shape="poly" title=" " alt="" coords="569,167,524,112,495,84,463,60,440,48,442,43,465,55,498,80,528,109,573,164"/>
+<area shape="poly" title=" " alt="" coords="627,166,615,159,592,156,572,158,560,163,556,169,558,176,553,178,551,168,557,158,571,153,592,151,616,154,630,161"/>
+<area shape="rect" href="a03407.html#a40f507affaf3bf46c0590585c03c2e27" title=" " alt="" coords="5,107,211,191"/>
+<area shape="poly" title=" " alt="" coords="498,186,464,181,211,159,211,153,464,176,499,180"/>
+<area shape="rect" href="a03407.html#af6db964415aec338326d300c1a01d9a4" title=" " alt="" coords="259,259,464,343"/>
+<area shape="poly" title=" " alt="" coords="529,225,513,232,448,262,446,257,511,227,527,220"/>
+<area shape="rect" href="a03407.html#a93ba72bd9ee3b5c2372bc315ec590ee1" title=" " alt="" coords="5,219,211,303"/>
+<area shape="poly" title=" " alt="" coords="498,203,384,210,259,225,211,235,210,230,258,220,383,205,498,197"/>
+<area shape="rect" href="a03407.html#a2681e04e72e151c8ba4314a949cf5030" title=" " alt="" coords="5,337,211,421"/>
+<area shape="poly" title=" " alt="" coords="518,227,514,231,502,247,496,262,493,295,488,327,480,342,466,357,437,375,406,388,340,403,273,406,211,402,211,397,273,401,339,398,404,383,434,370,462,353,476,339,483,325,488,294,491,261,498,244,510,228,515,223"/>
+<area shape="rect" href="a01554.html#a6e079a46148550bb63fe6ff5249f2989" title="INVOKE of a function object or a function pointer." alt="" coords="281,69,441,109"/>
+<area shape="poly" title=" " alt="" coords="545,173,463,130,418,112,420,107,465,126,547,168"/>
+<area shape="rect" href="a03407.html#aa9d945c2261070ef030cbe448cef2a52" title=" " alt="" coords="5,467,211,551"/>
+<area shape="poly" title=" " alt="" coords="517,228,514,231,499,254,492,276,492,321,493,343,491,366,483,389,466,411,441,431,417,444,394,450,370,452,319,452,291,454,259,461,212,476,210,471,258,456,290,449,319,447,370,446,393,444,415,439,438,427,462,407,478,386,486,365,488,343,487,321,487,275,494,251,510,228,513,224"/>
+<area shape="rect" href="a03407.html#a65fe132109831697f977d44cb7a79034" title=" " alt="" coords="259,494,464,578"/>
+<area shape="poly" title=" " alt="" coords="517,228,514,231,496,259,487,285,485,311,486,336,487,391,481,420,466,452,449,475,427,496,424,492,445,472,462,449,476,419,482,390,481,337,479,310,482,284,491,256,510,228,513,224"/>
+<area shape="poly" title=" " alt="" coords="283,254,209,209,183,194,186,189,212,204,286,250"/>
+<area shape="poly" title=" " alt="" coords="397,249,383,241,361,238,344,240,331,244,324,251,321,260,316,258,319,248,328,240,342,235,361,233,385,236,400,244"/>
+<area shape="poly" title=" " alt="" coords="245,286,210,280,211,275,246,280"/>
+<area shape="poly" title=" " alt="" coords="246,339,212,350,210,345,245,334"/>
+<area shape="poly" title=" " alt="" coords="245,526,211,523,211,518,246,521"/>
+<area shape="poly" title=" " alt="" coords="397,484,383,476,361,473,344,474,331,479,324,486,321,494,316,493,319,483,328,475,342,469,361,467,385,471,400,479"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae5b2b7d6080ebd656edfb4bc77f9de2f" name="ae5b2b7d6080ebd656edfb4bc77f9de2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5b2b7d6080ebd656edfb4bc77f9de2f">&#9670;&#160;</a></span>member_target() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Class, typename Obj&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="a03479.html">is_reference_wrapper</a>&lt; typenamestd::decay&lt; Obj &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; Class, typenamestd::decay&lt; Obj &gt;::type &gt;::value, decltype(std::declval&lt; Obj &gt;().get())&gt;::type lumex::core::optional::opt::detail::member_target </td>
+          <td>(</td>
+          <td class="paramtype">Obj &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The object of a pointer to member, when the first argument is a <code>std::reference_wrapper</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_ae5b2b7d6080ebd656edfb4bc77f9de2f_cgraph.png" border="0" usemap="#aa01554_ae5b2b7d6080ebd656edfb4bc77f9de2f_cgraph" alt=""/></div>
+<map name="aa01554_ae5b2b7d6080ebd656edfb4bc77f9de2f_cgraph" id="aa01554_ae5b2b7d6080ebd656edfb4bc77f9de2f_cgraph">
+<area shape="rect" title="The object of a pointer to member, when the first argument is a std::reference_wrapper." alt="" coords="5,29,165,84"/>
+<area shape="rect" href="a01554.html#ac50c233dd99e0fa65e3082c86c9c226b" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="213,29,373,84"/>
+<area shape="poly" title=" " alt="" coords="166,54,200,54,200,59,166,59"/>
+<area shape="poly" title=" " alt="" coords="252,29,253,19,260,10,274,5,293,3,317,6,330,14,328,18,315,11,293,8,275,10,263,15,258,21,258,29"/>
+<area shape="rect" href="a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="421,37,581,77"/>
+<area shape="poly" title=" " alt="" coords="374,54,408,54,408,59,374,59"/>
+<area shape="poly" title=" " alt="" coords="462,37,460,27,466,18,480,12,501,10,526,13,539,20,536,25,524,18,501,15,481,17,469,22,465,28,467,36"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad9d8ef4b7c161c6d9f3b76e79f498671" name="ad9d8ef4b7c161c6d9f3b76e79f498671"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9d8ef4b7c161c6d9f3b76e79f498671">&#9670;&#160;</a></span>mv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::remove_reference&lt; T &gt;::type &amp;&amp; lumex::core::optional::opt::detail::mv </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>t</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t)</code>: <code>std::move</code> is not <code>constexpr</code> in C++11. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_ad9d8ef4b7c161c6d9f3b76e79f498671_cgraph.png" border="0" usemap="#aa01554_ad9d8ef4b7c161c6d9f3b76e79f498671_cgraph" alt=""/></div>
+<map name="aa01554_ad9d8ef4b7c161c6d9f3b76e79f498671_cgraph" id="aa01554_ad9d8ef4b7c161c6d9f3b76e79f498671_cgraph">
+<area shape="rect" title="static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t): std::move is not constexpr in C++11." alt="" coords="5,29,165,69"/>
+<area shape="poly" title=" " alt="" coords="55,29,53,20,58,11,69,5,85,3,104,6,114,13,111,17,102,11,85,8,71,10,62,14,59,21,60,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_ad9d8ef4b7c161c6d9f3b76e79f498671_icgraph.png" border="0" usemap="#aa01554_ad9d8ef4b7c161c6d9f3b76e79f498671_icgraph" alt=""/></div>
+<map name="aa01554_ad9d8ef4b7c161c6d9f3b76e79f498671_icgraph" id="aa01554_ad9d8ef4b7c161c6d9f3b76e79f498671_icgraph">
+<area shape="rect" title="static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t): std::move is not constexpr in C++11." alt="" coords="291,157,451,197"/>
+<area shape="poly" title=" " alt="" coords="412,145,398,138,371,135,347,137,333,142,327,148,330,156,325,157,322,147,330,138,346,132,371,130,399,133,415,140"/>
+<area shape="rect" href="a03627.html#aacffdca717045c04e546d4f86849a8cf" title="[optional.assign]/8: as the copy assignment, with moves. other keeps its (moved&#45;from) value." alt="" coords="5,5,243,60"/>
+<area shape="poly" title=" " alt="" coords="340,149,295,110,241,74,218,63,220,58,244,69,298,106,343,145"/>
+<area shape="rect" href="a03407.html#aed8aafe41bce885dd17fa99fa9f13c9c" title=" " alt="" coords="21,84,227,168"/>
+<area shape="poly" title=" " alt="" coords="277,160,227,150,228,145,278,155"/>
+<area shape="rect" href="a03587.html#a36cd86f3b18503234ffbe745b93e94dc" title=" " alt="" coords="37,193,211,262"/>
+<area shape="poly" title=" " alt="" coords="278,198,212,212,211,207,277,193"/>
+<area shape="rect" href="a03407.html#a0e5860fd06ce04691a7d78215b20e552" title=" " alt="" coords="21,287,227,371"/>
+<area shape="poly" title=" " alt="" coords="339,208,295,242,244,276,221,289,219,284,241,272,291,238,335,204"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a97bb07d234b056ff0d820f562d7ae2d9" name="a97bb07d234b056ff0d820f562d7ae2d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97bb07d234b056ff0d820f562d7ae2d9">&#9670;&#160;</a></span>throw_bad_optional_access()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,7 +1096,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">lumex::applied::json::schema::LumexJsonSchemaTraverser::LumexJsonSchemaTraverser </td>
+          <td class="memname">void lumex::core::optional::opt::detail::throw_bad_optional_access </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -158,133 +1104,118 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Throws <code><a class="el" href="a03683.html" title="Exception thrown when attempting to access the value of an empty optional.">lumex_bad_optional_access</a></code>; a function, so that the <code>constexpr</code> observers of C++11 can name it in a conditional expression. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a97bb07d234b056ff0d820f562d7ae2d9_cgraph.png" border="0" usemap="#aa01554_a97bb07d234b056ff0d820f562d7ae2d9_cgraph" alt=""/></div>
+<map name="aa01554_a97bb07d234b056ff0d820f562d7ae2d9_cgraph" id="aa01554_a97bb07d234b056ff0d820f562d7ae2d9_cgraph">
+<area shape="rect" title="Throws lumex_bad_optional_access; a function, so that the constexpr observers of C++11 can name it in..." alt="" coords="5,29,169,84"/>
+<area shape="poly" title=" " alt="" coords="55,29,55,19,61,11,72,5,87,3,106,6,117,13,113,18,104,11,87,8,73,10,64,14,60,21,60,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01554_a97bb07d234b056ff0d820f562d7ae2d9_icgraph.png" border="0" usemap="#aa01554_a97bb07d234b056ff0d820f562d7ae2d9_icgraph" alt=""/></div>
+<map name="aa01554_a97bb07d234b056ff0d820f562d7ae2d9_icgraph" id="aa01554_a97bb07d234b056ff0d820f562d7ae2d9_icgraph">
+<area shape="rect" title="Throws lumex_bad_optional_access; a function, so that the constexpr observers of C++11 can name it in..." alt="" coords="512,601,676,656"/>
+<area shape="poly" title=" " alt="" coords="633,590,619,583,594,580,573,582,560,587,554,593,554,601,549,601,549,591,557,582,572,577,594,575,620,578,635,586"/>
+<area shape="rect" href="a03407.html#a8779f0f5dfd9e00e61ae19e487c3284e" title=" " alt="" coords="259,437,464,521"/>
+<area shape="poly" title=" " alt="" coords="538,596,426,524,428,519,541,592"/>
+<area shape="rect" href="a03407.html#a453c3df14e12bbc6e48dd3cf433e4811" title=" " alt="" coords="5,545,211,629"/>
+<area shape="poly" title=" " alt="" coords="498,623,211,599,211,593,498,618"/>
+<area shape="rect" href="a03407.html#a388ced5dc307698216a600b097a43f60" title=" " alt="" coords="5,653,211,737"/>
+<area shape="poly" title=" " alt="" coords="498,644,211,684,210,679,498,639"/>
+<area shape="rect" href="a03407.html#a622a487fc33345a9ae1d8dbfc9fc3b80" title=" " alt="" coords="5,761,211,845"/>
+<area shape="poly" title=" " alt="" coords="513,663,465,682,212,771,210,766,463,677,511,659"/>
+<area shape="poly" title=" " alt="" coords="398,427,384,419,361,416,343,418,331,422,323,429,320,438,315,436,319,426,328,418,342,413,361,411,385,414,400,422"/>
+<area shape="rect" href="a03407.html#af8d23f1ca21980e17bc232853c2b0efc" title=" " alt="" coords="5,437,211,521"/>
+<area shape="poly" title=" " alt="" coords="245,482,211,482,211,477,245,477"/>
+<area shape="rect" href="a03407.html#aaf9e2bc33bede65a4c5b2b65de1cc5a8" title=" " alt="" coords="5,5,211,89"/>
+<area shape="poly" title=" " alt="" coords="349,425,333,354,305,269,264,181,238,140,209,102,197,91,201,87,213,99,243,137,269,179,310,267,338,352,355,423"/>
+<area shape="rect" href="a03407.html#aea80b10f6a4fbb84deff6a7b314a0220" title=" " alt="" coords="5,113,211,197"/>
+<area shape="poly" title=" " alt="" coords="339,425,318,375,289,319,253,262,209,211,196,200,199,196,213,207,257,258,294,316,323,373,344,423"/>
+<area shape="rect" href="a03407.html#a0ec9779f7e2f8f9a93b1dd7aac6cdd6c" title=" " alt="" coords="5,221,211,305"/>
+<area shape="poly" title=" " alt="" coords="318,428,269,372,209,319,193,308,196,303,212,315,272,369,322,425"/>
+<area shape="rect" href="a03407.html#a3c8d79ecfec1d028d4c56d2052c45404" title=" " alt="" coords="5,329,211,413"/>
+<area shape="poly" title=" " alt="" coords="249,434,206,416,208,411,251,429"/>
+<area shape="poly" title=" " alt="" coords="251,529,208,548,206,543,249,524"/>
+<area shape="poly" title=" " alt="" coords="322,534,272,589,212,643,194,655,191,651,209,639,268,585,318,530"/>
+<area shape="poly" title=" " alt="" coords="344,535,322,585,293,642,257,699,213,751,198,763,194,759,209,747,252,696,289,639,318,583,339,533"/>
+</map>
+</div>
+
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad28937f6b24e177cf6da3fc42900d00a" name="ad28937f6b24e177cf6da3fc42900d00a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad28937f6b24e177cf6da3fc42900d00a">&#9670;&#160;</a></span>parse()</h2>
+<a id="a3ebf297c5727c955b66997cc5db2918a" name="a3ebf297c5727c955b66997cc5db2918a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ebf297c5727c955b66997cc5db2918a">&#9670;&#160;</a></span>voidify()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static nlohmann::json lumex::applied::json::schema::LumexJsonSchemaTraverser::parse </td>
+          <td class="memname">void * lumex::core::optional::opt::detail::voidify </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>raw</em></span></td><td>)</td>
+          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>object</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Parses raw text into a document. </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="a01550.html" title="Carries the failure reason, the JSON path of the offending value ($.items[2].name) and a human-readab...">LumexJsonSchemaException</a></td><td>With <code>parse_error</code> and path <code>$</code> when the text is not valid JSON (an empty view included). </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>The address of <code>object</code> as a <code>void *</code>, also for a <code>const</code> object. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01554_ad28937f6b24e177cf6da3fc42900d00a_cgraph.png" border="0" usemap="#aa01554_ad28937f6b24e177cf6da3fc42900d00a_cgraph" alt=""/></div>
+<div class="center"><img src="a01554_a3ebf297c5727c955b66997cc5db2918a_cgraph.png" border="0" usemap="#aa01554_a3ebf297c5727c955b66997cc5db2918a_cgraph" alt=""/></div>
+<map name="aa01554_a3ebf297c5727c955b66997cc5db2918a_cgraph" id="aa01554_a3ebf297c5727c955b66997cc5db2918a_cgraph">
+<area shape="rect" title="The address of object as a void *, also for a const object." alt="" coords="5,29,165,69"/>
+<area shape="poly" title=" " alt="" coords="45,30,43,20,49,10,64,5,85,3,110,6,124,13,121,18,109,11,85,8,65,10,53,15,48,21,50,28"/>
+<area shape="rect" href="a01554.html#ae2accfaa04f297a6e4c12a36448e19ef" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11." alt="" coords="213,29,388,69"/>
+<area shape="poly" title=" " alt="" coords="166,47,200,47,200,52,166,52"/>
+<area shape="poly" title=" " alt="" coords="261,30,258,20,265,10,279,5,301,3,326,6,339,13,337,18,324,11,301,8,280,10,268,15,263,21,266,28"/>
+</map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01554_ad28937f6b24e177cf6da3fc42900d00a_icgraph.png" border="0" usemap="#aa01554_ad28937f6b24e177cf6da3fc42900d00a_icgraph" alt=""/></div>
+<div class="center"><img src="a01554_a3ebf297c5727c955b66997cc5db2918a_icgraph.png" border="0" usemap="#aa01554_a3ebf297c5727c955b66997cc5db2918a_icgraph" alt=""/></div>
+<map name="aa01554_a3ebf297c5727c955b66997cc5db2918a_icgraph" id="aa01554_a3ebf297c5727c955b66997cc5db2918a_icgraph">
+<area shape="rect" title="The address of object as a void *, also for a const object." alt="" coords="492,53,652,93"/>
+<area shape="poly" title=" " alt="" coords="609,41,596,34,572,31,551,33,538,38,534,44,536,52,531,53,529,43,535,34,550,28,572,26,598,29,612,36"/>
+<area shape="rect" href="a01554.html#a2d4cf60aacd9a54ae35907dc79d7a005" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="260,53,444,93"/>
+<area shape="poly" title=" " alt="" coords="478,75,444,75,444,70,478,70"/>
+<area shape="poly" title=" " alt="" coords="389,41,376,34,352,31,331,33,318,38,314,44,316,52,311,53,309,43,315,34,330,28,352,26,378,29,392,36"/>
+<area shape="rect" href="a03547.html#ab533b5304b0d2c0211f379f48f03e9f9" title="Starts the value&#39;s life with args...; the flag is set last, so a throwing constructor leaves the obje..." alt="" coords="16,5,201,60"/>
+<area shape="poly" title=" " alt="" coords="246,58,201,51,202,45,247,53"/>
+<area shape="rect" href="a03551.html#a980d708c48acedf4965cba31d51c383a" title=" " alt="" coords="5,84,212,139"/>
+<area shape="poly" title=" " alt="" coords="247,92,213,97,212,92,246,87"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="a1933c607554e5bae08d9a21ea3396cab" name="a1933c607554e5bae08d9a21ea3396cab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1933c607554e5bae08d9a21ea3396cab">&#9670;&#160;</a></span>run()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static nlohmann::json lumex::applied::json::schema::LumexJsonSchemaTraverser::run </td>
-          <td>(</td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>schema</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33">LumexJsonSchemaCheckMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="a01269.html#a84e9d1e17c0e59587c9cf90e57fa7e33a138e9c1992a292764c05a30ee690b107">LumexJsonSchemaCheckMode::validate_and_normalize</a></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;$&quot;</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Walks <code>input</code> against <code>schema</code>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">schema</td><td>The schema tree itself (<code>type</code>, <code>properties</code>, ...), not an envelope around it. </td></tr>
-    <tr><td class="paramname">input</td><td>The parsed document. </td></tr>
-    <tr><td class="paramname">mode</td><td>Whether to build the normalized result. </td></tr>
-    <tr><td class="paramname">path</td><td>JSON path of <code>input</code>, used in exception messages. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The normalized document for <code>validate_and_normalize</code>, <code>null</code> for <code>validate_only</code>. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="a01550.html" title="Carries the failure reason, the JSON path of the offending value ($.items[2].name) and a human-readab...">LumexJsonSchemaException</a></td><td>On the first violation. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01554_a1933c607554e5bae08d9a21ea3396cab_cgraph.png" border="0" usemap="#aa01554_a1933c607554e5bae08d9a21ea3396cab_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01554_a1933c607554e5bae08d9a21ea3396cab_icgraph.png" border="0" usemap="#aa01554_a1933c607554e5bae08d9a21ea3396cab_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="a00113_source.html">LumexJsonSchemaTraverser.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01263.html">json</a></li><li class="navelem"><a class="el" href="a01269.html">schema</a></li><li class="navelem"><a class="el" href="a01554.html">LumexJsonSchemaTraverser</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01552.html">optional</a></li><li class="navelem"><a class="el" href="a01553.html">opt</a></li><li class="navelem"><a class="el" href="a01554.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

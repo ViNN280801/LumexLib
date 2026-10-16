@@ -1,4 +1,4 @@
 var a00977 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00977.html#a07486181f1990291c2a348de8eb4c480", null ]
+    [ "lumex::core::string::text::join", "a01568.html#a663cd429e2385f582c3ea2fe311bc9ba", null ]
 ];

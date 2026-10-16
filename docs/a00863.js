@@ -1,7 +1,14 @@
 var a00863 =
 [
-    [ "example::cursor", "a04922.html", "a04922" ],
-    [ "lumex::core::span::view::is_contiguous_iterator< example::cursor >", "a04926.html", null ],
-    [ "cursor", "a06435.html", "a06435" ],
-    [ "main", "a00863.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
+    [ "LUMEX_SAFE_CALL", "a00863.html#a03ec1ac9d020fd4f7b12362a94f204e9", null ],
+    [ "LUMEX_SAFE_CALL_LAMBDA_MSG", "a00863.html#a1ed36355e2c324c794ddd802ade7d549", null ],
+    [ "LUMEX_SAFE_CALL_MSG", "a00863.html#a261fa5b1604d900afd08ec4e0bebacb8", null ],
+    [ "lumex::core::exceptions::Wrapper::safe_call_report_fn", "a01522.html#a44e9e9da5b97d168978390c418a62b3f", null ],
+    [ "lumex::core::exceptions::Wrapper::exception_wrapper", "a01522.html#afb06f391d20856dda70f63c9b3e13037", null ],
+    [ "lumex::core::exceptions::Wrapper::get_safe_call_reporter", "a01522.html#a0e00681207c6fe8355e6416db22d6ee8", null ],
+    [ "lumex::core::exceptions::Wrapper::detail::report_exception", "a01524.html#a6731c24b90644c9b4b94c4c81af602dd", null ],
+    [ "lumex::core::exceptions::Wrapper::detail::report_line", "a01524.html#ab7031ff23205b8e8d31fb72ed3744806", null ],
+    [ "lumex::core::exceptions::Wrapper::set_safe_call_reporter", "a01522.html#a71d9df48ad62f6a5f94220cd14b5f70c", null ],
+    [ "lumex::core::exceptions::Wrapper::detail::write_to_stderr", "a01524.html#a92da48ec00b5194131e081ffabbbed57", null ],
+    [ "lumex::core::exceptions::Wrapper::detail::write_to_stderr", "a01524.html#a730010fd0f524d97727a82bb42f2ddd3", null ]
 ];

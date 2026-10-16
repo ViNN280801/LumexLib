@@ -1,0 +1,14 @@
+<map id="lumex::core::fmt::Detail::iso_week" name="lumex::core::fmt::Detail::iso_week">
+<area shape="rect" id="Node000001" title="ISO 8601 week&#45;based year and week number." alt="" coords="5,35,183,75"/>
+<area shape="rect" id="Node000002" href="$a01541.html#abf8a964b73ead1cec0f493a86c4b9fab" title="Fills the date part of time from days since 1970&#45;01&#45;01." alt="" coords="231,63,408,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,63,218,67,217,73,183,68"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a365347e3849bfaedcfb56627e1ee586e" title="Days since 1970&#45;01&#45;01 of a civil date." alt="" coords="456,5,633,45"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="183,46,442,29,442,35,183,52"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="397,60,452,46,454,51,399,65"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a8a3611c453003762e23f73cdf331d06a" title="value / divisor rounded toward negative infinity." alt="" coords="681,63,859,103"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="408,80,667,80,667,85,408,85"/>
+<area shape="rect" id="Node000005" href="$a01541.html#ae8c7658b63539d3879a215371302723c" title="value mod divisor in [0, divisor) for a positive divisor." alt="" coords="456,120,633,160"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="399,100,454,114,452,119,397,105"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="624,43,679,57,678,62,623,48"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="623,117,678,103,679,109,624,123"/>
+</map>

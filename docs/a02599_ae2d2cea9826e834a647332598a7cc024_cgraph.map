@@ -1,0 +1,10 @@
+<map id="lumex::core::environment::env::lumex_environment::is_environment_variable_truthy" name="lumex::core::environment::env::lumex_environment::is_environment_variable_truthy">
+<area shape="rect" id="Node000001" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="5,57,243,112"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="291,57,512,112"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,82,277,82,277,87,243,87"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="560,5,761,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="512,60,546,53,547,58,513,65"/>
+<area shape="rect" id="Node000004" href="$a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="565,108,757,163"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="513,104,552,111,551,117,512,109"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="610,108,611,98,620,89,636,83,661,81,690,84,706,92,704,97,688,90,661,87,637,89,622,93,616,100,616,108"/>
+</map>

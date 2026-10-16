@@ -1,11 +1,18 @@
 var a01481 =
 [
-    [ "ValueType", "a01481.html#aa9a62769e1c9bda0174c115d5e71468c", null ],
-    [ "kCatalogCheck", "a01481.html#a4c9d014d1de4636954f2d7be2bfe3c6a", null ],
-    [ "kInit", "a01481.html#ab1425e92b59c14d5859289226a9581d2", null ],
-    [ "kPoly", "a01481.html#ab8f9be52c2043394c36b36fa4cf65eb5", null ],
-    [ "kRefIn", "a01481.html#adf5c4e8a2a3bc143b0a1b274ca48ec86", null ],
-    [ "kRefOut", "a01481.html#aac66f1a056f94df96af9fefc815ce3d9", null ],
-    [ "kWidth", "a01481.html#a00f3438213b6f7946dfbe49b271fe253", null ],
-    [ "kXorOut", "a01481.html#acc831b2f9970549f027c4809a2188575", null ]
+    [ "Constants", "a01483.html", [
+      [ "constINI_FILE_EXTENSION", "a01483.html#aa18449bc96f7bd5804e8447c03120e80", null ],
+      [ "constREGEX_KEY_VALUE", "a01483.html#ac95d67b8609bff0d7abb6c11ee2fcce7", null ],
+      [ "constREGEX_SECTION", "a01483.html#a009497e5f5d3e4d3c76320b3234ea36d", null ],
+      [ "UTF8_BOM_0", "a01483.html#adf3415d3845c4ea235f627a3df924205", null ],
+      [ "UTF8_BOM_1", "a01483.html#a2f8ea731325aad3daa70bac3b24be9ee", null ],
+      [ "UTF8_BOM_2", "a01483.html#aeb9d88a513b1206987f43f086ca6bdf3", null ],
+      [ "UTF8_BOM_SIZE", "a01483.html#a59643899f141f82cbd7f2f5e44178a9b", null ]
+    ] ],
+    [ "LumexSettingsINI", "a01907.html", "a01907" ],
+    [ "SupportedConfigExtensions", "a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222", [
+      [ "INI", "a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43", null ],
+      [ "XML", "a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa", null ],
+      [ "JSON", "a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e", null ]
+    ] ]
 ];

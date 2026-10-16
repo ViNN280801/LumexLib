@@ -1,11 +1,16 @@
 var a01545 =
 [
-    [ "ValueType", "a01545.html#af026754036fee0c43067e6bca963f626", null ],
-    [ "kCatalogCheck", "a01545.html#a87e91471f0523dbe8cbe2d743a371e40", null ],
-    [ "kInit", "a01545.html#a6a278163931bcd155050d2fb7018a89e", null ],
-    [ "kPoly", "a01545.html#a706a47fe096998e01c9033285b7c02fb", null ],
-    [ "kRefIn", "a01545.html#ae2f04502ab1b296250be46ebe0c71a6b", null ],
-    [ "kRefOut", "a01545.html#a75cfb146a2bca3bfe62ffc67c9bb7f68", null ],
-    [ "kWidth", "a01545.html#a9801b7f9e5dabf09e8cfbf2e1aa82727", null ],
-    [ "kXorOut", "a01545.html#a6ce81d8726b647e0912aaff03614c15b", null ]
+    [ "base_pair", "a03243.html", "a03243" ],
+    [ "deleter_storage", "a03231.html", "a03231" ],
+    [ "deleter_storage< D, true >", "a03235.html", "a03235" ],
+    [ "holder_access", "a03311.html", "a03311" ],
+    [ "is_final_class", "a03227.html", "a03227" ],
+    [ "make_void", "a03239.html", "a03239" ],
+    [ "node_base", "a03223.html", "a03223" ],
+    [ "protectable_base", "a03247.html", "a03247" ],
+    [ "protectable_base< T, true >", "a03251.html", "a03251" ],
+    [ "protectable_impl", "a03255.html", "a03255" ],
+    [ "base_of_probe", "a01545.html#ad1723f153b1668a5b639e74a168ea7b1", null ],
+    [ "protectable_probe", "a01545.html#a7381e2c77b78d528b935bf76c9ad5eda", null ],
+    [ "protectable_probe", "a01545.html#a5f21c406cdccab59f13bd1802e4f0abc", null ]
 ];

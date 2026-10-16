@@ -1,0 +1,9 @@
+<map id="lumex::applied::resource_monitor::process::detail::linux_name_matches" name="lumex::applied::resource_monitor::process::detail::linux_name_matches">
+<area shape="rect" id="Node000001" title="The Linux name rule: does a process named name match the requested name?" alt="" coords="5,84,188,139"/>
+<area shape="rect" id="Node000002" href="$a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="236,5,423,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,81,235,62,236,67,179,86"/>
+<area shape="rect" id="Node000003" href="$a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="236,84,423,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,109,223,109,223,114,188,114"/>
+<area shape="rect" id="Node000004" href="$a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title="The view of min(n, size() &#45; pos) characters from pos." alt="" coords="236,163,423,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="179,136,236,156,235,161,177,141"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="lumex::core::expected::result::make_expected" name="lumex::core::expected::result::make_expected">
+<area shape="rect" id="Node000001" title="Creates a successful expected&lt;T, ErrorType&gt; from a value." alt="" coords="5,29,184,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="54,30,51,20,58,10,72,5,95,3,120,6,134,13,132,18,119,11,95,8,74,10,61,15,56,21,59,28"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="232,29,399,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,47,218,47,218,52,184,52"/>
+</map>

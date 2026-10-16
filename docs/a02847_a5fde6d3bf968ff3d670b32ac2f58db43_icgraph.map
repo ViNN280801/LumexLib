@@ -1,0 +1,15 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::swap_value_with_error" name="lumex::core::expected::result::detail::storage::expected_storage::swap_value_with_error">
+<area shape="rect" id="Node000001" title="this is a success and rhs holds an error, for expected&lt;void, / E&gt;: [expected.void...." alt="" coords="509,141,697,211"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="641,131,627,123,603,120,584,122,571,127,564,133,562,142,557,141,559,131,568,122,583,117,603,115,629,118,644,126"/>
+<area shape="rect" id="Node000002" href="$a02847.html#adbaff536eceb3a3476f0a5ac8ad0a39c" title="Exchanges the contents with another storage: Table 72 of [expected.object.swap] and Table 73 of [expe..." alt="" coords="273,48,461,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="502,139,454,120,456,115,504,134"/>
+<area shape="rect" id="Node000005" href="$a02847.html#a72a1de0013e47660e134becd66c6d942" title="this holds a value, rhs an error, and E is nothrow move constructible: park the error,..." alt="" coords="273,141,461,211"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="495,179,461,179,461,173,495,173"/>
+<area shape="rect" id="Node000006" href="$a02847.html#aaf5a4bd0f1572b0a5e2b5bd8c35f8adf" title="As above, but E may throw when moved: park the value instead." alt="" coords="273,235,461,304"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="504,218,456,237,454,232,502,213"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="405,37,391,30,367,27,348,28,335,33,328,40,326,48,321,47,323,37,332,29,347,23,367,21,393,24,408,33"/>
+<area shape="rect" id="Node000003" href="$a02699.html#a86eadcd8e2cd6155467872091154caad" title=" " alt="" coords="5,5,225,75"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="259,67,225,61,226,56,260,62"/>
+<area shape="rect" id="Node000004" href="$a02919.html#ac9dba62643741c913b1bf147871ac44d" title="Exchanges contents with another expected&lt;void, ErrorType&gt;." alt="" coords="24,99,207,154"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="260,104,207,113,206,108,259,99"/>
+</map>

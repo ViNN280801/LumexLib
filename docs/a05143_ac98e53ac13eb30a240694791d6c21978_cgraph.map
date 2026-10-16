@@ -1,0 +1,13 @@
+<map id="lumex::xml::node::XmlNode::attribute" name="lumex::xml::node::XmlNode::attribute">
+<area shape="rect" id="Node000001" title="Finds an attribute by name, optimizing search with a hint." alt="" coords="5,133,209,173"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="257,5,461,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,131,188,93,256,55,273,48,275,53,259,60,191,97,136,135"/>
+<area shape="rect" id="Node000003" href="$a05115.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb" title="Retrieves the raw internal XmlAttributeBase pointer wrapped by this XmlAttribute object." alt="" coords="279,69,439,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,131,267,110,268,115,187,136"/>
+<area shape="rect" id="Node000004" href="$a01671.html#a2ba3bf150e471b2392f8a8ba5d48a749" title=" " alt="" coords="288,133,431,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="209,151,275,151,275,156,209,156"/>
+<area shape="rect" id="Node000005" href="$a05115.html#ac1708ba37008b5b32435fd3706d74f02" title="Sets the internal XmlAttributeBase pointer for this XmlAttribute object." alt="" coords="279,197,439,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="187,171,268,191,267,197,186,176"/>
+<area shape="rect" id="Node000006" href="$a01671.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="288,261,431,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="136,171,191,209,259,247,276,254,274,259,256,252,188,214,133,176"/>
+</map>

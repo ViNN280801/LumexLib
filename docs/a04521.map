@@ -1,0 +1,7 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::is_order_between&lt; Predicate, Value, Projected, traits::meta::void_t&lt; decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Projected &gt;(), std::declval&lt; Value const &amp; &gt;())), decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Value const &amp; &gt;(), std::declval&lt; Projected &gt;()))&gt; &gt;" name="lumex::core::utility::ranges::Algorithm::Detail::is_order_between&lt; Predicate, Value, Projected, traits::meta::void_t&lt; decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Projected &gt;(), std::declval&lt; Value const &amp; &gt;())), decltype(std::declval&lt; Predicate &amp; &gt;()(std::declval&lt; Value const &amp; &gt;(), std::declval&lt; Projected &gt;()))&gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="321,5,692,163"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="80,13,199,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,34,321,52,321,57,212,40"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,63,273,220"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,116,321,110,322,116,287,121"/>
+</map>

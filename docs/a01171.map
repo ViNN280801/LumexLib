@@ -1,0 +1,13 @@
+<map id="LumexSerialPort.hpp" name="LumexSerialPort.hpp">
+<area shape="rect" id="Node000001" title="Resolves short, configuration&#45;style serial&#45;port names into the platform&#45;specific path or identifier a..." alt="" coords="271,5,428,31"/>
+<area shape="rect" id="Node000002" href="$a01346.html" title="Serial port module: lists serial ports with device details, turns a configuration&#45;style port name int..." alt="" coords="118,79,247,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="309,39,213,81,211,76,307,34"/>
+<area shape="rect" id="Node000005" href="$a01166.html" title=" " alt="" coords="271,79,427,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="352,44,352,78,347,78,347,44"/>
+<area shape="rect" id="Node000006" href="$a01199.html" title=" " alt="" coords="451,79,690,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="402,33,533,76,531,81,400,38"/>
+<area shape="rect" id="Node000003" href="$a00305.html" title=" " alt="" coords="5,152,155,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="155,114,100,154,96,150,152,110"/>
+<area shape="rect" id="Node000004" href="$a00308.html" title=" " alt="" coords="179,152,394,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="213,110,270,150,267,154,210,114"/>
+</map>

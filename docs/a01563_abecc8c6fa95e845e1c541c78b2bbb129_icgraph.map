@@ -1,0 +1,15 @@
+<map id="lumex::core::smart_ptr::detail::check_std_enable_shared_from_this" name="lumex::core::smart_ptr::detail::check_std_enable_shared_from_this">
+<area shape="rect" id="Node000001" title="Rejects, with a static_assert, a class that derives from std::enable_shared_from_this and not from th..." alt="" coords="551,94,771,149"/>
+<area shape="rect" id="Node000002" href="$a01562.html#ac243d4e88836c3a0895003c2c3fb6e9f" title="Creates a T constructed from args in one allocation made with a copy of alloc." alt="" coords="323,5,481,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="583,91,502,60,467,48,469,43,504,55,584,86"/>
+<area shape="rect" id="Node000005" href="$a03863.html#a333e6195e552a1569667f52ca12b0455" title="Takes ownership of p; the object is deleted with delete (delete[] for an array type)." alt="" coords="301,69,503,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="537,109,503,104,503,99,538,103"/>
+<area shape="rect" id="Node000006" href="$a03863.html#a244948b00c0c25bd96f353510185b856" title=" " alt="" coords="301,133,503,173"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="538,139,503,143,503,138,537,134"/>
+<area shape="rect" id="Node000007" href="$a03863.html#a91478eda83c5e572f6b83910ce4d7a6a" title="As above, with an allocator for the control block." alt="" coords="301,197,503,237"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="584,156,504,188,469,200,467,195,502,183,583,151"/>
+<area shape="rect" id="Node000003" href="$a01562.html#af5f9b825794c24606e999e4108a2a9bd" title="Creates a T constructed from args in one allocation." alt="" coords="108,5,253,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="308,28,253,28,253,23,308,23"/>
+<area shape="rect" id="Node000004" href="$a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>

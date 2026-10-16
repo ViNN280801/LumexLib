@@ -1,0 +1,13 @@
+<map id="lumex::xml::xpath::string::XPathString::append" name="lumex::xml::xpath::string::XPathString::append">
+<area shape="rect" id="Node000001" title="Appends another XPathString to this string." alt="" coords="5,84,155,139"/>
+<area shape="rect" id="Node000002" href="$a05323.html#abe39a62ae0c73e945db3063fc32f7095" title="Returns the length of the string (number of characters)." alt="" coords="217,5,367,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,81,204,62,206,67,155,86"/>
+<area shape="rect" id="Node000004" href="$a05259.html#aa2549a11a0984f0c478cb7eaf82c0caa" title="Reallocates a previously allocated block of memory." alt="" coords="203,84,381,139"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="155,109,189,109,189,114,155,114"/>
+<area shape="rect" id="Node000006" href="$a05323.html#a28203eb92f116963c49bb3e5860c254e" title="Default constructor. Constructs an empty XPathString." alt="" coords="217,163,367,217"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="155,136,206,155,204,160,153,141"/>
+<area shape="rect" id="Node000003" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="447,13,590,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="367,30,434,30,434,35,367,35"/>
+<area shape="rect" id="Node000005" href="$a05259.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52" title="Allocates a block of memory of the specified size." alt="" coords="429,84,608,139"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="382,109,415,109,415,114,382,114"/>
+</map>

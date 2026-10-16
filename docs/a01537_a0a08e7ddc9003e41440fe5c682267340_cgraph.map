@@ -1,0 +1,18 @@
+<map id="lumex::core::filesystem::fs::sanitize_name" name="lumex::core::filesystem::fs::sanitize_name">
+<area shape="rect" id="Node000001" title="Filters name, replacing invalid characters with &#39;_&#39; (noexcept wrapper)" alt="" coords="5,125,180,165"/>
+<area shape="poly" id="edge11_Node000001_Node000001" title=" " alt="" coords="51,126,49,116,55,106,70,101,93,99,119,102,133,109,130,114,117,107,93,104,71,106,59,111,54,117,56,124"/>
+<area shape="rect" id="Node000002" href="$a01537.html#a72b0ecb08a98bd86964e3ef4f84af743" title="Checks if a file or directory name is valid." alt="" coords="228,125,403,165"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,143,214,143,214,148,180,148"/>
+<area shape="rect" id="Node000004" href="$a01538.html#a91cd3a30484a7ae2ca526d8809579acb" title=" " alt="" coords="470,29,647,69"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="132,123,177,103,227,87,345,64,456,52,457,57,346,69,229,92,179,108,134,128"/>
+<area shape="rect" id="Node000005" href="$a01538.html#a3244ed9dd864a653698dc515f12beed2" title=" " alt="" coords="451,221,667,261"/>
+<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="175,163,229,175,438,216,437,222,227,180,174,168"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="274,126,271,116,278,106,293,101,315,99,341,102,355,109,353,114,340,107,315,104,294,106,281,111,277,117,279,124"/>
+<area shape="rect" id="Node000003" href="$a01538.html#a75f931473dff95752bbf968f5fe0fac7" title=" " alt="" coords="471,118,646,173"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="403,143,457,143,457,148,403,148"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="353,123,450,79,472,71,474,76,452,84,355,128"/>
+<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="367,163,496,214,494,219,365,168"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="511,118,512,108,520,99,536,93,559,91,586,94,602,102,599,107,585,100,559,97,537,99,523,103,517,110,517,118"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="513,30,511,20,518,10,534,5,559,3,587,6,602,13,600,18,585,11,559,8,535,10,521,15,516,21,519,28"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="513,222,511,212,518,202,534,197,559,195,587,198,602,205,600,210,585,203,559,200,535,202,521,207,516,213,519,220"/>
+</map>

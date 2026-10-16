@@ -1,0 +1,17 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::is_writable" name="lumex::core::filesystem::fs::lumex_filesystem::is_writable">
+<area shape="rect" id="Node000001" title="Overload of is_writable that accepts a std::string path_arg." alt="" coords="5,111,180,166"/>
+<area shape="rect" id="Node000002" href="$a02967.html#abb3dd60af7fc9ce36757396d06988938" title="Check if a file is writable by the current process." alt="" coords="228,111,403,166"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,136,214,136,214,141,180,141"/>
+<area shape="poly" id="edge6_Node000002_Node000002" title=" " alt="" coords="272,111,272,101,280,92,294,87,315,85,340,88,355,96,352,100,339,93,315,90,296,92,283,97,277,103,277,111"/>
+<area shape="rect" id="Node000003" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="673,23,848,63"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="335,110,383,61,415,38,450,20,508,6,568,3,627,8,679,17,678,22,626,13,568,8,509,11,452,25,418,42,387,65,339,113"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a00f75a949bda6f52adc1e19318d74e68" title="Checks if a file or directory exists at the specified path." alt="" coords="451,59,625,114"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="402,116,437,108,438,113,403,121"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a861a96cb2ff50243832db3b15d3d41ac" title="Returns the status of the file or directory at the specified path_arg, following symbolic links." alt="" coords="451,162,625,217"/>
+<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="403,156,438,164,437,169,402,161"/>
+<area shape="rect" id="Node000006" href="$a02939.html#a804f0603877d3f4b1c02d3aab7a14150" title="Retrieves the encapsulated value (const version)." alt="" coords="451,241,625,295"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="355,164,452,226,464,232,462,237,449,230,352,168"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="625,67,659,60,660,65,626,72"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="495,59,495,49,503,40,517,35,538,33,563,36,577,44,575,48,561,41,538,38,518,40,506,45,500,51,500,59"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="495,162,495,152,503,143,517,137,538,135,563,139,577,147,575,151,561,144,538,141,518,143,506,147,500,154,500,162"/>
+</map>

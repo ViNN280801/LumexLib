@@ -1,0 +1,9 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::Detail::box_t&lt; Pointer &gt;" name="lumex::core::atomic::smart_ptr::table_wait::Detail::box_t&lt; Pointer &gt;">
+<area shape="rect" id="Node000001" title="One published value of the lock&#45;free engine: a retire node and an immutable smart pointer." alt="" coords="529,34,719,89"/>
+<area shape="rect" id="Node000002" href="$a03219.html" title=" " alt="" coords="252,34,481,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="495,59,529,59,529,64,495,64"/>
+<area shape="rect" id="Node000003" href="$a03223.html" title=" " alt="" coords="5,5,204,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="218,38,252,43,252,48,217,43"/>
+<area shape="rect" id="Node000004" href="$a03231.html" title=" " alt="" coords="17,70,192,125"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="206,81,251,74,252,80,206,86"/>
+</map>

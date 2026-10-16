@@ -1,0 +1,9 @@
+<map id="lumex::applied::serial::enumeration::enumerate_serial_ports_detailed" name="lumex::applied::serial::enumeration::enumerate_serial_ports_detailed">
+<area shape="rect" id="Node000001" title="Enumerate serial ports with full serial_port_info_t records." alt="" coords="5,84,197,139"/>
+<area shape="rect" id="Node000002" href="$a01465.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="256,5,433,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,81,246,62,248,67,187,86"/>
+<area shape="rect" id="Node000003" href="$a01465.html#aeda0fc72f871cf1ddc177f5c172131ea" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="245,84,444,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="198,109,232,109,232,114,198,114"/>
+<area shape="rect" id="Node000004" href="$a01465.html#a2baec958c3eebd588ab9cbc9bccd7e5f" title="Maps an open outcome to the enumeration state." alt="" coords="249,163,441,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="187,136,248,156,246,161,185,141"/>
+</map>

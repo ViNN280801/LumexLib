@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::writer Namespace Reference</title>
+<title>LumexLib: lumex::core::contracts Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,32 +104,547 @@ $(function(){initNavTree('a01509.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::writer Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::contracts Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01510.html">detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05026.html">IXmlWriter</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base interface for writing XML data to various destinations.  <a href="a05026.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02123.html">contract_violation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What a violation handler is told about a violated contract assertion.  <a href="a02123.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05030.html">XmlBufferedWriter</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A buffered writer for XML output, optimizing write operations by accumulating data in a buffer.  <a href="a05030.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02107.html">scoped_violation_handler</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs a handler for the lifetime of the object and restores the previous one on destruction.  <a href="a02107.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05038.html">XmlWriterFile</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <code><a class="el" href="a05026.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a file.  <a href="a05038.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02111.html">source_location</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">File, function, line and column of a place in the program text.  <a href="a02111.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05042.html">XmlWriterStream</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <code><a class="el" href="a05026.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a C++ standard output stream.  <a href="a05042.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ad25306a44644788864d3dd25cfc74aab" id="r_ad25306a44644788864d3dd25cfc74aab"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a> = void (*) (<a class="el" href="a02123.html">contract_violation</a> const &amp;)</td></tr>
+<tr class="memdesc:ad25306a44644788864d3dd25cfc74aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a contract-violation handler.  <br /></td></tr>
+<tr class="separator:ad25306a44644788864d3dd25cfc74aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a01015ca72292d19e5d6459a895eb465a" id="r_a01015ca72292d19e5d6459a895eb465a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01015ca72292d19e5d6459a895eb465a">assertion_kind</a> : int { <a class="el" href="#a01015ca72292d19e5d6459a895eb465aa6bf9e70a1f928aba143ef1eebe2720b5">pre</a> = 1
+, <a class="el" href="#a01015ca72292d19e5d6459a895eb465aa42b90196b487c54069097a68fe98ab6f">post</a> = 2
+, <a class="el" href="#a01015ca72292d19e5d6459a895eb465aae44e4612f62d2fb8f8738bab118a9850">assert</a> = 3
+ }</td></tr>
+<tr class="memdesc:a01015ca72292d19e5d6459a895eb465a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The syntactic form of the violated contract assertion.  <a href="#a01015ca72292d19e5d6459a895eb465a">More...</a><br /></td></tr>
+<tr class="separator:a01015ca72292d19e5d6459a895eb465a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9476a589ca9ee4a8f3d3bf4f75332c9" id="r_af9476a589ca9ee4a8f3d3bf4f75332c9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9">evaluation_semantic</a> : int { <a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9a567bc1d268f135496de3d5b946b691f3">ignore</a> = 1
+, <a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9a1b65e84b7aa724b3f34c7dede00d439c">observe</a> = 2
+, <a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9a99c25911a5c787824b7a197b11b9fcfe">enforce</a> = 3
+, <a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9a604afef3e15b4988c3b42323d0709cc3">quick_enforce</a> = 4
+ }</td></tr>
+<tr class="memdesc:af9476a589ca9ee4a8f3d3bf4f75332c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">How a contract assertion was evaluated.  <a href="#af9476a589ca9ee4a8f3d3bf4f75332c9">More...</a><br /></td></tr>
+<tr class="separator:af9476a589ca9ee4a8f3d3bf4f75332c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac047405c9b47d7fbca89a44b3e927978" id="r_ac047405c9b47d7fbca89a44b3e927978"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac047405c9b47d7fbca89a44b3e927978">detection_mode</a> : int { <a class="el" href="#ac047405c9b47d7fbca89a44b3e927978af746fe6b70eef78ccdaaecbc6b70e990">predicate_false</a> = 1
+, <a class="el" href="#ac047405c9b47d7fbca89a44b3e927978a4c297ee40bb7b83a93ff4b399746f2b7">evaluation_exception</a> = 2
+ }</td></tr>
+<tr class="memdesc:ac047405c9b47d7fbca89a44b3e927978"><td class="mdescLeft">&#160;</td><td class="mdescRight">How a violation was found.  <a href="#ac047405c9b47d7fbca89a44b3e927978">More...</a><br /></td></tr>
+<tr class="separator:ac047405c9b47d7fbca89a44b3e927978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a01aa812e0ede22650e6bdd49096491c0" id="r_a01aa812e0ede22650e6bdd49096491c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01aa812e0ede22650e6bdd49096491c0">set_violation_handler</a> (<a class="el" href="#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a> handler) noexcept</td></tr>
+<tr class="memdesc:a01aa812e0ede22650e6bdd49096491c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs <code>handler</code> and returns the previously installed one.  <br /></td></tr>
+<tr class="separator:a01aa812e0ede22650e6bdd49096491c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade50b99b2cb4adeb1040fe00fc4b3036" id="r_ade50b99b2cb4adeb1040fe00fc4b3036"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade50b99b2cb4adeb1040fe00fc4b3036">get_violation_handler</a> () noexcept</td></tr>
+<tr class="memdesc:ade50b99b2cb4adeb1040fe00fc4b3036"><td class="mdescLeft">&#160;</td><td class="mdescRight">The installed handler, <code>nullptr</code> when the default handler is in use.  <br /></td></tr>
+<tr class="separator:ade50b99b2cb4adeb1040fe00fc4b3036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff0af939d63bcfe05648c2bb8d1b9c87" id="r_aff0af939d63bcfe05648c2bb8d1b9c87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff0af939d63bcfe05648c2bb8d1b9c87">invoke_violation_handler</a> (<a class="el" href="a02123.html">contract_violation</a> const &amp;violation)</td></tr>
+<tr class="memdesc:aff0af939d63bcfe05648c2bb8d1b9c87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports <code>violation</code> to the installed handler, or to the default handler when none is installed (or when this thread is already inside a handler).  <br /></td></tr>
+<tr class="separator:aff0af939d63bcfe05648c2bb8d1b9c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b050992206d89033462d7c9b7eb8c78" id="r_a9b050992206d89033462d7c9b7eb8c78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b050992206d89033462d7c9b7eb8c78">invoke_default_violation_handler</a> (<a class="el" href="a02123.html">contract_violation</a> const &amp;violation) noexcept</td></tr>
+<tr class="memdesc:a9b050992206d89033462d7c9b7eb8c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default handler: writes one line about <code>violation</code> to standard error and returns.  <br /></td></tr>
+<tr class="separator:a9b050992206d89033462d7c9b7eb8c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a247400ce4aad3c5074547001c49e3c86" id="r_a247400ce4aad3c5074547001c49e3c86"><td class="memItemLeft" align="right" valign="top">constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a247400ce4aad3c5074547001c49e3c86">to_string</a> (<a class="el" href="#a01015ca72292d19e5d6459a895eb465a">assertion_kind</a> kind) noexcept</td></tr>
+<tr class="memdesc:a247400ce4aad3c5074547001c49e3c86"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enumerator name of <code>kind</code>; <code>"unknown"</code> for a stray value.  <br /></td></tr>
+<tr class="separator:a247400ce4aad3c5074547001c49e3c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51ca6e07b30b59187a6732ea9ef97821" id="r_a51ca6e07b30b59187a6732ea9ef97821"><td class="memItemLeft" align="right" valign="top">constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51ca6e07b30b59187a6732ea9ef97821">to_string</a> (<a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9">evaluation_semantic</a> semantic) noexcept</td></tr>
+<tr class="memdesc:a51ca6e07b30b59187a6732ea9ef97821"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enumerator name of <code>semantic</code>; <code>"unknown"</code> for a stray value.  <br /></td></tr>
+<tr class="separator:a51ca6e07b30b59187a6732ea9ef97821"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38455c9ce7d5b96975d872f34173a497" id="r_a38455c9ce7d5b96975d872f34173a497"><td class="memItemLeft" align="right" valign="top">constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38455c9ce7d5b96975d872f34173a497">to_string</a> (<a class="el" href="#ac047405c9b47d7fbca89a44b3e927978">detection_mode</a> mode) noexcept</td></tr>
+<tr class="memdesc:a38455c9ce7d5b96975d872f34173a497"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enumerator name of <code>mode</code>; <code>"unknown"</code> for a stray value.  <br /></td></tr>
+<tr class="separator:a38455c9ce7d5b96975d872f34173a497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23efd16b97d23ef8be46e99c69d9496b" id="r_a23efd16b97d23ef8be46e99c69d9496b"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23efd16b97d23ef8be46e99c69d9496b">is_terminating</a> (<a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9">evaluation_semantic</a> semantic) noexcept</td></tr>
+<tr class="memdesc:a23efd16b97d23ef8be46e99c69d9496b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code>semantic</code> ends the program after the violation handler returns ([basic.contract.eval]: enforce and quick-enforce are the terminating semantics).  <br /></td></tr>
+<tr class="separator:a23efd16b97d23ef8be46e99c69d9496b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ad25306a44644788864d3dd25cfc74aab" name="ad25306a44644788864d3dd25cfc74aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad25306a44644788864d3dd25cfc74aab">&#9670;&#160;</a></span>violation_handler_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ad25306a44644788864d3dd25cfc74aab">lumex::core::contracts::violation_handler_type</a> = void (*) (<a class="el" href="a02123.html">contract_violation</a> const &amp;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of a contract-violation handler. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a01015ca72292d19e5d6459a895eb465a" name="a01015ca72292d19e5d6459a895eb465a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01015ca72292d19e5d6459a895eb465a">&#9670;&#160;</a></span>assertion_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a01015ca72292d19e5d6459a895eb465a">lumex::core::contracts::assertion_kind</a> : int</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The syntactic form of the violated contract assertion. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a01015ca72292d19e5d6459a895eb465aa6bf9e70a1f928aba143ef1eebe2720b5" name="a01015ca72292d19e5d6459a895eb465aa6bf9e70a1f928aba143ef1eebe2720b5"></a>pre&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a01015ca72292d19e5d6459a895eb465aa42b90196b487c54069097a68fe98ab6f" name="a01015ca72292d19e5d6459a895eb465aa42b90196b487c54069097a68fe98ab6f"></a>post&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a01015ca72292d19e5d6459a895eb465aae44e4612f62d2fb8f8738bab118a9850" name="a01015ca72292d19e5d6459a895eb465aae44e4612f62d2fb8f8738bab118a9850"></a>assert&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="ac047405c9b47d7fbca89a44b3e927978" name="ac047405c9b47d7fbca89a44b3e927978"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac047405c9b47d7fbca89a44b3e927978">&#9670;&#160;</a></span>detection_mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ac047405c9b47d7fbca89a44b3e927978">lumex::core::contracts::detection_mode</a> : int</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>How a violation was found. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac047405c9b47d7fbca89a44b3e927978af746fe6b70eef78ccdaaecbc6b70e990" name="ac047405c9b47d7fbca89a44b3e927978af746fe6b70eef78ccdaaecbc6b70e990"></a>predicate_false&#160;</td><td class="fielddoc"><p>The predicate evaluated to false. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac047405c9b47d7fbca89a44b3e927978a4c297ee40bb7b83a93ff4b399746f2b7" name="ac047405c9b47d7fbca89a44b3e927978a4c297ee40bb7b83a93ff4b399746f2b7"></a>evaluation_exception&#160;</td><td class="fielddoc"><p>The evaluation of the predicate exited by an exception. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="af9476a589ca9ee4a8f3d3bf4f75332c9" name="af9476a589ca9ee4a8f3d3bf4f75332c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9476a589ca9ee4a8f3d3bf4f75332c9">&#9670;&#160;</a></span>evaluation_semantic</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9">lumex::core::contracts::evaluation_semantic</a> : int</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>How a contract assertion was evaluated. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af9476a589ca9ee4a8f3d3bf4f75332c9a567bc1d268f135496de3d5b946b691f3" name="af9476a589ca9ee4a8f3d3bf4f75332c9a567bc1d268f135496de3d5b946b691f3"></a>ignore&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af9476a589ca9ee4a8f3d3bf4f75332c9a1b65e84b7aa724b3f34c7dede00d439c" name="af9476a589ca9ee4a8f3d3bf4f75332c9a1b65e84b7aa724b3f34c7dede00d439c"></a>observe&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af9476a589ca9ee4a8f3d3bf4f75332c9a99c25911a5c787824b7a197b11b9fcfe" name="af9476a589ca9ee4a8f3d3bf4f75332c9a99c25911a5c787824b7a197b11b9fcfe"></a>enforce&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af9476a589ca9ee4a8f3d3bf4f75332c9a604afef3e15b4988c3b42323d0709cc3" name="af9476a589ca9ee4a8f3d3bf4f75332c9a604afef3e15b4988c3b42323d0709cc3"></a>quick_enforce&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ade50b99b2cb4adeb1040fe00fc4b3036" name="ade50b99b2cb4adeb1040fe00fc4b3036"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade50b99b2cb4adeb1040fe00fc4b3036">&#9670;&#160;</a></span>get_violation_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a> lumex::core::contracts::get_violation_handler </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The installed handler, <code>nullptr</code> when the default handler is in use. </p>
+<dl class="section note"><dt>Note</dt><dd>Thread-safe. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01509_ade50b99b2cb4adeb1040fe00fc4b3036_icgraph.png" border="0" usemap="#aa01509_ade50b99b2cb4adeb1040fe00fc4b3036_icgraph" alt=""/></div>
+<map name="aa01509_ade50b99b2cb4adeb1040fe00fc4b3036_icgraph" id="aa01509_ade50b99b2cb4adeb1040fe00fc4b3036_icgraph">
+<area shape="rect" title="The installed handler, nullptr when the default handler is in use." alt="" coords="108,5,279,45"/>
+<area shape="rect" href="a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9b050992206d89033462d7c9b7eb8c78" name="a9b050992206d89033462d7c9b7eb8c78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b050992206d89033462d7c9b7eb8c78">&#9670;&#160;</a></span>invoke_default_violation_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::contracts::invoke_default_violation_handler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02123.html">contract_violation</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>violation</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The default handler: writes one line about <code>violation</code> to standard error and returns. </p>
+<p>Named after <code>std::contracts::invoke_default_contract_violation_handler</code> ([support.contract.invoke]); a user handler can call it to add to the default report. Does not allocate, does not throw. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01509_a9b050992206d89033462d7c9b7eb8c78_cgraph.png" border="0" usemap="#aa01509_a9b050992206d89033462d7c9b7eb8c78_cgraph" alt=""/></div>
+<map name="aa01509_a9b050992206d89033462d7c9b7eb8c78_cgraph" id="aa01509_a9b050992206d89033462d7c9b7eb8c78_cgraph">
+<area shape="rect" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="5,126,196,181"/>
+<area shape="rect" href="a02111.html#afded073cef13c26cf4770505404f7fa3" title="The column; 0 when unknown." alt="" coords="269,5,457,45"/>
+<area shape="poly" title=" " alt="" coords="133,124,183,88,243,55,261,47,263,52,245,60,186,93,136,128"/>
+<area shape="rect" href="a02111.html#a94bb11107320de43ffd8218ee84f5a0e" title="The file name; never null." alt="" coords="261,69,465,109"/>
+<area shape="poly" title=" " alt="" coords="196,127,267,110,268,115,197,133"/>
+<area shape="rect" href="a02111.html#a67099ea89fd04d8b6533ab6232b310c5" title="The function name; never null." alt="" coords="244,133,481,173"/>
+<area shape="poly" title=" " alt="" coords="196,151,230,151,230,156,196,156"/>
+<area shape="rect" href="a02111.html#a32a7de5a3c08143dc13c818fcba2bfae" title="The line; 0 when unknown." alt="" coords="279,197,446,237"/>
+<area shape="poly" title=" " alt="" coords="197,174,268,191,267,197,196,179"/>
+<area shape="rect" href="a01509.html#a247400ce4aad3c5074547001c49e3c86" title="The enumerator name of kind; &quot;unknown&quot; for a stray value." alt="" coords="279,261,446,301"/>
+<area shape="poly" title=" " alt="" coords="136,179,186,214,245,247,267,256,265,261,243,252,183,219,133,183"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01509_a9b050992206d89033462d7c9b7eb8c78_icgraph.png" border="0" usemap="#aa01509_a9b050992206d89033462d7c9b7eb8c78_icgraph" alt=""/></div>
+<map name="aa01509_a9b050992206d89033462d7c9b7eb8c78_icgraph" id="aa01509_a9b050992206d89033462d7c9b7eb8c78_icgraph">
+<area shape="rect" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="496,59,687,114"/>
+<area shape="rect" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,37,448,77"/>
+<area shape="poly" title=" " alt="" coords="482,76,448,72,449,67,483,71"/>
+<area shape="rect" href="a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="323,102,378,127"/>
+<area shape="poly" title=" " alt="" coords="483,102,379,114,378,109,482,97"/>
+<area shape="rect" href="a02095.html#ace41f89e39c053ae9e4935b8e7b3acc3" title="enforce: the handler runs, then the program is aborted." alt="" coords="7,5,204,45"/>
+<area shape="poly" title=" " alt="" coords="239,46,204,41,205,36,240,40"/>
+<area shape="rect" href="a02091.html#aab54f7f089e730f7d04344425c9d05f4" title="observe: the handler runs, the program continues." alt="" coords="5,69,205,109"/>
+<area shape="poly" title=" " alt="" coords="240,74,206,79,205,74,239,69"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aff0af939d63bcfe05648c2bb8d1b9c87" name="aff0af939d63bcfe05648c2bb8d1b9c87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff0af939d63bcfe05648c2bb8d1b9c87">&#9670;&#160;</a></span>invoke_violation_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::contracts::invoke_violation_handler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02123.html">contract_violation</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>violation</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reports <code>violation</code> to the installed handler, or to the default handler when none is installed (or when this thread is already inside a handler). </p>
+<p>This is what the semantics <code>observe</code> and <code>enforce</code> call; it can be called directly to report a violation that a program found by other means. </p><dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Whatever</td><td>the installed handler throws. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01509_aff0af939d63bcfe05648c2bb8d1b9c87_cgraph.png" border="0" usemap="#aa01509_aff0af939d63bcfe05648c2bb8d1b9c87_cgraph" alt=""/></div>
+<map name="aa01509_aff0af939d63bcfe05648c2bb8d1b9c87_cgraph" id="aa01509_aff0af939d63bcfe05648c2bb8d1b9c87_cgraph">
+<area shape="rect" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="5,133,200,173"/>
+<area shape="rect" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="248,126,439,181"/>
+<area shape="poly" title=" " alt="" coords="200,151,235,151,235,156,200,156"/>
+<area shape="rect" href="a02111.html#afded073cef13c26cf4770505404f7fa3" title="The column; 0 when unknown." alt="" coords="511,5,699,45"/>
+<area shape="poly" title=" " alt="" coords="376,124,426,88,486,55,504,47,506,52,488,60,429,93,379,128"/>
+<area shape="rect" href="a02111.html#a94bb11107320de43ffd8218ee84f5a0e" title="The file name; never null." alt="" coords="503,69,707,109"/>
+<area shape="poly" title=" " alt="" coords="438,127,509,110,511,115,440,133"/>
+<area shape="rect" href="a02111.html#a67099ea89fd04d8b6533ab6232b310c5" title="The function name; never null." alt="" coords="487,133,724,173"/>
+<area shape="poly" title=" " alt="" coords="439,151,473,151,473,156,439,156"/>
+<area shape="rect" href="a02111.html#a32a7de5a3c08143dc13c818fcba2bfae" title="The line; 0 when unknown." alt="" coords="522,197,689,237"/>
+<area shape="poly" title=" " alt="" coords="440,174,511,191,509,197,438,179"/>
+<area shape="rect" href="a01509.html#a247400ce4aad3c5074547001c49e3c86" title="The enumerator name of kind; &quot;unknown&quot; for a stray value." alt="" coords="522,261,689,301"/>
+<area shape="poly" title=" " alt="" coords="379,179,429,214,488,247,510,256,508,261,486,252,426,219,376,183"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01509_aff0af939d63bcfe05648c2bb8d1b9c87_icgraph.png" border="0" usemap="#aa01509_aff0af939d63bcfe05648c2bb8d1b9c87_icgraph" alt=""/></div>
+<map name="aa01509_aff0af939d63bcfe05648c2bb8d1b9c87_icgraph" id="aa01509_aff0af939d63bcfe05648c2bb8d1b9c87_icgraph">
+<area shape="rect" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,37,448,77"/>
+<area shape="rect" href="a02095.html#ace41f89e39c053ae9e4935b8e7b3acc3" title="enforce: the handler runs, then the program is aborted." alt="" coords="7,5,204,45"/>
+<area shape="poly" title=" " alt="" coords="239,46,204,41,205,36,240,40"/>
+<area shape="rect" href="a02091.html#aab54f7f089e730f7d04344425c9d05f4" title="observe: the handler runs, the program continues." alt="" coords="5,69,205,109"/>
+<area shape="poly" title=" " alt="" coords="240,74,206,79,205,74,239,69"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a23efd16b97d23ef8be46e99c69d9496b" name="a23efd16b97d23ef8be46e99c69d9496b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23efd16b97d23ef8be46e99c69d9496b">&#9670;&#160;</a></span>is_terminating()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::contracts::is_terminating </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9">evaluation_semantic</a></td>          <td class="paramname"><span class="paramname"><em>semantic</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether <code>semantic</code> ends the program after the violation handler returns ([basic.contract.eval]: enforce and quick-enforce are the terminating semantics). </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01509_a23efd16b97d23ef8be46e99c69d9496b_icgraph.png" border="0" usemap="#aa01509_a23efd16b97d23ef8be46e99c69d9496b_icgraph" alt=""/></div>
+<map name="aa01509_a23efd16b97d23ef8be46e99c69d9496b_icgraph" id="aa01509_a23efd16b97d23ef8be46e99c69d9496b_icgraph">
+<area shape="rect" title="Whether semantic ends the program after the violation handler returns ([basic.contract...." alt="" coords="220,13,387,53"/>
+<area shape="rect" href="a02123.html#a170c091976028d382bb418d4b4990343" title="Whether the evaluation semantic terminates the program." alt="" coords="5,5,172,60"/>
+<area shape="poly" title=" " alt="" coords="206,35,172,35,172,30,206,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a01aa812e0ede22650e6bdd49096491c0" name="a01aa812e0ede22650e6bdd49096491c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01aa812e0ede22650e6bdd49096491c0">&#9670;&#160;</a></span>set_violation_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a> lumex::core::contracts::set_violation_handler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a></td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Installs <code>handler</code> and returns the previously installed one. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handler</td><td>The new handler; <code>nullptr</code> selects the default handler. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The previous handler, <code>nullptr</code> when the default one was in use. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Thread-safe. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01509_a01aa812e0ede22650e6bdd49096491c0_icgraph.png" border="0" usemap="#aa01509_a01aa812e0ede22650e6bdd49096491c0_icgraph" alt=""/></div>
+<map name="aa01509_a01aa812e0ede22650e6bdd49096491c0_icgraph" id="aa01509_a01aa812e0ede22650e6bdd49096491c0_icgraph">
+<area shape="rect" title="Installs handler and returns the previously installed one." alt="" coords="504,62,675,102"/>
+<area shape="rect" href="a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="325,5,380,31"/>
+<area shape="poly" title=" " alt="" coords="512,61,455,45,380,27,381,21,457,39,513,55"/>
+<area shape="rect" href="a02107.html#a7f67743813a1ace343c34dc927165b94" title="Installs handler (nullptr: the default handler)." alt="" coords="255,55,451,109"/>
+<area shape="poly" title=" " alt="" coords="490,85,451,85,451,79,490,79"/>
+<area shape="rect" href="a02107.html#aa104f9f84c9748d65976976f02e2be7d" title=" " alt="" coords="249,133,456,188"/>
+<area shape="poly" title=" " alt="" coords="517,109,436,136,434,131,515,104"/>
+<area shape="rect" href="a02107.html#a5f7baa68cd34770c9d424608d354a17c" title=" " alt="" coords="5,16,201,71"/>
+<area shape="poly" title=" " alt="" coords="241,67,201,61,202,56,242,62"/>
+<area shape="rect" href="a02107.html#abf980567a658f30bc40ca4f5c7cd3c3c" title=" " alt="" coords="5,95,201,149"/>
+<area shape="poly" title=" " alt="" coords="242,103,202,109,201,104,241,97"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a247400ce4aad3c5074547001c49e3c86" name="a247400ce4aad3c5074547001c49e3c86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a247400ce4aad3c5074547001c49e3c86">&#9670;&#160;</a></span>to_string() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const  * lumex::core::contracts::to_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a01015ca72292d19e5d6459a895eb465a">assertion_kind</a></td>          <td class="paramname"><span class="paramname"><em>kind</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The enumerator name of <code>kind</code>; <code>"unknown"</code> for a stray value. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01509_a247400ce4aad3c5074547001c49e3c86_icgraph.png" border="0" usemap="#aa01509_a247400ce4aad3c5074547001c49e3c86_icgraph" alt=""/></div>
+<map name="aa01509_a247400ce4aad3c5074547001c49e3c86_icgraph" id="aa01509_a247400ce4aad3c5074547001c49e3c86_icgraph">
+<area shape="rect" title="The enumerator name of kind; &quot;unknown&quot; for a stray value." alt="" coords="735,71,901,111"/>
+<area shape="rect" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="496,30,687,85"/>
+<area shape="poly" title=" " alt="" coords="720,79,687,74,687,69,721,74"/>
+<area shape="rect" href="a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="323,106,378,131"/>
+<area shape="poly" title=" " alt="" coords="721,99,379,120,378,114,721,94"/>
+<area shape="rect" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,37,448,77"/>
+<area shape="poly" title=" " alt="" coords="482,60,448,60,448,55,482,55"/>
+<area shape="poly" title=" " alt="" coords="484,88,379,114,378,109,482,82"/>
+<area shape="rect" href="a02095.html#ace41f89e39c053ae9e4935b8e7b3acc3" title="enforce: the handler runs, then the program is aborted." alt="" coords="7,5,204,45"/>
+<area shape="poly" title=" " alt="" coords="239,46,204,41,205,36,240,40"/>
+<area shape="rect" href="a02091.html#aab54f7f089e730f7d04344425c9d05f4" title="observe: the handler runs, the program continues." alt="" coords="5,69,205,109"/>
+<area shape="poly" title=" " alt="" coords="240,74,206,79,205,74,239,69"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a38455c9ce7d5b96975d872f34173a497" name="a38455c9ce7d5b96975d872f34173a497"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38455c9ce7d5b96975d872f34173a497">&#9670;&#160;</a></span>to_string() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const  * lumex::core::contracts::to_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ac047405c9b47d7fbca89a44b3e927978">detection_mode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The enumerator name of <code>mode</code>; <code>"unknown"</code> for a stray value. </p>
+
+</div>
+</div>
+<a id="a51ca6e07b30b59187a6732ea9ef97821" name="a51ca6e07b30b59187a6732ea9ef97821"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51ca6e07b30b59187a6732ea9ef97821">&#9670;&#160;</a></span>to_string() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const  * lumex::core::contracts::to_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#af9476a589ca9ee4a8f3d3bf4f75332c9">evaluation_semantic</a></td>          <td class="paramname"><span class="paramname"><em>semantic</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The enumerator name of <code>semantic</code>; <code>"unknown"</code> for a stray value. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01492.html">xml</a></li><li class="navelem"><a class="el" href="a01509.html">writer</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01509.html">contracts</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

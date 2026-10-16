@@ -1,0 +1,26 @@
+<map id="lumex::core::environment::env::lumex_environment::get_environment_variable_or" name="lumex::core::environment::env::lumex_environment::get_environment_variable_or">
+<area shape="rect" id="Node000001" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="873,178,1095,233"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a7e295dbaae2f46319c7256b862a1cd5e" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="611,78,803,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="894,176,782,135,784,130,896,171"/>
+<area shape="rect" id="Node000007" href="$a02599.html#ac02c7b9738c63ae45eb982591086e9fc" title="Deleted move assignment operator." alt="" coords="108,214,300,269"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="878,238,826,248,683,260,540,262,408,259,300,252,300,247,408,253,540,257,683,254,825,243,877,233"/>
+<area shape="rect" id="Node000008" href="$a02599.html#ae2d2cea9826e834a647332598a7cc024" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="588,178,825,233"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="860,208,825,208,825,203,860,203"/>
+<area shape="rect" id="Node000003" href="$a01518.html#a133dac804e9421baedf88340deadad5b" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="349,5,539,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="603,77,509,48,511,43,605,71"/>
+<area shape="rect" id="Node000004" href="$a00530.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="177,70,231,95"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="597,103,231,87,232,81,597,98"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="642,141,541,190,480,207,417,220,301,236,300,231,416,215,478,202,539,186,640,137"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="347,51,232,79,231,73,346,46"/>
+<area shape="rect" id="Node000005" href="$a01582.html#ac2a95e66868e1a2cc9cc1da9676e38c8" title="Optionally gates timing/reporting via an environment variable, then measures callable and writes the ..." alt="" coords="125,5,283,45"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="335,28,283,28,283,23,335,23"/>
+<area shape="rect" id="Node000006" href="$a00509.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="111,28,60,28,60,23,111,23"/>
+<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="574,231,540,235,415,242,300,245,300,239,415,237,540,229,574,225"/>
+<area shape="rect" id="Node000009" href="$a02599.html#a912f81b65b63e21ed82800b08faf7968" title="Static convenience method to check whether an environment variable is truthy (enabled)." alt="" coords="348,121,540,175"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="574,179,540,172,541,166,575,174"/>
+<area shape="poly" id="edge11_Node000009_Node000004" title=" " alt="" coords="334,121,231,93,232,88,336,116"/>
+<area shape="poly" id="edge12_Node000009_Node000007" title=" " alt="" coords="362,183,276,216,274,211,360,178"/>
+<area shape="rect" id="Node000010" href="$a01518.html#a4773a4875c22bf328b9834b55316947e" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="109,128,299,168"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="334,151,299,151,299,145,334,145"/>
+</map>

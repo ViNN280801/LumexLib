@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::traits::meta::is_pointer_to_class&lt; T &gt;" name="lumex::core::utility::traits::meta::is_pointer_to_class&lt; T &gt;">
+<area shape="rect" id="Node000001" title="T is a pointer to a class type (the C++11 form of the concept PointerToClass). A pointer to a union,..." alt="" coords="260,20,439,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,212,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,45,260,45,260,50,226,50"/>
+</map>

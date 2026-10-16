@@ -1,0 +1,5 @@
+<map id="lumex::core::filesystem::fs::filesystem_result&lt; void &gt;::ok" name="lumex::core::filesystem::fs::filesystem_result&lt; void &gt;::ok">
+<area shape="rect" id="Node000001" title="Factory method for creating a successful filesystem_result&lt;void&gt;." alt="" coords="5,5,180,60"/>
+<area shape="rect" id="Node000002" href="$a02943.html#a45281a99e569d045b6a1bec12b14ba27" title="Default constructor. Creates a successful result with no error." alt="" coords="228,5,428,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,30,214,30,214,35,180,35"/>
+</map>

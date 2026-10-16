@@ -1,0 +1,5 @@
+<map id="lumex::xml::xpath::parser::XPathParser::alloc_node" name="lumex::xml::xpath::parser::XPathParser::alloc_node">
+<area shape="rect" id="Node000001" title="Allocates and constructs an XPathAstNode for a predicate or filter." alt="" coords="5,5,155,60"/>
+<area shape="rect" id="Node000002" href="$a05307.html#a2e8993208c5061cd25b34cb351cbfedf" title="Allocates raw memory for an XPathAstNode." alt="" coords="203,5,352,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,30,189,30,189,35,155,35"/>
+</map>

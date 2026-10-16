@@ -1,0 +1,42 @@
+<map id="LumexContracts" name="LumexContracts">
+<area shape="rect" id="Node000001" title="Contracts module: LUMEX_CONTRACT_ASSERT, the contract assertion of C++26 (P2900) from C++11 on,..." alt="" coords="630,5,758,31"/>
+<area shape="rect" id="Node000002" href="$a01001.html" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand..." alt="" coords="495,79,736,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="682,33,641,71,638,67,678,29"/>
+<area shape="rect" id="Node000005" href="$a01007.html" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="5,152,268,192"/>
+<area shape="poly" id="edge24_Node000001_Node000005" title=" " alt="" coords="649,33,223,151,221,146,647,28"/>
+<area shape="rect" id="Node000007" href="$a00998.html" title="The enumerations assertion_kind, evaluation_semantic and detection_mode, and the class contract_viola..." alt="" coords="607,240,885,280"/>
+<area shape="poly" id="edge26_Node000001_Node000007" title=" " alt="" coords="713,29,734,50,751,78,761,117,764,157,756,227,751,226,758,157,756,117,746,80,730,53,709,33"/>
+<area shape="rect" id="Node000010" href="$a01010.html" title="source_location: the place in the program text that a contract violation names, on every C++ standard..." alt="" coords="873,328,1105,383"/>
+<area shape="poly" id="edge25_Node000001_Node000010" title=" " alt="" coords="714,29,759,61,818,110,881,170,938,238,960,276,977,314,972,316,955,279,933,242,877,174,814,114,755,66,711,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="955,438,1022,463"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="712,101,815,125,872,144,929,167,985,197,1037,233,1082,276,1119,327,1129,355,1126,369,1119,384,1102,404,1081,421,1036,442,1034,437,1079,416,1099,401,1114,381,1121,367,1123,356,1114,329,1078,279,1033,237,982,202,927,172,870,149,813,130,711,107"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="292,159,357,185"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="550,107,463,127,370,155,365,156,363,151,368,149,462,122,549,101"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="540,107,269,152,269,147,540,101"/>
+<area shape="poly" id="edge20_Node000002_Node000007" title=" " alt="" coords="635,102,661,124,687,150,713,189,733,226,729,229,709,191,683,154,657,127,632,106"/>
+<area shape="poly" id="edge19_Node000002_Node000010" title=" " alt="" coords="651,102,703,123,767,153,835,192,900,238,937,276,967,315,962,318,933,279,896,242,833,196,764,158,701,128,649,107"/>
+<area shape="rect" id="Node000011" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="425,431,638,471"/>
+<area shape="poly" id="edge22_Node000002_Node000011" title=" " alt="" coords="620,104,624,144,621,193,611,218,598,241,577,284,561,329,539,418,534,416,555,327,573,282,593,239,606,215,615,191,619,144,615,105"/>
+<area shape="rect" id="Node000012" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="294,240,483,280"/>
+<area shape="poly" id="edge21_Node000002_Node000012" title=" " alt="" coords="618,105,614,147,606,172,592,194,575,206,550,218,488,239,487,234,548,213,572,202,588,190,601,170,609,146,613,104"/>
+<area shape="rect" id="Node000014" href="$a01118.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="381,152,577,192"/>
+<area shape="poly" id="edge23_Node000002_Node000014" title=" " alt="" coords="595,107,526,147,524,143,592,102"/>
+<area shape="rect" id="Node000006" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="89,247,270,273"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="149,191,170,234,165,236,144,194"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="269,188,594,235,594,241,268,194"/>
+<area shape="poly" id="edge18_Node000005_Node000011" title=" " alt="" coords="113,194,94,215,79,241,74,260,79,279,104,318,132,343,166,360,211,380,260,400,312,415,412,436,410,441,310,420,258,405,209,385,164,365,129,347,100,322,74,281,69,260,74,239,90,212,109,191"/>
+<area shape="poly" id="edge14_Node000005_Node000012" title=" " alt="" coords="195,190,319,233,317,238,194,195"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="767,278,812,326,836,355,862,381,905,408,947,430,944,435,902,413,859,385,832,359,808,330,763,282"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="569,343,661,368"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="720,282,646,336,643,332,717,278"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="737,343,797,368"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="753,280,764,329,759,330,748,281"/>
+<area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="798,278,907,321,905,325,796,283"/>
+<area shape="poly" id="edge13_Node000007_Node000011" title=" " alt="" coords="741,281,716,332,698,360,676,385,643,409,607,428,604,423,640,405,672,381,694,356,712,329,736,279"/>
+<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="991,383,991,424,986,424,986,383"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="873,382,641,431,640,425,872,377"/>
+<area shape="poly" id="edge15_Node000012_Node000008" title=" " alt="" coords="438,278,573,335,571,340,436,283"/>
+<area shape="poly" id="edge17_Node000012_Node000011" title=" " alt="" coords="295,281,257,301,241,314,228,329,221,343,218,356,220,368,228,381,255,400,300,416,354,428,411,437,411,442,353,433,298,421,253,405,224,384,215,370,213,356,216,341,224,327,238,310,255,296,293,276"/>
+<area shape="rect" id="Node000013" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="239,335,493,375"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="386,281,377,323,371,321,381,280"/>
+</map>

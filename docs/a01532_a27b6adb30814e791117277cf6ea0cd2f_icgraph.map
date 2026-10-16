@@ -1,0 +1,6 @@
+<map id="lumex::core::expected::result::make_expected" name="lumex::core::expected::result::make_expected">
+<area shape="rect" id="Node000001" title="Creates a successful expected&lt;T, ErrorType&gt; from a value." alt="" coords="232,29,411,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="360,18,346,11,321,8,300,10,286,15,282,21,284,28,279,30,276,20,283,10,298,5,321,3,348,6,362,13"/>
+<area shape="rect" id="Node000002" href="$a01532.html#aa68e692bee983ef84873cfebb5019e9e" title="Creates a successful expected&lt;void, ErrorType&gt; specialization." alt="" coords="5,29,184,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,52,184,52,184,47,218,47"/>
+</map>

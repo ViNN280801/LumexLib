@@ -1,4 +1,6 @@
 var a00896 =
 [
-    [ "main", "a00896.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
+    [ "constKDEFAULT_CRASH_REPORT_PREFIX", "a00896.html#ac4bd42b32bfac3faf47e88519393fb1a", null ],
+    [ "constKDEFAULT_CRASHES_DIR_PATH", "a00896.html#a76d3fe340fdd65a675c1306a96c4cb1b", null ],
+    [ "constKDEFAULT_MINIDUMP_PREFIX", "a00896.html#a7065c3bba0af16ad9cec4753ab8f827d", null ]
 ];

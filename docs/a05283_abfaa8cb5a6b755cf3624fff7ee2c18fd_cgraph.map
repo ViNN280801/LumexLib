@@ -1,0 +1,5 @@
+<map id="lumex::xml::xpath::node::XPathNode::XPathNode" name="lumex::xml::xpath::node::XPathNode::XPathNode">
+<area shape="rect" id="Node000001" title="Constructs an XPath node from an XML attribute and its parent." alt="" coords="5,5,217,45"/>
+<area shape="rect" id="Node000002" href="$a05283.html#aab5f8620b5100f640652c56743a21b7b" title="Gets the wrapped XmlNode if this XPathNode represents an element/document node." alt="" coords="265,5,439,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,23,252,23,252,28,218,28"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="lumex::core::optional::opt::detail::construct_at" name="lumex::core::optional::opt::detail::construct_at">
+<area shape="rect" id="Node000001" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="5,73,189,113"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="56,74,54,64,60,54,75,49,97,47,123,50,137,57,134,62,121,55,97,52,76,54,64,59,59,65,61,72"/>
+<area shape="rect" id="Node000002" href="$a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="237,29,397,69"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="189,72,223,65,224,71,190,78"/>
+<area shape="rect" id="Node000003" href="$a01554.html#a3ebf297c5727c955b66997cc5db2918a" title="The address of object as a void *, also for a const object." alt="" coords="237,117,397,157"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="190,109,224,116,223,121,189,114"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="277,30,275,20,281,10,296,5,317,3,342,6,356,13,353,18,341,11,317,8,297,10,285,15,280,21,282,28"/>
+<area shape="poly" id="edge7_Node000003_Node000003" title=" " alt="" coords="277,118,275,108,281,98,296,93,317,91,342,94,356,101,353,106,341,99,317,96,297,98,285,103,280,109,282,116"/>
+<area shape="rect" id="Node000004" href="$a01554.html#ae2accfaa04f297a6e4c12a36448e19ef" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11." alt="" coords="445,117,620,157"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="398,135,432,135,432,140,398,140"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="493,118,490,108,497,98,511,93,533,91,558,94,571,101,569,106,556,99,533,96,512,98,500,103,495,109,498,116"/>
+</map>

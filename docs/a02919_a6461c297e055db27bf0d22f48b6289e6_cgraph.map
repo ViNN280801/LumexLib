@@ -1,0 +1,14 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::emplace" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::emplace">
+<area shape="rect" id="Node000001" title="Puts the object in the success state." alt="" coords="5,26,188,81"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="699,38,889,78"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,27,236,19,352,7,443,3,535,7,651,19,716,32,715,37,650,24,534,12,443,8,353,12,236,24,189,32"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="236,34,436,74"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,51,222,51,222,56,188,56"/>
+<area shape="rect" id="Node000006" href="$a01533.html#aac3cdf6524f1c94486d6cff93fba3008" title="Ends the lifetime of the T at where: std::destroy_at for an object that is not an array." alt="" coords="241,98,431,138"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="189,76,248,92,247,97,187,81"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="484,34,651,74"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="436,51,470,51,470,56,436,56"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="484,98,651,138"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="409,71,483,92,481,97,408,76"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="643,95,704,79,706,84,644,100"/>
+</map>

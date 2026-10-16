@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::xpath::exception Namespace Reference</title>
+<title>LumexLib: LumexHazardPointerDomain.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,23 +104,106 @@ $(function(){initNavTree('a01151.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::xpath::exception Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexHazardPointerDomain.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03117.html">XPathException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception class for XPath parsing and evaluation errors.  <a href="a03117.html#details">More...</a><br /></td></tr>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;new&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;pthread.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01148_source.html">lumex/core/hazard_pointer/engine/LumexHazardPointerEngine.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexHazardPointerDomain.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01152.png" border="0" usemap="#aLumexHazardPointerDomain_8cpp" alt=""/></div>
+<map name="aLumexHazardPointerDomain_8cpp" id="aLumexHazardPointerDomain_8cpp">
+<area shape="rect" title=" " alt="" coords="436,5,672,31"/>
+<area shape="rect" title=" " alt="" coords="23,174,90,199"/>
+<area shape="poly" title=" " alt="" coords="436,28,269,47,194,62,143,81,120,98,100,120,71,163,67,160,96,116,116,94,141,76,193,57,268,42,435,23"/>
+<area shape="rect" title=" " alt="" coords="557,86,623,111"/>
+<area shape="poly" title=" " alt="" coords="562,30,581,72,576,74,557,32"/>
+<area shape="rect" title=" " alt="" coords="115,174,185,199"/>
+<area shape="poly" title=" " alt="" coords="436,32,267,54,200,67,178,74,166,81,155,98,149,119,148,161,143,161,144,118,150,96,163,77,176,69,199,62,267,48,435,27"/>
+<area shape="rect" title=" " alt="" coords="647,86,714,111"/>
+<area shape="poly" title=" " alt="" coords="576,29,650,76,647,81,573,33"/>
+<area shape="rect" title=" " alt="" coords="739,86,788,111"/>
+<area shape="poly" title=" " alt="" coords="596,28,659,49,727,76,730,77,728,82,725,81,657,54,595,33"/>
+<area shape="rect" title=" " alt="" coords="813,86,877,111"/>
+<area shape="poly" title=" " alt="" coords="620,28,707,48,801,76,806,78,805,83,800,81,706,53,619,33"/>
+<area shape="rect" title=" " alt="" coords="901,86,985,111"/>
+<area shape="poly" title=" " alt="" coords="649,28,764,48,889,76,899,79,898,84,888,81,763,53,648,33"/>
+<area shape="rect" href="a01148.html" title="The engine behind hazard_pointer: hazard slots, retired nodes, the entry points compiled into lumex::..." alt="" coords="177,79,459,119"/>
+<area shape="poly" title=" " alt="" coords="517,33,390,77,389,72,516,28"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="478,255,667,295"/>
+<area shape="poly" title=" " alt="" coords="554,31,547,79,547,123,551,166,566,241,561,242,546,167,542,123,542,78,549,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="142,343,355,383"/>
+<area shape="poly" title=" " alt="" coords="436,27,242,46,155,61,94,81,64,98,43,115,28,137,14,167,8,197,13,223,28,248,50,270,77,290,108,308,171,336,169,340,105,312,74,295,46,274,24,251,8,225,3,197,9,166,23,134,39,111,61,94,91,76,154,56,242,41,435,22"/>
+<area shape="poly" title=" " alt="" coords="248,121,103,169,98,171,96,166,101,164,246,116"/>
+<area shape="poly" title=" " alt="" coords="281,121,187,170,185,165,278,116"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="222,262,403,287"/>
+<area shape="poly" title=" " alt="" coords="313,120,302,167,302,210,308,248,303,249,296,210,297,166,308,119"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="312,167,495,207"/>
+<area shape="poly" title=" " alt="" coords="340,117,376,155,372,158,336,121"/>
+<area shape="poly" title=" " alt="" coords="300,121,252,178,229,215,212,255,209,275,212,294,228,330,224,332,207,295,204,275,207,254,225,213,248,175,295,117"/>
+<area shape="poly" title=" " alt="" coords="384,209,337,254,334,250,380,205"/>
+<area shape="poly" title=" " alt="" coords="443,204,523,246,521,251,441,209"/>
+<area shape="poly" title=" " alt="" coords="415,206,427,249,426,274,417,296,394,321,364,339,361,335,390,317,413,293,421,273,422,250,410,208"/>
+<area shape="rect" title=" " alt="" coords="691,350,783,375"/>
+<area shape="poly" title=" " alt="" coords="611,293,702,341,700,346,609,297"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="412,343,667,383"/>
+<area shape="poly" title=" " alt="" coords="567,296,554,331,549,329,562,294"/>
+<area shape="poly" title=" " alt="" coords="499,297,337,341,335,336,498,292"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01544.html">lumex::core::hazard_pointer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01546.html">lumex::core::hazard_pointer::engine</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a3d2a866e3b2b069642be2741590ed4d5" id="r_a3d2a866e3b2b069642be2741590ed4d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03287.html">slot_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01546.html#a3d2a866e3b2b069642be2741590ed4d5">lumex::core::hazard_pointer::engine::acquire_slot</a> ()</td></tr>
+<tr class="memdesc:a3d2a866e3b2b069642be2741590ed4d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a hazard slot for the calling thread.  <br /></td></tr>
+<tr class="separator:a3d2a866e3b2b069642be2741590ed4d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05ed59c81364fd53de26142343a8b795" id="r_a05ed59c81364fd53de26142343a8b795"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01546.html#a05ed59c81364fd53de26142343a8b795">lumex::core::hazard_pointer::engine::acquire_slots</a> (<a class="el" href="a03287.html">slot_t</a> **out, std::size_t count)</td></tr>
+<tr class="memdesc:a05ed59c81364fd53de26142343a8b795"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes <code>count</code> hazard slots at once, all or none.  <br /></td></tr>
+<tr class="separator:a05ed59c81364fd53de26142343a8b795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2f5479b3d0eb9819218688201bc0a6a" id="r_ac2f5479b3d0eb9819218688201bc0a6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01546.html#ac2f5479b3d0eb9819218688201bc0a6a">lumex::core::hazard_pointer::engine::release_slot</a> (<a class="el" href="a03287.html">slot_t</a> *slot) noexcept</td></tr>
+<tr class="memdesc:ac2f5479b3d0eb9819218688201bc0a6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears a slot (ending the protection) and gives it back.  <br /></td></tr>
+<tr class="separator:ac2f5479b3d0eb9819218688201bc0a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00dc8121273d3c16dd945d846cddcc26" id="r_a00dc8121273d3c16dd945d846cddcc26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01546.html#a00dc8121273d3c16dd945d846cddcc26">lumex::core::hazard_pointer::engine::retire_node</a> (<a class="el" href="a03291.html">node_t</a> *node) noexcept</td></tr>
+<tr class="memdesc:a00dc8121273d3c16dd945d846cddcc26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hands a retired object to the domain.  <br /></td></tr>
+<tr class="separator:a00dc8121273d3c16dd945d846cddcc26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa34d79801d811e8ea1a75ae4fd3376dd" id="r_aa34d79801d811e8ea1a75ae4fd3376dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01546.html#aa34d79801d811e8ea1a75ae4fd3376dd">lumex::core::hazard_pointer::engine::reclaim_or_retire</a> (<a class="el" href="a03291.html">node_t</a> *node) noexcept</td></tr>
+<tr class="memdesc:aa34d79801d811e8ea1a75ae4fd3376dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reclaims an object now when no slot names it, otherwise retires it.  <br /></td></tr>
+<tr class="separator:aa34d79801d811e8ea1a75ae4fd3376dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94bbb08d16159c30fbc6f73783601ff8" id="r_a94bbb08d16159c30fbc6f73783601ff8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01546.html#a94bbb08d16159c30fbc6f73783601ff8">lumex::core::hazard_pointer::engine::clean_up</a> () noexcept</td></tr>
+<tr class="memdesc:a94bbb08d16159c30fbc6f73783601ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a full reclamation pass now and waits for a running one.  <br /></td></tr>
+<tr class="separator:a94bbb08d16159c30fbc6f73783601ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f96ec7d1b96fe75d3ff8e28c64c4f99" id="r_a1f96ec7d1b96fe75d3ff8e28c64c4f99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03295.html">statistics_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01546.html#a1f96ec7d1b96fe75d3ff8e28c64c4f99">lumex::core::hazard_pointer::engine::statistics</a> () noexcept</td></tr>
+<tr class="memdesc:a1f96ec7d1b96fe75d3ff8e28c64c4f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the counters of the domain.  <br /></td></tr>
+<tr class="separator:a1f96ec7d1b96fe75d3ff8e28c64c4f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01126.html">xml</a></li><li class="navelem"><a class="el" href="a01135.html">xpath</a></li><li class="navelem"><a class="el" href="a01151.html">exception</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_6af0c2de0c279f8479476a3ac4c68aac.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="dir_88dae81fb9e0566807a2ed8c9028df39.html">engine</a></li><li class="navelem"><a class="el" href="a01151.html">LumexHazardPointerDomain.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

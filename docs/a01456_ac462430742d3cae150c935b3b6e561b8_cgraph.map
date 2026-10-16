@@ -1,0 +1,7 @@
+<map id="lumex::applied::resource_monitor::monitor::detail::format_pid_entry" name="lumex::applied::resource_monitor::monitor::detail::format_pid_entry">
+<area shape="rect" id="Node000001" title="The log text of a watch&#45;list item given by process ID." alt="" coords="5,30,189,85"/>
+<area shape="rect" id="Node000002" href="$a02699.html#aa8baf2b75fb05662494deaca1bcdfac5" title="Returns a mutable lvalue reference to the stored error." alt="" coords="255,5,429,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,43,241,36,241,41,190,48"/>
+<area shape="rect" id="Node000003" href="$a02699.html#a436473d493da1141580a37e3fc38f118" title="Checks whether this expected holds a success value." alt="" coords="237,69,447,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,67,224,71,223,77,189,72"/>
+</map>

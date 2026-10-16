@@ -1,0 +1,10 @@
+<map id="lumex::core::exceptions::stacktrace::detail::capture_stacktrace" name="lumex::core::exceptions::stacktrace::detail::capture_stacktrace">
+<area shape="rect" id="Node000001" title="Platform&#45;specific stacktrace capture implementation for POSIX systems." alt="" coords="525,44,704,99"/>
+<area shape="rect" id="Node000002" href="$a02623.html#a58a9eb2674e70e8bdc39f055da939803" title=" " alt="" coords="268,29,477,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="512,74,478,74,478,69,512,69"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="410,19,396,11,373,8,354,10,341,14,333,21,330,30,325,28,329,18,338,10,353,5,373,3,398,6,413,14"/>
+<area shape="rect" id="Node000003" href="$a01521.html#afa85dd4d337a507510189f9c67f4d5df" title=" " alt="" coords="5,12,220,67"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="254,59,220,55,221,50,255,54"/>
+<area shape="rect" id="Node000004" href="$a00299.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="85,91,140,116"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="254,89,141,103,140,97,254,83"/>
+</map>

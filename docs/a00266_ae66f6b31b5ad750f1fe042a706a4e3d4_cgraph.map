@@ -1,0 +1,54 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,321,60,347"/>
+<area shape="rect" id="Node000002" href="$a01562.html#aec68624b44b0af5f293afeff61878d78" title="dynamic_cast of the stored pointer: empty when the cast fails." alt="" coords="108,26,307,66"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="32,321,59,195,80,124,93,96,106,76,110,72,114,76,110,80,97,98,85,126,64,196,37,322"/>
+<area shape="rect" id="Node000003" href="$a03867.html#aa80ea56b1f696a6b1b9945f7ef77a724" title=" " alt="" coords="121,90,293,130"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="31,321,37,285,50,237,72,185,87,161,106,140,111,136,115,140,110,144,92,164,77,188,55,239,42,286,37,322"/>
+<area shape="rect" id="Node000004" href="$a01562.html#ac2864e50b7539f646b6e1f278485d428" title="Wraps a std::shared_ptr (see the file text)." alt="" coords="135,154,280,194"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="34,320,59,264,79,232,106,204,121,194,124,199,110,208,84,235,63,267,39,322"/>
+<area shape="rect" id="Node000008" href="$a01562.html#a6e3d9dcac0bec89fe26be2e26f03f67d" title="A pointer to the deleter of type D that p owns, or null." alt="" coords="135,410,280,450"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="47,345,74,371,109,396,123,402,120,407,107,400,71,375,43,349"/>
+<area shape="rect" id="Node000012" href="$a03867.html#ad5c5c5450e46d3cb763d75b5b7dbcf9e" title="An owner of the observed object, or an empty shared_ptr when it is gone." alt="" coords="132,218,283,258"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="43,319,71,293,107,268,120,261,123,266,109,272,74,297,47,323"/>
+<area shape="rect" id="Node000014" href="$a01562.html#af5f9b825794c24606e999e4108a2a9bd" title="Creates a T constructed from args in one allocation." alt="" coords="135,282,280,322"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="60,326,120,315,121,320,61,332"/>
+<area shape="rect" id="Node000018" href="$a03863.html#ae3cd13fc037c1779fd61c02a8cbf49de" title=" " alt="" coords="121,475,293,529"/>
+<area shape="poly" id="edge20_Node000001_Node000018" title=" " alt="" coords="39,346,64,400,84,432,110,460,116,465,113,469,106,464,80,435,59,403,35,348"/>
+<area shape="rect" id="Node000020" href="$a03863.html#a67f64d75c3c496cfaff734edc78c5508" title="Releases the ownership; the pointer becomes empty." alt="" coords="125,554,290,594"/>
+<area shape="poly" id="edge23_Node000001_Node000020" title=" " alt="" coords="36,346,41,384,53,436,75,492,90,518,110,540,114,544,111,548,106,544,86,521,70,494,48,438,36,385,31,347"/>
+<area shape="rect" id="Node000021" href="$a01562.html#a90a10e20ac0ae6ad39579fd8d528e1c1" title="Wraps a shared_ptr of this module into a std::shared_ptr." alt="" coords="135,346,280,386"/>
+<area shape="poly" id="edge25_Node000001_Node000021" title=" " alt="" coords="61,336,121,348,120,353,60,342"/>
+<area shape="rect" id="Node000023" href="$a03863.html#af03d0aa3a69841214a5373ab497d772f" title=" " alt="" coords="108,618,307,658"/>
+<area shape="poly" id="edge29_Node000001_Node000023" title=" " alt="" coords="37,346,63,480,84,555,97,584,110,604,114,608,110,612,106,608,92,587,79,557,58,481,32,347"/>
+<area shape="rect" id="Node000005" href="$a03899.html#a0273cd4b435d7c8c421e980b917d825c" title=" " alt="" coords="641,188,787,243"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="271,151,306,140,329,129,354,121,411,110,456,106,501,109,557,121,618,146,670,178,667,182,615,150,555,126,500,114,456,111,411,116,355,126,331,134,308,144,273,156"/>
+<area shape="rect" id="Node000006" href="$a03995.html#a0a6c3ea863906e8dee2185a0288877ed" title="Allocates a block that owns owner." alt="" coords="383,5,528,60"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="279,154,305,140,320,125,329,110,337,94,353,77,371,65,374,69,356,81,342,97,333,113,325,128,308,144,282,159"/>
+<area shape="rect" id="Node000007" href="$a01563.html#a277e6ded451b01456aadd0d07940efb6" title="Allocates one object of Block with the allocator Alloc rebound to it, constructs it with make and fre..." alt="" coords="623,13,805,53"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="528,30,609,30,609,35,528,35"/>
+<area shape="rect" id="Node000009" href="$a03899.html#ab5a9909429775aef7fd4ae60255e2b1e" title="The control block of a shared pointer (null when it has none)." alt="" coords="383,403,528,457"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="280,427,369,427,369,433,280,433"/>
+<area shape="rect" id="Node000010" href="$a03839.html#a6ae7bb8bd469a1f96fb4660454fcc763" title=" " alt="" coords="378,547,533,601"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="281,445,308,460,325,478,333,497,341,514,356,532,368,540,365,544,353,536,337,517,329,499,321,481,305,464,279,449"/>
+<area shape="rect" id="Node000011" href="$a01563.html#ad9cd1672b0c39fe40c0b5bc9b023deb0" title="The identity of T: the same pointer for the same type, in one program." alt="" coords="381,482,529,522"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="277,447,374,476,372,481,276,453"/>
+<area shape="poly" id="edge12_Node000012_Node000005" title=" " alt="" coords="283,232,627,217,628,222,283,237"/>
+<area shape="rect" id="Node000013" href="$a03867.html#ab2104fa6e839672da3c30400e8325e52" title=" " alt="" coords="359,159,551,199"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="282,218,357,200,358,205,283,223"/>
+<area shape="poly" id="edge14_Node000013_Node000013" title=" " alt="" coords="409,160,406,150,414,140,430,135,455,133,484,136,500,143,498,148,483,141,455,138,431,140,417,145,412,151,414,158"/>
+<area shape="rect" id="Node000015" href="$a01562.html#ac243d4e88836c3a0895003c2c3fb6e9f" title="Creates a T constructed from args in one allocation made with a copy of alloc." alt="" coords="376,274,535,314"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="280,297,362,294,362,300,280,302"/>
+<area shape="poly" id="edge17_Node000015_Node000005" title=" " alt="" coords="520,271,627,239,629,244,522,276"/>
+<area shape="rect" id="Node000016" href="$a03891.html#aa794cb650f97219949bfd448413dbefb" title=" " alt="" coords="621,345,807,400"/>
+<area shape="poly" id="edge18_Node000015_Node000016" title=" " alt="" coords="522,312,612,339,610,344,520,317"/>
+<area shape="rect" id="Node000017" href="$a01563.html#abecc8c6fa95e845e1c541c78b2bbb129" title="Rejects, with a static_assert, a class that derives from std::enable_shared_from_this and not from th..." alt="" coords="604,267,824,321"/>
+<area shape="poly" id="edge19_Node000015_Node000017" title=" " alt="" coords="535,291,590,291,590,297,535,297"/>
+<area shape="rect" id="Node000019" href="$a03863.html#ab2104fa6e839672da3c30400e8325e52" title=" " alt="" coords="355,650,556,690"/>
+<area shape="poly" id="edge21_Node000018_Node000019" title=" " alt="" coords="289,527,308,540,325,558,334,576,342,594,356,612,398,641,395,646,353,616,337,597,329,578,321,561,305,544,286,532"/>
+<area shape="poly" id="edge22_Node000019_Node000019" title=" " alt="" coords="409,650,406,640,414,631,430,625,455,623,484,626,500,633,498,638,483,631,455,629,431,631,417,635,412,641,414,649"/>
+<area shape="poly" id="edge24_Node000020_Node000019" title=" " alt="" coords="274,592,308,604,400,642,398,647,306,608,272,597"/>
+<area shape="poly" id="edge26_Node000021_Node000009" title=" " alt="" coords="281,382,370,405,369,410,279,387"/>
+<area shape="poly" id="edge28_Node000021_Node000011" title=" " alt="" coords="281,381,308,396,325,414,333,433,341,451,356,468,370,477,368,481,353,472,336,454,328,435,321,417,305,400,279,385"/>
+<area shape="rect" id="Node000022" href="$a03863.html#a19673ba006038380f655000a647423c0" title="The stored pointer." alt="" coords="379,338,532,378"/>
+<area shape="poly" id="edge27_Node000021_Node000022" title=" " alt="" coords="280,361,365,358,365,364,280,366"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="lumex::core::fmt::Detail::buffer&lt; Char &gt;" name="lumex::core::fmt::Detail::buffer&lt; Char &gt;">
+<area shape="rect" id="Node000001" title="Output sink the formatting engine writes to; the concrete buffers write into a string,..." alt="" coords="5,113,183,153"/>
+<area shape="rect" id="Node000002" href="$a03003.html" title=" " alt="" coords="231,5,421,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,104,230,55,260,43,262,48,232,60,139,109"/>
+<area shape="rect" id="Node000003" href="$a02999.html" title=" " alt="" coords="237,70,415,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,115,237,108,238,114,197,120"/>
+<area shape="rect" id="Node000004" href="$a02995.html" title=" " alt="" coords="237,149,415,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="197,147,238,153,237,158,196,152"/>
+<area shape="rect" id="Node000005" href="$a03007.html" title=" " alt="" coords="231,214,421,269"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="146,157,232,199,260,211,258,216,230,204,143,162"/>
+</map>

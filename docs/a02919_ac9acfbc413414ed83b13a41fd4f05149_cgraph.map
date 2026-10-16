@@ -1,0 +1,24 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::emplace_error" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::emplace_error">
+<area shape="rect" id="Node000001" title="Constructs an ErrorType value in place, replacing the current contents." alt="" coords="5,71,209,125"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="951,129,1117,169"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,97,520,106,711,115,903,129,937,132,937,138,902,134,711,120,520,111,210,102"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a6746fa8e180748b7d38e746bc179df5a" title="reinit&#45;expected (T = N, U = O): ends the life of oldval and starts newval with args...." alt="" coords="257,135,424,175"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,120,247,130,246,135,209,126"/>
+<area shape="rect" id="Node000008" href="$a02919.html#a0a1747d909987c95555691cc5fd51b3b" title="Checks the state; throws if the object holds an error." alt="" coords="472,5,655,60"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="209,81,458,45,459,50,210,86"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="424,152,937,147,937,152,424,157"/>
+<area shape="rect" id="Node000004" href="$a01533.html#acccbbbed047c705e9d0dfb50a3e29221" title="reinit&#45;expected when the old object is the Unit that stands for void: there is nothing to destroy or ..." alt="" coords="480,208,647,263"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="398,173,475,201,473,206,396,178"/>
+<area shape="poly" id="edge10_Node000004_Node000002" title=" " alt="" coords="646,217,937,164,937,169,647,223"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="1165,266,1356,306"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="622,260,661,275,703,286,822,301,942,305,1055,303,1151,296,1152,301,1055,308,942,311,822,306,702,291,660,280,620,265"/>
+<area shape="rect" id="Node000006" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="703,237,903,277"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="647,240,689,244,689,249,646,245"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="857,234,902,216,985,173,988,178,904,220,859,239"/>
+<area shape="rect" id="Node000007" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="951,237,1117,277"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="903,254,937,254,937,259,903,259"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="1118,265,1152,269,1151,275,1117,270"/>
+<area shape="rect" id="Node000009" href="$a01533.html#a32b16d60d745c9c9149f741d862646d5" title="Throws bad_expected_access&lt;E&gt; that holds error; with exceptions off (LUMEX_EXPECTED_HAS_EXCEPTIONS is..." alt="" coords="717,5,888,60"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="655,30,704,30,704,35,655,35"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="864,58,904,77,986,120,984,124,901,82,861,62"/>
+</map>

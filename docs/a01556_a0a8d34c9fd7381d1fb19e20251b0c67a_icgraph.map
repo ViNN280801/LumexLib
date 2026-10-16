@@ -1,0 +1,10 @@
+<map id="lumex::core::reflection::field_reflection::names_as_array" name="lumex::core::reflection::field_reflection::names_as_array">
+<area shape="rect" id="Node000001" title="The names of the fields of an aggregate, in declaration order." alt="" coords="556,5,735,60"/>
+<area shape="rect" id="Node000002" href="$a00479.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,20,60,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="542,30,508,29,308,26,108,31,60,34,60,28,108,26,308,21,508,23,542,24"/>
+<area shape="rect" id="Node000003" href="$a01557.html#a220977190460122e266388dff10349c1" title=" " alt="" coords="337,37,508,92"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="543,50,509,55,508,50,542,45"/>
+<area shape="rect" id="Node000004" href="$a01556.html#adf61047afd5b3dcf759431721bae5a13" title="Serializes a simple aggregate to JSON, visiting every field." alt="" coords="108,41,289,81"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="323,66,290,65,290,60,323,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="94,46,60,40,61,35,95,40"/>
+</map>

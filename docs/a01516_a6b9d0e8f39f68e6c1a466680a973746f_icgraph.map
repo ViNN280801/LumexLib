@@ -1,0 +1,12 @@
+<map id="lumex::core::crc::parametric::Detail::compute" name="lumex::core::crc::parametric::Detail::compute">
+<area shape="rect" id="Node000001" title=" " alt="" coords="512,79,717,119"/>
+<area shape="rect" id="Node000002" href="$a02595.html#aa3e8c27db0522a60ba0ef3adaeec80c7" title=" " alt="" coords="5,5,211,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="565,75,517,54,463,38,399,28,333,24,211,26,211,20,333,18,399,23,465,33,519,49,567,70"/>
+<area shape="rect" id="Node000003" href="$a02595.html#a27c94dc4eecb36bb648246014552efed" title=" " alt="" coords="259,72,464,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="499,102,464,102,464,97,499,97"/>
+<area shape="rect" id="Node000004" href="$a02595.html#a0150082a33941588a7ceca10345901af" title=" " alt="" coords="5,105,211,160"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="541,126,464,142,399,148,332,150,211,145,211,140,332,144,399,143,464,137,540,120"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="245,71,210,62,212,57,246,66"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="404,61,388,54,361,51,339,53,324,57,317,64,317,72,312,72,312,62,321,53,338,47,361,45,390,48,406,56"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="246,117,211,122,210,116,245,112"/>
+</map>

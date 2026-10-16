@@ -1,0 +1,8 @@
+<map id="lumex::core::math::ops::Detail::print_number" name="lumex::core::math::ops::Detail::print_number">
+<area shape="rect" id="Node000001" title="Prints a value as a number: the unary plus promotes character types, so they print their code,..." alt="" coords="349,29,536,69"/>
+<area shape="rect" id="Node000002" href="$a01549.html#aa1b6ddc9ee41c9002fed87698f0b5bea" title="Casts sourceValue to TargetType, throwing if the value is non&#45;finite (for a floating&#45;point source) or..." alt="" coords="108,29,301,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="336,52,302,52,302,47,336,47"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="233,17,223,11,205,8,189,10,179,15,175,21,177,28,172,30,170,20,175,11,187,5,205,3,225,6,236,13"/>
+<area shape="rect" id="Node000003" href="$a00359.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>

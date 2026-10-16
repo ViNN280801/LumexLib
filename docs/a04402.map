@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::mem::Detail::is_byte_element&lt; ByteType &gt;" name="lumex::core::utility::mem::Detail::is_byte_element&lt; ByteType &gt;">
+<area shape="rect" id="Node000001" title="An element type of a byte span that as accepts: char, unsigned char, std::byte (C++17) or the byte of..." alt="" coords="264,27,437,82"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,216,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,52,264,52,264,57,230,57"/>
+</map>

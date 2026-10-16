@@ -1,0 +1,26 @@
+<map id="lumex::core::optional::opt::detail::throw_bad_optional_access" name="lumex::core::optional::opt::detail::throw_bad_optional_access">
+<area shape="rect" id="Node000001" title="Throws lumex_bad_optional_access; a function, so that the constexpr observers of C++11 can name it in..." alt="" coords="512,601,676,656"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="633,590,619,583,594,580,573,582,560,587,554,593,554,601,549,601,549,591,557,582,572,577,594,575,620,578,635,586"/>
+<area shape="rect" id="Node000002" href="$a03407.html#a8779f0f5dfd9e00e61ae19e487c3284e" title=" " alt="" coords="259,437,464,521"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="538,596,426,524,428,519,541,592"/>
+<area shape="rect" id="Node000008" href="$a03407.html#a453c3df14e12bbc6e48dd3cf433e4811" title=" " alt="" coords="5,545,211,629"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="498,623,211,599,211,593,498,618"/>
+<area shape="rect" id="Node000009" href="$a03407.html#a388ced5dc307698216a600b097a43f60" title=" " alt="" coords="5,653,211,737"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="498,644,211,684,210,679,498,639"/>
+<area shape="rect" id="Node000010" href="$a03407.html#a622a487fc33345a9ae1d8dbfc9fc3b80" title=" " alt="" coords="5,761,211,845"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="513,663,465,682,212,771,210,766,463,677,511,659"/>
+<area shape="poly" id="edge8_Node000002_Node000002" title=" " alt="" coords="398,427,384,419,361,416,343,418,331,422,323,429,320,438,315,436,319,426,328,418,342,413,361,411,385,414,400,422"/>
+<area shape="rect" id="Node000003" href="$a03407.html#af8d23f1ca21980e17bc232853c2b0efc" title=" " alt="" coords="5,437,211,521"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="245,482,211,482,211,477,245,477"/>
+<area shape="rect" id="Node000004" href="$a03407.html#aaf9e2bc33bede65a4c5b2b65de1cc5a8" title=" " alt="" coords="5,5,211,89"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="349,425,333,354,305,269,264,181,238,140,209,102,197,91,201,87,213,99,243,137,269,179,310,267,338,352,355,423"/>
+<area shape="rect" id="Node000005" href="$a03407.html#aea80b10f6a4fbb84deff6a7b314a0220" title=" " alt="" coords="5,113,211,197"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="339,425,318,375,289,319,253,262,209,211,196,200,199,196,213,207,257,258,294,316,323,373,344,423"/>
+<area shape="rect" id="Node000006" href="$a03407.html#a0ec9779f7e2f8f9a93b1dd7aac6cdd6c" title=" " alt="" coords="5,221,211,305"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="318,428,269,372,209,319,193,308,196,303,212,315,272,369,322,425"/>
+<area shape="rect" id="Node000007" href="$a03407.html#a3c8d79ecfec1d028d4c56d2052c45404" title=" " alt="" coords="5,329,211,413"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="249,434,206,416,208,411,251,429"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="251,529,208,548,206,543,249,524"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="322,534,272,589,212,643,194,655,191,651,209,639,268,585,318,530"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="344,535,322,585,293,642,257,699,213,751,198,763,194,759,209,747,252,696,289,639,318,583,339,533"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::swap_storage" name="lumex::core::expected::result::detail::storage::expected_storage::swap_storage">
+<area shape="rect" id="Node000001" title="Exchanges the contents with another storage: Table 72 of [expected.object.swap] and Table 73 of [expe..." alt="" coords="273,49,461,119"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="408,39,393,31,367,28,347,30,332,35,325,41,323,50,318,48,320,39,330,30,345,25,367,23,394,26,410,34"/>
+<area shape="rect" id="Node000002" href="$a02699.html#a86eadcd8e2cd6155467872091154caad" title=" " alt="" coords="5,5,225,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,68,225,62,226,57,260,63"/>
+<area shape="rect" id="Node000003" href="$a02919.html#ac9dba62643741c913b1bf147871ac44d" title="Exchanges contents with another expected&lt;void, ErrorType&gt;." alt="" coords="24,99,207,154"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="260,105,207,114,206,109,259,100"/>
+</map>

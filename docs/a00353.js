@@ -1,6 +1,4 @@
 var a00353 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00353.html#a07486181f1990291c2a348de8eb4c480", null ],
-    [ "lumex::core::environment::env::is_env_set", "a01341.html#a133dac804e9421baedf88340deadad5b", null ],
-    [ "lumex::core::environment::env::is_env_truthy", "a01341.html#a4773a4875c22bf328b9834b55316947e", null ]
+    [ "main", "a00353.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

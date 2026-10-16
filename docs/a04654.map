@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::traits::meta::is_lvalue_ref_to_class&lt; T &gt;" name="lumex::core::utility::traits::meta::is_lvalue_ref_to_class&lt; T &gt;">
+<area shape="rect" id="Node000001" title="T is an lvalue reference to a class type (the C++11 form of the concept LvalueRefToClass)...." alt="" coords="293,20,465,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,245,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,45,293,45,293,50,259,50"/>
+</map>

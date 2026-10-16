@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::applied::json::normalization::LumexJsonSchemaNormalizer Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01726.html',''); initResizable(true); });
+$(function(){initNavTree('a01723.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,24 +103,532 @@ $(function(){initNavTree('a01726.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::settings::guard::LumexSettingsGuard Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
+<a href="a01720.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::json::normalization::LumexJsonSchemaNormalizer Class Reference<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01726.html">lumex::applied::settings::guard::LumexSettingsGuard</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01726.html#af9bac403ac10a4c027b0b3b3e7242dab">backup</a>(std::string const &amp;filename) noexcept</td><td class="entry"><a class="el" href="a01726.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01726.html#a3c076c86feee26d0eb286d0bd108ea7e">ensure_exists_with_defaults</a>(LumexSettingsCreateFn const &amp;createDefault) noexcept</td><td class="entry"><a class="el" href="a01726.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01726.html#a1b16b4af8293c508e1b10b2181ab3bb3">ensure_keys_with_defaults</a>(std::vector&lt; lumex_settings_key_spec_t &gt; const &amp;specs) noexcept</td><td class="entry"><a class="el" href="a01726.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01726.html#ab558db30df367f2e78987194eb74e3c6">filename</a>() const noexcept</td><td class="entry"><a class="el" href="a01726.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01726.html#aeaa4fb6e906161d246cfeeb9271935c6">LumexSettingsGuard</a>(std::shared_ptr&lt; ILumexSettings &gt; settings, std::string filename) noexcept</td><td class="entry"><a class="el" href="a01726.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01726.html#a702c47086b310f0f9417a28a875839cc">repair_if_corrupted</a>(LumexSettingsCreateFn const &amp;createDefault) noexcept</td><td class="entry"><a class="el" href="a01726.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01726.html#a77f7198101f3ba9f2ebdca1daa0c0c23">settings</a>() const noexcept</td><td class="entry"><a class="el" href="a01726.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>Shares the schema walker and the strict/non-strict error policy between concrete normalizers.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01268_source.html">LumexJsonSchemaNormalizer.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::applied::json::normalization::LumexJsonSchemaNormalizer:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01722.png" border="0" usemap="#alumex_1_1applied_1_1json_1_1normalization_1_1LumexJsonSchemaNormalizer_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1applied_1_1json_1_1normalization_1_1LumexJsonSchemaNormalizer_inherit__map" id="alumex_1_1applied_1_1json_1_1normalization_1_1LumexJsonSchemaNormalizer_inherit__map">
+<area shape="rect" title="Shares the schema walker and the strict/non&#45;strict error policy between concrete normalizers." alt="" coords="5,108,256,163"/>
+<area shape="rect" href="a01719.html" title="Parses raw JSON text, checks it and returns the canonical document." alt="" coords="29,5,232,60"/>
+<area shape="poly" title=" " alt="" coords="133,74,133,108,128,108,128,74"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::applied::json::normalization::LumexJsonSchemaNormalizer:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01721.png" border="0" usemap="#alumex_1_1applied_1_1json_1_1normalization_1_1LumexJsonSchemaNormalizer_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1applied_1_1json_1_1normalization_1_1LumexJsonSchemaNormalizer_coll__map" id="alumex_1_1applied_1_1json_1_1normalization_1_1LumexJsonSchemaNormalizer_coll__map">
+<area shape="rect" title="Shares the schema walker and the strict/non&#45;strict error policy between concrete normalizers." alt="" coords="5,108,256,163"/>
+<area shape="rect" href="a01719.html" title="Parses raw JSON text, checks it and returns the canonical document." alt="" coords="29,5,232,60"/>
+<area shape="poly" title=" " alt="" coords="133,74,133,108,128,108,128,74"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:adea766fbecef72b40b26add6e026cf22" id="r_adea766fbecef72b40b26add6e026cf22"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adea766fbecef72b40b26add6e026cf22">validate</a> (<a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a> raw) const =0</td></tr>
+<tr class="memdesc:adea766fbecef72b40b26add6e026cf22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks without building anything. Strict: throws on the first violation. Non-strict: never throws for a violation (the usual implementation forwards to the <code>error</code> overload and ignores it).  <br /></td></tr>
+<tr class="separator:adea766fbecef72b40b26add6e026cf22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f50fa1dbf7fcc61f0f1af9ccd81aaa3" id="r_a4f50fa1dbf7fcc61f0f1af9ccd81aaa3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f50fa1dbf7fcc61f0f1af9ccd81aaa3">validate</a> (<a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a> raw, std::exception_ptr &amp;error) const =0</td></tr>
+<tr class="memdesc:a4f50fa1dbf7fcc61f0f1af9ccd81aaa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same check with a non-throwing option; see <code><a class="el" href="a01719.html#a8fc95fc1dbef49903b7111d12c2af87e" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa...">ILumexJsonNormalizer::normalize</a></code> for the meaning of <code>error</code>.  <br /></td></tr>
+<tr class="separator:a4f50fa1dbf7fcc61f0f1af9ccd81aaa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9918c71ec1bdbd6181e3737ef8b168db" id="r_a9918c71ec1bdbd6181e3737ef8b168db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9918c71ec1bdbd6181e3737ef8b168db">is_strict</a> () const noexcept</td></tr>
+<tr class="memdesc:a9918c71ec1bdbd6181e3737ef8b168db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether violations throw (<code>true</code>) or are reported (<code>false</code>).  <br /></td></tr>
+<tr class="separator:a9918c71ec1bdbd6181e3737ef8b168db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a01719"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_a01719')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a01719.html">lumex::applied::json::normalization::ILumexJsonNormalizer</a></td></tr>
+<tr class="memitem:a67d2467937fd7eed290938a31b2b7733 inherit pub_methods_a01719" id="r_a67d2467937fd7eed290938a31b2b7733"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01719.html#a67d2467937fd7eed290938a31b2b7733">~ILumexJsonNormalizer</a> ()=default</td></tr>
+<tr class="separator:a67d2467937fd7eed290938a31b2b7733 inherit pub_methods_a01719"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fc95fc1dbef49903b7111d12c2af87e inherit pub_methods_a01719" id="r_a8fc95fc1dbef49903b7111d12c2af87e"><td class="memItemLeft" align="right" valign="top">virtual nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01719.html#a8fc95fc1dbef49903b7111d12c2af87e">normalize</a> (<a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a> raw) const =0</td></tr>
+<tr class="memdesc:a8fc95fc1dbef49903b7111d12c2af87e inherit pub_methods_a01719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the canonical document. A strict implementation throws on the first violation (including unparsable text); a non-strict one returns a <code>null</code> document instead of throwing.  <br /></td></tr>
+<tr class="separator:a8fc95fc1dbef49903b7111d12c2af87e inherit pub_methods_a01719"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af69794a9aaa4d4cd58e5d1893b062971 inherit pub_methods_a01719" id="r_af69794a9aaa4d4cd58e5d1893b062971"><td class="memItemLeft" align="right" valign="top">virtual nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01719.html#af69794a9aaa4d4cd58e5d1893b062971">normalize</a> (<a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a> raw, std::exception_ptr &amp;error) const =0</td></tr>
+<tr class="memdesc:af69794a9aaa4d4cd58e5d1893b062971 inherit pub_methods_a01719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <code>normalize(raw)</code> with a non-throwing option.  <br /></td></tr>
+<tr class="separator:af69794a9aaa4d4cd58e5d1893b062971 inherit pub_methods_a01719"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:aa895f4efd6c47529d881aa66d27621f2" id="r_aa895f4efd6c47529d881aa66d27621f2"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa895f4efd6c47529d881aa66d27621f2">get_exception_message</a> (std::exception_ptr const &amp;error) noexcept</td></tr>
+<tr class="memdesc:aa895f4efd6c47529d881aa66d27621f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text of the exception held by <code>error</code>.  <br /></td></tr>
+<tr class="separator:aa895f4efd6c47529d881aa66d27621f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:abb52695431f3bdf5cbade4f2f30abd4b" id="r_abb52695431f3bdf5cbade4f2f30abd4b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb52695431f3bdf5cbade4f2f30abd4b">LumexJsonSchemaNormalizer</a> (bool strict) noexcept</td></tr>
+<tr class="separator:abb52695431f3bdf5cbade4f2f30abd4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4e6f91a4cc39ea650825173f0406128" id="r_ad4e6f91a4cc39ea650825173f0406128"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4e6f91a4cc39ea650825173f0406128">report_or_rethrow</a> (std::exception_ptr &amp;error) const</td></tr>
+<tr class="memdesc:ad4e6f91a4cc39ea650825173f0406128"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call only from inside a <code>catch</code> block.  <br /></td></tr>
+<tr class="separator:ad4e6f91a4cc39ea650825173f0406128"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:af1c8adc624ba30d35b32b589a6731277" id="r_af1c8adc624ba30d35b32b589a6731277"><td class="memItemLeft" align="right" valign="top">static nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1c8adc624ba30d35b32b589a6731277">parse</a> (<a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a> raw)</td></tr>
+<tr class="memdesc:af1c8adc624ba30d35b32b589a6731277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses raw text.  <br /></td></tr>
+<tr class="separator:af1c8adc624ba30d35b32b589a6731277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b52d105932cbbf487e7111f269f13f9" id="r_a8b52d105932cbbf487e7111f269f13f9"><td class="memItemLeft" align="right" valign="top">static nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b52d105932cbbf487e7111f269f13f9">process_against_schema</a> (nlohmann::json const &amp;schema, nlohmann::json const &amp;input, <a class="el" href="a01446.html#a84e9d1e17c0e59587c9cf90e57fa7e33">lumex::applied::json::schema::LumexJsonSchemaCheckMode</a> mode, std::string const &amp;<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>=&quot;$&quot;)</td></tr>
+<tr class="memdesc:a8b52d105932cbbf487e7111f269f13f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Single entry into the shared walker; <code>mode</code> decides whether the normalized tree is built. Prefer it over the two wrappers below when <code><a class="el" href="a01719.html#a8fc95fc1dbef49903b7111d12c2af87e" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa...">normalize()</a></code> and <code><a class="el" href="#adea766fbecef72b40b26add6e026cf22" title="Checks without building anything. Strict: throws on the first violation. Non-strict: never throws for...">validate()</a></code> share one walk over a larger structure (for example a loop over elements).  <br /></td></tr>
+<tr class="separator:a8b52d105932cbbf487e7111f269f13f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d6a03c5740ff75f5149ea6fdee9dc06" id="r_a6d6a03c5740ff75f5149ea6fdee9dc06"><td class="memItemLeft" align="right" valign="top">static nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d6a03c5740ff75f5149ea6fdee9dc06">normalize_against_schema</a> (nlohmann::json const &amp;schema, nlohmann::json const &amp;input, std::string const &amp;<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>=&quot;$&quot;)</td></tr>
+<tr class="memdesc:a6d6a03c5740ff75f5149ea6fdee9dc06"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>validate_and_normalize</code>: returns the built tree.  <br /></td></tr>
+<tr class="separator:a6d6a03c5740ff75f5149ea6fdee9dc06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1384265ea61be8a83ba651e8fb89a8c5" id="r_a1384265ea61be8a83ba651e8fb89a8c5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1384265ea61be8a83ba651e8fb89a8c5">validate_against_schema</a> (nlohmann::json const &amp;schema, nlohmann::json const &amp;input, std::string const &amp;<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>=&quot;$&quot;)</td></tr>
+<tr class="memdesc:a1384265ea61be8a83ba651e8fb89a8c5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>validate_only</code>: throws on the first violation, builds nothing.  <br /></td></tr>
+<tr class="separator:a1384265ea61be8a83ba651e8fb89a8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Shares the schema walker and the strict/non-strict error policy between concrete normalizers. </p>
+<p>Deliberately abstract: which schema applies and which legacy fields to rewrite depend on the concrete operation, so <code><a class="el" href="a01719.html#a8fc95fc1dbef49903b7111d12c2af87e" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa...">normalize()</a></code> (from <code><a class="el" href="a01719.html" title="Parses raw JSON text, checks it and returns the canonical document.">ILumexJsonNormalizer</a></code>) and <code><a class="el" href="#adea766fbecef72b40b26add6e026cf22" title="Checks without building anything. Strict: throws on the first violation. Non-strict: never throws for...">validate()</a></code> are left to subclasses. A subclass typically parses with <code><a class="el" href="#af1c8adc624ba30d35b32b589a6731277" title="Parses raw text.">parse()</a></code>, rewrites legacy forms, then calls <code><a class="el" href="#a6d6a03c5740ff75f5149ea6fdee9dc06" title="validate_and_normalize: returns the built tree.">normalize_against_schema()</a></code> or <code><a class="el" href="#a1384265ea61be8a83ba651e8fb89a8c5" title="validate_only: throws on the first violation, builds nothing.">validate_against_schema()</a></code> inside a <code>try</code> block whose <code>catch</code> calls <code>report_or_rethrow(error)</code>. Checking without normalization is <code><a class="el" href="a06584.html" title="Parses raw JSON text and walks it against one schema tree in validate_only mode. It never normalizes ...">LumexJsonSchemaValidator</a></code>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="abb52695431f3bdf5cbade4f2f30abd4b" name="abb52695431f3bdf5cbade4f2f30abd4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb52695431f3bdf5cbade4f2f30abd4b">&#9670;&#160;</a></span>LumexJsonSchemaNormalizer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::applied::json::normalization::LumexJsonSchemaNormalizer::LumexJsonSchemaNormalizer </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>strict</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel protected">protected</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strict</td><td><code>true</code>: throw on the first violation. <code>false</code>: report it through <code>report_or_rethrow</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa895f4efd6c47529d881aa66d27621f2" name="aa895f4efd6c47529d881aa66d27621f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa895f4efd6c47529d881aa66d27621f2">&#9670;&#160;</a></span>get_exception_message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::string lumex::applied::json::normalization::LumexJsonSchemaNormalizer::get_exception_message </td>
+          <td>(</td>
+          <td class="paramtype">std::exception_ptr const &amp;</td>          <td class="paramname"><span class="paramname"><em>error</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Text of the exception held by <code>error</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd><code>what()</code> of a <code>std::exception</code>, <code>"&lt;unknown exception&gt;"</code> for any other type, and <code>""</code> for a null <code>error</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a9918c71ec1bdbd6181e3737ef8b168db" name="a9918c71ec1bdbd6181e3737ef8b168db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9918c71ec1bdbd6181e3737ef8b168db">&#9670;&#160;</a></span>is_strict()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::json::normalization::LumexJsonSchemaNormalizer::is_strict </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether violations throw (<code>true</code>) or are reported (<code>false</code>). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_a9918c71ec1bdbd6181e3737ef8b168db_cgraph.png" border="0" usemap="#aa01723_a9918c71ec1bdbd6181e3737ef8b168db_cgraph" alt=""/></div>
+<map name="aa01723_a9918c71ec1bdbd6181e3737ef8b168db_cgraph" id="aa01723_a9918c71ec1bdbd6181e3737ef8b168db_cgraph">
+<area shape="rect" title="Whether violations throw (true) or are reported (false)." alt="" coords="5,29,256,84"/>
+<area shape="poly" title=" " alt="" coords="82,29,82,19,91,10,107,5,131,3,159,6,175,14,173,18,157,11,131,8,108,10,94,15,87,21,87,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_a9918c71ec1bdbd6181e3737ef8b168db_icgraph.png" border="0" usemap="#aa01723_a9918c71ec1bdbd6181e3737ef8b168db_icgraph" alt=""/></div>
+<map name="aa01723_a9918c71ec1bdbd6181e3737ef8b168db_icgraph" id="aa01723_a9918c71ec1bdbd6181e3737ef8b168db_icgraph">
+<area shape="rect" title="Whether violations throw (true) or are reported (false)." alt="" coords="5,29,256,84"/>
+<area shape="poly" title=" " alt="" coords="173,18,157,11,131,8,108,10,94,15,87,21,87,29,82,29,82,19,91,10,107,5,131,3,159,6,175,14"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6d6a03c5740ff75f5149ea6fdee9dc06" name="a6d6a03c5740ff75f5149ea6fdee9dc06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d6a03c5740ff75f5149ea6fdee9dc06">&#9670;&#160;</a></span>normalize_against_schema()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static nlohmann::json lumex::applied::json::normalization::LumexJsonSchemaNormalizer::normalize_against_schema </td>
+          <td>(</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>schema</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;$&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>validate_and_normalize</code>: returns the built tree. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_a6d6a03c5740ff75f5149ea6fdee9dc06_cgraph.png" border="0" usemap="#aa01723_a6d6a03c5740ff75f5149ea6fdee9dc06_cgraph" alt=""/></div>
+<map name="aa01723_a6d6a03c5740ff75f5149ea6fdee9dc06_cgraph" id="aa01723_a6d6a03c5740ff75f5149ea6fdee9dc06_cgraph">
+<area shape="rect" title="validate_and_normalize: returns the built tree." alt="" coords="5,29,285,84"/>
+<area shape="poly" title=" " alt="" coords="84,29,84,19,95,10,116,5,145,3,181,6,201,14,199,19,180,11,145,8,116,10,98,15,89,21,89,29"/>
+<area shape="rect" href="a01723.html#a8b52d105932cbbf487e7111f269f13f9" title="Single entry into the shared walker; mode decides whether the normalized tree is built...." alt="" coords="333,29,599,84"/>
+<area shape="poly" title=" " alt="" coords="286,54,320,54,320,59,286,59"/>
+<area shape="poly" title=" " alt="" coords="405,29,405,19,416,10,436,5,466,3,502,6,522,14,520,19,501,11,466,8,437,10,418,15,410,21,410,29"/>
+<area shape="rect" href="a01731.html#a1933c607554e5bae08d9a21ea3396cab" title="Walks input against schema." alt="" coords="647,37,948,77"/>
+<area shape="poly" title=" " alt="" coords="599,54,633,54,633,59,599,59"/>
+<area shape="poly" title=" " alt="" coords="737,37,733,27,743,18,764,12,797,10,835,13,856,20,854,25,834,18,797,15,765,17,745,22,738,28,742,35"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_a6d6a03c5740ff75f5149ea6fdee9dc06_icgraph.png" border="0" usemap="#aa01723_a6d6a03c5740ff75f5149ea6fdee9dc06_icgraph" alt=""/></div>
+<map name="aa01723_a6d6a03c5740ff75f5149ea6fdee9dc06_icgraph" id="aa01723_a6d6a03c5740ff75f5149ea6fdee9dc06_icgraph">
+<area shape="rect" title="validate_and_normalize: returns the built tree." alt="" coords="5,29,285,84"/>
+<area shape="poly" title=" " alt="" coords="192,18,175,11,145,8,120,10,104,15,96,21,97,29,91,29,92,19,101,10,119,5,145,3,177,6,195,14"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af1c8adc624ba30d35b32b589a6731277" name="af1c8adc624ba30d35b32b589a6731277"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1c8adc624ba30d35b32b589a6731277">&#9670;&#160;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static nlohmann::json lumex::applied::json::normalization::LumexJsonSchemaNormalizer::parse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>raw</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parses raw text. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="a01727.html" title="Carries the failure reason, the JSON path of the offending value ($.items[2].name) and a human-readab...">lumex::applied::json::schema::LumexJsonSchemaException</a></td><td>With <code>parse_error</code> when the text is not valid JSON. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_af1c8adc624ba30d35b32b589a6731277_cgraph.png" border="0" usemap="#aa01723_af1c8adc624ba30d35b32b589a6731277_cgraph" alt=""/></div>
+<map name="aa01723_af1c8adc624ba30d35b32b589a6731277_cgraph" id="aa01723_af1c8adc624ba30d35b32b589a6731277_cgraph">
+<area shape="rect" title="Parses raw text." alt="" coords="5,29,256,84"/>
+<area shape="poly" title=" " alt="" coords="71,29,71,19,82,10,102,5,131,3,165,6,185,14,183,19,164,11,131,8,103,10,85,15,76,21,76,29"/>
+<area shape="rect" href="a01731.html#ad28937f6b24e177cf6da3fc42900d00a" title="Parses raw text into a document." alt="" coords="304,29,576,84"/>
+<area shape="poly" title=" " alt="" coords="256,54,290,54,290,59,256,59"/>
+<area shape="poly" title=" " alt="" coords="380,29,381,19,391,10,411,5,440,3,475,6,494,14,492,19,473,11,440,8,412,10,394,15,386,21,386,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_af1c8adc624ba30d35b32b589a6731277_icgraph.png" border="0" usemap="#aa01723_af1c8adc624ba30d35b32b589a6731277_icgraph" alt=""/></div>
+<map name="aa01723_af1c8adc624ba30d35b32b589a6731277_icgraph" id="aa01723_af1c8adc624ba30d35b32b589a6731277_icgraph">
+<area shape="rect" title="Parses raw text." alt="" coords="5,29,256,84"/>
+<area shape="poly" title=" " alt="" coords="173,18,157,11,131,8,108,10,94,15,87,21,87,29,82,29,82,19,91,10,107,5,131,3,159,6,175,14"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a8b52d105932cbbf487e7111f269f13f9" name="a8b52d105932cbbf487e7111f269f13f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b52d105932cbbf487e7111f269f13f9">&#9670;&#160;</a></span>process_against_schema()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static nlohmann::json lumex::applied::json::normalization::LumexJsonSchemaNormalizer::process_against_schema </td>
+          <td>(</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>schema</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01446.html#a84e9d1e17c0e59587c9cf90e57fa7e33">lumex::applied::json::schema::LumexJsonSchemaCheckMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;$&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Single entry into the shared walker; <code>mode</code> decides whether the normalized tree is built. Prefer it over the two wrappers below when <code><a class="el" href="a01719.html#a8fc95fc1dbef49903b7111d12c2af87e" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa...">normalize()</a></code> and <code><a class="el" href="#adea766fbecef72b40b26add6e026cf22" title="Checks without building anything. Strict: throws on the first violation. Non-strict: never throws for...">validate()</a></code> share one walk over a larger structure (for example a loop over elements). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_a8b52d105932cbbf487e7111f269f13f9_cgraph.png" border="0" usemap="#aa01723_a8b52d105932cbbf487e7111f269f13f9_cgraph" alt=""/></div>
+<map name="aa01723_a8b52d105932cbbf487e7111f269f13f9_cgraph" id="aa01723_a8b52d105932cbbf487e7111f269f13f9_cgraph">
+<area shape="rect" title="Single entry into the shared walker; mode decides whether the normalized tree is built...." alt="" coords="5,29,271,84"/>
+<area shape="poly" title=" " alt="" coords="75,29,75,19,86,10,107,5,138,3,175,6,196,14,194,19,174,11,138,8,108,10,89,15,80,21,80,29"/>
+<area shape="rect" href="a01731.html#a1933c607554e5bae08d9a21ea3396cab" title="Walks input against schema." alt="" coords="319,37,620,77"/>
+<area shape="poly" title=" " alt="" coords="271,54,305,54,305,59,271,59"/>
+<area shape="poly" title=" " alt="" coords="409,37,405,27,415,18,436,12,469,10,507,13,528,20,526,25,506,18,469,15,437,17,417,22,410,28,414,35"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_a8b52d105932cbbf487e7111f269f13f9_icgraph.png" border="0" usemap="#aa01723_a8b52d105932cbbf487e7111f269f13f9_icgraph" alt=""/></div>
+<map name="aa01723_a8b52d105932cbbf487e7111f269f13f9_icgraph" id="aa01723_a8b52d105932cbbf487e7111f269f13f9_icgraph">
+<area shape="rect" title="Single entry into the shared walker; mode decides whether the normalized tree is built...." alt="" coords="333,69,599,124"/>
+<area shape="poly" title=" " alt="" coords="520,59,501,51,466,48,437,50,418,55,410,61,410,69,405,69,405,59,416,50,436,45,466,43,502,46,522,54"/>
+<area shape="rect" href="a01723.html#a6d6a03c5740ff75f5149ea6fdee9dc06" title="validate_and_normalize: returns the built tree." alt="" coords="5,29,285,84"/>
+<area shape="poly" title=" " alt="" coords="320,81,285,77,286,72,320,76"/>
+<area shape="rect" href="a01723.html#a1384265ea61be8a83ba651e8fb89a8c5" title="validate_only: throws on the first violation, builds nothing." alt="" coords="11,108,279,163"/>
+<area shape="poly" title=" " alt="" coords="320,117,280,122,279,117,320,112"/>
+<area shape="poly" title=" " alt="" coords="199,19,180,11,145,8,116,10,98,15,89,21,89,29,84,29,84,19,95,10,116,5,145,3,181,6,201,14"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad4e6f91a4cc39ea650825173f0406128" name="ad4e6f91a4cc39ea650825173f0406128"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4e6f91a4cc39ea650825173f0406128">&#9670;&#160;</a></span>report_or_rethrow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::normalization::LumexJsonSchemaNormalizer::report_or_rethrow </td>
+          <td>(</td>
+          <td class="paramtype">std::exception_ptr &amp;</td>          <td class="paramname"><span class="paramname"><em>error</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Call only from inside a <code>catch</code> block. </p>
+<p>Strict: rethrows the current exception. Non-strict: stores <code>std::current_exception()</code> in <code>error</code> and returns normally, so the caller can read the full message without an exception escaping <code><a class="el" href="a01719.html#a8fc95fc1dbef49903b7111d12c2af87e" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa...">normalize()</a></code> or <code><a class="el" href="#adea766fbecef72b40b26add6e026cf22" title="Checks without building anything. Strict: throws on the first violation. Non-strict: never throws for...">validate()</a></code>. </p>
+
+</div>
+</div>
+<a id="adea766fbecef72b40b26add6e026cf22" name="adea766fbecef72b40b26add6e026cf22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adea766fbecef72b40b26add6e026cf22">&#9670;&#160;</a></span>validate() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void lumex::applied::json::normalization::LumexJsonSchemaNormalizer::validate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>raw</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks without building anything. Strict: throws on the first violation. Non-strict: never throws for a violation (the usual implementation forwards to the <code>error</code> overload and ignores it). </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="a01727.html" title="Carries the failure reason, the JSON path of the offending value ($.items[2].name) and a human-readab...">lumex::applied::json::schema::LumexJsonSchemaException</a></td><td>Strict mode only. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4f50fa1dbf7fcc61f0f1af9ccd81aaa3" name="a4f50fa1dbf7fcc61f0f1af9ccd81aaa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f50fa1dbf7fcc61f0f1af9ccd81aaa3">&#9670;&#160;</a></span>validate() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void lumex::applied::json::normalization::LumexJsonSchemaNormalizer::validate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>raw</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::exception_ptr &amp;</td>          <td class="paramname"><span class="paramname"><em>error</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Same check with a non-throwing option; see <code><a class="el" href="a01719.html#a8fc95fc1dbef49903b7111d12c2af87e" title="Returns the canonical document. A strict implementation throws on the first violation (including unpa...">ILumexJsonNormalizer::normalize</a></code> for the meaning of <code>error</code>. </p>
+
+</div>
+</div>
+<a id="a1384265ea61be8a83ba651e8fb89a8c5" name="a1384265ea61be8a83ba651e8fb89a8c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1384265ea61be8a83ba651e8fb89a8c5">&#9670;&#160;</a></span>validate_against_schema()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void lumex::applied::json::normalization::LumexJsonSchemaNormalizer::validate_against_schema </td>
+          <td>(</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>schema</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;$&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>validate_only</code>: throws on the first violation, builds nothing. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01723_a1384265ea61be8a83ba651e8fb89a8c5_cgraph.png" border="0" usemap="#aa01723_a1384265ea61be8a83ba651e8fb89a8c5_cgraph" alt=""/></div>
+<map name="aa01723_a1384265ea61be8a83ba651e8fb89a8c5_cgraph" id="aa01723_a1384265ea61be8a83ba651e8fb89a8c5_cgraph">
+<area shape="rect" title="validate_only: throws on the first violation, builds nothing." alt="" coords="5,29,273,84"/>
+<area shape="rect" href="a01723.html#a8b52d105932cbbf487e7111f269f13f9" title="Single entry into the shared walker; mode decides whether the normalized tree is built...." alt="" coords="321,29,587,84"/>
+<area shape="poly" title=" " alt="" coords="274,54,307,54,307,59,274,59"/>
+<area shape="poly" title=" " alt="" coords="394,29,394,19,405,10,425,5,454,3,489,6,509,14,507,19,488,11,454,8,426,10,407,15,399,21,399,29"/>
+<area shape="rect" href="a01731.html#a1933c607554e5bae08d9a21ea3396cab" title="Walks input against schema." alt="" coords="635,37,936,77"/>
+<area shape="poly" title=" " alt="" coords="587,54,621,54,621,59,587,59"/>
+<area shape="poly" title=" " alt="" coords="725,37,721,27,731,18,752,12,785,10,823,13,844,20,842,25,822,18,785,15,753,17,733,22,726,28,730,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01268_source.html">LumexJsonSchemaNormalizer.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01440.html">json</a></li><li class="navelem"><a class="el" href="a01445.html">normalization</a></li><li class="navelem"><a class="el" href="a01723.html">LumexJsonSchemaNormalizer</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

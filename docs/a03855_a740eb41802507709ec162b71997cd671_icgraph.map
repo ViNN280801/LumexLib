@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::ctl_holder::owner" name="lumex::core::smart_ptr::detail::ctl_holder::owner">
+<area shape="rect" id="Node000001" title="The block whose strong reference the holder owns." alt="" coords="217,5,381,60"/>
+<area shape="rect" id="Node000002" href="$a03855.html#acb92a456a5dea376bd4e767dbabf1a61" title="Creates a holder for owner and pointer." alt="" coords="5,5,169,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,35,170,35,170,30,203,30"/>
+</map>

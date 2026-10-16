@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::ctl_base::weak_count" name="lumex::core::smart_ptr::detail::ctl_base::weak_count">
+<area shape="rect" id="Node000001" title="The number of weak pointers, without the implicit unit of the strong group." alt="" coords="5,5,160,60"/>
+<area shape="rect" id="Node000002" href="$a03835.html#abe8eb0b9df57bdce0ea7416f5fe86047" title="The count half of word." alt="" coords="208,5,353,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,30,194,30,194,35,160,35"/>
+</map>

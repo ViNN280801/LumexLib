@@ -1,0 +1,34 @@
+<map id="lumex::xml::xpath::variable::XPathVariable::get_node_set" name="lumex::xml::xpath::variable::XPathVariable::get_node_set">
+<area shape="rect" id="Node000001" title="Gets the node&#45;set value of the variable." alt="" coords="5,165,179,220"/>
+<area shape="rect" id="Node000002" href="$a05327.html#a509b6516d6915210f1528e61a438c3d1" title=" " alt="" coords="227,165,420,220"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,199,213,199,213,204,179,204"/>
+<area shape="poly" id="edge5_Node000002_Node000001" title=" " alt="" coords="226,186,192,186,192,181,226,181"/>
+<area shape="poly" id="edge21_Node000002_Node000002" title=" " alt="" coords="279,165,279,155,287,146,302,141,323,139,349,142,364,150,362,154,348,147,323,144,303,146,290,151,284,157,284,165"/>
+<area shape="rect" id="Node000003" href="$a05327.html#a9494755d23b7e899de6747c57a25e01d" title="Gets the boolean value of the variable." alt="" coords="491,5,664,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="349,163,401,117,467,70,479,64,482,68,469,75,404,121,352,167"/>
+<area shape="rect" id="Node000005" href="$a05327.html#ae8ef0249d6ca59e6eb25255ae9d82668" title="Gets the numeric value of the variable." alt="" coords="491,237,664,292"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="421,218,478,234,477,239,419,223"/>
+<area shape="rect" id="Node000007" href="$a05327.html#a4ebbac3fb8cb632d85c3fe46a4353528" title="Gets the string value of the variable." alt="" coords="491,316,664,371"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="355,218,407,260,469,301,483,308,480,313,467,306,404,264,352,222"/>
+<area shape="rect" id="Node000009" href="$a05327.html#a2dd44987c9c1a868d0cfdd43133fb1d3" title="Retrieves the name of the XPath variable." alt="" coords="468,173,687,213"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="420,199,454,199,454,204,420,204"/>
+<area shape="rect" id="Node000010" href="$a05327.html#a2e73acf1b1853db7738a2c4986d72466" title="Sets the boolean value of the variable." alt="" coords="477,85,678,125"/>
+<area shape="poly" id="edge18_Node000002_Node000010" title=" " alt="" coords="390,163,467,134,492,126,493,131,469,139,392,168"/>
+<area shape="rect" id="Node000011" href="$a05327.html#af6133c6da37176e91f0b80593dd57140" title="Retrieves the XPath value type of the variable." alt="" coords="472,395,683,435"/>
+<area shape="poly" id="edge20_Node000002_Node000011" title=" " alt="" coords="339,219,360,256,389,300,426,344,470,381,479,387,476,391,466,385,422,347,385,303,355,259,334,221"/>
+<area shape="rect" id="Node000004" href="$a05327.html#ac76329b1d0f44b2d11c3f74eaa04e09e" title=" " alt="" coords="735,77,921,132"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="665,55,722,71,721,77,664,60"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="779,77,780,67,788,58,804,53,828,51,856,54,872,62,870,66,855,59,828,56,806,58,791,63,784,69,785,77"/>
+<area shape="rect" id="Node000006" href="$a05327.html#a3d7e0757d4396373d70278bc54ebd234" title=" " alt="" coords="736,188,920,243"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="664,245,722,234,723,239,665,250"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="779,188,780,178,788,169,804,163,828,161,856,164,872,172,870,177,855,170,828,167,806,169,791,173,784,180,785,188"/>
+<area shape="rect" id="Node000008" href="$a05327.html#a39de0d6df9c4713c947c5b74c3bfa9d3" title=" " alt="" coords="741,307,915,361"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="664,337,727,335,728,340,664,343"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="779,307,780,296,788,288,804,282,828,280,856,283,872,291,870,296,855,288,828,285,806,287,791,292,784,298,785,307"/>
+<area shape="poly" id="edge15_Node000009_Node000002" title=" " alt="" coords="468,186,434,186,434,181,468,181"/>
+<area shape="poly" id="edge14_Node000009_Node000004" title=" " alt="" coords="634,170,736,134,738,139,636,175"/>
+<area shape="poly" id="edge16_Node000009_Node000006" title=" " alt="" coords="687,200,723,203,722,208,687,205"/>
+<area shape="poly" id="edge17_Node000009_Node000008" title=" " alt="" coords="660,210,688,222,744,257,791,295,788,300,740,262,685,227,658,215"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="531,173,528,163,535,154,552,148,577,146,606,149,622,156,620,161,605,154,577,151,553,153,538,158,533,164,536,172"/>
+<area shape="poly" id="edge19_Node000010_Node000004" title=" " alt="" coords="678,102,721,102,721,107,678,107"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="LumexAtomicSmartPtrBox.hpp" name="LumexAtomicSmartPtrBox.hpp">
+<area shape="rect" id="Node000001" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="7,5,230,31"/>
+<area shape="rect" id="Node000002" href="$a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="5,79,232,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,44,121,78,116,78,116,44"/>
+</map>

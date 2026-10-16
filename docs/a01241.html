@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexUtility File Reference</title>
+<title>LumexLib: LumexLogger.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,57 +103,195 @@ $(function(){initNavTree('a01241.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexUtility File Reference</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">LumexLogger.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;exception&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;dirent.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;sys/statvfs.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &lt;linux/limits.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01238_source.html">LumexLogger.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01244_source.html">lumex/applied/logger/config/LumexLoggerConfigFormat.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01106_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexLogger.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01242.png" border="0" usemap="#aLumexLogger_8cpp" alt=""/></div>
+<map name="aLumexLogger_8cpp" id="aLumexLogger_8cpp">
+<area shape="rect" title=" " alt="" coords="849,5,985,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,91,111"/>
+<area shape="poly" title=" " alt="" coords="849,23,466,43,256,60,169,70,103,81,92,84,90,79,102,76,168,65,255,55,465,38,849,18"/>
+<area shape="rect" title=" " alt="" coords="115,86,181,111"/>
+<area shape="poly" title=" " alt="" coords="849,23,509,43,326,60,251,70,194,81,186,84,185,78,193,76,250,65,325,55,509,38,849,18"/>
+<area shape="rect" title=" " alt="" coords="206,86,271,111"/>
+<area shape="poly" title=" " alt="" coords="849,25,557,47,403,63,291,81,281,84,280,79,290,76,402,58,556,42,849,20"/>
+<area shape="rect" title=" " alt="" coords="701,174,768,199"/>
+<area shape="poly" title=" " alt="" coords="849,23,777,29,699,39,631,56,606,67,590,80,583,95,584,108,592,121,606,133,645,155,689,171,687,176,643,159,603,137,588,124,579,110,577,94,586,77,604,63,629,51,698,34,776,24,849,18"/>
+<area shape="rect" title=" " alt="" coords="347,86,413,111"/>
+<area shape="poly" title=" " alt="" coords="849,23,763,28,657,38,541,56,426,81,419,83,418,78,425,76,540,50,656,33,763,23,849,17"/>
+<area shape="rect" title=" " alt="" coords="438,86,525,111"/>
+<area shape="poly" title=" " alt="" coords="850,29,708,49,545,81,532,85,530,79,543,76,707,44,849,23"/>
+<area shape="rect" title=" " alt="" coords="793,174,866,199"/>
+<area shape="poly" title=" " alt="" coords="913,32,845,163,840,161,908,29"/>
+<area shape="rect" title=" " alt="" coords="600,86,675,111"/>
+<area shape="poly" title=" " alt="" coords="861,33,779,54,687,81,681,84,679,79,686,76,777,49,860,28"/>
+<area shape="rect" title=" " alt="" coords="699,86,779,111"/>
+<area shape="poly" title=" " alt="" coords="890,33,781,83,778,78,888,28"/>
+<area shape="rect" title=" " alt="" coords="564,262,641,287"/>
+<area shape="poly" title=" " alt="" coords="905,33,857,74,792,121,764,135,740,143,717,152,691,169,650,210,620,252,616,248,646,207,688,165,715,147,738,138,761,130,789,116,853,70,902,29"/>
+<area shape="rect" title=" " alt="" coords="891,174,955,199"/>
+<area shape="poly" title=" " alt="" coords="920,31,925,160,919,161,915,31"/>
+<area shape="rect" title=" " alt="" coords="979,174,1053,199"/>
+<area shape="poly" title=" " alt="" coords="986,16,1150,20,1350,30,1445,38,1526,48,1587,60,1608,68,1621,77,1628,88,1630,99,1628,110,1621,121,1608,129,1586,136,1525,146,1352,157,1177,163,1072,169,1061,172,1060,167,1072,164,1177,157,1352,152,1524,141,1585,131,1605,124,1617,117,1623,108,1625,99,1623,90,1617,81,1605,73,1586,66,1525,53,1444,43,1349,35,1150,25,986,21"/>
+<area shape="rect" title=" " alt="" coords="955,86,1042,111"/>
+<area shape="poly" title=" " alt="" coords="932,29,977,74,974,78,929,33"/>
+<area shape="rect" title=" " alt="" coords="1067,86,1139,111"/>
+<area shape="poly" title=" " alt="" coords="948,28,1062,78,1060,83,946,33"/>
+<area shape="rect" title=" " alt="" coords="1163,86,1248,111"/>
+<area shape="poly" title=" " alt="" coords="973,28,1151,76,1160,79,1158,84,1150,81,972,33"/>
+<area shape="rect" title=" " alt="" coords="1273,86,1378,111"/>
+<area shape="poly" title=" " alt="" coords="986,25,1114,46,1261,76,1274,80,1273,85,1259,81,1113,51,985,30"/>
+<area shape="rect" title=" " alt="" coords="1401,86,1476,111"/>
+<area shape="poly" title=" " alt="" coords="986,19,1170,36,1280,52,1390,76,1399,79,1397,84,1389,81,1279,58,1169,41,985,24"/>
+<area shape="rect" title=" " alt="" coords="1500,86,1607,111"/>
+<area shape="poly" title=" " alt="" coords="986,18,1210,36,1349,52,1489,76,1504,80,1502,85,1487,81,1349,58,1210,41,985,24"/>
+<area shape="rect" href="a01238.html" title="The file logger of the lumex::logger module: the LumexLogger singleton, its level and configuration t..." alt="" coords="1682,86,1819,111"/>
+<area shape="poly" title=" " alt="" coords="986,18,1281,35,1471,52,1663,76,1687,80,1686,86,1662,81,1471,57,1280,40,985,23"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="2356,343,2545,383"/>
+<area shape="poly" title=" " alt="" coords="986,16,1903,37,2386,55,2543,65,2589,71,2609,76,2622,92,2630,109,2633,144,2624,180,2604,217,2578,251,2548,284,2490,336,2486,332,2544,280,2574,248,2599,214,2619,178,2628,144,2625,111,2618,95,2607,81,2588,76,2543,70,2386,60,1903,43,985,22"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="2481,431,2735,471"/>
+<area shape="poly" title=" " alt="" coords="986,16,1365,19,1902,29,2166,37,2393,47,2558,60,2610,68,2637,76,2664,99,2679,123,2685,151,2687,187,2687,275,2681,316,2668,355,2651,391,2633,420,2629,417,2647,388,2663,353,2676,315,2681,274,2681,187,2680,152,2674,125,2660,102,2635,81,2609,73,2558,65,2392,52,2165,42,1902,34,1365,25,986,21"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="903,431,1116,471"/>
+<area shape="poly" title=" " alt="" coords="849,23,713,30,552,42,411,59,363,69,336,81,317,104,311,127,312,187,312,274,316,295,328,314,347,331,373,347,441,375,525,397,618,414,714,427,889,442,889,448,714,432,617,419,524,402,439,380,371,352,344,335,324,317,311,297,307,275,307,187,305,126,313,101,333,77,361,64,410,54,551,37,713,25,849,18"/>
+<area shape="rect" href="a01244.html" title="The format of the logger&#39;s trigger file, fixed when the logger library is configured." alt="" coords="2324,79,2596,119"/>
+<area shape="poly" title=" " alt="" coords="986,19,2310,88,2310,93,985,24"/>
+<area shape="poly" title=" " alt="" coords="1682,113,1619,121,1491,131,1382,133,1196,127,1107,126,1012,130,905,144,781,169,773,171,771,166,779,164,905,138,1012,125,1107,121,1196,122,1382,128,1491,126,1618,116,1682,108"/>
+<area shape="poly" title=" " alt="" coords="1682,113,1619,121,1506,131,1410,133,1246,131,1168,131,1084,136,990,148,879,169,870,172,869,167,878,164,989,142,1084,130,1168,126,1246,126,1410,128,1506,125,1618,116,1682,108"/>
+<area shape="poly" title=" " alt="" coords="1682,113,1619,121,1519,130,1435,132,1290,131,1221,131,1147,136,1064,148,967,169,961,171,959,166,966,164,1063,143,1146,131,1220,126,1290,125,1435,127,1519,124,1618,116,1682,107"/>
+<area shape="poly" title=" " alt="" coords="1701,114,1663,121,1573,133,1497,138,1366,140,1237,144,1161,153,1073,169,1060,172,1059,167,1071,164,1160,148,1236,139,1366,134,1497,133,1573,127,1662,116,1700,109"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="2049,350,2231,375"/>
+<area shape="poly" title=" " alt="" coords="1820,99,1885,106,1963,118,2045,137,2124,164,2164,181,2196,196,2223,218,2246,254,2253,275,2246,296,2221,326,2190,346,2187,342,2218,322,2242,293,2248,275,2242,256,2219,221,2194,200,2162,186,2122,169,2043,142,1962,123,1885,111,1819,105"/>
+<area shape="rect" title=" " alt="" coords="2428,174,2495,199"/>
+<area shape="poly" title=" " alt="" coords="1820,101,2128,126,2291,144,2410,164,2420,167,2419,172,2409,169,2291,150,2127,132,1820,106"/>
+<area shape="rect" title=" " alt="" coords="1401,174,1463,199"/>
+<area shape="poly" title=" " alt="" coords="1697,114,1475,169,1471,171,1469,166,1474,164,1696,109"/>
+<area shape="rect" title=" " alt="" coords="1883,262,1941,287"/>
+<area shape="poly" title=" " alt="" coords="1803,109,1878,133,1910,148,1930,165,1939,186,1939,209,1928,250,1922,249,1934,208,1933,187,1926,168,1907,153,1876,138,1801,114"/>
+<area shape="rect" title=" " alt="" coords="1713,174,1777,199"/>
+<area shape="poly" title=" " alt="" coords="1753,112,1750,160,1744,160,1747,111"/>
+<area shape="rect" title=" " alt="" coords="2222,438,2314,463"/>
+<area shape="poly" title=" " alt="" coords="1820,101,2019,124,2116,142,2156,152,2185,164,2216,182,2238,200,2254,222,2269,254,2281,299,2284,346,2281,390,2276,425,2271,424,2276,389,2279,346,2276,300,2264,256,2250,225,2234,203,2213,186,2183,169,2154,157,2115,147,2018,129,1819,107"/>
+<area shape="rect" title=" " alt="" coords="1801,174,1916,199"/>
+<area shape="poly" title=" " alt="" coords="1768,110,1834,163,1831,167,1765,114"/>
+<area shape="rect" title=" " alt="" coords="1966,262,2026,287"/>
+<area shape="poly" title=" " alt="" coords="1820,101,1889,109,1963,121,2027,140,2051,151,2067,165,2074,177,2075,189,2067,214,2049,236,2027,256,2024,252,2045,233,2062,211,2070,189,2069,178,2063,168,2048,156,2025,145,1962,127,1888,114,1819,106"/>
+<area shape="rect" title=" " alt="" coords="1991,174,2054,199"/>
+<area shape="poly" title=" " alt="" coords="1797,109,1973,164,1979,167,1978,172,1971,169,1795,114"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="2050,255,2233,295"/>
+<area shape="poly" title=" " alt="" coords="1820,103,1971,125,2042,143,2069,153,2090,165,2106,181,2119,201,2136,240,2131,243,2114,203,2102,184,2086,169,2067,158,2040,148,1970,130,1819,108"/>
+<area shape="poly" title=" " alt="" coords="1820,100,2079,123,2213,142,2268,152,2309,164,2443,253,2452,272,2456,291,2458,329,2452,329,2451,292,2447,273,2439,256,2307,169,2266,158,2212,147,2079,129,1820,106"/>
+<area shape="poly" title=" " alt="" coords="1820,99,1948,107,2104,120,2252,139,2313,151,2359,164,2477,250,2553,308,2592,341,2606,379,2611,416,2606,417,2601,380,2587,344,2550,312,2474,254,2356,169,2312,156,2252,144,2104,125,1948,112,1819,104"/>
+<area shape="poly" title=" " alt="" coords="1683,114,1389,169,1374,178,1364,189,1353,199,1337,209,1287,224,1241,226,1198,222,1158,215,1120,211,1082,213,1045,227,1007,257,995,273,987,293,982,336,988,379,999,417,993,418,983,380,977,336,981,291,990,271,1003,253,1043,222,1081,208,1120,206,1159,210,1199,217,1241,221,1286,218,1335,204,1350,195,1360,185,1371,174,1387,164,1682,109"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="666,255,921,295"/>
+<area shape="poly" title=" " alt="" coords="1688,114,1643,121,1562,129,1493,130,1374,125,1317,124,1258,130,1192,143,1117,169,1102,178,1092,188,1082,199,1067,209,1001,235,934,254,933,249,1000,230,1064,204,1079,195,1088,184,1099,174,1115,164,1191,138,1257,124,1317,119,1374,119,1493,125,1562,124,1642,116,1687,109"/>
+<area shape="rect" href="a01118.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="1129,167,1325,207"/>
+<area shape="poly" title=" " alt="" coords="1698,114,1663,121,1504,147,1344,169,1339,170,1338,165,1344,164,1503,141,1662,116,1697,109"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="1487,167,1689,207"/>
+<area shape="poly" title=" " alt="" coords="1728,114,1639,162,1636,158,1726,109"/>
+<area shape="poly" title=" " alt="" coords="2144,295,2143,336,2138,336,2138,295"/>
+<area shape="poly" title=" " alt="" coords="2213,292,2367,336,2366,341,2211,297"/>
+<area shape="poly" title=" " alt="" coords="2050,295,2038,297,1533,378,1130,437,1129,431,1532,373,2037,292,2049,290"/>
+<area shape="poly" title=" " alt="" coords="2410,385,2308,435,2305,430,2408,380"/>
+<area shape="poly" title=" " alt="" coords="2488,381,2561,422,2559,426,2485,385"/>
+<area shape="poly" title=" " alt="" coords="2356,383,2338,385,1995,416,1655,436,1355,447,1130,452,1130,447,1355,442,1655,431,1994,411,2337,380,2355,378"/>
+<area shape="poly" title=" " alt="" coords="820,293,976,420,972,424,816,297"/>
+<area shape="poly" title=" " alt="" coords="1487,208,1475,209,1350,220,1243,224,1062,220,974,219,881,223,777,234,654,257,644,260,643,255,653,252,776,229,881,217,974,213,1062,214,1243,218,1350,215,1474,204,1486,202"/>
+<area shape="poly" title=" " alt="" coords="1685,204,1773,225,1865,252,1872,254,1870,259,1863,257,1772,231,1684,209"/>
+<area shape="poly" title=" " alt="" coords="1685,204,1753,224,1820,252,1847,272,1872,292,1953,341,2038,380,2127,411,2209,434,2207,439,2125,416,2036,385,1950,346,1869,297,1844,276,1817,257,1751,229,1684,209"/>
+<area shape="poly" title=" " alt="" coords="1689,202,1954,252,1960,254,1958,259,1953,257,1688,207"/>
+<area shape="poly" title=" " alt="" coords="1689,202,1702,204,1867,227,2037,252,2036,257,1866,233,1701,209,1688,207"/>
+<area shape="poly" title=" " alt="" coords="1690,202,1702,204,1854,219,1973,224,2093,231,2244,252,2338,264,2413,271,2448,278,2483,291,2519,311,2559,341,2575,357,2587,377,2603,416,2598,418,2582,379,2570,361,2556,345,2517,315,2481,296,2446,283,2412,276,2337,269,2244,257,2092,236,1973,229,1854,224,1701,209,1689,208"/>
+<area shape="poly" title=" " alt="" coords="1488,207,1475,209,1375,213,1245,213,1179,216,1120,223,1071,236,1052,245,1037,257,1023,273,1013,293,1003,335,1001,379,1005,417,1000,417,996,379,997,335,1008,291,1018,270,1033,253,1049,241,1069,231,1119,217,1179,210,1244,207,1375,208,1474,204,1487,202"/>
+<area shape="poly" title=" " alt="" coords="1487,208,1475,209,1339,226,1233,236,991,257,935,263,934,258,990,252,1233,231,1339,221,1474,204,1486,202"/>
+<area shape="rect" title=" " alt="" coords="1347,262,1418,287"/>
+<area shape="poly" title=" " alt="" coords="1542,209,1426,259,1424,254,1540,204"/>
+<area shape="rect" title=" " alt="" coords="1442,262,1529,287"/>
+<area shape="poly" title=" " alt="" coords="1566,209,1513,255,1509,251,1562,205"/>
+<area shape="rect" title=" " alt="" coords="1553,262,1623,287"/>
+<area shape="poly" title=" " alt="" coords="1591,207,1591,248,1585,248,1585,207"/>
+<area shape="rect" title=" " alt="" coords="1648,262,1707,287"/>
+<area shape="poly" title=" " alt="" coords="1611,205,1656,250,1652,254,1607,209"/>
+<area shape="rect" title=" " alt="" coords="1731,262,1807,287"/>
+<area shape="poly" title=" " alt="" coords="1631,204,1732,254,1730,258,1628,209"/>
+<area shape="rect" title=" " alt="" coords="1047,262,1102,287"/>
+<area shape="poly" title=" " alt="" coords="1488,207,1475,209,1373,221,1293,225,1214,233,1115,257,1110,259,1109,254,1114,252,1213,228,1292,219,1373,215,1474,204,1487,202"/>
+<area shape="rect" title=" " alt="" coords="1127,262,1201,287"/>
+<area shape="poly" title=" " alt="" coords="1487,207,1214,257,1206,260,1205,255,1213,252,1487,202"/>
+<area shape="rect" title=" " alt="" coords="1226,262,1323,287"/>
+<area shape="poly" title=" " alt="" coords="1509,209,1335,257,1326,260,1324,255,1334,252,1508,204"/>
+<area shape="poly" title=" " alt="" coords="2482,117,2498,137,2510,160,2516,184,2509,208,2484,239,2455,266,2422,288,2387,307,2314,335,2245,352,2244,347,2313,330,2385,302,2420,284,2452,261,2480,235,2504,205,2511,184,2505,162,2493,140,2478,120"/>
+<area shape="poly" title=" " alt="" coords="2463,119,2464,160,2458,160,2458,119"/>
+<area shape="poly" title=" " alt="" coords="2491,117,2513,138,2530,166,2535,187,2531,208,2517,238,2502,259,2456,297,2243,385,2146,402,2018,415,1708,435,1387,446,1130,452,1130,447,1387,441,1708,430,2018,410,2145,396,2242,380,2453,292,2498,255,2513,235,2525,206,2530,187,2526,168,2509,142,2487,121"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01448.html">lumex::applied::logger</a></td></tr>
+<tr class="memdesc:a01448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Universal file logger, ported and kept up to date from the DChannel project's Logger. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01449.html">lumex::applied::logger::logger</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
-<p>Utility module, the foundation of the library: assertion, attribute, keyword and constant macros, compiler, feature and OS checks, type traits, stack text and core dumps, demangling, safe numeric comparison (with the ordering classes of its three-way result), bit and byte order helpers, the iterator range, the process id, a callback slot, the <code>identity</code> and <code>less</code> function objects and the <code>index_sequence</code> family.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00581_source.html">assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00590_source.html">callback/LumexCallbackSlot.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00596_source.html">compiler/LumexCheckCompiler.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00599_source.html">compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00602_source.html">debug/LumexDebug.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00605_source.html">demangle/LumexDemangle.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00611_source.html">dump/LumexCoreDumpGenerator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00614_source.html">functional/LumexFunctional.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00617_source.html">macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00626_source.html">macros/LumexMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00632_source.html">numeric/LumexOrdering.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00635_source.html">numeric/LumexSafeNumericComparator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00638_source.html">os/LumexCheckOS.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00641_source.html">process/LumexProcess.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00650_source.html">sequence/LumexIndexSequence.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00653_source.html">traits/LumexTypeTraits.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00656_source.html">util/LumexUtilities.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00587_source.html">bit/LumexBit.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00593_source.html">cast/LumexCast.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00629_source.html">mem/LumexMemRead.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00644_source.html">ranges/LumexIteratorRange.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00647_source.html">ranges/LumexRanges.hpp</a>&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexUtility:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01242.png" border="0" usemap="#a_lumex_utility" alt=""/></div>
-</div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01243.png" border="0" usemap="#a_lumex_utilitydep" alt=""/></div>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
-<p><a href="a01241_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Utility module, the foundation of the library: assertion, attribute, keyword and constant macros, compiler, feature and OS checks, type traits, stack text and core dumps, demangling, safe numeric comparison (with the ordering classes of its three-way result), bit and byte order helpers, the iterator range, the process id, a callback slot, the <code>identity</code> and <code>less</code> function objects and the <code>index_sequence</code> family. </p>
-<p>Link <code>lumex::utility</code> (compiled library; it links <code>lumex::math</code>, <code>lumex::optional</code> and <code>lumex::span</code>). Works from C++11. The umbrella also includes <code>bit/</code>, <code>cast/</code>, <code>mem/</code> and <code>ranges/</code>. In them <code>count_leading_zeros</code>, <code>byte_swap</code>, <code>is_little_endian</code>, <code>downcast</code>, <code>downcast_noexcept</code> and <code>bad_down_cast</code>, <code>get_nearest_to</code>, <code>iterator_range</code> and <code>mem::as</code> (reads a value out of raw bytes; the result is the optional of <code>lumex::optional</code> in every standard, <code>mem::optional_t</code>, which converts to and from <code>std::optional</code> from C++17) work from C++11. <code>functional/</code> (<code>functional::identity</code>, <code>functional::less</code>) and <code>sequence/</code> (<code>sequence::integer_sequence</code>, <code>index_sequence</code>, <code>make_integer_sequence</code>, <code>make_index_sequence</code>, <code>index_sequence_for</code>) work from C++11: they are the classes of this library in every standard, never aliases of <code>std::identity</code>, <code>std::less&lt;void&gt;</code> or the standard integer sequences (they convert to and from those where the standard has them). <code>traits::meta</code> has the C++11 forms <code>is_pointer_to_class</code>, <code>is_lvalue_ref_to_class</code>, <code>is_complete_type</code>, <code>preserves_cv</code>, <code>is_derived_from</code>, <code>is_extractible</code> and <code>is_byte_like</code> of its concepts, and <code>traits::string::is_string_convertible</code> the form of <code>StringLike</code>. </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="a01241.html">LumexUtility</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_e29b5b767fb03629027b334d9196758a.html">logger</a></li><li class="navelem"><a class="el" href="dir_3946d827b2133a71d7c085baf5845a99.html">logger</a></li><li class="navelem"><a class="el" href="a01241.html">LumexLogger.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

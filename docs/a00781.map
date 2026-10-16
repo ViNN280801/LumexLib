@@ -1,0 +1,73 @@
+<map id="LumexSmartPtrConfig.hpp" name="LumexSmartPtrConfig.hpp">
+<area shape="rect" id="Node000001" title="Configuration macros of core/smart_ptr: exception handling, ThreadSanitizer detection,..." alt="" coords="651,5,843,31"/>
+<area shape="rect" id="Node000002" href="$a00773.html" title="shared_ptr&lt;T&gt;: shared ownership with the module&#39;s own control block, at the level of the C++17 std::s..." alt="" coords="903,299,1059,324"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="760,42,811,138,849,196,893,249,925,276,958,296,955,301,922,280,889,253,844,199,806,141,755,44"/>
+<area shape="rect" id="Node000011" href="$a00818.html" title="What the split&#45;count engine needs to know about the pointer it stores: the counter group its referenc..." alt="" coords="315,453,511,478"/>
+<area shape="poly" id="edge51_Node000001_Node000011" title=" " alt="" coords="651,36,552,56,451,85,408,102,373,122,351,143,345,153,343,165,343,311,349,353,366,393,386,426,404,451,400,454,382,429,361,395,344,355,337,312,337,164,340,152,346,139,370,117,405,97,449,80,550,51,650,30"/>
+<area shape="rect" id="Node000012" href="$a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="31,533,217,559"/>
+<area shape="poly" id="edge50_Node000001_Node000012" title=" " alt="" coords="637,31,451,52,244,83,151,102,76,122,25,144,12,154,8,165,8,385,11,409,19,431,45,473,78,507,107,531,104,535,74,511,41,476,14,434,6,410,3,385,3,164,8,151,23,139,74,117,150,97,243,78,451,47,636,26"/>
+<area shape="rect" id="Node000014" href="$a00776.html" title="Forward declarations of the pointer classes and detail::access, the friend that gives the split&#45;count..." alt="" coords="581,225,777,251"/>
+<area shape="poly" id="edge20_Node000001_Node000014" title=" " alt="" coords="749,45,743,107,735,143,724,178,709,205,693,227,688,223,705,202,719,176,730,142,737,106,743,44"/>
+<area shape="rect" id="Node000015" href="$a00764.html" title="split_counter: the packed reference counter of the control block, one 64&#45;bit atomic word {count:32,..." alt="" coords="507,79,709,104"/>
+<area shape="poly" id="edge28_Node000001_Node000015" title=" " alt="" coords="712,40,634,81,631,76,709,35"/>
+<area shape="rect" id="Node000017" href="$a00761.html" title="The control blocks shared_ptr creates: ctl_ptr (a separate object with a deleter),..." alt="" coords="903,225,1108,251"/>
+<area shape="poly" id="edge43_Node000001_Node000017" title=" " alt="" coords="804,33,845,51,886,77,925,114,958,155,1001,224,996,227,954,159,921,117,882,81,843,56,801,38"/>
+<area shape="rect" id="Node000020" href="$a00782.html" title="Building blocks of the smart pointers: the type identity without RTTI, the empty&#45;base storage of dele..." alt="" coords="1024,152,1211,177"/>
+<area shape="poly" id="edge44_Node000001_Node000020" title=" " alt="" coords="832,31,905,50,980,76,1049,113,1102,150,1099,154,1046,118,978,81,903,55,830,36"/>
+<area shape="rect" id="Node000003" href="$a00803.html" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="587,445,800,485"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="947,333,732,448,730,443,944,328"/>
+<area shape="rect" id="Node000004" href="$a00770.html" title="enable_shared_from_this&lt;T&gt;: lets an object that is owned by a shared_ptr of this module hand out furt..." alt="" coords="824,453,1067,478"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="978,338,951,453,946,452,973,337"/>
+<area shape="rect" id="Node000005" href="$a01397.html" title="Smart pointer module: shared_ptr, weak_ptr, enable_shared_from_this, make_shared, allocate_shared,..." alt="" coords="1043,533,1165,559"/>
+<area shape="poly" id="edge10_Node000002_Node000005" title=" " alt="" coords="993,336,1006,366,1025,396,1039,410,1053,418,1067,428,1081,444,1092,467,1099,492,1106,533,1101,534,1094,493,1087,469,1076,447,1064,432,1050,423,1036,414,1021,399,1002,369,988,339"/>
+<area shape="rect" id="Node000009" href="$a00785.html" title="make_shared and allocate_shared: create the object and its control block in one allocation ([util...." alt="" coords="1230,372,1405,397"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="1053,324,1259,369,1258,374,1052,329"/>
+<area shape="rect" id="Node000010" href="$a00755.html" title="Explicit conversions between the module&#39;s shared_ptr and std::shared_ptr: from_std and to_std." alt="" coords="1034,372,1206,397"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="1019,328,1097,369,1094,374,1016,333"/>
+<area shape="poly" id="edge13_Node000002_Node000011" title=" " alt="" coords="890,323,712,345,629,359,569,375,528,392,490,414,431,455,428,450,487,410,526,388,567,369,627,354,711,340,889,318"/>
+<area shape="rect" id="Node000013" href="$a00788.html" title="weak_ptr&lt;T&gt; and owner_less: non&#45;owning observers of an object that a shared_ptr owns ([util...." alt="" coords="580,372,727,397"/>
+<area shape="poly" id="edge15_Node000002_Node000013" title=" " alt="" coords="912,330,711,374,710,369,911,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="984,482,1080,531,1078,536,981,487"/>
+<area shape="rect" id="Node000006" href="$a00278.html" title=" " alt="" coords="826,607,993,647"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1062,566,959,609,957,604,1060,561"/>
+<area shape="rect" id="Node000007" href="$a00266.html" title=" " alt="" coords="1017,614,1191,639"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1107,573,1107,613,1101,613,1101,573"/>
+<area shape="rect" id="Node000008" href="$a00269.html" title=" " alt="" coords="1215,614,1457,639"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="1155,561,1300,611,1299,616,1153,566"/>
+<area shape="poly" id="edge9_Node000009_Node000005" title=" " alt="" coords="1291,408,1123,535,1120,531,1288,404"/>
+<area shape="poly" id="edge12_Node000010_Node000005" title=" " alt="" coords="1126,411,1128,447,1125,486,1112,534,1107,533,1120,485,1122,447,1121,412"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="355,484,170,536,169,531,354,479"/>
+<area shape="poly" id="edge16_Node000013_Node000003" title=" " alt="" coords="668,409,686,444,681,446,663,411"/>
+<area shape="poly" id="edge17_Node000013_Node000004" title=" " alt="" coords="713,398,900,450,899,455,712,404"/>
+<area shape="poly" id="edge18_Node000013_Node000005" title=" " alt="" coords="616,406,594,424,577,447,570,467,571,475,576,483,599,495,643,505,771,522,918,534,1043,541,1042,546,918,539,770,528,642,511,597,500,573,487,566,477,565,466,572,444,590,420,613,402"/>
+<area shape="poly" id="edge19_Node000013_Node000011" title=" " alt="" coords="603,404,452,455,450,450,602,399"/>
+<area shape="poly" id="edge24_Node000014_Node000002" title=" " alt="" coords="745,251,929,296,928,301,744,256"/>
+<area shape="poly" id="edge21_Node000014_Node000003" title=" " alt="" coords="696,261,721,311,741,371,743,385,741,398,729,424,714,446,709,443,725,422,736,397,738,385,736,373,716,313,691,264"/>
+<area shape="poly" id="edge22_Node000014_Node000004" title=" " alt="" coords="706,258,932,451,929,455,702,262"/>
+<area shape="poly" id="edge23_Node000014_Node000009" title=" " alt="" coords="791,247,926,266,1073,296,1193,333,1288,369,1286,374,1191,338,1071,301,925,272,790,252"/>
+<area shape="poly" id="edge25_Node000014_Node000010" title=" " alt="" coords="725,253,834,296,893,321,982,349,1064,369,1062,375,981,354,891,327,832,301,724,258"/>
+<area shape="poly" id="edge26_Node000014_Node000011" title=" " alt="" coords="641,259,560,306,516,338,475,374,443,415,422,453,417,451,439,413,471,370,513,334,557,302,638,255"/>
+<area shape="poly" id="edge27_Node000014_Node000013" title=" " alt="" coords="677,265,658,372,653,371,671,264"/>
+<area shape="rect" id="Node000016" href="$a00758.html" title="ctl_base: the control block of shared_ptr and weak_ptr, 32 bytes on a 64&#45;bit target." alt="" coords="507,152,709,177"/>
+<area shape="poly" id="edge29_Node000015_Node000016" title=" " alt="" coords="611,118,611,152,605,152,605,118"/>
+<area shape="poly" id="edge30_Node000016_Node000002" title=" " alt="" coords="663,179,790,223,954,296,952,301,788,228,662,184"/>
+<area shape="poly" id="edge37_Node000016_Node000011" title=" " alt="" coords="565,186,535,204,509,227,488,255,470,287,443,352,426,411,418,453,413,452,421,410,438,350,465,284,483,253,505,224,532,199,562,181"/>
+<area shape="poly" id="edge42_Node000016_Node000013" title=" " alt="" coords="568,186,544,204,526,227,515,253,510,275,514,298,526,323,540,339,556,352,595,370,593,374,554,356,536,342,522,325,509,299,505,275,510,251,522,224,541,200,565,182"/>
+<area shape="poly" id="edge31_Node000016_Node000014" title=" " alt="" coords="632,185,668,223,664,227,628,189"/>
+<area shape="poly" id="edge32_Node000016_Node000017" title=" " alt="" coords="690,177,937,223,936,228,689,182"/>
+<area shape="rect" id="Node000018" href="$a00815.html" title="The slot word of the split&#45;count engine: a control block, the ticks of the loads in flight and the st..." alt="" coords="95,372,289,397"/>
+<area shape="poly" id="edge38_Node000016_Node000018" title=" " alt="" coords="506,183,439,200,373,228,319,263,271,304,205,374,201,370,267,300,316,258,371,223,437,195,505,177"/>
+<area shape="poly" id="edge34_Node000017_Node000002" title=" " alt="" coords="999,265,988,299,983,297,994,263"/>
+<area shape="poly" id="edge33_Node000017_Node000009" title=" " alt="" coords="1106,250,1199,270,1239,283,1267,296,1285,314,1299,334,1316,371,1311,373,1294,336,1281,317,1264,301,1237,288,1198,276,1105,256"/>
+<area shape="poly" id="edge35_Node000017_Node000010" title=" " alt="" coords="1035,258,1074,297,1100,336,1117,370,1112,373,1095,339,1070,300,1031,261"/>
+<area shape="poly" id="edge36_Node000017_Node000011" title=" " alt="" coords="889,255,803,272,706,296,606,330,512,374,485,393,461,414,425,454,421,451,457,411,482,389,509,370,604,325,705,291,802,267,888,250"/>
+<area shape="poly" id="edge39_Node000018_Node000012" title=" " alt="" coords="134,405,105,422,82,447,78,457,77,469,84,492,98,514,113,531,109,535,93,517,79,494,72,469,73,456,78,444,101,418,131,400"/>
+<area shape="rect" id="Node000019" href="$a00812.html" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="93,453,291,478"/>
+<area shape="poly" id="edge40_Node000018_Node000019" title=" " alt="" coords="195,411,195,452,189,452,189,411"/>
+<area shape="poly" id="edge41_Node000019_Node000012" title=" " alt="" coords="174,491,137,535,133,531,170,487"/>
+<area shape="poly" id="edge46_Node000020_Node000002" title=" " alt="" coords="1128,190,1131,221,1129,237,1122,252,1108,269,1090,283,1050,301,1048,296,1087,278,1104,265,1118,249,1124,236,1126,221,1123,191"/>
+<area shape="poly" id="edge45_Node000020_Node000009" title=" " alt="" coords="1157,182,1229,228,1266,260,1297,297,1313,336,1319,371,1314,372,1308,338,1292,300,1262,264,1226,232,1154,186"/>
+<area shape="poly" id="edge48_Node000020_Node000010" title=" " alt="" coords="1133,189,1145,225,1148,267,1144,309,1127,372,1122,371,1139,308,1143,267,1140,226,1128,191"/>
+<area shape="poly" id="edge49_Node000020_Node000013" title=" " alt="" coords="1010,172,882,179,744,190,630,207,591,216,571,227,561,245,560,264,566,284,577,304,608,341,639,370,635,374,604,345,572,307,561,286,555,264,556,243,567,223,589,211,629,201,744,185,881,174,1010,166"/>
+<area shape="poly" id="edge47_Node000020_Node000017" title=" " alt="" coords="1088,187,1026,227,1024,223,1085,183"/>
+</map>

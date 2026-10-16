@@ -1,0 +1,11 @@
+<map id="lumex::core::filesystem::fs::Detail::is_reserved_name" name="lumex::core::filesystem::fs::Detail::is_reserved_name">
+<area shape="rect" id="Node000001" title=" " alt="" coords="451,59,667,99"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="600,47,585,40,559,37,535,39,521,44,516,50,519,58,513,59,511,49,518,40,534,34,559,32,587,35,602,42"/>
+<area shape="rect" id="Node000002" href="$a01537.html#a72b0ecb08a98bd86964e3ef4f84af743" title="Checks if a file or directory name is valid." alt="" coords="228,29,403,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="437,67,402,63,403,57,437,61"/>
+<area shape="rect" id="Node000003" href="$a01537.html#a0a08e7ddc9003e41440fe5c682267340" title="Filters name, replacing invalid characters with &#39;_&#39; (noexcept wrapper)" alt="" coords="5,59,180,99"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="437,84,403,84,228,84,180,83,180,78,228,79,403,79,437,78"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="353,18,340,11,315,8,294,10,281,15,277,21,279,28,274,30,271,20,278,10,293,5,315,3,341,6,355,13"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="215,65,180,70,180,64,214,60"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="130,47,117,40,93,37,71,39,59,44,54,50,56,58,51,59,49,49,55,40,70,34,93,32,119,35,133,42"/>
+</map>

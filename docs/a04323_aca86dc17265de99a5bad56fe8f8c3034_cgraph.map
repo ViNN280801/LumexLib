@@ -1,0 +1,7 @@
+<map id="lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;::is_set" name="lumex::core::utility::callback::lumex_callback_slot&lt; Tag, Result(Args...)&gt;::is_set">
+<area shape="rect" id="Node000001" title="Whether a function is installed." alt="" coords="5,29,200,99"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="52,28,54,18,64,10,80,5,103,3,130,6,147,14,145,19,129,11,103,8,81,10,66,15,59,21,57,30"/>
+<area shape="rect" id="Node000002" href="$a04323.html#a4fe571dfe8b9893c1f54175740708a38" title="Returns the installed function, or nullptr." alt="" coords="248,37,477,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,61,234,61,234,67,200,67"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="312,37,313,26,322,18,338,12,363,10,392,13,408,21,406,26,390,18,363,15,339,17,324,22,318,28,318,37"/>
+</map>

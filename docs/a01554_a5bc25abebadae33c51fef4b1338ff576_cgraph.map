@@ -1,0 +1,11 @@
+<map id="lumex::core::optional::opt::detail::invoke" name="lumex::core::optional::opt::detail::invoke">
+<area shape="rect" id="Node000001" title="INVOKE of a pointer to a member function." alt="" coords="5,29,165,69"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="46,30,44,20,50,10,64,5,85,3,110,6,123,13,120,18,108,11,85,8,65,10,53,15,49,21,51,28"/>
+<area shape="rect" id="Node000002" href="$a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="421,29,581,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,32,213,27,293,23,374,27,408,30,408,36,373,32,293,28,214,32,166,38"/>
+<area shape="rect" id="Node000003" href="$a01554.html#ac50c233dd99e0fa65e3082c86c9c226b" title="The object of a pointer to member, when the first argument is an object of the class (or derived from..." alt="" coords="213,66,373,121"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="166,64,200,71,199,76,165,69"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="462,30,460,20,466,10,480,5,501,3,526,6,539,13,536,18,524,11,501,8,481,10,469,15,465,21,467,28"/>
+<area shape="poly" id="edge5_Node000003_Node000002" title=" " alt="" coords="373,74,407,66,408,72,374,79"/>
+<area shape="poly" id="edge6_Node000003_Node000003" title=" " alt="" coords="252,66,253,56,260,47,274,41,293,39,317,42,330,50,328,55,315,47,293,45,275,47,263,51,258,58,258,66"/>
+</map>

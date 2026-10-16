@@ -1,0 +1,7 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::is_bidirectional_iterator&lt; Iterator, traits::meta::void_t&lt; typename iterator_category_of&lt; Iterator &gt;::type &gt; &gt;" name="lumex::core::utility::ranges::Algorithm::Detail::is_bidirectional_iterator&lt; Iterator, traits::meta::void_t&lt; typename iterator_category_of&lt; Iterator &gt;::type &gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="287,5,537,104"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="63,6,181,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,25,287,36,286,42,195,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,56,239,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,72,286,68,287,73,252,77"/>
+</map>

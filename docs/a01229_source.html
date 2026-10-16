@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexStringView Source File</title>
+<title>LumexLib: SupportedConfigExtensions.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a01229_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexStringView</div></div>
+  <div class="headertitle"><div class="title">SupportedConfigExtensions.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a01229.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,18 +145,52 @@ $(function(){initNavTree('a01229_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#include &quot;<a class="code" href="a00545.html">view/LumexBasicStringView.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#include &quot;<a class="code" href="a00548.html">view/LumexStringView.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#include &quot;<a class="code" href="a00551.html">view/LumexWStringView.hpp</a>&quot;</span></div>
-<div class="ttc" id="aa00545_html"><div class="ttname"><a href="a00545.html">LumexBasicStringView.hpp</a></div><div class="ttdoc">Header-only, C++11-first basic_string_view: the class template behind lumex_string_view,...</div></div>
-<div class="ttc" id="aa00548_html"><div class="ttname"><a href="a00548.html">LumexStringView.hpp</a></div><div class="ttdoc">lumex_string_view: the view over char, the std::string_view of the library from C++11.</div></div>
-<div class="ttc" id="aa00551_html"><div class="ttname"><a href="a00551.html">LumexWStringView.hpp</a></div><div class="ttdoc">lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11.</div></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#ifndef LUMEX_APPLIED_SETTINGS_INI_SUPPORTED_CONFIG_EXTENSIONS_HPP</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#define LUMEX_APPLIED_SETTINGS_INI_SUPPORTED_CONFIG_EXTENSIONS_HPP</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01425.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>{</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01426.html">applied</a></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>{</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01477.html">settings</a></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>{</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01481.html">ini</a></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>{</div>
+<div class="foldopen" id="foldopen00071" data-start="{" data-end="};">
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">   71</a></span><span class="keyword">enum</span> <a class="code hl_enumeration" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">SupportedConfigExtensions</a> : std::uint8_t</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>{</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43">   73</a></span>  <a class="code hl_enumvalue" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43">INI</a>,  </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa">   74</a></span>  <a class="code hl_enumvalue" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa">XML</a>,  </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e">   75</a></span>  <a class="code hl_enumvalue" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e">JSON</a>, </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="comment">// YAML, // add YAML</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>};</div>
+</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>} <span class="comment">// namespace ini</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>} <span class="comment">// namespace settings</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>} <span class="comment">// namespace applied</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="a01229.html#ac438d1e8fa1811a2273f163d14e87c50">   83</a></span><span class="keyword">using </span><a class="code hl_typedef" href="a01229.html#ac438d1e8fa1811a2273f163d14e87c50">LumexSettingsExtensions</a></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    = <a class="code hl_enumeration" href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">lumex::applied::settings::ini::SupportedConfigExtensions</a>;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_APPLIED_SETTINGS_INI_SUPPORTED_CONFIG_EXTENSIONS_HPP</span></div>
+<div class="ttc" id="aa01229_html_ac438d1e8fa1811a2273f163d14e87c50"><div class="ttname"><a href="a01229.html#ac438d1e8fa1811a2273f163d14e87c50">LumexSettingsExtensions</a></div><div class="ttdeci">lumex::applied::settings::ini::SupportedConfigExtensions LumexSettingsExtensions</div><div class="ttdef"><b>Definition</b> SupportedConfigExtensions.hpp:83</div></div>
+<div class="ttc" id="aa01425_html"><div class="ttname"><a href="a01425.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01426_html"><div class="ttname"><a href="a01426.html">lumex::applied</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:70</div></div>
+<div class="ttc" id="aa01477_html"><div class="ttname"><a href="a01477.html">lumex::applied::settings</a></div><div class="ttdef"><b>Definition</b> LumexSettingsFactory.cpp:81</div></div>
+<div class="ttc" id="aa01481_html"><div class="ttname"><a href="a01481.html">lumex::applied::settings::ini</a></div><div class="ttdef"><b>Definition</b> LumexSettingsINI.cpp:58</div></div>
+<div class="ttc" id="aa01481_html_a1af005d4f6d6cbc1fe9b8ac0dd312222"><div class="ttname"><a href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222">lumex::applied::settings::ini::SupportedConfigExtensions</a></div><div class="ttdeci">SupportedConfigExtensions</div><div class="ttdoc">Enumeration of supported configuration file formats.</div><div class="ttdef"><b>Definition</b> SupportedConfigExtensions.hpp:72</div></div>
+<div class="ttc" id="aa01481_html_a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43"><div class="ttname"><a href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a1ca736f3ae57c78e792455365acb1e43">lumex::applied::settings::ini::INI</a></div><div class="ttdeci">@ INI</div><div class="ttdoc">INI file format (key-value pairs with sections).</div><div class="ttdef"><b>Definition</b> SupportedConfigExtensions.hpp:73</div></div>
+<div class="ttc" id="aa01481_html_a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e"><div class="ttname"><a href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222a65f566b1d2f043ba85cca8a07058759e">lumex::applied::settings::ini::JSON</a></div><div class="ttdeci">@ JSON</div><div class="ttdoc">JSON file format via LumexSettingsJSON / nlohmann.</div><div class="ttdef"><b>Definition</b> SupportedConfigExtensions.hpp:75</div></div>
+<div class="ttc" id="aa01481_html_a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa"><div class="ttname"><a href="a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa">lumex::applied::settings::ini::XML</a></div><div class="ttdeci">@ XML</div><div class="ttdoc">XML file format via LumexSettingsXML / LumexXml.</div><div class="ttdef"><b>Definition</b> SupportedConfigExtensions.hpp:74</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="a01229.html">LumexStringView</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_780820ccea529b587a25c1a0f8b66936.html">ini</a></li><li class="navelem"><a class="el" href="a01229.html">SupportedConfigExtensions.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,15 @@
+<map id="lumex::core::fmt::Detail::vformat_to_buffer" name="lumex::core::fmt::Detail::vformat_to_buffer">
+<area shape="rect" id="Node000001" title="Formats into buffer; adds the field offset to errors." alt="" coords="5,69,183,109"/>
+<area shape="rect" id="Node000002" href="$a03103.html#a6ab4cd9529ea82665743a1a876e4e67f" title=" " alt="" coords="231,5,433,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,67,244,46,245,51,169,72"/>
+<area shape="rect" id="Node000003" href="$a02971.html#a31ad5f8d467dbd7691cce0e32d953ce0" title=" " alt="" coords="241,69,423,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,87,227,87,227,92,183,92"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a9fced4d130ed35de9eb22230b7bd6e56" title="Walks a format string and reports literal text, replacement fields and their specifications to handle..." alt="" coords="243,133,421,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="169,107,245,127,244,132,168,112"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="481,133,659,173"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="421,151,468,151,468,156,421,156"/>
+<area shape="rect" id="Node000006" href="$a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="707,101,884,141"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="659,138,693,133,694,138,659,143"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="707,165,884,205"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="659,163,694,168,693,173,659,169"/>
+</map>

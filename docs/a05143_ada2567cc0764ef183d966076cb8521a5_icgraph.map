@@ -1,0 +1,7 @@
+<map id="lumex::xml::node::XmlNode::append_attribute" name="lumex::xml::node::XmlNode::append_attribute">
+<area shape="rect" id="Node000001" title="Appends a new attribute with the specified name to the current node." alt="" coords="257,35,461,75"/>
+<area shape="rect" id="Node000002" href="$a05143.html#aed4795cbf9669bd00fcacd49e19a4447" title="Appends a new attribute with the specified name (string_view_t) to the current node." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,44,209,40,210,35,244,39"/>
+<area shape="rect" id="Node000003" href="$a00395.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="80,70,135,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,70,135,82,134,77,243,65"/>
+</map>

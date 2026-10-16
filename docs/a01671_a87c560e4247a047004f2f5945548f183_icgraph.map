@@ -1,0 +1,9 @@
+<map id="lumex::xml::utility::get_value_float" name="lumex::xml::utility::get_value_float">
+<area shape="rect" id="Node000001" title=" " alt="" coords="347,37,489,77"/>
+<area shape="rect" id="Node000002" href="$a05115.html#a2400242f3d9ec9cbeba2a3147af82350" title="Converts the attribute&#39;s value to a float." alt="" coords="117,5,289,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="333,47,289,41,290,36,333,42"/>
+<area shape="rect" id="Node000004" href="$a05187.html#ad10371243db3b2167f8ccd00530ebb55" title="Converts the text object&#39;s value to a float." alt="" coords="108,69,299,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="333,73,299,78,299,72,333,67"/>
+<area shape="rect" id="Node000003" href="$a00392.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="103,28,60,28,60,23,103,23"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="lumex::core::filesystem::fs::check_name" name="lumex::core::filesystem::fs::check_name">
+<area shape="rect" id="Node000001" title="Checks if a file or directory name is valid." alt="" coords="228,29,403,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="353,18,340,11,315,8,294,10,281,15,277,21,279,28,274,30,271,20,278,10,293,5,315,3,341,6,355,13"/>
+<area shape="rect" id="Node000002" href="$a01537.html#a0a08e7ddc9003e41440fe5c682267340" title="Filters name, replacing invalid characters with &#39;_&#39; (noexcept wrapper)" alt="" coords="5,29,180,69"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="215,52,180,52,180,47,215,47"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="130,18,117,11,93,8,71,10,59,15,54,21,56,28,51,30,49,20,55,10,70,5,93,3,119,6,133,13"/>
+</map>

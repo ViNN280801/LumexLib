@@ -1,0 +1,24 @@
+<map id="lumex::core::expected::result::detail::storage::expected_copy_assign_base&lt; T, E, 1 &gt;::operator=" name="lumex::core::expected::result::detail::storage::expected_copy_assign_base&lt; T, E, 1 &gt;::operator=">
+<area shape="rect" id="Node000001" title="Assigns the contents of rhs." alt="" coords="5,81,220,150"/>
+<area shape="rect" id="Node000002" href="$a02847.html#ac152306992f18e0f7f5d020b20848405" title="Assigns the contents of another storage of the same type: [expected.object.assign]/2 and /7." alt="" coords="268,29,503,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,90,254,82,255,87,221,95"/>
+<area shape="rect" id="Node000009" href="$a02887.html#a3665ad042fdb16ff0f71cdd0c3e11376" title=" " alt="" coords="278,132,493,216"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="221,136,265,145,264,151,219,141"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="337,29,337,19,346,10,362,5,385,3,413,6,429,14,427,18,412,11,385,8,363,10,349,15,342,21,342,29"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a6746fa8e180748b7d38e746bc179df5a" title="reinit&#45;expected (T = N, U = O): ends the life of oldval and starts newval with args...." alt="" coords="551,37,717,77"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="503,54,537,54,537,59,503,59"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="1228,26,1395,66"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="717,48,765,46,1008,42,1214,42,1214,48,1008,47,765,51,717,54"/>
+<area shape="rect" id="Node000005" href="$a01533.html#acccbbbed047c705e9d0dfb50a3e29221" title="reinit&#45;expected when the old object is the Unit that stands for void: there is nothing to destroy or ..." alt="" coords="765,61,932,116"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="718,66,752,72,752,77,717,72"/>
+<area shape="poly" id="edge11_Node000005_Node000004" title=" " alt="" coords="932,78,1214,52,1214,58,933,84"/>
+<area shape="rect" id="Node000006" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="1443,119,1633,159"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="904,114,941,128,981,139,1099,155,1220,160,1333,157,1429,150,1429,155,1333,162,1220,165,1099,160,979,145,939,134,902,119"/>
+<area shape="rect" id="Node000007" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="980,90,1180,130"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="932,94,966,97,966,102,932,99"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="1152,87,1225,67,1227,72,1153,92"/>
+<area shape="rect" id="Node000008" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="1228,90,1395,130"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1180,107,1214,107,1214,113,1180,113"/>
+<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="1395,118,1429,123,1429,128,1395,123"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="336,131,340,121,350,112,365,107,385,105,411,109,427,117,424,122,409,114,385,111,366,112,353,117,344,124,341,132"/>
+</map>

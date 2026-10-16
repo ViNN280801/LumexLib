@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::atomic::sync::table_wait::Detail::waiter_stripe_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02026.html',''); initResizable(true); });
+$(function(){initNavTree('a02023.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,97 @@ $(function(){initNavTree('a02026.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a02020.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::sync::table_wait::Detail::waiter_stripe_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02026.html#a3a178ae3ad102e0985f15c805dc5b355">kCatalogCheck</a></td><td class="entry"><a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02026.html#aadb6acf814dbdb221290b87b1324314f">kInit</a></td><td class="entry"><a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02026.html#a05c02e1c2373090618c35aa8c80658b2">kPoly</a></td><td class="entry"><a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02026.html#ae1f3f651a453f24ea001282816b2fecc">kRefIn</a></td><td class="entry"><a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02026.html#a064569e0fd7b7ebf661ab85c012fdd67">kRefOut</a></td><td class="entry"><a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02026.html#aa4425f4e8660bb10869dae377de8d8d6">kWidth</a></td><td class="entry"><a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02026.html#ab1ce61b36e141aea08463d83e3ebda6c">kXorOut</a></td><td class="entry"><a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02026.html#abf1d2f98716bcdc64db0b18244f2fdb6">ValueType</a> typedef</td><td class="entry"><a class="el" href="a02026.html">lumex::core::crc::parametric::crc32_iso_hdlc_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>One stripe of the waiting table: the sleepers of every word that hashes to it share this mutex and condition variable.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00851_source.html">LumexAtomicWait.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:affde8f3d4bffe28861b1e0ff50685084" id="r_affde8f3d4bffe28861b1e0ff50685084"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affde8f3d4bffe28861b1e0ff50685084">waiter_stripe_t</a> ()</td></tr>
+<tr class="separator:affde8f3d4bffe28861b1e0ff50685084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a07b5a9d4ff995674987c2ab10c1b439a" id="r_a07b5a9d4ff995674987c2ab10c1b439a"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07b5a9d4ff995674987c2ab10c1b439a">mutex</a></td></tr>
+<tr class="separator:a07b5a9d4ff995674987c2ab10c1b439a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a513358e501b50f1182ca54cce11c93eb" id="r_a513358e501b50f1182ca54cce11c93eb"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a513358e501b50f1182ca54cce11c93eb">condition</a></td></tr>
+<tr class="separator:a513358e501b50f1182ca54cce11c93eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>One stripe of the waiting table: the sleepers of every word that hashes to it share this mutex and condition variable. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="affde8f3d4bffe28861b1e0ff50685084" name="affde8f3d4bffe28861b1e0ff50685084"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affde8f3d4bffe28861b1e0ff50685084">&#9670;&#160;</a></span>waiter_stripe_t()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::atomic::sync::table_wait::Detail::waiter_stripe_t::waiter_stripe_t </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a513358e501b50f1182ca54cce11c93eb" name="a513358e501b50f1182ca54cce11c93eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a513358e501b50f1182ca54cce11c93eb">&#9670;&#160;</a></span>condition</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable lumex::core::atomic::sync::table_wait::Detail::waiter_stripe_t::condition</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07b5a9d4ff995674987c2ab10c1b439a" name="a07b5a9d4ff995674987c2ab10c1b439a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07b5a9d4ff995674987c2ab10c1b439a">&#9670;&#160;</a></span>mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex lumex::core::atomic::sync::table_wait::Detail::waiter_stripe_t::mutex</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00851_source.html">LumexAtomicWait.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01489.html">atomic</a></li><li class="navelem"><a class="el" href="a01494.html">sync</a></li><li class="navelem"><a class="el" href="a01495.html">table_wait</a></li><li class="navelem"><a class="el" href="a01496.html">Detail</a></li><li class="navelem"><a class="el" href="a02023.html">waiter_stripe_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

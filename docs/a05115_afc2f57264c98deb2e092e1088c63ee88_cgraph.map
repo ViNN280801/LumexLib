@@ -1,0 +1,5 @@
+<map id="lumex::xml::attribute::XmlAttribute::next_attribute" name="lumex::xml::attribute::XmlAttribute::next_attribute">
+<area shape="rect" id="Node000001" title="Retrieves the next attribute in the list of attributes belonging to the same parent node." alt="" coords="5,5,165,60"/>
+<area shape="rect" id="Node000002" href="$a05115.html#a027809a975f6fc6cc4263eb4885fdfc8" title="Default constructor. Constructs an empty (null) attribute." alt="" coords="213,13,417,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,30,200,30,200,35,166,35"/>
+</map>

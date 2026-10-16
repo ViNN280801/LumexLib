@@ -1,0 +1,57 @@
+<map id="example_string_view_literals_hash.cpp" name="example_string_view_literals_hash.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="354,5,515,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="219,101,293,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="395,48,295,97,293,92,392,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="317,101,397,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="419,48,380,92,376,88,415,44"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,335,64,361"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="437,46,431,89,424,113,411,135,394,151,361,172,267,227,73,331,71,326,265,223,358,168,390,147,407,132,419,111,426,88,432,45"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="671,101,795,126"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="504,43,677,94,676,99,502,48"/>
+<area shape="rect" id="Node000006" href="$a01406.html" title="String view module: the C++11 implementation of std::string_view and its relatives,..." alt="" coords="473,93,647,133"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="465,44,522,83,519,88,462,48"/>
+<area shape="rect" id="Node000007" href="$a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="655,255,889,280"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="552,134,541,170,542,189,549,205,566,219,595,231,670,249,668,255,593,236,564,223,545,208,536,190,536,170,547,133"/>
+<area shape="rect" id="Node000024" href="$a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="559,181,758,207"/>
+<area shape="poly" id="edge27_Node000006_Node000024" title=" " alt="" coords="587,132,634,171,631,175,583,136"/>
+<area shape="rect" id="Node000025" href="$a00860.html" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11." alt="" coords="781,181,992,207"/>
+<area shape="poly" id="edge29_Node000006_Node000025" title=" " alt="" coords="642,131,822,175,821,181,641,136"/>
+<area shape="poly" id="edge18_Node000007_Node000004" title=" " alt="" coords="655,275,342,295,188,311,77,331,71,332,69,327,75,325,187,306,342,290,655,270"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="1385,335,1455,361"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="889,272,1154,294,1282,309,1374,325,1382,328,1380,333,1373,331,1281,314,1153,299,889,278"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="1480,335,1547,361"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="889,270,1202,291,1357,306,1469,325,1477,328,1475,333,1467,331,1356,312,1202,296,889,276"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="1571,335,1637,361"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="889,269,1248,288,1429,304,1503,314,1559,325,1567,328,1566,333,1558,331,1502,320,1428,310,1248,294,889,274"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="89,335,175,361"/>
+<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="655,274,436,290,311,307,187,331,176,333,175,328,186,325,310,302,436,285,655,268"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="199,335,286,361"/>
+<area shape="poly" id="edge11_Node000007_Node000012" title=" " alt="" coords="655,278,485,296,391,311,298,331,287,333,286,328,297,325,390,306,485,291,655,272"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="310,335,351,361"/>
+<area shape="poly" id="edge12_Node000007_Node000013" title=" " alt="" coords="655,282,491,303,417,316,363,331,361,331,359,326,362,325,416,311,490,298,655,277"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="375,335,446,361"/>
+<area shape="poly" id="edge13_Node000007_Node000014" title=" " alt="" coords="681,283,574,302,459,331,453,333,451,328,458,325,573,297,680,277"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="471,335,548,361"/>
+<area shape="poly" id="edge14_Node000007_Node000015" title=" " alt="" coords="723,283,561,331,554,333,552,328,559,325,722,278"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="573,335,649,361"/>
+<area shape="poly" id="edge15_Node000007_Node000016" title=" " alt="" coords="748,283,649,332,647,327,745,278"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="673,335,759,361"/>
+<area shape="poly" id="edge16_Node000007_Node000017" title=" " alt="" coords="765,282,735,325,731,322,761,279"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="783,335,873,361"/>
+<area shape="poly" id="edge17_Node000007_Node000018" title=" " alt="" coords="783,279,813,322,809,325,779,282"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="786,423,878,449"/>
+<area shape="poly" id="edge19_Node000007_Node000019" title=" " alt="" coords="821,278,858,296,874,310,888,327,894,350,888,374,875,396,859,415,855,411,870,393,883,372,888,350,883,329,871,314,855,301,819,283"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="1263,335,1361,361"/>
+<area shape="poly" id="edge20_Node000007_Node000020" title=" " alt="" coords="889,275,1058,294,1245,325,1260,329,1259,334,1243,331,1057,299,888,280"/>
+<area shape="rect" id="Node000021" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="999,328,1188,368"/>
+<area shape="poly" id="edge21_Node000007_Node000021" title=" " alt="" coords="823,277,1000,322,999,327,822,283"/>
+<area shape="rect" id="Node000022" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="902,416,1157,456"/>
+<area shape="poly" id="edge25_Node000007_Node000022" title=" " alt="" coords="809,278,857,298,908,326,959,364,1002,404,998,408,956,368,905,330,855,303,807,283"/>
+<area shape="rect" id="Node000023" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1181,416,1395,456"/>
+<area shape="poly" id="edge26_Node000007_Node000023" title=" " alt="" coords="889,272,1066,291,1145,306,1201,326,1224,342,1243,361,1273,402,1269,406,1239,365,1220,346,1199,330,1144,311,1065,296,889,277"/>
+<area shape="poly" id="edge22_Node000021_Node000019" title=" " alt="" coords="1034,371,892,419,883,421,881,416,890,413,1033,365"/>
+<area shape="poly" id="edge23_Node000021_Node000022" title=" " alt="" coords="1081,370,1054,406,1050,403,1076,367"/>
+<area shape="poly" id="edge24_Node000021_Node000023" title=" " alt="" coords="1139,366,1232,408,1230,413,1137,371"/>
+<area shape="poly" id="edge28_Node000024_Node000007" title=" " alt="" coords="680,205,742,245,739,249,677,209"/>
+<area shape="poly" id="edge30_Node000025_Node000007" title=" " alt="" coords="868,209,805,249,802,245,865,205"/>
+</map>

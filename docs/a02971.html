@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::format_error Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02974.html',''); initResizable(true); });
+$(function(){initNavTree('a02971.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,29 +103,288 @@ $(function(){initNavTree('a02974.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a02968.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::format_error Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02974.html">lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02970.html#a116dfda5c2f15b5424dca133b590cdcf">chrono_formatter</a>()</td><td class="entry"><a class="el" href="a02970.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02970.html#ab4b2a94512c3c575a5bd227ac5c89d73">chrono_specs</a>() const noexcept</td><td class="entry"><a class="el" href="a02970.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02974.html#aee2bdadbbcbe1460c2260749a0c1f8ed">format</a>(std::chrono::duration&lt; Rep, Period &gt; const &amp;value, basic_format_context&lt; Char &gt; &amp;ctx) const</td><td class="entry"><a class="el" href="a02974.html">lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02806.html#a9112c94300e77a697d64cdb6cf167668">formatter</a>()=delete</td><td class="entry"><a class="el" href="a02974.html">lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02806.html#a2a1dc1d68310efc31349a5a829b28417">formatter</a>(formatter const &amp;)=delete</td><td class="entry"><a class="el" href="a02974.html">lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02970.html#a7d01feb13812d60facc9e60d237cdc2a">has_chrono_specs</a>() const noexcept</td><td class="entry"><a class="el" href="a02970.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02970.html#ab4922691a1df3caae6daee57ac45dddb">localized</a>() const noexcept</td><td class="entry"><a class="el" href="a02970.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02806.html#a1bff704bc2e0aafc38754401598cb8c1">operator=</a>(formatter const &amp;)=delete</td><td class="entry"><a class="el" href="a02974.html">lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02974.html#af70c80686607990194ad6b9d5c6d7e40">parse</a>(basic_format_parse_context&lt; Char &gt; &amp;ctx)</td><td class="entry"><a class="el" href="a02974.html">lumex::core::fmt::formatter&lt; std::chrono::duration&lt; Rep, Period &gt;, Char, typename std::enable_if&lt; Detail::has_formatter&lt; Char, Rep &gt;() &amp;&amp;std::is_arithmetic&lt; Rep &gt;::value &gt;::type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02970.html#af9ba2acf39838afe8a32284dc181d356">parse_chrono</a>(basic_format_parse_context&lt; Char &gt; &amp;ctx, bool is_duration, bool allows_precision)</td><td class="entry"><a class="el" href="a02970.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02970.html#a3659cd760675b620523a9a6893ce8293">precision</a>(basic_format_context&lt; Char &gt; const &amp;ctx) const</td><td class="entry"><a class="el" href="a02970.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02970.html#a409105bb4970d96c8a5a3295eb29efd5">write</a>(basic_format_context&lt; Char &gt; &amp;ctx, std::basic_string&lt; Char &gt; const &amp;text) const</td><td class="entry"><a class="el" href="a02970.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-</table></div><!-- contents -->
+<p>Thrown for an invalid format string, a format specification that does not fit its argument, or a missing argument.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01013_source.html">LumexFormat.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::fmt::format_error:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02970.png" border="0" usemap="#alumex_1_1core_1_1fmt_1_1format__error_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1fmt_1_1format__error_inherit__map" id="alumex_1_1core_1_1fmt_1_1format__error_inherit__map">
+<area shape="rect" title="Thrown for an invalid format string, a format specification that does not fit its argument,..." alt="" coords="5,79,188,119"/>
+<area shape="rect" title=" " alt="" coords="27,5,166,31"/>
+<area shape="poly" title=" " alt="" coords="99,44,99,78,94,78,94,44"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::fmt::format_error:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02969.png" border="0" usemap="#alumex_1_1core_1_1fmt_1_1format__error_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1core_1_1fmt_1_1format__error_coll__map" id="alumex_1_1core_1_1fmt_1_1format__error_coll__map">
+<area shape="rect" title="Thrown for an invalid format string, a format specification that does not fit its argument,..." alt="" coords="5,79,188,119"/>
+<area shape="rect" title=" " alt="" coords="27,5,166,31"/>
+<area shape="poly" title=" " alt="" coords="99,44,99,78,94,78,94,44"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a3a07b0fea9bb2797607b36befd54f031" id="r_a3a07b0fea9bb2797607b36befd54f031"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a07b0fea9bb2797607b36befd54f031">format_error</a> (char const *message)</td></tr>
+<tr class="separator:a3a07b0fea9bb2797607b36befd54f031"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e59009e514948fdc00f237dca3bc935" id="r_a9e59009e514948fdc00f237dca3bc935"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e59009e514948fdc00f237dca3bc935">format_error</a> (std::string const &amp;message)</td></tr>
+<tr class="separator:a9e59009e514948fdc00f237dca3bc935"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfa5e759d253359b7c012983ed5f1a33" id="r_abfa5e759d253359b7c012983ed5f1a33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfa5e759d253359b7c012983ed5f1a33">format_error</a> (std::string &amp;&amp;message)</td></tr>
+<tr class="separator:abfa5e759d253359b7c012983ed5f1a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17f64567d3344d98a1175998b3af40d0" id="r_a17f64567d3344d98a1175998b3af40d0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17f64567d3344d98a1175998b3af40d0">format_error</a> (std::string const &amp;message, std::size_t <a class="el" href="#aea76eeec94f95731036b9556e7198d62">position</a>)</td></tr>
+<tr class="separator:a17f64567d3344d98a1175998b3af40d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea76eeec94f95731036b9556e7198d62" id="r_aea76eeec94f95731036b9556e7198d62"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea76eeec94f95731036b9556e7198d62">position</a> () const noexcept</td></tr>
+<tr class="separator:aea76eeec94f95731036b9556e7198d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a31ad5f8d467dbd7691cce0e32d953ce0" id="r_a31ad5f8d467dbd7691cce0e32d953ce0"><td class="memItemLeft" align="right" valign="top">static std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31ad5f8d467dbd7691cce0e32d953ce0">no_position</a> () noexcept</td></tr>
+<tr class="separator:a31ad5f8d467dbd7691cce0e32d953ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Thrown for an invalid format string, a format specification that does not fit its argument, or a missing argument. </p>
+<p><code><a class="el" href="#aea76eeec94f95731036b9556e7198d62">position()</a></code> is the offset of the replacement field (or of the stray brace) in the format string when it is known, otherwise <code><a class="el" href="#a31ad5f8d467dbd7691cce0e32d953ce0">no_position()</a></code>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a3a07b0fea9bb2797607b36befd54f031" name="a3a07b0fea9bb2797607b36befd54f031"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a07b0fea9bb2797607b36befd54f031">&#9670;&#160;</a></span>format_error() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::fmt::format_error::format_error </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9e59009e514948fdc00f237dca3bc935" name="a9e59009e514948fdc00f237dca3bc935"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e59009e514948fdc00f237dca3bc935">&#9670;&#160;</a></span>format_error() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::fmt::format_error::format_error </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abfa5e759d253359b7c012983ed5f1a33" name="abfa5e759d253359b7c012983ed5f1a33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfa5e759d253359b7c012983ed5f1a33">&#9670;&#160;</a></span>format_error() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::fmt::format_error::format_error </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a17f64567d3344d98a1175998b3af40d0" name="a17f64567d3344d98a1175998b3af40d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17f64567d3344d98a1175998b3af40d0">&#9670;&#160;</a></span>format_error() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::fmt::format_error::format_error </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>position</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a31ad5f8d467dbd7691cce0e32d953ce0" name="a31ad5f8d467dbd7691cce0e32d953ce0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31ad5f8d467dbd7691cce0e32d953ce0">&#9670;&#160;</a></span>no_position()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::size_t lumex::core::fmt::format_error::no_position </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02971_a31ad5f8d467dbd7691cce0e32d953ce0_icgraph.png" border="0" usemap="#aa02971_a31ad5f8d467dbd7691cce0e32d953ce0_icgraph" alt=""/></div>
+<map name="aa02971_a31ad5f8d467dbd7691cce0e32d953ce0_icgraph" id="aa02971_a31ad5f8d467dbd7691cce0e32d953ce0_icgraph">
+<area shape="rect" title=" " alt="" coords="883,203,1065,243"/>
+<area shape="rect" href="a00464.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,238,60,264"/>
+<area shape="poly" title=" " alt="" coords="929,198,866,163,782,120,682,77,569,40,511,26,451,15,391,9,332,9,273,14,216,27,161,47,110,76,90,92,75,112,53,159,41,204,36,239,31,238,36,203,48,157,70,109,86,89,106,72,159,42,215,22,272,9,331,3,392,4,452,10,512,21,571,35,683,72,784,115,869,158,932,194"/>
+<area shape="rect" href="a01541.html#a9b8fbd4db71c1059fadb982021043cb4" title="Formats into buffer; adds the field offset to errors." alt="" coords="657,354,835,394"/>
+<area shape="poly" title=" " alt="" coords="934,253,778,356,775,351,931,248"/>
+<area shape="rect" href="a01540.html#af0c4202c543a5a74b969858fa5e919cc" title=" " alt="" coords="390,186,593,212"/>
+<area shape="poly" title=" " alt="" coords="722,344,674,287,642,258,608,233,562,214,564,209,611,229,646,254,677,283,726,341"/>
+<area shape="rect" href="a01540.html#a62a311d6ac094ef44b71559d4a6afb7f" title="Writes at most limit characters; size is the full length." alt="" coords="108,86,325,112"/>
+<area shape="poly" title=" " alt="" coords="712,347,665,310,608,278,574,265,543,260,488,258,461,258,433,254,404,244,372,225,354,207,346,188,339,169,324,150,292,129,258,114,260,109,294,125,327,146,343,166,351,186,359,204,375,221,406,239,434,248,461,252,488,253,544,254,575,260,610,273,668,306,716,343"/>
+<area shape="rect" href="a01540.html#acc51f6f992040aec5664f82f619bd93c" title="Number of characters format would produce." alt="" coords="373,288,609,313"/>
+<area shape="poly" title=" " alt="" coords="682,351,609,327,562,316,563,311,610,322,684,346"/>
+<area shape="rect" href="a01540.html#a55a58f4ca365fa94db3766c720cb2585" title=" " alt="" coords="396,337,587,362"/>
+<area shape="poly" title=" " alt="" coords="644,367,587,361,587,356,644,361"/>
+<area shape="rect" href="a01540.html#a7d9e4c2ae8e3db7e2f2129cdcdacb8c0" title=" " alt="" coords="396,386,587,412"/>
+<area shape="poly" title=" " alt="" coords="644,387,587,392,587,387,644,381"/>
+<area shape="rect" href="a01540.html#a102d3de5140a6be478c55ed9d54a2251" title=" " alt="" coords="396,436,587,461"/>
+<area shape="poly" title=" " alt="" coords="683,401,610,426,559,438,558,433,609,421,681,396"/>
+<area shape="rect" href="a01540.html#a8cea8aec58fc2810df873013975c028e" title=" " alt="" coords="396,485,587,510"/>
+<area shape="poly" title=" " alt="" coords="716,405,668,442,610,475,574,487,572,482,608,470,665,437,712,401"/>
+<area shape="rect" href="a01540.html#a9ffa795f1a738249bd401cbf5d278105" title=" " alt="" coords="386,534,597,560"/>
+<area shape="poly" title=" " alt="" coords="728,407,679,467,647,498,611,524,581,537,579,532,608,519,644,494,676,464,724,404"/>
+<area shape="rect" href="a01540.html#ad3aaee0b9ba3458f6cb167af66572b92" title=" " alt="" coords="386,584,597,609"/>
+<area shape="poly" title=" " alt="" coords="735,408,716,447,689,492,654,536,611,573,585,586,583,581,608,569,650,533,684,489,711,445,730,406"/>
+<area shape="poly" title=" " alt="" coords="135,119,110,133,84,158,64,187,40,239,35,237,60,185,80,155,106,129,132,114"/>
+<area shape="poly" title=" " alt="" coords="396,285,372,271,361,259,354,248,348,224,342,202,335,193,324,184,268,159,243,154,219,153,169,163,109,184,89,195,70,210,44,240,40,237,67,206,86,191,107,179,168,157,219,148,244,148,270,154,327,179,339,189,346,200,353,223,359,246,365,256,375,266,398,280"/>
+<area shape="poly" title=" " alt="" coords="382,334,372,326,360,314,353,301,348,274,342,249,336,238,324,228,291,213,256,205,219,203,182,206,114,222,61,241,59,236,112,217,181,201,219,198,256,200,293,208,327,224,340,234,347,247,353,273,358,299,364,311,375,322,385,329"/>
+<area shape="rect" href="a01540.html#a6f5d036f82841e8744c1df0fa4714e7b" title="Writes the formatted text to std::cout." alt="" coords="133,238,301,264"/>
+<area shape="poly" title=" " alt="" coords="390,335,372,327,356,314,347,301,338,289,324,277,298,266,300,261,327,273,342,285,351,298,360,311,375,322,392,330"/>
+<area shape="rect" href="a01540.html#aa1112fa46a171649d6dad36091a64230" title="Writes the formatted text to stream." alt="" coords="133,288,301,313"/>
+<area shape="poly" title=" " alt="" coords="407,337,287,316,288,311,408,332"/>
+<area shape="rect" href="a01540.html#a8497ca7713b4fc3e602a3768b06749e7" title=" " alt="" coords="133,337,301,362"/>
+<area shape="poly" title=" " alt="" coords="382,352,301,352,301,347,382,347"/>
+<area shape="rect" href="a01540.html#a2755f2f4f2eebdc587644f5d473a6883" title=" " alt="" coords="127,386,307,412"/>
+<area shape="poly" title=" " alt="" coords="408,367,288,389,287,384,407,362"/>
+<area shape="rect" href="a01540.html#af4ebc4ca0f60751e0508fe67d4505e70" title="print followed by a new line." alt="" coords="127,436,307,461"/>
+<area shape="poly" title=" " alt="" coords="388,370,375,376,360,387,351,400,342,413,327,425,297,438,295,433,324,421,338,409,347,397,356,384,372,372,386,365"/>
+<area shape="rect" href="a01540.html#a2e4df4e3d732a135bcfe4c5252baa4e2" title=" " alt="" coords="127,485,307,510"/>
+<area shape="poly" title=" " alt="" coords="385,369,375,376,364,387,357,398,352,423,346,449,339,462,327,475,306,487,303,483,324,470,335,459,341,447,347,422,352,397,360,384,372,372,382,365"/>
+<area shape="rect" href="a01540.html#af18b181b489ca7b9b343f99cc1d70e42" title="Like format, but never throws: a failure (bad specification at run time, missing argument,..." alt="" coords="139,535,295,575"/>
+<area shape="poly" title=" " alt="" coords="385,368,375,376,361,393,354,410,351,447,349,485,342,505,327,524,296,543,293,539,324,520,337,502,344,484,346,447,348,409,356,390,372,372,382,364"/>
+<area shape="rect" href="a01540.html#aba924c190d0b6cd078e2a0bbcabf1ddc" title=" " alt="" coords="139,599,295,639"/>
+<area shape="poly" title=" " alt="" coords="385,367,375,376,356,401,349,426,348,452,351,479,354,506,354,534,346,561,327,589,313,601,296,610,294,605,310,596,323,585,341,559,348,533,349,507,346,480,342,453,343,425,352,398,371,372,382,363"/>
+<area shape="poly" title=" " alt="" coords="144,287,107,278,59,263,61,258,109,273,146,282"/>
+<area shape="poly" title=" " alt="" coords="115,431,106,425,88,407,73,386,51,340,38,297,32,264,37,263,43,296,56,338,78,383,92,404,110,421,118,427"/>
+<area shape="poly" title=" " alt="" coords="124,538,106,524,92,503,79,473,58,397,32,265,37,264,63,396,84,471,97,500,110,520,128,533"/>
+<area shape="poly" title=" " alt="" coords="383,568,375,573,359,592,353,613,346,635,338,645,327,653,267,682,240,691,213,695,187,693,161,686,134,673,106,653,85,624,68,579,55,523,45,462,34,344,30,264,36,264,39,343,51,461,60,522,73,577,90,621,110,649,137,668,162,681,188,688,213,689,239,686,265,677,324,649,334,641,341,632,348,612,354,590,372,569,380,564"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aea76eeec94f95731036b9556e7198d62" name="aea76eeec94f95731036b9556e7198d62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea76eeec94f95731036b9556e7198d62">&#9670;&#160;</a></span>position()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::fmt::format_error::position </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02971_aea76eeec94f95731036b9556e7198d62_icgraph.png" border="0" usemap="#aa02971_aea76eeec94f95731036b9556e7198d62_icgraph" alt=""/></div>
+<map name="aa02971_aea76eeec94f95731036b9556e7198d62_icgraph" id="aa02971_aea76eeec94f95731036b9556e7198d62_icgraph">
+<area shape="rect" title=" " alt="" coords="108,5,291,45"/>
+<area shape="rect" href="a00464.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01013_source.html">LumexFormat.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a02971.html">format_error</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

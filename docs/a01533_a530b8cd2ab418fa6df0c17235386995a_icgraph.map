@@ -1,0 +1,63 @@
+<map id="lumex::core::expected::result::detail::voidify" name="lumex::core::expected::result::detail::voidify">
+<area shape="rect" id="Node000001" title="The address of object as a void *, also for a const or volatile object." alt="" coords="1340,547,1507,587"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="1092,547,1292,587"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1326,569,1292,569,1292,564,1326,564"/>
+<area shape="rect" id="Node000003" href="$a02699.html#a1b2a169e6f4ed7951fa8717b3905ae11" title=" " alt="" coords="824,5,1044,75"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1183,533,1161,432,1128,299,1087,172,1065,123,1042,88,1029,77,1033,73,1046,85,1069,120,1092,170,1133,298,1166,431,1188,532"/>
+<area shape="rect" id="Node000004" href="$a02699.html#aee6d7ed0ec00a532a756080df199b4cf" title=" " alt="" coords="824,99,1044,168"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1185,534,1173,462,1147,369,1128,319,1105,270,1076,223,1042,182,1028,170,1032,166,1046,178,1080,220,1109,267,1133,317,1152,367,1178,461,1191,533"/>
+<area shape="rect" id="Node000005" href="$a02919.html#a6461c297e055db27bf0d22f48b6289e6" title="Puts the object in the success state." alt="" coords="843,193,1025,247"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="1181,534,1164,478,1136,407,1095,333,1070,299,1042,269,1016,250,1019,245,1046,265,1075,296,1100,331,1140,405,1169,476,1186,533"/>
+<area shape="rect" id="Node000006" href="$a02847.html#a248267f736f364dadd6dc926bd0f08bd" title="Converts the alternative of an expected&lt;U, G&gt;: the converting constructors of [expected...." alt="" coords="559,313,774,383"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="1182,534,1165,482,1138,420,1119,389,1097,360,1072,334,1043,313,1008,297,971,288,932,284,893,285,817,296,750,316,749,311,816,291,893,279,932,279,972,282,1010,292,1045,308,1075,330,1101,356,1124,386,1142,418,1170,480,1187,533"/>
+<area shape="rect" id="Node000007" href="$a02847.html#a42ce2c4a222dd75cc821efa0109ab616" title="Copies or moves the alternative of another storage of the same type: [expected.object...." alt="" coords="827,323,1041,392"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="1168,537,1115,472,1080,437,1042,406,1024,394,1027,390,1046,402,1084,433,1119,468,1172,534"/>
+<area shape="rect" id="Node000008" href="$a02847.html#aa22251b92c968a4dc3f08cb88fe846c1" title="The conversion of a value from a source (the class val_type is built from *rhs)." alt="" coords="825,441,1043,495"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="1126,544,1005,498,1007,493,1128,539"/>
+<area shape="rect" id="Node000009" href="$a02847.html#a8bd7a33ae63eb902c288cfb3e1bb8576" title="Unit stands for void: there is no value to read." alt="" coords="557,470,776,525"/>
+<area shape="poly" id="edge11_Node000002_Node000009" title=" " alt="" coords="1078,554,776,514,777,509,1079,549"/>
+<area shape="rect" id="Node000010" href="$a01533.html#acccbbbed047c705e9d0dfb50a3e29221" title="reinit&#45;expected when the old object is the Unit that stands for void: there is nothing to destroy or ..." alt="" coords="851,571,1017,626"/>
+<area shape="poly" id="edge12_Node000002_Node000010" title=" " alt="" coords="1079,583,1018,591,1017,586,1078,578"/>
+<area shape="rect" id="Node000018" href="$a01533.html#aadb2c52eaf3adcbeb3b512eee66452eb" title="reinit&#45;expected: neither can be done without throwing: save the old object and put it back if the con..." alt="" coords="851,650,1017,705"/>
+<area shape="poly" id="edge21_Node000002_Node000018" title=" " alt="" coords="1141,595,1045,640,1013,652,1011,647,1043,635,1139,590"/>
+<area shape="rect" id="Node000019" href="$a01533.html#a4036e7dfa15bb0b3ad160825ec7559a1" title="reinit&#45;expected: the construction may throw, but N can be moved without throwing: build a temporary f..." alt="" coords="851,729,1017,783"/>
+<area shape="poly" id="edge22_Node000002_Node000019" title=" " alt="" coords="1171,599,1117,659,1083,690,1045,718,1019,732,1016,728,1043,714,1079,686,1113,655,1167,596"/>
+<area shape="rect" id="Node000020" href="$a01533.html#a6b2e60741d402ef37ccb3959f558e0bc" title="The reinit&#45;expected of [expected.object.assign]/1 for the case that the construction of the new objec..." alt="" coords="851,807,1017,862"/>
+<area shape="poly" id="edge23_Node000002_Node000020" title=" " alt="" coords="1181,601,1161,644,1131,697,1092,750,1046,797,1019,813,1016,809,1042,793,1088,747,1126,694,1156,642,1176,598"/>
+<area shape="rect" id="Node000022" href="$a02847.html#a5fde6d3bf968ff3d670b32ac2f58db43" title="this is a success and rhs holds an error, for expected&lt;void, / E&gt;: [expected.void...." alt="" coords="840,972,1028,1041"/>
+<area shape="poly" id="edge25_Node000002_Node000022" title=" " alt="" coords="1187,601,1168,664,1139,746,1099,836,1074,880,1046,920,1019,949,990,974,986,970,1016,945,1042,917,1069,877,1094,833,1134,744,1163,662,1181,599"/>
+<area shape="rect" id="Node000026" href="$a02847.html#a72a1de0013e47660e134becd66c6d942" title="this holds a value, rhs an error, and E is nothrow move constructible: park the error,..." alt="" coords="573,860,761,929"/>
+<area shape="poly" id="edge33_Node000002_Node000026" title=" " alt="" coords="1190,601,1176,662,1149,739,1130,778,1107,815,1079,848,1046,876,1012,894,977,907,940,916,902,922,828,923,761,917,761,912,828,918,902,916,939,911,975,902,1010,889,1042,871,1075,844,1103,811,1126,775,1144,736,1171,661,1184,600"/>
+<area shape="rect" id="Node000027" href="$a02847.html#aaf5a4bd0f1572b0a5e2b5bd8c35f8adf" title="As above, but E may throw when moved: park the value instead." alt="" coords="573,1071,761,1140"/>
+<area shape="poly" id="edge34_Node000002_Node000027" title=" " alt="" coords="1189,601,1170,705,1138,842,1118,910,1096,972,1072,1022,1046,1055,1014,1078,980,1095,943,1107,905,1116,830,1123,761,1121,761,1116,830,1118,904,1111,942,1102,978,1090,1012,1073,1042,1051,1068,1019,1091,970,1113,909,1133,841,1165,704,1184,600"/>
+<area shape="poly" id="edge8_Node000008_Node000006" title=" " alt="" coords="859,437,743,385,745,380,862,433"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="977,430,961,422,934,419,911,421,896,426,889,432,890,441,884,441,885,430,893,422,910,416,934,414,963,417,979,425"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="811,484,776,488,776,483,811,479"/>
+<area shape="rect" id="Node000011" href="$a01533.html#a6746fa8e180748b7d38e746bc179df5a" title="reinit&#45;expected (T = N, U = O): ends the life of oldval and starts newval with args...." alt="" coords="583,579,750,619"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="837,601,750,601,750,596,837,596"/>
+<area shape="rect" id="Node000012" href="$a02847.html#ac152306992f18e0f7f5d020b20848405" title="Assigns the contents of another storage of the same type: [expected.object.assign]/2 and /7." alt="" coords="275,627,509,682"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="570,621,510,633,509,628,569,616"/>
+<area shape="rect" id="Node000015" href="$a02699.html#ab660bb8fc34d6cb2163f21b5fb2a3a75" title=" " alt="" coords="282,707,502,776"/>
+<area shape="poly" id="edge18_Node000011_Node000015" title=" " alt="" coords="626,629,572,662,511,696,482,709,480,704,508,691,569,657,623,624"/>
+<area shape="rect" id="Node000016" href="$a02919.html#ac9acfbc413414ed83b13a41fd4f05149" title="Constructs an ErrorType value in place, replacing the current contents." alt="" coords="290,430,494,485"/>
+<area shape="poly" id="edge19_Node000011_Node000016" title=" " alt="" coords="615,574,556,538,532,518,508,500,482,487,484,482,511,495,536,514,559,534,618,570"/>
+<area shape="rect" id="Node000017" href="$a02699.html#a38d98f759b5694b88320e1c0e979ff69" title=" " alt="" coords="282,509,502,579"/>
+<area shape="poly" id="edge20_Node000011_Node000017" title=" " alt="" coords="569,582,502,569,503,563,570,577"/>
+<area shape="poly" id="edge15_Node000012_Node000012" title=" " alt="" coords="438,616,421,609,392,606,367,608,351,613,344,619,344,627,339,627,339,617,349,608,366,603,392,601,423,604,440,612"/>
+<area shape="rect" id="Node000013" href="$a02887.html#a8734ff859c7c34d7318f7f83946ab39d" title="Assigns the contents of rhs." alt="" coords="9,573,223,643"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="261,635,223,629,224,624,261,630"/>
+<area shape="rect" id="Node000014" href="$a02899.html#ada48e32652ef5d94acb3cc795f0cd26b" title="Assigns the contents of rhs by move." alt="" coords="5,667,227,736"/>
+<area shape="poly" id="edge17_Node000012_Node000014" title=" " alt="" coords="262,679,227,685,226,680,261,674"/>
+<area shape="rect" id="Node000021" href="$a01533.html#aebb2cc5369b2ff0554cb8d8fbda8dca2" title="reinit&#45;expected for an old object that holds something." alt="" coords="583,781,750,835"/>
+<area shape="poly" id="edge24_Node000020_Node000021" title=" " alt="" coords="837,828,750,819,751,814,837,822"/>
+<area shape="poly" id="edge30_Node000022_Node000022" title=" " alt="" coords="976,961,960,954,934,951,913,952,898,957,891,964,889,972,884,971,886,961,896,953,912,947,934,945,962,948,978,957"/>
+<area shape="rect" id="Node000023" href="$a02847.html#adbaff536eceb3a3476f0a5ac8ad0a39c" title="Exchanges the contents with another storage: Table 72 of [expected.object.swap] and Table 73 of [expe..." alt="" coords="573,977,761,1047"/>
+<area shape="poly" id="edge26_Node000022_Node000023" title=" " alt="" coords="826,1011,761,1013,761,1007,826,1006"/>
+<area shape="poly" id="edge31_Node000022_Node000026" title=" " alt="" coords="838,969,748,932,751,927,840,964"/>
+<area shape="poly" id="edge32_Node000022_Node000027" title=" " alt="" coords="828,1049,762,1073,760,1068,826,1044"/>
+<area shape="poly" id="edge29_Node000023_Node000023" title=" " alt="" coords="710,967,694,959,667,956,644,958,629,963,621,969,619,978,614,976,617,966,627,958,643,953,667,951,695,954,712,962"/>
+<area shape="rect" id="Node000024" href="$a02699.html#a86eadcd8e2cd6155467872091154caad" title=" " alt="" coords="282,933,502,1003"/>
+<area shape="poly" id="edge27_Node000023_Node000024" title=" " alt="" coords="559,997,502,988,503,983,559,992"/>
+<area shape="rect" id="Node000025" href="$a02919.html#ac9dba62643741c913b1bf147871ac44d" title="Exchanges contents with another expected&lt;void, ErrorType&gt;." alt="" coords="301,1027,483,1082"/>
+<area shape="poly" id="edge28_Node000023_Node000025" title=" " alt="" coords="560,1031,484,1043,483,1038,559,1026"/>
+</map>

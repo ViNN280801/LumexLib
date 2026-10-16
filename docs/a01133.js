@@ -1,7 +1,8 @@
 var a01133 =
 [
-    [ "lumex::xml::xpath::utility::copy_xpath_variable", "a01522.html#a5664ce2a10255b6aca45326df60fcb8e", null ],
-    [ "lumex::xml::xpath::utility::xpath_first", "a01522.html#abb9de3a45c0762f05c942cebbd27e46a", null ],
-    [ "lumex::xml::xpath::utility::xpath_get_order", "a01522.html#a06d335726027c6477be96cb86f9e56ce", null ],
-    [ "lumex::xml::xpath::utility::xpath_sort", "a01522.html#a1cda3af8de6ebb42fc0186a350a138e1", null ]
+    [ "lumex::core::utility::functional::identity", "a04383.html", "a04383" ],
+    [ "lumex::core::utility::functional::detail::are_object_pointers< T, U >", "a04387.html", null ],
+    [ "lumex::core::utility::functional::less", "a04391.html", "a04391" ],
+    [ "lumex::core::utility::functional::detail::compare_less", "a01602.html#a06f8cd754e5ecbe50469970c7f935ac5", null ],
+    [ "lumex::core::utility::functional::detail::compare_less", "a01602.html#a282d14f5f34033aea6080ac116b7a42b", null ]
 ];

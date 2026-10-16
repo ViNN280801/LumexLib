@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::serial::probe::SerialProber Class Reference</title>
+<title>LumexLib: lumex::xml::xpath::constants::Constants Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,120 +104,23 @@ $(function(){initNavTree('a01690.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a01687.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::serial::probe::SerialProber Class Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::xpath::constants::Constants Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>RAII session that opens one serial port in bounded time, sends a request and waits for the device response.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00197_source.html">LumexSerialProber.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01670.html">Impl</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of one <code><a class="el" href="a01690.html" title="RAII session that opens one serial port in bounded time, sends a request and waits for the device res...">SerialProber</a></code> session.  <a href="a01670.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a60094bd3411cdf03146bb5731e745009" id="r_a60094bd3411cdf03146bb5731e745009"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60094bd3411cdf03146bb5731e745009">SerialProber</a> (std::string port_path, <a class="el" href="a01674.html">serial_port_settings_t</a> const &amp;settings)</td></tr>
-<tr class="memdesc:a60094bd3411cdf03146bb5731e745009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a session for <code>port_path</code>; the port is not opened yet.  <br /></td></tr>
-<tr class="separator:a60094bd3411cdf03146bb5731e745009"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb88a396c99d472e759e2faf36aa1db3" id="r_abb88a396c99d472e759e2faf36aa1db3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb88a396c99d472e759e2faf36aa1db3">~SerialProber</a> ()</td></tr>
-<tr class="memdesc:abb88a396c99d472e759e2faf36aa1db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the port when it is open.  <br /></td></tr>
-<tr class="separator:abb88a396c99d472e759e2faf36aa1db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b9e8e7242a2a133211228bfc7551b57" id="r_a8b9e8e7242a2a133211228bfc7551b57"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b9e8e7242a2a133211228bfc7551b57">SerialProber</a> (<a class="el" href="a01690.html">SerialProber</a> const &amp;)=delete</td></tr>
-<tr class="memdesc:a8b9e8e7242a2a133211228bfc7551b57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Not copyable: the session owns one open port.  <br /></td></tr>
-<tr class="separator:a8b9e8e7242a2a133211228bfc7551b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9aff66a1a0294c1520a0dfd668f35b1" id="r_aa9aff66a1a0294c1520a0dfd668f35b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01690.html">SerialProber</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9aff66a1a0294c1520a0dfd668f35b1">operator=</a> (<a class="el" href="a01690.html">SerialProber</a> const &amp;)=delete</td></tr>
-<tr class="memdesc:aa9aff66a1a0294c1520a0dfd668f35b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Not copyable: the session owns one open port.  <br /></td></tr>
-<tr class="separator:aa9aff66a1a0294c1520a0dfd668f35b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb6024418e5d30b4be86e7e460a1f1e6" id="r_adb6024418e5d30b4be86e7e460a1f1e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb6024418e5d30b4be86e7e460a1f1e6">SerialProber</a> (<a class="el" href="a01690.html">SerialProber</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:adb6024418e5d30b4be86e7e460a1f1e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the session, including an open port, into <code>other</code>.  <br /></td></tr>
-<tr class="separator:adb6024418e5d30b4be86e7e460a1f1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8020d760bfd17ec23e6a1d3c0e358ad" id="r_aa8020d760bfd17ec23e6a1d3c0e358ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01690.html">SerialProber</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8020d760bfd17ec23e6a1d3c0e358ad">operator=</a> (<a class="el" href="a01690.html">SerialProber</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:aa8020d760bfd17ec23e6a1d3c0e358ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the session, including an open port, into <code>other</code>.  <br /></td></tr>
-<tr class="separator:aa8020d760bfd17ec23e6a1d3c0e358ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa345ad61b5406b3ed295788ec6ad8ffd" id="r_aa345ad61b5406b3ed295788ec6ad8ffd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01682.html">serial_io_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa345ad61b5406b3ed295788ec6ad8ffd">open</a> (std::chrono::milliseconds deadline=std::chrono::milliseconds(<a class="el" href="a01297.html#a9e0fd1a76f5f73871121c1cb4ba1881d">Constants::KDEFAULT_PROBE_DEADLINE_MS</a>))</td></tr>
-<tr class="memdesc:aa345ad61b5406b3ed295788ec6ad8ffd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the port with the configured settings inside <code>deadline</code>.  <br /></td></tr>
-<tr class="separator:aa345ad61b5406b3ed295788ec6ad8ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec4e0ca8a3228735b8dde7e2c5e51f7e" id="r_aec4e0ca8a3228735b8dde7e2c5e51f7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec4e0ca8a3228735b8dde7e2c5e51f7e">close</a> () noexcept</td></tr>
-<tr class="memdesc:aec4e0ca8a3228735b8dde7e2c5e51f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the port; safe to call on a closed session.  <br /></td></tr>
-<tr class="separator:aec4e0ca8a3228735b8dde7e2c5e51f7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeccb8971734d9825d958152ec2e6ed49" id="r_aeccb8971734d9825d958152ec2e6ed49"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeccb8971734d9825d958152ec2e6ed49">is_open</a> () const noexcept</td></tr>
-<tr class="memdesc:aeccb8971734d9825d958152ec2e6ed49"><td class="mdescLeft">&#160;</td><td class="mdescRight">True while the port is open.  <br /></td></tr>
-<tr class="separator:aeccb8971734d9825d958152ec2e6ed49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a845214e6e33fa487163f38e3b13ee1ec" id="r_a845214e6e33fa487163f38e3b13ee1ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01678.html">serial_probe_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a845214e6e33fa487163f38e3b13ee1ec">probe</a> (std::vector&lt; std::uint8_t &gt; const &amp;request, std::function&lt; bool(std::vector&lt; std::uint8_t &gt; const &amp;)&gt; const &amp;response_complete, std::chrono::milliseconds deadline=std::chrono::milliseconds(<a class="el" href="a01297.html#a9e0fd1a76f5f73871121c1cb4ba1881d">Constants::KDEFAULT_PROBE_DEADLINE_MS</a>), std::size_t max_response_bytes=<a class="el" href="a01297.html#a986ffb1746dc1de359d5f8d07b163b1d">Constants::KDEFAULT_PROBE_MAX_RESPONSE_BYTES</a>)</td></tr>
-<tr class="memdesc:a845214e6e33fa487163f38e3b13ee1ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the port when needed, sends <code>request</code> and collects the response until <code>response_complete</code> confirms it.  <br /></td></tr>
-<tr class="separator:a845214e6e33fa487163f38e3b13ee1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d84b61824813951c20b4fed25b8cdab" id="r_a5d84b61824813951c20b4fed25b8cdab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01682.html">serial_io_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d84b61824813951c20b4fed25b8cdab">write</a> (std::vector&lt; std::uint8_t &gt; const &amp;data, std::chrono::milliseconds deadline=std::chrono::milliseconds(<a class="el" href="a01297.html#a9e0fd1a76f5f73871121c1cb4ba1881d">Constants::KDEFAULT_PROBE_DEADLINE_MS</a>))</td></tr>
-<tr class="memdesc:a5d84b61824813951c20b4fed25b8cdab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes every byte of <code>data</code> or stops at the deadline.  <br /></td></tr>
-<tr class="separator:a5d84b61824813951c20b4fed25b8cdab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bec366a058baf6a1573254d30bce52e" id="r_a2bec366a058baf6a1573254d30bce52e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01686.html">serial_read_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bec366a058baf6a1573254d30bce52e">read</a> (std::chrono::milliseconds deadline=std::chrono::milliseconds(<a class="el" href="a01297.html#a9e0fd1a76f5f73871121c1cb4ba1881d">Constants::KDEFAULT_PROBE_DEADLINE_MS</a>))</td></tr>
-<tr class="memdesc:a2bec366a058baf6a1573254d30bce52e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads once: returns as soon as at least one byte is available or the deadline expires.  <br /></td></tr>
-<tr class="separator:a2bec366a058baf6a1573254d30bce52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad26ad5985470791d299f0bbbc18fb33d" id="r_ad26ad5985470791d299f0bbbc18fb33d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad26ad5985470791d299f0bbbc18fb33d">kxpath_memory_page_size</a> = 0x1000</td></tr>
+<tr class="separator:ad26ad5985470791d299f0bbbc18fb33d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a313212f487db1c0370399210a9b503ec" id="r_a313212f487db1c0370399210a9b503ec"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a313212f487db1c0370399210a9b503ec">kxpath_ast_depth_limit</a> = 0x400</td></tr>
+<tr class="separator:a313212f487db1c0370399210a9b503ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a837e932ca477dd85f2088a29a8ccf83b" id="r_a837e932ca477dd85f2088a29a8ccf83b"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a837e932ca477dd85f2088a29a8ccf83b">kxpath_memory_block_alignment</a> = sizeof (double) &gt; sizeof (void *) ? sizeof (double) : sizeof (void *)</td></tr>
+<tr class="separator:a837e932ca477dd85f2088a29a8ccf83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>RAII session that opens one serial port in bounded time, sends a request and waits for the device response. </p>
-<p>Typical use: </p><div class="fragment"><div class="line"><a class="code hl_class" href="a01690.html">lumex::applied::serial::probe::SerialProber</a> prober (port_path, <a class="code hl_namespace" href="a01300.html">settings</a>);</div>
-<div class="line"><span class="keyword">auto</span> result = prober.probe (</div>
-<div class="line">    request,</div>
-<div class="line">    [] (std::vector&lt;std::uint8_t&gt; <span class="keyword">const</span> &amp;response)</div>
-<div class="line">    { <span class="keywordflow">return</span> response.size () &gt;= 20U; },</div>
-<div class="line">    std::chrono::milliseconds (500));</div>
-<div class="line"><span class="keywordflow">if</span> (result.status == <a class="code hl_enumvalue" href="a01293.html#a56c2aa18ee561595757e875c8f3a3887ac73f9961000ace6c1fad4bf49de0e2b0">serial_probe_status::responded</a>)</div>
-<div class="line">  consume (result.response);</div>
-<div class="ttc" id="aa01293_html_a56c2aa18ee561595757e875c8f3a3887ac73f9961000ace6c1fad4bf49de0e2b0"><div class="ttname"><a href="a01293.html#a56c2aa18ee561595757e875c8f3a3887ac73f9961000ace6c1fad4bf49de0e2b0">lumex::applied::serial::probe::serial_probe_status::responded</a></div><div class="ttdeci">@ responded</div><div class="ttdoc">The predicate confirmed the collected response.</div><div class="ttdef"><b>Definition</b> LumexSerialProber.hpp:154</div></div>
-<div class="ttc" id="aa01300_html"><div class="ttname"><a href="a01300.html">lumex::applied::settings</a></div><div class="ttdef"><b>Definition</b> LumexSettingsFactory.cpp:81</div></div>
-<div class="ttc" id="aa01690_html"><div class="ttname"><a href="a01690.html">lumex::applied::serial::probe::SerialProber</a></div><div class="ttdoc">RAII session that opens one serial port in bounded time, sends a request and waits for the device res...</div><div class="ttdef"><b>Definition</b> LumexSerialProber.hpp:245</div></div>
-</div><!-- fragment --><p><code>probe</code> opens the port when it is closed and keeps it open, so a session can follow it with <code>read</code> / <code>write</code>; <code>close</code> (or the destructor) releases the port. Every wait is bounded by the per-call deadline: on Windows the open itself runs on a worker thread and a stuck open (a paired but disconnected Bluetooth virtual COM port) is reported as <code>open_timeout</code> without blocking the caller; the port is then closed by the worker if it ever opens.</p>
-<dl class="section note"><dt>Note</dt><dd>Not thread-safe: one instance is one session on one port. </dd>
-<dd>
-Move-only; a moved-from object owns no port and can be destroyed. </dd>
-<dd>
-Failures are reported through result statuses; the only exceptions are a throwing <code>response_complete</code> predicate (propagated unchanged) and allocation failures of the response buffer. </dd></dl>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a60094bd3411cdf03146bb5731e745009" name="a60094bd3411cdf03146bb5731e745009"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60094bd3411cdf03146bb5731e745009">&#9670;&#160;</a></span>SerialProber() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">lumex::applied::serial::probe::SerialProber::SerialProber </td>
-          <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>port_path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01674.html">serial_port_settings_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>settings</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Creates a session for <code>port_path</code>; the port is not opened yet. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">port_path</td><td>Path or name the platform open accepts (<code>"COM3"</code> / <code>"\\\\.\\COM3"</code> on Windows, <code>"/dev/ttyUSB0"</code> on POSIX). </td></tr>
-    <tr><td class="paramname">settings</td><td>Settings applied when the port is opened. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_a60094bd3411cdf03146bb5731e745009_icgraph.png" border="0" usemap="#aa01690_a60094bd3411cdf03146bb5731e745009_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="abb88a396c99d472e759e2faf36aa1db3" name="abb88a396c99d472e759e2faf36aa1db3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb88a396c99d472e759e2faf36aa1db3">&#9670;&#160;</a></span>~SerialProber()</h2>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a313212f487db1c0370399210a9b503ec" name="a313212f487db1c0370399210a9b503ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a313212f487db1c0370399210a9b503ec">&#9670;&#160;</a></span>kxpath_ast_depth_limit</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -226,25 +129,20 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">lumex::applied::serial::probe::SerialProber::~SerialProber </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">constLUMEX_CONSTINITstd::size_t lumex::xml::xpath::constants::Constants::kxpath_ast_depth_limit = 0x400</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Closes the port when it is open. </p>
-
 </div>
 </div>
-<a id="a8b9e8e7242a2a133211228bfc7551b57" name="a8b9e8e7242a2a133211228bfc7551b57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b9e8e7242a2a133211228bfc7551b57">&#9670;&#160;</a></span>SerialProber() <span class="overload">[2/3]</span></h2>
+<a id="a837e932ca477dd85f2088a29a8ccf83b" name="a837e932ca477dd85f2088a29a8ccf83b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a837e932ca477dd85f2088a29a8ccf83b">&#9670;&#160;</a></span>kxpath_memory_block_alignment</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,30 +151,20 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">lumex::applied::serial::probe::SerialProber::SerialProber </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01690.html">SerialProber</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">constLUMEX_CONSTINITstd::uintptr_t lumex::xml::xpath::constants::Constants::kxpath_memory_block_alignment = sizeof (double) &gt; sizeof (void *) ? sizeof (double) : sizeof (void *)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Not copyable: the session owns one open port. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_a8b9e8e7242a2a133211228bfc7551b57_cgraph.png" border="0" usemap="#aa01690_a8b9e8e7242a2a133211228bfc7551b57_cgraph" alt=""/></div>
-</div>
-
 </div>
 </div>
-<a id="adb6024418e5d30b4be86e7e460a1f1e6" name="adb6024418e5d30b4be86e7e460a1f1e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb6024418e5d30b4be86e7e460a1f1e6">&#9670;&#160;</a></span>SerialProber() <span class="overload">[3/3]</span></h2>
+<a id="ad26ad5985470791d299f0bbbc18fb33d" name="ad26ad5985470791d299f0bbbc18fb33d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad26ad5985470791d299f0bbbc18fb33d">&#9670;&#160;</a></span>kxpath_memory_page_size</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,359 +173,24 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">lumex::applied::serial::probe::SerialProber::SerialProber </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01690.html">SerialProber</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">constLUMEX_CONSTINITstd::size_t lumex::xml::xpath::constants::Constants::kxpath_memory_page_size = 0x1000</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Moves the session, including an open port, into <code>other</code>. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_adb6024418e5d30b4be86e7e460a1f1e6_cgraph.png" border="0" usemap="#aa01690_adb6024418e5d30b4be86e7e460a1f1e6_cgraph" alt=""/></div>
-</div>
-
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="aec4e0ca8a3228735b8dde7e2c5e51f7e" name="aec4e0ca8a3228735b8dde7e2c5e51f7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec4e0ca8a3228735b8dde7e2c5e51f7e">&#9670;&#160;</a></span>close()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::applied::serial::probe::SerialProber::close </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Closes the port; safe to call on a closed session. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_aec4e0ca8a3228735b8dde7e2c5e51f7e_icgraph.png" border="0" usemap="#aa01690_aec4e0ca8a3228735b8dde7e2c5e51f7e_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aeccb8971734d9825d958152ec2e6ed49" name="aeccb8971734d9825d958152ec2e6ed49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeccb8971734d9825d958152ec2e6ed49">&#9670;&#160;</a></span>is_open()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::applied::serial::probe::SerialProber::is_open </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>True while the port is open. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_aeccb8971734d9825d958152ec2e6ed49_icgraph.png" border="0" usemap="#aa01690_aeccb8971734d9825d958152ec2e6ed49_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aa345ad61b5406b3ed295788ec6ad8ffd" name="aa345ad61b5406b3ed295788ec6ad8ffd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa345ad61b5406b3ed295788ec6ad8ffd">&#9670;&#160;</a></span>open()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01682.html">serial_io_result_t</a> lumex::applied::serial::probe::SerialProber::open </td>
-          <td>(</td>
-          <td class="paramtype">std::chrono::milliseconds</td>          <td class="paramname"><span class="paramname"><em>deadline</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::milliseconds&#160;(<a class="el" href="a01297.html#a9e0fd1a76f5f73871121c1cb4ba1881d">Constants::KDEFAULT_PROBE_DEADLINE_MS</a>)</span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Opens the port with the configured settings inside <code>deadline</code>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">deadline</td><td>Overall budget for the open; <code>probe</code> shares its own budget with this call. A non-positive deadline means the budget is already exhausted. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>ok</code> when the port is open; <code>deadline_exceeded</code> when the open did not return in time; <code>failed</code> when the platform refused the open or the settings are unsupported on this platform (see <code>system_error</code>). </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Calling <code>open</code> on an open session is a no-op that returns <code>ok</code>. </dd>
-<dd>
-On Windows the open runs on a worker thread; the caller never waits past <code>deadline</code>. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_aa345ad61b5406b3ed295788ec6ad8ffd_icgraph.png" border="0" usemap="#aa01690_aa345ad61b5406b3ed295788ec6ad8ffd_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aa8020d760bfd17ec23e6a1d3c0e358ad" name="aa8020d760bfd17ec23e6a1d3c0e358ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8020d760bfd17ec23e6a1d3c0e358ad">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01690.html">SerialProber</a> &amp; lumex::applied::serial::probe::SerialProber::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01690.html">SerialProber</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Moves the session, including an open port, into <code>other</code>. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_aa8020d760bfd17ec23e6a1d3c0e358ad_cgraph.png" border="0" usemap="#aa01690_aa8020d760bfd17ec23e6a1d3c0e358ad_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="aa9aff66a1a0294c1520a0dfd668f35b1" name="aa9aff66a1a0294c1520a0dfd668f35b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9aff66a1a0294c1520a0dfd668f35b1">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01690.html">SerialProber</a> &amp; lumex::applied::serial::probe::SerialProber::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01690.html">SerialProber</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Not copyable: the session owns one open port. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_aa9aff66a1a0294c1520a0dfd668f35b1_cgraph.png" border="0" usemap="#aa01690_aa9aff66a1a0294c1520a0dfd668f35b1_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a845214e6e33fa487163f38e3b13ee1ec" name="a845214e6e33fa487163f38e3b13ee1ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a845214e6e33fa487163f38e3b13ee1ec">&#9670;&#160;</a></span>probe()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01678.html">serial_probe_result_t</a> lumex::applied::serial::probe::SerialProber::probe </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; std::uint8_t &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::function&lt; bool(std::vector&lt; std::uint8_t &gt; const &amp;)&gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>response_complete</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::chrono::milliseconds</td>          <td class="paramname"><span class="paramname"><em>deadline</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::milliseconds&#160;(<a class="el" href="a01297.html#a9e0fd1a76f5f73871121c1cb4ba1881d">Constants::KDEFAULT_PROBE_DEADLINE_MS</a>)</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>max_response_bytes</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="a01297.html#a986ffb1746dc1de359d5f8d07b163b1d">Constants::KDEFAULT_PROBE_MAX_RESPONSE_BYTES</a></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Opens the port when needed, sends <code>request</code> and collects the response until <code>response_complete</code> confirms it. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">request</td><td>Bytes written after the input/output buffers are purged; empty means "wait for unsolicited data". </td></tr>
-    <tr><td class="paramname">response_complete</td><td>Called with the accumulated response after every read chunk; <code>true</code> stops the loop with <code>responded</code>. It is never called with an empty vector; its exceptions propagate unchanged. </td></tr>
-    <tr><td class="paramname">deadline</td><td>Overall budget for the open (when the session is closed), the purge, the write and the reads; not per read. </td></tr>
-    <tr><td class="paramname">max_response_bytes</td><td>Response cap; a value below 1 is clamped to<ol type="1">
-<li>When the cap is reached and the predicate has not confirmed, the outcome is <code>incomplete</code>. </li>
-</ol>
-</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The outcome, the collected bytes, the elapsed time and the formatted platform error (see <code><a class="el" href="a01293.html#a56c2aa18ee561595757e875c8f3a3887" title="Outcome of one SerialProber::probe call.">serial_probe_status</a></code>). </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>The port stays open after the call; use <code>close</code> or the destructor to release it. </dd>
-<dd>
-A request that is not written in full (platform error or deadline) yields <code>io_error</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_a845214e6e33fa487163f38e3b13ee1ec_cgraph.png" border="0" usemap="#aa01690_a845214e6e33fa487163f38e3b13ee1ec_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_a845214e6e33fa487163f38e3b13ee1ec_icgraph.png" border="0" usemap="#aa01690_a845214e6e33fa487163f38e3b13ee1ec_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a2bec366a058baf6a1573254d30bce52e" name="a2bec366a058baf6a1573254d30bce52e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bec366a058baf6a1573254d30bce52e">&#9670;&#160;</a></span>read()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01686.html">serial_read_result_t</a> lumex::applied::serial::probe::SerialProber::read </td>
-          <td>(</td>
-          <td class="paramtype">std::chrono::milliseconds</td>          <td class="paramname"><span class="paramname"><em>deadline</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::milliseconds&#160;(<a class="el" href="a01297.html#a9e0fd1a76f5f73871121c1cb4ba1881d">Constants::KDEFAULT_PROBE_DEADLINE_MS</a>)</span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reads once: returns as soon as at least one byte is available or the deadline expires. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">deadline</td><td>Overall budget for the read. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>ok</code> with the bytes that arrived; <code>deadline_exceeded</code> with empty <code>data</code> when nothing arrived in time; <code>failed</code> on a platform error; <code>not_open</code> when the session has no open port. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_a2bec366a058baf6a1573254d30bce52e_icgraph.png" border="0" usemap="#aa01690_a2bec366a058baf6a1573254d30bce52e_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a5d84b61824813951c20b4fed25b8cdab" name="a5d84b61824813951c20b4fed25b8cdab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d84b61824813951c20b4fed25b8cdab">&#9670;&#160;</a></span>write()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a01682.html">serial_io_result_t</a> lumex::applied::serial::probe::SerialProber::write </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; std::uint8_t &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::chrono::milliseconds</td>          <td class="paramname"><span class="paramname"><em>deadline</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::milliseconds&#160;(<a class="el" href="a01297.html#a9e0fd1a76f5f73871121c1cb4ba1881d">Constants::KDEFAULT_PROBE_DEADLINE_MS</a>)</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Writes every byte of <code>data</code> or stops at the deadline. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>Bytes to send. </td></tr>
-    <tr><td class="paramname">deadline</td><td>Overall budget for the write. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>ok</code> with <code>bytes_transferred == data.size ()</code> when every byte left; <code>deadline_exceeded</code> when the budget ran out first (the partial count stays in <code>bytes_transferred</code>); <code>failed</code> on a platform error; <code>not_open</code> when the session has no open port. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01690_a5d84b61824813951c20b4fed25b8cdab_icgraph.png" border="0" usemap="#aa01690_a5d84b61824813951c20b4fed25b8cdab_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="a00197_source.html">LumexSerialProber.hpp</a></li>
-<li><a class="el" href="a00194.html">LumexSerialProber.cpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01287.html">serial</a></li><li class="navelem"><a class="el" href="a01293.html">probe</a></li><li class="navelem"><a class="el" href="a01690.html">SerialProber</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01669.html">xml</a></li><li class="navelem"><a class="el" href="a01678.html">xpath</a></li><li class="navelem"><a class="el" href="a01689.html">constants</a></li><li class="navelem"><a class="el" href="a01690.html">Constants</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

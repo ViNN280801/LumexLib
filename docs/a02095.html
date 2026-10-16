@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::contracts::detail::enforce_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02098.html',''); initResizable(true); });
+$(function(){initNavTree('a02095.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,89 @@ $(function(){initNavTree('a02098.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc8_gsm_a_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a02092.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::contracts::detail::enforce_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02098.html#a7aacdcbd44666556877fce869c318823">kCatalogCheck</a></td><td class="entry"><a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02098.html#a86ddf0c1e4fc23552ac77d2cf287cda6">kInit</a></td><td class="entry"><a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02098.html#af4717027e25d460d792ee8c6dcd1a424">kPoly</a></td><td class="entry"><a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02098.html#a95507b04d83f18d4304376f9d511128e">kRefIn</a></td><td class="entry"><a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02098.html#a68a98fae04d72eb4be31514213037cf3">kRefOut</a></td><td class="entry"><a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02098.html#a696cfe18cc065fa6e90ee3b6d7ac386d">kWidth</a></td><td class="entry"><a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02098.html#a1c38b3df5a3dc0287654a7851c5e0437">kXorOut</a></td><td class="entry"><a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02098.html#a64007686371ad46f9ede53f424e621e1">ValueType</a> typedef</td><td class="entry"><a class="el" href="a02098.html">lumex::core::crc::parametric::crc8_gsm_a_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;<a class="el" href="a01001_source.html">LumexContractsAssert.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ace41f89e39c053ae9e4935b8e7b3acc3" id="r_ace41f89e39c053ae9e4935b8e7b3acc3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace41f89e39c053ae9e4935b8e7b3acc3">violated</a> (char const *comment, <a class="el" href="a02111.html">source_location</a> const &amp;where, <a class="el" href="a01509.html#ac047405c9b47d7fbca89a44b3e927978">contracts::detection_mode</a> mode)</td></tr>
+<tr class="memdesc:ace41f89e39c053ae9e4935b8e7b3acc3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>enforce</code>: the handler runs, then the program is aborted.  <br /></td></tr>
+<tr class="separator:ace41f89e39c053ae9e4935b8e7b3acc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ace41f89e39c053ae9e4935b8e7b3acc3" name="ace41f89e39c053ae9e4935b8e7b3acc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace41f89e39c053ae9e4935b8e7b3acc3">&#9670;&#160;</a></span>violated()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void lumex::core::contracts::detail::enforce_t::violated </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>comment</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02111.html">source_location</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>where</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01509.html#ac047405c9b47d7fbca89a44b3e927978">contracts::detection_mode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>enforce</code>: the handler runs, then the program is aborted. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02095_ace41f89e39c053ae9e4935b8e7b3acc3_cgraph.png" border="0" usemap="#aa02095_ace41f89e39c053ae9e4935b8e7b3acc3_cgraph" alt=""/></div>
+<map name="aa02095_ace41f89e39c053ae9e4935b8e7b3acc3_cgraph" id="aa02095_ace41f89e39c053ae9e4935b8e7b3acc3_cgraph">
+<area shape="rect" title="enforce: the handler runs, then the program is aborted." alt="" coords="5,133,203,173"/>
+<area shape="rect" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="251,133,445,173"/>
+<area shape="poly" title=" " alt="" coords="203,151,237,151,237,156,203,156"/>
+<area shape="rect" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="493,126,684,181"/>
+<area shape="poly" title=" " alt="" coords="446,151,480,151,480,156,446,156"/>
+<area shape="rect" href="a02111.html#afded073cef13c26cf4770505404f7fa3" title="The column; 0 when unknown." alt="" coords="757,5,945,45"/>
+<area shape="poly" title=" " alt="" coords="621,124,671,88,731,55,749,47,751,52,733,60,674,93,624,128"/>
+<area shape="rect" href="a02111.html#a94bb11107320de43ffd8218ee84f5a0e" title="The file name; never null." alt="" coords="749,69,953,109"/>
+<area shape="poly" title=" " alt="" coords="684,127,755,110,756,115,685,133"/>
+<area shape="rect" href="a02111.html#a67099ea89fd04d8b6533ab6232b310c5" title="The function name; never null." alt="" coords="732,133,969,173"/>
+<area shape="poly" title=" " alt="" coords="684,151,718,151,718,156,684,156"/>
+<area shape="rect" href="a02111.html#a32a7de5a3c08143dc13c818fcba2bfae" title="The line; 0 when unknown." alt="" coords="767,197,934,237"/>
+<area shape="poly" title=" " alt="" coords="685,174,756,191,755,197,684,179"/>
+<area shape="rect" href="a01509.html#a247400ce4aad3c5074547001c49e3c86" title="The enumerator name of kind; &quot;unknown&quot; for a stray value." alt="" coords="767,261,934,301"/>
+<area shape="poly" title=" " alt="" coords="624,179,674,214,733,247,755,256,753,261,731,252,671,219,621,183"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a01001_source.html">LumexContractsAssert.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01509.html">contracts</a></li><li class="navelem"><a class="el" href="a01510.html">detail</a></li><li class="navelem"><a class="el" href="a02095.html">enforce_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,6 @@
+<map id="lumex::core::optional::opt::detail::opt_destruct_base&lt; T, false &gt;::opt_destruct_base" name="lumex::core::optional::opt::detail::opt_destruct_base&lt; T, false &gt;::opt_destruct_base">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,22,271,77"/>
+<area shape="rect" id="Node000002" href="$a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="319,29,479,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="271,47,305,47,305,52,271,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="351,30,348,20,356,10,373,5,399,3,429,6,445,13,443,18,427,11,399,8,374,10,358,15,353,21,356,28"/>
+</map>

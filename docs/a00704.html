@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_environment.cpp File Reference</title>
+<title>LumexLib: XmlAllocator.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,53 +104,284 @@ $(function(){initNavTree('a00704.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_environment.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XmlAllocator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01190_source.html">lumex/core/environment/LumexEnvironment</a>&quot;</code><br />
+
+<p>The page allocator that holds the nodes, attributes and strings of one XML document.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01073_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00656_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00698_source.html">XmlMemoryPage.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_environment.cpp:</div>
+Include dependency graph for XmlAllocator.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00705.png" border="0" usemap="#aexample__environment_8cpp" alt=""/></div>
+<div class="center"><img src="a00705.png" border="0" usemap="#aXmlAllocator_8hpp" alt=""/></div>
+<map name="aXmlAllocator_8hpp" id="aXmlAllocator_8hpp">
+<area shape="rect" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="277,5,410,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="135,174,317,199"/>
+<area shape="poly" title=" " alt="" coords="314,33,282,52,253,80,243,99,236,120,229,161,224,160,231,119,238,97,249,77,278,48,311,28"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="5,79,188,119"/>
+<area shape="poly" title=" " alt="" coords="305,33,172,77,170,72,303,28"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="53,343,242,383"/>
+<area shape="poly" title=" " alt="" coords="379,29,411,48,426,61,438,77,444,99,438,120,417,153,394,175,330,209,306,219,285,224,246,226,210,232,192,241,175,256,163,273,156,291,149,329,144,328,151,290,159,270,171,253,189,237,208,227,245,221,284,219,305,214,328,204,391,170,413,150,433,118,439,99,433,80,422,65,408,52,376,33"/>
+<area shape="rect" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="869,86,1095,111"/>
+<area shape="poly" title=" " alt="" coords="411,24,868,82,868,87,410,29"/>
+<area shape="rect" href="a00698.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="263,86,423,111"/>
+<area shape="poly" title=" " alt="" coords="346,31,346,72,341,72,341,31"/>
+<area shape="poly" title=" " alt="" coords="128,117,197,164,194,168,125,121"/>
+<area shape="poly" title=" " alt="" coords="102,118,113,196,131,294,140,329,135,330,126,295,108,197,97,119"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="41,431,254,471"/>
+<area shape="poly" title=" " alt="" coords="86,120,61,169,36,236,28,273,25,311,30,347,43,381,61,404,85,422,81,426,57,408,38,384,25,348,20,311,23,272,31,235,56,167,82,118"/>
+<area shape="rect" title=" " alt="" coords="611,438,703,463"/>
+<area shape="poly" title=" " alt="" coords="243,378,256,380,597,438,596,443,255,385,242,383"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="892,431,1147,471"/>
+<area shape="poly" title=" " alt="" coords="242,378,256,380,423,400,591,417,878,439,878,445,590,422,422,406,255,385,242,383"/>
+<area shape="poly" title=" " alt="" coords="150,383,150,417,145,417,145,383"/>
+<area shape="rect" title=" " alt="" coords="1537,350,1603,375"/>
+<area shape="poly" title=" " alt="" coords="1011,109,1530,342,1528,347,1009,114"/>
+<area shape="rect" title=" " alt="" coords="1627,350,1686,375"/>
+<area shape="poly" title=" " alt="" coords="1027,109,1196,164,1408,247,1616,340,1620,342,1618,347,1614,345,1406,252,1194,169,1025,114"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="881,167,1083,207"/>
+<area shape="poly" title=" " alt="" coords="985,112,985,153,979,153,979,112"/>
+<area shape="rect" href="a00710.html" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa..." alt="" coords="185,262,424,287"/>
+<area shape="poly" title=" " alt="" coords="933,114,368,261,366,256,932,109"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="863,255,1101,295"/>
+<area shape="poly" title=" " alt="" coords="985,207,985,241,979,241,979,207"/>
+<area shape="poly" title=" " alt="" coords="864,285,586,308,420,325,256,345,255,345,255,340,255,340,420,320,585,303,863,280"/>
+<area shape="poly" title=" " alt="" coords="1038,292,1074,310,1104,331,1115,343,1120,357,1120,370,1112,385,1092,396,1055,406,948,424,717,449,716,443,947,419,1054,401,1090,391,1108,381,1115,369,1115,358,1110,346,1101,335,1071,314,1036,297"/>
+<area shape="poly" title=" " alt="" coords="1090,292,1127,312,1156,341,1164,362,1156,384,1134,409,1107,427,1104,423,1131,405,1152,381,1159,363,1152,344,1124,316,1087,297"/>
+<area shape="poly" title=" " alt="" coords="863,284,609,306,488,323,440,334,403,345,388,354,377,364,367,374,351,385,296,410,241,429,239,424,294,405,349,380,363,370,374,360,385,349,401,340,438,328,487,318,608,300,863,278"/>
+<area shape="poly" title=" " alt="" coords="1102,283,1335,308,1445,324,1525,340,1532,342,1531,347,1524,345,1444,329,1334,314,1101,288"/>
+<area shape="poly" title=" " alt="" coords="1101,280,1382,304,1518,321,1616,340,1622,342,1620,347,1615,345,1517,326,1381,309,1101,285"/>
+<area shape="rect" title=" " alt="" coords="267,350,337,375"/>
+<area shape="poly" title=" " alt="" coords="863,282,755,289,628,301,491,319,357,345,346,348,345,343,356,340,491,314,627,296,755,283,863,276"/>
+<area shape="rect" title=" " alt="" coords="649,350,715,375"/>
+<area shape="poly" title=" " alt="" coords="896,297,814,319,730,345,724,347,722,342,728,340,813,314,894,292"/>
+<area shape="rect" title=" " alt="" coords="740,350,827,375"/>
+<area shape="poly" title=" " alt="" coords="938,297,825,347,823,342,935,292"/>
+<area shape="rect" title=" " alt="" coords="851,350,937,375"/>
+<area shape="poly" title=" " alt="" coords="963,297,919,342,915,338,960,293"/>
+<area shape="rect" title=" " alt="" coords="961,350,1003,375"/>
+<area shape="poly" title=" " alt="" coords="985,295,985,336,979,336,979,295"/>
+<area shape="rect" title=" " alt="" coords="1027,350,1097,375"/>
+<area shape="poly" title=" " alt="" coords="1003,293,1043,338,1039,341,999,297"/>
+<area shape="rect" title=" " alt="" coords="1223,350,1301,375"/>
+<area shape="poly" title=" " alt="" coords="1051,292,1205,340,1214,343,1213,348,1204,345,1050,297"/>
+<area shape="rect" title=" " alt="" coords="1325,350,1401,375"/>
+<area shape="poly" title=" " alt="" coords="1101,291,1205,312,1313,340,1321,343,1320,348,1312,345,1204,318,1100,297"/>
+<area shape="rect" title=" " alt="" coords="1425,350,1512,375"/>
+<area shape="poly" title=" " alt="" coords="1101,284,1252,306,1415,340,1425,343,1424,348,1413,345,1251,311,1101,290"/>
+<area shape="rect" title=" " alt="" coords="413,350,503,375"/>
+<area shape="poly" title=" " alt="" coords="864,288,698,310,606,326,516,345,505,348,503,343,515,340,605,321,697,305,863,283"/>
+<area shape="rect" title=" " alt="" coords="527,350,624,375"/>
+<area shape="poly" title=" " alt="" coords="864,297,753,318,637,345,626,348,624,343,636,340,752,313,863,292"/>
+<area shape="poly" title=" " alt="" coords="283,290,197,338,194,333,280,285"/>
+<area shape="poly" title=" " alt="" coords="328,114,255,168,252,164,324,110"/>
+<area shape="poly" title=" " alt="" coords="360,110,393,143,428,189,441,215,449,243,449,270,439,296,404,316,343,346,340,342,401,312,435,293,444,269,444,243,436,217,424,192,389,146,356,113"/>
+</map>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00706.png" border="0" usemap="#aXmlAllocator_8hppdep" alt=""/></div>
+<map name="aXmlAllocator_8hppdep" id="aXmlAllocator_8hppdep">
+<area shape="rect" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="643,5,777,31"/>
+<area shape="rect" href="a00701.html" title=" " alt="" coords="5,79,137,104"/>
+<area shape="poly" title=" " alt="" coords="630,28,416,51,157,81,138,84,137,79,156,76,415,45,629,23"/>
+<area shape="rect" href="a00536.html" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="1674,79,1839,104"/>
+<area shape="poly" title=" " alt="" coords="791,21,1674,83,1674,88,790,26"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="774,592,883,617"/>
+<area shape="poly" title=" " alt="" coords="630,26,496,40,420,52,347,66,280,85,226,107,206,120,191,134,181,149,178,165,178,457,182,468,196,478,248,500,324,521,416,541,614,574,774,595,773,601,613,579,415,546,322,527,246,505,193,483,178,471,173,459,173,164,176,147,187,131,203,116,224,103,279,80,346,61,420,46,495,35,629,21"/>
+<area shape="rect" href="a00716.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree." alt="" coords="1524,152,1667,177"/>
+<area shape="poly" title=" " alt="" coords="791,29,1524,150,1523,155,790,34"/>
+<area shape="rect" href="a00740.html" title="Internal root record of a document: the document node and the allocator of its tree in one object." alt="" coords="623,225,797,251"/>
+<area shape="poly" title=" " alt="" coords="713,45,713,225,707,225,707,45"/>
+<area shape="rect" href="a00689.html" title="The internal XML parser that turns a writable character buffer into a node tree in place." alt="" coords="527,299,642,324"/>
+<area shape="poly" title=" " alt="" coords="699,44,658,124,612,226,590,299,585,298,608,224,653,122,694,41"/>
+<area shape="rect" href="a00713.html" title="Header&#45;only helpers of the XML implementation: encoding detection and buffer conversion,..." alt="" coords="1150,299,1257,324"/>
+<area shape="poly" title=" " alt="" coords="745,36,1183,296,1180,301,742,40"/>
+<area shape="rect" href="a00545.html" title="XmlAttribute, the handle to one attribute of an element: read its name and value, convert the value t..." alt="" coords="2994,152,3127,177"/>
+<area shape="poly" title=" " alt="" coords="1853,90,2336,106,2654,123,2976,149,2994,151,2993,157,2975,155,2653,129,2336,111,1853,96"/>
+<area shape="rect" href="a00539.html" title=" " alt="" coords="2047,372,2211,397"/>
+<area shape="poly" title=" " alt="" coords="1854,98,2136,128,2494,175,2666,203,2814,232,2925,264,2962,280,2984,297,2990,311,2984,326,2966,337,2937,346,2851,359,2738,367,2612,371,2368,372,2222,375,2211,376,2211,371,2222,369,2368,367,2612,365,2738,361,2850,354,2936,341,2964,332,2980,322,2985,311,2980,300,2959,285,2923,269,2813,238,2665,208,2493,180,2136,134,1853,103"/>
+<area shape="poly" title=" " alt="" coords="1717,112,1625,154,1623,149,1715,107"/>
+<area shape="rect" href="a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="2816,592,2908,617"/>
+<area shape="poly" title=" " alt="" coords="3142,171,3257,188,3382,217,3437,235,3483,257,3513,282,3522,296,3525,311,3525,457,3530,466,3529,473,3519,481,3459,505,3311,547,3199,571,3087,588,2909,605,2908,599,3086,582,3198,565,3309,541,3457,500,3516,476,3524,470,3524,467,3519,459,3519,312,3517,298,3509,285,3480,261,3435,240,3381,222,3256,194,3141,176"/>
+<area shape="rect" href="a00638.html" title="XPathNode, an item of an XPath result: either an XML node or an attribute together with its element." alt="" coords="3096,299,3217,324"/>
+<area shape="poly" title=" " alt="" coords="3079,187,3151,297,3146,300,3074,190"/>
+<area shape="rect" href="a00548.html" title=" " alt="" coords="2235,372,2367,397"/>
+<area shape="poly" title=" " alt="" coords="3066,191,3067,222,3062,259,3051,296,3028,326,3013,334,2989,341,2922,352,2735,365,2432,375,2367,381,2367,375,2431,369,2735,360,2921,346,2988,336,3011,329,3024,322,3046,293,3057,258,3061,222,3061,191"/>
+<area shape="rect" href="a00542.html" title=" " alt="" coords="2791,299,2970,324"/>
+<area shape="poly" title=" " alt="" coords="3036,189,2898,301,2895,296,3032,184"/>
+<area shape="rect" href="a00719.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes..." alt="" coords="2416,225,2527,251"/>
+<area shape="poly" title=" " alt="" coords="2980,177,2527,234,2527,228,2980,172"/>
+<area shape="rect" href="a00389.html" title=" " alt="" coords="2801,665,2923,691"/>
+<area shape="poly" title=" " alt="" coords="2865,631,2865,665,2859,665,2859,631"/>
+<area shape="rect" href="a00395.html" title=" " alt="" coords="2947,665,3068,691"/>
+<area shape="poly" title=" " alt="" coords="2901,621,2983,663,2981,668,2898,626"/>
+<area shape="rect" href="a00392.html" title=" " alt="" coords="3092,665,3213,691"/>
+<area shape="poly" title=" " alt="" coords="2922,617,3103,663,3102,668,2920,622"/>
+<area shape="rect" href="a00398.html" title=" " alt="" coords="2656,665,2777,691"/>
+<area shape="poly" title=" " alt="" coords="2826,626,2743,668,2741,663,2823,621"/>
+<area shape="poly" title=" " alt="" coords="3196,329,3221,347,3243,370,3276,416,3301,459,3307,480,3307,501,3301,523,3285,546,3265,557,3230,566,3126,583,2908,604,2908,599,3125,578,3229,561,3264,552,3282,542,3296,521,3302,501,3302,481,3296,461,3272,419,3239,374,3217,351,3193,333"/>
+<area shape="rect" href="a00578.html" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="3346,445,3485,471"/>
+<area shape="poly" title=" " alt="" coords="3231,314,3292,321,3355,333,3409,348,3429,359,3443,370,3450,390,3447,411,3428,446,3423,444,3442,409,3445,390,3438,374,3426,363,3407,353,3354,338,3292,327,3231,319"/>
+<area shape="rect" href="a00650.html" title="Comparison of XPath nodes by document order, used to sort node sets." alt="" coords="2591,372,2858,397"/>
+<area shape="poly" title=" " alt="" coords="3083,327,2800,375,2799,369,3082,321"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="3309,372,3429,397"/>
+<area shape="poly" title=" " alt="" coords="3207,326,3333,369,3331,374,3206,331"/>
+<area shape="rect" href="a00641.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="3085,372,3228,397"/>
+<area shape="poly" title=" " alt="" coords="3159,338,3159,372,3154,372,3154,338"/>
+<area shape="rect" href="a00632.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="2901,445,3018,471"/>
+<area shape="poly" title=" " alt="" coords="3130,334,3076,374,2978,447,2975,443,3072,370,3127,330"/>
+<area shape="poly" title=" " alt="" coords="3110,331,3001,367,2871,400,2683,431,2432,462,1835,523,1258,573,884,603,883,598,1258,568,1834,518,2432,457,2682,425,2869,395,3000,361,3108,326"/>
+<area shape="rect" href="a00581.html" title=" " alt="" coords="2443,372,2567,397"/>
+<area shape="poly" title=" " alt="" coords="3082,326,3077,327,2937,342,2828,350,2719,359,2580,375,2567,376,2567,371,2579,369,2719,353,2828,345,2937,337,3076,321,3082,321"/>
+<area shape="rect" href="a00572.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="3128,519,3271,544"/>
+<area shape="poly" title=" " alt="" coords="3366,478,3238,521,3236,516,3364,473"/>
+<area shape="rect" href="a00575.html" title=" " alt="" coords="3129,592,3270,617"/>
+<area shape="poly" title=" " alt="" coords="3202,558,3202,592,3197,592,3197,558"/>
+<area shape="rect" href="a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="2492,592,2619,617"/>
+<area shape="poly" title=" " alt="" coords="3115,544,2619,600,2619,595,3114,538"/>
+<area shape="rect" href="a00605.html" title=" " alt="" coords="2359,665,2485,691"/>
+<area shape="poly" title=" " alt="" coords="2521,627,2447,667,2444,663,2519,622"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="2509,665,2631,691"/>
+<area shape="poly" title=" " alt="" coords="2563,630,2570,664,2565,665,2558,631"/>
+<area shape="rect" href="a00647.html" title=" " alt="" coords="867,445,1132,471"/>
+<area shape="poly" title=" " alt="" coords="2578,400,2160,422,1752,439,1132,458,1132,452,1752,434,2160,417,2577,395"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="2369,519,2485,544"/>
+<area shape="poly" title=" " alt="" coords="2671,404,2617,423,2562,448,2497,486,2446,521,2443,516,2494,481,2559,443,2615,419,2669,399"/>
+<area shape="poly" title=" " alt="" coords="3163,411,3163,441,3154,472,3132,503,3104,529,3073,550,3039,567,2969,590,2909,602,2908,597,2968,585,3037,562,3070,545,3101,525,3128,499,3149,470,3158,440,3158,411"/>
+<area shape="poly" title=" " alt="" coords="3193,403,3213,421,3228,444,3232,465,3229,485,3212,519,3207,517,3224,484,3227,465,3224,446,3209,425,3189,407"/>
+<area shape="rect" href="a00644.html" title=" " alt="" coords="2899,519,3041,544"/>
+<area shape="poly" title=" " alt="" coords="3155,412,3146,443,3127,472,3107,489,3084,503,3037,521,3035,516,3081,498,3103,485,3123,469,3141,441,3150,410"/>
+<area shape="poly" title=" " alt="" coords="3110,405,2995,448,2993,443,3108,400"/>
+<area shape="rect" href="a00563.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="2572,445,2712,471"/>
+<area shape="poly" title=" " alt="" coords="3072,399,2713,451,2712,445,3071,394"/>
+<area shape="rect" href="a00566.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="2561,519,2723,544"/>
+<area shape="poly" title=" " alt="" coords="3142,411,3114,444,3096,460,3075,473,3047,484,3010,494,2917,510,2723,529,2723,524,2916,504,3009,489,3045,479,3073,468,3092,456,3110,440,3138,407"/>
+<area shape="poly" title=" " alt="" coords="3131,408,3077,446,3031,473,2961,494,2899,503,2844,505,2792,503,2739,500,2684,499,2622,505,2551,521,2525,534,2499,547,2394,561,2217,572,1733,590,1228,601,884,607,884,601,1228,596,1733,585,2216,567,2394,555,2497,541,2523,529,2549,516,2621,500,2684,494,2739,494,2792,497,2844,500,2899,498,2959,489,3029,468,3075,442,3128,403"/>
+<area shape="poly" title=" " alt="" coords="2887,470,2505,521,2486,524,2485,519,2504,516,2887,464"/>
+<area shape="poly" title=" " alt="" coords="2966,484,2971,518,2965,519,2961,485"/>
+<area shape="poly" title=" " alt="" coords="2675,476,2737,516,2845,590,2842,594,2734,521,2672,480"/>
+<area shape="poly" title=" " alt="" coords="2726,466,3128,519,3127,525,2725,472"/>
+<area shape="poly" title=" " alt="" coords="2592,478,2466,521,2464,516,2591,473"/>
+<area shape="rect" href="a00560.html" title=" " alt="" coords="2206,519,2345,544"/>
+<area shape="poly" title=" " alt="" coords="2566,476,2340,521,2339,516,2565,471"/>
+<area shape="poly" title=" " alt="" coords="2645,484,2645,518,2639,518,2639,484"/>
+<area shape="poly" title=" " alt="" coords="2694,546,2825,589,2823,594,2692,551"/>
+<area shape="poly" title=" " alt="" coords="2618,555,2573,594,2569,590,2615,551"/>
+<area shape="poly" title=" " alt="" coords="2572,550,2525,568,2482,594,2465,611,2450,631,2430,666,2425,664,2446,628,2461,608,2479,590,2523,563,2570,545"/>
+<area shape="poly" title=" " alt="" coords="2646,558,2643,588,2634,619,2614,646,2591,667,2587,663,2610,643,2629,616,2638,587,2640,558"/>
+<area shape="rect" href="a00569.html" title=" " alt="" coords="1678,592,1838,617"/>
+<area shape="poly" title=" " alt="" coords="2548,546,2542,547,2147,581,1838,602,1838,597,2147,576,2542,541,2548,541"/>
+<area shape="poly" title=" " alt="" coords="2548,546,2542,547,2178,566,1684,584,884,606,884,601,1683,579,2178,561,2542,541,2548,541"/>
+<area shape="poly" title=" " alt="" coords="2541,247,2632,267,2730,296,2756,308,2780,322,2814,332,2843,337,2870,346,2894,371,2897,384,2894,398,2881,510,2867,592,2862,591,2876,510,2889,397,2891,384,2889,373,2867,351,2842,342,2813,337,2778,326,2753,313,2728,301,2630,272,2540,252"/>
+<area shape="poly" title=" " alt="" coords="2541,243,3096,302,3095,307,2540,248"/>
+<area shape="poly" title=" " alt="" coords="2428,259,2403,277,2384,300,2380,313,2380,326,2387,350,2393,374,2390,387,2381,399,2366,410,2345,419,2285,432,2205,439,2108,442,1878,438,1619,427,1361,415,1129,410,1032,412,952,419,892,430,870,438,856,447,843,463,833,481,825,521,825,561,829,591,823,592,819,561,819,521,828,479,838,460,852,443,868,433,890,425,951,413,1032,407,1129,405,1361,410,1620,422,1878,433,2108,437,2205,434,2284,427,2343,414,2363,405,2377,395,2385,385,2387,374,2382,351,2374,326,2374,312,2380,297,2400,273,2425,255"/>
+<area shape="poly" title=" " alt="" coords="2541,248,2810,296,2809,301,2540,253"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="1880,372,2023,397"/>
+<area shape="poly" title=" " alt="" coords="2422,258,2201,327,2009,375,2008,369,2200,321,2420,253"/>
+<area shape="rect" href="a00743.html" title="XmlDocument, the owner of an XML tree: loading from files, streams, strings and memory buffers,..." alt="" coords="2573,299,2716,324"/>
+<area shape="poly" title=" " alt="" coords="2515,254,2615,296,2613,301,2513,259"/>
+<area shape="rect" href="a00728.html" title=" " alt="" coords="1653,372,1855,397"/>
+<area shape="poly" title=" " alt="" coords="2403,255,1817,375,1816,369,2402,250"/>
+<area shape="rect" href="a00731.html" title=" " alt="" coords="2393,299,2549,324"/>
+<area shape="poly" title=" " alt="" coords="2474,264,2474,298,2469,298,2469,264"/>
+<area shape="rect" href="a00680.html" title=" " alt="" coords="1525,372,1628,397"/>
+<area shape="poly" title=" " alt="" coords="2402,250,2065,301,1641,375,1629,377,1628,372,1640,369,2064,296,2401,245"/>
+<area shape="poly" title=" " alt="" coords="2730,321,2815,340,2850,354,2872,370,2880,387,2878,400,2867,411,2852,418,2818,431,2805,438,2796,447,2790,466,2789,486,2794,507,2803,527,2827,563,2851,590,2847,594,2823,566,2798,529,2789,508,2784,487,2784,465,2792,444,2801,434,2816,426,2850,413,2864,406,2873,398,2875,388,2868,374,2847,359,2814,345,2729,326"/>
+<area shape="poly" title=" " alt="" coords="2560,327,2411,342,2295,351,2180,359,2034,375,2023,376,2023,371,2034,369,2180,354,2295,345,2411,337,2559,322"/>
+<area shape="poly" title=" " alt="" coords="1669,178,1979,242,2382,321,2651,369,2650,375,2382,327,1978,247,1668,183"/>
+<area shape="poly" title=" " alt="" coords="1650,179,2107,321,2260,369,2259,374,2105,327,1649,184"/>
+<area shape="poly" title=" " alt="" coords="1681,169,2416,231,2415,236,1680,174"/>
+<area shape="poly" title=" " alt="" coords="1596,192,1580,372,1575,372,1590,191"/>
+<area shape="poly" title=" " alt="" coords="1636,181,1777,245,1959,322,2091,369,2090,374,1957,326,1775,250,1633,185"/>
+<area shape="rect" href="a00737.html" title=" " alt="" coords="1332,299,1507,324"/>
+<area shape="poly" title=" " alt="" coords="1571,189,1436,301,1433,297,1567,184"/>
+<area shape="poly" title=" " alt="" coords="1510,174,856,228,798,233,797,228,855,223,1510,169"/>
+<area shape="poly" title=" " alt="" coords="1511,180,642,306,642,300,1510,174"/>
+<area shape="rect" href="a00722.html" title=" " alt="" coords="1359,372,1501,397"/>
+<area shape="poly" title=" " alt="" coords="1590,192,1564,256,1544,292,1520,326,1489,354,1457,374,1454,370,1486,349,1516,322,1540,289,1559,254,1585,190"/>
+<area shape="poly" title=" " alt="" coords="609,247,485,262,422,274,365,289,319,309,303,321,291,333,285,347,285,361,291,377,304,395,330,409,379,420,527,438,703,448,866,453,866,459,702,453,526,443,378,426,328,414,300,399,286,380,279,362,280,345,287,330,299,317,317,305,363,284,421,268,484,256,609,242"/>
+<area shape="poly" title=" " alt="" coords="609,249,416,271,336,285,309,293,294,301,276,323,268,346,270,370,283,396,315,427,366,457,430,486,502,513,652,558,774,590,773,595,650,563,501,518,428,491,363,462,312,431,279,399,265,372,263,346,272,321,291,297,307,288,335,280,415,266,609,244"/>
+<area shape="poly" title=" " alt="" coords="811,242,1060,264,1182,279,1270,296,1295,309,1320,321,1401,341,1470,353,1532,358,1591,359,1712,359,1784,362,1868,369,1880,371,1880,376,1867,375,1784,367,1712,364,1590,365,1532,363,1470,358,1400,347,1318,327,1293,314,1268,301,1181,284,1060,269,811,247"/>
+<area shape="poly" title=" " alt="" coords="811,245,1313,296,1332,298,1331,303,1312,301,811,250"/>
+<area shape="rect" href="a00683.html" title=" " alt="" coords="315,372,465,397"/>
+<area shape="poly" title=" " alt="" coords="642,257,580,276,517,301,454,338,407,374,404,370,451,334,514,296,578,270,640,252"/>
+<area shape="poly" title=" " alt="" coords="678,260,608,301,605,296,675,255"/>
+<area shape="poly" title=" " alt="" coords="539,331,425,374,423,369,537,326"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="490,372,605,397"/>
+<area shape="poly" title=" " alt="" coords="574,337,556,373,552,370,570,335"/>
+<area shape="poly" title=" " alt="" coords="1215,335,1233,368,1245,383,1260,395,1323,434,1383,465,1440,490,1495,508,1548,521,1599,529,1701,535,1921,529,2048,530,2194,541,2552,578,2816,599,2816,604,2551,583,2194,547,2048,535,1921,534,1701,540,1598,534,1546,526,1493,513,1438,495,1381,470,1321,439,1256,399,1241,386,1228,371,1210,338"/>
+<area shape="poly" title=" " alt="" coords="1136,317,1019,325,884,337,768,353,728,363,708,374,700,386,695,400,694,435,701,475,715,515,746,585,764,615,788,623,838,631,998,644,1219,654,1475,662,1995,671,2359,675,2359,680,1995,677,1475,667,1219,659,998,649,837,636,787,628,760,619,741,587,710,517,696,476,689,435,690,399,695,383,704,370,726,358,767,348,883,332,1018,320,1136,312"/>
+<area shape="poly" title=" " alt="" coords="1237,329,1348,395,1408,409,1479,419,1644,431,1833,433,2033,430,2424,423,2591,428,2663,434,2725,443,2788,458,2848,478,2943,516,2941,521,2847,483,2786,463,2724,448,2663,439,2591,433,2424,429,2033,435,1833,438,1644,436,1478,425,1407,414,1346,400,1234,334"/>
+<area shape="poly" title=" " alt="" coords="1224,333,1259,367,1281,383,1304,395,1335,403,1381,411,1515,424,1885,441,2281,451,2572,455,2572,460,2281,456,1885,447,1515,429,1381,416,1334,408,1302,400,1278,387,1256,371,1220,337"/>
+<area shape="poly" title=" " alt="" coords="1137,320,1079,330,1027,346,1009,356,998,367,996,380,1005,395,1022,404,1057,413,1172,431,1523,469,1914,502,2206,524,2206,529,1914,508,1522,475,1171,437,1055,418,1020,409,1002,399,991,381,993,365,1005,352,1025,341,1078,325,1136,315"/>
+<area shape="poly" title=" " alt="" coords="1137,319,918,340,820,356,788,365,771,374,766,385,771,396,783,406,799,413,841,422,893,425,950,425,1063,425,1110,430,1145,443,1158,455,1167,468,1175,494,1183,520,1191,531,1203,542,1228,551,1273,559,1401,575,1678,597,1678,603,1400,581,1272,565,1227,556,1201,546,1187,535,1178,522,1170,496,1162,470,1154,458,1142,448,1109,435,1063,430,950,430,893,431,840,428,797,418,780,410,767,399,760,385,767,370,786,360,819,350,918,334,1136,313"/>
+<area shape="poly" title=" " alt="" coords="1137,318,894,338,783,354,746,364,727,374,712,401,710,430,718,461,733,492,776,549,816,590,812,593,772,553,728,495,713,463,704,431,707,399,723,370,744,359,782,349,893,332,1136,312"/>
+<area shape="poly" title=" " alt="" coords="1271,317,1320,321,1617,339,1849,346,2082,352,2380,369,2442,375,2442,380,2379,375,2081,358,1849,351,1617,345,1319,327,1270,322"/>
+<area shape="poly" title=" " alt="" coords="1271,317,1320,321,1573,337,1771,342,1969,348,2222,369,2235,371,2234,376,2222,375,1969,354,1771,347,1573,342,1319,327,1270,322"/>
+<area shape="poly" title=" " alt="" coords="1271,321,1276,321,1442,339,1571,347,1701,354,1868,369,1880,371,1880,376,1867,375,1701,359,1571,352,1441,344,1275,327,1270,326"/>
+<area shape="poly" title=" " alt="" coords="1271,321,1276,321,1653,371,1652,376,1275,327,1270,326"/>
+<area shape="poly" title=" " alt="" coords="1271,322,1513,369,1526,372,1525,377,1512,375,1270,327"/>
+<area shape="poly" title=" " alt="" coords="1271,317,1320,321,1520,336,1677,344,1833,352,2034,369,2047,371,2046,376,2034,375,1833,358,1677,349,1520,341,1319,327,1270,322"/>
+<area shape="poly" title=" " alt="" coords="1137,318,850,339,478,375,466,376,465,371,478,369,850,334,1136,313"/>
+<area shape="poly" title=" " alt="" coords="1136,320,908,341,624,375,605,377,605,372,623,369,908,336,1135,314"/>
+<area shape="poly" title=" " alt="" coords="1256,326,1391,369,1390,374,1255,331"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="781,372,941,397"/>
+<area shape="poly" title=" " alt="" coords="1137,328,921,375,920,369,1136,323"/>
+<area shape="rect" href="a00677.html" title=" " alt="" coords="1015,372,1183,397"/>
+<area shape="poly" title=" " alt="" coords="1176,334,1119,374,1116,370,1173,330"/>
+</map>
+</div>
+</div>
+<p><a href="a00704_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05135.html">lumex::xml::memory::XmlAllocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.  <a href="a05135.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01677.html">lumex::xml::memory</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:af5c331138f914028e4642100ea3e7a24" id="r_af5c331138f914028e4642100ea3e7a24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01677.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::memory::char_t</a></td></tr>
+<tr class="separator:af5c331138f914028e4642100ea3e7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7" id="r_a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplParams" colspan="2">template&lt;typename Object&gt; </td></tr>
+<tr class="memitem:a9e2f482374d0d85e41688b19b06931c7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a05135.html">XmlAllocator</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01677.html#a9e2f482374d0d85e41688b19b06931c7">lumex::xml::memory::get_allocator</a> (Object const *object)</td></tr>
+<tr class="memdesc:a9e2f482374d0d85e41688b19b06931c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the <code><a class="el" href="a05135.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document.">XmlAllocator</a></code> instance that manages the memory for a given object.  <br /></td></tr>
+<tr class="separator:a9e2f482374d0d85e41688b19b06931c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00704_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00704_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The page allocator that holds the nodes, attributes and strings of one XML document. </p>
+<p><code>XmlAllocator</code> hands out memory from a chain of <code>XmlMemoryPage</code> blocks of 32 KiB; a request larger than a quarter of a page gets a block of its own. Freeing only counts the released bytes of a page, and a page whose bytes are all freed is returned to the system, except the current page, which is reused. A string allocation is preceded by an <code>xml_mem_str_header_t</code> that locates its page. <code>get_allocator</code> finds the allocator of any node or attribute through the header word of the object, without a pointer stored in it.</p>
+<p>Each document is its own allocator (<code>XmlDocumentBase</code> derives from this type). The allocator is not synchronized. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_b87afba1bc5b8f58499d6f18356f96fa.html">environment</a></li><li class="navelem"><a class="el" href="a00704.html">example_environment.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_dfaff3bf0c138bf12cc91354825aa357.html">memory</a></li><li class="navelem"><a class="el" href="a00704.html">XmlAllocator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_exceptions.cpp File Reference</title>
+<title>LumexLib: XmlMacros.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,51 +104,752 @@ $(function(){initNavTree('a00710.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_exceptions.cpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XmlMacros.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01193_source.html">lumex/core/exceptions/LumexException</a>&quot;</code><br />
+
+<p>Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the parser.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_exceptions.cpp:</div>
+Include dependency graph for XmlMacros.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00711.png" border="0" usemap="#aexample__exceptions_8cpp" alt=""/></div>
+<div class="center"><img src="a00711.png" border="0" usemap="#aXmlMacros_8hpp" alt=""/></div>
+<map name="aXmlMacros_8hpp" id="aXmlMacros_8hpp">
+<area shape="rect" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa..." alt="" coords="187,5,310,31"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="154,79,343,119"/>
+<area shape="poly" title=" " alt="" coords="251,31,251,65,246,65,246,31"/>
+<area shape="rect" title=" " alt="" coords="5,174,97,199"/>
+<area shape="poly" title=" " alt="" coords="204,121,94,171,91,166,202,116"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="121,167,376,207"/>
+<area shape="poly" title=" " alt="" coords="251,119,251,153,246,153,246,119"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="401,167,614,207"/>
+<area shape="poly" title=" " alt="" coords="309,116,436,160,435,165,307,121"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04782.html">ExampleInstrumentError</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00712.png" border="0" usemap="#aXmlMacros_8hppdep" alt=""/></div>
+<map name="aXmlMacros_8hppdep" id="aXmlMacros_8hppdep">
+<area shape="rect" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa..." alt="" coords="1524,5,1647,31"/>
+<area shape="rect" href="a00545.html" title="XmlAttribute, the handle to one attribute of an element: read its name and value, convert the value t..." alt="" coords="1723,299,1856,324"/>
+<area shape="poly" title=" " alt="" coords="1510,21,1180,24,733,33,517,41,332,51,200,64,160,72,141,81,136,91,141,102,172,124,226,144,300,164,390,182,609,215,860,243,1120,266,1365,284,1723,305,1722,311,1365,289,1119,271,859,248,608,220,389,187,299,169,224,149,170,128,137,106,130,91,137,77,158,67,199,59,332,46,517,35,733,28,1180,19,1510,16"/>
+<area shape="rect" href="a00680.html" title=" " alt="" coords="3129,445,3231,471"/>
+<area shape="poly" title=" " alt="" coords="1661,17,2006,25,2501,47,2759,64,3001,87,3209,115,3294,131,3363,149,3487,184,3539,200,3586,218,3628,241,3668,273,3706,315,3742,371,3747,389,3741,404,3726,416,3702,425,3637,436,3554,441,3376,443,3299,444,3244,448,3232,450,3231,445,3244,443,3299,439,3376,438,3554,436,3636,431,3701,419,3723,411,3737,401,3742,388,3738,373,3702,318,3664,277,3626,246,3583,223,3537,205,3485,190,3362,155,3293,136,3208,120,3001,92,2759,70,2500,52,2005,31,1661,22"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="3948,519,4063,544"/>
+<area shape="poly" title=" " alt="" coords="1661,16,2239,21,2653,28,3092,40,3511,59,3865,84,4004,100,4110,118,4179,139,4197,151,4204,164,4204,385,4200,412,4189,436,4172,456,4150,474,4102,503,4054,521,4052,516,4099,498,4147,470,4168,453,4184,433,4195,410,4199,384,4199,165,4193,155,4176,144,4109,123,4003,105,3864,89,3510,64,3092,46,2653,33,2239,26,1661,21"/>
+<area shape="rect" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="1529,79,1642,104"/>
+<area shape="poly" title=" " alt="" coords="1588,44,1588,78,1583,78,1583,44"/>
+<area shape="rect" href="a00713.html" title="Header&#45;only helpers of the XML implementation: encoding detection and buffer conversion,..." alt="" coords="1339,372,1445,397"/>
+<area shape="poly" title=" " alt="" coords="1511,24,1175,43,724,76,508,96,328,118,204,142,171,154,162,160,160,165,160,238,162,248,170,258,200,276,247,293,309,309,469,334,659,352,861,365,1054,374,1339,381,1338,387,1054,379,861,371,659,358,468,339,308,314,245,299,197,281,166,261,158,250,155,238,155,164,158,157,168,150,203,137,327,113,508,91,724,70,1175,38,1510,19"/>
+<area shape="rect" href="a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="1238,739,1330,764"/>
+<area shape="poly" title=" " alt="" coords="1709,318,1534,332,1318,356,1212,373,1115,394,1035,419,1003,433,978,448,920,494,884,540,859,594,836,666,832,679,835,689,855,699,893,709,1005,726,1238,746,1238,751,1004,731,892,714,853,704,831,692,827,679,831,665,854,592,879,537,916,491,974,443,1000,428,1033,414,1114,389,1211,368,1318,351,1534,326,1708,313"/>
+<area shape="rect" href="a00638.html" title="XPathNode, an item of an XPath result: either an XML node or an attribute together with its element." alt="" coords="1131,445,1253,471"/>
+<area shape="poly" title=" " alt="" coords="1709,320,1501,342,1400,357,1328,375,1292,390,1259,410,1209,447,1205,443,1256,406,1290,386,1326,369,1399,352,1501,336,1709,315"/>
+<area shape="rect" href="a00548.html" title=" " alt="" coords="1723,445,1855,471"/>
+<area shape="poly" title=" " alt="" coords="1792,338,1792,445,1787,445,1787,338"/>
+<area shape="rect" href="a00542.html" title=" " alt="" coords="2424,445,2603,471"/>
+<area shape="poly" title=" " alt="" coords="1866,324,2451,443,2450,448,1865,329"/>
+<area shape="rect" href="a00719.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes..." alt="" coords="2694,372,2805,397"/>
+<area shape="poly" title=" " alt="" coords="1870,315,2694,378,2693,383,1870,320"/>
+<area shape="rect" href="a00389.html" title=" " alt="" coords="1295,812,1417,837"/>
+<area shape="poly" title=" " alt="" coords="1308,772,1345,810,1341,813,1304,776"/>
+<area shape="rect" href="a00395.html" title=" " alt="" coords="1441,812,1562,837"/>
+<area shape="poly" title=" " alt="" coords="1335,766,1464,809,1463,814,1334,771"/>
+<area shape="rect" href="a00392.html" title=" " alt="" coords="1005,812,1126,837"/>
+<area shape="poly" title=" " alt="" coords="1234,771,1104,814,1103,809,1232,766"/>
+<area shape="rect" href="a00398.html" title=" " alt="" coords="1150,812,1271,837"/>
+<area shape="poly" title=" " alt="" coords="1263,776,1226,813,1222,810,1260,772"/>
+<area shape="poly" title=" " alt="" coords="1267,469,1372,493,1414,505,1436,517,1446,533,1452,549,1450,582,1437,615,1415,646,1387,676,1357,702,1306,741,1302,736,1354,698,1383,672,1411,643,1432,612,1445,581,1446,550,1442,535,1433,521,1412,510,1371,498,1266,474"/>
+<area shape="rect" href="a00578.html" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="581,592,720,617"/>
+<area shape="poly" title=" " alt="" coords="1212,481,1225,513,1226,530,1218,546,1192,559,1145,570,1010,587,854,599,720,605,720,600,853,593,1009,582,1144,565,1190,554,1214,542,1220,529,1220,514,1207,483"/>
+<area shape="rect" href="a00650.html" title="Comparison of XPath nodes by document order, used to sort node sets." alt="" coords="2121,519,2388,544"/>
+<area shape="poly" title=" " alt="" coords="1267,461,1374,468,2121,520,2121,525,1373,473,1266,466"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="1549,519,1669,544"/>
+<area shape="poly" title=" " alt="" coords="1267,468,1550,518,1549,523,1266,474"/>
+<area shape="rect" href="a00641.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="1281,519,1423,544"/>
+<area shape="poly" title=" " alt="" coords="1233,474,1325,516,1323,521,1231,479"/>
+<area shape="rect" href="a00632.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="1505,592,1623,617"/>
+<area shape="poly" title=" " alt="" coords="1267,469,1396,494,1481,516,1506,533,1527,553,1557,590,1553,594,1523,557,1502,537,1479,521,1395,499,1266,474"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="2177,739,2287,764"/>
+<area shape="poly" title=" " alt="" coords="1267,463,1508,490,1619,504,1682,516,1731,535,1770,556,1832,600,1893,645,1931,667,1978,688,2030,706,2083,721,2177,740,2176,746,2082,726,2028,711,1976,693,1929,671,1890,649,1829,604,1767,560,1729,540,1681,521,1618,509,1507,495,1266,468"/>
+<area shape="rect" href="a00581.html" title=" " alt="" coords="1081,519,1205,544"/>
+<area shape="poly" title=" " alt="" coords="1178,483,1154,520,1149,517,1174,480"/>
+<area shape="rect" href="a00572.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="526,665,669,691"/>
+<area shape="poly" title=" " alt="" coords="635,630,609,666,605,663,631,627"/>
+<area shape="rect" href="a00575.html" title=" " alt="" coords="527,739,668,764"/>
+<area shape="poly" title=" " alt="" coords="600,704,600,738,595,738,595,704"/>
+<area shape="rect" href="a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="175,739,302,764"/>
+<area shape="poly" title=" " alt="" coords="523,696,302,741,301,736,522,691"/>
+<area shape="rect" href="a00605.html" title=" " alt="" coords="301,812,427,837"/>
+<area shape="poly" title=" " alt="" coords="273,769,343,809,341,814,271,773"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="155,812,277,837"/>
+<area shape="poly" title=" " alt="" coords="233,778,223,812,218,811,228,776"/>
+<area shape="rect" href="a00647.html" title=" " alt="" coords="2446,592,2711,617"/>
+<area shape="poly" title=" " alt="" coords="2325,544,2523,589,2522,594,2323,550"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="1665,665,1781,691"/>
+<area shape="poly" title=" " alt="" coords="2196,550,1770,668,1768,663,2195,545"/>
+<area shape="poly" title=" " alt="" coords="1347,558,1290,739,1285,738,1341,557"/>
+<area shape="poly" title=" " alt="" coords="1267,549,1018,595,658,668,657,663,1017,589,1266,544"/>
+<area shape="rect" href="a00644.html" title=" " alt="" coords="1499,665,1640,691"/>
+<area shape="poly" title=" " alt="" coords="1384,549,1552,663,1549,667,1381,554"/>
+<area shape="poly" title=" " alt="" coords="1403,546,1528,589,1526,594,1401,551"/>
+<area shape="rect" href="a00563.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="1030,592,1170,617"/>
+<area shape="poly" title=" " alt="" coords="1296,550,1145,594,1143,589,1294,545"/>
+<area shape="rect" href="a00566.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="1009,665,1170,691"/>
+<area shape="poly" title=" " alt="" coords="1319,553,1114,667,1111,663,1316,548"/>
+<area shape="poly" title=" " alt="" coords="1367,555,1386,587,1413,624,1447,660,1488,688,1528,699,1598,710,1794,727,2177,747,2177,752,1794,732,1597,715,1527,705,1486,693,1444,664,1409,628,1382,590,1362,558"/>
+<area shape="poly" title=" " alt="" coords="1605,621,1696,663,1694,668,1603,626"/>
+<area shape="poly" title=" " alt="" coords="1569,631,1571,665,1566,665,1563,631"/>
+<area shape="poly" title=" " alt="" coords="1130,623,1183,663,1271,736,1268,741,1180,667,1127,628"/>
+<area shape="poly" title=" " alt="" coords="1017,620,669,670,669,665,1016,614"/>
+<area shape="poly" title=" " alt="" coords="1184,609,1397,631,1652,663,1665,665,1664,670,1652,668,1396,636,1183,615"/>
+<area shape="rect" href="a00560.html" title=" " alt="" coords="845,665,984,691"/>
+<area shape="poly" title=" " alt="" coords="1056,625,948,668,946,663,1054,620"/>
+<area shape="poly" title=" " alt="" coords="1099,631,1094,665,1089,664,1094,630"/>
+<area shape="poly" title=" " alt="" coords="1137,693,1251,736,1249,741,1135,698"/>
+<area shape="poly" title=" " alt="" coords="995,693,597,729,302,750,302,745,597,724,995,688"/>
+<area shape="poly" title=" " alt="" coords="1074,704,1044,738,1024,754,1002,766,954,783,889,795,729,813,562,823,427,827,427,821,562,817,729,808,888,790,953,777,1000,762,1021,749,1040,734,1070,700"/>
+<area shape="poly" title=" " alt="" coords="1054,700,977,735,931,753,883,767,795,785,719,796,651,800,588,802,457,802,380,806,290,815,278,816,277,811,289,809,379,800,457,797,588,796,651,795,718,790,794,780,882,761,929,748,975,730,1052,695"/>
+<area shape="rect" href="a00569.html" title=" " alt="" coords="711,739,871,764"/>
+<area shape="poly" title=" " alt="" coords="1025,696,843,741,842,736,1024,691"/>
+<area shape="poly" title=" " alt="" coords="1184,681,2177,745,2177,750,1184,687"/>
+<area shape="poly" title=" " alt="" coords="2722,408,2665,446,2616,473,2541,493,2476,501,2417,500,2361,496,2306,492,2248,492,2184,500,2110,521,2078,539,2038,567,1968,619,1909,662,1881,678,1843,693,1799,705,1739,715,1595,732,1331,751,1330,746,1594,726,1739,709,1798,699,1842,688,1879,673,1906,657,1965,615,2035,563,2075,534,2108,516,2183,495,2248,486,2306,486,2362,491,2417,495,2475,496,2540,488,2614,468,2662,441,2719,403"/>
+<area shape="poly" title=" " alt="" coords="2680,391,1253,458,1253,452,2680,385"/>
+<area shape="poly" title=" " alt="" coords="2819,387,2887,394,2960,406,3024,422,3049,432,3067,443,3084,463,3092,483,3093,531,3093,605,3086,621,3065,636,3034,650,2992,662,2887,685,2760,705,2493,734,2287,750,2287,745,2492,729,2760,699,2886,680,2991,657,3032,645,3063,631,3082,618,3088,604,3088,531,3086,484,3079,466,3064,447,3047,436,3023,427,2959,411,2887,400,2819,392"/>
+<area shape="poly" title=" " alt="" coords="2696,404,2555,448,2554,443,2695,399"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="2787,519,2930,544"/>
+<area shape="poly" title=" " alt="" coords="2788,402,2813,420,2836,444,2853,483,2860,518,2855,519,2848,485,2831,447,2810,424,2785,406"/>
+<area shape="rect" href="a00743.html" title="XmlDocument, the owner of an XML tree: loading from files, streams, strings and memory buffers,..." alt="" coords="2678,445,2821,471"/>
+<area shape="poly" title=" " alt="" coords="2752,411,2752,445,2747,445,2747,411"/>
+<area shape="rect" href="a00728.html" title=" " alt="" coords="2045,445,2248,471"/>
+<area shape="poly" title=" " alt="" coords="2680,396,2249,448,2248,443,2680,390"/>
+<area shape="rect" href="a00731.html" title=" " alt="" coords="2897,445,3053,471"/>
+<area shape="poly" title=" " alt="" coords="2802,399,2936,443,2935,448,2800,404"/>
+<area shape="poly" title=" " alt="" coords="2819,393,3110,443,3129,446,3128,451,3109,448,2818,399"/>
+<area shape="poly" title=" " alt="" coords="2757,484,2759,516,2757,552,2747,588,2726,619,2695,637,2645,653,2577,668,2496,681,2299,704,2076,721,1632,744,1330,753,1330,748,1632,738,2076,716,2299,698,2495,676,2576,663,2643,648,2693,632,2722,615,2742,586,2752,551,2754,516,2751,485"/>
+<area shape="poly" title=" " alt="" coords="2781,476,2841,516,2838,521,2778,480"/>
+<area shape="poly" title=" " alt="" coords="1515,99,1308,116,1051,146,931,165,832,187,794,199,765,212,747,225,741,239,741,458,743,531,752,589,762,615,777,639,798,664,825,688,847,698,887,707,1002,723,1238,745,1238,751,1001,728,886,712,846,703,823,693,794,667,772,642,757,617,747,591,737,531,736,458,736,237,743,222,762,208,792,195,831,182,930,160,1050,140,1308,111,1515,93"/>
+<area shape="poly" title=" " alt="" coords="1515,95,1222,102,828,113,474,131,356,142,320,148,301,154,258,187,222,222,192,258,171,296,158,335,156,377,164,422,185,469,215,513,253,550,297,581,344,607,393,627,441,644,526,665,525,670,439,649,391,632,342,611,294,586,250,554,211,516,180,472,159,423,151,377,153,334,166,293,188,255,218,218,255,183,299,150,318,143,355,137,474,126,828,108,1222,96,1515,90"/>
+<area shape="poly" title=" " alt="" coords="1515,95,1204,100,776,111,373,128,227,140,142,155,92,167,49,179,32,187,19,199,11,215,8,238,8,604,12,632,24,656,43,676,66,694,120,720,176,737,174,742,118,725,63,698,39,680,20,659,7,634,3,605,3,238,6,214,15,196,29,183,47,174,91,162,141,149,227,135,373,123,775,105,1204,95,1515,89"/>
+<area shape="poly" title=" " alt="" coords="1515,95,1224,103,1035,112,839,125,655,144,502,169,443,184,398,201,369,219,362,228,360,238,360,458,365,489,380,510,404,526,434,542,468,551,526,560,691,577,1030,599,1030,604,691,582,526,566,467,556,432,546,401,530,376,513,360,491,355,458,355,238,357,226,366,215,395,196,441,179,501,164,655,139,838,120,1034,107,1224,98,1515,90"/>
+<area shape="poly" title=" " alt="" coords="1656,90,2841,111,3524,129,3776,139,3924,149,3989,152,4055,148,4177,136,4228,138,4250,143,4269,153,4284,166,4296,185,4303,208,4305,238,4305,604,4308,606,4318,608,4354,609,4418,611,4422,616,4412,622,4360,635,4047,693,3932,705,3737,715,3207,733,2287,753,2287,748,3207,728,3737,710,3932,699,4046,688,4359,630,4411,617,4416,616,4416,616,4353,615,4318,613,4306,611,4300,606,4300,238,4298,209,4291,187,4280,170,4266,157,4248,148,4228,143,4178,141,4056,153,3989,157,3924,155,3775,144,3524,134,2841,116,1656,95"/>
+<area shape="rect" href="a00593.html" title="XPathLexerString, the begin and end of a token inside the text of an XPath expression." alt="" coords="539,372,701,397"/>
+<area shape="poly" title=" " alt="" coords="1515,95,1318,99,1069,109,844,126,765,139,738,146,721,154,696,177,675,205,659,236,646,268,630,329,624,372,618,371,625,327,641,266,654,234,671,202,692,174,719,150,736,141,764,134,844,121,1068,103,1318,94,1515,89"/>
+<area shape="rect" href="a00551.html" title="XPathQuery, a compiled XPath expression that can be evaluated many times, and its private implementat..." alt="" coords="378,665,502,691"/>
+<area shape="poly" title=" " alt="" coords="1515,95,838,114,473,132,341,143,263,155,207,166,157,176,137,184,122,196,113,213,109,238,109,531,117,552,138,572,170,592,210,610,300,641,384,663,382,668,299,646,208,615,168,596,135,576,112,555,104,532,104,238,108,212,118,192,135,179,155,171,206,161,262,149,340,137,473,126,838,109,1515,90"/>
+<area shape="rect" href="a00584.html" title="XPathString, the string type of XPath evaluation, and the conversions of nodes and numbers to it." alt="" coords="195,445,320,471"/>
+<area shape="poly" title=" " alt="" coords="1515,96,850,116,508,134,394,144,340,154,315,171,298,188,288,209,285,238,285,311,277,388,264,446,258,445,272,387,280,311,280,238,283,208,294,185,312,167,338,150,393,139,508,129,850,111,1515,90"/>
+<area shape="rect" href="a00701.html" title=" " alt="" coords="1807,225,1939,251"/>
+<area shape="poly" title=" " alt="" coords="1656,101,1723,119,1757,133,1789,150,1813,167,1835,187,1866,223,1862,227,1831,191,1810,171,1787,154,1755,138,1721,124,1655,106"/>
+<area shape="rect" href="a00704.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="3217,152,3351,177"/>
+<area shape="poly" title=" " alt="" coords="1656,92,3217,159,3217,164,1656,97"/>
+<area shape="rect" href="a00716.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree." alt="" coords="3267,299,3410,324"/>
+<area shape="poly" title=" " alt="" coords="1636,107,1676,125,1715,150,1740,177,1755,204,1770,228,1797,248,1867,260,2013,270,2446,288,3267,307,3267,313,2446,293,2012,276,1866,265,1795,253,1766,231,1750,206,1736,180,1712,154,1673,130,1634,111"/>
+<area shape="rect" href="a00689.html" title="The internal XML parser that turns a writable character buffer into a node tree in place." alt="" coords="3897,445,4012,471"/>
+<area shape="poly" title=" " alt="" coords="1656,89,2029,95,2562,106,3069,124,3254,135,3363,149,3505,190,3561,212,3611,236,3712,293,3839,370,3896,408,3941,443,3938,447,3893,413,3836,374,3709,298,3608,240,3558,217,3503,195,3362,155,3254,141,3068,129,2562,111,2029,100,1656,95"/>
+<area shape="poly" title=" " alt="" coords="1572,117,1403,373,1398,370,1567,114"/>
+<area shape="rect" href="a00659.html" title="Internal output buffer of the serializer: it collects characters, converts them to the target encodin..." alt="" coords="2117,299,2286,324"/>
+<area shape="poly" title=" " alt="" coords="1628,108,1659,127,1689,150,1709,178,1719,203,1729,227,1752,248,1780,261,1817,272,1914,289,2020,300,2117,306,2116,311,2020,305,1913,294,1816,277,1778,266,1749,253,1725,230,1714,205,1704,180,1685,154,1656,131,1625,113"/>
+<area shape="rect" href="a00692.html" title="xml_parse_result_t, the outcome of loading XML or appending a fragment, and the internal entry point ..." alt="" coords="3967,299,4118,324"/>
+<area shape="poly" title=" " alt="" coords="1656,89,2148,93,2872,103,3546,121,3775,134,3848,141,3886,149,3913,164,3939,182,3982,223,4016,265,4037,297,4033,300,4012,268,3978,227,3935,186,3911,168,3884,155,3847,147,3775,139,3546,126,2872,108,2148,98,1656,94"/>
+<area shape="rect" href="a00695.html" title="XmlText, typed access to the text content of a node." alt="" coords="2241,372,2343,397"/>
+<area shape="poly" title=" " alt="" coords="1601,114,1649,182,1682,218,1721,248,1751,260,1802,275,1948,310,2241,372,2240,377,1947,316,1801,280,1749,265,1719,253,1679,222,1644,185,1597,117"/>
+<area shape="rect" href="a00596.html" title="XPathLexer, the tokenizer that splits an XPath expression into lexemes for XPathParser." alt="" coords="395,445,517,471"/>
+<area shape="poly" title=" " alt="" coords="580,405,486,448,484,443,578,401"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="541,445,701,471"/>
+<area shape="poly" title=" " alt="" coords="623,411,624,445,618,445,618,411"/>
+<area shape="poly" title=" " alt="" coords="432,482,379,531,323,594,298,633,275,675,246,740,241,737,271,672,293,631,319,590,375,527,428,478"/>
+<area shape="rect" href="a00599.html" title=" " alt="" coords="446,519,567,544"/>
+<area shape="poly" title=" " alt="" coords="475,480,500,517,495,520,470,483"/>
+<area shape="poly" title=" " alt="" coords="516,688,731,711,938,728,1238,747,1238,752,938,734,730,716,515,693"/>
+<area shape="poly" title=" " alt="" coords="365,687,306,694,246,705,195,721,177,730,165,740,160,749,160,757,167,776,182,795,200,810,196,814,178,798,162,779,154,758,155,747,161,737,174,726,193,716,245,700,305,689,364,681"/>
+<area shape="poly" title=" " alt="" coords="516,688,680,701,891,712,1387,729,2177,748,2177,753,1386,735,891,717,680,706,516,693"/>
+<area shape="poly" title=" " alt="" coords="278,480,306,511,340,542,399,581,461,615,566,663,564,668,459,620,397,586,337,546,302,515,274,483"/>
+<area shape="poly" title=" " alt="" coords="334,463,383,468,1081,524,1080,529,382,473,334,469"/>
+<area shape="poly" title=" " alt="" coords="3364,166,3601,181,3895,208,4033,227,4147,250,4191,263,4225,278,4247,293,4255,311,4255,605,4252,638,4244,665,4231,686,4213,700,4191,710,4166,715,4108,716,3967,698,3892,691,3817,693,3674,706,3484,717,3029,735,2287,753,2287,748,3029,730,3483,712,3674,701,3817,688,3892,686,3968,693,4108,710,4166,710,4190,705,4210,696,4227,682,4239,663,4247,637,4249,605,4249,312,4243,297,4222,282,4189,268,4145,255,4032,233,3895,213,3601,186,3364,171"/>
+<area shape="poly" title=" " alt="" coords="3204,168,2988,172,2680,182,2323,200,1959,228,1940,230,1939,225,1958,223,2322,194,2680,177,2988,167,3204,163"/>
+<area shape="rect" href="a00536.html" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="3141,225,3307,251"/>
+<area shape="poly" title=" " alt="" coords="3267,190,3237,227,3233,223,3263,186"/>
+<area shape="poly" title=" " alt="" coords="3302,188,3321,224,3333,264,3339,298,3334,299,3328,265,3316,226,3298,190"/>
+<area shape="rect" href="a00740.html" title="Internal root record of a document: the document node and the allocator of its tree in one object." alt="" coords="3553,372,3727,397"/>
+<area shape="poly" title=" " alt="" coords="3317,182,3621,370,3618,374,3315,187"/>
+<area shape="poly" title=" " alt="" coords="3333,180,3536,258,3666,312,3796,370,3873,409,3934,443,3931,448,3870,413,3794,374,3664,316,3534,263,3331,185"/>
+<area shape="poly" title=" " alt="" coords="3204,169,2952,178,2582,200,2371,217,2150,239,1928,267,1711,301,1632,318,1555,337,1431,375,1429,369,1553,332,1631,312,1710,296,1927,262,2150,234,2370,212,2582,195,2952,173,3204,164"/>
+<area shape="poly" title=" " alt="" coords="3128,246,1856,311,1856,305,3128,240"/>
+<area shape="rect" href="a00539.html" title=" " alt="" coords="3255,445,3419,471"/>
+<area shape="poly" title=" " alt="" coords="3235,263,3258,323,3297,392,3331,444,3326,447,3292,395,3254,325,3230,265"/>
+<area shape="poly" title=" " alt="" coords="3257,256,3320,296,3317,301,3254,261"/>
+<area shape="poly" title=" " alt="" coords="3369,331,3402,360,3432,396,3442,416,3447,436,3445,455,3434,473,3395,481,3304,489,3018,504,2389,530,2388,524,3018,499,3304,483,3394,475,3430,468,3440,453,3442,436,3437,418,3428,399,3398,364,3365,335"/>
+<area shape="poly" title=" " alt="" coords="3254,316,2686,336,2368,353,2235,363,2135,375,2049,390,1965,410,1830,448,1829,443,1963,405,2048,385,2134,369,2235,358,2367,348,2686,330,3253,311"/>
+<area shape="poly" title=" " alt="" coords="3254,325,2805,380,2804,375,3253,319"/>
+<area shape="poly" title=" " alt="" coords="3316,335,3196,447,3192,443,3313,332"/>
+<area shape="poly" title=" " alt="" coords="3341,338,3340,445,3335,445,3336,338"/>
+<area shape="rect" href="a00737.html" title=" " alt="" coords="3495,445,3670,471"/>
+<area shape="poly" title=" " alt="" coords="3388,327,3432,346,3477,370,3530,408,3571,443,3567,447,3527,412,3475,374,3430,351,3386,332"/>
+<area shape="poly" title=" " alt="" coords="3405,325,3588,369,3587,374,3403,330"/>
+<area shape="poly" title=" " alt="" coords="3424,316,3573,335,3658,350,3741,369,3846,406,3929,443,3927,448,3844,411,3739,375,3656,355,3572,340,3423,321"/>
+<area shape="rect" href="a00722.html" title=" " alt="" coords="1880,445,2021,471"/>
+<area shape="poly" title=" " alt="" coords="3254,316,2731,334,2441,351,2321,362,2230,375,2116,406,1989,448,1987,443,2114,401,2229,369,2320,357,2441,346,2731,329,3254,311"/>
+<area shape="poly" title=" " alt="" coords="3674,403,3692,418,3707,436,3713,454,3706,472,3687,486,3655,499,3562,522,3437,542,3290,559,2977,585,2712,601,2711,596,2977,580,3289,554,3436,537,3561,517,3653,494,3684,482,3702,469,3708,454,3702,438,3689,422,3671,408"/>
+<area shape="poly" title=" " alt="" coords="3683,402,3705,415,3724,432,3733,451,3733,462,3727,472,3696,497,3638,523,3557,552,3456,581,3211,640,2931,693,2747,719,2564,737,2287,752,2287,747,2564,731,2746,714,2930,688,3210,634,3455,576,3555,547,3636,518,3693,492,3723,469,3727,460,3728,452,3720,435,3702,420,3680,406"/>
+<area shape="poly" title=" " alt="" coords="3667,405,3679,421,3689,438,3692,456,3684,473,3652,483,3582,493,3370,510,2930,531,2930,526,3370,504,3582,488,3650,478,3681,469,3687,455,3684,440,3675,424,3663,409"/>
+<area shape="poly" title=" " alt="" coords="3624,410,3595,447,3591,443,3620,407"/>
+<area shape="rect" href="a00683.html" title=" " alt="" coords="3773,519,3923,544"/>
+<area shape="poly" title=" " alt="" coords="3715,398,3783,418,3811,430,3830,443,3842,462,3848,482,3851,518,3846,519,3843,483,3837,464,3826,447,3809,435,3781,423,3713,403"/>
+<area shape="poly" title=" " alt="" coords="3708,398,3900,443,3899,448,3707,403"/>
+<area shape="poly" title=" " alt="" coords="3973,480,3998,517,3994,520,3969,483"/>
+<area shape="poly" title=" " alt="" coords="3926,481,3868,521,3865,516,3923,476"/>
+<area shape="poly" title=" " alt="" coords="1325,395,1201,415,1146,430,1108,448,1092,463,1082,478,1071,519,1067,532,1070,543,1082,556,1094,563,1121,569,1151,573,1167,579,1183,590,1218,627,1247,669,1281,737,1276,740,1242,671,1214,630,1180,594,1164,584,1150,579,1120,575,1092,568,1078,560,1066,545,1062,532,1065,518,1077,476,1087,459,1105,443,1144,425,1200,410,1324,390"/>
+<area shape="poly" title=" " alt="" coords="1325,391,1147,409,1041,426,935,448,824,481,641,543,462,612,399,643,379,656,367,667,358,685,353,704,350,745,355,782,362,811,357,812,350,783,345,745,347,703,353,683,363,664,376,652,397,638,460,607,639,538,823,476,934,443,1040,420,1147,404,1324,386"/>
+<area shape="poly" title=" " alt="" coords="1359,407,1340,421,1325,437,1319,454,1325,469,1345,488,1365,500,1387,507,1409,510,1454,505,1501,492,1549,480,1596,474,1619,477,1641,484,1663,497,1683,517,1694,538,1695,559,1686,581,1671,602,1631,639,1592,667,1589,663,1628,635,1667,598,1681,578,1689,558,1689,539,1679,520,1659,502,1639,489,1617,482,1595,480,1550,485,1503,497,1455,510,1408,515,1385,512,1363,505,1341,492,1320,472,1314,454,1321,435,1337,417,1356,403"/>
+<area shape="poly" title=" " alt="" coords="1325,394,1144,416,1066,431,1039,439,1026,447,1012,470,1009,492,1015,516,1026,543,1048,570,1076,590,1072,594,1044,574,1022,545,1009,517,1004,493,1007,468,1022,443,1037,434,1064,426,1143,411,1325,388"/>
+<area shape="poly" title=" " alt="" coords="1325,390,1240,396,1146,406,1061,423,1029,434,1006,447,982,471,963,500,948,531,937,562,923,622,918,665,913,665,918,621,931,561,943,529,958,497,978,468,1002,443,1026,429,1060,418,1145,401,1240,390,1324,385"/>
+<area shape="poly" title=" " alt="" coords="1325,393,1136,413,1043,429,977,448,942,471,919,496,896,522,860,546,816,560,775,563,701,554,667,550,634,553,603,566,571,594,558,612,554,621,559,626,571,629,618,637,648,647,681,663,736,701,778,736,775,740,733,706,679,668,646,652,616,642,570,634,556,630,549,622,553,609,567,590,600,561,633,548,667,545,702,549,775,558,815,555,858,542,893,518,915,493,938,466,975,443,1041,424,1135,408,1325,387"/>
+<area shape="poly" title=" " alt="" coords="1389,411,1390,442,1394,456,1402,469,1425,484,1459,494,1546,504,1637,507,1676,510,1706,516,1783,541,1861,570,2008,634,2130,694,2210,736,2208,741,2128,698,2006,639,1859,575,1782,546,1705,521,1675,516,1636,513,1545,509,1458,499,1423,489,1398,473,1389,459,1384,443,1384,411"/>
+<area shape="poly" title=" " alt="" coords="1325,393,1266,400,1205,411,1152,427,1133,436,1121,447,1114,464,1117,482,1135,517,1130,519,1112,484,1109,463,1116,444,1130,432,1150,422,1203,406,1265,395,1324,387"/>
+<area shape="poly" title=" " alt="" coords="1459,394,1724,443,1723,448,1458,400"/>
+<area shape="poly" title=" " alt="" coords="1397,411,1406,442,1414,457,1425,468,1479,476,1609,485,2009,502,2787,527,2787,532,2009,507,1608,490,1479,481,1423,473,1410,460,1401,444,1392,412"/>
+<area shape="poly" title=" " alt="" coords="1460,388,2034,443,2045,444,2044,449,2033,448,1459,393"/>
+<area shape="poly" title=" " alt="" coords="1459,383,1718,387,2113,397,2583,414,3066,443,3128,449,3128,454,3065,448,2583,420,2113,402,1718,392,1459,388"/>
+<area shape="poly" title=" " alt="" coords="1422,403,1480,444,1520,468,1585,482,1685,492,1967,506,2326,512,2723,512,3482,509,3766,510,3936,516,3948,517,3948,523,3936,521,3766,515,3482,514,2723,518,2326,517,1967,511,1685,498,1585,487,1518,473,1477,448,1419,408"/>
+<area shape="poly" title=" " alt="" coords="1325,394,702,453,701,448,1325,388"/>
+<area shape="poly" title=" " alt="" coords="1459,383,2326,404,2855,422,3244,443,3255,444,3255,449,3244,448,2855,427,2326,409,1459,389"/>
+<area shape="poly" title=" " alt="" coords="1409,407,1437,441,1455,456,1475,468,1573,477,1800,486,2494,504,3772,528,3772,533,2494,510,1800,492,1572,482,1474,473,1452,461,1433,444,1405,410"/>
+<area shape="poly" title=" " alt="" coords="1460,390,1868,443,1880,444,1880,450,1868,448,1459,395"/>
+<area shape="rect" href="a00677.html" title=" " alt="" coords="1531,445,1699,471"/>
+<area shape="poly" title=" " alt="" coords="1445,399,1577,443,1575,448,1443,404"/>
+<area shape="poly" title=" " alt="" coords="2284,326,2323,343,2358,370,2383,405,2394,438,2403,519,2402,556,2392,592,2375,625,2351,656,2299,707,2254,741,2251,737,2296,703,2347,653,2370,623,2387,590,2397,555,2397,519,2389,439,2379,408,2354,374,2321,348,2282,331"/>
+<area shape="poly" title=" " alt="" coords="2300,322,2694,375,2693,380,2299,327"/>
+<area shape="poly" title=" " alt="" coords="2138,330,1666,448,1665,443,2137,325"/>
+<area shape="poly" title=" " alt="" coords="4060,335,4081,379,4098,435,4102,465,4100,494,4093,521,4077,546,4062,558,4041,569,3981,589,3902,607,3805,622,3573,647,3312,664,2809,683,2507,693,2152,716,1807,733,1330,752,1330,747,1807,728,2152,710,2507,688,2809,678,3312,658,3573,641,3804,617,3901,602,3980,584,4038,564,4059,554,4073,542,4088,519,4095,493,4096,465,4093,437,4076,381,4055,337"/>
+<area shape="poly" title=" " alt="" coords="4077,330,4100,348,4121,370,4146,411,4152,432,4153,458,4153,605,4148,615,4134,624,4084,641,4006,656,3904,670,3644,694,3336,713,2710,740,2287,753,2287,747,2710,735,3336,708,3643,688,3903,664,4005,650,4083,636,4132,620,4144,612,4148,604,4148,458,4146,432,4141,413,4117,374,4097,352,4074,334"/>
+<area shape="poly" title=" " alt="" coords="3954,319,2805,384,2805,379,3953,314"/>
+<area shape="poly" title=" " alt="" coords="4050,337,4053,368,4052,403,4044,440,4026,472,4007,487,3977,500,3906,521,3905,516,3975,495,4004,482,4022,469,4039,438,4046,403,4047,368,4045,338"/>
+<area shape="poly" title=" " alt="" coords="4030,337,3965,447,3960,444,4026,335"/>
+<area shape="poly" title=" " alt="" coords="2291,412,2282,443,2262,472,2241,489,2220,499,2181,506,2140,508,2117,513,2092,521,2045,544,2007,566,1945,611,1882,654,1843,674,1794,693,1701,713,1571,730,1330,751,1330,746,1570,725,1700,708,1793,688,1841,669,1880,650,1942,607,2004,562,2042,539,2090,516,2116,507,2139,503,2180,500,2219,494,2238,484,2258,469,2277,441,2286,410"/>
+<area shape="poly" title=" " alt="" coords="2307,410,2315,441,2313,457,2306,472,2283,492,2259,501,2233,501,2206,497,2180,494,2156,494,2133,502,2111,520,2098,549,2097,579,2107,610,2125,641,2173,697,2217,736,2213,740,2169,701,2121,644,2102,613,2092,580,2093,548,2107,517,2130,497,2155,489,2181,488,2207,492,2233,496,2258,495,2281,488,2302,469,2308,456,2309,441,2302,411"/>
+<area shape="poly" title=" " alt="" coords="2357,386,2663,409,3066,443,3129,449,3128,455,3065,448,2663,414,2357,392"/>
+</map>
+</div>
+</div>
+<p><a href="a00710_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a329b1c53e66ebee947f7b4b82656ad04" id="r_a329b1c53e66ebee947f7b4b82656ad04"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a329b1c53e66ebee947f7b4b82656ad04">LUMEX_XML_GETHEADER_IMPL</a>(object,  page,  flags)</td></tr>
+<tr class="separator:a329b1c53e66ebee947f7b4b82656ad04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cd57e93eae0c1f6f3a8bb74cdbb8e3a" id="r_a3cd57e93eae0c1f6f3a8bb74cdbb8e3a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3cd57e93eae0c1f6f3a8bb74cdbb8e3a">LUMEX_XML_GETPAGE_IMPL</a>(header)</td></tr>
+<tr class="separator:a3cd57e93eae0c1f6f3a8bb74cdbb8e3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52d7b7c93277b4188c6495f44dd8d023" id="r_a52d7b7c93277b4188c6495f44dd8d023"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52d7b7c93277b4188c6495f44dd8d023">LUMEX_XML_GETPAGE</a>(n)</td></tr>
+<tr class="separator:a52d7b7c93277b4188c6495f44dd8d023"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb9b0524feddbb6ef5b72bbba0b36e49" id="r_afb9b0524feddbb6ef5b72bbba0b36e49"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb9b0524feddbb6ef5b72bbba0b36e49">LUMEX_XML_NODETYPE</a>(n)</td></tr>
+<tr class="separator:afb9b0524feddbb6ef5b72bbba0b36e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafe37eeac32f24640c6666ab89701c5a" id="r_aafe37eeac32f24640c6666ab89701c5a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafe37eeac32f24640c6666ab89701c5a">LUMEX_XML_IS_CHARTYPE_IMPL</a>(c,  ct,  table)</td></tr>
+<tr class="separator:aafe37eeac32f24640c6666ab89701c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa0da9a5f479a1cb17bebe3b83d10574" id="r_aaa0da9a5f479a1cb17bebe3b83d10574"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa0da9a5f479a1cb17bebe3b83d10574">LUMEX_XML_IS_CHARTYPE</a>(c,  ct)</td></tr>
+<tr class="separator:aaa0da9a5f479a1cb17bebe3b83d10574"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb3668d38475ab6085a34cad2ff24358" id="r_acb3668d38475ab6085a34cad2ff24358"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb3668d38475ab6085a34cad2ff24358">LUMEX_XML_IS_CHARTYPEX</a>(c,  ct)</td></tr>
+<tr class="separator:acb3668d38475ab6085a34cad2ff24358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b317b68e8791035c9674c14c48434bc" id="r_a1b317b68e8791035c9674c14c48434bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b317b68e8791035c9674c14c48434bc">LUMEX_XML_SCANCHAR</a>(ch)</td></tr>
+<tr class="separator:a1b317b68e8791035c9674c14c48434bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8638ee2c4051bacb91e9f62c22a73dd1" id="r_a8638ee2c4051bacb91e9f62c22a73dd1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8638ee2c4051bacb91e9f62c22a73dd1">LUMEX_XML_SCANCHARTYPE</a>(ct)</td></tr>
+<tr class="separator:a8638ee2c4051bacb91e9f62c22a73dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02e2be7c41ff66c2d21449919847fb43" id="r_a02e2be7c41ff66c2d21449919847fb43"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02e2be7c41ff66c2d21449919847fb43">LUMEX_XML_ENDSWITH</a>(c,  e)</td></tr>
+<tr class="separator:a02e2be7c41ff66c2d21449919847fb43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c6cdf6bc5ef321dacea11c998c83f39" id="r_a2c6cdf6bc5ef321dacea11c998c83f39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c6cdf6bc5ef321dacea11c998c83f39">LUMEX_XML_SKIPWS</a>()</td></tr>
+<tr class="separator:a2c6cdf6bc5ef321dacea11c998c83f39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66f0d755b887b2fe5edf2e00c07b1c3e" id="r_a66f0d755b887b2fe5edf2e00c07b1c3e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66f0d755b887b2fe5edf2e00c07b1c3e">LUMEX_XML_OPTSET</a>(OPT)</td></tr>
+<tr class="separator:a66f0d755b887b2fe5edf2e00c07b1c3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b8c37aed3c9234131a36a6ead52337d" id="r_a9b8c37aed3c9234131a36a6ead52337d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b8c37aed3c9234131a36a6ead52337d">LUMEX_XML_PUSHNODE</a>(TYPE)</td></tr>
+<tr class="separator:a9b8c37aed3c9234131a36a6ead52337d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae27d4dd6205e5285d9f4b05e834e2e7f" id="r_ae27d4dd6205e5285d9f4b05e834e2e7f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae27d4dd6205e5285d9f4b05e834e2e7f">LUMEX_XML_POPNODE</a>()</td></tr>
+<tr class="separator:ae27d4dd6205e5285d9f4b05e834e2e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdcf03e694e50b1b507a60e68eb1d35a" id="r_afdcf03e694e50b1b507a60e68eb1d35a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdcf03e694e50b1b507a60e68eb1d35a">LUMEX_XML_SCANFOR</a>(X)</td></tr>
+<tr class="separator:afdcf03e694e50b1b507a60e68eb1d35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c3e53c1df9ea7feea4f3aee30f616a1" id="r_a8c3e53c1df9ea7feea4f3aee30f616a1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c3e53c1df9ea7feea4f3aee30f616a1">LUMEX_XML_SCANWHILE</a>(X)</td></tr>
+<tr class="separator:a8c3e53c1df9ea7feea4f3aee30f616a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c6aefb65fc05e82dd045d22f9cd0063" id="r_a1c6aefb65fc05e82dd045d22f9cd0063"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c6aefb65fc05e82dd045d22f9cd0063">LUMEX_XML_SCANWHILE_UNROLL</a>(X)</td></tr>
+<tr class="separator:a1c6aefb65fc05e82dd045d22f9cd0063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f2bdcdac097c095069b5de6c28a6137" id="r_a6f2bdcdac097c095069b5de6c28a6137"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f2bdcdac097c095069b5de6c28a6137">LUMEX_XML_ENDSEG</a>()</td></tr>
+<tr class="separator:a6f2bdcdac097c095069b5de6c28a6137"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f595e8a2aecab5327f3bfb66471cf1f" id="r_a9f595e8a2aecab5327f3bfb66471cf1f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f595e8a2aecab5327f3bfb66471cf1f">LUMEX_XML_THROW_ERROR</a>(err,  m)</td></tr>
+<tr class="separator:a9f595e8a2aecab5327f3bfb66471cf1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257c37897d5e9375e38be51b0ca8151e" id="r_a257c37897d5e9375e38be51b0ca8151e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a257c37897d5e9375e38be51b0ca8151e">LUMEX_XML_CHECK_ERROR</a>(err,  m)</td></tr>
+<tr class="separator:a257c37897d5e9375e38be51b0ca8151e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the parser. </p>
+<p>Every node and attribute starts with a header word that holds the byte distance from its memory page, shifted left by 8 bits, and flags in the low 8 bits; <code>LUMEX_XML_GETHEADER_IMPL</code> builds that word, <code>LUMEX_XML_GETPAGE</code> recovers the page and <code>LUMEX_XML_NODETYPE</code> the node type. <code>LUMEX_XML_IS_CHARTYPE</code> and <code>LUMEX_XML_IS_CHARTYPEX</code> test a character against the class tables of <code><a class="el" href="a00653.html" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade...">XmlConstants.hpp</a></code>.</p>
+<p>The scanning macros (<code>LUMEX_XML_SKIPWS</code>, <code>LUMEX_XML_SCANFOR</code>, <code>LUMEX_XML_PUSHNODE</code>, <code>LUMEX_XML_THROW_ERROR</code> and the others) are written for the bodies of the parser and refer to its local variables, such as <code>str</code>, <code>cursor</code>, <code>alloc</code> and <code>optmsk</code>. Several macros also use names from <code><a class="el" href="a00653.html" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade...">XmlConstants.hpp</a></code>, <code><a class="el" href="a00698.html" title="The header of a memory page of the XML allocator, and the default page size.">XmlMemoryPage.hpp</a></code> and <code><a class="el" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,...">XmlTypes.hpp</a></code> that must be visible where they are expanded. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a257c37897d5e9375e38be51b0ca8151e" name="a257c37897d5e9375e38be51b0ca8151e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a257c37897d5e9375e38be51b0ca8151e">&#9670;&#160;</a></span>LUMEX_XML_CHECK_ERROR</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
+          <td class="memname">#define LUMEX_XML_CHECK_ERROR</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>err</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>m</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    if (*str == 0)                                                            \</div>
+<div class="line">      LUMEX_XML_THROW_ERROR (<a class="code hl_namespace" href="a01529.html">err</a>, m);                                         \</div>
+<div class="line">  }</div>
+<div class="ttc" id="aa01529_html"><div class="ttname"><a href="a01529.html">lumex::core::expected::error</a></div><div class="ttdef"><b>Definition</b> BadExpectedAccess.hpp:97</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a6f2bdcdac097c095069b5de6c28a6137" name="a6f2bdcdac097c095069b5de6c28a6137"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f2bdcdac097c095069b5de6c28a6137">&#9670;&#160;</a></span>LUMEX_XML_ENDSEG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_ENDSEG</td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00710_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00710_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    ch = *str;                                                                \</div>
+<div class="line">    *str = 0;                                                                 \</div>
+<div class="line">    ++str;                                                                    \</div>
+<div class="line">  }</div>
+</div><!-- fragment -->
 </div>
+</div>
+<a id="a02e2be7c41ff66c2d21449919847fb43" name="a02e2be7c41ff66c2d21449919847fb43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02e2be7c41ff66c2d21449919847fb43">&#9670;&#160;</a></span>LUMEX_XML_ENDSWITH</h2>
 
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_ENDSWITH</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>e</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">((c) == (e) || ((c) == 0 &amp;&amp; endch == (e)))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a329b1c53e66ebee947f7b4b82656ad04" name="a329b1c53e66ebee947f7b4b82656ad04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a329b1c53e66ebee947f7b4b82656ad04">&#9670;&#160;</a></span>LUMEX_XML_GETHEADER_IMPL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_GETHEADER_IMPL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>object</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>page</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">static_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span> (                                                    \</div>
+<div class="line">      ((<span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span> (object) - <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span> (page))  \</div>
+<div class="line">       &lt;&lt; 8)                                                                  \</div>
+<div class="line">      | (flags))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a52d7b7c93277b4188c6495f44dd8d023" name="a52d7b7c93277b4188c6495f44dd8d023"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52d7b7c93277b4188c6495f44dd8d023">&#9670;&#160;</a></span>LUMEX_XML_GETPAGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_GETPAGE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#a3cd57e93eae0c1f6f3a8bb74cdbb8e3a">LUMEX_XML_GETPAGE_IMPL</a> ((n)-&gt;header)</div>
+<div class="ttc" id="aa00710_html_a3cd57e93eae0c1f6f3a8bb74cdbb8e3a"><div class="ttname"><a href="#a3cd57e93eae0c1f6f3a8bb74cdbb8e3a">LUMEX_XML_GETPAGE_IMPL</a></div><div class="ttdeci">#define LUMEX_XML_GETPAGE_IMPL(header)</div><div class="ttdef"><b>Definition</b> XmlMacros.hpp:70</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a3cd57e93eae0c1f6f3a8bb74cdbb8e3a" name="a3cd57e93eae0c1f6f3a8bb74cdbb8e3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cd57e93eae0c1f6f3a8bb74cdbb8e3a">&#9670;&#160;</a></span>LUMEX_XML_GETPAGE_IMPL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_GETPAGE_IMPL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>header</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">static_cast&lt;</span>XmlMemoryPage *<span class="keyword">&gt;</span> (                                              \</div>
+<div class="line">      const_cast&lt;void *&gt; (<span class="keyword">static_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">void</span> *<span class="keyword">&gt;</span> (                         \</div>
+<div class="line">          <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span> (&amp;header) - (header &gt;&gt; 8))))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aaa0da9a5f479a1cb17bebe3b83d10574" name="aaa0da9a5f479a1cb17bebe3b83d10574"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa0da9a5f479a1cb17bebe3b83d10574">&#9670;&#160;</a></span>LUMEX_XML_IS_CHARTYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_IS_CHARTYPE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>ct</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aafe37eeac32f24640c6666ab89701c5a">LUMEX_XML_IS_CHARTYPE_IMPL</a> (c, ct, kchartype_table)</div>
+<div class="ttc" id="aa00710_html_aafe37eeac32f24640c6666ab89701c5a"><div class="ttname"><a href="#aafe37eeac32f24640c6666ab89701c5a">LUMEX_XML_IS_CHARTYPE_IMPL</a></div><div class="ttdeci">#define LUMEX_XML_IS_CHARTYPE_IMPL(c, ct, table)</div><div class="ttdef"><b>Definition</b> XmlMacros.hpp:81</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aafe37eeac32f24640c6666ab89701c5a" name="aafe37eeac32f24640c6666ab89701c5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafe37eeac32f24640c6666ab89701c5a">&#9670;&#160;</a></span>LUMEX_XML_IS_CHARTYPE_IMPL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_IS_CHARTYPE_IMPL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>ct</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>table</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  (table[<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span> (c)] &amp; (ct))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="acb3668d38475ab6085a34cad2ff24358" name="acb3668d38475ab6085a34cad2ff24358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb3668d38475ab6085a34cad2ff24358">&#9670;&#160;</a></span>LUMEX_XML_IS_CHARTYPEX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_IS_CHARTYPEX</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>ct</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#aafe37eeac32f24640c6666ab89701c5a">LUMEX_XML_IS_CHARTYPE_IMPL</a> (c, ct, kchartypex_table)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="afb9b0524feddbb6ef5b72bbba0b36e49" name="afb9b0524feddbb6ef5b72bbba0b36e49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb9b0524feddbb6ef5b72bbba0b36e49">&#9670;&#160;</a></span>LUMEX_XML_NODETYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_NODETYPE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">static_cast&lt;</span>xml_node_type<span class="keyword">&gt;</span> ((n)-&gt;header &amp; kxml_memory_page_type_mask)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a66f0d755b887b2fe5edf2e00c07b1c3e" name="a66f0d755b887b2fe5edf2e00c07b1c3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66f0d755b887b2fe5edf2e00c07b1c3e">&#9670;&#160;</a></span>LUMEX_XML_OPTSET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_OPTSET</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>OPT</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(optmsk &amp; (OPT))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae27d4dd6205e5285d9f4b05e834e2e7f" name="ae27d4dd6205e5285d9f4b05e834e2e7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae27d4dd6205e5285d9f4b05e834e2e7f">&#9670;&#160;</a></span>LUMEX_XML_POPNODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_POPNODE</td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    <a class="code hl_class" href="a06612.html">cursor</a> = <a class="code hl_class" href="a06612.html">cursor</a>-&gt;parent;                                                  \</div>
+<div class="line">  }</div>
+<div class="ttc" id="aa06612_html"><div class="ttname"><a href="a06612.html">cursor</a></div><div class="ttdef"><b>Definition</b> example_span_iterators.cpp:14</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9b8c37aed3c9234131a36a6ead52337d" name="a9b8c37aed3c9234131a36a6ead52337d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b8c37aed3c9234131a36a6ead52337d">&#9670;&#160;</a></span>LUMEX_XML_PUSHNODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_PUSHNODE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>TYPE</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    <a class="code hl_class" href="a06612.html">cursor</a> = append_new_node (<a class="code hl_class" href="a06612.html">cursor</a>, *alloc, TYPE);                          \</div>
+<div class="line">    if (!<a class="code hl_class" href="a06612.html">cursor</a>)                                                              \</div>
+<div class="line">      LUMEX_XML_THROW_ERROR (status_out_of_memory, str);                      \</div>
+<div class="line">  }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1b317b68e8791035c9674c14c48434bc" name="a1b317b68e8791035c9674c14c48434bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b317b68e8791035c9674c14c48434bc">&#9670;&#160;</a></span>LUMEX_XML_SCANCHAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_SCANCHAR</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>ch</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    if (offset &gt;= size || data[offset] != ch)                                 \</div>
+<div class="line">      <span class="keywordflow">return</span> <span class="keyword">false</span>;                                                           \</div>
+<div class="line">    offset++;                                                                 \</div>
+<div class="line">  }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a8638ee2c4051bacb91e9f62c22a73dd1" name="a8638ee2c4051bacb91e9f62c22a73dd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8638ee2c4051bacb91e9f62c22a73dd1">&#9670;&#160;</a></span>LUMEX_XML_SCANCHARTYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_SCANCHARTYPE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>ct</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    while (offset &lt; size &amp;&amp; <a class="code hl_define" href="#aaa0da9a5f479a1cb17bebe3b83d10574">LUMEX_XML_IS_CHARTYPE</a> (data[offset], ct))         \</div>
+<div class="line">      offset++;                                                               \</div>
+<div class="line">  }</div>
+<div class="ttc" id="aa00710_html_aaa0da9a5f479a1cb17bebe3b83d10574"><div class="ttname"><a href="#aaa0da9a5f479a1cb17bebe3b83d10574">LUMEX_XML_IS_CHARTYPE</a></div><div class="ttdeci">#define LUMEX_XML_IS_CHARTYPE(c, ct)</div><div class="ttdef"><b>Definition</b> XmlMacros.hpp:86</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="afdcf03e694e50b1b507a60e68eb1d35a" name="afdcf03e694e50b1b507a60e68eb1d35a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdcf03e694e50b1b507a60e68eb1d35a">&#9670;&#160;</a></span>LUMEX_XML_SCANFOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_SCANFOR</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>X</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    while (*str != 0 &amp;&amp; !(X))                                                 \</div>
+<div class="line">      ++str;                                                                  \</div>
+<div class="line">  }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a8c3e53c1df9ea7feea4f3aee30f616a1" name="a8c3e53c1df9ea7feea4f3aee30f616a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c3e53c1df9ea7feea4f3aee30f616a1">&#9670;&#160;</a></span>LUMEX_XML_SCANWHILE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_SCANWHILE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>X</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    while (X)                                                                 \</div>
+<div class="line">      ++str;                                                                  \</div>
+<div class="line">  }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1c6aefb65fc05e82dd045d22f9cd0063" name="a1c6aefb65fc05e82dd045d22f9cd0063"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c6aefb65fc05e82dd045d22f9cd0063">&#9670;&#160;</a></span>LUMEX_XML_SCANWHILE_UNROLL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_SCANWHILE_UNROLL</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>X</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    for (;;)                                                                  \</div>
+<div class="line">      {                                                                       \</div>
+<div class="line">        <a class="code hl_define" href="a01088.html#a06748e501657bea60452820c04a1cb9e">LUMEX_ATTRIBUTE_MAYBE_UNUSED</a> char_t ss = str[0];                      \</div>
+<div class="line">        if (<a class="code hl_define" href="a01088.html#a3be58b7cdc675eda56cf33bc9c6d7f5e">LUMEX_ATTRIBUTE_UNLIKELY_COND</a> (!(X)))                             \</div>
+<div class="line">          {                                                                   \</div>
+<div class="line">            <span class="keywordflow">break</span>;                                                            \</div>
+<div class="line">          }                                                                   \</div>
+<div class="line">        ss = str[1];                                                          \</div>
+<div class="line">        if (<a class="code hl_define" href="a01088.html#a3be58b7cdc675eda56cf33bc9c6d7f5e">LUMEX_ATTRIBUTE_UNLIKELY_COND</a> (!(X)))                             \</div>
+<div class="line">          {                                                                   \</div>
+<div class="line">            str += 1;                                                         \</div>
+<div class="line">            <span class="keywordflow">break</span>;                                                            \</div>
+<div class="line">          }                                                                   \</div>
+<div class="line">        ss = str[2];                                                          \</div>
+<div class="line">        if (<a class="code hl_define" href="a01088.html#a3be58b7cdc675eda56cf33bc9c6d7f5e">LUMEX_ATTRIBUTE_UNLIKELY_COND</a> (!(X)))                             \</div>
+<div class="line">          {                                                                   \</div>
+<div class="line">            str += 2;                                                         \</div>
+<div class="line">            <span class="keywordflow">break</span>;                                                            \</div>
+<div class="line">          }                                                                   \</div>
+<div class="line">        ss = str[3];                                                          \</div>
+<div class="line">        if (<a class="code hl_define" href="a01088.html#a3be58b7cdc675eda56cf33bc9c6d7f5e">LUMEX_ATTRIBUTE_UNLIKELY_COND</a> (!(X)))                             \</div>
+<div class="line">          {                                                                   \</div>
+<div class="line">            str += 3;                                                         \</div>
+<div class="line">            <span class="keywordflow">break</span>;                                                            \</div>
+<div class="line">          }                                                                   \</div>
+<div class="line">        str += 4;                                                             \</div>
+<div class="line">      }                                                                       \</div>
+<div class="line">  }</div>
+<div class="ttc" id="aa01088_html_a06748e501657bea60452820c04a1cb9e"><div class="ttname"><a href="a01088.html#a06748e501657bea60452820c04a1cb9e">LUMEX_ATTRIBUTE_MAYBE_UNUSED</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_MAYBE_UNUSED</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:291</div></div>
+<div class="ttc" id="aa01088_html_a3be58b7cdc675eda56cf33bc9c6d7f5e"><div class="ttname"><a href="a01088.html#a3be58b7cdc675eda56cf33bc9c6d7f5e">LUMEX_ATTRIBUTE_UNLIKELY_COND</a></div><div class="ttdeci">#define LUMEX_ATTRIBUTE_UNLIKELY_COND(cond)</div><div class="ttdef"><b>Definition</b> LumexAttributes.hpp:311</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a2c6cdf6bc5ef321dacea11c998c83f39" name="a2c6cdf6bc5ef321dacea11c998c83f39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c6cdf6bc5ef321dacea11c998c83f39">&#9670;&#160;</a></span>LUMEX_XML_SKIPWS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_SKIPWS</td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  {                                                                           \</div>
+<div class="line">    while (<a class="code hl_define" href="#aaa0da9a5f479a1cb17bebe3b83d10574">LUMEX_XML_IS_CHARTYPE</a> (*str, ct_space))                            \</div>
+<div class="line">      ++str;                                                                  \</div>
+<div class="line">  }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9f595e8a2aecab5327f3bfb66471cf1f" name="a9f595e8a2aecab5327f3bfb66471cf1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f595e8a2aecab5327f3bfb66471cf1f">&#9670;&#160;</a></span>LUMEX_XML_THROW_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_XML_THROW_ERROR</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>err</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>m</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">return</span> error_offset = m, error_status = <a class="code hl_namespace" href="a01529.html">err</a>, <span class="keyword">static_cast&lt;</span>char_t *<span class="keyword">&gt;</span> (<span class="keyword">nullptr</span>)</div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
@@ -156,7 +857,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_71682bb4b94d9fcffa039c0c189cfb47.html">exceptions</a></li><li class="navelem"><a class="el" href="a00710.html">example_exceptions.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7bfbee8fcb850e8938daf1d332a7a70b.html">utility</a></li><li class="navelem"><a class="el" href="a00710.html">XmlMacros.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

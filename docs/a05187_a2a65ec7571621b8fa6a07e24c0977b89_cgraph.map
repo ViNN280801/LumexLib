@@ -1,0 +1,7 @@
+<map id="lumex::xml::text::XmlText::get" name="lumex::xml::text::XmlText::get">
+<area shape="rect" id="Node000001" title="Retrieves the text content as a C&#45;style string." alt="" coords="5,13,225,38"/>
+<area shape="rect" id="Node000002" href="$a05187.html#a04729cf70921cbf2ada7655e91bf10b6" title="Retrieves the underlying data node (node_pcdata or node_cdata) for this text object." alt="" coords="273,5,464,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,23,259,23,259,28,225,28"/>
+<area shape="rect" id="Node000003" href="$a05187.html#a93c80d4442ba4b50bfd4dd7985283928" title=" " alt="" coords="512,5,703,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="464,23,498,23,498,28,464,28"/>
+</map>

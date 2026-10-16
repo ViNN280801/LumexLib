@@ -1,0 +1,5 @@
+<map id="lumex::core::circular_buffer::circular_buffer::is_linearized" name="lumex::core::circular_buffer::circular_buffer::is_linearized">
+<area shape="rect" id="Node000001" title="Checks whether the content is one contiguous run in the storage." alt="" coords="221,5,389,60"/>
+<area shape="rect" id="Node000002" href="$a02055.html#ab515312a8319fd28ca13180caa72acb8" title="Makes the content contiguous in the storage." alt="" coords="5,5,173,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,35,174,35,174,30,208,30"/>
+</map>

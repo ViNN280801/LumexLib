@@ -1,0 +1,14 @@
+<map id="lumex::core::crc::catalog::crc_catalog_legacy_index" name="lumex::core::crc::catalog::crc_catalog_legacy_index">
+<area shape="rect" id="Node000001" title=" " alt="" coords="583,99,780,139"/>
+<area shape="rect" id="Node000002" href="$a01513.html#a32a414d57e5bec9066f58c00ef117124" title="Catalogue entry width in bits; &#45;1 on error." alt="" coords="315,5,513,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="624,96,534,60,495,48,496,43,536,55,626,91"/>
+<area shape="rect" id="Node000004" href="$a01513.html#aff135cedde198d23674676a920914cb8" title="Catalogue index in Catalog mode; otherwise crc_catalog_legacy_index or crc_transport_uses_custom_spec..." alt="" coords="293,69,535,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="569,109,535,105,535,100,569,104"/>
+<area shape="rect" id="Node000005" href="$a01513.html#ae81863c8cde23d0babe1096bc55c02e2" title="Transport: 8&#45;bit catalogue entry by index." alt="" coords="5,155,245,195"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="569,133,246,165,245,160,569,127"/>
+<area shape="rect" id="Node000006" href="$a01513.html#a37e2bc9800bcf3d9d8020785cc5a1ffc" title="Restore the default CRC&#45;8/MAXIM&#45;DOW transport mode." alt="" coords="317,184,511,224"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="607,145,478,187,476,181,605,140"/>
+<area shape="rect" id="Node000003" href="$a00383.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="98,13,153,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="301,28,153,28,153,23,301,23"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="303,195,245,190,246,184,303,190"/>
+</map>

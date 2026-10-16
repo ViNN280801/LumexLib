@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSplitCountCell.hpp File Reference</title>
+<title>LumexLib: example_string_view_literals_hash.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,69 +103,118 @@ $(function(){initNavTree('a00287.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexSplitCountCell.hpp File Reference</div></div>
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_string_view_literals_hash.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The split-count engine behind <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code>: one 16-byte word updated by a 128-bit compare-and-swap over the module's own control block.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00263_source.html">lumex/core/atomic/dwcas/LumexDwcasWord.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00272_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00275_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00290_source.html">lumex/core/atomic/smart_ptr/split_count/LumexSplitCountPolicy.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00293_source.html">lumex/core/atomic/smart_ptr/split_count/LumexSplitCountTraits.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00296_source.html">lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00497_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01406_source.html">lumex/core/string_view/LumexStringView</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSplitCountCell.hpp:</div>
+Include dependency graph for example_string_view_literals_hash.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00288.png" border="0" usemap="#a_lumex_split_count_cell_8hpp" alt=""/></div>
+<div class="center"><img src="a00288.png" border="0" usemap="#aexample__string__view__literals__hash_8cpp" alt=""/></div>
+<map name="aexample__string__view__literals__hash_8cpp" id="aexample__string__view__literals__hash_8cpp">
+<area shape="rect" title=" " alt="" coords="354,5,515,45"/>
+<area shape="rect" title=" " alt="" coords="219,101,293,126"/>
+<area shape="poly" title=" " alt="" coords="395,48,295,97,293,92,392,43"/>
+<area shape="rect" title=" " alt="" coords="317,101,397,126"/>
+<area shape="poly" title=" " alt="" coords="419,48,380,92,376,88,415,44"/>
+<area shape="rect" title=" " alt="" coords="5,335,64,361"/>
+<area shape="poly" title=" " alt="" coords="437,46,431,89,424,113,411,135,394,151,361,172,267,227,73,331,71,326,265,223,358,168,390,147,407,132,419,111,426,88,432,45"/>
+<area shape="rect" title=" " alt="" coords="671,101,795,126"/>
+<area shape="poly" title=" " alt="" coords="504,43,677,94,676,99,502,48"/>
+<area shape="rect" href="a01406.html" title="String view module: the C++11 implementation of std::string_view and its relatives,..." alt="" coords="473,93,647,133"/>
+<area shape="poly" title=" " alt="" coords="465,44,522,83,519,88,462,48"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="655,255,889,280"/>
+<area shape="poly" title=" " alt="" coords="552,134,541,170,542,189,549,205,566,219,595,231,670,249,668,255,593,236,564,223,545,208,536,190,536,170,547,133"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="559,181,758,207"/>
+<area shape="poly" title=" " alt="" coords="587,132,634,171,631,175,583,136"/>
+<area shape="rect" href="a00860.html" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11." alt="" coords="781,181,992,207"/>
+<area shape="poly" title=" " alt="" coords="642,131,822,175,821,181,641,136"/>
+<area shape="poly" title=" " alt="" coords="655,275,342,295,188,311,77,331,71,332,69,327,75,325,187,306,342,290,655,270"/>
+<area shape="rect" title=" " alt="" coords="1385,335,1455,361"/>
+<area shape="poly" title=" " alt="" coords="889,272,1154,294,1282,309,1374,325,1382,328,1380,333,1373,331,1281,314,1153,299,889,278"/>
+<area shape="rect" title=" " alt="" coords="1480,335,1547,361"/>
+<area shape="poly" title=" " alt="" coords="889,270,1202,291,1357,306,1469,325,1477,328,1475,333,1467,331,1356,312,1202,296,889,276"/>
+<area shape="rect" title=" " alt="" coords="1571,335,1637,361"/>
+<area shape="poly" title=" " alt="" coords="889,269,1248,288,1429,304,1503,314,1559,325,1567,328,1566,333,1558,331,1502,320,1428,310,1248,294,889,274"/>
+<area shape="rect" title=" " alt="" coords="89,335,175,361"/>
+<area shape="poly" title=" " alt="" coords="655,274,436,290,311,307,187,331,176,333,175,328,186,325,310,302,436,285,655,268"/>
+<area shape="rect" title=" " alt="" coords="199,335,286,361"/>
+<area shape="poly" title=" " alt="" coords="655,278,485,296,391,311,298,331,287,333,286,328,297,325,390,306,485,291,655,272"/>
+<area shape="rect" title=" " alt="" coords="310,335,351,361"/>
+<area shape="poly" title=" " alt="" coords="655,282,491,303,417,316,363,331,361,331,359,326,362,325,416,311,490,298,655,277"/>
+<area shape="rect" title=" " alt="" coords="375,335,446,361"/>
+<area shape="poly" title=" " alt="" coords="681,283,574,302,459,331,453,333,451,328,458,325,573,297,680,277"/>
+<area shape="rect" title=" " alt="" coords="471,335,548,361"/>
+<area shape="poly" title=" " alt="" coords="723,283,561,331,554,333,552,328,559,325,722,278"/>
+<area shape="rect" title=" " alt="" coords="573,335,649,361"/>
+<area shape="poly" title=" " alt="" coords="748,283,649,332,647,327,745,278"/>
+<area shape="rect" title=" " alt="" coords="673,335,759,361"/>
+<area shape="poly" title=" " alt="" coords="765,282,735,325,731,322,761,279"/>
+<area shape="rect" title=" " alt="" coords="783,335,873,361"/>
+<area shape="poly" title=" " alt="" coords="783,279,813,322,809,325,779,282"/>
+<area shape="rect" title=" " alt="" coords="786,423,878,449"/>
+<area shape="poly" title=" " alt="" coords="821,278,858,296,874,310,888,327,894,350,888,374,875,396,859,415,855,411,870,393,883,372,888,350,883,329,871,314,855,301,819,283"/>
+<area shape="rect" title=" " alt="" coords="1263,335,1361,361"/>
+<area shape="poly" title=" " alt="" coords="889,275,1058,294,1245,325,1260,329,1259,334,1243,331,1057,299,888,280"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="999,328,1188,368"/>
+<area shape="poly" title=" " alt="" coords="823,277,1000,322,999,327,822,283"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="902,416,1157,456"/>
+<area shape="poly" title=" " alt="" coords="809,278,857,298,908,326,959,364,1002,404,998,408,956,368,905,330,855,303,807,283"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1181,416,1395,456"/>
+<area shape="poly" title=" " alt="" coords="889,272,1066,291,1145,306,1201,326,1224,342,1243,361,1273,402,1269,406,1239,365,1220,346,1199,330,1144,311,1065,296,889,277"/>
+<area shape="poly" title=" " alt="" coords="1034,371,892,419,883,421,881,416,890,413,1033,365"/>
+<area shape="poly" title=" " alt="" coords="1081,370,1054,406,1050,403,1076,367"/>
+<area shape="poly" title=" " alt="" coords="1139,366,1232,408,1230,413,1137,371"/>
+<area shape="poly" title=" " alt="" coords="680,205,742,245,739,249,677,209"/>
+<area shape="poly" title=" " alt="" coords="868,209,805,249,802,245,865,205"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00287_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00287_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00287_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00287_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,20,60,45"/>
+<area shape="rect" href="a04167.html#a91f66aa80d95f7c7cec13bf4f3d4b9d0" title="find(needle) != npos (C++23 in the standard)." alt="" coords="108,5,295,60"/>
+<area shape="poly" title=" " alt="" coords="60,30,94,30,94,35,60,35"/>
+</map>
+</div>
+
 </div>
 </div>
-<p><a href="a00287_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The split-count engine behind <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code>: one 16-byte word updated by a 128-bit compare-and-swap over the module's own control block. </p>
-<p>The value lives in one <code>dwcas_word</code> (see <code><a class="el" href="a00296.html" title="The slot word of the split-count engine: a control block, the ticks of the loads in flight and the st...">LumexSplitCountWord.hpp</a></code> for the layout) next to the 32-bit wait counter of the other engines: 32 bytes. A non-empty word owns one <code>count</code> unit of its counter group: the strong group of the block in the shared engine, the weak ledger in the weak engine, and the strong group of the holder for a holder word (below).</p>
-<p><b>Why ticks.</b> A loader cannot take a reference on a block it only knows the address of: the block could be freed first. It therefore first pins the block with a tick, one compare-and-swap of the whole word that raises <code>L</code>. While a tick exists the block cannot be freed: either the word still names it, or the writer that swapped it out has deposited the tick as a unit of the block's <code>ext</code> ("owners in transit") before it swapped. <code>ext</code> is never negative.</p>
-<p><b>Load.</b> Tick (the acquire of this compare-and-swap synchronizes with the release swap that published the block, its anchor and the object), read the block (<code>anchor</code>, or the holder's owner and pointer), then decide on an atomic read whether the own tick is still in the word:</p><ul>
-<li>if the word still names the block with <code>L &gt; 0</code>: count one reference on the owner (this is the linearization point of the load), then take a tick back from the word (ticks are fungible, so it need not be the loader's own; the un-tick is <code>release</code>). If the tick is gone by then, pay the unit the writer deposited for it (<code>settle</code>);</li>
-<li>otherwise the tick was deposited by the writer that swapped the word: one read-modify-write counts the reference and pays the unit. The decision that the tick is not in the word is always taken on a value read with acquire (a load, or the failure value of a compare-and-swap with an acquire failure order), because only then the deposit of the winning writer, sequenced before its swap, precedes the payment in the modification order of the counter.</li>
-</ul>
-<p><b>Store and exchange.</b> A word with <code>L == 0</code> is swapped by one compare-and-swap, validated by the swap itself. A word with <code>L &gt; 0</code> names a block the writer owns nothing of, so the writer pins it first (a tick, like a load), deposits <code>L - 1 + k</code> units in <code>ext</code> BEFORE the swap (its own tick is excluded, because the swap consumes it; <code>k</code> is the reserve of the policy, so that ticks arriving before the swap need no further access to the counter), swaps (success <code>acq_rel</code>, failure <code>acquire</code>) and:</p><ul>
-<li>on a failed swap that left the same block with more ticks, tops up the deposit, only upward, and retries;</li>
-<li>on a failed swap that removed the block (the writer's own tick went with it, deposited by the winner) pays <code>deposited + 1</code> units in ONE read-modify-write and starts again;</li>
-<li>on success the surplus (<code>deposited - (L - 1)</code>) goes back with the drop of the word's unit (<code>store</code>: one read-modify-write) or before the hand-over (<code>exchange</code>). A compare-exchange does not pin: <code>expected</code> owns the block. It deposits the ticks it sees (no reserve), swaps, and withdraws the deposit if the swap fails. A compare-exchange whose <code>expected</code> does not fit the word compares a holder word, which it first pins like a loader.</li>
-</ul>
-<p><b>Holders (HG).</b> A pointer whose offset from the anchor does not fit in 40 bits is stored through a holder: a block (<code>ctl_holder</code>, <code>ctl_weak_holder</code>) that owns a reference to the owner block (strong, or weak in the weak engine) and keeps the stored pointer. The atomic object owns one strong <code>count</code> unit of the HOLDER, readers tick and settle on the holder's strong group, and a load of a holder word returns the OWNER (the holder never escapes). In the shared engine every deposit, withdrawal and payment on a holder is mirrored on the owner's strong <code>ext</code>, so that <code>use_count ()</code> of the owner sees the pins; the owner is touched first when units leave and the holder first when units enter. The reference of the holder on the owner belongs to the word: whoever drops the word's unit (<code>store</code>, a successful compare-exchange, the destructor, an image that was never installed) also drops that reference, together with the surplus of the mirror in one read-modify-write, after the holder was told to give it up (<code>disown</code>); the <code>exchange</code> hand-over gives the reference to its result and adds none. The owner stays alive for every pin that remains on the holder, because the mirror unit of each such pin was deposited on the owner before the swap that removed it, and the holder keeps itself alive by its own counter. So the owner shows no extra reference once the replacing call has dropped the word's unit. The weak engine does not mirror (weak loads do not change <code>use_count ()</code>) and keeps the weak reference of its holder until the holder is disposed.</p>
-<p><b>Why no address comparison can be fooled by a reused block address.</b> A tick and a swap compare the whole word in one instruction (success means the word names the live block); a settle compares while its own tick keeps the block alive; a compare-exchange compares through <code>expected</code>, whose reference keeps that block alive, and pins a holder word before it reads it. A block freed, created again at the same address and installed again is simply the live block, and ticks are fungible between the installations of a block (also with different offsets). No tag and no epoch is needed.</p>
-<p><b>Memory orders.</b> Every successful read-modify-write of the word is at least <code>acq_rel</code> (<code>seq_cst</code> when the caller asks for it). The take-back of a tick is <code>release</code> and MUST NOT be relaxed: a loader of a holder word reads the holder's owner and pointer without owning a count on the holder, and the only edge from those reads to the holder's destruction runs from the un-tick (release) to the swap of the writer (acquire) and the drop. A failed compare-and-swap is <code>relaxed</code>, except the swap of a writer, whose failure value is the decision value of the rule above (<code>acquire</code>). The counters of the block bring their own orders (<code><a class="el" href="a00485.html" title="split_counter: the packed reference counter of the control block, one 64-bit atomic word {count:32,...">LumexSmartPtrCounter.hpp</a></code>). The hardware backends of the word ignore the orders (every locked instruction is a full barrier); they matter for the built-in backend that ThreadSanitizer checks.</p>
-<p><b>use_count and the linearization rule.</b> The linearization point of a store, an exchange and a successful compare-exchange is its successful swap; of a failing compare-exchange the load it performs; of a load that finds its tick in the word its count step; of any other load the deposit that covered its tick, made by the writer whose swap then succeeded. Owners of a block at an instant are the live pointers, the non-empty slots naming it and the loads linearized but not yet returned. <code>use_count ()</code> of the block is <code>count + ext</code> and satisfies:</p><ul>
-<li>G1, never below: at every instant <code>use_count () &gt;= owners</code>, so a thread that is an owner and reads 1 is the sole owner;</li>
-<li>G2, bounded above: <code>use_count () == owners</code> except for (i) a store or a successful compare-exchange between its swap and its drop (+1, the lagging decrement; <code>exchange</code> has no such window), (ii) a writer between its deposit and the end of its call (+ other ticks + <code>k</code>), (iii) a unit deposited for a loader that has already counted itself, until it pays (+1). This holds for the owner of an alias stored through a holder as well;</li>
-<li>exact when nothing is in flight. It never waits;</li>
-<li><code>ext</code> is bounded by <code>W * (P + k)</code> for <code>W</code> writers that have deposited and not yet returned or paid and <code>P</code> pins: the outstanding deposit of one writer is the pins its swap covers (at most <code>P</code>) plus its reserve.</li>
-</ul>
-<p><b>Progress.</b> A compare-and-swap of the word fails only when another operation succeeded on it; no operation waits for a counter that another thread moves. The one wait is the back-off of a pin that finds <code>L</code> at the limit of the policy (2^24 - 1 pins of one object at once). Allocation of a holder may block in the allocator; running out of memory ends the program (every operation is <code>noexcept</code>).</p>
-<p><b>Notification and deleters.</b> Modifying operations do not wake waiters, as in the standard; only <code>notify_one</code> and <code>notify_all</code> do. A replaced value is destroyed in the replacing call, unless a pin on it is still outstanding; then the last thread to pay for it destroys it. Deleters therefore run inside <code>load</code>, <code>store</code>, <code>exchange</code>, <code>compare_exchange_*</code>, <code>wait</code> and the destructor, only from the read-modify-write that makes the counter zero, after the word was updated and with no lock held. At that moment the running thread holds no pin and no deposit on that block, so a deleter may use the same atomic object.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Pointer</td><td><code><a class="el" href="a03686.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a>&lt;T&gt;</code> or <code>weak_ptr&lt;T&gt;</code>. </td></tr>
-    <tr><td class="paramname">Policy</td><td>The hooks of the protocol (<code><a class="el" href="a00290.html" title="The policy of the split-count engine: the named steps of its protocol, the events a ledger counts,...">LumexSplitCountPolicy.hpp</a></code>).</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_95030709502da905a080530bb25e5eb1.html">split_count</a></li><li class="navelem"><a class="el" href="a00287.html">LumexSplitCountCell.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_bc782a393a6b988e43baa711f0e6ca41.html">string_view</a></li><li class="navelem"><a class="el" href="a00287.html">example_string_view_literals_hash.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

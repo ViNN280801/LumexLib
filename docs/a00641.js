@@ -1,4 +1,6 @@
 var a00641 =
 [
-    [ "lumex::core::utility::process::get_current_pid", "a01430.html#a70c7aae8bb35572f410d8de09cfee689", null ]
+    [ "lumex::xml::xpath::node::XPathNodeSet", "a05287.html", "a05287" ],
+    [ "lumex::xml::xpath::node::XPathNodeSetRaw", "a05291.html", "a05291" ],
+    [ "lumex::xml::xpath::node::dummy_node_set", "a01679.html#ae25bb9cdc14472d3df8176c4529130bf", null ]
 ];

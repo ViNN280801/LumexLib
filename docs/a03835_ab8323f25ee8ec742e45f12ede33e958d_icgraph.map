@@ -1,0 +1,7 @@
+<map id="lumex::core::smart_ptr::detail::split_counter::ext_unit" name="lumex::core::smart_ptr::detail::split_counter::ext_unit">
+<area shape="rect" id="Node000001" title="The value of one unit of ext in the word." alt="" coords="244,45,389,100"/>
+<area shape="rect" id="Node000002" href="$a03835.html#af5cb6d0aa148f51cc78d2469225d6ec4" title="Pays one unit of ext back; true when the word became zero." alt="" coords="28,5,173,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,59,173,49,174,44,231,54"/>
+<area shape="rect" id="Node000003" href="$a03835.html#a046d5ba56760e64c9c8c355a804c20dc" title=" " alt="" coords="5,84,196,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,91,197,97,196,92,230,86"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::is_fifo" name="lumex::core::filesystem::fs::lumex_filesystem::is_fifo">
+<area shape="rect" id="Node000001" title="Checks if the specified path_arg refers to a FIFO (named pipe) file." alt="" coords="5,29,180,84"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="49,29,50,19,57,10,72,5,93,3,118,6,132,14,129,18,116,11,93,8,73,10,60,15,55,21,55,29"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a861a96cb2ff50243832db3b15d3d41ac" title="Returns the status of the file or directory at the specified path_arg, following symbolic links." alt="" coords="228,29,403,84"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="180,54,214,54,214,59,180,59"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="272,29,272,19,280,10,294,5,315,3,340,6,355,14,352,18,339,11,315,8,296,10,283,15,277,21,277,29"/>
+</map>

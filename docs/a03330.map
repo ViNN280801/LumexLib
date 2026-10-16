@@ -1,0 +1,5 @@
+<map id="lumex::core::math::ops::Detail::is_numeric_range&lt; Range, typename &gt;" name="lumex::core::math::ops::Detail::is_numeric_range&lt; Range, typename &gt;">
+<area shape="rect" id="Node000001" title="True when Range can be iterated as an lvalue and its elements decay to a numeric type." alt="" coords="5,79,216,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="51,5,170,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,45,113,78,108,78,108,45"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="lumex::core::hazard_pointer::hazard_pointer::try_protect" name="lumex::core::hazard_pointer::hazard_pointer::try_protect">
+<area shape="rect" id="Node000001" title="Extension: try_protect over a source that is not a std::atomic&lt;T *&gt;." alt="" coords="5,29,185,84"/>
+<area shape="rect" id="Node000002" href="$a03299.html#a01995ce8c3384e0fbb95b796e08203c5" title="Protects ptr and checks that src still holds it." alt="" coords="233,29,413,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,54,220,54,220,59,185,59"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="279,29,279,19,287,10,302,5,323,3,349,6,364,14,361,18,347,11,323,8,303,10,290,15,284,21,284,29"/>
+</map>

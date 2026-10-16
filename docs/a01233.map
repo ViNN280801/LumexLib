@@ -1,0 +1,16 @@
+<map id="LumexSettingsINI.hpp" name="LumexSettingsINI.hpp">
+<area shape="rect" id="Node000001" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="135,5,300,31"/>
+<area shape="rect" id="Node000002" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,174,187,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,33,92,54,64,67,48,80,41,100,46,122,58,143,74,162,70,166,54,146,41,124,36,100,43,77,61,62,90,49,159,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="58,86,182,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,33,148,79,145,74,200,29"/>
+<area shape="rect" id="Node000004" href="$a01208.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="206,79,423,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="235,29,281,68,278,72,231,33"/>
+<area shape="rect" id="Node000006" href="$a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="447,79,702,119"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="274,28,473,73,472,78,273,33"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="265,121,141,171,139,166,264,116"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="285,174,344,199"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="317,119,317,160,312,160,312,119"/>
+<area shape="rect" id="Node000007" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="468,167,681,207"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="577,119,577,153,572,153,572,119"/>
+</map>

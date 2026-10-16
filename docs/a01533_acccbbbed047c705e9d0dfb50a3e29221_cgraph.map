@@ -1,0 +1,13 @@
+<map id="lumex::core::expected::result::detail::reinit_dispatch" name="lumex::core::expected::result::detail::reinit_dispatch">
+<area shape="rect" id="Node000001" title="reinit&#45;expected when the old object is the Unit that stands for void: there is nothing to destroy or ..." alt="" coords="5,15,172,70"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="683,30,873,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,26,267,15,382,6,509,3,635,12,700,24,699,30,634,17,509,9,383,11,267,20,173,32"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="220,80,420,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,60,226,74,225,79,172,66"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="468,26,635,66"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="172,40,454,43,454,48,172,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="406,77,454,66,455,71,407,82"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="468,90,635,130"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="420,102,454,103,454,109,420,107"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="627,88,688,71,690,77,628,93"/>
+</map>

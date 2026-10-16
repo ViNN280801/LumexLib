@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::access::detach_weak" name="lumex::core::smart_ptr::detail::access::detach_weak">
+<area shape="rect" id="Node000001" title="Empties p without dropping its weak count (see detach)." alt="" coords="237,27,383,82"/>
+<area shape="rect" id="Node000002" href="$a02019.html#a8838be83310ba8b4a3ce5799de8ee817" title="Empties pointer without dropping its weak count." alt="" coords="5,5,189,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,57,189,57,189,52,223,52"/>
+</map>

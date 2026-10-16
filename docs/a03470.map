@@ -1,0 +1,5 @@
+<map id="lumex::core::optional::opt::detail::assigns_from_any_cvref&lt; T, W &gt;" name="lumex::core::optional::opt::detail::assigns_from_any_cvref&lt; T, W &gt;">
+<area shape="rect" id="Node000001" title="T is assignable from W of any of the four forms ([optional.assign]/21)." alt="" coords="292,42,483,97"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,244,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,67,292,67,292,72,258,72"/>
+</map>

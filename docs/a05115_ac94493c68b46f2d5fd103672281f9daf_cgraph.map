@@ -1,0 +1,5 @@
+<map id="lumex::xml::attribute::XmlAttribute::previous_attribute" name="lumex::xml::attribute::XmlAttribute::previous_attribute">
+<area shape="rect" id="Node000001" title="Retrieves the previous attribute in the list of attributes belonging to the same parent node." alt="" coords="5,5,183,60"/>
+<area shape="rect" id="Node000002" href="$a05115.html#a027809a975f6fc6cc4263eb4885fdfc8" title="Default constructor. Constructs an empty (null) attribute." alt="" coords="231,13,435,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,30,217,30,217,35,183,35"/>
+</map>

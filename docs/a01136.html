@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathVariable.cpp File Reference</title>
+<title>LumexLib: LumexOrdering.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,37 +104,286 @@ $(function(){initNavTree('a01136.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">XPathVariable.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexOrdering.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;limits&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01022_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01139_source.html">XPathVariable.hpp</a>&quot;</code><br />
+
+<p><code>strong_ordering</code>, <code>weak_ordering</code> and <code>partial_ordering</code>, the comparison categories of <code>&lt;compare&gt;</code> (C++20) for every standard from C++11, with <code>is_eq</code>, <code>is_neq</code>, <code>is_lt</code>, <code>is_lteq</code>, <code>is_gt</code> and <code>is_gteq</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01106_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathVariable.cpp:</div>
+Include dependency graph for LumexOrdering.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01137.png" border="0" usemap="#a_x_path_variable_8cpp" alt=""/></div>
+<div class="center"><img src="a01137.png" border="0" usemap="#aLumexOrdering_8hpp" alt=""/></div>
+<map name="aLumexOrdering_8hpp" id="aLumexOrdering_8hpp">
+<area shape="rect" title="strong_ordering, weak_ordering and partial_ordering, the comparison categories of &lt;compare&gt; (C++20) f..." alt="" coords="173,5,324,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,97,111"/>
+<area shape="poly" title=" " alt="" coords="218,33,96,83,94,78,216,28"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="121,79,376,119"/>
+<area shape="poly" title=" " alt="" coords="251,31,251,65,246,65,246,31"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="401,79,614,119"/>
+<area shape="poly" title=" " alt="" coords="290,28,430,72,429,77,289,33"/>
+</map>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01138.png" border="0" usemap="#aLumexOrdering_8hppdep" alt=""/></div>
+<map name="aLumexOrdering_8hppdep" id="aLumexOrdering_8hppdep">
+<area shape="rect" title="strong_ordering, weak_ordering and partial_ordering, the comparison categories of &lt;compare&gt; (C++20) f..." alt="" coords="2248,5,2399,31"/>
+<area shape="rect" href="a01139.html" title="Universal thread&#45;safe comparator for safe comparison of arithmetic types." alt="" coords="2113,79,2368,104"/>
+<area shape="poly" title=" " alt="" coords="2301,42,2257,80,2254,76,2297,38"/>
+<area shape="rect" href="a01418.html" title="Utility module, the foundation of the library: assertion, attribute, keyword and constant macros,..." alt="" coords="2270,152,2377,177"/>
+<area shape="poly" title=" " alt="" coords="2354,38,2378,68,2384,86,2382,105,2364,133,2343,154,2339,150,2360,130,2377,103,2379,87,2374,70,2350,41"/>
+<area shape="poly" title=" " alt="" coords="2267,111,2310,150,2307,154,2263,115"/>
+<area shape="rect" href="a00890.html" title="lumex_crash_handler, the singleton that writes a dump when the process crashes." alt="" coords="2233,299,2414,324"/>
+<area shape="poly" title=" " alt="" coords="2326,191,2326,299,2321,299,2321,191"/>
+<area shape="rect" href="a01163.html" title="Defines the lumex_environment class for cross&#45;platform environment variable management." alt="" coords="640,225,817,251"/>
+<area shape="poly" title=" " alt="" coords="2256,168,1673,183,1260,201,837,228,818,230,817,224,836,223,1260,196,1673,178,2256,163"/>
+<area shape="rect" href="a01277.html" title=" " alt="" coords="897,548,1041,573"/>
+<area shape="poly" title=" " alt="" coords="2256,168,1944,177,1730,188,1500,206,1271,232,1061,268,967,290,885,315,816,343,762,374,728,402,705,433,699,448,698,465,702,481,712,498,735,509,781,522,897,546,896,551,780,527,733,514,708,502,697,483,692,465,694,447,700,430,725,399,759,370,814,338,883,310,966,285,1060,263,1271,227,1500,201,1730,183,1944,172,2256,163"/>
+<area shape="rect" href="a00926.html" title="Temporary files and directories that delete themselves: temporary_file, temporary_directory and the f..." alt="" coords="292,379,453,405"/>
+<area shape="poly" title=" " alt="" coords="2256,168,1392,186,908,204,732,215,628,228,577,240,538,253,502,272,458,301,414,342,384,381,379,377,410,338,455,297,499,267,536,248,575,235,627,223,731,210,908,199,1391,181,2256,163"/>
+<area shape="rect" href="a00749.html" title="Cross&#45;platform replacement for &lt;filesystem&gt; (C++17) written in pure C++11, compiled into the lumex::f..." alt="" coords="1940,225,2104,251"/>
+<area shape="poly" title=" " alt="" coords="2259,183,2075,228,2074,223,2257,178"/>
+<area shape="rect" href="a01316.html" title=" " alt="" coords="2344,621,2577,647"/>
+<area shape="poly" title=" " alt="" coords="2391,167,2592,185,2842,215,2958,234,3055,257,3122,282,3140,296,3147,311,3147,481,3142,493,3129,504,3082,526,3012,547,2927,566,2736,600,2565,624,2564,619,2735,594,2926,561,3011,541,3080,521,3126,500,3138,489,3142,479,3142,312,3136,299,3119,286,3054,262,2957,240,2841,220,2591,190,2390,172"/>
+<area shape="rect" href="a00881.html" title="Defines the lumex_basic_stacktrace class and related utilities for capturing and symbolizing call sta..." alt="" coords="2458,225,2621,251"/>
+<area shape="poly" title=" " alt="" coords="2375,179,2503,223,2501,228,2373,184"/>
+<area shape="rect" href="a01055.html" title="Provides cross&#45;platform utilities for time and date manipulation." alt="" coords="1483,225,1609,251"/>
+<area shape="poly" title=" " alt="" coords="2256,174,1610,235,1609,229,2256,168"/>
+<area shape="rect" href="a00887.html" title="The Windows structured exception translator seh_translator() and the SET_SEH_TRANSLATOR macro that in..." alt="" coords="2667,225,2865,251"/>
+<area shape="poly" title=" " alt="" coords="2391,173,2690,223,2689,228,2390,178"/>
+<area shape="rect" href="a00515.html" title=" " alt="" coords="3182,225,3331,251"/>
+<area shape="poly" title=" " alt="" coords="2391,165,2723,186,2942,202,3164,223,3182,225,3182,230,3163,228,2941,208,2723,191,2390,171"/>
+<area shape="rect" href="a00518.html" title=" " alt="" coords="3355,225,3571,251"/>
+<area shape="poly" title=" " alt="" coords="2391,165,2794,185,3344,223,3355,224,3355,229,3343,228,2794,191,2390,170"/>
+<area shape="rect" href="a00893.html" title=" " alt="" coords="1933,548,2113,573"/>
+<area shape="poly" title=" " alt="" coords="2399,327,2432,344,2458,370,2467,390,2471,409,2469,427,2463,444,2439,475,2405,502,2383,514,2353,523,2278,539,2193,550,2114,558,2113,552,2193,545,2277,534,2352,518,2381,509,2402,498,2436,471,2458,441,2464,426,2466,409,2462,392,2453,374,2429,348,2397,331"/>
+<area shape="rect" href="a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="2698,379,2829,405"/>
+<area shape="poly" title=" " alt="" coords="2416,324,2673,369,2708,377,2707,382,2672,375,2415,329"/>
+<area shape="rect" href="a00299.html" title=" " alt="" coords="2873,467,3057,493"/>
+<area shape="poly" title=" " alt="" coords="2806,408,2936,465,2934,470,2804,413"/>
+<area shape="rect" href="a00302.html" title=" " alt="" coords="2691,460,2849,500"/>
+<area shape="poly" title=" " alt="" coords="2768,418,2771,460,2766,460,2763,419"/>
+<area shape="rect" href="a01367.html" title="Environment module: lumex_environment, thread&#45;safe reading and writing of environment variables on Wi..." alt="" coords="469,299,618,324"/>
+<area shape="poly" title=" " alt="" coords="685,258,577,301,575,296,683,253"/>
+<area shape="rect" href="a01160.html" title=" " alt="" coords="642,299,818,324"/>
+<area shape="poly" title=" " alt="" coords="732,264,732,298,727,298,726,264"/>
+<area shape="poly" title=" " alt="" coords="632,321,761,334,862,341,961,350,1087,369,1163,388,1239,409,1438,452,1637,490,1947,545,1946,551,1636,496,1437,457,1237,415,1162,394,1085,375,960,355,861,347,760,340,631,327"/>
+<area shape="poly" title=" " alt="" coords="596,327,630,345,660,370,672,388,680,405,685,438,690,469,698,483,712,498,737,508,784,521,901,545,899,551,783,526,735,513,708,502,694,486,685,470,679,439,674,406,668,390,656,374,627,349,594,332"/>
+<area shape="poly" title=" " alt="" coords="505,332,401,382,398,377,503,328"/>
+<area shape="rect" href="a01058.html" title="High&#45;resolution stopwatch, callable timing helpers, and a thin LUMEX_MEASURE_TIME macro." alt="" coords="943,379,1074,405"/>
+<area shape="poly" title=" " alt="" coords="632,322,931,369,962,377,961,382,929,375,632,327"/>
+<area shape="rect" href="a00530.html" title=" " alt="" coords="72,379,268,405"/>
+<area shape="poly" title=" " alt="" coords="472,329,230,382,228,377,471,324"/>
+<area shape="rect" href="a00527.html" title=" " alt="" coords="477,372,647,412"/>
+<area shape="poly" title=" " alt="" coords="552,337,560,371,555,372,547,338"/>
+<area shape="rect" href="a01409.html" title="Temporary module: an RAII temporary directory that is removed when its owner is destroyed." alt="" coords="180,467,315,493"/>
+<area shape="poly" title=" " alt="" coords="345,415,267,469,264,465,342,411"/>
+<area shape="rect" href="a00929.html" title=" " alt="" coords="339,467,499,493"/>
+<area shape="poly" title=" " alt="" coords="388,416,415,466,410,468,384,418"/>
+<area shape="rect" href="a00347.html" title=" " alt="" coords="277,548,455,573"/>
+<area shape="poly" title=" " alt="" coords="279,498,348,546,345,550,276,503"/>
+<area shape="rect" href="a00350.html" title=" " alt="" coords="5,548,252,573"/>
+<area shape="poly" title=" " alt="" coords="218,503,149,550,146,546,215,498"/>
+<area shape="rect" href="a01412.html" title="Time module: lumex_time, the current date and time as text and timestamps in units from nanoseconds t..." alt="" coords="1186,467,1285,493"/>
+<area shape="poly" title=" " alt="" coords="1056,407,1204,465,1202,470,1054,412"/>
+<area shape="rect" href="a01061.html" title=" " alt="" coords="981,467,1111,493"/>
+<area shape="poly" title=" " alt="" coords="1022,416,1043,466,1038,468,1017,418"/>
+<area shape="poly" title=" " alt="" coords="1287,494,1304,497,1477,524,1651,541,1809,551,1933,556,1933,562,1808,557,1651,546,1477,529,1303,503,1286,499"/>
+<area shape="poly" title=" " alt="" coords="1181,499,1011,550,1010,545,1179,494"/>
+<area shape="rect" href="a00872.html" title=" " alt="" coords="2641,548,2798,573"/>
+<area shape="poly" title=" " alt="" coords="1298,481,2641,554,2641,559,1298,486"/>
+<area shape="rect" href="a01295.html" title=" " alt="" coords="1082,621,1282,647"/>
+<area shape="poly" title=" " alt="" coords="1181,501,1148,521,1133,534,1122,549,1118,559,1118,568,1128,587,1144,605,1163,619,1159,623,1140,609,1123,590,1113,569,1113,558,1117,547,1129,530,1144,516,1179,496"/>
+<area shape="rect" href="a01202.html" title=" " alt="" coords="1452,621,1637,647"/>
+<area shape="poly" title=" " alt="" coords="1290,494,1304,497,1337,504,1367,506,1419,506,1444,508,1468,513,1493,526,1520,546,1533,563,1541,584,1547,620,1542,621,1536,585,1528,566,1516,550,1491,530,1467,518,1443,513,1419,511,1367,511,1336,509,1303,503,1289,499"/>
+<area shape="rect" href="a00509.html" title=" " alt="" coords="1364,548,1507,573"/>
+<area shape="poly" title=" " alt="" coords="1281,495,1405,545,1403,550,1279,500"/>
+<area shape="rect" href="a00512.html" title=" " alt="" coords="1131,548,1339,573"/>
+<area shape="poly" title=" " alt="" coords="1238,507,1238,547,1233,547,1233,507"/>
+<area shape="rect" href="a01376.html" title="Filesystem module: paths, directory iteration and file operations in the shape of C++17 &lt;filesystem&gt;,..." alt="" coords="1954,299,2090,324"/>
+<area shape="poly" title=" " alt="" coords="2025,264,2025,298,2019,298,2019,264"/>
+<area shape="rect" href="a00752.html" title=" " alt="" coords="1767,299,1930,324"/>
+<area shape="poly" title=" " alt="" coords="1980,259,1880,301,1878,296,1978,254"/>
+<area shape="poly" title=" " alt="" coords="2104,315,2300,337,2383,352,2412,361,2428,370,2442,391,2448,410,2447,428,2440,445,2427,460,2409,474,2361,498,2302,518,2238,533,2114,554,2113,548,2237,528,2301,513,2359,493,2406,470,2423,457,2435,442,2442,427,2443,411,2437,393,2424,374,2410,366,2382,357,2299,342,2104,321"/>
+<area shape="poly" title=" " alt="" coords="1940,327,1865,330,1776,331,1575,331,1474,334,1381,341,1301,354,1239,374,1218,387,1202,402,1181,434,1160,468,1145,485,1125,502,1071,531,1018,550,1017,545,1069,526,1122,498,1142,481,1156,465,1176,431,1198,398,1214,383,1237,370,1300,349,1381,336,1474,329,1575,326,1776,326,1865,325,1940,321"/>
+<area shape="poly" title=" " alt="" coords="1941,327,1716,343,1525,349,1356,347,1200,343,1043,340,876,342,687,352,465,375,423,382,423,377,464,369,687,347,876,337,1044,335,1200,338,1357,342,1525,343,1715,338,1940,321"/>
+<area shape="poly" title=" " alt="" coords="2104,314,2376,337,2502,353,2546,361,2573,370,2599,397,2639,447,2712,546,2708,550,2635,450,2595,400,2570,374,2545,366,2501,358,2376,343,2103,319"/>
+<area shape="poly" title=" " alt="" coords="2104,314,2316,336,2408,351,2440,360,2457,370,2467,388,2468,409,2462,429,2451,449,2425,483,2405,502,2369,527,2336,544,2304,554,2273,561,2207,567,2125,576,1991,588,1758,604,1282,631,1282,626,1757,599,1990,583,2124,571,2207,561,2273,555,2303,549,2333,539,2366,522,2402,498,2421,479,2447,446,2457,427,2462,408,2462,390,2453,374,2438,365,2407,356,2315,341,2103,320"/>
+<area shape="poly" title=" " alt="" coords="2104,316,2359,341,2470,356,2505,363,2522,370,2542,396,2557,421,2565,447,2569,473,2566,499,2557,525,2543,550,2522,575,2509,582,2484,587,2404,598,2157,615,1872,627,1638,634,1637,629,1872,622,2157,609,2403,592,2483,582,2508,577,2519,571,2538,547,2552,523,2561,498,2563,473,2560,449,2552,424,2538,399,2519,374,2504,368,2469,361,2358,347,2103,321"/>
+<area shape="rect" href="a01274.html" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="773,379,919,405"/>
+<area shape="poly" title=" " alt="" coords="1941,327,1787,339,1656,344,1433,344,1326,344,1212,347,1083,357,932,375,894,382,893,377,931,369,1083,351,1212,342,1326,339,1433,339,1656,339,1786,334,1940,321"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="1429,379,1620,405"/>
+<area shape="poly" title=" " alt="" coords="1941,327,1632,375,1591,382,1590,377,1631,369,1940,322"/>
+<area shape="rect" href="a01235.html" title=" " alt="" coords="1644,379,1808,405"/>
+<area shape="poly" title=" " alt="" coords="1963,330,1773,382,1772,377,1961,325"/>
+<area shape="rect" href="a01226.html" title=" " alt="" coords="1833,379,2011,405"/>
+<area shape="poly" title=" " alt="" coords="1997,335,1940,381,1937,377,1994,331"/>
+<area shape="rect" href="a01211.html" title=" " alt="" coords="2035,379,2209,405"/>
+<area shape="poly" title=" " alt="" coords="2050,331,2107,377,2104,381,2047,335"/>
+<area shape="rect" href="a00260.html" title=" " alt="" coords="2233,379,2414,405"/>
+<area shape="poly" title=" " alt="" coords="2083,325,2276,377,2275,382,2082,330"/>
+<area shape="rect" href="a00263.html" title=" " alt="" coords="1250,372,1405,412"/>
+<area shape="poly" title=" " alt="" coords="1941,327,1792,341,1676,348,1562,356,1417,375,1405,377,1404,371,1416,369,1561,351,1676,343,1792,336,1940,321"/>
+<area shape="poly" title=" " alt="" coords="875,411,898,433,920,458,948,506,966,547,961,549,944,508,916,462,894,437,871,415"/>
+<area shape="rect" href="a01340.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="755,548,873,573"/>
+<area shape="poly" title=" " alt="" coords="779,412,741,432,725,445,712,461,706,480,712,499,724,514,739,527,774,546,771,550,736,531,720,518,708,501,701,480,708,459,721,441,738,427,777,407"/>
+<area shape="rect" href="a01271.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="722,467,906,493"/>
+<area shape="poly" title=" " alt="" coords="839,419,821,468,816,466,834,417"/>
+<area shape="poly" title=" " alt="" coords="887,572,1118,619,1117,624,886,578"/>
+<area shape="poly" title=" " alt="" coords="887,571,1201,605,1452,625,1451,631,1200,611,886,576"/>
+<area shape="rect" href="a01319.html" title=" " alt="" coords="339,621,622,647"/>
+<area shape="poly" title=" " alt="" coords="744,579,539,624,538,619,742,574"/>
+<area shape="poly" title=" " alt="" coords="886,571,1200,592,1614,609,2344,629,2344,634,1614,614,1199,597,886,576"/>
+<area shape="rect" href="a00440.html" title=" " alt="" coords="645,621,807,647"/>
+<area shape="poly" title=" " alt="" coords="790,584,743,623,740,619,786,580"/>
+<area shape="rect" href="a00443.html" title=" " alt="" coords="831,621,1058,647"/>
+<area shape="poly" title=" " alt="" coords="850,578,923,619,920,623,848,583"/>
+<area shape="poly" title=" " alt="" coords="817,507,817,547,811,547,811,507"/>
+<area shape="poly" title=" " alt="" coords="2571,257,2746,377,2743,381,2568,261"/>
+<area shape="rect" href="a00869.html" title="lumex_base_exception, the base exception of LumexLib that records the stack where it was constructed,..." alt="" coords="2727,299,2885,324"/>
+<area shape="poly" title=" " alt="" coords="2600,252,2760,296,2759,301,2598,257"/>
+<area shape="rect" href="a00884.html" title=" " alt="" coords="2438,299,2601,324"/>
+<area shape="poly" title=" " alt="" coords="2535,265,2525,299,2520,298,2530,263"/>
+<area shape="poly" title=" " alt="" coords="2795,337,2773,380,2768,378,2791,335"/>
+<area shape="poly" title=" " alt="" coords="2870,325,2952,353,2994,371,3032,392,3063,416,3082,442,3086,456,3086,471,3081,486,3071,502,3052,516,3026,528,2956,545,2875,556,2798,561,2798,556,2874,550,2955,540,3024,523,3050,512,3067,498,3076,484,3081,470,3081,457,3077,445,3059,420,3029,397,2991,376,2950,358,2868,330"/>
+<area shape="poly" title=" " alt="" coords="1470,251,1410,265,1347,289,1316,305,1287,324,1262,347,1240,373,1231,397,1228,422,1234,467,1229,467,1223,422,1225,395,1236,371,1258,343,1284,320,1313,300,1345,284,1409,260,1469,245"/>
+<area shape="rect" href="a01052.html" title=" " alt="" coords="1483,299,1609,324"/>
+<area shape="poly" title=" " alt="" coords="1549,264,1549,298,1543,298,1543,264"/>
+<area shape="poly" title=" " alt="" coords="2743,262,2728,280,2718,299,2716,321,2724,342,2737,362,2751,377,2747,381,2733,365,2719,345,2711,322,2713,298,2724,277,2739,259"/>
+<area shape="poly" title=" " alt="" coords="2782,261,2801,297,2797,299,2777,264"/>
+<area shape="rect" href="a00899.html" title=" " alt="" coords="2910,299,3107,324"/>
+<area shape="poly" title=" " alt="" coords="2822,252,2967,296,2966,301,2821,257"/>
+</map>
+</div>
+</div>
+<p><a href="a01136_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04407.html">lumex::core::utility::numeric::Detail::literal_zero_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the second parameter of a comparison with <code>0</code>.  <a href="a04407.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04411.html">lumex::core::utility::numeric::Detail::ordering_base&lt; Derived &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value and the comparisons shared by the three ordering classes.  <a href="a04411.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04415.html">lumex::core::utility::numeric::partial_ordering</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of a three-way comparison that may leave two values unordered (NaN against anything): less, equivalent, greater or unordered.  <a href="a04415.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04419.html">lumex::core::utility::numeric::weak_ordering</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of a three-way comparison of a total preorder: less, equivalent or greater, where equivalent values may differ.  <a href="a04419.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04423.html">lumex::core::utility::numeric::strong_ordering</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of a three-way comparison of a total order: less, equal or greater, where equal values are indistinguishable.  <a href="a04423.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04427.html">lumex::core::utility::numeric::Detail::is_own_ordering&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for the three own ordering classes (no cv-qualifier, no reference).  <a href="a04427.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04431.html">lumex::core::utility::numeric::Detail::is_plain_ordering&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if <code>T</code>, which has no cv-qualifier and is no reference, is an ordering.  <a href="a04431.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04435.html">lumex::core::utility::numeric::is_ordering&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for the three ordering classes of this header and, where <code>&lt;compare&gt;</code> is available, for the three of the standard (cv-qualifiers and a reference are ignored).  <a href="a04435.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01586.html">lumex::core::utility</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01605.html">lumex::core::utility::numeric</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01606.html">lumex::core::utility::numeric::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
-<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b0bf629e7cecc3460dfee072143f819" id="r_a2b0bf629e7cecc3460dfee072143f819"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b0bf629e7cecc3460dfee072143f819">LUMEX_ORDERING_LINK_ONCE</a>&#160;&#160;&#160;inline</td></tr>
+<tr class="memdesc:a2b0bf629e7cecc3460dfee072143f819"><td class="mdescLeft">&#160;</td><td class="mdescRight">What stands in place of <code>inline</code> on the definitions of the named values of the ordering classes.  <br /></td></tr>
+<tr class="separator:a2b0bf629e7cecc3460dfee072143f819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:abd872c425a3594b8eb93584ab9adcf2a" id="r_abd872c425a3594b8eb93584ab9adcf2a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01605.html#abd872c425a3594b8eb93584ab9adcf2a">lumex::core::utility::numeric::strong_ordering_t</a> = <a class="el" href="a04423.html">strong_ordering</a></td></tr>
+<tr class="memdesc:abd872c425a3594b8eb93584ab9adcf2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The strong ordering of this library: <code><a class="el" href="a04423.html" title="The result of a three-way comparison of a total order: less, equal or greater, where equal values are...">strong_ordering</a></code>, in every standard.  <br /></td></tr>
+<tr class="separator:abd872c425a3594b8eb93584ab9adcf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97c77a5eca86f81d90f27b52c982f1bc" id="r_a97c77a5eca86f81d90f27b52c982f1bc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01605.html#a97c77a5eca86f81d90f27b52c982f1bc">lumex::core::utility::numeric::weak_ordering_t</a> = <a class="el" href="a04419.html">weak_ordering</a></td></tr>
+<tr class="memdesc:a97c77a5eca86f81d90f27b52c982f1bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weak ordering of this library: <code><a class="el" href="a04419.html" title="The result of a three-way comparison of a total preorder: less, equivalent or greater,...">weak_ordering</a></code>, in every standard.  <br /></td></tr>
+<tr class="separator:a97c77a5eca86f81d90f27b52c982f1bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf555520aafc55aff4faa92293fcac94" id="r_acf555520aafc55aff4faa92293fcac94"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01605.html#acf555520aafc55aff4faa92293fcac94">lumex::core::utility::numeric::partial_ordering_t</a> = <a class="el" href="a04415.html">partial_ordering</a></td></tr>
+<tr class="separator:acf555520aafc55aff4faa92293fcac94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a0f23ee126a26c0aee8ce3b91e80b3616" id="r_a0f23ee126a26c0aee8ce3b91e80b3616"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01606.html#a0f23ee126a26c0aee8ce3b91e80b3616">lumex::core::utility::numeric::Detail::ordering_value</a> : signed char { <a class="el" href="a01606.html#a0f23ee126a26c0aee8ce3b91e80b3616ae37e8d912e8f7b8f9b5ef9452ba47ff1">lumex::core::utility::numeric::Detail::less</a> = -1
+, <a class="el" href="a01606.html#a0f23ee126a26c0aee8ce3b91e80b3616aa219d952c828c6dfd3c9e7465f0d29c4">lumex::core::utility::numeric::Detail::equivalent</a> = 0
+, <a class="el" href="a01606.html#a0f23ee126a26c0aee8ce3b91e80b3616a7b8dc4fb0fb55fc8eb69ff080c45ed7e">lumex::core::utility::numeric::Detail::greater</a> = 1
+, <a class="el" href="a01606.html#a0f23ee126a26c0aee8ce3b91e80b3616a2e3a2fe1ab6a59f682eec190c2b1fe27">lumex::core::utility::numeric::Detail::unordered</a> = 2
+ }</td></tr>
+<tr class="memdesc:a0f23ee126a26c0aee8ce3b91e80b3616"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value of an ordering: the sign of the comparison, and <code>unordered</code> for the one value a <code>partial_ordering</code> has besides the three.  <a href="a01606.html#a0f23ee126a26c0aee8ce3b91e80b3616">More...</a><br /></td></tr>
+<tr class="separator:a0f23ee126a26c0aee8ce3b91e80b3616"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a269e91c39ab3b8bc1e580d6c68f01571" id="r_a269e91c39ab3b8bc1e580d6c68f01571"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
+<tr class="memitem:a269e91c39ab3b8bc1e580d6c68f01571"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04427.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01605.html#a269e91c39ab3b8bc1e580d6c68f01571">lumex::core::utility::numeric::is_eq</a> (Ordering value) noexcept</td></tr>
+<tr class="memdesc:a269e91c39ab3b8bc1e580d6c68f01571"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value == 0</code>: equivalent (equal).  <br /></td></tr>
+<tr class="separator:a269e91c39ab3b8bc1e580d6c68f01571"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d80a6cc06a9fd2782a79ab51dbf5e58" id="r_a3d80a6cc06a9fd2782a79ab51dbf5e58"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
+<tr class="memitem:a3d80a6cc06a9fd2782a79ab51dbf5e58"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04427.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01605.html#a3d80a6cc06a9fd2782a79ab51dbf5e58">lumex::core::utility::numeric::is_neq</a> (Ordering value) noexcept</td></tr>
+<tr class="memdesc:a3d80a6cc06a9fd2782a79ab51dbf5e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value != 0</code>: not equivalent, <code>unordered</code> included.  <br /></td></tr>
+<tr class="separator:a3d80a6cc06a9fd2782a79ab51dbf5e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ec3faea1c7513aed23ea5bb1462f22f" id="r_a2ec3faea1c7513aed23ea5bb1462f22f"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
+<tr class="memitem:a2ec3faea1c7513aed23ea5bb1462f22f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04427.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01605.html#a2ec3faea1c7513aed23ea5bb1462f22f">lumex::core::utility::numeric::is_lt</a> (Ordering value) noexcept</td></tr>
+<tr class="memdesc:a2ec3faea1c7513aed23ea5bb1462f22f"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value &lt; 0</code>: less.  <br /></td></tr>
+<tr class="separator:a2ec3faea1c7513aed23ea5bb1462f22f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12aee4e8f0ddf96792c35ddd772afb5a" id="r_a12aee4e8f0ddf96792c35ddd772afb5a"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
+<tr class="memitem:a12aee4e8f0ddf96792c35ddd772afb5a"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04427.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01605.html#a12aee4e8f0ddf96792c35ddd772afb5a">lumex::core::utility::numeric::is_lteq</a> (Ordering value) noexcept</td></tr>
+<tr class="memdesc:a12aee4e8f0ddf96792c35ddd772afb5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value &lt;= 0</code>: less or equivalent.  <br /></td></tr>
+<tr class="separator:a12aee4e8f0ddf96792c35ddd772afb5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a339ffbabe12aaa74f8750cf4e04dffda" id="r_a339ffbabe12aaa74f8750cf4e04dffda"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
+<tr class="memitem:a339ffbabe12aaa74f8750cf4e04dffda"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04427.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01605.html#a339ffbabe12aaa74f8750cf4e04dffda">lumex::core::utility::numeric::is_gt</a> (Ordering value) noexcept</td></tr>
+<tr class="memdesc:a339ffbabe12aaa74f8750cf4e04dffda"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value &gt; 0</code>: greater.  <br /></td></tr>
+<tr class="separator:a339ffbabe12aaa74f8750cf4e04dffda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91f0db883a81b8da7e271f41467907ad" id="r_a91f0db883a81b8da7e271f41467907ad"><td class="memTemplParams" colspan="2">template&lt;typename Ordering&gt; </td></tr>
+<tr class="memitem:a91f0db883a81b8da7e271f41467907ad"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; <a class="el" href="a04427.html">Detail::is_own_ordering</a>&lt; Ordering &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01605.html#a91f0db883a81b8da7e271f41467907ad">lumex::core::utility::numeric::is_gteq</a> (Ordering value) noexcept</td></tr>
+<tr class="memdesc:a91f0db883a81b8da7e271f41467907ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for <code>value &gt;= 0</code>: greater or equivalent.  <br /></td></tr>
+<tr class="separator:a91f0db883a81b8da7e271f41467907ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>strong_ordering</code>, <code>weak_ordering</code> and <code>partial_ordering</code>, the comparison categories of <code>&lt;compare&gt;</code> (C++20) for every standard from C++11, with <code>is_eq</code>, <code>is_neq</code>, <code>is_lt</code>, <code>is_lteq</code>, <code>is_gt</code> and <code>is_gteq</code>. </p>
+<p>The three classes have the values, the conversions (<code>strong_ordering</code> to <code>weak_ordering</code> to <code>partial_ordering</code>) and the comparisons of the standard ones: <code>==</code> and <code>!=</code> between two orderings (of the same or of a weaker category), and <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code> and <code>&gt;=</code> against the literal <code>0</code>, with <code>0</code> on either side. As in the standard, <code>&lt;</code> between two orderings does not compile: compare with <code>0</code> or with a named value. <code>&lt;=&gt;</code> is a C++20 operator and is not provided. The classes are the same in every standard and are never aliases of <code>std::strong_ordering</code> and the others (as <code>span</code> is not an alias of <code>std::span</code>).</p>
+<p>Where the standard library has <code>&lt;compare&gt;</code> (C++20, <code>LUMEX_HAS_THREE_WAY_COMPARISON</code>) each class converts implicitly to the <code>std::</code> ordering of its category and of every weaker one (<code>strong_ordering</code> to <code>std::strong_ordering</code>, <code>std::weak_ordering</code> and <code>std::partial_ordering</code>; <code>weak_ordering</code> to the last two; <code>partial_ordering</code> to the last) and is constructed implicitly from the same <code>std::</code> orderings (<code>partial_ordering</code> from all three, <code>weak_ordering</code> from <code>std::weak_ordering</code> and <code>std::strong_ordering</code>, <code>strong_ordering</code> from <code>std::strong_ordering</code>). The conversions are <code>constexpr</code> and <code>noexcept</code> like the standard classes and take exactly those types, so they never disturb the conversions among the own classes. <code>==</code> and <code>!=</code> compare an own ordering with a <code>std::</code> ordering in both orders by value (<code>unordered</code> equals only <code>std::partial_ordering::unordered</code>); without those operators the call would be ambiguous between the conversions of the two sides. The relational operators between two orderings stay absent, as in the standard.</p>
+<p><code>strong_ordering_t</code>, <code>weak_ordering_t</code> and <code>partial_ordering_t</code> are plain aliases of the three classes in every standard. The safe numeric comparator returns these, so code that spells the result type once with the alias keeps compiling when the standard changes. The trait <code>is_ordering</code> is true for the classes of both families.</p>
+<p>The named values are constants of the class, usable in constant expressions (<code>constexpr auto o = strong_ordering::less;</code>) in every standard. Before C++17 they are defined in the header with the link-once attribute of the compiler (<code>LUMEX_ORDERING_LINK_ONCE</code>) in place of <code>inline</code>: a weak symbol on GCC, <code>selectany</code> on MSVC, MinGW and Cygwin, an <code>inline</code> variable on Clang. </p><dl class="section since"><dt>Since</dt><dd>C++11 </dd></dl>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a2b0bf629e7cecc3460dfee072143f819" name="a2b0bf629e7cecc3460dfee072143f819"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b0bf629e7cecc3460dfee072143f819">&#9670;&#160;</a></span>LUMEX_ORDERING_LINK_ONCE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+          <td class="memname">#define LUMEX_ORDERING_LINK_ONCE&#160;&#160;&#160;inline</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>What stands in place of <code>inline</code> on the definitions of the named values of the ordering classes. </p>
+<p>The named values (<code>strong_ordering::less</code>, ...) are static data members of a literal class type, declared in the class and defined after it in the header, as the standard library does it with <code>inline constexpr</code>. Before C++17 <code>inline</code> is not available for a variable, and a plain definition in a header is defined again in every translation unit that includes it. A class template cannot stand in: a member of a class template is not usable in constant expressions unless it is declared <code>constexpr</code> in the class, and there its type is incomplete. So the definitions carry the link-once attribute of the compiler: <code>inline</code> from C++17, <code>selectany</code> on MSVC (clang-cl too), MinGW and Cygwin, an <code>inline</code> variable (the C++17 feature as an extension, its warning ignored in this header) on Clang, a weak symbol on GCC. A compiler none of these fits gets a plain definition, which is correct only while one translation unit includes the header. </p>
 
 </div>
 </div>
@@ -143,7 +392,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_fc0ba0971833cb384bf790ca47625916.html">variable</a></li><li class="navelem"><a class="el" href="a01136.html">XPathVariable.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_07d2c4fbf88040bc262cc011040dec00.html">numeric</a></li><li class="navelem"><a class="el" href="a01136.html">LumexOrdering.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::shared_ptr::shared_ptr" name="lumex::core::smart_ptr::shared_ptr::shared_ptr">
+<area shape="rect" id="Node000001" title="Takes ownership of p; the object is deleted with delete (delete[] for an array type)." alt="" coords="5,13,207,53"/>
+<area shape="rect" id="Node000002" href="$a01563.html#abecc8c6fa95e845e1c541c78b2bbb129" title="Rejects, with a static_assert, a class that derives from std::enable_shared_from_this and not from th..." alt="" coords="255,5,475,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,30,241,30,241,35,207,35"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_hazard_pointer.cpp File Reference</title>
+<title>LumexLib: LumexBadWeakPtr.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,56 +104,93 @@ $(function(){initNavTree('a00767.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_hazard_pointer.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">LumexBadWeakPtr.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;thread&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01208_source.html">lumex/core/hazard_pointer/LumexHazardPointer</a>&quot;</code><br />
+
+<p><code>bad_weak_ptr</code>: the exception that <code>shared_ptr (weak_ptr)</code> and <code>shared_from_this ()</code> throw when the object is gone.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_hazard_pointer.cpp:</div>
+Include dependency graph for LumexBadWeakPtr.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00768.png" border="0" usemap="#aexample__hazard__pointer_8cpp" alt=""/></div>
+<div class="center"><img src="a00768.png" border="0" usemap="#aLumexBadWeakPtr_8hpp" alt=""/></div>
+<map name="aLumexBadWeakPtr_8hpp" id="aLumexBadWeakPtr_8hpp">
+<area shape="rect" title="bad_weak_ptr: the exception that shared_ptr (weak_ptr) and shared_from_this () throw when the object ..." alt="" coords="5,5,177,31"/>
+<area shape="rect" title=" " alt="" coords="53,79,130,104"/>
+<area shape="poly" title=" " alt="" coords="94,31,94,65,89,65,89,31"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00769.png" border="0" usemap="#aLumexBadWeakPtr_8hppdep" alt=""/></div>
+<map name="aLumexBadWeakPtr_8hppdep" id="aLumexBadWeakPtr_8hppdep">
+<area shape="rect" title="bad_weak_ptr: the exception that shared_ptr (weak_ptr) and shared_from_this () throw when the object ..." alt="" coords="423,5,595,31"/>
+<area shape="rect" href="a00770.html" title="enable_shared_from_this&lt;T&gt;: lets an object that is owned by a shared_ptr of this module hand out furt..." alt="" coords="855,233,1098,258"/>
+<area shape="poly" title=" " alt="" coords="548,34,952,230,949,235,546,39"/>
+<area shape="rect" href="a01397.html" title="Smart pointer module: shared_ptr, weak_ptr, enable_shared_from_this, make_shared, allocate_shared,..." alt="" coords="222,313,345,339"/>
+<area shape="poly" title=" " alt="" coords="410,35,305,53,193,80,141,96,96,113,61,133,37,154,29,168,25,181,26,194,30,206,49,230,78,251,115,270,155,287,232,311,230,316,153,292,113,275,75,256,45,234,25,209,21,195,20,181,24,166,33,150,58,128,94,109,140,91,192,75,304,48,409,29"/>
+<area shape="rect" href="a00773.html" title="shared_ptr&lt;T&gt;: shared ownership with the module&#39;s own control block, at the level of the C++17 std::s..." alt="" coords="431,79,587,104"/>
+<area shape="poly" title=" " alt="" coords="511,44,511,78,506,78,506,44"/>
+<area shape="poly" title=" " alt="" coords="883,263,844,268,565,300,345,323,344,318,565,295,843,263,882,257"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="5,387,172,427"/>
+<area shape="poly" title=" " alt="" coords="241,346,138,389,136,384,239,341"/>
+<area shape="rect" href="a00266.html" title=" " alt="" coords="196,394,371,419"/>
+<area shape="poly" title=" " alt="" coords="286,353,286,393,281,393,281,353"/>
+<area shape="rect" href="a00269.html" title=" " alt="" coords="395,394,636,419"/>
+<area shape="poly" title=" " alt="" coords="334,341,480,391,478,396,332,346"/>
+<area shape="poly" title=" " alt="" coords="574,105,731,149,851,192,947,230,945,235,849,197,729,155,573,110"/>
+<area shape="poly" title=" " alt="" coords="417,107,337,127,306,139,287,154,276,173,269,194,266,239,273,281,281,312,276,314,267,282,261,239,264,193,271,170,283,150,303,135,336,122,416,102"/>
+<area shape="rect" href="a00803.html" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="346,225,559,265"/>
+<area shape="poly" title=" " alt="" coords="505,118,486,178,465,226,460,224,481,176,499,116"/>
+<area shape="rect" href="a00785.html" title="make_shared and allocate_shared: create the object and its control block in one allocation ([util...." alt="" coords="296,152,471,177"/>
+<area shape="poly" title=" " alt="" coords="477,113,407,154,404,149,474,109"/>
+<area shape="rect" href="a00755.html" title="Explicit conversions between the module&#39;s shared_ptr and std::shared_ptr: from_std and to_std." alt="" coords="48,152,220,177"/>
+<area shape="poly" title=" " alt="" coords="431,109,200,155,199,149,430,104"/>
+<area shape="rect" href="a00818.html" title="What the split&#45;count engine needs to know about the pointer it stores: the counter group its referenc..." alt="" coords="635,233,831,258"/>
+<area shape="poly" title=" " alt="" coords="585,105,657,125,687,137,707,150,720,170,729,192,735,232,730,233,724,194,716,172,703,154,684,142,655,130,584,110"/>
+<area shape="rect" href="a00788.html" title="weak_ptr&lt;T&gt; and owner_less: non&#45;owning observers of an object that a shared_ptr owns ([util...." alt="" coords="546,152,693,177"/>
+<area shape="poly" title=" " alt="" coords="541,109,601,150,598,154,538,114"/>
+<area shape="poly" title=" " alt="" coords="365,189,336,227,310,274,291,314,286,312,305,272,332,224,360,186"/>
+<area shape="poly" title=" " alt="" coords="158,186,273,311,269,315,154,190"/>
+<area shape="rect" href="a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="639,313,826,339"/>
+<area shape="poly" title=" " alt="" coords="735,272,735,313,730,313,730,272"/>
+<area shape="poly" title=" " alt="" coords="689,178,921,230,920,235,688,183"/>
+<area shape="poly" title=" " alt="" coords="616,192,601,231,589,251,573,268,533,287,473,302,345,322,344,317,472,297,531,281,570,263,585,248,597,229,611,190"/>
+<area shape="poly" title=" " alt="" coords="582,186,496,227,493,223,579,181"/>
+<area shape="poly" title=" " alt="" coords="650,184,716,230,713,235,647,188"/>
+</map>
+</div>
+</div>
+<p><a href="a00767_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04003.html">lumex::core::smart_ptr::bad_weak_ptr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrown by <code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">shared_ptr</a>&lt;T&gt; (<a class="el" href="a03867.html" title="A weak reference to an object owned by shared_ptr objects.">weak_ptr</a>&lt;Y&gt; const &amp;)</code> and by <code><a class="el" href="a03871.html#a580277c867f4c27940242d4f484f95cd" title="An owner of *this; throws bad_weak_ptr when none exists.">enable_shared_from_this::shared_from_this</a> ()</code> when the weak pointer is expired.  <a href="a04003.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01562.html">lumex::core::smart_ptr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00767_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00767_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>bad_weak_ptr</code>: the exception that <code>shared_ptr (weak_ptr)</code> and <code>shared_from_this ()</code> throw when the object is gone. </p>
+<p>The class derives from <code>std::bad_weak_ptr</code>, so <code>catch (std::bad_weak_ptr const &amp;)</code> and <code>catch (std::exception const &amp;)</code> handlers see it as well; it is a type of the module, not an alias ([util.smartptr.weak.bad]). <code>what ()</code> is the one of the standard class. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_3ded92d14aece4da9006cfcd5880aa4c.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="a00767.html">example_hazard_pointer.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_f49348c03cbbd10cc8855c06335ffde3.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_f68d338aa642dfc48956382e16ce2706.html">shared</a></li><li class="navelem"><a class="el" href="a00767.html">LumexBadWeakPtr.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

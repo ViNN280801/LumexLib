@@ -1,0 +1,115 @@
+<map id="lumex::xml::document::XmlDocument::load" name="lumex::xml::document::XmlDocument::load">
+<area shape="rect" id="Node000001" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,675,175,715"/>
+<area shape="rect" id="Node000002" href="$a05127.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,675,425,715"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,692,209,692,209,697,175,697"/>
+<area shape="rect" id="Node000003" href="$a05127.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,631,677,671"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="425,674,459,668,460,674,426,680"/>
+<area shape="rect" id="Node000045" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="1484,637,1627,677"/>
+<area shape="poly" id="edge66_Node000002_Node000045" title=" " alt="" coords="394,712,477,733,581,754,695,771,810,777,1045,777,1107,775,1171,767,1295,742,1405,710,1492,680,1494,685,1407,715,1296,747,1172,772,1108,780,1045,783,810,783,694,776,580,759,476,738,393,717"/>
+<area shape="rect" id="Node000004" href="$a01682.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="727,524,893,564"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="618,628,752,567,754,572,621,633"/>
+<area shape="rect" id="Node000047" href="$a05127.html#a20b942adcf753027eb5e49afbf383920" title="Removes all nodes from the document, leaving it in an empty state." alt="" coords="725,631,895,671"/>
+<area shape="poly" id="edge65_Node000003_Node000047" title=" " alt="" coords="678,648,712,648,712,653,678,653"/>
+<area shape="rect" id="Node000005" href="$a01671.html#a2c9959ff1c2cf8e2a807f61de6ae218e" title=" " alt="" coords="973,652,1116,692"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="848,562,997,643,995,648,845,566"/>
+<area shape="rect" id="Node000011" href="$a01671.html#a89892f076c3d9ddcf776a6d039b1347f" title=" " alt="" coords="963,144,1126,184"/>
+<area shape="poly" id="edge11_Node000004_Node000011" title=" " alt="" coords="820,522,1023,194,1027,197,825,525"/>
+<area shape="rect" id="Node000015" href="$a01682.html#ae0bf18f6f9e0ed3936938a14c541af0c" title="Helper function to create an xml_parse_result_t object." alt="" coords="1213,524,1387,564"/>
+<area shape="poly" id="edge15_Node000004_Node000015" title=" " alt="" coords="894,541,1199,541,1199,547,894,547"/>
+<area shape="rect" id="Node000016" href="$a05179.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="943,404,1147,444"/>
+<area shape="poly" id="edge17_Node000004_Node000016" title=" " alt="" coords="848,522,992,448,994,453,850,526"/>
+<area shape="rect" id="Node000006" href="$a01671.html#a50bce6a89657c01bf24ad4eae09efc87" title=" " alt="" coords="1211,652,1389,692"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1116,669,1197,669,1197,675,1116,675"/>
+<area shape="rect" id="Node000007" href="$a01671.html#a7a4e5e4adadf288d536f8cdbc9c5696c" title=" " alt="" coords="1216,817,1384,857"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1077,690,1259,807,1256,812,1075,695"/>
+<area shape="rect" id="Node000009" href="$a01671.html#ae9136d5e971321f70e2bd2142e50730f" title=" " alt="" coords="1477,727,1634,767"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="1117,686,1195,701,1336,721,1463,735,1463,741,1335,727,1194,707,1116,691"/>
+<area shape="rect" id="Node000010" href="$a01587.html#aeb7c418e8ef454625d57b7b098e59e04" title="Tells whether the machine stores the least significant byte of an integer first (little endian)." alt="" coords="1223,588,1377,628"/>
+<area shape="poly" id="edge10_Node000005_Node000010" title=" " alt="" coords="1115,652,1208,628,1210,633,1117,657"/>
+<area shape="rect" id="Node000008" href="$a01671.html#a3cb4abf426c232710888c97d4d549422" title=" " alt="" coords="1470,810,1641,865"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1384,835,1456,835,1456,840,1384,840"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="1356,815,1485,769,1487,774,1358,820"/>
+<area shape="rect" id="Node000012" href="$a01671.html#a3735e853fcfde7b0a1f7f96fe3d23422" title=" " alt="" coords="1219,80,1381,120"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="1124,141,1206,121,1208,126,1125,147"/>
+<area shape="rect" id="Node000013" href="$a01671.html#a0b03422e6a429d3386d49503ea29f9ca" title=" " alt="" coords="1211,144,1389,184"/>
+<area shape="poly" id="edge13_Node000011_Node000013" title=" " alt="" coords="1126,161,1197,161,1197,167,1126,167"/>
+<area shape="rect" id="Node000014" href="$a01671.html#a152e4d128c761aac3019be2cbb20bff2" title=" " alt="" coords="1482,73,1629,127"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="1379,141,1468,119,1469,124,1381,147"/>
+<area shape="poly" id="edge16_Node000015_Node000015" title=" " alt="" coords="1253,524,1250,514,1258,505,1274,499,1300,497,1329,500,1345,507,1343,512,1328,505,1300,503,1275,505,1261,509,1255,515,1258,523"/>
+<area shape="poly" id="edge19_Node000016_Node000015" title=" " alt="" coords="1089,442,1246,516,1244,521,1086,446"/>
+<area shape="rect" id="Node000017" href="$a05179.html#a1357e4ee0d8dacd74d73e3e253714ab3" title="Checks if any of the given node&#39;s siblings (including itself) are element nodes." alt="" coords="1195,372,1405,412"/>
+<area shape="poly" id="edge18_Node000016_Node000017" title=" " alt="" coords="1146,409,1181,404,1181,410,1147,414"/>
+<area shape="rect" id="Node000018" href="$a05179.html#a83df2098eeb7dc86f16fc88be0b48b9b" title="Skips the Byte Order Mark (BOM) from the beginning of the input string." alt="" coords="1198,436,1402,476"/>
+<area shape="poly" id="edge20_Node000016_Node000018" title=" " alt="" coords="1147,434,1185,439,1184,444,1146,439"/>
+<area shape="rect" id="Node000019" href="$a05179.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1198,244,1402,284"/>
+<area shape="poly" id="edge21_Node000016_Node000019" title=" " alt="" coords="1061,402,1117,348,1154,319,1193,294,1207,287,1209,292,1196,298,1157,323,1121,352,1065,406"/>
+<area shape="rect" id="Node000046" href="$a05179.html#a2baad67837711ad10ffeaa5f3569c69e" title="Constructs an XmlParser object with a given allocator." alt="" coords="1198,308,1402,348"/>
+<area shape="poly" id="edge64_Node000016_Node000046" title=" " alt="" coords="1087,402,1194,358,1216,350,1218,355,1196,362,1089,406"/>
+<area shape="rect" id="Node000020" href="$a01672.html#a803330a161b229c5afdd0c16baaade86" title="Appends a newly allocated attribute to the current node." alt="" coords="1459,553,1651,593"/>
+<area shape="poly" id="edge22_Node000019_Node000020" title=" " alt="" coords="1390,282,1407,294,1428,320,1438,345,1444,373,1456,404,1498,478,1537,540,1532,543,1493,481,1451,406,1439,374,1432,347,1424,323,1404,298,1387,286"/>
+<area shape="rect" id="Node000028" href="$a00686.html#a51e9b0004ac41f142aeed82a9801e288" title=" " alt="" coords="1475,369,1636,394"/>
+<area shape="poly" id="edge30_Node000019_Node000028" title=" " alt="" coords="1375,282,1406,294,1471,326,1526,359,1523,363,1469,331,1404,298,1373,287"/>
+<area shape="rect" id="Node000036" href="$a00686.html#a107a81d20f6de13719a1c04b6eab36c8" title=" " alt="" coords="1481,281,1630,306"/>
+<area shape="poly" id="edge47_Node000019_Node000036" title=" " alt="" coords="1402,273,1467,281,1467,286,1402,278"/>
+<area shape="rect" id="Node000038" href="$a05179.html#af02163f17fba53cccc3858f93e36bc6c" title="Parses XML constructs starting with an exclamation mark (&lt;!...)." alt="" coords="1453,152,1657,192"/>
+<area shape="poly" id="edge52_Node000019_Node000038" title=" " alt="" coords="1348,241,1452,201,1475,194,1477,199,1454,207,1350,246"/>
+<area shape="rect" id="Node000044" href="$a05179.html#a1dbbc34a3059293b46e2c746df9edf2d" title="Parses XML processing instructions (&lt;?...?&gt;) or XML declarations (&lt;?xml...?&gt;)." alt="" coords="1453,216,1657,256"/>
+<area shape="poly" id="edge62_Node000019_Node000044" title=" " alt="" coords="1402,250,1439,246,1440,251,1402,255"/>
+<area shape="poly" id="edge63_Node000019_Node000045" title=" " alt="" coords="1393,282,1407,294,1433,334,1442,373,1442,411,1436,448,1429,486,1427,524,1434,563,1455,604,1483,629,1480,633,1451,607,1429,565,1422,524,1424,485,1430,447,1436,410,1437,373,1428,336,1403,298,1390,286"/>
+<area shape="rect" id="Node000021" href="$a01670.html#a9574910c1eb199b109e5ef6a75692053" title="Allocates a new XmlAttributeBase object using the provided allocator." alt="" coords="1727,617,1887,657"/>
+<area shape="poly" id="edge23_Node000020_Node000021" title=" " alt="" coords="1635,591,1716,611,1715,617,1634,596"/>
+<area shape="rect" id="Node000027" href="$a01672.html#ac91d41bf86f0da8b9a45c72c88401962" title="Appends an attribute to the end of a node&#39;s attribute list." alt="" coords="1711,553,1903,593"/>
+<area shape="poly" id="edge29_Node000020_Node000027" title=" " alt="" coords="1652,571,1698,571,1698,576,1652,576"/>
+<area shape="rect" id="Node000022" href="$a05135.html#a23666d6049ee4ccf8e92f7c2c56cf8cf" title="Allocates memory for an object from the allocator&#39;s managed pages." alt="" coords="1972,610,2147,665"/>
+<area shape="poly" id="edge24_Node000021_Node000022" title=" " alt="" coords="1887,635,1958,635,1958,640,1887,640"/>
+<area shape="rect" id="Node000023" href="$a05135.html#a52ba49868e2058ba6c0dbeb923c16c02" title="Allocates a block of memory from the allocator&#39;s managed pages." alt="" coords="2209,610,2384,665"/>
+<area shape="poly" id="edge25_Node000022_Node000023" title=" " alt="" coords="2147,635,2196,635,2196,640,2147,640"/>
+<area shape="rect" id="Node000024" href="$a05135.html#a9066c8946ee3cffc78c015c7464c6206" title="Allocates memory for large objects or strings that do not fit in the current memory page (out&#45;of&#45;band..." alt="" coords="2432,610,2607,665"/>
+<area shape="poly" id="edge26_Node000023_Node000024" title=" " alt="" coords="2384,635,2418,635,2418,640,2384,640"/>
+<area shape="rect" id="Node000025" href="$a05135.html#a1fb1c756bdb1dc9834c3cca336dc7090" title="Allocates a new XmlMemoryPage of a specified data size." alt="" coords="2655,617,2868,657"/>
+<area shape="poly" id="edge27_Node000024_Node000025" title=" " alt="" coords="2607,635,2641,635,2641,640,2607,640"/>
+<area shape="rect" id="Node000026" href="$a05139.html#a9358bd45d40685274a0b0bcbeb7030d2" title="Constructs an XmlMemoryPage object in a pre&#45;allocated memory block." alt="" coords="2916,617,3124,657"/>
+<area shape="poly" id="edge28_Node000025_Node000026" title=" " alt="" coords="2868,635,2902,635,2902,640,2868,640"/>
+<area shape="rect" id="Node000029" href="$a05171.html#acccf8a12dfcace9ed82810fa84e5e17f" title=" " alt="" coords="1723,297,1892,337"/>
+<area shape="poly" id="edge31_Node000028_Node000029" title=" " alt="" coords="1605,366,1714,338,1716,343,1606,371"/>
+<area shape="rect" id="Node000033" href="$a05171.html#ac050cfff8db4aee9bc3072e5c77e72a8" title=" " alt="" coords="1723,361,1892,401"/>
+<area shape="poly" id="edge36_Node000028_Node000033" title=" " alt="" coords="1636,379,1709,379,1709,384,1636,384"/>
+<area shape="rect" id="Node000034" href="$a05171.html#a622d52f8ba72199fa7465766ecbdc2fa" title=" " alt="" coords="1723,425,1892,465"/>
+<area shape="poly" id="edge39_Node000028_Node000034" title=" " alt="" coords="1606,392,1716,419,1714,424,1605,397"/>
+<area shape="rect" id="Node000035" href="$a05171.html#a084b5e97bd5be058ef2678a28ccf8ecb" title=" " alt="" coords="1723,489,1892,529"/>
+<area shape="poly" id="edge43_Node000028_Node000035" title=" " alt="" coords="1574,392,1631,432,1707,475,1723,482,1721,487,1704,480,1628,436,1570,396"/>
+<area shape="rect" id="Node000030" href="$a05167.html#a7d5e84d56dbeef1310977fe1ecec5ded" title=" " alt="" coords="2017,337,2102,362"/>
+<area shape="poly" id="edge32_Node000029_Node000030" title=" " alt="" coords="1893,325,2003,340,2003,345,1892,331"/>
+<area shape="rect" id="Node000031" href="$a05167.html#a1b60601371665958226d443c7db6e099" title=" " alt="" coords="2254,286,2339,311"/>
+<area shape="poly" id="edge33_Node000029_Node000031" title=" " alt="" coords="1892,311,2240,298,2240,303,1892,317"/>
+<area shape="rect" id="Node000032" href="$a00686.html#a572ca023c41c429e54892e03cdc88a64" title=" " alt="" coords="1998,386,2121,411"/>
+<area shape="poly" id="edge34_Node000029_Node000032" title=" " alt="" coords="1877,335,1910,347,1958,371,1987,380,1985,385,1956,376,1908,352,1876,340"/>
+<area shape="poly" id="edge35_Node000032_Node000031" title=" " alt="" coords="2120,384,2160,371,2216,344,2264,317,2267,321,2219,349,2162,376,2122,389"/>
+<area shape="poly" id="edge37_Node000033_Node000030" title=" " alt="" coords="1892,368,2003,354,2003,359,1893,373"/>
+<area shape="poly" id="edge38_Node000033_Node000032" title=" " alt="" coords="1892,385,1985,391,1984,396,1892,390"/>
+<area shape="poly" id="edge40_Node000034_Node000030" title=" " alt="" coords="1882,423,1908,411,1922,401,1931,391,1941,381,1956,371,2003,355,2004,360,1959,376,1944,385,1935,395,1925,405,1911,416,1884,428"/>
+<area shape="poly" id="edge41_Node000034_Node000031" title=" " alt="" coords="1892,453,1953,455,2022,452,2093,441,2160,420,2196,400,2229,374,2277,321,2281,324,2232,377,2199,404,2162,425,2094,447,2022,457,1953,460,1892,458"/>
+<area shape="poly" id="edge42_Node000034_Node000032" title=" " alt="" coords="1892,427,1984,410,1985,415,1893,432"/>
+<area shape="poly" id="edge44_Node000035_Node000030" title=" " alt="" coords="1891,487,1908,475,1919,463,1925,451,1930,424,1936,398,1943,384,1956,371,1978,358,2002,351,2004,356,1980,363,1959,375,1948,387,1941,399,1935,425,1930,452,1923,466,1911,479,1894,491"/>
+<area shape="poly" id="edge45_Node000035_Node000031" title=" " alt="" coords="1892,513,1954,512,2023,505,2094,489,2160,462,2201,431,2235,394,2263,355,2282,322,2287,325,2267,358,2240,397,2204,435,2163,466,2096,494,2024,510,1954,517,1892,518"/>
+<area shape="poly" id="edge46_Node000035_Node000032" title=" " alt="" coords="1876,487,1908,475,1971,445,2025,416,2028,421,1973,450,1910,480,1878,492"/>
+<area shape="rect" id="Node000037" href="$a05175.html#aa8f41b6dded790c9b586ea8bd2c86e44" title=" " alt="" coords="1729,233,1886,273"/>
+<area shape="poly" id="edge48_Node000036_Node000037" title=" " alt="" coords="1630,279,1714,265,1715,271,1631,284"/>
+<area shape="poly" id="edge49_Node000037_Node000030" title=" " alt="" coords="1875,271,1910,283,2020,328,2018,333,1908,288,1874,276"/>
+<area shape="poly" id="edge50_Node000037_Node000031" title=" " alt="" coords="1887,258,2240,291,2240,296,1886,263"/>
+<area shape="poly" id="edge51_Node000037_Node000032" title=" " alt="" coords="1888,269,1911,283,1929,306,1936,329,1942,351,1959,371,1986,386,1984,390,1956,375,1937,353,1930,330,1924,308,1908,287,1885,273"/>
+<area shape="rect" id="Node000039" href="$a05179.html#a491f244f365536c867fa5df1c6a556e2" title="Parses a DOCTYPE group, which can contain nested sections of different types." alt="" coords="1705,69,1909,109"/>
+<area shape="poly" id="edge53_Node000038_Node000039" title=" " alt="" coords="1617,149,1656,136,1704,119,1728,111,1729,116,1706,124,1658,141,1619,154"/>
+<area shape="rect" id="Node000042" href="$a00686.html#afe3e6f37492a7bf6f15aa79ea3473a15" title=" " alt="" coords="1751,183,1864,209"/>
+<area shape="poly" id="edge56_Node000038_Node000042" title=" " alt="" coords="1658,179,1738,187,1737,192,1657,184"/>
+<area shape="rect" id="Node000043" href="$a00686.html#aabac4ba634904454129cb546e203a896" title=" " alt="" coords="1738,134,1877,159"/>
+<area shape="poly" id="edge59_Node000038_Node000043" title=" " alt="" coords="1657,159,1724,152,1724,158,1658,164"/>
+<area shape="rect" id="Node000040" href="$a05179.html#a140b0c172df1c62d425658b626e76dc6" title="Parses an &lt;![IGNORE[...]]&gt; section within a DOCTYPE." alt="" coords="1957,69,2161,109"/>
+<area shape="poly" id="edge54_Node000039_Node000040" title=" " alt="" coords="1909,87,1944,87,1944,92,1909,92"/>
+<area shape="rect" id="Node000041" href="$a05179.html#a67bfe9adea0e054524313dad862c1393" title="Parses a primitive DOCTYPE section, which can be a quoted string or a PI/comment&#45;like section." alt="" coords="1957,5,2161,45"/>
+<area shape="poly" id="edge55_Node000039_Node000041" title=" " alt="" coords="1886,67,1967,46,1968,51,1887,72"/>
+<area shape="poly" id="edge57_Node000042_Node000030" title=" " alt="" coords="1865,203,1910,219,1950,243,1986,271,2041,325,2037,329,1982,275,1947,247,1908,224,1863,208"/>
+<area shape="poly" id="edge58_Node000042_Node000031" title=" " alt="" coords="1865,201,2001,223,2162,256,2246,279,2244,284,2161,261,2000,229,1864,207"/>
+<area shape="poly" id="edge60_Node000043_Node000030" title=" " alt="" coords="1878,154,1911,168,1956,204,1995,246,2026,288,2048,323,2044,326,2022,291,1991,250,1953,208,1908,173,1876,159"/>
+<area shape="poly" id="edge61_Node000043_Node000031" title=" " alt="" coords="1877,152,2011,176,2088,195,2162,219,2220,247,2269,276,2266,281,2218,251,2160,224,2086,200,2010,181,1877,157"/>
+</map>

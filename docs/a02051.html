@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::base64::validate::validator Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02054.html',''); initResizable(true); });
+$(function(){initNavTree('a02051.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,152 @@ $(function(){initNavTree('a02054.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc5_g704_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a02048.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::base64::validate::validator Class Reference<span class="mlabels"><span class="mlabel final">final</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02054.html#ac155088981add1be9919383da26f76c2">kCatalogCheck</a></td><td class="entry"><a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02054.html#aecf7f7fd92d22707b7cf234626d7ee7c">kInit</a></td><td class="entry"><a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02054.html#a14ffba841de83e327fe339f477fdd10b">kPoly</a></td><td class="entry"><a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02054.html#a4966096af07d985d804537fcd0a94f20">kRefIn</a></td><td class="entry"><a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02054.html#a1a659bb8b541a4fb554e092b7344eadb">kRefOut</a></td><td class="entry"><a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02054.html#af63727271dc58fc221af979c2c7815de">kWidth</a></td><td class="entry"><a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02054.html#a4806512534c33c6d3c4b45528b056557">kXorOut</a></td><td class="entry"><a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02054.html#a7070c67c05946291d59674b1cb2cfaa6">ValueType</a> typedef</td><td class="entry"><a class="el" href="a02054.html">lumex::core::crc::parametric::crc5_g704_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Base64 syntax check.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00962_source.html">Validator.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a8b23b25f82a0b98ed3f35601e0d5604b" id="r_a8b23b25f82a0b98ed3f35601e0d5604b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b23b25f82a0b98ed3f35601e0d5604b">is_valid_base64</a> (char const *str, std::size_t size)</td></tr>
+<tr class="memdesc:a8b23b25f82a0b98ed3f35601e0d5604b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether <code>size</code> characters starting at <code>str</code> are valid Base64.  <br /></td></tr>
+<tr class="separator:a8b23b25f82a0b98ed3f35601e0d5604b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d9c71796e7ea3011f64939ff07a92f6" id="r_a1d9c71796e7ea3011f64939ff07a92f6"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d9c71796e7ea3011f64939ff07a92f6">is_valid_base64</a> (<a class="el" href="a01499.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a> str)</td></tr>
+<tr class="memdesc:a1d9c71796e7ea3011f64939ff07a92f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the rules).  <br /></td></tr>
+<tr class="separator:a1d9c71796e7ea3011f64939ff07a92f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base64 syntax check. </p>
+<p>The pointer and size overload is exported and has the same signature in every C++ standard; the string overload is an inline wrapper over it (<code><a class="el" href="a01499.html#ad7e09f224a1afaf5231200090c1f100a" title="Type of the Base64 text the string overloads take: the lumex_string_view of lumex::string_view in eve...">string_type_t</a></code> is <code><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> in every standard; a string literal, a <code>char const *</code>, a <code>std::string</code> and, from C++17, a <code>std::string_view</code> convert to it). The class itself is not exported: a dllimport class makes clang-cl emit an import for an inline member it does not inline, and the library does not provide the standard-dependent overload. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8b23b25f82a0b98ed3f35601e0d5604b" name="a8b23b25f82a0b98ed3f35601e0d5604b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b23b25f82a0b98ed3f35601e0d5604b">&#9670;&#160;</a></span>is_valid_base64() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool validator::is_valid_base64 </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks whether <code>size</code> characters starting at <code>str</code> are valid Base64. </p>
+<p>Valid Base64 consists of alphabet characters followed by at most two &lsquo;&rsquo;='`; with padding the length is a multiple of 4, without it the last group has two or three characters. The range needs no terminating NUL and nothing after it is read; a NUL inside the range is invalid.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">str</td><td>First character; never valid as <code>nullptr</code>, even with a <code>size</code> of 0 (pass <code>""</code> for an empty input). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Number of characters to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the range is valid Base64 (an empty range is), <code>false</code> otherwise, and always for <code>nullptr</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02051_a8b23b25f82a0b98ed3f35601e0d5604b_icgraph.png" border="0" usemap="#aa02051_a8b23b25f82a0b98ed3f35601e0d5604b_icgraph" alt=""/></div>
+<map name="aa02051_a8b23b25f82a0b98ed3f35601e0d5604b_icgraph" id="aa02051_a8b23b25f82a0b98ed3f35601e0d5604b_icgraph">
+<area shape="rect" title="Checks whether size characters starting at str are valid Base64." alt="" coords="485,183,640,238"/>
+<area shape="rect" href="a02039.html#ac8bf414de7a978ca3fd9ea7121916435" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="245,133,437,173"/>
+<area shape="poly" title=" " alt="" coords="471,190,418,176,419,171,473,185"/>
+<area shape="rect" href="a00404.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="74,198,129,223"/>
+<area shape="poly" title=" " alt="" coords="471,213,129,213,129,208,471,208"/>
+<area shape="rect" href="a02051.html#a1d9c71796e7ea3011f64939ff07a92f6" title="Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the ..." alt="" coords="264,249,419,303"/>
+<area shape="poly" title=" " alt="" coords="473,240,419,256,418,251,472,235"/>
+<area shape="rect" href="a02039.html#a74954c082460dfd907f881e4d021286c" title="Decodes size Base64 characters starting at encoded." alt="" coords="5,5,197,45"/>
+<area shape="poly" title=" " alt="" coords="303,127,254,93,196,60,168,48,170,43,199,55,256,88,306,123"/>
+<area shape="rect" href="a02039.html#abf0c2c4214bf10c4e53c7f7a3b5f5d33" title="Decodes a Base64 string." alt="" coords="5,69,197,109"/>
+<area shape="poly" title=" " alt="" coords="252,132,176,112,177,107,254,127"/>
+<area shape="rect" href="a02039.html#a360afd49df79519220388de49571f5a4" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="5,133,197,173"/>
+<area shape="poly" title=" " alt="" coords="231,156,198,156,198,151,231,151"/>
+<area shape="poly" title=" " alt="" coords="245,179,130,207,128,201,243,174"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1d9c71796e7ea3011f64939ff07a92f6" name="a1d9c71796e7ea3011f64939ff07a92f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d9c71796e7ea3011f64939ff07a92f6">&#9670;&#160;</a></span>is_valid_base64() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool lumex::core::base64::validate::validator::is_valid_base64 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01499.html#ad7e09f224a1afaf5231200090c1f100a">string_type_t</a></td>          <td class="paramname"><span class="paramname"><em>str</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the rules). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">str</td><td>The string to be checked for Base64 validity. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the string adheres to Base64 formatting rules, <code>false</code> otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02051_a1d9c71796e7ea3011f64939ff07a92f6_cgraph.png" border="0" usemap="#aa02051_a1d9c71796e7ea3011f64939ff07a92f6_cgraph" alt=""/></div>
+<map name="aa02051_a1d9c71796e7ea3011f64939ff07a92f6_cgraph" id="aa02051_a1d9c71796e7ea3011f64939ff07a92f6_cgraph">
+<area shape="rect" title="Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the ..." alt="" coords="5,124,160,179"/>
+<area shape="rect" href="a04167.html#aff8d326ef9c6866116899f0eac72cfea" title="The pointer to the first character; null for a default view." alt="" coords="208,5,395,60"/>
+<area shape="poly" title=" " alt="" coords="120,122,207,69,218,63,220,68,209,74,123,126"/>
+<area shape="rect" href="a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="208,84,395,139"/>
+<area shape="poly" title=" " alt="" coords="160,134,194,128,195,134,161,140"/>
+<area shape="rect" href="a02051.html#a8b23b25f82a0b98ed3f35601e0d5604b" title="Checks whether size characters starting at str are valid Base64." alt="" coords="224,163,379,217"/>
+<area shape="poly" title=" " alt="" coords="161,162,211,171,210,177,160,168"/>
+<area shape="rect" href="a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="208,241,395,296"/>
+<area shape="poly" title=" " alt="" coords="125,176,209,226,223,233,220,238,207,231,122,181"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="a00962_source.html">Validator.hpp</a></li>
+<li><a class="el" href="a00959.html">Validator.cpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01497.html">base64</a></li><li class="navelem"><a class="el" href="a01507.html">validate</a></li><li class="navelem"><a class="el" href="a02051.html">validator</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

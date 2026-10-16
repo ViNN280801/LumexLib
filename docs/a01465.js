@@ -1,11 +1,21 @@
 var a01465 =
 [
-    [ "ValueType", "a01465.html#a84c4ef074c5aafa508fdf86b00fa1f32", null ],
-    [ "kCatalogCheck", "a01465.html#a2cfd6beb11baa6b1f00cfea1c20f3135", null ],
-    [ "kInit", "a01465.html#a06b3098eb5b4c107b6b030b3ec9164f5", null ],
-    [ "kPoly", "a01465.html#a25fcca34417cf9e04cf470b7b92cb1f4", null ],
-    [ "kRefIn", "a01465.html#a0593e8e8a92f0d11de2c1d6e410adc86", null ],
-    [ "kRefOut", "a01465.html#ac3e9e5de3952e2891fbf5b55dcb7326f", null ],
-    [ "kWidth", "a01465.html#acfac3722bdb9f6701f075b474ab0f9c3", null ],
-    [ "kXorOut", "a01465.html#a2c024d79ed92e4715c9a0806f492fc92", null ]
+    [ "open_result_t", "a06512.html", "a06512" ],
+    [ "port_process_resolver", "a06516.html", "a06516" ],
+    [ "serial_port_info_t", "a01827.html", "a01827" ],
+    [ "serial_port_state", "a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400", [
+      [ "free", "a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400aaa2d6e4f578eb0cfaba23beef76c2194", null ],
+      [ "busy", "a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400a8bc1b2f84252c3df4edd53e4aad097a7", null ],
+      [ "available", "a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400ae4894ca167b08880bfc35862f18575eb", null ],
+      [ "unresponsive", "a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400a09cc203633ead318e3e8a61aeeff155d", null ]
+    ] ],
+    [ "bounded_open_serial_port", "a01465.html#a0a518e9f25f40fbb213907e34b881f81", null ],
+    [ "close_serial_handle", "a01465.html#aeda0fc72f871cf1ddc177f5c172131ea", null ],
+    [ "enumerate_serial_port_names", "a01465.html#aa0d54b6acae1ec6f1744d15ce56f769f", null ],
+    [ "enumerate_serial_ports_detailed", "a01465.html#a06d1dda0ef41ff2008e9792d2c6744ab", null ],
+    [ "is_bluetooth_enumerated_port", "a01465.html#ae27c22d50630c732a459b88a4f0e4260", null ],
+    [ "print_serial_ports_info", "a01465.html#a72a94a2885dc60a216e50441898ce62c", null ],
+    [ "resolve_serial_port_path", "a01465.html#a523de1146ace21810686af24cd7edd8f", null ],
+    [ "serial_port_state_to_string", "a01465.html#acecd7b3c45f11e0b7e71a47a7f84bb5a", null ],
+    [ "state_from_open_result", "a01465.html#a2baec958c3eebd588ab9cbc9bccd7e5f", null ]
 ];

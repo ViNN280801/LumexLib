@@ -1,5 +1,4 @@
 var a00287 =
 [
-    [ "lumex::core::expected::error::Unexpected< ErrorType >", "a01921.html", "a01921" ],
-    [ "Unexpected< ErrorType >", "a04037.html", "a04037" ]
+    [ "main", "a00287.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

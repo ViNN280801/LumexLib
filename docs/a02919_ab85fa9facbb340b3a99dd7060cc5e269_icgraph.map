@@ -1,0 +1,10 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::transform_error" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::transform_error">
+<area shape="rect" id="Node000001" title="Calls func with the contained error (lvalue) if present, and wraps the result in the error of a new e..." alt="" coords="265,84,477,139"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="415,73,399,66,371,63,348,65,333,69,326,76,326,84,321,84,321,74,330,65,347,59,371,57,400,60,417,68"/>
+<area shape="rect" id="Node000002" href="$a02919.html#af333ddf5a26f01a8ebfacd72a386db94" title="Calls func with the contained error (rvalue) if present, and wraps the result in the error of a new e..." alt="" coords="5,5,217,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,82,201,63,203,58,268,77"/>
+<area shape="rect" id="Node000003" href="$a02919.html#a11ed043c4be30ccc44da5958fa6f452d" title="Calls func with the contained error (const rvalue) if present, and wraps the result in the error of a..." alt="" coords="5,84,217,139"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="252,114,218,114,218,109,252,109"/>
+<area shape="rect" id="Node000004" href="$a02919.html#ac707baafd9a8c73e638279ece145c924" title="Calls func with the contained error (const lvalue) if present, and wraps the result in the error of a..." alt="" coords="5,163,217,217"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="268,145,203,165,201,160,267,140"/>
+</map>

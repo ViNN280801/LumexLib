@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::can_transform&lt; Fn, ErrorType, ErrorArg, Args &gt;" name="lumex::core::expected::result::detail::can_transform&lt; Fn, ErrorType, ErrorArg, Args &gt;">
+<area shape="rect" id="Node000001" title="transform: Fn (Args...) may be called (its result may be any type, void included),..." alt="" coords="265,13,461,82"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,217,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,45,265,45,265,50,231,50"/>
+</map>

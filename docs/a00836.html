@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_serial_workflow.cpp File Reference</title>
+<title>LumexLib: LumexDwcasBackendMsvc.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,57 +103,65 @@ $(function(){initNavTree('a00836.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_serial_workflow.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexDwcasBackendMsvc.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01169_source.html">lumex/applied/serial/LumexSerialPort</a>&quot;</code><br />
+
+<p>The MSVC backend: the <code>_InterlockedCompareExchange128</code> intrinsic.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00830_source.html">lumex/core/atomic/dwcas/LumexDwcasConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00845_source.html">lumex/core/atomic/dwcas/LumexDwcasFromCas.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00824_source.html">lumex/core/atomic/dwcas/LumexDwcasValue.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_serial_workflow.cpp:</div>
+Include dependency graph for LumexDwcasBackendMsvc.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00837.png" border="0" usemap="#aexample__serial__workflow_8cpp" alt=""/></div>
+<div class="center"><img src="a00837.png" border="0" usemap="#aLumexDwcasBackendMsvc_8hpp" alt=""/></div>
+<map name="aLumexDwcasBackendMsvc_8hpp" id="aLumexDwcasBackendMsvc_8hpp">
+<area shape="rect" title="The MSVC backend: the _InterlockedCompareExchange128 intrinsic." alt="" coords="133,5,360,31"/>
+<area shape="rect" title=" " alt="" coords="5,262,72,287"/>
+<area shape="poly" title=" " alt="" coords="193,33,148,52,125,65,106,81,90,99,77,120,58,166,48,211,43,248,37,248,42,210,53,164,72,118,86,96,102,77,122,60,145,47,191,28"/>
+<area shape="rect" href="a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="96,255,285,295"/>
+<area shape="poly" title=" " alt="" coords="222,33,187,54,146,84,107,122,90,144,77,168,71,187,77,205,96,228,120,246,117,250,92,232,72,208,66,187,72,166,86,141,103,119,142,80,184,50,219,29"/>
+<area shape="rect" href="a00845.html" title="cas_operations_t: load, store and exchange of a 128&#45;bit word built on a backend that only has a compa..." alt="" coords="216,79,413,119"/>
+<area shape="poly" title=" " alt="" coords="260,29,291,66,287,70,256,33"/>
+<area shape="rect" href="a00824.html" title="dwcas_value_t, the 16&#45;byte value of a dwcas_word: two 64&#45;bit halves." alt="" coords="87,167,276,207"/>
+<area shape="poly" title=" " alt="" coords="237,33,221,54,206,80,194,117,187,154,182,153,189,116,202,78,217,51,233,29"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="373,255,587,295"/>
+<area shape="poly" title=" " alt="" coords="330,28,381,46,405,60,427,77,443,94,455,115,472,159,480,203,483,241,478,241,475,204,467,160,450,117,438,98,424,81,403,64,379,51,329,33"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="544,79,733,119"/>
+<area shape="poly" title=" " alt="" coords="309,28,531,74,530,79,308,33"/>
+<area shape="poly" title=" " alt="" coords="216,120,132,142,99,155,76,169,63,186,53,207,43,249,38,247,48,205,58,184,73,165,96,150,131,136,215,114"/>
+<area shape="poly" title=" " alt="" coords="317,119,310,162,302,186,290,208,270,231,246,249,243,245,266,227,286,205,297,184,305,161,311,118"/>
+<area shape="rect" title=" " alt="" coords="351,174,417,199"/>
+<area shape="poly" title=" " alt="" coords="333,117,368,162,363,165,329,121"/>
+<area shape="poly" title=" " alt="" coords="285,121,225,161,222,156,282,117"/>
+<area shape="poly" title=" " alt="" coords="363,116,399,137,431,165,456,202,473,240,468,242,452,205,427,168,396,142,361,121"/>
+<area shape="poly" title=" " alt="" coords="150,209,73,257,70,252,147,205"/>
+<area shape="poly" title=" " alt="" coords="186,207,190,240,184,241,181,207"/>
+<area shape="poly" title=" " alt="" coords="250,204,400,248,398,253,249,209"/>
+<area shape="poly" title=" " alt="" coords="622,121,509,246,505,242,618,117"/>
+<area shape="rect" title=" " alt="" coords="594,174,686,199"/>
+<area shape="poly" title=" " alt="" coords="642,119,642,160,637,160,636,119"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="710,167,965,207"/>
+<area shape="poly" title=" " alt="" coords="685,116,780,159,778,163,683,121"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00836_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00836_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
 </div>
-
-</div>
-</div>
-</div><!-- contents -->
+<p><a href="a00836_source.html">Go to the source code of this file.</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The MSVC backend: the <code>_InterlockedCompareExchange128</code> intrinsic. </p>
+<p><code>_InterlockedCompareExchange128 (destination, exchange_high, exchange_low, comparand_result)</code> compares the 16 bytes at <code>destination</code> (16-byte aligned) with the pair at <code>comparand_result</code> (low half first), stores the exchange pair on equality and returns nonzero, and otherwise overwrites <code>comparand_result</code> with the value it found and returns zero. The pair at <code>comparand_result</code> is overwritten on success as well (with the value that was compared, which is the expected one), so this wrapper copies the expected value into a local array and returns that array as the observed value. The intrinsic is a full barrier on x64.</p>
+<p>Status: this wrapper is compile-checked and run against a stand-in of the intrinsic on Linux (the tests substitute an <code>&lt;intrin.h&gt;</code> whose function is implemented with <code>lock cmpxchg16b</code>, so the order of the arguments, the halves and the result are exercised), but it has not been run with the real compiler. Run the dwcas suites on MSVC before relying on it.</p>
+<p>This file is only meant to be included when <code>LUMEX_DWCAS_BACKEND</code> is <code>LUMEX_DWCAS_BACKEND_MSVC</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_17cee27abc1c3519861fbb803c40e452.html">serial</a></li><li class="navelem"><a class="el" href="a00836.html">example_serial_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_0ef745ae619b7a2bc428b08d4c1ccc55.html">dwcas</a></li><li class="navelem"><a class="el" href="a00836.html">LumexDwcasBackendMsvc.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

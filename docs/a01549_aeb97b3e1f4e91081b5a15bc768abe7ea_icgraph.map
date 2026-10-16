@@ -1,0 +1,5 @@
+<map id="lumex::core::math::ops::rmse" name="lumex::core::math::ops::rmse">
+<area shape="rect" id="Node000001" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="108,5,257,45"/>
+<area shape="rect" id="Node000002" href="$a00359.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>

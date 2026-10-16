@@ -1,0 +1,8 @@
+<map id="lumex::xml::xpath::memory::XPathAllocatorCapture" name="lumex::xml::xpath::memory::XPathAllocatorCapture">
+<area shape="rect" id="Node000001" title="A RAII helper to capture and restore XPathAllocator state." alt="" coords="5,225,236,265"/>
+<area shape="rect" id="Node000002" href="$a05259.html" title="Allocator for XPath&#45;related data structures." alt="" coords="31,108,210,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,162,123,225,118,225,118,162"/>
+<area shape="rect" id="Node000003" href="$a05267.html" title="Represents a block of memory used by XPathAllocator." alt="" coords="15,5,226,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="123,59,123,108,118,108,118,59"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="241,17,253,25,245,33,227,36,226,31,242,28,247,26,238,21"/>
+</map>

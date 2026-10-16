@@ -1,0 +1,10 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,69,60,94"/>
+<area shape="rect" id="Node000002" href="$a01587.html#abc5424148a3c93bf6ba9afb098dd93a6" title="Reverses the byte order of an integral value (byte swap / endianness reverse), C++11 form." alt="" coords="113,29,258,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,73,98,65,99,70,61,78"/>
+<area shape="rect" id="Node000004" href="$a01587.html#aeb7c418e8ef454625d57b7b098e59e04" title="Tells whether the machine stores the least significant byte of an integer first (little endian)." alt="" coords="108,93,263,133"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="61,85,95,92,94,97,60,90"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="156,29,154,20,159,11,169,5,185,3,204,6,214,13,210,17,202,11,185,8,171,10,163,14,160,21,161,28"/>
+<area shape="rect" id="Node000003" href="$a01588.html#aff30e8b7fe645acb0375d1c7f82f0c1b" title="One&#45;byte value: nothing to reverse." alt="" coords="311,29,489,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="258,47,297,47,297,52,258,52"/>
+</map>

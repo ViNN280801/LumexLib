@@ -1,0 +1,9 @@
+<map id="lumex::core::string_view::view::lumex_basic_string_view::ends_with" name="lumex::core::string_view::view::lumex_basic_string_view::ends_with">
+<area shape="rect" id="Node000001" title="The view ends with suffix." alt="" coords="289,84,476,139"/>
+<area shape="rect" id="Node000002" href="$a04167.html#a1c8322b4f34036ac8221590b6a96bae0" title=" " alt="" coords="5,5,241,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="278,82,213,63,215,58,280,77"/>
+<area shape="rect" id="Node000003" href="$a01461.html#a338216e93dcc183c0b94bcc5f00f0579" title="The file name of a /proc/&lt;pid&gt;/exe link target." alt="" coords="32,84,215,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="275,114,215,114,215,109,275,109"/>
+<area shape="rect" id="Node000004" href="$a00290.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="96,163,151,188"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="277,144,242,153,152,172,151,167,241,147,275,139"/>
+</map>

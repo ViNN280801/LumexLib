@@ -1,0 +1,9 @@
+<map id="lumex::core::smart_ptr::detail::split_counter::load" name="lumex::core::smart_ptr::detail::split_counter::load">
+<area shape="rect" id="Node000001" title="The whole word (relaxed)." alt="" coords="257,84,403,139"/>
+<area shape="rect" id="Node000002" href="$a03835.html#afefb386ca4174decc1d26fa641e66dd1" title="True while the group is alive (count or ext not zero)." alt="" coords="35,5,180,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,84,179,61,181,56,245,78"/>
+<area shape="rect" id="Node000003" href="$a03835.html#a652c235d72bfdcce63355ed33b1b948b" title="The number of owners." alt="" coords="31,84,183,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,114,183,114,183,109,244,109"/>
+<area shape="rect" id="Node000004" href="$a03835.html#a03546f0def22a064cd871e11e0c304e9" title="The number of owners once no owner is in transit." alt="" coords="5,163,209,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="245,144,186,165,184,160,244,139"/>
+</map>

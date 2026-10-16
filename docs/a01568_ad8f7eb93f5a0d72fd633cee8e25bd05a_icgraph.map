@@ -1,0 +1,5 @@
+<map id="lumex::core::string::text::to_case_insensitive" name="lumex::core::string::text::to_case_insensitive">
+<area shape="rect" id="Node000001" title="Lowercases str in place (ASCII std::tolower), so later comparisons are case&#45;insensitive." alt="" coords="245,5,437,45"/>
+<area shape="rect" id="Node000002" href="$a01568.html#af2d09555090576cec202f328fb11ddbf" title="Copy&#45;out overload of to_case_insensitive(std::string &amp;, bool)." alt="" coords="5,5,197,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,28,198,28,198,23,231,23"/>
+</map>

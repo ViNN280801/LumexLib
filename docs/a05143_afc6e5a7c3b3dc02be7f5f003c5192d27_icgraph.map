@@ -1,0 +1,5 @@
+<map id="lumex::xml::node::XmlNode::prepend_attribute" name="lumex::xml::node::XmlNode::prepend_attribute">
+<area shape="rect" id="Node000001" title="Prepends a new attribute with the specified name to the current node." alt="" coords="257,5,461,45"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a59b7df394f724928ed2edcd4feba7e3b" title="Prepends a new attribute with the specified name (string_view_t) to the current node." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,28,210,28,210,23,244,23"/>
+</map>

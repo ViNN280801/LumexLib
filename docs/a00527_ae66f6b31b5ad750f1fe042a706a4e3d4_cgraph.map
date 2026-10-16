@@ -1,0 +1,29 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,133,60,159"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a7e295dbaae2f46319c7256b862a1cd5e" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="391,29,583,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="41,131,69,104,107,80,175,59,245,47,315,43,378,44,378,49,315,48,246,52,176,64,109,84,72,108,45,135"/>
+<area shape="rect" id="Node000007" href="$a02599.html#ae1e4636e5db30cf90f502531630beaf6" title="Static convenience method to check if an environment variable exists." alt="" coords="376,239,599,279"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="45,157,72,184,109,208,171,230,237,245,302,254,362,258,362,263,301,259,236,250,170,235,107,212,69,188,42,161"/>
+<area shape="rect" id="Node000009" href="$a01518.html#a133dac804e9421baedf88340deadad5b" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="123,94,313,134"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="60,139,109,130,109,135,60,144"/>
+<area shape="rect" id="Node000010" href="$a02599.html#a147e76e1acf58c05b4b6250838707cfd" title="Static convenience method to set an environment variable." alt="" coords="108,158,328,198"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="60,148,95,154,94,159,60,153"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="647,29,868,84"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="584,54,633,54,633,59,584,59"/>
+<area shape="rect" id="Node000006" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="661,132,853,187"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="560,82,673,125,672,130,558,87"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="916,159,1117,213"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="843,82,869,93,920,120,967,149,964,153,918,125,867,98,841,87"/>
+<area shape="rect" id="Node000005" href="$a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="921,29,1113,84"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="868,54,907,54,907,59,868,59"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="966,29,967,19,976,10,992,5,1017,3,1046,6,1062,14,1060,18,1044,11,1017,8,993,10,978,15,972,21,972,29"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="707,132,707,122,716,113,733,107,757,105,786,108,803,116,801,121,785,114,757,111,734,113,719,117,712,124,712,132"/>
+<area shape="poly" id="edge11_Node000007_Node000006" title=" " alt="" coords="558,237,598,223,683,190,685,194,600,229,559,242"/>
+<area shape="rect" id="Node000008" href="$a02599.html#a76c02af78e00455a7dbf64c2cbed44d2" title="Checks if a specified environment variable exists." alt="" coords="656,221,859,276"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="599,252,642,251,642,256,599,258"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="858,222,902,211,903,216,859,227"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="312,91,377,77,378,83,313,97"/>
+<area shape="poly" id="edge15_Node000010_Node000006" title=" " alt="" coords="305,155,376,145,446,140,517,140,648,146,648,151,517,145,446,146,376,150,306,161"/>
+<area shape="rect" id="Node000011" href="$a02599.html#a0d3ace028691e241336dbfc711ccb793" title="Sets or updates the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="387,160,587,215"/>
+<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="328,179,374,181,373,186,328,184"/>
+</map>

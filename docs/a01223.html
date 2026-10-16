@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSpan File Reference</title>
+<title>LumexLib: LumexSettingsJSON.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,35 +103,122 @@ $(function(){initNavTree('a01223.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexSpan File Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexSettingsJSON.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Span module: a C++11 implementation of the C++20 <code>std::span</code>.  
+<p><code><a class="el" href="a01208.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> over JSON files, parsed and written with the vendored nlohmann/json.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00530_source.html">view/LumexSpanTraits.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00521_source.html">view/LumexSpan.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01208_source.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01124_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSpan:</div>
+Include dependency graph for LumexSettingsJSON.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01224.png" border="0" usemap="#a_lumex_span" alt=""/></div>
+<div class="center"><img src="a01224.png" border="0" usemap="#aLumexSettingsJSON_8hpp" alt=""/></div>
+<map name="aLumexSettingsJSON_8hpp" id="aLumexSettingsJSON_8hpp">
+<area shape="rect" title="ILumexSettings over JSON files, parsed and written with the vendored nlohmann/json." alt="" coords="128,5,307,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,174,187,199"/>
+<area shape="poly" title=" " alt="" coords="161,33,92,54,64,67,48,80,41,100,46,122,58,143,74,162,70,166,54,146,41,124,36,100,43,77,61,62,90,49,159,28"/>
+<area shape="rect" title=" " alt="" coords="58,86,182,111"/>
+<area shape="poly" title=" " alt="" coords="203,33,148,79,145,74,200,29"/>
+<area shape="rect" href="a01208.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="206,79,423,119"/>
+<area shape="poly" title=" " alt="" coords="235,29,281,68,278,72,231,33"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="447,79,702,119"/>
+<area shape="poly" title=" " alt="" coords="274,28,473,73,472,78,273,33"/>
+<area shape="poly" title=" " alt="" coords="265,121,141,171,139,166,264,116"/>
+<area shape="rect" title=" " alt="" coords="285,174,344,199"/>
+<area shape="poly" title=" " alt="" coords="317,119,317,160,312,160,312,119"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="468,167,681,207"/>
+<area shape="poly" title=" " alt="" coords="577,119,577,153,572,153,572,119"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01225.png" border="0" usemap="#a_lumex_spandep" alt=""/></div>
+<div class="center"><img src="a01225.png" border="0" usemap="#aLumexSettingsJSON_8hppdep" alt=""/></div>
+<map name="aLumexSettingsJSON_8hppdep" id="aLumexSettingsJSON_8hppdep">
+<area shape="rect" title="ILumexSettings over JSON files, parsed and written with the vendored nlohmann/json." alt="" coords="411,5,589,31"/>
+<area shape="rect" href="a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="354,79,473,104"/>
+<area shape="poly" title=" " alt="" coords="476,42,431,80,427,76,473,38"/>
+<area shape="rect" href="a01226.html" title=" " alt="" coords="497,79,676,104"/>
+<area shape="poly" title=" " alt="" coords="527,38,573,76,569,80,524,42"/>
+<area shape="rect" href="a00320.html" title=" " alt="" coords="5,152,171,177"/>
+<area shape="poly" title=" " alt="" coords="345,110,145,154,144,149,343,104"/>
+<area shape="rect" href="a00314.html" title=" " alt="" coords="195,152,394,177"/>
+<area shape="poly" title=" " alt="" coords="383,114,317,154,314,150,380,109"/>
+<area shape="rect" href="a00311.html" title=" " alt="" coords="418,152,649,177"/>
+<area shape="poly" title=" " alt="" coords="447,109,514,150,511,154,445,114"/>
+<area shape="rect" href="a00317.html" title=" " alt="" coords="673,152,871,177"/>
+<area shape="poly" title=" " alt="" coords="487,104,710,149,709,155,486,109"/>
+</map>
 </div>
 </div>
 <p><a href="a01223_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01915.html">lumex::applied::settings::json::LumexSettingsJSON</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lightweight, C++11-based JSON settings manager.  <a href="a01915.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01477.html">lumex::applied::settings</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01484.html">lumex::applied::settings::json</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01485.html">lumex::applied::settings::json::Constants</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:aa919e4a6d6da15cb570e487987991a1b" id="r_aa919e4a6d6da15cb570e487987991a1b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa919e4a6d6da15cb570e487987991a1b">LumexSettingsJSON</a> = <a class="el" href="a01915.html">lumex::applied::settings::json::LumexSettingsJSON</a></td></tr>
+<tr class="separator:aa919e4a6d6da15cb570e487987991a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a85ddcbba7f37a295f7363f2df6742f26" id="r_a85ddcbba7f37a295f7363f2df6742f26"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01485.html#a85ddcbba7f37a295f7363f2df6742f26">lumex::applied::settings::json::Constants::constJSON_FILE_EXTENSION</a> = &quot;.json&quot;</td></tr>
+<tr class="memdesc:a85ddcbba7f37a295f7363f2df6742f26"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON file extension.  <br /></td></tr>
+<tr class="separator:a85ddcbba7f37a295f7363f2df6742f26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76a304e5fd1c4e9ef840f837995448f9" id="r_a76a304e5fd1c4e9ef840f837995448f9"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01485.html#a76a304e5fd1c4e9ef840f837995448f9">lumex::applied::settings::json::Constants::constSETTINGS_ROOT_NAME</a> = &quot;settings&quot;</td></tr>
+<tr class="memdesc:a76a304e5fd1c4e9ef840f837995448f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit section for a flat root object.  <br /></td></tr>
+<tr class="separator:a76a304e5fd1c4e9ef840f837995448f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Span module: a C++11 implementation of the C++20 <code>std::span</code>. </p>
-<p>Link <code>lumex::span</code> (header-only). Works from C++11. The umbrella includes <code><a class="el" href="a00521.html" title="C++11 implementation of std::span (C++20): a non-owning view of a contiguous sequence of objects.">view/LumexSpan.hpp</a></code> (the class <code>span</code>, <code>as_bytes</code>, <code>as_writable_bytes</code>, the deduction guides) and <code><a class="el" href="a00530.html" title="Constants, the byte type and the traits behind span.">view/LumexSpanTraits.hpp</a></code> (<code>dynamic_extent</code>, <code>byte</code>, <code>is_contiguous_iterator</code>, with the iterator classes of the standard libraries recognized below C++20 by <code><a class="el" href="a00527.html" title="is_contiguous_iterator for the iterator classes of the standard libraries below C++20.">view/LumexSpanStdIterators.hpp</a></code>). The preconditions of the members are checked when the macro <code>LUMEX_SPAN_CHECKS</code> is 1 (the default without <code>NDEBUG</code>, <code><a class="el" href="a00524.html" title="The switch of the precondition checks of span: the macro LUMEX_SPAN_CHECKS and the macro LUMEX_SPAN_C...">view/LumexSpanChecks.hpp</a></code>); a program that has the checks on needs nothing to link (the failure handler is inline). The names are in <code><a class="el" href="a01388.html">lumex::core::span::view</a></code> and are not injected into the global namespace. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p><code><a class="el" href="a01208.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> over JSON files, parsed and written with the vendored nlohmann/json. </p>
+<p>Declares <code><a class="el" href="#aa919e4a6d6da15cb570e487987991a1b">LumexSettingsJSON</a></code> and its <code>Constants</code> (the <code>.json</code> extension and <code>settings</code>, the implicit section of the scalar members of the root object). A section is a JSON object and a key is one of its scalar members. Without <code>LUMEX_SETTINGS_WITH_JSON</code> (the nlohmann/json header absent at build time) the class still compiles, but loading, saving and validation fail. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="aa919e4a6d6da15cb570e487987991a1b" name="aa919e4a6d6da15cb570e487987991a1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa919e4a6d6da15cb570e487987991a1b">&#9670;&#160;</a></span>LumexSettingsJSON</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#aa919e4a6d6da15cb570e487987991a1b">LumexSettingsJSON</a> = <a class="el" href="a01915.html">lumex::applied::settings::json::LumexSettingsJSON</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_0b9d47685954fb3c729094f86312e9aa.html">span</a></li><li class="navelem"><a class="el" href="a01223.html">LumexSpan</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_f6d123197ece58710e69565e1c75f341.html">json</a></li><li class="navelem"><a class="el" href="a01223.html">LumexSettingsJSON.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

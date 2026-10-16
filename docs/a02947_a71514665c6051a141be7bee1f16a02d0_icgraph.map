@@ -1,0 +1,11 @@
+<map id="lumex::core::filesystem::fs::path::filename" name="lumex::core::filesystem::fs::path::filename">
+<area shape="rect" id="Node000001" title="Extracts the filename component from the path." alt="" coords="499,79,673,119"/>
+<area shape="rect" id="Node000002" href="$a00260.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="324,5,379,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="528,76,450,46,378,27,380,21,451,41,530,71"/>
+<area shape="rect" id="Node000003" href="$a02947.html#a90baa8257986391e3df401792866c489" title="Replaces the filename component of the path_arg with a new C&#45;style string filename." alt="" coords="252,79,451,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="485,102,451,102,451,97,485,97"/>
+<area shape="rect" id="Node000004" href="$a02947.html#a294e8f78fbfa56d5acc6aca85afaaee5" title="Replaces the filename component of the path_arg with a new std::string filename." alt="" coords="5,109,204,149"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="502,125,451,134,322,141,204,139,204,133,322,136,450,129,501,120"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="391,68,377,61,351,58,329,60,315,65,310,71,313,78,308,80,305,70,312,60,328,55,351,53,379,56,394,63"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="239,115,205,119,204,114,238,110"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="Validator.hpp" name="Validator.hpp">
+<area shape="rect" id="Node000001" title="Base64 syntax check: the validator class of the lumex::base64 library." alt="" coords="141,5,248,31"/>
+<area shape="rect" id="Node000002" href="$a00971.html" title=" " alt="" coords="10,79,113,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,40,86,81,83,76,158,35"/>
+<area shape="rect" id="Node000003" href="$a01355.html" title="Base64 module: encoding, decoding and syntax checks of Base64 text." alt="" coords="137,79,252,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,44,197,78,192,78,192,44"/>
+<area shape="rect" id="Node000006" href="$a00959.html" title=" " alt="" coords="276,79,383,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="231,35,307,76,304,81,229,40"/>
+<area shape="rect" id="Node000004" href="$a00404.html" title=" " alt="" coords="5,152,165,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="166,114,106,154,103,150,163,109"/>
+<area shape="rect" id="Node000005" href="$a00401.html" title=" " alt="" coords="190,152,415,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="227,110,285,150,282,154,224,114"/>
+</map>

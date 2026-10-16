@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathVariableSet.hpp Source File</title>
+<title>LumexLib: LumexHazardPointerObjBase.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('a01145_source.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">XPathVariableSet.hpp</div></div>
+  <div class="headertitle"><div class="title">LumexHazardPointerObjBase.hpp</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="a01145.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
@@ -145,171 +145,354 @@ $(function(){initNavTree('a01145_source.html',''); initResizable(true); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment"> * SOFTWARE.</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#ifndef LUMEX_XML_XPATH_VARIABLE_XPATH_VARIABLE_SET_HPP</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#define LUMEX_XML_XPATH_VARIABLE_XPATH_VARIABLE_SET_HPP</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#pragma clang diagnostic push</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wpadded&quot;</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage&quot;</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#if __has_warning(&quot;-Wunsafe-buffer-usage-in-libc-call&quot;)</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunsafe-buffer-usage-in-libc-call&quot;</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wswitch-enum&quot;</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#if __has_warning(&quot;-Wnrvo&quot;)</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wnrvo&quot;</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wheader-hygiene&quot;</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wused-but-marked-unused&quot;</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-var-template&quot;</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wdeprecated-redundant-constexpr-static-def&quot;</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#if __has_warning(&quot;-Wvariadic-macro-arguments-omitted&quot;)</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wvariadic-macro-arguments-omitted&quot;</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wunused-result&quot;</span></div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wextra-semi-stmt&quot;</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexpansion-to-defined&quot;</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wexit-time-destructors&quot;</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wundefined-func-template&quot;</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wfloat-equal&quot;</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#include &quot;<a class="code" href="a00932.html">lumex/LumexExport.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#include &lt;array&gt;</span></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#include &quot;<a class="code" href="a00617.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">#include &quot;<a class="code" href="a00623.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#include &quot;<a class="code" href="a01091.html">lumex/xml/xpath/node/XPathNodeSet.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#include &quot;<a class="code" href="a01139.html">XPathVariable.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01248.html">lumex</a> <span class="comment">// NOLINT(modernize-concat-nested-namespaces)</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>{</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01492.html">xml</a></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>{</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01501.html">xpath</a></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>{</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01503.html">variable</a></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>{</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keyword">using namespace </span>lumex::xml::xpath::node;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span></div>
-<div class="foldopen" id="foldopen00122" data-start="{" data-end="};">
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="a05170.html">  122</a></span><span class="keyword">class </span><a class="code hl_define" href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> <span class="comment">// NOLINT(cppcoreguidelines-special-member-functions)</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>{</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  <a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> ();</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  <a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">~XPathVariableSet</a> ();</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span></div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>  <a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> (<a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> <span class="keyword">const</span> &amp;rhs);</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  <a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> &amp;operator= (<a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> <span class="keyword">const</span> &amp;rhs);</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span></div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>  <a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> (<a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> &amp;&amp;rhs) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>  <a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> &amp;operator= (<a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> &amp;&amp;rhs) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>;</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>  <a class="code hl_class" href="a05150.html">XPathVariable</a> *<a class="code hl_function" href="a05170.html#ab37f5ebf628ae27ccad60b41c7286ef9">add</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *name, <a class="code hl_enumeration" href="a01508.html#ab45611a4d899512e32aa65eb48a191a5">xpath_value_type</a> type);</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a05170.html#a3073c328483b4fa675a412b1783a1406">set</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *name, <span class="keywordtype">bool</span> value);</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a05170.html#a3073c328483b4fa675a412b1783a1406">set</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *name, <span class="keywordtype">double</span> value);</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a05170.html#a3073c328483b4fa675a412b1783a1406">set</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *name, <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *value);</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="a05170.html#a3073c328483b4fa675a412b1783a1406">set</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *name, <a class="code hl_class" href="a05110.html">XPathNodeSet</a> <span class="keyword">const</span> &amp;value);</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span></div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>  <a class="code hl_class" href="a05150.html">XPathVariable</a> *<a class="code hl_function" href="a05170.html#aa79b3b1721b77504917e6524e1180be6">get</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *name);</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  <a class="code hl_class" href="a05150.html">XPathVariable</a> <span class="keyword">const</span> *<a class="code hl_function" href="a05170.html#aa79b3b1721b77504917e6524e1180be6">get</a> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *name) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  <a class="code hl_define" href="a00617.html#a294baa8c8ad4246130f881cd1da7cbe1">LUMEX_CONST_NUM</a> std::size_t _max_variables = 64;</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>  std::array&lt;XPathVariable *, _max_variables&gt; _data{};</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span></div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>  <span class="keywordtype">void</span> _assign (<a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> <span class="keyword">const</span> &amp;rhs);</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>  <span class="keywordtype">void</span> _swap (<a class="code hl_function" href="a05170.html#af939ee414181e11b1463f350dde692d3">XPathVariableSet</a> &amp;rhs);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#ifndef LUMEX_CORE_HAZARD_POINTER_BASE_HAZARD_POINTER_OBJ_BASE_HPP</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#define LUMEX_CORE_HAZARD_POINTER_BASE_HAZARD_POINTER_OBJ_BASE_HPP</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#include &quot;<a class="code" href="a01148.html">lumex/core/hazard_pointer/engine/LumexHazardPointerEngine.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#include &quot;<a class="code" href="a01127.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01425.html">lumex</a></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>{</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01488.html">core</a></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>{</div>
+<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="a01544.html">   76</a></span><span class="keyword">namespace </span><a class="code hl_class" href="a03299.html">hazard_pointer</a></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>{</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T, <span class="keyword">class</span> D = std::default_delete&lt;T&gt;&gt;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">class </span><a class="code hl_class" href="a03219.html">hazard_pointer_obj_base</a>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keyword">class </span><a class="code hl_class" href="a03299.html">hazard_pointer</a>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="a01545.html">   83</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="a01545.html">detail</a></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>{</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment">// The record a retired object carries, as a member (not a base class) so the</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment">// names of node_t do not leak into the protected class. Copying or moving an</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="comment">// object makes a fresh, not retired node; assigning one object to another</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment">// changes nothing. The class is standard-layout with the node as its only</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="comment">// member, so the two pointers convert by reinterpret_cast.</span></div>
+<div class="foldopen" id="foldopen00090" data-start="{" data-end="};">
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="a03223.html">   90</a></span><span class="keyword">class </span><a class="code hl_function" href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">node_base</a></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>{</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">   93</a></span>  <a class="code hl_function" href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">node_base</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> { <a class="code hl_function" href="a01546.html#a038376618af78c36c697023858a07862">engine::init_node</a> (node_); }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="a03223.html#adebfaca3dd1d7811a3e54663ddc77395">   94</a></span>  <a class="code hl_function" href="a03223.html#adebfaca3dd1d7811a3e54663ddc77395">node_base</a> (<a class="code hl_function" href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">node_base</a> <span class="keyword">const</span> &amp;) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> { <a class="code hl_function" href="a01546.html#a038376618af78c36c697023858a07862">engine::init_node</a> (node_); }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="a03223.html#a1e7e5e1bd0c97ede2e0500478d1694fc">   95</a></span>  <a class="code hl_function" href="a03223.html#a1e7e5e1bd0c97ede2e0500478d1694fc">node_base</a> (<a class="code hl_function" href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">node_base</a> &amp;&amp;) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a> { <a class="code hl_function" href="a01546.html#a038376618af78c36c697023858a07862">engine::init_node</a> (node_); }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  <a class="code hl_class" href="a03223.html">node_base</a> &amp;</div>
+<div class="foldopen" id="foldopen00097" data-start="{" data-end="}">
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="a03223.html#a713744fe5d96bc4460e3ec08fb88026d">   97</a></span>  <a class="code hl_function" href="a03223.html#a713744fe5d96bc4460e3ec08fb88026d">operator= </a>(<a class="code hl_function" href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">node_base</a> <span class="keyword">const</span> &amp;) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  }</div>
+</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  <a class="code hl_class" href="a03223.html">node_base</a> &amp;</div>
+<div class="foldopen" id="foldopen00102" data-start="{" data-end="}">
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="a03223.html#aa45ba2689d3a18af94e711ab6f686334">  102</a></span>  <a class="code hl_function" href="a03223.html#a713744fe5d96bc4460e3ec08fb88026d">operator= </a>(<a class="code hl_function" href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">node_base</a> &amp;&amp;) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  }</div>
+</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="a03223.html#acb2befa95874741139c59e700829c6a8">  106</a></span>  <a class="code hl_function" href="a03223.html#acb2befa95874741139c59e700829c6a8">~node_base</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  <a class="code hl_struct" href="a03291.html">engine::node_t</a> *</div>
+<div class="foldopen" id="foldopen00109" data-start="{" data-end="}">
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">  109</a></span>  <a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> &amp;node_;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  }</div>
+</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  <a class="code hl_struct" href="a03291.html">engine::node_t</a> <span class="keyword">const</span> *</div>
+<div class="foldopen" id="foldopen00115" data-start="{" data-end="}">
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="a03223.html#a8eb2ed32b47f558b07124d6c8f133e54">  115</a></span>  <a class="code hl_function" href="a03223.html#a8eb2ed32b47f558b07124d6c8f133e54">node</a> () const <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">return</span> &amp;node_;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  }</div>
+</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  <span class="keyword">static</span> <a class="code hl_class" href="a03223.html">node_base</a> *</div>
+<div class="foldopen" id="foldopen00121" data-start="{" data-end="}">
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="a03223.html#a1a23a3bddef868071c9882a3066d00eb">  121</a></span>  <a class="code hl_function" href="a03223.html#a1a23a3bddef868071c9882a3066d00eb">from_node</a> (<a class="code hl_struct" href="a03291.html">engine::node_t</a> *<a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a>) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code hl_function" href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">node_base</a> *<span class="keyword">&gt;</span> (<a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a>);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  }</div>
+</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  <a class="code hl_struct" href="a03291.html">engine::node_t</a> node_;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>};</div>
+</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="foldopen" id="foldopen00130" data-start="{" data-end="};">
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="a03227.html">  130</a></span><span class="keyword">template</span> &lt;<span class="keyword">class</span> D&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a03227.html">is_final_class</a></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>{</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#if defined(__GNUC__) || defined(__clang__) || defined(_MSC_VER)</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> <span class="keyword">const</span> <a class="code hl_variable" href="a03227.html#a7a3e669316e592ff9a5a8fc0e4ea643f">value</a> = __is_final (D);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="a03227.html#a7a3e669316e592ff9a5a8fc0e4ea643f">  135</a></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> <span class="keyword">const</span> <a class="code hl_variable" href="a03227.html#a7a3e669316e592ff9a5a8fc0e4ea643f">value</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>};</div>
+</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="comment">// Holds the deleter; an empty deleter takes no space.</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>template &lt;class D, bool = std::is_empty&lt;D&gt;::value &amp;&amp; !<a class="code hl_variable" href="a03227.html#a7a3e669316e592ff9a5a8fc0e4ea643f">is_final_class&lt;D&gt;::value</a>&gt;</div>
+<div class="foldopen" id="foldopen00141" data-start="{" data-end="};">
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="a03231.html">  141</a></span><span class="keyword">class </span><a class="code hl_function" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">deleter_storage</a></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>{</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">  144</a></span>  <a class="code hl_function" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">deleter_storage</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="a03231.html#a28820bd7032324deb084eb2f5741d7c2">  145</a></span>  <a class="code hl_function" href="a03231.html#a28820bd7032324deb084eb2f5741d7c2">deleter_storage</a> (<a class="code hl_function" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">deleter_storage</a> <span class="keyword">const</span> &amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="a03231.html#ac90fa0c3afa03f3ddd3ea71036e57059">  146</a></span>  <a class="code hl_function" href="a03231.html#ac90fa0c3afa03f3ddd3ea71036e57059">deleter_storage</a> (<a class="code hl_function" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">deleter_storage</a> &amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="a03231.html#ad46894e689a100dd9cbda99018c2d511">  147</a></span>  <a class="code hl_function" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">deleter_storage</a> &amp;<a class="code hl_function" href="a03231.html#ad46894e689a100dd9cbda99018c2d511">operator= </a>(<a class="code hl_function" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">deleter_storage</a> <span class="keyword">const</span> &amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="a03231.html#a5ae1f235b1f3539f82a22d5826ca77bb">  148</a></span>  <a class="code hl_function" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">deleter_storage</a> &amp;<a class="code hl_function" href="a03231.html#ad46894e689a100dd9cbda99018c2d511">operator= </a>(<a class="code hl_function" href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">deleter_storage</a> &amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="a03231.html#afd4aff8c4b79207d50de50d5cd2a62c3">  149</a></span>  <a class="code hl_function" href="a03231.html#afd4aff8c4b79207d50de50d5cd2a62c3">~deleter_storage</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  D &amp;</div>
+<div class="foldopen" id="foldopen00152" data-start="{" data-end="}">
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="a03231.html#af0a24598730ac3f5b3191465ebf3bc05">  152</a></span>  <a class="code hl_function" href="a03231.html#af0a24598730ac3f5b3191465ebf3bc05">get_deleter</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>  {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">return</span> deleter_;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>  }</div>
+</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  D deleter_;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>};</div>
+</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="foldopen" id="foldopen00161" data-start="{" data-end="};">
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="a03235.html">  161</a></span><span class="keyword">template</span> &lt;<span class="keyword">class</span> D&gt; <span class="keyword">class </span><a class="code hl_function" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">deleter_storage</a>&lt;D, true&gt; : <span class="keyword">private</span> D</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>{</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">  164</a></span>  <a class="code hl_function" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">deleter_storage</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="a03235.html#ab4c77dc28fa47a2bfadd1ddd359e9125">  165</a></span>  <a class="code hl_function" href="a03235.html#ab4c77dc28fa47a2bfadd1ddd359e9125">deleter_storage</a> (<a class="code hl_function" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">deleter_storage</a> <span class="keyword">const</span> &amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="a03235.html#a7e59eeb38e5e03cfbfd5688aca070933">  166</a></span>  <a class="code hl_function" href="a03235.html#a7e59eeb38e5e03cfbfd5688aca070933">deleter_storage</a> (<a class="code hl_function" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">deleter_storage</a> &amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="a03235.html#ad33fc19889ef303e8b31ae685534cc5e">  167</a></span>  <a class="code hl_function" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">deleter_storage</a> &amp;<a class="code hl_function" href="a03231.html#ad46894e689a100dd9cbda99018c2d511">operator= </a>(<a class="code hl_function" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">deleter_storage</a> <span class="keyword">const</span> &amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="a03235.html#a5c39da47f19e74cf64dcc1d1ff8d46b2">  168</a></span>  <a class="code hl_function" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">deleter_storage</a> &amp;<a class="code hl_function" href="a03231.html#ad46894e689a100dd9cbda99018c2d511">operator= </a>(<a class="code hl_function" href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">deleter_storage</a> &amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="a03235.html#aacd958631ae5a19db8d0e45ed7083b3d">  169</a></span>  <a class="code hl_function" href="a03235.html#aacd958631ae5a19db8d0e45ed7083b3d">~deleter_storage</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>  D &amp;</div>
+<div class="foldopen" id="foldopen00172" data-start="{" data-end="}">
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="a03235.html#a1ebf84c20dd84d8218ceec7c31eccda6">  172</a></span>  <a class="code hl_function" href="a03235.html#a1ebf84c20dd84d8218ceec7c31eccda6">get_deleter</a> () <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>  {</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  }</div>
+</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>};</div>
+</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="foldopen" id="foldopen00178" data-start="{" data-end="};">
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="a03239.html">  178</a></span><span class="keyword">template</span> &lt;<span class="keyword">class</span>...&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a03239.html">make_void</a></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>{</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="a03239.html#a74869fef025067fd41e7b14f6aceafd4">  180</a></span>  <span class="keyword">typedef</span> <span class="keywordtype">void</span> <a class="code hl_typedef" href="a03239.html#a74869fef025067fd41e7b14f6aceafd4">type</a>;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>};</div>
+</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="foldopen" id="foldopen00183" data-start="{" data-end="};">
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="a03243.html">  183</a></span><span class="keyword">template</span> &lt;<span class="keyword">class</span> U, <span class="keyword">class</span> D&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a03243.html">base_pair</a></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>{</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="a03243.html#a71bbc21628fbad3ba4e5193a79d4f351">  185</a></span>  <span class="keyword">typedef</span> U <a class="code hl_typedef" href="a03243.html#a71bbc21628fbad3ba4e5193a79d4f351">object_type</a>;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="a03243.html#af3affa6576483dbfb37fbd88417708f8">  186</a></span>  <span class="keyword">typedef</span> D <a class="code hl_typedef" href="a03243.html#af3affa6576483dbfb37fbd88417708f8">deleter_type</a>;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>};</div>
+</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="comment">// Declared, never defined. The first overload deduces the object and deleter</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="comment">// type of the only base of the form hazard_pointer_obj_base&lt;U, D&gt; (a second</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="comment">// one or none make the deduction fail) and takes part only when T is that U,</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="comment">// the base is accessible (is_convertible honors access, which a call in</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="comment">// decltype does not on every compiler: a private or protected base must make</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="comment">// the overload vanish, not the program ill-formed) and the conversion back</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="comment">// from the base exists (a virtual base has none).</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="keyword">template</span> &lt;<span class="keyword">class </span>T, <span class="keyword">class </span>U, <span class="keyword">class </span>D,</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>          <span class="keyword">class </span>= <span class="keyword">decltype</span> (<span class="keyword">static_cast&lt;</span>U *<span class="keyword">&gt;</span> (</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>              std::declval&lt;hazard_pointer_obj_base&lt;U, D&gt; *&gt; ()))&gt;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="keyword">typename</span> std::enable_if&lt;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    std::is_same&lt;U, <span class="keyword">typename</span> std::remove_cv&lt;T&gt;::type&gt;::value</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        &amp;&amp; std::is_convertible&lt;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            T *, <a class="code hl_class" href="a03219.html">hazard_pointer_obj_base&lt;U, D&gt;</a> <span class="keyword">const</span> <span class="keyword">volatile</span> *&gt;::value,</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    std::true_type&gt;<a class="code hl_class" href="a03247.html">::type</a></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="a01545.html#a5f21c406cdccab59f13bd1802e4f0abc">  204</a></span><a class="code hl_function" href="a01545.html#a5f21c406cdccab59f13bd1802e4f0abc">protectable_probe</a> (<a class="code hl_class" href="a03219.html">hazard_pointer_obj_base&lt;U, D&gt;</a> <span class="keyword">const</span> <span class="keyword">volatile</span> *);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="a01545.html#a7381e2c77b78d528b935bf76c9ad5eda">  206</a></span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; std::false_type <a class="code hl_function" href="a01545.html#a5f21c406cdccab59f13bd1802e4f0abc">protectable_probe</a> (...);</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="comment">// The object and deleter type of the base of a protectable T.</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> U, <span class="keyword">class</span> D&gt;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno"><a class="line" href="a01545.html#ad1723f153b1668a5b639e74a168ea7b1">  210</a></span><a class="code hl_struct" href="a03243.html">base_pair&lt;U, D&gt;</a> <a class="code hl_function" href="a01545.html#ad1723f153b1668a5b639e74a168ea7b1">base_of_probe</a> (<a class="code hl_class" href="a03219.html">hazard_pointer_obj_base&lt;U, D&gt;</a> <span class="keyword">const</span> <span class="keyword">volatile</span> *);</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="keyword">template</span> &lt;<span class="keyword">class </span>T,</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>          <span class="keywordtype">bool</span> = <span class="keyword">decltype</span> (<a class="code hl_function" href="a01545.html#a5f21c406cdccab59f13bd1802e4f0abc">protectable_probe&lt;T&gt;</a> (std::declval&lt;T *&gt; ()))::value&gt;</div>
+<div class="foldopen" id="foldopen00214" data-start="{" data-end="};">
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno"><a class="line" href="a03247.html">  214</a></span><span class="keyword">struct</span> <a class="code hl_struct" href="a03247.html">protectable_base</a></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>{</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="a03247.html#a32572ebcdd2c4ed6a803fc540970e18b">  216</a></span>  <span class="keyword">typedef</span> <span class="keywordtype">void</span> <a class="code hl_typedef" href="a03247.html#a32572ebcdd2c4ed6a803fc540970e18b">type</a>;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>};</div>
+</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
+<div class="foldopen" id="foldopen00219" data-start="{" data-end="};">
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="a03251.html">  219</a></span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">struct </span><a class="code hl_struct" href="a03247.html">protectable_base&lt;T, true&gt;</a></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>{</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="a03251.html#a23cff40994f089f95428b6188b5a3cac">  221</a></span>  <span class="keyword">typedef</span> <span class="keyword">decltype</span> (<a class="code hl_function" href="a01545.html#ad1723f153b1668a5b639e74a168ea7b1">base_of_probe</a> (std::declval&lt;T *&gt; ())) <a class="code hl_typedef" href="a03251.html#a23cff40994f089f95428b6188b5a3cac">pair_type</a>;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>  <span class="keyword">typedef</span> <a class="code hl_class" href="a03219.html">hazard_pointer_obj_base</a>&lt;<span class="keyword">typename</span> pair_type::object_type,</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                                  <span class="keyword">typename</span> pair_type::deleter_type&gt;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno"><a class="line" href="a03251.html#a8de6a8ba34ae5224627cfcd96b3965e3">  224</a></span>      <a class="code hl_typedef" href="a03251.html#a8de6a8ba34ae5224627cfcd96b3965e3">type</a>;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>};</div>
+</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
+<div class="foldopen" id="foldopen00228" data-start="{" data-end="};">
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno"><a class="line" href="a03255.html">  228</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a03255.html">protectable_impl</a></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    : std::integral_constant&lt;bool, decltype (protectable_probe&lt;T&gt; (</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                                       std::declval&lt;T *&gt; ()))::value&gt;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>{</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno"><a class="line" href="a03255.html#aeef6b42362dbc3538c35be7e8a7ce272">  232</a></span>  <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code hl_typedef" href="a03247.html#a32572ebcdd2c4ed6a803fc540970e18b">protectable_base&lt;T&gt;::type</a> <a class="code hl_typedef" href="a03255.html#aeef6b42362dbc3538c35be7e8a7ce272">base_type</a>;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>};</div>
+</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>} <span class="comment">// namespace detail</span></div>
+</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
+<div class="foldopen" id="foldopen00241" data-start="{" data-end="};">
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="a03259.html">  241</a></span><span class="keyword">struct </span><a class="code hl_struct" href="a03259.html">is_hazard_protectable</a></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    : std::integral_constant&lt;bool, detail::protectable_impl&lt;T&gt;::value&gt;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>{</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>};</div>
+</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T, <span class="keyword">class</span> D&gt;</div>
+<div class="foldopen" id="foldopen00254" data-start="{" data-end="};">
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="a03219.html">  254</a></span><span class="keyword">class </span><a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> : <span class="keyword">private</span> <a class="code hl_class" href="a03223.html">detail::node_base</a>,</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>                                <span class="keyword">private</span> <a class="code hl_class" href="a03231.html">detail::deleter_storage</a>&lt;D&gt;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>{</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>  <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00267" data-start="{" data-end="}">
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno"><a class="line" href="a03219.html#a01a483099cff9e1e30e7e2b105bf9bef">  267</a></span>  <a class="code hl_function" href="a03219.html#a01a483099cff9e1e30e7e2b105bf9bef">retire</a> (D d = D ()) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>  {</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keyword">static_assert</span> (<a class="code hl_struct" href="a03259.html">is_hazard_protectable&lt;T&gt;::value</a>,</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>                   <span class="stringliteral">&quot;T must have exactly one public, non-virtual base &quot;</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>                   <span class="stringliteral">&quot;hazard_pointer_obj_base&lt;T, D&gt;&quot;</span>);</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    this-&gt;<a class="code hl_function" href="a03231.html#af0a24598730ac3f5b3191465ebf3bc05">get_deleter</a> () = std::move (d);</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    this-&gt;<a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a> ()-&gt;<a class="code hl_variable" href="a03291.html#a20b42787657f93d9e970b6a750ec1a20">reclaim</a> = &amp;hazard_pointer_obj_base::reclaim_node;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <a class="code hl_function" href="a01546.html#a00dc8121273d3c16dd945d846cddcc26">engine::retire_node</a> (this-&gt;<a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a> ());</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>  }</div>
+</div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span></div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>  <a class="code hl_class" href="a05150.html">XPathVariable</a> *_find (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *name) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span></div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> _clone (<a class="code hl_class" href="a05150.html">XPathVariable</a> *var, <a class="code hl_class" href="a05150.html">XPathVariable</a> **out_result);</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> _destroy (<a class="code hl_class" href="a05150.html">XPathVariable</a> *var);</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>};</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>  <span class="keywordtype">bool</span></div>
+<div class="foldopen" id="foldopen00294" data-start="{" data-end="}">
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="a03219.html#ae679dcd412ee0d0837c4431f69d7a588">  294</a></span>  <a class="code hl_function" href="a03219.html#ae679dcd412ee0d0837c4431f69d7a588">reclaim_or_retire</a> (D d = D ()) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>  {</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    <span class="keyword">static_assert</span> (<a class="code hl_struct" href="a03259.html">is_hazard_protectable&lt;T&gt;::value</a>,</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>                   <span class="stringliteral">&quot;T must have exactly one public, non-virtual base &quot;</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>                   <span class="stringliteral">&quot;hazard_pointer_obj_base&lt;T, D&gt;&quot;</span>);</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    this-&gt;<a class="code hl_function" href="a03231.html#af0a24598730ac3f5b3191465ebf3bc05">get_deleter</a> () = std::move (d);</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    this-&gt;<a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a> ()-&gt;<a class="code hl_variable" href="a03291.html#a20b42787657f93d9e970b6a750ec1a20">reclaim</a> = &amp;hazard_pointer_obj_base::reclaim_node;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="a01546.html#aa34d79801d811e8ea1a75ae4fd3376dd">engine::reclaim_or_retire</a> (this-&gt;<a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a> ());</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>  }</div>
 </div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span></div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span><span class="keyword">inline</span> <span class="keywordtype">bool</span></div>
-<div class="foldopen" id="foldopen00331" data-start="{" data-end="}">
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno"><a class="line" href="a01503.html#a2e440c9a87ed869364c0351b332f26e4">  331</a></span><a class="code hl_function" href="a01503.html#a2e440c9a87ed869364c0351b332f26e4">get_variable_scratch</a> (</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> (&amp;buffer)[32], <span class="comment">// NOLINT(cppcoreguidelines-avoid-c-arrays,</span></div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>                          <span class="comment">// modernize-avoid-c-arrays)</span></div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <a class="code hl_class" href="a05170.html">XPathVariableSet</a> *set, <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *begin, <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> <span class="keyword">const</span> *end,</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    <a class="code hl_class" href="a05150.html">XPathVariable</a> **out_result)</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>{</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>  <span class="keyword">auto</span> length = <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span> (end - begin);</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>  <a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *scratch</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>      = buffer; <span class="comment">// NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)</span></div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>  <span class="keywordflow">if</span> (length &gt;= <span class="keyword">sizeof</span> (buffer) / <span class="keyword">sizeof</span> (buffer[0]))</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    {</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>      <span class="comment">// need to make dummy on-heap copy</span></div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>      scratch</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>          = <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *<span class="keyword">&gt;</span> ( <span class="comment">// NOLINT(cppcoreguidelines-owning-memory)</span></div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>              malloc (</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                  (length + 1)</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                  * <span class="keyword">sizeof</span> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a>))); <span class="comment">// NOLINT(cppcoreguidelines-no-malloc)</span></div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>      <span class="keywordflow">if</span> (scratch == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    }</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>  <span class="comment">// copy string to zero-terminated buffer and perform lookup</span></div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>  memcpy (scratch, begin, length * <span class="keyword">sizeof</span> (<a class="code hl_typedef" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a>));</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>  scratch[length] = 0;</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>  *out_result = set-&gt;<a class="code hl_function" href="a05170.html#aa79b3b1721b77504917e6524e1180be6">get</a> (scratch);</div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>  <span class="comment">// free dummy buffer</span></div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>  <span class="keywordflow">if</span> (scratch</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>      != buffer) <span class="comment">// NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)</span></div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>    free (scratch); <span class="comment">// NOLINT(cppcoreguidelines-owning-memory,</span></div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>                    <span class="comment">// cppcoreguidelines-no-malloc)</span></div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span> </div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>}</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno"><a class="line" href="a03219.html#a136647b97f2460618ff187de67eecc11">  305</a></span>  <a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="a03219.html#af9e4857b70c07cd3b553d818d1dfc1f4">  306</a></span>  <a class="code hl_function" href="a03219.html#af9e4857b70c07cd3b553d818d1dfc1f4">hazard_pointer_obj_base</a> (<a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> <span class="keyword">const</span> &amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno"><a class="line" href="a03219.html#a5949158f56e9c7e8a43a6eb87f165191">  307</a></span>  <a class="code hl_function" href="a03219.html#a5949158f56e9c7e8a43a6eb87f165191">hazard_pointer_obj_base</a> (<a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> &amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="a03219.html#afab2d96bfa6a6e798ffec56c393bdf31">  308</a></span>  <a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> &amp;<a class="code hl_function" href="a03219.html#afab2d96bfa6a6e798ffec56c393bdf31">operator= </a>(<a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> <span class="keyword">const</span> &amp;)</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>      = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno"><a class="line" href="a03219.html#a45d562c56b70540c3ff5499cdfbf71db">  310</a></span>  <a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> &amp;<a class="code hl_function" href="a03219.html#afab2d96bfa6a6e798ffec56c393bdf31">operator= </a>(<a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> &amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno"><a class="line" href="a03219.html#a8c7d5539c2d18c3a4b4b716cd4c6984f">  311</a></span>  <a class="code hl_function" href="a03219.html#a8c7d5539c2d18c3a4b4b716cd4c6984f">~hazard_pointer_obj_base</a> () = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="a03219.html#aa0fdcffd1caede141695db49602504ff">  314</a></span>  <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_friend" href="a03219.html#aa0fdcffd1caede141695db49602504ff">hazard_pointer</a>;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>  <span class="comment">// The address a hazard slot holds for this object.</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> <span class="keyword">const</span> *</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>  node_address (<a class="code hl_function" href="a03219.html#a136647b97f2460618ff187de67eecc11">hazard_pointer_obj_base</a> <span class="keyword">const</span> *self) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>  {</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    <span class="keywordflow">return</span> self-&gt;node ();</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>  }</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span> </div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>  <span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>  reclaim_node (<a class="code hl_struct" href="a03291.html">engine::node_t</a> *<a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a>) <a class="code hl_define" href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>  {</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <a class="code hl_class" href="a03219.html">hazard_pointer_obj_base</a> *self = <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="a03219.html">hazard_pointer_obj_base</a> *<span class="keyword">&gt;</span> (</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>        <a class="code hl_function" href="a03223.html#a1a23a3bddef868071c9882a3066d00eb">detail::node_base::from_node</a> (<a class="code hl_function" href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">node</a>));</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    T *<span class="keywordtype">object</span> = <span class="keyword">static_cast&lt;</span>T *<span class="keyword">&gt;</span> (self);</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    self-&gt;get_deleter () (object);</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>  }</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>};</div>
 </div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>} <span class="comment">// namespace variable</span></div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>} <span class="comment">// namespace xpath</span></div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>} <span class="comment">// namespace xml</span></div>
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>} <span class="comment">// namespace lumex</span></div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span><span class="preprocessor">#pragma clang diagnostic pop</span></div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span> </div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_XML_XPATH_VARIABLE_XPATH_VARIABLE_SET_HPP</span></div>
-<div class="ttc" id="aa00617_html"><div class="ttname"><a href="a00617.html">LumexConstantMacros.hpp</a></div><div class="ttdoc">Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,...</div></div>
-<div class="ttc" id="aa00617_html_a294baa8c8ad4246130f881cd1da7cbe1"><div class="ttname"><a href="a00617.html#a294baa8c8ad4246130f881cd1da7cbe1">LUMEX_CONST_NUM</a></div><div class="ttdeci">#define LUMEX_CONST_NUM</div><div class="ttdef"><b>Definition</b> LumexConstantMacros.hpp:171</div></div>
-<div class="ttc" id="aa00623_html"><div class="ttname"><a href="a00623.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
-<div class="ttc" id="aa00623_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
-<div class="ttc" id="aa00932_html"><div class="ttname"><a href="a00932.html">LumexExport.hpp</a></div><div class="ttdoc">Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,...</div></div>
-<div class="ttc" id="aa00932_html_aa948a1b1a43f6a954fd4c15b01ae4207"><div class="ttname"><a href="a00932.html#aa948a1b1a43f6a954fd4c15b01ae4207">LUMEX_API</a></div><div class="ttdeci">#define LUMEX_API</div><div class="ttdef"><b>Definition</b> LumexExport.hpp:96</div></div>
-<div class="ttc" id="aa01091_html"><div class="ttname"><a href="a01091.html">XPathNodeSet.hpp</a></div><div class="ttdoc">XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while...</div></div>
-<div class="ttc" id="aa01139_html"><div class="ttname"><a href="a01139.html">XPathVariable.hpp</a></div><div class="ttdoc">XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea...</div></div>
-<div class="ttc" id="aa01248_html"><div class="ttname"><a href="a01248.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
-<div class="ttc" id="aa01492_html"><div class="ttname"><a href="a01492.html">lumex::xml</a></div><div class="ttdef"><b>Definition</b> XmlAttribute.hpp:102</div></div>
-<div class="ttc" id="aa01501_html"><div class="ttname"><a href="a01501.html">lumex::xml::xpath</a></div><div class="ttdef"><b>Definition</b> XmlNode.hpp:137</div></div>
-<div class="ttc" id="aa01503_html"><div class="ttname"><a href="a01503.html">lumex::xml::xpath::variable</a></div><div class="ttdef"><b>Definition</b> XmlNode.hpp:144</div></div>
-<div class="ttc" id="aa01503_html_a2e440c9a87ed869364c0351b332f26e4"><div class="ttname"><a href="a01503.html#a2e440c9a87ed869364c0351b332f26e4">lumex::xml::xpath::variable::get_variable_scratch</a></div><div class="ttdeci">bool get_variable_scratch(char_t(&amp;buffer)[32], XPathVariableSet *set, char_t const *begin, char_t const *end, XPathVariable **out_result)</div><div class="ttdoc">Utility function to retrieve a variable from a set, handling scratch buffer for name.</div><div class="ttdef"><b>Definition</b> XPathVariableSet.hpp:331</div></div>
-<div class="ttc" id="aa01508_html_ab45611a4d899512e32aa65eb48a191a5"><div class="ttname"><a href="a01508.html#ab45611a4d899512e32aa65eb48a191a5">lumex::xml::types::Types::xpath_value_type</a></div><div class="ttdeci">xpath_value_type</div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:175</div></div>
-<div class="ttc" id="aa01508_html_af5c331138f914028e4642100ea3e7a24"><div class="ttname"><a href="a01508.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a></div><div class="ttdeci">char char_t</div><div class="ttdef"><b>Definition</b> XmlTypes.hpp:77</div></div>
-<div class="ttc" id="aa05110_html"><div class="ttname"><a href="a05110.html">lumex::xml::xpath::node::XPathNodeSet</a></div><div class="ttdoc">Represents a collection of XPath nodes, managing their order and uniqueness.</div><div class="ttdef"><b>Definition</b> XPathNodeSet.hpp:127</div></div>
-<div class="ttc" id="aa05150_html"><div class="ttname"><a href="a05150.html">lumex::xml::xpath::variable::XPathVariable</a></div><div class="ttdoc">Base class for all XPath variables.</div><div class="ttdef"><b>Definition</b> XPathVariable.hpp:124</div></div>
-<div class="ttc" id="aa05170_html"><div class="ttname"><a href="a05170.html">lumex::xml::xpath::variable::XPathVariableSet</a></div><div class="ttdoc">Manages a collection of XPath variables.</div><div class="ttdef"><b>Definition</b> XPathVariableSet.hpp:124</div></div>
-<div class="ttc" id="aa05170_html_a3073c328483b4fa675a412b1783a1406"><div class="ttname"><a href="a05170.html#a3073c328483b4fa675a412b1783a1406">lumex::xml::xpath::variable::XPathVariableSet::set</a></div><div class="ttdeci">bool set(char_t const *name, bool value)</div><div class="ttdoc">Sets the boolean value of an existing variable.</div><div class="ttdef"><b>Definition</b> XPathVariableSet.cpp:244</div></div>
-<div class="ttc" id="aa05170_html_aa79b3b1721b77504917e6524e1180be6"><div class="ttname"><a href="a05170.html#aa79b3b1721b77504917e6524e1180be6">lumex::xml::xpath::variable::XPathVariableSet::get</a></div><div class="ttdeci">XPathVariable * get(char_t const *name)</div><div class="ttdoc">Gets a mutable pointer to an existing variable by name.</div><div class="ttdef"><b>Definition</b> XPathVariableSet.cpp:278</div></div>
-<div class="ttc" id="aa05170_html_ab37f5ebf628ae27ccad60b41c7286ef9"><div class="ttname"><a href="a05170.html#ab37f5ebf628ae27ccad60b41c7286ef9">lumex::xml::xpath::variable::XPathVariableSet::add</a></div><div class="ttdeci">XPathVariable * add(char_t const *name, xpath_value_type type)</div><div class="ttdoc">Adds a new variable to the set or retrieves an existing one.</div><div class="ttdef"><b>Definition</b> XPathVariableSet.cpp:213</div></div>
-<div class="ttc" id="aa05170_html_af939ee414181e11b1463f350dde692d3"><div class="ttname"><a href="a05170.html#af939ee414181e11b1463f350dde692d3">lumex::xml::xpath::variable::XPathVariableSet::XPathVariableSet</a></div><div class="ttdeci">XPathVariableSet()</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition</b> XPathVariableSet.cpp:51</div></div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>} <span class="comment">// namespace hazard_pointer</span></div>
+</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>} <span class="comment">// namespace core</span></div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>} <span class="comment">// namespace lumex</span></div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span> </div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span><span class="preprocessor">#endif </span><span class="comment">// !LUMEX_CORE_HAZARD_POINTER_BASE_HAZARD_POINTER_OBJ_BASE_HPP</span></div>
+<div class="ttc" id="aa01127_html"><div class="ttname"><a href="a01127.html">LumexKeywords.hpp</a></div><div class="ttdoc">Macros that spell C++ keywords and specifiers only where the compiled standard supports them,...</div></div>
+<div class="ttc" id="aa01127_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a01127.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
+<div class="ttc" id="aa01148_html"><div class="ttname"><a href="a01148.html">LumexHazardPointerEngine.hpp</a></div><div class="ttdoc">The engine behind hazard_pointer: hazard slots, retired nodes, the entry points compiled into lumex::...</div></div>
+<div class="ttc" id="aa01425_html"><div class="ttname"><a href="a01425.html">lumex</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:68</div></div>
+<div class="ttc" id="aa01488_html"><div class="ttname"><a href="a01488.html">lumex::core</a></div><div class="ttdef"><b>Definition</b> LumexAtomicSharedPtr.hpp:116</div></div>
+<div class="ttc" id="aa01545_html"><div class="ttname"><a href="a01545.html">lumex::core::hazard_pointer::detail</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:84</div></div>
+<div class="ttc" id="aa01545_html_a5f21c406cdccab59f13bd1802e4f0abc"><div class="ttname"><a href="a01545.html#a5f21c406cdccab59f13bd1802e4f0abc">lumex::core::hazard_pointer::detail::protectable_probe</a></div><div class="ttdeci">std::enable_if&lt; std::is_same&lt; U, typenamestd::remove_cv&lt; T &gt;::type &gt;::value &amp;&amp;std::is_convertible&lt; T *, hazard_pointer_obj_base&lt; U, D &gt;constvolatile * &gt;::value, std::true_type &gt;::type protectable_probe(hazard_pointer_obj_base&lt; U, D &gt; const volatile *)</div></div>
+<div class="ttc" id="aa01545_html_ad1723f153b1668a5b639e74a168ea7b1"><div class="ttname"><a href="a01545.html#ad1723f153b1668a5b639e74a168ea7b1">lumex::core::hazard_pointer::detail::base_of_probe</a></div><div class="ttdeci">base_pair&lt; U, D &gt; base_of_probe(hazard_pointer_obj_base&lt; U, D &gt; const volatile *)</div></div>
+<div class="ttc" id="aa01546_html_a00dc8121273d3c16dd945d846cddcc26"><div class="ttname"><a href="a01546.html#a00dc8121273d3c16dd945d846cddcc26">lumex::core::hazard_pointer::engine::retire_node</a></div><div class="ttdeci">void retire_node(node_t *node) noexcept</div><div class="ttdoc">Hands a retired object to the domain.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerDomain.cpp:849</div></div>
+<div class="ttc" id="aa01546_html_a038376618af78c36c697023858a07862"><div class="ttname"><a href="a01546.html#a038376618af78c36c697023858a07862">lumex::core::hazard_pointer::engine::init_node</a></div><div class="ttdeci">void init_node(node_t &amp;node) noexcept</div><div class="ttdoc">Marks a node as not retired.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerEngine.hpp:214</div></div>
+<div class="ttc" id="aa01546_html_aa34d79801d811e8ea1a75ae4fd3376dd"><div class="ttname"><a href="a01546.html#aa34d79801d811e8ea1a75ae4fd3376dd">lumex::core::hazard_pointer::engine::reclaim_or_retire</a></div><div class="ttdeci">bool reclaim_or_retire(node_t *node) noexcept</div><div class="ttdoc">Reclaims an object now when no slot names it, otherwise retires it.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerDomain.cpp:876</div></div>
+<div class="ttc" id="aa03219_html"><div class="ttname"><a href="a03219.html">lumex::core::hazard_pointer::hazard_pointer_obj_base</a></div><div class="ttdoc">Base class of objects that hazard pointers protect ([saferecl.hp.base]).</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:256</div></div>
+<div class="ttc" id="aa03219_html_a01a483099cff9e1e30e7e2b105bf9bef"><div class="ttname"><a href="a03219.html#a01a483099cff9e1e30e7e2b105bf9bef">lumex::core::hazard_pointer::hazard_pointer_obj_base::retire</a></div><div class="ttdeci">void retire(D d=D()) noexcept</div><div class="ttdoc">Retires the object: it is reclaimed with d once no hazard pointer protects it.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:267</div></div>
+<div class="ttc" id="aa03219_html_a136647b97f2460618ff187de67eecc11"><div class="ttname"><a href="a03219.html#a136647b97f2460618ff187de67eecc11">lumex::core::hazard_pointer::hazard_pointer_obj_base::hazard_pointer_obj_base</a></div><div class="ttdeci">hazard_pointer_obj_base()=default</div></div>
+<div class="ttc" id="aa03219_html_a5949158f56e9c7e8a43a6eb87f165191"><div class="ttname"><a href="a03219.html#a5949158f56e9c7e8a43a6eb87f165191">lumex::core::hazard_pointer::hazard_pointer_obj_base::hazard_pointer_obj_base</a></div><div class="ttdeci">hazard_pointer_obj_base(hazard_pointer_obj_base &amp;&amp;)=default</div></div>
+<div class="ttc" id="aa03219_html_a8c7d5539c2d18c3a4b4b716cd4c6984f"><div class="ttname"><a href="a03219.html#a8c7d5539c2d18c3a4b4b716cd4c6984f">lumex::core::hazard_pointer::hazard_pointer_obj_base::~hazard_pointer_obj_base</a></div><div class="ttdeci">~hazard_pointer_obj_base()=default</div></div>
+<div class="ttc" id="aa03219_html_aa0fdcffd1caede141695db49602504ff"><div class="ttname"><a href="a03219.html#aa0fdcffd1caede141695db49602504ff">lumex::core::hazard_pointer::hazard_pointer_obj_base&lt; typename pair_type::object_type, typename pair_type::deleter_type &gt;::hazard_pointer</a></div><div class="ttdeci">friend class hazard_pointer</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:314</div></div>
+<div class="ttc" id="aa03219_html_ae679dcd412ee0d0837c4431f69d7a588"><div class="ttname"><a href="a03219.html#ae679dcd412ee0d0837c4431f69d7a588">lumex::core::hazard_pointer::hazard_pointer_obj_base::reclaim_or_retire</a></div><div class="ttdeci">bool reclaim_or_retire(D d=D()) noexcept</div><div class="ttdoc">Extension: reclaims the object now when no hazard pointer protects it, otherwise retires it.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:294</div></div>
+<div class="ttc" id="aa03219_html_af9e4857b70c07cd3b553d818d1dfc1f4"><div class="ttname"><a href="a03219.html#af9e4857b70c07cd3b553d818d1dfc1f4">lumex::core::hazard_pointer::hazard_pointer_obj_base::hazard_pointer_obj_base</a></div><div class="ttdeci">hazard_pointer_obj_base(hazard_pointer_obj_base const &amp;)=default</div></div>
+<div class="ttc" id="aa03219_html_afab2d96bfa6a6e798ffec56c393bdf31"><div class="ttname"><a href="a03219.html#afab2d96bfa6a6e798ffec56c393bdf31">lumex::core::hazard_pointer::hazard_pointer_obj_base::operator=</a></div><div class="ttdeci">hazard_pointer_obj_base &amp; operator=(hazard_pointer_obj_base const &amp;)=default</div></div>
+<div class="ttc" id="aa03223_html"><div class="ttname"><a href="a03223.html">lumex::core::hazard_pointer::detail::node_base</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:91</div></div>
+<div class="ttc" id="aa03223_html_a1a23a3bddef868071c9882a3066d00eb"><div class="ttname"><a href="a03223.html#a1a23a3bddef868071c9882a3066d00eb">lumex::core::hazard_pointer::detail::node_base::from_node</a></div><div class="ttdeci">static node_base * from_node(engine::node_t *node) noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:121</div></div>
+<div class="ttc" id="aa03223_html_a1e7e5e1bd0c97ede2e0500478d1694fc"><div class="ttname"><a href="a03223.html#a1e7e5e1bd0c97ede2e0500478d1694fc">lumex::core::hazard_pointer::detail::node_base::node_base</a></div><div class="ttdeci">node_base(node_base &amp;&amp;) noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:95</div></div>
+<div class="ttc" id="aa03223_html_a40ac58d4e106c7f3a6da8fc75d9ef305"><div class="ttname"><a href="a03223.html#a40ac58d4e106c7f3a6da8fc75d9ef305">lumex::core::hazard_pointer::detail::node_base::node</a></div><div class="ttdeci">engine::node_t * node() noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:109</div></div>
+<div class="ttc" id="aa03223_html_a6cdf5f125a8ebb4b072f769fbd77dcd1"><div class="ttname"><a href="a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1">lumex::core::hazard_pointer::detail::node_base::node_base</a></div><div class="ttdeci">node_base() noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:93</div></div>
+<div class="ttc" id="aa03223_html_a713744fe5d96bc4460e3ec08fb88026d"><div class="ttname"><a href="a03223.html#a713744fe5d96bc4460e3ec08fb88026d">lumex::core::hazard_pointer::detail::node_base::operator=</a></div><div class="ttdeci">node_base &amp; operator=(node_base const &amp;) noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:97</div></div>
+<div class="ttc" id="aa03223_html_a8eb2ed32b47f558b07124d6c8f133e54"><div class="ttname"><a href="a03223.html#a8eb2ed32b47f558b07124d6c8f133e54">lumex::core::hazard_pointer::detail::node_base::node</a></div><div class="ttdeci">engine::node_t const * node() const noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:115</div></div>
+<div class="ttc" id="aa03223_html_acb2befa95874741139c59e700829c6a8"><div class="ttname"><a href="a03223.html#acb2befa95874741139c59e700829c6a8">lumex::core::hazard_pointer::detail::node_base::~node_base</a></div><div class="ttdeci">~node_base()=default</div></div>
+<div class="ttc" id="aa03223_html_adebfaca3dd1d7811a3e54663ddc77395"><div class="ttname"><a href="a03223.html#adebfaca3dd1d7811a3e54663ddc77395">lumex::core::hazard_pointer::detail::node_base::node_base</a></div><div class="ttdeci">node_base(node_base const &amp;) noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:94</div></div>
+<div class="ttc" id="aa03227_html"><div class="ttname"><a href="a03227.html">lumex::core::hazard_pointer::detail::is_final_class</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:131</div></div>
+<div class="ttc" id="aa03227_html_a7a3e669316e592ff9a5a8fc0e4ea643f"><div class="ttname"><a href="a03227.html#a7a3e669316e592ff9a5a8fc0e4ea643f">lumex::core::hazard_pointer::detail::is_final_class::value</a></div><div class="ttdeci">static bool const value</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:135</div></div>
+<div class="ttc" id="aa03231_html"><div class="ttname"><a href="a03231.html">lumex::core::hazard_pointer::detail::deleter_storage</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:142</div></div>
+<div class="ttc" id="aa03231_html_a28820bd7032324deb084eb2f5741d7c2"><div class="ttname"><a href="a03231.html#a28820bd7032324deb084eb2f5741d7c2">lumex::core::hazard_pointer::detail::deleter_storage::deleter_storage</a></div><div class="ttdeci">deleter_storage(deleter_storage const &amp;)=default</div></div>
+<div class="ttc" id="aa03231_html_ac90fa0c3afa03f3ddd3ea71036e57059"><div class="ttname"><a href="a03231.html#ac90fa0c3afa03f3ddd3ea71036e57059">lumex::core::hazard_pointer::detail::deleter_storage::deleter_storage</a></div><div class="ttdeci">deleter_storage(deleter_storage &amp;&amp;)=default</div></div>
+<div class="ttc" id="aa03231_html_ad46894e689a100dd9cbda99018c2d511"><div class="ttname"><a href="a03231.html#ad46894e689a100dd9cbda99018c2d511">lumex::core::hazard_pointer::detail::deleter_storage::operator=</a></div><div class="ttdeci">deleter_storage &amp; operator=(deleter_storage const &amp;)=default</div></div>
+<div class="ttc" id="aa03231_html_af0a24598730ac3f5b3191465ebf3bc05"><div class="ttname"><a href="a03231.html#af0a24598730ac3f5b3191465ebf3bc05">lumex::core::hazard_pointer::detail::deleter_storage::get_deleter</a></div><div class="ttdeci">D &amp; get_deleter() noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:152</div></div>
+<div class="ttc" id="aa03231_html_afb0d44dbc4fb9e8241d53f029114307c"><div class="ttname"><a href="a03231.html#afb0d44dbc4fb9e8241d53f029114307c">lumex::core::hazard_pointer::detail::deleter_storage::deleter_storage</a></div><div class="ttdeci">deleter_storage()=default</div></div>
+<div class="ttc" id="aa03231_html_afd4aff8c4b79207d50de50d5cd2a62c3"><div class="ttname"><a href="a03231.html#afd4aff8c4b79207d50de50d5cd2a62c3">lumex::core::hazard_pointer::detail::deleter_storage::~deleter_storage</a></div><div class="ttdeci">~deleter_storage()=default</div></div>
+<div class="ttc" id="aa03235_html_a1ebf84c20dd84d8218ceec7c31eccda6"><div class="ttname"><a href="a03235.html#a1ebf84c20dd84d8218ceec7c31eccda6">lumex::core::hazard_pointer::detail::deleter_storage&lt; D, true &gt;::get_deleter</a></div><div class="ttdeci">D &amp; get_deleter() noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:172</div></div>
+<div class="ttc" id="aa03235_html_a7e59eeb38e5e03cfbfd5688aca070933"><div class="ttname"><a href="a03235.html#a7e59eeb38e5e03cfbfd5688aca070933">lumex::core::hazard_pointer::detail::deleter_storage&lt; D, true &gt;::deleter_storage</a></div><div class="ttdeci">deleter_storage(deleter_storage &amp;&amp;)=default</div></div>
+<div class="ttc" id="aa03235_html_aacd958631ae5a19db8d0e45ed7083b3d"><div class="ttname"><a href="a03235.html#aacd958631ae5a19db8d0e45ed7083b3d">lumex::core::hazard_pointer::detail::deleter_storage&lt; D, true &gt;::~deleter_storage</a></div><div class="ttdeci">~deleter_storage()=default</div></div>
+<div class="ttc" id="aa03235_html_aafeadec6c34fb6d2f0cd15d8056087cd"><div class="ttname"><a href="a03235.html#aafeadec6c34fb6d2f0cd15d8056087cd">lumex::core::hazard_pointer::detail::deleter_storage&lt; D, true &gt;::deleter_storage</a></div><div class="ttdeci">deleter_storage()=default</div></div>
+<div class="ttc" id="aa03235_html_ab4c77dc28fa47a2bfadd1ddd359e9125"><div class="ttname"><a href="a03235.html#ab4c77dc28fa47a2bfadd1ddd359e9125">lumex::core::hazard_pointer::detail::deleter_storage&lt; D, true &gt;::deleter_storage</a></div><div class="ttdeci">deleter_storage(deleter_storage const &amp;)=default</div></div>
+<div class="ttc" id="aa03239_html"><div class="ttname"><a href="a03239.html">lumex::core::hazard_pointer::detail::make_void</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:179</div></div>
+<div class="ttc" id="aa03239_html_a74869fef025067fd41e7b14f6aceafd4"><div class="ttname"><a href="a03239.html#a74869fef025067fd41e7b14f6aceafd4">lumex::core::hazard_pointer::detail::make_void::type</a></div><div class="ttdeci">void type</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:180</div></div>
+<div class="ttc" id="aa03243_html"><div class="ttname"><a href="a03243.html">lumex::core::hazard_pointer::detail::base_pair</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:184</div></div>
+<div class="ttc" id="aa03243_html_a71bbc21628fbad3ba4e5193a79d4f351"><div class="ttname"><a href="a03243.html#a71bbc21628fbad3ba4e5193a79d4f351">lumex::core::hazard_pointer::detail::base_pair::object_type</a></div><div class="ttdeci">U object_type</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:185</div></div>
+<div class="ttc" id="aa03243_html_af3affa6576483dbfb37fbd88417708f8"><div class="ttname"><a href="a03243.html#af3affa6576483dbfb37fbd88417708f8">lumex::core::hazard_pointer::detail::base_pair::deleter_type</a></div><div class="ttdeci">D deleter_type</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:186</div></div>
+<div class="ttc" id="aa03247_html"><div class="ttname"><a href="a03247.html">lumex::core::hazard_pointer::detail::type</a></div></div>
+<div class="ttc" id="aa03247_html_a32572ebcdd2c4ed6a803fc540970e18b"><div class="ttname"><a href="a03247.html#a32572ebcdd2c4ed6a803fc540970e18b">lumex::core::hazard_pointer::detail::protectable_base::type</a></div><div class="ttdeci">void type</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:216</div></div>
+<div class="ttc" id="aa03251_html_a23cff40994f089f95428b6188b5a3cac"><div class="ttname"><a href="a03251.html#a23cff40994f089f95428b6188b5a3cac">lumex::core::hazard_pointer::detail::protectable_base&lt; T, true &gt;::pair_type</a></div><div class="ttdeci">decltype(base_of_probe(std::declval&lt; T * &gt;())) pair_type</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:221</div></div>
+<div class="ttc" id="aa03251_html_a8de6a8ba34ae5224627cfcd96b3965e3"><div class="ttname"><a href="a03251.html#a8de6a8ba34ae5224627cfcd96b3965e3">lumex::core::hazard_pointer::detail::protectable_base&lt; T, true &gt;::type</a></div><div class="ttdeci">hazard_pointer_obj_base&lt; typename pair_type::object_type, typename pair_type::deleter_type &gt; type</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:224</div></div>
+<div class="ttc" id="aa03255_html"><div class="ttname"><a href="a03255.html">lumex::core::hazard_pointer::detail::protectable_impl</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:231</div></div>
+<div class="ttc" id="aa03255_html_aeef6b42362dbc3538c35be7e8a7ce272"><div class="ttname"><a href="a03255.html#aeef6b42362dbc3538c35be7e8a7ce272">lumex::core::hazard_pointer::detail::protectable_impl::base_type</a></div><div class="ttdeci">protectable_base&lt; T &gt;::type base_type</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:232</div></div>
+<div class="ttc" id="aa03259_html"><div class="ttname"><a href="a03259.html">lumex::core::hazard_pointer::is_hazard_protectable</a></div><div class="ttdoc">True when T is hazard-protectable ([saferecl.hp.general]).</div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:243</div></div>
+<div class="ttc" id="aa03291_html"><div class="ttname"><a href="a03291.html">lumex::core::hazard_pointer::engine::node_t</a></div><div class="ttdoc">The record a retired object carries: the next node of the retired list and the function that reclaims...</div><div class="ttdef"><b>Definition</b> LumexHazardPointerEngine.hpp:140</div></div>
+<div class="ttc" id="aa03291_html_a20b42787657f93d9e970b6a750ec1a20"><div class="ttname"><a href="a03291.html#a20b42787657f93d9e970b6a750ec1a20">lumex::core::hazard_pointer::engine::node_t::reclaim</a></div><div class="ttdeci">void(* reclaim)(node_t *)</div><div class="ttdef"><b>Definition</b> LumexHazardPointerEngine.hpp:142</div></div>
+<div class="ttc" id="aa03299_html"><div class="ttname"><a href="a03299.html">lumex::core::hazard_pointer::hazard_pointer</a></div><div class="ttdoc">Owner of one hazard slot ([saferecl.hp.holder]).</div><div class="ttdef"><b>Definition</b> LumexHazardPointerHolder.hpp:97</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_fc0ba0971833cb384bf790ca47625916.html">variable</a></li><li class="navelem"><a class="el" href="a01145.html">XPathVariableSet.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_6af0c2de0c279f8479476a3ac4c68aac.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="dir_7a703f72ea5033ec84e2dfc5ad3163bc.html">base</a></li><li class="navelem"><a class="el" href="a01145.html">LumexHazardPointerObjBase.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

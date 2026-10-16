@@ -1,0 +1,27 @@
+<map id="lumex::core::crc::parametric::Detail::reflect" name="lumex::core::crc::parametric::Detail::reflect">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1347,267,1552,307"/>
+<area shape="rect" id="Node000002" href="$a01516.html#a5856886f034656cadd23124196c18d1e" title=" " alt="" coords="1093,130,1299,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1413,261,1360,222,1297,184,1269,172,1271,168,1300,180,1363,217,1416,256"/>
+<area shape="rect" id="Node000003" href="$a01513.html#aa5d24e5342341b52fdda8ca8addd3c05" title="Computes a CRC from explicit RevEng parameters (bit engine, width 1..64)." alt="" coords="1105,195,1287,249"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1358,266,1287,248,1288,243,1359,261"/>
+<area shape="rect" id="Node000008" href="$a01516.html#a6e2e923e3124605b86a90270b60afe11" title=" " alt="" coords="5,329,228,369"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1333,301,1145,315,932,322,650,322,425,329,229,342,228,336,425,323,650,317,932,317,1145,310,1332,296"/>
+<area shape="rect" id="Node000009" href="$a01516.html#a5b9d86f85f329c2cb4692ab0ca52a56c" title=" " alt="" coords="1093,357,1299,397"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1380,315,1254,359,1252,354,1379,309"/>
+<area shape="rect" id="Node000004" href="$a01513.html#afa5241d4011b7522e92d3525103e2b88" title="Appends the least&#45;significant CRC bytes to buffer (LE, first byte = low 8 bits)." alt="" coords="823,5,1041,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1097,189,1091,184,1080,169,1073,155,1067,127,1062,100,1055,86,1044,73,1029,62,1032,58,1047,69,1059,84,1067,98,1072,126,1078,153,1084,167,1095,180,1100,185"/>
+<area shape="rect" id="Node000005" href="$a01513.html#ae84da39375729a1f5bb89a71e8dd8257" title="RevEng&#45;parameter CRC of a span of bytes. Available from C++11, see compute_crc_catalog above for what..." alt="" coords="841,84,1023,139"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="1107,191,1092,184,1068,168,1044,152,1019,141,1021,136,1047,148,1071,164,1095,180,1109,187"/>
+<area shape="rect" id="Node000006" href="$a01513.html#af660164540fe1116f4b5b82c68b5f20e" title="RevEng&#45;parameter CRC of a string (raw bytes, no trailing &#39;\0&#39;). Available from C++11,..." alt="" coords="841,163,1023,217"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="1090,212,1023,204,1024,198,1091,207"/>
+<area shape="rect" id="Node000007" href="$a01513.html#ab9efb7958f8bba112a81c3ad0ec6f296" title="8&#45;bit transport checksum for the current process&#45;global mode." alt="" coords="819,242,1045,282"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="1091,241,1046,247,1045,242,1091,235"/>
+<area shape="rect" id="Node000010" href="$a01516.html#a588f8a318ce846ab78ccd0cb2f9fd85b" title=" " alt="" coords="829,357,1035,397"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="1080,379,1035,379,1035,374,1080,374"/>
+<area shape="rect" id="Node000012" href="$a01516.html#a03c301792e5ead24fcb7daf5c23cf815" title=" " alt="" coords="276,357,481,397"/>
+<area shape="poly" id="edge13_Node000009_Node000012" title=" " alt="" coords="1104,402,1046,411,901,425,787,429,674,425,529,411,457,399,458,394,530,406,674,419,787,424,900,419,1045,406,1103,397"/>
+<area shape="rect" id="Node000011" href="$a01516.html#a36b3b0d2b69030239cfb4c2d0e234f39" title=" " alt="" coords="529,357,771,397"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="816,379,771,379,771,374,816,374"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="516,379,482,379,482,374,516,374"/>
+<area shape="poly" id="edge12_Node000012_Node000008" title=" " alt="" coords="262,367,228,363,229,358,263,362"/>
+</map>

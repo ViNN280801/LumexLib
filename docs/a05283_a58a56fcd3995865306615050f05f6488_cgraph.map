@@ -1,0 +1,64 @@
+<map id="lumex::xml::xpath::node::XPathNode::operator!=" name="lumex::xml::xpath::node::XPathNode::operator!=">
+<area shape="rect" id="Node000001" title="Inequality comparison operator." alt="" coords="5,376,217,416"/>
+<area shape="rect" id="Node000002" href="$a05283.html#a6a939a81fbf7abc8fcdf54770dbd3dde" title="Default constructor; constructs an empty XPath node." alt="" coords="265,376,477,416"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,393,252,393,252,399,217,399"/>
+<area shape="poly" id="edge38_Node000002_Node000002" title=" " alt="" coords="325,376,322,366,329,357,346,351,371,349,400,352,416,359,414,364,399,357,371,355,347,357,332,361,327,367,330,375"/>
+<area shape="rect" id="Node000003" href="$a05283.html#ac344e4ef6ff5cad96438d4c8c9e4eb80" title="Gets the wrapped XmlAttribute if this XPathNode represents an attribute." alt="" coords="525,312,723,352"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="450,373,531,353,532,358,451,379"/>
+<area shape="rect" id="Node000004" href="$a05283.html#aab5f8620b5100f640652c56743a21b7b" title="Gets the wrapped XmlNode if this XPathNode represents an element/document node." alt="" coords="537,376,711,416"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="477,393,523,393,523,399,477,399"/>
+<area shape="rect" id="Node000005" href="$a05283.html#ada86e054e722cee63d01bab662c3f028" title="Gets the parent XmlNode of the wrapped node or attribute." alt="" coords="533,440,715,480"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="451,413,532,434,531,439,450,419"/>
+<area shape="rect" id="Node000006" href="$a05143.html#ad4130676f6cd5dcdfb86275d28ef6d94" title="Retrieves the parent node of the current node." alt="" coords="771,440,975,480"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="716,457,757,457,757,463,716,463"/>
+<area shape="rect" id="Node000007" href="$a05143.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="1023,440,1227,480"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="975,466,1009,466,1009,472,975,472"/>
+<area shape="poly" id="edge27_Node000007_Node000006" title=" " alt="" coords="1022,454,988,454,988,448,1022,448"/>
+<area shape="poly" id="edge37_Node000007_Node000007" title=" " alt="" coords="1078,440,1075,430,1083,421,1099,415,1125,413,1154,416,1170,423,1167,428,1152,421,1125,419,1100,421,1086,425,1080,431,1083,439"/>
+<area shape="rect" id="Node000008" href="$a05143.html#a7f4d671f25c6951150f5c727dbc8261f" title="Finds the first attribute with the specified name." alt="" coords="1275,69,1479,109"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1126,439,1140,379,1167,295,1187,250,1210,205,1239,163,1273,126,1289,114,1292,118,1276,130,1243,167,1215,208,1191,252,1172,297,1145,380,1131,440"/>
+<area shape="rect" id="Node000009" href="$a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="1527,159,1731,199"/>
+<area shape="poly" id="edge10_Node000007_Node000009" title=" " alt="" coords="1125,439,1138,383,1165,307,1185,268,1209,230,1238,197,1273,170,1307,153,1342,143,1379,137,1417,135,1489,140,1553,153,1552,158,1489,145,1417,140,1380,142,1344,148,1309,158,1276,174,1242,201,1213,233,1189,270,1170,309,1144,384,1131,440"/>
+<area shape="rect" id="Node000011" href="$a05143.html#a0ba3799de746669b14031ceebdee242c" title="Finds the first child node with the specified name." alt="" coords="1275,5,1479,45"/>
+<area shape="poly" id="edge11_Node000007_Node000011" title=" " alt="" coords="1124,439,1134,369,1158,270,1178,215,1203,162,1234,112,1273,67,1304,48,1307,52,1276,71,1238,115,1207,164,1183,217,1164,271,1139,370,1129,440"/>
+<area shape="rect" id="Node000012" href="$a05143.html#a036f6d862ca3981c48d42bf54ccbfad2" title="Checks if the XmlNode object is empty." alt="" coords="1275,184,1479,224"/>
+<area shape="poly" id="edge14_Node000007_Node000012" title=" " alt="" coords="1130,439,1150,396,1180,341,1222,284,1246,257,1273,234,1281,229,1284,233,1276,238,1250,261,1226,287,1185,344,1154,399,1135,441"/>
+<area shape="rect" id="Node000013" href="$a05143.html#a1fd71ea59944927bf9867fc98be0ffcf" title="Retrieves the first attribute of the node." alt="" coords="1275,248,1479,288"/>
+<area shape="poly" id="edge15_Node000007_Node000013" title=" " alt="" coords="1136,438,1191,370,1230,331,1273,298,1284,291,1287,296,1276,302,1233,335,1195,373,1140,441"/>
+<area shape="rect" id="Node000014" href="$a05143.html#a82a93da169b71235dc2923bd9a3a3da4" title="Retrieves the first child node of the current node." alt="" coords="1275,312,1479,352"/>
+<area shape="poly" id="edge17_Node000007_Node000014" title=" " alt="" coords="1164,437,1215,405,1274,374,1325,354,1327,359,1276,378,1218,410,1167,442"/>
+<area shape="rect" id="Node000015" href="$a05143.html#a3cf020917a8af507489d56a9280a0a9d" title="Retrieves the last attribute of the node." alt="" coords="1275,376,1479,416"/>
+<area shape="poly" id="edge19_Node000007_Node000015" title=" " alt="" coords="1203,437,1284,417,1285,422,1204,443"/>
+<area shape="rect" id="Node000016" href="$a05143.html#a17efa757a74e1e5a08131df5e4317ddb" title="Retrieves the last child node of the current node." alt="" coords="1275,440,1479,480"/>
+<area shape="poly" id="edge21_Node000007_Node000016" title=" " alt="" coords="1227,466,1261,466,1261,472,1227,472"/>
+<area shape="rect" id="Node000017" href="$a05143.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="1275,528,1479,568"/>
+<area shape="poly" id="edge23_Node000007_Node000017" title=" " alt="" coords="1183,478,1307,521,1305,526,1182,483"/>
+<area shape="rect" id="Node000018" href="$a05143.html#af0c57674f2aa78e5a10d9ffecd11793a" title="Retrieves the next sibling node of the current node." alt="" coords="1275,592,1479,632"/>
+<area shape="poly" id="edge25_Node000007_Node000018" title=" " alt="" coords="1139,478,1191,529,1226,558,1265,583,1262,588,1223,562,1187,533,1136,482"/>
+<area shape="rect" id="Node000019" href="$a05143.html#aae031f4e25d06ebfa007e468904d05b4" title="Retrieves the previous sibling node of the current node." alt="" coords="1275,656,1479,696"/>
+<area shape="poly" id="edge28_Node000007_Node000019" title=" " alt="" coords="1135,479,1154,515,1183,559,1221,605,1266,647,1262,650,1217,609,1179,562,1149,517,1130,482"/>
+<area shape="rect" id="Node000020" href="$a05143.html#ae75074132cc71a473fe3f862cb3d56e2" title="Retrieves the root of the DOM tree to which this node belongs." alt="" coords="1275,720,1479,760"/>
+<area shape="poly" id="edge30_Node000007_Node000020" title=" " alt="" coords="1132,479,1148,526,1176,587,1215,652,1239,682,1266,710,1263,713,1235,686,1211,655,1171,590,1143,528,1127,481"/>
+<area shape="rect" id="Node000022" href="$a05143.html#ac327d0433bdcac1e44124582ed24dc92" title="Retrieves a text object (XmlText) associated with the current node." alt="" coords="1275,784,1479,824"/>
+<area shape="poly" id="edge33_Node000007_Node000022" title=" " alt="" coords="1131,480,1146,537,1173,615,1192,657,1216,698,1244,737,1276,770,1283,775,1279,779,1273,774,1240,740,1211,701,1188,659,1168,617,1140,538,1126,481"/>
+<area shape="rect" id="Node000023" href="$a05143.html#a6473de83822e0e12f4f02d25420747ca" title="Retrieves the type of the XML node." alt="" coords="1275,848,1479,888"/>
+<area shape="poly" id="edge34_Node000007_Node000023" title=" " alt="" coords="1129,480,1140,547,1165,643,1184,694,1209,745,1239,792,1277,834,1281,838,1278,842,1273,838,1235,796,1204,748,1179,696,1160,644,1135,548,1124,481"/>
+<area shape="rect" id="Node000024" href="$a05143.html#a3ab22f27c7a36eebc5236b8190546186" title="Retrieves the value of the XML node." alt="" coords="1275,936,1479,976"/>
+<area shape="poly" id="edge35_Node000007_Node000024" title=" " alt="" coords="1129,480,1139,555,1164,665,1183,726,1208,787,1239,845,1277,898,1293,914,1313,927,1310,932,1290,918,1273,902,1234,848,1203,789,1178,727,1159,666,1134,556,1124,480"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1434,107,1560,151,1558,156,1432,112"/>
+<area shape="rect" id="Node000010" href="$a01671.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="1557,37,1700,77"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="1478,74,1544,65,1544,71,1479,79"/>
+<area shape="poly" id="edge13_Node000011_Node000007" title=" " alt="" coords="1277,47,1277,47,1239,90,1208,140,1183,192,1164,246,1140,348,1130,426,1124,426,1135,348,1159,245,1178,190,1203,137,1235,87,1273,43,1273,43"/>
+<area shape="poly" id="edge12_Node000011_Node000010" title=" " alt="" coords="1479,36,1544,44,1544,49,1478,41"/>
+<area shape="poly" id="edge16_Node000013_Node000009" title=" " alt="" coords="1442,245,1478,233,1565,201,1567,206,1480,239,1444,250"/>
+<area shape="poly" id="edge18_Node000014_Node000007" title=" " alt="" coords="1276,354,1276,354,1208,393,1153,433,1150,429,1205,388,1273,350,1274,349"/>
+<area shape="poly" id="edge20_Node000015_Node000009" title=" " alt="" coords="1455,374,1477,362,1519,327,1556,286,1608,210,1613,213,1560,290,1523,331,1480,366,1458,378"/>
+<area shape="poly" id="edge22_Node000016_Node000007" title=" " alt="" coords="1274,454,1240,454,1240,448,1274,448"/>
+<area shape="poly" id="edge24_Node000017_Node000017" title=" " alt="" coords="1330,528,1327,518,1335,509,1351,503,1377,501,1406,504,1422,511,1419,516,1404,509,1377,507,1352,509,1338,513,1332,519,1335,527"/>
+<area shape="poly" id="edge26_Node000018_Node000007" title=" " alt="" coords="1335,594,1273,570,1214,532,1163,491,1166,487,1217,527,1276,566,1337,589"/>
+<area shape="poly" id="edge29_Node000019_Node000007" title=" " alt="" coords="1328,658,1300,648,1273,634,1233,602,1198,564,1146,493,1150,490,1202,561,1237,598,1276,630,1302,644,1330,653"/>
+<area shape="poly" id="edge32_Node000020_Node000007" title=" " alt="" coords="1323,722,1297,713,1273,698,1225,650,1186,594,1157,540,1136,494,1141,492,1161,537,1191,592,1229,647,1276,694,1300,708,1325,717"/>
+<area shape="rect" id="Node000021" href="$a01676.html#a9ff47d1fab33d9dac2db3f3203dd5b2b" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="1544,720,1713,760"/>
+<area shape="poly" id="edge31_Node000020_Node000021" title=" " alt="" coords="1479,737,1530,737,1530,743,1479,743"/>
+<area shape="poly" id="edge36_Node000024_Node000024" title=" " alt="" coords="1330,936,1327,926,1335,917,1351,911,1377,909,1406,912,1422,919,1419,924,1404,917,1377,915,1352,917,1338,921,1332,927,1335,935"/>
+</map>

@@ -1,0 +1,36 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,198,60,223"/>
+<area shape="rect" id="Node000002" href="$a01549.html#a795166387deab30bf98b02619bca5c5b" title="Arithmetic mean of a range&#39;s elements, or ValueType{0} for an empty range." alt="" coords="130,69,279,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="38,196,65,158,84,137,106,119,116,113,119,118,110,124,88,141,69,162,42,199"/>
+<area shape="rect" id="Node000005" href="$a01549.html#aa1b6ddc9ee41c9002fed87698f0b5bea" title="Casts sourceValue to TargetType, throwing if the value is non&#45;finite (for a floating&#45;point source) or..." alt="" coords="108,272,301,312"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="61,221,151,264,149,268,58,226"/>
+<area shape="rect" id="Node000010" href="$a01549.html#a0fd1a5acf2f1fed8edeee1309059b06f" title="Absolute difference |a &#45; b| of two integers, computed without an intermediate signed underflow for un..." alt="" coords="130,336,279,376"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="40,222,65,271,85,298,110,322,119,328,116,333,106,326,81,302,61,274,35,225"/>
+<area shape="rect" id="Node000011" href="$a01549.html#acab500b6094965f38491c932461b6f03" title="Checks whether a floating&#45;point value is NaN or +&#45;Infinity." alt="" coords="130,424,279,464"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="38,223,60,298,81,344,110,386,127,402,146,415,143,420,124,406,106,390,76,347,55,300,33,225"/>
+<area shape="rect" id="Node000012" href="$a01549.html#ab00c52837c8e1c0898a38c85a2cce753" title="Root Mean Square of a range&#39;s elements, or ResultType{0} for an empty range." alt="" coords="130,5,279,45"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="33,197,41,168,55,130,76,90,106,55,116,48,120,52,110,59,81,93,60,132,46,170,38,199"/>
+<area shape="rect" id="Node000013" href="$a01549.html#aeb97b3e1f4e91081b5a15bc768abe7ea" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="130,133,279,173"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="59,199,131,175,133,180,61,204"/>
+<area shape="rect" id="Node000014" href="$a01549.html#a8c77830600ff2261070b9e599fdfe916" title="(a &#45; b)^2, computed in the common type of a and b (promoted, so two short operands give an int)." alt="" coords="354,139,531,179"/>
+<area shape="poly" id="edge20_Node000001_Node000014" title=" " alt="" coords="60,206,166,198,301,183,340,176,341,182,302,188,166,203,60,212"/>
+<area shape="rect" id="Node000003" href="$a01551.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="361,8,524,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="279,67,351,49,353,54,281,73"/>
+<area shape="rect" id="Node000004" href="$a01551.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="367,72,518,112"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="280,88,353,88,353,94,280,93"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="172,272,170,262,175,253,187,247,205,245,225,248,236,256,233,260,223,253,205,251,189,253,179,257,175,263,177,271"/>
+<area shape="rect" id="Node000006" href="$a01551.html#a3502a023a6571d1aa9955e571d05724c" title="Integral source, integral target: exact comparison." alt="" coords="368,208,517,248"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="279,269,354,249,356,254,280,275"/>
+<area shape="rect" id="Node000008" href="$a01551.html#ab02125f45f18a96bf33bfb97c10bc6b6" title="Prints a value as a number: the unary plus promotes character types, so they print their code,..." alt="" coords="349,272,536,312"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="301,289,335,289,335,295,301,295"/>
+<area shape="rect" id="Node000009" href="$a01551.html#ade0e34f98cff83fb7a018f3243ff5195" title=" " alt="" coords="366,337,519,391"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="272,310,353,334,352,339,270,315"/>
+<area shape="rect" id="Node000007" href="$a01551.html#a251e77cb9662dd8266b1d6c1ba9589c9" title="a &lt; b for two integers of any signedness, without the usual arithmetic conversions turning a negative..." alt="" coords="584,208,745,248"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="518,225,570,225,570,231,518,231"/>
+<area shape="poly" id="edge12_Node000011_Node000011" title=" " alt="" coords="172,424,170,414,175,405,187,399,205,397,225,400,236,408,233,412,223,405,205,403,189,405,179,409,175,415,177,423"/>
+<area shape="poly" id="edge14_Node000012_Node000003" title=" " alt="" coords="280,24,347,24,347,30,280,29"/>
+<area shape="poly" id="edge15_Node000012_Node000004" title=" " alt="" coords="277,43,359,66,357,71,275,48"/>
+<area shape="poly" id="edge17_Node000013_Node000003" title=" " alt="" coords="278,131,300,119,315,105,323,89,332,74,348,58,357,52,360,57,351,62,336,77,328,92,319,108,303,123,281,136"/>
+<area shape="poly" id="edge18_Node000013_Node000004" title=" " alt="" coords="279,131,353,112,355,117,281,137"/>
+<area shape="poly" id="edge19_Node000013_Node000014" title=" " alt="" coords="280,152,340,154,340,159,280,158"/>
+</map>

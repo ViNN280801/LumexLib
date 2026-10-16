@@ -1,6 +1,4 @@
 var a00380 =
 [
-    [ "LUMEX_IMPLEMENTATION", "a00380.html#a07486181f1990291c2a348de8eb4c480", null ],
-    [ "lumex::core::exceptions::Wrapper::get_safe_call_reporter", "a01345.html#a0e00681207c6fe8355e6416db22d6ee8", null ],
-    [ "lumex::core::exceptions::Wrapper::set_safe_call_reporter", "a01345.html#a71d9df48ad62f6a5f94220cd14b5f70c", null ]
+    [ "main", "a00380.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

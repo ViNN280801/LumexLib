@@ -1,0 +1,11 @@
+<map id="lumex::core::hazard_pointer::detail::deleter_storage&lt; D, bool &gt;" name="lumex::core::hazard_pointer::detail::deleter_storage&lt; D, bool &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,113,180,168"/>
+<area shape="rect" id="Node000002" href="$a03219.html" title=" " alt="" coords="235,5,451,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,106,234,85,235,90,180,111"/>
+<area shape="rect" id="Node000003" href="$a03219.html" title=" " alt="" coords="228,113,457,168"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,138,228,138,228,143,194,143"/>
+<area shape="rect" id="Node000005" href="$a03219.html" title="Base class of objects that hazard pointers protect ([saferecl.hp.base])." alt="" coords="253,192,433,247"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="193,170,256,189,255,194,192,175"/>
+<area shape="rect" id="Node000004" href="$a01939.html" title="One published value of the lock&#45;free engine: a retire node and an immutable smart pointer." alt="" coords="505,113,695,168"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="471,138,505,138,505,143,471,143"/>
+</map>

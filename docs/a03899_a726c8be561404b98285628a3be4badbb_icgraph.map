@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::access::detach" name="lumex::core::smart_ptr::detail::access::detach">
+<area shape="rect" id="Node000001" title=" " alt="" coords="235,27,380,82"/>
+<area shape="rect" id="Node000002" href="$a02015.html#a01484538b66c88e3c824c70ccdf3599d" title="Empties pointer without dropping its count (the caller owns it)." alt="" coords="5,5,187,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,57,187,57,187,52,221,52"/>
+</map>

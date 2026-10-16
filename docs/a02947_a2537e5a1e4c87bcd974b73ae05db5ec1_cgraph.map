@@ -1,0 +1,7 @@
+<map id="lumex::core::filesystem::fs::path::replace_extension" name="lumex::core::filesystem::fs::path::replace_extension">
+<area shape="rect" id="Node000001" title="Replaces the extension of the path with a new C&#45;style string extension." alt="" coords="5,29,212,69"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="64,30,62,20,69,10,85,5,109,3,136,6,151,13,149,18,135,11,109,8,86,10,72,15,67,21,70,28"/>
+<area shape="rect" id="Node000002" href="$a02947.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="260,29,435,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,47,246,47,246,52,212,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="303,30,300,20,308,10,323,5,347,3,375,6,390,13,388,18,374,11,347,8,324,10,311,15,306,21,308,28"/>
+</map>

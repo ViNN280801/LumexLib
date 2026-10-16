@@ -1,0 +1,6 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::error_or" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::error_or">
+<area shape="rect" id="Node000001" title="Returns the stored error if present, otherwise the default error." alt="" coords="5,29,188,84"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="53,29,54,19,61,10,76,5,97,3,122,6,136,14,133,18,120,11,97,8,77,10,64,15,59,21,59,29"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="236,37,403,77"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="189,54,222,54,222,59,189,59"/>
+</map>

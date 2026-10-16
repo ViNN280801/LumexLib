@@ -1,0 +1,22 @@
+<map id="LumexLogging.hpp" name="LumexLogging.hpp">
+<area shape="rect" id="Node000001" title="The console and file logging facade LumexLogging that other LumexLib modules report through." alt="" coords="667,5,813,31"/>
+<area shape="rect" id="Node000002" href="$a01340.html" title="Logging module: LumexLogging, a thread&#45;safe console logger with levels from Debug to Critical,..." alt="" coords="720,152,837,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="700,40,679,53,663,69,654,85,658,103,671,119,688,131,725,150,723,154,685,136,668,122,654,105,649,85,658,65,676,49,697,35"/>
+<area shape="rect" id="Node000009" href="$a01277.html" title=" " alt="" coords="668,79,812,104"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="743,44,743,78,737,78,737,44"/>
+<area shape="rect" id="Node000010" href="$a01271.html" title="Short macros over LumexLogging: lumDebug to lumCritical, and the ...FL variants that prefix the sourc..." alt="" coords="836,79,1020,104"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="787,33,896,76,894,81,785,38"/>
+<area shape="rect" id="Node000003" href="$a01319.html" title=" " alt="" coords="5,225,288,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="707,176,256,228,256,223,706,170"/>
+<area shape="rect" id="Node000004" href="$a01316.html" title=" " alt="" coords="313,225,546,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="707,182,491,228,490,223,706,177"/>
+<area shape="rect" id="Node000005" href="$a01295.html" title=" " alt="" coords="571,225,771,251"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="750,187,691,227,688,223,747,183"/>
+<area shape="rect" id="Node000006" href="$a01202.html" title=" " alt="" coords="795,225,981,251"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="810,183,870,223,867,227,807,187"/>
+<area shape="rect" id="Node000007" href="$a00440.html" title=" " alt="" coords="1005,225,1166,251"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="845,178,1033,223,1031,228,844,183"/>
+<area shape="rect" id="Node000008" href="$a00443.html" title=" " alt="" coords="1191,225,1417,251"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="851,172,1214,223,1213,228,850,177"/>
+<area shape="poly" id="edge10_Node000010_Node000002" title=" " alt="" coords="891,113,806,154,804,149,888,108"/>
+</map>

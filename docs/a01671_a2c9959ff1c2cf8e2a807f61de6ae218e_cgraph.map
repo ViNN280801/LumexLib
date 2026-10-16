@@ -1,0 +1,14 @@
+<map id="lumex::xml::utility::convert_buffer" name="lumex::xml::utility::convert_buffer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,99,148,139"/>
+<area shape="rect" id="Node000002" href="$a01671.html#a50bce6a89657c01bf24ad4eae09efc87" title=" " alt="" coords="196,5,375,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,96,195,55,212,48,214,53,197,60,114,101"/>
+<area shape="rect" id="Node000003" href="$a01671.html#a7a4e5e4adadf288d536f8cdbc9c5696c" title=" " alt="" coords="201,69,369,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,106,188,100,188,106,149,111"/>
+<area shape="rect" id="Node000005" href="$a01671.html#ae9136d5e971321f70e2bd2142e50730f" title=" " alt="" coords="429,127,587,167"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="149,121,416,138,415,143,148,126"/>
+<area shape="rect" id="Node000006" href="$a01587.html#aeb7c418e8ef454625d57b7b098e59e04" title="Tells whether the machine stores the least significant byte of an integer first (little endian)." alt="" coords="208,184,363,224"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="127,136,225,176,223,181,125,141"/>
+<area shape="rect" id="Node000004" href="$a01671.html#a3cb4abf426c232710888c97d4d549422" title=" " alt="" coords="423,47,593,102"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="369,81,409,79,409,84,370,86"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="364,107,417,121,416,126,363,112"/>
+</map>

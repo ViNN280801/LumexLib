@@ -1,0 +1,15 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,128,60,153"/>
+<area shape="rect" id="Node000002" href="$a01562.html#af5f9b825794c24606e999e4108a2a9bd" title="Creates a T constructed from args in one allocation." alt="" coords="108,91,253,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,133,94,126,95,131,61,138"/>
+<area shape="rect" id="Node000007" href="$a00449.html#a765661df16a1d68eca933c5943f17427" title="Adds samples up, for example every process of one name." alt="" coords="155,156,207,181"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="61,143,141,159,140,164,60,148"/>
+<area shape="rect" id="Node000003" href="$a01562.html#ac243d4e88836c3a0895003c2c3fb6e9f" title="Creates a T constructed from args in one allocation made with a copy of alloc." alt="" coords="301,91,460,131"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="253,109,288,109,288,114,253,114"/>
+<area shape="rect" id="Node000004" href="$a03899.html#a0273cd4b435d7c8c421e980b917d825c" title=" " alt="" coords="545,5,691,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="440,89,531,59,533,64,442,94"/>
+<area shape="rect" id="Node000005" href="$a03891.html#aa794cb650f97219949bfd448413dbefb" title=" " alt="" coords="525,84,711,139"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="460,109,511,109,511,114,460,114"/>
+<area shape="rect" id="Node000006" href="$a01563.html#abecc8c6fa95e845e1c541c78b2bbb129" title="Rejects, with a static_assert, a class that derives from std::enable_shared_from_this and not from th..." alt="" coords="508,163,728,217"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="442,129,523,156,522,161,440,134"/>
+</map>

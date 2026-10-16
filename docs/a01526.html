@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::hardware::caps::CPUVectorizationDetector Class Reference</title>
+<title>LumexLib: lumex::core::exceptions::stacktrace::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,175 +104,381 @@ $(function(){initNavTree('a01526.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a01523.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::hardware::caps::CPUVectorizationDetector Class Reference</div></div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::exceptions::stacktrace::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CPU vectorization capabilities detection utility class.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00089_source.html">LumexCPUVectorizationCapabilities.hpp</a>&gt;</code></p>
+<p>Internal detail namespace for platform-specific stacktrace functionalities.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0c41e02b6d1e0710680d86766b4732a1" id="r_a0c41e02b6d1e0710680d86766b4732a1"><td class="memItemLeft" align="right" valign="top">static cpu_vectorization_info_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c41e02b6d1e0710680d86766b4732a1">detect</a> ()</td></tr>
-<tr class="memdesc:a0c41e02b6d1e0710680d86766b4732a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs comprehensive CPU vectorization capabilities detection.  <br /></td></tr>
-<tr class="separator:a0c41e02b6d1e0710680d86766b4732a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3714f0eda41c0d71a8a52e5c2a1c6e43" id="r_a3714f0eda41c0d71a8a52e5c2a1c6e43"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3714f0eda41c0d71a8a52e5c2a1c6e43">get_summary</a> (cpu_vectorization_info_t const &amp;capabilities)</td></tr>
-<tr class="memdesc:a3714f0eda41c0d71a8a52e5c2a1c6e43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a human-readable summary of supported vectorization technologies.  <br /></td></tr>
-<tr class="separator:a3714f0eda41c0d71a8a52e5c2a1c6e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a894eb6f8a719b5015744c5a76dc63b0b" id="r_a894eb6f8a719b5015744c5a76dc63b0b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a894eb6f8a719b5015744c5a76dc63b0b">demangle_symbol</a> (char const *mangled)</td></tr>
+<tr class="memdesc:a894eb6f8a719b5015744c5a76dc63b0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demangles a C++ mangled symbol name on POSIX systems.  <br /></td></tr>
+<tr class="separator:a894eb6f8a719b5015744c5a76dc63b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89abaaacbc5e31f3feb32a1c3567c0ab" id="r_a89abaaacbc5e31f3feb32a1c3567c0ab"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
+<tr class="memitem:a89abaaacbc5e31f3feb32a1c3567c0ab"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02623.html">lumex_basic_stacktrace</a>&lt; std::allocator&lt; <a class="el" href="a02635.html">lumex_stacktrace_entry</a> &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a89abaaacbc5e31f3feb32a1c3567c0ab">capture_stacktrace&lt; std::allocator&lt; lumex_stacktrace_entry &gt; &gt;</a> (std::size_t skip, std::size_t max_depth, std::allocator&lt; <a class="el" href="a02635.html">lumex_stacktrace_entry</a> &gt; const &amp;alloc) noexcept</td></tr>
+<tr class="separator:a89abaaacbc5e31f3feb32a1c3567c0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1305360782a0d1b2dede6070ae5351b4" id="r_a1305360782a0d1b2dede6070ae5351b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1305360782a0d1b2dede6070ae5351b4">resolve_symbol_info</a> (void *address, std::string &amp;function_name, std::string &amp;source_file, std::uint32_t &amp;line_number) noexcept</td></tr>
+<tr class="memdesc:a1305360782a0d1b2dede6070ae5351b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves the description of a given address on POSIX systems.  <br /></td></tr>
+<tr class="separator:a1305360782a0d1b2dede6070ae5351b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abae5e5ea16517cfe808d236a42d3d8ae" id="r_abae5e5ea16517cfe808d236a42d3d8ae"><td class="memTemplParams" colspan="2">template&lt;typename Allocator&gt; </td></tr>
+<tr class="memitem:abae5e5ea16517cfe808d236a42d3d8ae"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a02623.html">stacktrace::lumex_basic_stacktrace</a>&lt; Allocator &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abae5e5ea16517cfe808d236a42d3d8ae">capture_stacktrace</a> (std::size_t skip, std::size_t max_depth, Allocator const &amp;alloc) noexcept</td></tr>
+<tr class="memdesc:abae5e5ea16517cfe808d236a42d3d8ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Platform-specific stacktrace capture implementation for POSIX systems.  <br /></td></tr>
+<tr class="separator:abae5e5ea16517cfe808d236a42d3d8ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2bbab331831002e74210b6b65c536966" id="r_a2bbab331831002e74210b6b65c536966"><td class="memItemLeft" align="right" valign="top">constexpr short const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bbab331831002e74210b6b65c536966">kHashRightShift</a> = 2</td></tr>
+<tr class="memdesc:a2bbab331831002e74210b6b65c536966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant for right bit shift operation in hash calculation.  <br /></td></tr>
+<tr class="separator:a2bbab331831002e74210b6b65c536966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bbc8ca6b36f10e40b0af4d4dfa0be4e" id="r_a5bbc8ca6b36f10e40b0af4d4dfa0be4e"><td class="memItemLeft" align="right" valign="top">constexpr short const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bbc8ca6b36f10e40b0af4d4dfa0be4e">kHashLeftShift</a> = 6</td></tr>
+<tr class="memdesc:a5bbc8ca6b36f10e40b0af4d4dfa0be4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant for left bit shift operation in hash calculation.  <br /></td></tr>
+<tr class="separator:a5bbc8ca6b36f10e40b0af4d4dfa0be4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade655d234d94b03b50e1476dcdccf660" id="r_ade655d234d94b03b50e1476dcdccf660"><td class="memItemLeft" align="right" valign="top">constexpr short const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade655d234d94b03b50e1476dcdccf660">kDefaultAddrStrSize</a> = 32</td></tr>
+<tr class="memdesc:ade655d234d94b03b50e1476dcdccf660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default buffer size for address string representations.  <br /></td></tr>
+<tr class="separator:ade655d234d94b03b50e1476dcdccf660"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05aafa779f6b68a7b3fc7fb380bfdef0" id="r_a05aafa779f6b68a7b3fc7fb380bfdef0"><td class="memItemLeft" align="right" valign="top">constexpr short const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05aafa779f6b68a7b3fc7fb380bfdef0">kDefaultMaxFrames</a> = 128</td></tr>
+<tr class="memdesc:a05aafa779f6b68a7b3fc7fb380bfdef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default maximum number of frames to capture in a stacktrace.  <br /></td></tr>
+<tr class="separator:a05aafa779f6b68a7b3fc7fb380bfdef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a027e66b5408342bbc05ee3d41960c830" id="r_a027e66b5408342bbc05ee3d41960c830"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a027e66b5408342bbc05ee3d41960c830">kHashGoldenRatio</a> = 0x9e3779b9U</td></tr>
+<tr class="separator:a027e66b5408342bbc05ee3d41960c830"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CPU vectorization capabilities detection utility class. </p>
-<p>This static utility class provides comprehensive CPU vectorization detection capabilities across different architectures (x86/x64, ARM, etc.). It uses platform-specific mechanisms to detect supported SIMD instruction sets and provides a unified interface for querying vectorization capabilities.</p>
-<p>The class implements cross-platform detection using:</p><ul>
-<li>CPUID instruction for x86/x64 architectures (Windows, Linux, macOS)</li>
-<li>getauxval() and /proc/cpuinfo for ARM architectures (Linux)</li>
-<li>Architecture-specific feature detection mechanisms</li>
-</ul>
-<p>All detection methods are thread-safe and can be called from any context without external synchronization. Detection results are computed fresh on each call (no caching is implemented).</p>
-<dl class="section note"><dt>Note</dt><dd>All methods are static and thread-safe </dd>
-<dd>
-Detection is performed fresh on each call (no caching) </dd>
-<dd>
-Cross-platform compatibility ensured through conditional compilation </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Detection accuracy depends on OS support for feature reporting</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>cpu_vectorization_info_t for detailed capability structure</dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="comment">// Detect CPU vectorization capabilities</span></div>
-<div class="line"><span class="keyword">auto</span> <a class="code hl_namespace" href="a01251.html">caps</a> = <a class="code hl_function" href="#a0c41e02b6d1e0710680d86766b4732a1">CPUVectorizationDetector::detect</a>();</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Check for specific instruction set support</span></div>
-<div class="line"><span class="keywordflow">if</span> (<a class="code hl_namespace" href="a01251.html">caps</a>.supports_avx2) {</div>
-<div class="line">    <span class="comment">// Use AVX2 optimized code path</span></div>
-<div class="line">    useAVX2OptimizedFunction();</div>
-<div class="line">} <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_namespace" href="a01251.html">caps</a>.supports_avx) {</div>
-<div class="line">    <span class="comment">// Use AVX optimized code path</span></div>
-<div class="line">    useAVXOptimizedFunction();</div>
-<div class="line">} <span class="keywordflow">else</span> {</div>
-<div class="line">    <span class="comment">// Fall back to scalar code</span></div>
-<div class="line">    useScalarFunction();</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Get summary of supported technologies</span></div>
-<div class="line">std::cout &lt;&lt; <span class="stringliteral">&quot;Supported: &quot;</span> &lt;&lt; caps.supported_technologies &lt;&lt; std::endl;</div>
-<div class="ttc" id="aa01251_html"><div class="ttname"><a href="a01251.html">lumex::applied::hardware::caps</a></div><div class="ttdef"><b>Definition</b> LumexCPUVectorizationCapabilities.cpp:74</div></div>
-<div class="ttc" id="aa01526_html_a0c41e02b6d1e0710680d86766b4732a1"><div class="ttname"><a href="#a0c41e02b6d1e0710680d86766b4732a1">lumex::applied::hardware::caps::CPUVectorizationDetector::detect</a></div><div class="ttdeci">static cpu_vectorization_info_t detect()</div><div class="ttdoc">Performs comprehensive CPU vectorization capabilities detection.</div></div>
-</div><!-- fragment --> </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0c41e02b6d1e0710680d86766b4732a1" name="a0c41e02b6d1e0710680d86766b4732a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c41e02b6d1e0710680d86766b4732a1">&#9670;&#160;</a></span>detect()</h2>
+<div class="textblock"><p>Internal detail namespace for platform-specific stacktrace functionalities. </p>
+<p>This namespace encapsulates helper functions and constants that are used internally by <code><a class="el" href="a02623.html" title="Contains classes and utilities related to stack trace management and exception handling.">lumex_basic_stacktrace</a></code> for platform-dependent operations like capturing raw frames and resolving symbol information. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="abae5e5ea16517cfe808d236a42d3d8ae" name="abae5e5ea16517cfe808d236a42d3d8ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abae5e5ea16517cfe808d236a42d3d8ae">&#9670;&#160;</a></span>capture_stacktrace()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Allocator&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static cpu_vectorization_info_t lumex::applied::hardware::caps::CPUVectorizationDetector::detect </td>
+          <td class="memname"><a class="el" href="a02623.html">stacktrace::lumex_basic_stacktrace</a>&lt; Allocator &gt; lumex::core::exceptions::stacktrace::detail::capture_stacktrace </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>skip</em></span>, </td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Performs comprehensive CPU vectorization capabilities detection. </p>
-<p>Executes a complete vectorization detection routine that identifies all supported SIMD instruction sets on the current CPU. This method uses architecture-specific detection mechanisms (CPUID for x86/x64, getauxval for ARM) to determine runtime support for various vectorization technologies.</p>
-<p>The detection process includes:</p><ul>
-<li>x86/x64: CPUID-based detection for SSE, AVX, AVX2, AVX-512 variants</li>
-<li>ARM: getauxval() and /proc/cpuinfo parsing for NEON, SVE support</li>
-<li>Cross-platform: Maximum SIMD width calculation</li>
-<li>Summary generation: Human-readable technology list</li>
-</ul>
-<dl class="section return"><dt>Returns</dt><dd>cpu_vectorization_info_t Populated structure containing all detected vectorization capabilities</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Detection is performed fresh on each call - no caching is implemented </dd>
-<dd>
-Some features may require OS support (e.g., AVX requires XSAVE support) </dd>
-<dd>
-Cross-platform compatibility ensured through conditional compilation</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>On some systems, certain features may be disabled by microcode </dd>
-<dd>
-Detection accuracy depends on OS and CPU feature reporting mechanisms</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>cpu_vectorization_info_t for detailed structure documentation</dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code hl_namespace" href="a01251.html">caps</a> = <a class="code hl_function" href="#a0c41e02b6d1e0710680d86766b4732a1">CPUVectorizationDetector::detect</a>();</div>
-<div class="line">std::cout &lt;&lt; <span class="stringliteral">&quot;AVX2: &quot;</span> &lt;&lt; (<a class="code hl_namespace" href="a01251.html">caps</a>.supports_avx2 ? <span class="stringliteral">&quot;Yes&quot;</span> : <span class="stringliteral">&quot;No&quot;</span>) &lt;&lt;</div>
-<div class="line">std::endl; std::cout &lt;&lt; <span class="stringliteral">&quot;Max SIMD width: &quot;</span> &lt;&lt; <a class="code hl_namespace" href="a01251.html">caps</a>.max_simd_width_bits &lt;&lt;</div>
-<div class="line"><span class="stringliteral">&quot; bits&quot;</span> &lt;&lt; std::endl; std::cout &lt;&lt; <span class="stringliteral">&quot;Technologies: &quot;</span> &lt;&lt;</div>
-<div class="line"><a class="code hl_namespace" href="a01251.html">caps</a>.supported_technologies &lt;&lt; std::endl;</div>
-</div><!-- fragment --> <div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01526_a0c41e02b6d1e0710680d86766b4732a1_icgraph.png" border="0" usemap="#aa01526_a0c41e02b6d1e0710680d86766b4732a1_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a3714f0eda41c0d71a8a52e5c2a1c6e43" name="a3714f0eda41c0d71a8a52e5c2a1c6e43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3714f0eda41c0d71a8a52e5c2a1c6e43">&#9670;&#160;</a></span>get_summary()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">static std::string lumex::applied::hardware::caps::CPUVectorizationDetector::get_summary </td>
-          <td>(</td>
-          <td class="paramtype">cpu_vectorization_info_t const &amp;</td>          <td class="paramname"><span class="paramname"><em>capabilities</em></span></td><td>)</td>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>max_depth</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Allocator const &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets a human-readable summary of supported vectorization technologies. </p>
-<p>Generates a comma-separated string listing all supported vectorization instruction sets. This method provides a convenient way to display CPU capabilities in logs, diagnostics, or user interfaces.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">capabilities</td><td>Vectorization capabilities structure to summarize </td></tr>
+<p>Platform-specific stacktrace capture implementation for POSIX systems. </p>
+<p>This function captures the current call stack using the <code>backtrace</code> function. It then converts the raw addresses into a vector of <code><a class="el" href="a02635.html" title="Represents a single entry (frame) in a stacktrace.">lumex_stacktrace_entry</a></code> objects. It includes logic to handle cases where optimizations might reduce frame count (e.g., Release builds). </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Allocator</td><td>The allocator type for the resulting stacktrace. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string Comma-separated list of supported technologies</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Empty string is returned if no vectorization support is detected </dd>
-<dd>
-Technologies are listed in order of introduction (SSE -&gt; AVX -&gt; AVX-512)</dd></dl>
-<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code hl_namespace" href="a01251.html">caps</a> = <a class="code hl_function" href="#a0c41e02b6d1e0710680d86766b4732a1">CPUVectorizationDetector::detect</a>();</div>
-<div class="line">std::string summary = <a class="code hl_function" href="#a3714f0eda41c0d71a8a52e5c2a1c6e43">CPUVectorizationDetector::get_summary</a>(<a class="code hl_namespace" href="a01251.html">caps</a>);</div>
-<div class="line"><span class="comment">// Output: &quot;SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, AVX, AVX2, FMA3&quot;</span></div>
-<div class="ttc" id="aa01526_html_a3714f0eda41c0d71a8a52e5c2a1c6e43"><div class="ttname"><a href="#a3714f0eda41c0d71a8a52e5c2a1c6e43">lumex::applied::hardware::caps::CPUVectorizationDetector::get_summary</a></div><div class="ttdeci">static std::string get_summary(cpu_vectorization_info_t const &amp;capabilities)</div><div class="ttdoc">Gets a human-readable summary of supported vectorization technologies.</div></div>
-</div><!-- fragment --> <div class="dynheader">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">skip</td><td>Number of frames to skip from the top of the call stack. </td></tr>
+    <tr><td class="paramname">max_depth</td><td>Maximum number of frames to capture. </td></tr>
+    <tr><td class="paramname">alloc</td><td>The allocator to use for the internal container. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code><a class="el" href="a02623.html" title="Contains classes and utilities related to stack trace management and exception handling.">lumex_basic_stacktrace</a></code> containing the captured frames. Returns an empty stacktrace if no frames are captured. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is <code>noexcept</code> and designed to be exception-safe. </dd></dl>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01526_a3714f0eda41c0d71a8a52e5c2a1c6e43_icgraph.png" border="0" usemap="#aa01526_a3714f0eda41c0d71a8a52e5c2a1c6e43_icgraph" alt=""/></div>
+<div class="center"><img src="a01526_abae5e5ea16517cfe808d236a42d3d8ae_icgraph.png" border="0" usemap="#aa01526_abae5e5ea16517cfe808d236a42d3d8ae_icgraph" alt=""/></div>
+<map name="aa01526_abae5e5ea16517cfe808d236a42d3d8ae_icgraph" id="aa01526_abae5e5ea16517cfe808d236a42d3d8ae_icgraph">
+<area shape="rect" title="Platform&#45;specific stacktrace capture implementation for POSIX systems." alt="" coords="525,44,704,99"/>
+<area shape="rect" href="a02623.html#a58a9eb2674e70e8bdc39f055da939803" title=" " alt="" coords="268,29,477,113"/>
+<area shape="poly" title=" " alt="" coords="512,74,478,74,478,69,512,69"/>
+<area shape="poly" title=" " alt="" coords="410,19,396,11,373,8,354,10,341,14,333,21,330,30,325,28,329,18,338,10,353,5,373,3,398,6,413,14"/>
+<area shape="rect" href="a01521.html#afa85dd4d337a507510189f9c67f4d5df" title=" " alt="" coords="5,12,220,67"/>
+<area shape="poly" title=" " alt="" coords="254,59,220,55,221,50,255,54"/>
+<area shape="rect" href="a00299.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="85,91,140,116"/>
+<area shape="poly" title=" " alt="" coords="254,89,141,103,140,97,254,83"/>
+</map>
 </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="a00089_source.html">LumexCPUVectorizationCapabilities.hpp</a></li>
-</ul>
+<a id="a89abaaacbc5e31f3feb32a1c3567c0ab" name="a89abaaacbc5e31f3feb32a1c3567c0ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89abaaacbc5e31f3feb32a1c3567c0ab">&#9670;&#160;</a></span>capture_stacktrace&lt; std::allocator&lt; lumex_stacktrace_entry &gt; &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02623.html">lumex_basic_stacktrace</a>&lt; std::allocator&lt; <a class="el" href="a02635.html">lumex_stacktrace_entry</a> &gt; &gt; <a class="el" href="#abae5e5ea16517cfe808d236a42d3d8ae">lumex::core::exceptions::stacktrace::detail::capture_stacktrace</a>&lt; std::allocator&lt; <a class="el" href="a02635.html">lumex_stacktrace_entry</a> &gt; &gt; </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>skip</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>max_depth</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::allocator&lt; <a class="el" href="a02635.html">lumex_stacktrace_entry</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>alloc</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a894eb6f8a719b5015744c5a76dc63b0b" name="a894eb6f8a719b5015744c5a76dc63b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a894eb6f8a719b5015744c5a76dc63b0b">&#9670;&#160;</a></span>demangle_symbol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::core::exceptions::stacktrace::detail::demangle_symbol </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>mangled</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Demangles a C++ mangled symbol name on POSIX systems. </p>
+<p>This function uses <code>abi::__cxa_demangle</code> from the GNU C++ ABI library to convert a compiler-mangled C++ symbol name into a human-readable form. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mangled</td><td>The null-terminated C-string of the mangled symbol name. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>std::string</code> containing the demangled symbol name. If demangling fails, the original mangled name is returned. Returns an empty string if <code>mangled</code> is <code>nullptr</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01526_a894eb6f8a719b5015744c5a76dc63b0b_icgraph.png" border="0" usemap="#aa01526_a894eb6f8a719b5015744c5a76dc63b0b_icgraph" alt=""/></div>
+<map name="aa01526_a894eb6f8a719b5015744c5a76dc63b0b_icgraph" id="aa01526_a894eb6f8a719b5015744c5a76dc63b0b_icgraph">
+<area shape="rect" title="Demangles a C++ mangled symbol name on POSIX systems." alt="" coords="232,5,411,60"/>
+<area shape="rect" href="a01526.html#a1305360782a0d1b2dede6070ae5351b4" title="Resolves the description of a given address on POSIX systems." alt="" coords="5,5,184,60"/>
+<area shape="poly" title=" " alt="" coords="218,35,184,35,184,30,218,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1305360782a0d1b2dede6070ae5351b4" name="a1305360782a0d1b2dede6070ae5351b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1305360782a0d1b2dede6070ae5351b4">&#9670;&#160;</a></span>resolve_symbol_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::exceptions::stacktrace::detail::resolve_symbol_info </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>address</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>function_name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>source_file</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t &amp;</td>          <td class="paramname"><span class="paramname"><em>line_number</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Resolves the description of a given address on POSIX systems. </p>
+<p>An exported symbol is named through <code>dladdr</code> and demangled, and the module with the address inside it follows in parentheses ("name (libfoo.so.1+0x1A2B)"); a frame without one is described by its module and offset alone ("app+0x401234"), which addr2line or gdb resolve offline with that module or its separate debug file. No process is started and no debug information is read, so source file and line are not resolved here. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>The <code>void*</code> address of the stack frame to resolve. </td></tr>
+    <tr><td class="paramname">function_name</td><td>Output parameter for the description. </td></tr>
+    <tr><td class="paramname">source_file</td><td>Output parameter for the source file path (always cleared on POSIX). </td></tr>
+    <tr><td class="paramname">line_number</td><td>Output parameter for the line number (always 0 on POSIX). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if a symbol or a module holds the address, false otherwise. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Does not throw. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01526_a1305360782a0d1b2dede6070ae5351b4_cgraph.png" border="0" usemap="#aa01526_a1305360782a0d1b2dede6070ae5351b4_cgraph" alt=""/></div>
+<map name="aa01526_a1305360782a0d1b2dede6070ae5351b4_cgraph" id="aa01526_a1305360782a0d1b2dede6070ae5351b4_cgraph">
+<area shape="rect" title="Resolves the description of a given address on POSIX systems." alt="" coords="5,5,184,60"/>
+<area shape="rect" href="a01526.html#a894eb6f8a719b5015744c5a76dc63b0b" title="Demangles a C++ mangled symbol name on POSIX systems." alt="" coords="232,5,411,60"/>
+<area shape="poly" title=" " alt="" coords="184,30,218,30,218,35,184,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ade655d234d94b03b50e1476dcdccf660" name="ade655d234d94b03b50e1476dcdccf660"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade655d234d94b03b50e1476dcdccf660">&#9670;&#160;</a></span>kDefaultAddrStrSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">short const lumex::core::exceptions::stacktrace::detail::kDefaultAddrStrSize = 32</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default buffer size for address string representations. </p>
+
+</div>
+</div>
+<a id="a05aafa779f6b68a7b3fc7fb380bfdef0" name="a05aafa779f6b68a7b3fc7fb380bfdef0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05aafa779f6b68a7b3fc7fb380bfdef0">&#9670;&#160;</a></span>kDefaultMaxFrames</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">short const lumex::core::exceptions::stacktrace::detail::kDefaultMaxFrames = 128</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default maximum number of frames to capture in a stacktrace. </p>
+
+</div>
+</div>
+<a id="a027e66b5408342bbc05ee3d41960c830" name="a027e66b5408342bbc05ee3d41960c830"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a027e66b5408342bbc05ee3d41960c830">&#9670;&#160;</a></span>kHashGoldenRatio</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::exceptions::stacktrace::detail::kHashGoldenRatio = 0x9e3779b9U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Golden ratio constant used in hash calculation to provide good distribution. </p>
+
+</div>
+</div>
+<a id="a5bbc8ca6b36f10e40b0af4d4dfa0be4e" name="a5bbc8ca6b36f10e40b0af4d4dfa0be4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bbc8ca6b36f10e40b0af4d4dfa0be4e">&#9670;&#160;</a></span>kHashLeftShift</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">short const lumex::core::exceptions::stacktrace::detail::kHashLeftShift = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constant for left bit shift operation in hash calculation. </p>
+
+</div>
+</div>
+<a id="a2bbab331831002e74210b6b65c536966" name="a2bbab331831002e74210b6b65c536966"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bbab331831002e74210b6b65c536966">&#9670;&#160;</a></span>kHashRightShift</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">short const lumex::core::exceptions::stacktrace::detail::kHashRightShift = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constant for right bit shift operation in hash calculation. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01250.html">hardware</a></li><li class="navelem"><a class="el" href="a01251.html">caps</a></li><li class="navelem"><a class="el" href="a01526.html">CPUVectorizationDetector</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01519.html">exceptions</a></li><li class="navelem"><a class="el" href="a01525.html">stacktrace</a></li><li class="navelem"><a class="el" href="a01526.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

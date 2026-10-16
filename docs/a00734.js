@@ -1,4 +1,5 @@
 var a00734 =
 [
-    [ "main", "a00734.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
+    [ "xml_stream_chunk< T >", "a05123.html", "a05123" ],
+    [ "LUMEX_IMPLEMENTATION", "a00734.html#a07486181f1990291c2a348de8eb4c480", null ]
 ];

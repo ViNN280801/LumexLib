@@ -1,0 +1,16 @@
+<map id="lumex::xml::xpath::ast::XPathAstNode::optimize" name="lumex::xml::xpath::ast::XPathAstNode::optimize">
+<area shape="rect" id="Node000001" title="Optimizes the XPath AST by applying various rewrite rules recursively." alt="" coords="5,101,212,141"/>
+<area shape="rect" id="Node000002" href="$a05239.html#a68b6e186d0a0947e77944e5fb045835a" title="Optimizes this specific XPath AST node by applying various rewrite rules." alt="" coords="260,101,499,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,119,246,119,246,124,212,124"/>
+<area shape="rect" id="Node000003" href="$a01549.html#acc3f9e7edb6242ba2bd741e6ab597124" title="Exact comparison of two floating&#45;point numbers, as == defines it." alt="" coords="569,29,718,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="452,99,556,70,557,76,454,104"/>
+<area shape="rect" id="Node000004" href="$a05239.html#a083078b951f470f8dd12710bc287b71d" title="Checks if this XPath step is positionally invariant." alt="" coords="563,94,724,149"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="499,119,549,119,549,124,499,124"/>
+<area shape="rect" id="Node000006" href="$a01671.html#a2921ff6da7e7a0424b31f7b0d5bd8464" title=" " alt="" coords="547,173,740,213"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="454,139,557,167,556,172,452,144"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="594,30,591,20,599,10,617,5,643,3,674,5,691,13,688,18,673,11,643,8,618,10,602,15,597,21,599,28"/>
+<area shape="rect" id="Node000005" href="$a05239.html#ae70ce9bfcee29e12ae54fc8baf05954c" title="Constructs an XPath AST node for a string constant." alt="" coords="788,101,1031,141"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="724,119,774,119,774,124,724,124"/>
+<area shape="rect" id="Node000007" href="$a05259.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52" title="Allocates a block of memory of the specified size." alt="" coords="820,166,999,221"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="740,191,806,191,806,196,740,196"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::span::view::detail::span_storage&lt; T, dynamic_extent &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a04102.html',''); initResizable(true); });
+$(function(){initNavTree('a04099.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,21 +103,237 @@ $(function(){initNavTree('a04102.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::unicode::utf::utf32_writer Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a04096.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::span::view::detail::span_storage&lt; T, dynamic_extent &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a04102.html">lumex::core::unicode::utf::utf32_writer</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a04102.html#aaf1a5ea6f643613d5e278b9727b373a7">any</a>(value_type result, std::uint32_t chr)</td><td class="entry"><a class="el" href="a04102.html">lumex::core::unicode::utf::utf32_writer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04102.html#a9c0efbf3a2f13f10a52452e0eb0a8b11">high</a>(value_type result, std::uint32_t chr)</td><td class="entry"><a class="el" href="a04102.html">lumex::core::unicode::utf::utf32_writer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04102.html#a79d88b2c389d8e54bf56d1758493d418">low</a>(value_type result, std::uint32_t chr)</td><td class="entry"><a class="el" href="a04102.html">lumex::core::unicode::utf::utf32_writer</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04102.html#a8141e99ebf7f56f9c5f20bb569080db7">value_type</a> typedef</td><td class="entry"><a class="el" href="a04102.html">lumex::core::unicode::utf::utf32_writer</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;<a class="el" href="a01040_source.html">LumexSpanTraits.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a777827ab44c2cf7c39c8ce1d266d0aa5" id="r_a777827ab44c2cf7c39c8ce1d266d0aa5"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a777827ab44c2cf7c39c8ce1d266d0aa5">span_storage</a> (T *<a class="el" href="#a0b076a8c4d2c0da6ce3e8f709e714209">data</a>, std::size_t <a class="el" href="#aa3a155621cbe8115340cbb98a3c3a2b0">size</a>) noexcept</td></tr>
+<tr class="separator:a777827ab44c2cf7c39c8ce1d266d0aa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3a155621cbe8115340cbb98a3c3a2b0" id="r_aa3a155621cbe8115340cbb98a3c3a2b0"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3a155621cbe8115340cbb98a3c3a2b0">size</a> () const noexcept</td></tr>
+<tr class="separator:aa3a155621cbe8115340cbb98a3c3a2b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b076a8c4d2c0da6ce3e8f709e714209" id="r_a0b076a8c4d2c0da6ce3e8f709e714209"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b076a8c4d2c0da6ce3e8f709e714209">data</a> () const noexcept</td></tr>
+<tr class="separator:a0b076a8c4d2c0da6ce3e8f709e714209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15bc0a9e50e6038a233af90d778092f5" id="r_a15bc0a9e50e6038a233af90d778092f5"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04095.html#a15bc0a9e50e6038a233af90d778092f5">span_storage</a> (T *<a class="el" href="#a0b076a8c4d2c0da6ce3e8f709e714209">data</a>, std::size_t) noexcept</td></tr>
+<tr class="separator:a15bc0a9e50e6038a233af90d778092f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d5162022540b0fd777dc5dd8483bcd9" id="r_a0d5162022540b0fd777dc5dd8483bcd9"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04095.html#a0d5162022540b0fd777dc5dd8483bcd9">size</a> () const noexcept</td></tr>
+<tr class="separator:a0d5162022540b0fd777dc5dd8483bcd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9771d099fc7ec0ec469b3de1f0a57bb1" id="r_a9771d099fc7ec0ec469b3de1f0a57bb1"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04095.html#a9771d099fc7ec0ec469b3de1f0a57bb1">data</a> () const noexcept</td></tr>
+<tr class="separator:a9771d099fc7ec0ec469b3de1f0a57bb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a777827ab44c2cf7c39c8ce1d266d0aa5" name="a777827ab44c2cf7c39c8ce1d266d0aa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a777827ab44c2cf7c39c8ce1d266d0aa5">&#9670;&#160;</a></span>span_storage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04095.html">lumex::core::span::view::detail::span_storage</a>&lt; T, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt;::span_storage </td>
+          <td>(</td>
+          <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04099_a777827ab44c2cf7c39c8ce1d266d0aa5_cgraph.png" border="0" usemap="#aa04099_a777827ab44c2cf7c39c8ce1d266d0aa5_cgraph" alt=""/></div>
+<map name="aa04099_a777827ab44c2cf7c39c8ce1d266d0aa5_cgraph" id="aa04099_a777827ab44c2cf7c39c8ce1d266d0aa5_cgraph">
+<area shape="rect" title=" " alt="" coords="5,38,217,107"/>
+<area shape="rect" href="a04099.html#a0b076a8c4d2c0da6ce3e8f709e714209" title=" " alt="" coords="265,5,476,60"/>
+<area shape="poly" title=" " alt="" coords="217,54,251,48,252,54,218,59"/>
+<area shape="rect" href="a04099.html#aa3a155621cbe8115340cbb98a3c3a2b0" title=" " alt="" coords="267,84,474,139"/>
+<area shape="poly" title=" " alt="" coords="218,86,254,91,253,97,217,91"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a15bc0a9e50e6038a233af90d778092f5" name="a15bc0a9e50e6038a233af90d778092f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15bc0a9e50e6038a233af90d778092f5">&#9670;&#160;</a></span>span_storage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04095.html">lumex::core::span::view::detail::span_storage</a>&lt; T, Extent &gt;::span_storage </td>
+          <td>(</td>
+          <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9771d099fc7ec0ec469b3de1f0a57bb1" name="a9771d099fc7ec0ec469b3de1f0a57bb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9771d099fc7ec0ec469b3de1f0a57bb1">&#9670;&#160;</a></span>data() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * <a class="el" href="a04095.html">lumex::core::span::view::detail::span_storage</a>&lt; T, Extent &gt;::data </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b076a8c4d2c0da6ce3e8f709e714209" name="a0b076a8c4d2c0da6ce3e8f709e714209"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b076a8c4d2c0da6ce3e8f709e714209">&#9670;&#160;</a></span>data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * <a class="el" href="a04095.html">lumex::core::span::view::detail::span_storage</a>&lt; T, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt;::data </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04099_a0b076a8c4d2c0da6ce3e8f709e714209_icgraph.png" border="0" usemap="#aa04099_a0b076a8c4d2c0da6ce3e8f709e714209_icgraph" alt=""/></div>
+<map name="aa04099_a0b076a8c4d2c0da6ce3e8f709e714209_icgraph" id="aa04099_a0b076a8c4d2c0da6ce3e8f709e714209_icgraph">
+<area shape="rect" title=" " alt="" coords="265,13,476,67"/>
+<area shape="rect" href="a04099.html#a777827ab44c2cf7c39c8ce1d266d0aa5" title=" " alt="" coords="5,5,217,75"/>
+<area shape="poly" title=" " alt="" coords="252,43,218,43,218,37,252,37"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0d5162022540b0fd777dc5dd8483bcd9" name="a0d5162022540b0fd777dc5dd8483bcd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d5162022540b0fd777dc5dd8483bcd9">&#9670;&#160;</a></span>size() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="a04095.html">lumex::core::span::view::detail::span_storage</a>&lt; T, Extent &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3a155621cbe8115340cbb98a3c3a2b0" name="aa3a155621cbe8115340cbb98a3c3a2b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3a155621cbe8115340cbb98a3c3a2b0">&#9670;&#160;</a></span>size() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="a04095.html">lumex::core::span::view::detail::span_storage</a>&lt; T, <a class="el" href="a01565.html#a8a475214931cb276cb375e3e0b30e9c5">dynamic_extent</a> &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04099_aa3a155621cbe8115340cbb98a3c3a2b0_icgraph.png" border="0" usemap="#aa04099_aa3a155621cbe8115340cbb98a3c3a2b0_icgraph" alt=""/></div>
+<map name="aa04099_aa3a155621cbe8115340cbb98a3c3a2b0_icgraph" id="aa04099_aa3a155621cbe8115340cbb98a3c3a2b0_icgraph">
+<area shape="rect" title=" " alt="" coords="265,13,472,67"/>
+<area shape="rect" href="a04099.html#a777827ab44c2cf7c39c8ce1d266d0aa5" title=" " alt="" coords="5,5,217,75"/>
+<area shape="poly" title=" " alt="" coords="251,43,218,43,218,37,251,37"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01040_source.html">LumexSpanTraits.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01564.html">span</a></li><li class="navelem"><a class="el" href="a01565.html">view</a></li><li class="navelem"><a class="el" href="a01566.html">detail</a></li><li class="navelem"><a class="el" href="a04099.html">span_storage&lt; T, dynamic_extent &gt;</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

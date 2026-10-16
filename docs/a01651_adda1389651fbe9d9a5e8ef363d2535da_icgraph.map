@@ -1,0 +1,10 @@
+<map id="lumex::examples::logger::require" name="lumex::examples::logger::require">
+<area shape="rect" id="Node000001" title=" " alt="" coords="572,5,756,45"/>
+<area shape="rect" id="Node000002" href="$a01651.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="108,5,292,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="558,25,524,24,340,24,292,25,292,20,340,19,524,19,558,19"/>
+<area shape="rect" id="Node000004" href="$a01651.html#a165ec8fcea03590b2cffd889ae9f816f" title=" " alt="" coords="340,33,524,73"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="559,41,525,45,524,40,558,35"/>
+<area shape="rect" id="Node000003" href="$a00329.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="326,43,292,39,293,34,327,38"/>
+</map>

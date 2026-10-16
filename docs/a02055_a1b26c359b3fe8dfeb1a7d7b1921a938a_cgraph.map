@@ -1,0 +1,6 @@
+<map id="lumex::core::circular_buffer::circular_buffer::operator=" name="lumex::core::circular_buffer::circular_buffer::operator=">
+<area shape="rect" id="Node000001" title="Copy assignment operator." alt="" coords="5,29,173,84"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a583c3fee3eb06a9b927eae01eab586be" title="Creates an empty buffer with capacity 0." alt="" coords="221,29,389,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,54,207,54,207,59,173,59"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="263,29,263,19,271,10,285,5,305,3,330,6,344,14,341,18,328,11,305,8,286,10,274,15,268,21,268,29"/>
+</map>

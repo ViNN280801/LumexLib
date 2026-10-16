@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlWriterFile.hpp File Reference</title>
+<title>LumexLib: LumexUnicodeConvert.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,54 +104,133 @@ $(function(){initNavTree('a01037.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">XmlWriterFile.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexUnicodeConvert.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>XmlWriterFile</code>, an <code>IXmlWriter</code> that writes to a C <code>FILE</code> stream opened by the caller.  
+<p><code>to_utf8</code> and <code>to_wide</code>: conversion of a <code>wchar_t</code> string to UTF-8 and of a UTF-8 string to <code>wchar_t</code>, the same on every platform.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01025_source.html">IXmlWriter.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;cwchar&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01034_source.html">lumex/core/unicode/utf/LumexUtf.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01073_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlWriterFile.hpp:</div>
+Include dependency graph for LumexUnicodeConvert.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01038.png" border="0" usemap="#a_xml_writer_file_8hpp" alt=""/></div>
+<div class="center"><img src="a01038.png" border="0" usemap="#aLumexUnicodeConvert_8hpp" alt=""/></div>
+<map name="aLumexUnicodeConvert_8hpp" id="aLumexUnicodeConvert_8hpp">
+<area shape="rect" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF&#45;8 and of a UTF&#45;8 string to wchar_t,..." alt="" coords="402,5,601,31"/>
+<area shape="rect" title=" " alt="" coords="97,262,167,287"/>
+<area shape="poly" title=" " alt="" coords="485,33,163,256,160,252,481,29"/>
+<area shape="rect" title=" " alt="" coords="5,262,72,287"/>
+<area shape="poly" title=" " alt="" coords="402,29,207,51,125,66,98,73,83,81,68,98,56,119,42,164,38,210,38,248,33,248,32,210,37,163,51,117,64,95,80,77,96,68,124,60,206,46,402,24"/>
+<area shape="rect" title=" " alt="" coords="483,262,549,287"/>
+<area shape="poly" title=" " alt="" coords="505,31,517,248,512,249,499,31"/>
+<area shape="rect" title=" " alt="" coords="747,86,815,111"/>
+<area shape="poly" title=" " alt="" coords="562,28,646,49,737,76,743,78,741,83,735,81,644,54,561,33"/>
+<area shape="rect" title=" " alt="" coords="840,86,899,111"/>
+<area shape="poly" title=" " alt="" coords="601,27,712,46,829,76,834,78,832,83,827,81,711,51,601,32"/>
+<area shape="rect" href="a01034.html" title="Transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t: counters, writers and decoders t..." alt="" coords="94,79,245,119"/>
+<area shape="poly" title=" " alt="" coords="450,33,258,80,257,75,448,28"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="541,79,723,119"/>
+<area shape="poly" title=" " alt="" coords="524,29,589,69,586,73,521,33"/>
+<area shape="poly" title=" " alt="" coords="168,119,140,249,135,248,162,118"/>
+<area shape="poly" title=" " alt="" coords="156,120,59,252,54,249,152,117"/>
+<area shape="rect" href="a01082.html" title="Bit helpers. count_leading_zeros (C++11) counts the leading zeros of an unsigned integer of 1,..." alt="" coords="326,167,463,207"/>
+<area shape="poly" title=" " alt="" coords="222,116,331,159,329,164,220,121"/>
+<area shape="poly" title=" " alt="" coords="327,209,181,257,175,259,173,254,179,252,325,204"/>
+<area shape="poly" title=" " alt="" coords="326,200,212,223,85,257,79,259,77,254,83,252,211,218,325,195"/>
+<area shape="poly" title=" " alt="" coords="424,205,489,252,486,256,421,209"/>
+<area shape="rect" title=" " alt="" coords="373,262,459,287"/>
+<area shape="poly" title=" " alt="" coords="402,206,412,248,407,249,397,208"/>
+<area shape="rect" title=" " alt="" coords="192,262,248,287"/>
+<area shape="poly" title=" " alt="" coords="356,209,258,258,256,254,353,204"/>
+<area shape="rect" title=" " alt="" coords="272,262,349,287"/>
+<area shape="poly" title=" " alt="" coords="377,209,334,254,330,250,373,205"/>
+<area shape="rect" title=" " alt="" coords="574,262,666,287"/>
+<area shape="poly" title=" " alt="" coords="447,204,576,255,574,260,445,209"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="690,255,945,295"/>
+<area shape="poly" title=" " alt="" coords="464,198,708,249,707,254,463,204"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="969,255,1183,295"/>
+<area shape="poly" title=" " alt="" coords="464,195,527,204,740,227,956,252,956,257,739,233,526,209,463,200"/>
+<area shape="poly" title=" " alt="" coords="668,117,742,165,766,186,792,204,862,227,959,249,957,254,861,232,789,209,763,190,738,169,665,121"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="803,174,984,199"/>
+<area shape="poly" title=" " alt="" coords="693,116,844,167,842,172,691,121"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="539,167,728,207"/>
+<area shape="poly" title=" " alt="" coords="635,119,635,153,630,153,630,119"/>
+<area shape="poly" title=" " alt="" coords="633,207,627,249,621,248,628,207"/>
+<area shape="poly" title=" " alt="" coords="677,204,764,246,762,251,674,209"/>
+<area shape="poly" title=" " alt="" coords="729,203,962,249,961,255,728,208"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01039.png" border="0" usemap="#a_xml_writer_file_8hppdep" alt=""/></div>
+<div class="center"><img src="a01039.png" border="0" usemap="#aLumexUnicodeConvert_8hppdep" alt=""/></div>
+<map name="aLumexUnicodeConvert_8hppdep" id="aLumexUnicodeConvert_8hppdep">
+<area shape="rect" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF&#45;8 and of a UTF&#45;8 string to wchar_t,..." alt="" coords="153,5,351,31"/>
+<area shape="rect" href="a00752.html" title=" " alt="" coords="5,79,168,104"/>
+<area shape="poly" title=" " alt="" coords="212,39,117,81,115,76,210,34"/>
+<area shape="rect" href="a01415.html" title="Unicode module: transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t,..." alt="" coords="193,79,311,104"/>
+<area shape="poly" title=" " alt="" coords="255,44,255,78,249,78,249,44"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="335,79,478,104"/>
+<area shape="poly" title=" " alt="" coords="292,34,381,76,378,81,290,39"/>
+<area shape="rect" href="a00491.html" title=" " alt="" coords="59,152,223,177"/>
+<area shape="poly" title=" " alt="" coords="223,114,162,154,159,150,220,109"/>
+<area shape="rect" href="a00488.html" title=" " alt="" coords="248,152,477,177"/>
+<area shape="poly" title=" " alt="" coords="284,109,345,150,342,154,281,114"/>
+</map>
 </div>
 </div>
 <p><a href="a01037_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05038.html">lumex::xml::writer::XmlWriterFile</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <code><a class="el" href="a05026.html" title="Abstract base interface for writing XML data to various destinations.">IXmlWriter</a></code> implementation that writes XML data to a file.  <a href="a05038.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html">lumex::xml::writer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01583.html">lumex::core::unicode</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01584.html">lumex::core::unicode::convert</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ac45f6767d3472ac2a5e6a2f83408b678" id="r_ac45f6767d3472ac2a5e6a2f83408b678"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01584.html#ac45f6767d3472ac2a5e6a2f83408b678">lumex::core::unicode::convert::to_utf8</a> (wchar_t const *str, std::size_t length)</td></tr>
+<tr class="memdesc:ac45f6767d3472ac2a5e6a2f83408b678"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts <code>length</code> characters of a <code>wchar_t</code> string to UTF-8.  <br /></td></tr>
+<tr class="separator:ac45f6767d3472ac2a5e6a2f83408b678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5aaa2fe07e8b9f5ec681c9ab83da0af" id="r_ac5aaa2fe07e8b9f5ec681c9ab83da0af"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01584.html#ac5aaa2fe07e8b9f5ec681c9ab83da0af">lumex::core::unicode::convert::to_utf8</a> (wchar_t const *str)</td></tr>
+<tr class="memdesc:ac5aaa2fe07e8b9f5ec681c9ab83da0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a zero-terminated <code>wchar_t</code> string to UTF-8.  <br /></td></tr>
+<tr class="separator:ac5aaa2fe07e8b9f5ec681c9ab83da0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9c07f4265c583c32fe9a1d1f0dd7474" id="r_ab9c07f4265c583c32fe9a1d1f0dd7474"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01584.html#ab9c07f4265c583c32fe9a1d1f0dd7474">lumex::core::unicode::convert::to_utf8</a> (std::wstring const &amp;str)</td></tr>
+<tr class="memdesc:ab9c07f4265c583c32fe9a1d1f0dd7474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a <code>std::wstring</code> to UTF-8.  <br /></td></tr>
+<tr class="separator:ab9c07f4265c583c32fe9a1d1f0dd7474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13d59f937ade78876e613ede4929011e" id="r_a13d59f937ade78876e613ede4929011e"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01584.html#a13d59f937ade78876e613ede4929011e">lumex::core::unicode::convert::to_wide</a> (char const *str, std::size_t length)</td></tr>
+<tr class="memdesc:a13d59f937ade78876e613ede4929011e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts <code>length</code> bytes of UTF-8 text to a <code>wchar_t</code> string.  <br /></td></tr>
+<tr class="separator:a13d59f937ade78876e613ede4929011e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accc6ad210dff648d63b556fde4939095" id="r_accc6ad210dff648d63b556fde4939095"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01584.html#accc6ad210dff648d63b556fde4939095">lumex::core::unicode::convert::to_wide</a> (char const *str)</td></tr>
+<tr class="memdesc:accc6ad210dff648d63b556fde4939095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a zero-terminated UTF-8 string to a <code>wchar_t</code> string.  <br /></td></tr>
+<tr class="separator:accc6ad210dff648d63b556fde4939095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a874bec1a2ffaccc4e295ea7c95f8691c" id="r_a874bec1a2ffaccc4e295ea7c95f8691c"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01584.html#a874bec1a2ffaccc4e295ea7c95f8691c">lumex::core::unicode::convert::to_wide</a> (std::string const &amp;str)</td></tr>
+<tr class="memdesc:a874bec1a2ffaccc4e295ea7c95f8691c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a UTF-8 <code>std::string</code> to a <code>wchar_t</code> string.  <br /></td></tr>
+<tr class="separator:a874bec1a2ffaccc4e295ea7c95f8691c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>XmlWriterFile</code>, an <code>IXmlWriter</code> that writes to a C <code>FILE</code> stream opened by the caller. </p>
-<p>The constructor takes the stream as a <code>void</code> pointer, which must be a <code>FILE</code> pointer, and <code>write</code> passes each block to <code>fwrite</code>. The writer does not open, flush or close the stream. <code>XmlDocument::save_file</code> uses it. The class can be neither copied nor moved. Consumers include the file through <code>lumex/xml/LumexXml</code>. </p>
+<div class="textblock"><p><code>to_utf8</code> and <code>to_wide</code>: conversion of a <code>wchar_t</code> string to UTF-8 and of a UTF-8 string to <code>wchar_t</code>, the same on every platform. </p>
+<p>The functions do not depend on the C locale, the operating system or the standard library facets (<code>mbstowcs</code>, <code>std::wstring_convert</code>, <code>WideCharToMultiByte</code>): they run the decoders and policies of <code><a class="el" href="a01034.html" title="Transcoding policies for UTF-8, UTF-16, UTF-32, Latin-1 and wchar_t: counters, writers and decoders t...">utf/LumexUtf.hpp</a></code> twice, once to count and once to write. A <code>wchar_t</code> string is read as UTF-16 where <code>wchar_t</code> has 2 bytes (Windows) and as UTF-32 where it has 4 (Linux, macOS). Invalid input is not an error: a byte or a unit that cannot be decoded is skipped, so an unpaired surrogate or a truncated UTF-8 sequence leaves no trace in the result. Every function has an overload that takes a pointer and a length, which keeps embedded zero characters.</p>
+<p>Header-only, works from C++11. The functions allocate the result string and may throw <code>std::bad_alloc</code>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a01037.html">XmlWriterFile.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_99253d4096ffea06e09286d5da0452b9.html">unicode</a></li><li class="navelem"><a class="el" href="dir_9e50785afbb14b8f4bdeb347d4b58178.html">convert</a></li><li class="navelem"><a class="el" href="a01037.html">LumexUnicodeConvert.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

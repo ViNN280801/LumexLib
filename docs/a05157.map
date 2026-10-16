@@ -1,0 +1,7 @@
+<map id="lumex::xml::node::XmlNodeBase" name="lumex::xml::node::XmlNodeBase">
+<area shape="rect" id="Node000001" title="Base structure representing an XML node in the document tree." alt="" coords="5,125,241,150"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="256,128,268,137,260,146,242,149,241,144,258,141,263,138,253,132"/>
+<area shape="rect" id="Node000002" href="$a05119.html" title="Base structure for representing an XML attribute." alt="" coords="43,5,203,45"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="126,59,126,124,121,124,121,59"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="218,16,230,25,222,34,204,37,203,32,220,29,225,26,215,21"/>
+</map>

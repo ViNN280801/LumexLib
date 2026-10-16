@@ -1,0 +1,8 @@
+<map id="lumex::core::filesystem::fs::path::has_stem" name="lumex::core::filesystem::fs::path::has_stem">
+<area shape="rect" id="Node000001" title="Checks if the path has a stem component (filename without extension)." alt="" coords="5,29,180,69"/>
+<area shape="rect" id="Node000002" href="$a02947.html#afa47945595783697b638f738a7e9fc77" title="Extracts the stem component from the path (filename without extension)." alt="" coords="228,29,403,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,47,214,47,214,52,180,52"/>
+<area shape="rect" id="Node000003" href="$a02947.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="451,29,625,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="403,47,437,47,437,52,403,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="497,30,494,20,501,10,516,5,538,3,564,6,578,13,576,18,562,11,538,8,517,10,504,15,499,21,502,28"/>
+</map>

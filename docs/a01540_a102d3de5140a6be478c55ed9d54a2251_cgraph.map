@@ -1,0 +1,17 @@
+<map id="lumex::core::fmt::vformat" name="lumex::core::fmt::vformat">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,77,196,102"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a9b8fbd4db71c1059fadb982021043cb4" title="Formats into buffer; adds the field offset to errors." alt="" coords="244,69,421,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,87,230,87,230,92,196,92"/>
+<area shape="rect" id="Node000003" href="$a03103.html#a6ab4cd9529ea82665743a1a876e4e67f" title=" " alt="" coords="469,5,672,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="407,67,482,46,484,51,408,72"/>
+<area shape="rect" id="Node000004" href="$a02971.html#a31ad5f8d467dbd7691cce0e32d953ce0" title=" " alt="" coords="479,69,662,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="422,87,466,87,466,92,422,92"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a9fced4d130ed35de9eb22230b7bd6e56" title="Walks a format string and reports literal text, replacement fields and their specifications to handle..." alt="" coords="482,133,659,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="408,107,484,127,482,132,407,112"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="720,133,897,173"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="660,151,706,151,706,156,660,156"/>
+<area shape="rect" id="Node000007" href="$a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="945,101,1123,141"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="897,138,932,133,932,138,898,143"/>
+<area shape="rect" id="Node000008" href="$a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="945,165,1123,205"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="898,163,932,168,932,173,897,169"/>
+</map>

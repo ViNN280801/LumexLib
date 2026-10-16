@@ -1,0 +1,13 @@
+<map id="lumex::core::fmt::Detail::escape" name="lumex::core::fmt::Detail::escape">
+<area shape="rect" id="Node000001" title="The ? (debug) form of a string or a character." alt="" coords="5,69,183,109"/>
+<area shape="rect" id="Node000002" href="$a01541.html#aea68f84128932af81acea442416d4e71" title="Decodes one code point at it (UTF&#45;8 for char, UTF&#45;16 or UTF&#45;32 for wchar_t); an invalid sequence yiel..." alt="" coords="231,5,408,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,67,235,47,236,52,165,72"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a9cf9ad2a9a71262b6f6e0f4145a5a3e7" title=" " alt="" coords="231,69,408,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,87,217,87,217,92,183,92"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a7c1f19007d88c2cbb57cb2da7a1bbd9a" title=" " alt="" coords="231,133,408,173"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="165,107,236,127,235,132,164,112"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a75efee4aab636332a2977208066e5121" title="Select the digit writer that does not divide a 128&#45;bit value." alt="" coords="456,69,639,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="408,87,442,87,442,92,408,92"/>
+<area shape="rect" id="Node000005" href="$a01541.html#aa5164d1e854b75e53cc0707028b65fff" title="Digits of an integer of at most 64 bits." alt="" coords="687,69,921,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="639,87,673,87,673,92,639,92"/>
+</map>

@@ -1,0 +1,24 @@
+<map id="LumexDwcasCpu.hpp" name="LumexDwcasCpu.hpp">
+<area shape="rect" id="Node000001" title="Run&#45;time check that the CPU has the CMPXCHG16B instruction: dwcas_supported () and require_dwcas ()." alt="" coords="269,5,432,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,86,72,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="278,33,185,53,85,81,79,83,77,78,83,76,184,48,277,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="96,86,163,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="312,33,176,81,171,83,169,78,174,76,310,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="187,86,248,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="331,33,252,81,249,76,328,29"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="273,86,338,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="346,32,322,75,317,72,341,30"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="363,86,432,111"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="360,30,385,72,381,75,356,32"/>
+<area shape="rect" id="Node000007" href="$a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="456,79,645,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="383,28,489,71,487,76,381,33"/>
+<area shape="rect" id="Node000008" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="669,79,859,119"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="416,28,656,75,655,80,415,33"/>
+<area shape="rect" id="Node000011" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="884,167,1097,207"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="432,19,544,26,671,37,788,53,836,64,872,76,900,92,926,112,968,154,964,158,923,116,897,97,870,81,834,69,787,59,670,42,543,31,432,24"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="489,174,581,199"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="712,121,581,172,580,167,710,116"/>
+<area shape="rect" id="Node000010" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="605,167,859,207"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="759,120,747,154,742,153,754,118"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="817,116,927,159,925,164,815,121"/>
+</map>

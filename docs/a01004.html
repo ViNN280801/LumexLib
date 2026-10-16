@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlParseResult.hpp File Reference</title>
+<title>LumexLib: LumexContractsHandler.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,70 +104,90 @@ $(function(){initNavTree('a01004.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XmlParseResult.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexContractsHandler.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>xml_parse_result_t</code>, the outcome of loading XML or appending a fragment, and the internal entry point that loads a buffer.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01016_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01007_source.html">lumex/core/contracts/handler/LumexContractsHandler.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01142_source.html">lumex/core/utility/callback/LumexCallbackSlot.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlParseResult.hpp:</div>
+Include dependency graph for LumexContractsHandler.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01005.png" border="0" usemap="#a_xml_parse_result_8hpp" alt=""/></div>
+<div class="center"><img src="a01005.png" border="0" usemap="#aLumexContractsHandler_8cpp" alt=""/></div>
+<map name="aLumexContractsHandler_8cpp" id="aLumexContractsHandler_8cpp">
+<area shape="rect" title=" " alt="" coords="458,5,663,31"/>
+<area shape="rect" title=" " alt="" coords="343,86,404,111"/>
+<area shape="poly" title=" " alt="" coords="530,33,418,81,414,83,412,78,415,76,528,28"/>
+<area shape="rect" href="a01007.html" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="429,79,692,119"/>
+<area shape="poly" title=" " alt="" coords="563,31,563,65,558,65,558,31"/>
+<area shape="rect" href="a01142.html" title="Process&#45;wide slot for one consumer&#45;installed function pointer." alt="" coords="847,79,1084,119"/>
+<area shape="poly" title=" " alt="" coords="625,28,852,73,851,79,624,33"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="470,174,651,199"/>
+<area shape="poly" title=" " alt="" coords="563,119,563,160,558,160,558,119"/>
+<area shape="rect" href="a00998.html" title="The enumerations assertion_kind, evaluation_semantic and detection_mode, and the class contract_viola..." alt="" coords="102,167,381,207"/>
+<area shape="poly" title=" " alt="" coords="488,121,329,165,327,160,487,116"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="326,357,539,397"/>
+<area shape="poly" title=" " alt="" coords="515,121,484,141,460,168,441,212,432,259,429,305,431,343,426,343,424,305,426,259,436,210,456,165,481,137,512,117"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="675,167,864,207"/>
+<area shape="poly" title=" " alt="" coords="610,116,711,159,709,164,607,121"/>
+<area shape="rect" title=" " alt="" coords="76,365,143,390"/>
+<area shape="poly" title=" " alt="" coords="133,209,61,230,34,243,17,256,10,269,8,281,17,308,40,336,69,356,66,360,36,340,13,311,3,281,5,268,13,253,31,238,59,225,131,204"/>
+<area shape="rect" title=" " alt="" coords="470,269,562,295"/>
+<area shape="poly" title=" " alt="" coords="301,204,467,262,466,267,299,209"/>
+<area shape="rect" title=" " alt="" coords="28,269,88,295"/>
+<area shape="poly" title=" " alt="" coords="198,209,102,257,89,264,87,260,99,252,195,204"/>
+<area shape="rect" href="a01010.html" title="source_location: the place in the program text that a contract violation names, on every C++ standard..." alt="" coords="112,255,344,309"/>
+<area shape="poly" title=" " alt="" coords="242,207,237,241,232,241,236,207"/>
+<area shape="poly" title=" " alt="" coords="288,204,324,226,358,253,394,298,420,344,416,346,390,301,355,257,321,230,285,209"/>
+<area shape="poly" title=" " alt="" coords="196,312,138,358,135,354,192,307"/>
+<area shape="poly" title=" " alt="" coords="289,307,378,349,376,354,286,312"/>
+<area shape="poly" title=" " alt="" coords="713,209,583,257,560,266,558,261,581,252,711,204"/>
+<area shape="poly" title=" " alt="" coords="717,209,672,230,627,257,612,271,602,284,592,297,575,311,538,335,499,354,497,350,535,330,572,307,588,293,598,280,608,267,624,253,669,225,714,204"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="638,262,893,302"/>
+<area shape="poly" title=" " alt="" coords="772,207,770,248,765,248,766,207"/>
+<area shape="poly" title=" " alt="" coords="965,119,944,223,927,277,917,297,906,311,888,320,858,329,769,344,553,369,553,364,768,339,856,324,886,315,903,307,913,294,922,275,939,222,960,118"/>
+<area shape="poly" title=" " alt="" coords="922,121,828,163,826,159,920,116"/>
+<area shape="rect" title=" " alt="" coords="968,174,1035,199"/>
+<area shape="poly" title=" " alt="" coords="977,118,994,160,989,162,972,120"/>
+<area shape="rect" title=" " alt="" coords="1060,174,1146,199"/>
+<area shape="poly" title=" " alt="" coords="999,117,1073,164,1070,169,996,121"/>
+<area shape="rect" title=" " alt="" coords="1171,174,1251,199"/>
+<area shape="poly" title=" " alt="" coords="1025,116,1160,164,1167,167,1165,172,1158,169,1023,121"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01006.png" border="0" usemap="#a_xml_parse_result_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a01004_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05006.html">lumex::xml::text::xml_parse_result_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the result of an XML parsing operation, including status, error offset, and encoding.  <a href="a05006.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01499.html">lumex::xml::document</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01495.html">lumex::xml::node</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html">lumex::xml::text</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html">lumex::core::contracts</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae0bf18f6f9e0ed3936938a14c541af0c" id="r_ae0bf18f6f9e0ed3936938a14c541af0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05006.html">xml_parse_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html#ae0bf18f6f9e0ed3936938a14c541af0c">lumex::xml::text::make_parse_result</a> (<a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408">Types::xml_parse_status</a> status, ptrdiff_t offset=0)</td></tr>
-<tr class="memdesc:ae0bf18f6f9e0ed3936938a14c541af0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to create an <code><a class="el" href="a05006.html" title="Represents the result of an XML parsing operation, including status, error offset,...">xml_parse_result_t</a></code> object.  <br /></td></tr>
-<tr class="separator:ae0bf18f6f9e0ed3936938a14c541af0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7355b4c5a34fafe87b02c6fd5d116775" id="r_a7355b4c5a34fafe87b02c6fd5d116775"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05006.html">xml_parse_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html#a7355b4c5a34fafe87b02c6fd5d116775">lumex::xml::text::load_buffer_impl</a> (<a class="el" href="a04954.html">document::XmlDocumentBase</a> *doc, <a class="el" href="a04982.html">node::XmlNodeBase</a> *root, void *contents, std::size_t size, unsigned int options, <a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0">Types::xml_encoding</a> encoding, bool is_mutable, bool own, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">Types::char_t</a> **out_buffer)</td></tr>
-<tr class="memdesc:a7355b4c5a34fafe87b02c6fd5d116775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal implementation for loading an XML document from a buffer.  <br /></td></tr>
-<tr class="separator:a7355b4c5a34fafe87b02c6fd5d116775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01aa812e0ede22650e6bdd49096491c0" id="r_a01aa812e0ede22650e6bdd49096491c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01509.html#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#a01aa812e0ede22650e6bdd49096491c0">lumex::core::contracts::set_violation_handler</a> (<a class="el" href="a01509.html#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a> handler) noexcept</td></tr>
+<tr class="memdesc:a01aa812e0ede22650e6bdd49096491c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs <code>handler</code> and returns the previously installed one.  <br /></td></tr>
+<tr class="separator:a01aa812e0ede22650e6bdd49096491c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade50b99b2cb4adeb1040fe00fc4b3036" id="r_ade50b99b2cb4adeb1040fe00fc4b3036"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01509.html#ad25306a44644788864d3dd25cfc74aab">violation_handler_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#ade50b99b2cb4adeb1040fe00fc4b3036">lumex::core::contracts::get_violation_handler</a> () noexcept</td></tr>
+<tr class="memdesc:ade50b99b2cb4adeb1040fe00fc4b3036"><td class="mdescLeft">&#160;</td><td class="mdescRight">The installed handler, <code>nullptr</code> when the default handler is in use.  <br /></td></tr>
+<tr class="separator:ade50b99b2cb4adeb1040fe00fc4b3036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff0af939d63bcfe05648c2bb8d1b9c87" id="r_aff0af939d63bcfe05648c2bb8d1b9c87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87">lumex::core::contracts::invoke_violation_handler</a> (<a class="el" href="a02123.html">contract_violation</a> const &amp;violation)</td></tr>
+<tr class="memdesc:aff0af939d63bcfe05648c2bb8d1b9c87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports <code>violation</code> to the installed handler, or to the default handler when none is installed (or when this thread is already inside a handler).  <br /></td></tr>
+<tr class="separator:aff0af939d63bcfe05648c2bb8d1b9c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b050992206d89033462d7c9b7eb8c78" id="r_a9b050992206d89033462d7c9b7eb8c78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78">lumex::core::contracts::invoke_default_violation_handler</a> (<a class="el" href="a02123.html">contract_violation</a> const &amp;violation) noexcept</td></tr>
+<tr class="memdesc:a9b050992206d89033462d7c9b7eb8c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default handler: writes one line about <code>violation</code> to standard error and returns.  <br /></td></tr>
+<tr class="separator:a9b050992206d89033462d7c9b7eb8c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>xml_parse_result_t</code>, the outcome of loading XML or appending a fragment, and the internal entry point that loads a buffer. </p>
-<p>A result holds an <code>xml_parse_status</code> (<code><a class="el" href="a01016.html" title="The basic types and enumerations of the XML module: character and string types, node types,...">XmlTypes.hpp</a></code>), the offset of the error in <code>char_t</code> units, and the encoding of the source. It converts to <code>true</code> only for <code>status_ok</code>, and <code>description()</code> returns a readable message. <code>XmlDocument</code> load functions and <code>XmlNode::append_buffer</code> return it.</p>
-<p><code>load_buffer_impl</code> is the code these functions share: it converts the buffer to the native encoding, takes care of its ownership and runs the parser. <code>make_parse_result</code> builds a result from a status and an offset. </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a01004.html">XmlParseResult.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_77a8419351938abae08e7136cdf99e60.html">contracts</a></li><li class="navelem"><a class="el" href="dir_84d258bab147136c3ef1fac96250f6e5.html">handler</a></li><li class="navelem"><a class="el" href="a01004.html">LumexContractsHandler.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

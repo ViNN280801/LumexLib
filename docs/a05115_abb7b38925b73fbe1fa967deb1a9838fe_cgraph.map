@@ -1,0 +1,6 @@
+<map id="lumex::xml::attribute::XmlAttribute::as_string" name="lumex::xml::attribute::XmlAttribute::as_string">
+<area shape="rect" id="Node000001" title="Retrieves the attribute&#39;s value as a C&#45;style string, or a default value if the attribute is empty." alt="" coords="5,29,185,69"/>
+<area shape="rect" id="Node000002" href="$a05115.html#a40dc4738d939dd04914625f44b5e01c8" title="Retrieves the value of the XML attribute as a C&#45;style string." alt="" coords="233,29,393,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,47,220,47,220,52,186,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="273,30,270,20,277,10,291,5,313,3,339,6,352,13,350,18,337,11,313,8,293,10,280,15,276,21,278,28"/>
+</map>

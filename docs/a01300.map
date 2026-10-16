@@ -1,0 +1,21 @@
+<map id="LumexProcessMonitor.hpp" name="LumexProcessMonitor.hpp">
+<area shape="rect" id="Node000001" title="CPU and RAM of single processes, by process ID or by executable name, with the processes they started..." alt="" coords="211,5,403,31"/>
+<area shape="rect" id="Node000002" href="$a01301.html" title=" " alt="" coords="9,79,199,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,38,140,81,138,76,258,33"/>
+<area shape="rect" id="Node000003" href="$a01343.html" title="Resource monitor module: a background thread that samples the CPU and RAM usage of the system (and of..." alt="" coords="150,152,325,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="289,43,265,80,250,119,242,153,237,151,245,117,260,77,284,40"/>
+<area shape="rect" id="Node000006" href="$a01292.html" title="Background CPU/RAM usage sampler that appends one line per sample to a dated log file,..." alt="" coords="275,79,477,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="330,39,366,76,362,80,326,43"/>
+<area shape="rect" id="Node000008" href="$a01289.html" title="The text the background sampler logs for a watch list." alt="" coords="501,79,659,104"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="368,32,533,76,532,81,367,37"/>
+<area shape="rect" id="Node000004" href="$a00449.html" title=" " alt="" coords="5,233,232,258"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="208,188,139,235,136,230,205,183"/>
+<area shape="rect" id="Node000005" href="$a00446.html" title=" " alt="" coords="256,225,456,265"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="269,183,328,223,325,227,266,187"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="341,113,263,154,260,149,338,108"/>
+<area shape="rect" id="Node000007" href="$a01295.html" title=" " alt="" coords="349,152,549,177"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="400,112,438,150,434,153,397,116"/>
+<area shape="poly" id="edge9_Node000008_Node000007" title=" " alt="" coords="546,113,474,154,471,149,544,109"/>
+<area shape="rect" id="Node000009" href="$a01283.html" title=" " alt="" coords="574,152,730,177"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="604,112,641,150,637,153,600,116"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="LumexSplitCountTraits.hpp" name="LumexSplitCountTraits.hpp">
+<area shape="rect" id="Node000001" title="What the split&#45;count engine needs to know about the pointer it stores: the counter group its referenc..." alt="" coords="5,5,201,31"/>
+<area shape="rect" id="Node000002" href="$a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="10,79,197,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,44,106,78,101,78,101,44"/>
+</map>

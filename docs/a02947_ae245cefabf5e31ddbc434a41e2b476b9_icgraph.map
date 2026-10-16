@@ -1,0 +1,5 @@
+<map id="lumex::core::filesystem::fs::path::remove_filename" name="lumex::core::filesystem::fs::path::remove_filename">
+<area shape="rect" id="Node000001" title="Removes the filename component from the path_arg, leaving only the parent path_arg." alt="" coords="252,5,453,45"/>
+<area shape="rect" id="Node000002" href="$a02947.html#ad986f755740f5cb77a55ec256236a503" title="Replaces the filename component of the path with a new path filename." alt="" coords="5,5,204,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,28,204,28,204,23,238,23"/>
+</map>

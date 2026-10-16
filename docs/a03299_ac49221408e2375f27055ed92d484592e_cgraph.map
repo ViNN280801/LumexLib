@@ -1,0 +1,7 @@
+<map id="lumex::core::hazard_pointer::hazard_pointer::protect" name="lumex::core::hazard_pointer::hazard_pointer::protect">
+<area shape="rect" id="Node000001" title="Loads src and protects the loaded object; returns it." alt="" coords="5,29,185,84"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="51,29,51,19,59,10,74,5,95,3,121,6,136,14,133,18,119,11,95,8,75,10,62,15,56,21,56,29"/>
+<area shape="rect" id="Node000002" href="$a03299.html#a01995ce8c3384e0fbb95b796e08203c5" title="Protects ptr and checks that src still holds it." alt="" coords="233,29,413,84"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="185,54,220,54,220,59,185,59"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="279,29,279,19,287,10,302,5,323,3,349,6,364,14,361,18,347,11,323,8,303,10,290,15,284,21,284,29"/>
+</map>

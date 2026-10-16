@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::logger::logger::logger_applied_config_view_t Struct Reference</title>
+<title>LumexLib: lumex::core::string_view::view::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,126 +104,636 @@ $(function(){initNavTree('a01574.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01571.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::logger::logger::logger_applied_config_view_t Struct Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::string_view::view::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Snapshot of configuration applied at start (flags without public getters).  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00128_source.html">LumexLogger.hpp</a>&gt;</code></p>
+<p>Implementation details of the string views; not part of the API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ae3ba3a6fd3eb320cd02b92d8a587b326" id="r_ae3ba3a6fd3eb320cd02b92d8a587b326"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3ba3a6fd3eb320cd02b92d8a587b326">use_timestamped_logs</a></td></tr>
-<tr class="memdesc:ae3ba3a6fd3eb320cd02b92d8a587b326"><td class="mdescLeft">&#160;</td><td class="mdescRight">TIMESTAMPED=...  <br /></td></tr>
-<tr class="separator:ae3ba3a6fd3eb320cd02b92d8a587b326"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac65af752d0d3114636096ad50b4833e3" id="r_ac65af752d0d3114636096ad50b4833e3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac65af752d0d3114636096ad50b4833e3">show_stack_trace_in_messages</a></td></tr>
-<tr class="memdesc:ac65af752d0d3114636096ad50b4833e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">STACKTRACE=...  <br /></td></tr>
-<tr class="separator:ac65af752d0d3114636096ad50b4833e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f83bcdb2bd432297d55abe91e9e7d14" id="r_a8f83bcdb2bd432297d55abe91e9e7d14"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f83bcdb2bd432297d55abe91e9e7d14">stack_trace_max_frames</a></td></tr>
-<tr class="memdesc:a8f83bcdb2bd432297d55abe91e9e7d14"><td class="mdescLeft">&#160;</td><td class="mdescRight">STACKTRACE_FRAMES=...  <br /></td></tr>
-<tr class="separator:a8f83bcdb2bd432297d55abe91e9e7d14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e5e115c27378cb2e4e3d5b39ba870be" id="r_a4e5e115c27378cb2e4e3d5b39ba870be"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e5e115c27378cb2e4e3d5b39ba870be">log_buffer_flush_level_configured</a></td></tr>
-<tr class="memdesc:a4e5e115c27378cb2e4e3d5b39ba870be"><td class="mdescLeft">&#160;</td><td class="mdescRight">whether BUFFERING_TRIGGER= is set  <br /></td></tr>
-<tr class="separator:a4e5e115c27378cb2e4e3d5b39ba870be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5e787e56b952ba48ee33450b2f8f86c" id="r_ac5e787e56b952ba48ee33450b2f8f86c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01272.html#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5e787e56b952ba48ee33450b2f8f86c">log_buffer_flush_trigger_level</a></td></tr>
-<tr class="separator:ac5e787e56b952ba48ee33450b2f8f86c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01575.html">tier_traits</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04183.html">chars</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04179.html">diff_at</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04171.html">eq_at</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04203.html">is_char_range</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04219.html">is_char_range&lt; Range, CharT, Traits, typename std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; Range const &amp; &gt;().data()), CharT const * &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Range const &amp; &gt;().size()), std::size_t &gt;::value &amp;&amp;std::is_same&lt; typename std::remove_cv&lt; typename std::remove_pointer&lt; decltype(std::declval&lt; Range const &amp; &gt;() .data())&gt;::type &gt;::type, CharT &gt;::value &amp;&amp;traits_match&lt; Range, Traits &gt;::value &amp;&amp;!std::is_convertible&lt; Range const &amp;, CharT const * &gt;::value &amp;&amp;!std::is_convertible&lt; Range const &amp;, lumex_basic_string_view&lt; CharT, Traits &gt; &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04207.html">make_void</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04175.html">ne_at</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04187.html">search</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The searches of a view over <code>Traits</code>.  <a href="a04187.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04211.html">traits_match</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04215.html">traits_match&lt; T, Traits, typename make_void&lt; typename T::traits_type &gt;::type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a9f4575aeaa450faf079603d2161905e9" id="r_a9f4575aeaa450faf079603d2161905e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f4575aeaa450faf079603d2161905e9">throw_out_of_range</a> (char const *what)</td></tr>
+<tr class="memdesc:a9f4575aeaa450faf079603d2161905e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throws <code>std::out_of_range</code>, or terminates without exceptions.  <br /></td></tr>
+<tr class="separator:a9f4575aeaa450faf079603d2161905e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ecd968f695442799eabd23d72a6022d" id="r_a2ecd968f695442799eabd23d72a6022d"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ecd968f695442799eabd23d72a6022d">min_size</a> (std::size_t lhs, std::size_t rhs) noexcept</td></tr>
+<tr class="separator:a2ecd968f695442799eabd23d72a6022d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abae13cd4f0c82c0a74eb9d0399f9d34d" id="r_abae13cd4f0c82c0a74eb9d0399f9d34d"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abae13cd4f0c82c0a74eb9d0399f9d34d">compare_result</a> (int by_chars, std::size_t lhs_size, std::size_t rhs_size) noexcept</td></tr>
+<tr class="memdesc:abae13cd4f0c82c0a74eb9d0399f9d34d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of <code>compare</code>: the characters, then the sizes.  <br /></td></tr>
+<tr class="separator:abae13cd4f0c82c0a74eb9d0399f9d34d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a530d89380590bb5d0052587192cc3430" id="r_a530d89380590bb5d0052587192cc3430"><td class="memTemplParams" colspan="2">template&lt;class Pred&gt; </td></tr>
+<tr class="memitem:a530d89380590bb5d0052587192cc3430"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01575.html#a530d89380590bb5d0052587192cc3430">scan_fwd</a> (Pred const &amp;pred, std::size_t lo, std::size_t hi) noexcept</td></tr>
+<tr class="separator:a530d89380590bb5d0052587192cc3430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80c8f8417c15546fc3760a0042f56dbb" id="r_a80c8f8417c15546fc3760a0042f56dbb"><td class="memTemplParams" colspan="2">template&lt;class Pred&gt; </td></tr>
+<tr class="memitem:a80c8f8417c15546fc3760a0042f56dbb"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01575.html#a80c8f8417c15546fc3760a0042f56dbb">scan_bwd</a> (Pred const &amp;pred, std::size_t lo, std::size_t hi) noexcept</td></tr>
+<tr class="separator:a80c8f8417c15546fc3760a0042f56dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a079a0b1b80e2deedbcd4533653a64b7d" id="r_a079a0b1b80e2deedbcd4533653a64b7d"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a079a0b1b80e2deedbcd4533653a64b7d">hash_round</a> (std::uint64_t acc, std::uint64_t block) noexcept</td></tr>
+<tr class="memdesc:a079a0b1b80e2deedbcd4533653a64b7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The hash of the characters of a view: the same value in every C++ standard, with every compiler and standard library.  <br /></td></tr>
+<tr class="separator:a079a0b1b80e2deedbcd4533653a64b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa308bfa9064fa6b21b9d948d3d11974" id="r_aaa308bfa9064fa6b21b9d948d3d11974"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa308bfa9064fa6b21b9d948d3d11974">hash_final</a> (std::uint64_t acc) noexcept</td></tr>
+<tr class="separator:aaa308bfa9064fa6b21b9d948d3d11974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af41b2ee76e2c87911026b6bcbe5cd5e5" id="r_af41b2ee76e2c87911026b6bcbe5cd5e5"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af41b2ee76e2c87911026b6bcbe5cd5e5">load_le64</a> (unsigned char const *bytes) noexcept</td></tr>
+<tr class="memdesc:af41b2ee76e2c87911026b6bcbe5cd5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eight bytes as a little-endian integer, on any byte order.  <br /></td></tr>
+<tr class="separator:af41b2ee76e2c87911026b6bcbe5cd5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae45f6da8a478a48f87d579194da8c487" id="r_ae45f6da8a478a48f87d579194da8c487"><td class="memTemplParams" colspan="2">template&lt;class CharT&gt; </td></tr>
+<tr class="memitem:ae45f6da8a478a48f87d579194da8c487"><td class="memTemplItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae45f6da8a478a48f87d579194da8c487">block_hash</a> (CharT const *data, std::size_t size, std::true_type) noexcept</td></tr>
+<tr class="separator:ae45f6da8a478a48f87d579194da8c487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae00452d3c96bf33b9f379d3221684747" id="r_ae00452d3c96bf33b9f379d3221684747"><td class="memTemplParams" colspan="2">template&lt;class CharT&gt; </td></tr>
+<tr class="memitem:ae00452d3c96bf33b9f379d3221684747"><td class="memTemplItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae00452d3c96bf33b9f379d3221684747">block_hash</a> (CharT const *data, std::size_t size, std::false_type) noexcept</td></tr>
+<tr class="separator:ae00452d3c96bf33b9f379d3221684747"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9ed761ed00377b5694650a0689a25f7" id="r_ac9ed761ed00377b5694650a0689a25f7"><td class="memTemplParams" colspan="2">template&lt;class CharT&gt; </td></tr>
+<tr class="memitem:ac9ed761ed00377b5694650a0689a25f7"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac9ed761ed00377b5694650a0689a25f7">hash_chars</a> (CharT const *data, std::size_t size) noexcept</td></tr>
+<tr class="memdesc:ac9ed761ed00377b5694650a0689a25f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The hash of <code>size</code> characters at <code>data</code> (may be null if size is 0).  <br /></td></tr>
+<tr class="separator:ac9ed761ed00377b5694650a0689a25f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dabe4dc16ae1e082dbb46e53613d3ee" id="r_a6dabe4dc16ae1e082dbb46e53613d3ee"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
+<tr class="memitem:a6dabe4dc16ae1e082dbb46e53613d3ee"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a6dabe4dc16ae1e082dbb46e53613d3ee">put_fill</a> (std::basic_streambuf&lt; CharT, Traits &gt; *buf, CharT fill, std::streamsize count)</td></tr>
+<tr class="memdesc:a6dabe4dc16ae1e082dbb46e53613d3ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes <code>count</code> copies of <code>fill</code> to <code>buf</code>; false when it fails.  <br /></td></tr>
+<tr class="separator:a6dabe4dc16ae1e082dbb46e53613d3ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a7fbb7d8c433dcd773fb0e37466214a" id="r_a3a7fbb7d8c433dcd773fb0e37466214a"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
+<tr class="memitem:a3a7fbb7d8c433dcd773fb0e37466214a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3a7fbb7d8c433dcd773fb0e37466214a">write_field</a> (std::basic_ostream&lt; CharT, Traits &gt; &amp;ostr, CharT const *data, std::size_t length)</td></tr>
+<tr class="memdesc:a3a7fbb7d8c433dcd773fb0e37466214a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The field of an inserted view: padding, the characters, the width.  <br /></td></tr>
+<tr class="separator:a3a7fbb7d8c433dcd773fb0e37466214a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:afe3ab615f3925843f98e58582b4dfdc2" id="r_afe3ab615f3925843f98e58582b4dfdc2"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe3ab615f3925843f98e58582b4dfdc2">no_pos</a> = static_cast&lt;std::size_t&gt; (-1)</td></tr>
+<tr class="memdesc:afe3ab615f3925843f98e58582b4dfdc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value of <code>npos</code> of every view.  <br /></td></tr>
+<tr class="separator:afe3ab615f3925843f98e58582b4dfdc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Snapshot of configuration applied at start (flags without public getters). </p>
-<dl class="section note"><dt>Note</dt><dd>For diagnostics and trigger-file matrix tests. </dd></dl>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a4e5e115c27378cb2e4e3d5b39ba870be" name="a4e5e115c27378cb2e4e3d5b39ba870be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e5e115c27378cb2e4e3d5b39ba870be">&#9670;&#160;</a></span>log_buffer_flush_level_configured</h2>
+<div class="textblock"><p>Implementation details of the string views; not part of the API. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="ae00452d3c96bf33b9f379d3221684747" name="ae00452d3c96bf33b9f379d3221684747"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae00452d3c96bf33b9f379d3221684747">&#9670;&#160;</a></span>block_hash() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;class CharT&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::applied::logger::logger::logger_applied_config_view_t::log_buffer_flush_level_configured</td>
+          <td class="memname">std::uint64_t lumex::core::string_view::view::detail::block_hash </td>
+          <td>(</td>
+          <td class="paramtype">CharT const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::false_type</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_ae00452d3c96bf33b9f379d3221684747_cgraph.png" border="0" usemap="#aa01574_ae00452d3c96bf33b9f379d3221684747_cgraph" alt=""/></div>
+<map name="aa01574_ae00452d3c96bf33b9f379d3221684747_cgraph" id="aa01574_ae00452d3c96bf33b9f379d3221684747_cgraph">
+<area shape="rect" title=" " alt="" coords="5,45,149,100"/>
+<area shape="rect" href="a01574.html#aaa308bfa9064fa6b21b9d948d3d11974" title=" " alt="" coords="197,5,341,60"/>
+<area shape="poly" title=" " alt="" coords="149,55,183,48,184,53,150,60"/>
+<area shape="rect" href="a01574.html#a079a0b1b80e2deedbcd4533653a64b7d" title="The hash of the characters of a view: the same value in every C++ standard, with every compiler and s..." alt="" coords="197,84,341,139"/>
+<area shape="poly" title=" " alt="" coords="150,85,184,91,183,97,149,90"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae45f6da8a478a48f87d579194da8c487" name="ae45f6da8a478a48f87d579194da8c487"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae45f6da8a478a48f87d579194da8c487">&#9670;&#160;</a></span>block_hash() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class CharT&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t lumex::core::string_view::view::detail::block_hash </td>
+          <td>(</td>
+          <td class="paramtype">CharT const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::true_type</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_ae45f6da8a478a48f87d579194da8c487_cgraph.png" border="0" usemap="#aa01574_ae45f6da8a478a48f87d579194da8c487_cgraph" alt=""/></div>
+<map name="aa01574_ae45f6da8a478a48f87d579194da8c487_cgraph" id="aa01574_ae45f6da8a478a48f87d579194da8c487_cgraph">
+<area shape="rect" title=" " alt="" coords="5,84,149,139"/>
+<area shape="rect" href="a01574.html#aaa308bfa9064fa6b21b9d948d3d11974" title=" " alt="" coords="197,5,341,60"/>
+<area shape="poly" title=" " alt="" coords="143,81,189,63,191,68,145,86"/>
+<area shape="rect" href="a01574.html#a079a0b1b80e2deedbcd4533653a64b7d" title="The hash of the characters of a view: the same value in every C++ standard, with every compiler and s..." alt="" coords="197,84,341,139"/>
+<area shape="poly" title=" " alt="" coords="149,109,183,109,183,114,149,114"/>
+<area shape="rect" href="a01574.html#af41b2ee76e2c87911026b6bcbe5cd5e5" title="Eight bytes as a little&#45;endian integer, on any byte order." alt="" coords="197,163,341,217"/>
+<area shape="poly" title=" " alt="" coords="145,136,191,155,189,160,143,141"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_ae45f6da8a478a48f87d579194da8c487_icgraph.png" border="0" usemap="#aa01574_ae45f6da8a478a48f87d579194da8c487_icgraph" alt=""/></div>
+<map name="aa01574_ae45f6da8a478a48f87d579194da8c487_icgraph" id="aa01574_ae45f6da8a478a48f87d579194da8c487_icgraph">
+<area shape="rect" title=" " alt="" coords="197,5,341,60"/>
+<area shape="rect" href="a01574.html#ac9ed761ed00377b5694650a0689a25f7" title="The hash of size characters at data (may be null if size is 0)." alt="" coords="5,5,149,60"/>
+<area shape="poly" title=" " alt="" coords="184,35,150,35,150,30,184,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="abae13cd4f0c82c0a74eb9d0399f9d34d" name="abae13cd4f0c82c0a74eb9d0399f9d34d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abae13cd4f0c82c0a74eb9d0399f9d34d">&#9670;&#160;</a></span>compare_result()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lumex::core::string_view::view::detail::compare_result </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>by_chars</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>lhs_size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>rhs_size</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The result of <code>compare</code>: the characters, then the sizes. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_abae13cd4f0c82c0a74eb9d0399f9d34d_icgraph.png" border="0" usemap="#aa01574_abae13cd4f0c82c0a74eb9d0399f9d34d_icgraph" alt=""/></div>
+<map name="aa01574_abae13cd4f0c82c0a74eb9d0399f9d34d_icgraph" id="aa01574_abae13cd4f0c82c0a74eb9d0399f9d34d_icgraph">
+<area shape="rect" title="The result of compare: the characters, then the sizes." alt="" coords="280,5,424,60"/>
+<area shape="rect" href="a04167.html#aed3dc0a97328de954474f41db2f02a3c" title=" " alt="" coords="5,5,232,60"/>
+<area shape="poly" title=" " alt="" coords="266,35,232,35,232,30,266,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac9ed761ed00377b5694650a0689a25f7" name="ac9ed761ed00377b5694650a0689a25f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9ed761ed00377b5694650a0689a25f7">&#9670;&#160;</a></span>hash_chars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class CharT&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::string_view::view::detail::hash_chars </td>
+          <td>(</td>
+          <td class="paramtype">CharT const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The hash of <code>size</code> characters at <code>data</code> (may be null if size is 0). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_ac9ed761ed00377b5694650a0689a25f7_cgraph.png" border="0" usemap="#aa01574_ac9ed761ed00377b5694650a0689a25f7_cgraph" alt=""/></div>
+<map name="aa01574_ac9ed761ed00377b5694650a0689a25f7_cgraph" id="aa01574_ac9ed761ed00377b5694650a0689a25f7_cgraph">
+<area shape="rect" title="The hash of size characters at data (may be null if size is 0)." alt="" coords="5,84,149,139"/>
+<area shape="rect" href="a01574.html#ae45f6da8a478a48f87d579194da8c487" title=" " alt="" coords="197,84,341,139"/>
+<area shape="poly" title=" " alt="" coords="149,109,183,109,183,114,149,114"/>
+<area shape="rect" href="a01574.html#aaa308bfa9064fa6b21b9d948d3d11974" title=" " alt="" coords="389,5,533,60"/>
+<area shape="poly" title=" " alt="" coords="335,81,381,63,383,68,337,86"/>
+<area shape="rect" href="a01574.html#a079a0b1b80e2deedbcd4533653a64b7d" title="The hash of the characters of a view: the same value in every C++ standard, with every compiler and s..." alt="" coords="389,84,533,139"/>
+<area shape="poly" title=" " alt="" coords="341,109,375,109,375,114,341,114"/>
+<area shape="rect" href="a01574.html#af41b2ee76e2c87911026b6bcbe5cd5e5" title="Eight bytes as a little&#45;endian integer, on any byte order." alt="" coords="389,163,533,217"/>
+<area shape="poly" title=" " alt="" coords="337,136,383,155,381,160,335,141"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aaa308bfa9064fa6b21b9d948d3d11974" name="aaa308bfa9064fa6b21b9d948d3d11974"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa308bfa9064fa6b21b9d948d3d11974">&#9670;&#160;</a></span>hash_final()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t lumex::core::string_view::view::detail::hash_final </td>
+          <td>(</td>
+          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>acc</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_aaa308bfa9064fa6b21b9d948d3d11974_icgraph.png" border="0" usemap="#aa01574_aaa308bfa9064fa6b21b9d948d3d11974_icgraph" alt=""/></div>
+<map name="aa01574_aaa308bfa9064fa6b21b9d948d3d11974_icgraph" id="aa01574_aaa308bfa9064fa6b21b9d948d3d11974_icgraph">
+<area shape="rect" title=" " alt="" coords="389,45,533,100"/>
+<area shape="rect" href="a01574.html#ae00452d3c96bf33b9f379d3221684747" title=" " alt="" coords="197,5,341,60"/>
+<area shape="poly" title=" " alt="" coords="375,58,341,50,342,45,377,52"/>
+<area shape="rect" href="a01574.html#ae45f6da8a478a48f87d579194da8c487" title=" " alt="" coords="197,84,341,139"/>
+<area shape="poly" title=" " alt="" coords="377,92,342,99,341,94,375,87"/>
+<area shape="rect" href="a01574.html#ac9ed761ed00377b5694650a0689a25f7" title="The hash of size characters at data (may be null if size is 0)." alt="" coords="5,84,149,139"/>
+<area shape="poly" title=" " alt="" coords="184,114,150,114,150,109,184,109"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a079a0b1b80e2deedbcd4533653a64b7d" name="a079a0b1b80e2deedbcd4533653a64b7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a079a0b1b80e2deedbcd4533653a64b7d">&#9670;&#160;</a></span>hash_round()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t lumex::core::string_view::view::detail::hash_round </td>
+          <td>(</td>
+          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>acc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>block</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The hash of the characters of a view: the same value in every C++ standard, with every compiler and standard library. </p>
+<p>A 64-bit block hash (the rounds of xxHash64 over 8-byte blocks and the finalizer of MurmurHash3), the length is mixed in, so a string and the same string followed by NULs differ. It is not the hash of <code>std::hash&lt;std::basic_string_view&gt;</code> (whose value is the choice of the standard library and changes with it): a library built at C++11 and a program built at C++17 must hash a key alike.</p>
+<p>What is hashed: for one-byte characters (<code>char</code>, <code>char8_t</code>) the bytes, read eight at a time as little-endian integers (so a big-endian machine gives the same value, through a byte swap); for wider characters (<code>wchar_t</code>, <code>char16_t</code>, <code>char32_t</code>) the code unit values, each zero-extended to 32 bits and two of them packed into one block (so strings of equal code UNIT sequences hash alike: <code>wchar_t</code> of 2 bytes (Windows) and of 4 bytes, and <code>char16_t</code> and <code>char32_t</code> for text inside the Basic Multilingual Plane; a character outside it is two units in UTF-16 and one in UTF-32 and hashes differently; a unit above 2^32 is reduced modulo 2^32). The value is a 64-bit one; on a 32-bit platform <code>size_t</code> takes its low 32 bits. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_a079a0b1b80e2deedbcd4533653a64b7d_icgraph.png" border="0" usemap="#aa01574_a079a0b1b80e2deedbcd4533653a64b7d_icgraph" alt=""/></div>
+<map name="aa01574_a079a0b1b80e2deedbcd4533653a64b7d_icgraph" id="aa01574_a079a0b1b80e2deedbcd4533653a64b7d_icgraph">
+<area shape="rect" title="The hash of the characters of a view: the same value in every C++ standard, with every compiler and s..." alt="" coords="389,45,533,100"/>
+<area shape="rect" href="a01574.html#ae00452d3c96bf33b9f379d3221684747" title=" " alt="" coords="197,5,341,60"/>
+<area shape="poly" title=" " alt="" coords="375,58,341,50,342,45,377,52"/>
+<area shape="rect" href="a01574.html#ae45f6da8a478a48f87d579194da8c487" title=" " alt="" coords="197,84,341,139"/>
+<area shape="poly" title=" " alt="" coords="377,92,342,99,341,94,375,87"/>
+<area shape="rect" href="a01574.html#ac9ed761ed00377b5694650a0689a25f7" title="The hash of size characters at data (may be null if size is 0)." alt="" coords="5,84,149,139"/>
+<area shape="poly" title=" " alt="" coords="184,114,150,114,150,109,184,109"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af41b2ee76e2c87911026b6bcbe5cd5e5" name="af41b2ee76e2c87911026b6bcbe5cd5e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af41b2ee76e2c87911026b6bcbe5cd5e5">&#9670;&#160;</a></span>load_le64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t lumex::core::string_view::view::detail::load_le64 </td>
+          <td>(</td>
+          <td class="paramtype">unsigned char const *</td>          <td class="paramname"><span class="paramname"><em>bytes</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Eight bytes as a little-endian integer, on any byte order. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_af41b2ee76e2c87911026b6bcbe5cd5e5_icgraph.png" border="0" usemap="#aa01574_af41b2ee76e2c87911026b6bcbe5cd5e5_icgraph" alt=""/></div>
+<map name="aa01574_af41b2ee76e2c87911026b6bcbe5cd5e5_icgraph" id="aa01574_af41b2ee76e2c87911026b6bcbe5cd5e5_icgraph">
+<area shape="rect" title="Eight bytes as a little&#45;endian integer, on any byte order." alt="" coords="389,5,533,60"/>
+<area shape="rect" href="a01574.html#ae45f6da8a478a48f87d579194da8c487" title=" " alt="" coords="197,5,341,60"/>
+<area shape="poly" title=" " alt="" coords="376,35,342,35,342,30,376,30"/>
+<area shape="rect" href="a01574.html#ac9ed761ed00377b5694650a0689a25f7" title="The hash of size characters at data (may be null if size is 0)." alt="" coords="5,5,149,60"/>
+<area shape="poly" title=" " alt="" coords="184,35,150,35,150,30,184,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2ecd968f695442799eabd23d72a6022d" name="a2ecd968f695442799eabd23d72a6022d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ecd968f695442799eabd23d72a6022d">&#9670;&#160;</a></span>min_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t lumex::core::string_view::view::detail::min_size </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_a2ecd968f695442799eabd23d72a6022d_icgraph.png" border="0" usemap="#aa01574_a2ecd968f695442799eabd23d72a6022d_icgraph" alt=""/></div>
+<map name="aa01574_a2ecd968f695442799eabd23d72a6022d_icgraph" id="aa01574_a2ecd968f695442799eabd23d72a6022d_icgraph">
+<area shape="rect" title=" " alt="" coords="317,401,461,456"/>
+<area shape="rect" href="a04167.html#aed3dc0a97328de954474f41db2f02a3c" title=" " alt="" coords="24,5,251,60"/>
+<area shape="poly" title=" " alt="" coords="378,388,359,310,333,216,301,129,284,96,267,73,249,60,253,55,271,69,289,93,306,127,338,214,364,308,383,387"/>
+<area shape="rect" href="a04167.html#a3990d0496cc8e63b8d61a7616766399b" title=" " alt="" coords="37,84,238,139"/>
+<area shape="poly" title=" " alt="" coords="380,388,367,335,346,271,313,208,292,179,268,153,237,134,240,129,271,149,296,175,318,205,351,269,373,333,385,387"/>
+<area shape="rect" href="a04167.html#a047d96459376d44c20d7b8163fea27dc" title=" " alt="" coords="40,163,235,233"/>
+<area shape="poly" title=" " alt="" coords="370,390,330,317,301,279,268,247,234,226,236,222,271,243,305,276,334,314,375,387"/>
+<area shape="rect" href="a04167.html#a2f91f451399f89fd0102db18f6b14fb6" title=" " alt="" coords="40,257,235,326"/>
+<area shape="poly" title=" " alt="" coords="347,395,309,366,268,340,234,324,236,319,271,336,312,362,350,390"/>
+<area shape="rect" href="a04167.html#a2dfea22772558242d229eb7a5cfd6a85" title=" " alt="" coords="40,350,235,419"/>
+<area shape="poly" title=" " alt="" coords="303,416,234,404,235,399,304,411"/>
+<area shape="rect" href="a04167.html#a108889107a9e2c251a76bd69281a4b1d" title=" " alt="" coords="5,444,269,499"/>
+<area shape="poly" title=" " alt="" coords="304,446,270,452,269,446,303,441"/>
+<area shape="rect" href="a04167.html#a9f1e8d50a3b9e51a05fd9d0c0fdd0332" title=" " alt="" coords="6,523,269,577"/>
+<area shape="poly" title=" " alt="" coords="345,466,310,491,270,512,240,525,238,520,268,508,307,486,342,462"/>
+<area shape="rect" href="a04167.html#a4e858407f51e5ca2d6d88331fe57e7de" title=" " alt="" coords="38,601,237,656"/>
+<area shape="poly" title=" " alt="" coords="371,470,330,532,303,564,271,591,238,608,236,604,268,586,299,560,326,529,367,467"/>
+<area shape="rect" href="a04167.html#a86410bb27673095af0bd68d87a6bce96" title=" " alt="" coords="38,680,237,735"/>
+<area shape="poly" title=" " alt="" coords="382,470,367,516,345,570,313,623,293,648,271,669,238,689,235,685,268,665,289,644,309,620,340,567,362,514,377,468"/>
+<area shape="rect" href="a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title=" " alt="" coords="32,759,243,813"/>
+<area shape="poly" title=" " alt="" coords="388,470,377,531,357,606,341,644,322,682,299,717,271,748,245,766,242,762,268,744,295,714,318,679,337,642,352,604,372,530,383,469"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6dabe4dc16ae1e082dbb46e53613d3ee" name="a6dabe4dc16ae1e082dbb46e53613d3ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dabe4dc16ae1e082dbb46e53613d3ee">&#9670;&#160;</a></span>put_fill()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class CharT, class Traits&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::string_view::view::detail::put_fill </td>
+          <td>(</td>
+          <td class="paramtype">std::basic_streambuf&lt; CharT, Traits &gt; *</td>          <td class="paramname"><span class="paramname"><em>buf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CharT</td>          <td class="paramname"><span class="paramname"><em>fill</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::streamsize</td>          <td class="paramname"><span class="paramname"><em>count</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>whether BUFFERING_TRIGGER= is set </p>
+<p>Writes <code>count</code> copies of <code>fill</code> to <code>buf</code>; false when it fails. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_a6dabe4dc16ae1e082dbb46e53613d3ee_icgraph.png" border="0" usemap="#aa01574_a6dabe4dc16ae1e082dbb46e53613d3ee_icgraph" alt=""/></div>
+<map name="aa01574_a6dabe4dc16ae1e082dbb46e53613d3ee_icgraph" id="aa01574_a6dabe4dc16ae1e082dbb46e53613d3ee_icgraph">
+<area shape="rect" title="Writes count copies of fill to buf; false when it fails." alt="" coords="197,5,341,60"/>
+<area shape="rect" href="a01574.html#a3a7fbb7d8c433dcd773fb0e37466214a" title="The field of an inserted view: padding, the characters, the width." alt="" coords="5,5,149,60"/>
+<area shape="poly" title=" " alt="" coords="184,35,150,35,150,30,184,30"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="ac5e787e56b952ba48ee33450b2f8f86c" name="ac5e787e56b952ba48ee33450b2f8f86c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5e787e56b952ba48ee33450b2f8f86c">&#9670;&#160;</a></span>log_buffer_flush_trigger_level</h2>
+<a id="a9f4575aeaa450faf079603d2161905e9" name="a9f4575aeaa450faf079603d2161905e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f4575aeaa450faf079603d2161905e9">&#9670;&#160;</a></span>throw_out_of_range()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a01272.html#a8abbc573ad9bfc4d4c761d4c300a1e07">LogLevel</a> lumex::applied::logger::logger::logger_applied_config_view_t::log_buffer_flush_trigger_level</td>
+          <td class="memname">void lumex::core::string_view::view::detail::throw_out_of_range </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>what</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>buffer-flush level on BUFFERING_TRIGGER= </p>
+
+<p>Throws <code>std::out_of_range</code>, or terminates without exceptions. </p>
+<p>The body depends on the exception mode of the translation unit, so the function and every member that calls it are always inlined: no out-of-line copy is emitted, and a program that links units built with and without <code>-fno-exceptions</code> keeps the right body in each of them. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_a9f4575aeaa450faf079603d2161905e9_icgraph.png" border="0" usemap="#aa01574_a9f4575aeaa450faf079603d2161905e9_icgraph" alt=""/></div>
+<map name="aa01574_a9f4575aeaa450faf079603d2161905e9_icgraph" id="aa01574_a9f4575aeaa450faf079603d2161905e9_icgraph">
+<area shape="rect" title="Throws std::out_of_range, or terminates without exceptions." alt="" coords="264,84,423,139"/>
+<area shape="rect" href="a04167.html#ad340b19c61ee9997d8b29e323bd23eea" title=" " alt="" coords="17,5,204,60"/>
+<area shape="poly" title=" " alt="" coords="250,83,191,63,193,58,252,78"/>
+<area shape="rect" href="a04167.html#a3990d0496cc8e63b8d61a7616766399b" title=" " alt="" coords="10,84,211,139"/>
+<area shape="poly" title=" " alt="" coords="250,114,212,114,212,109,250,109"/>
+<area shape="rect" href="a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title=" " alt="" coords="5,163,216,217"/>
+<area shape="poly" title=" " alt="" coords="252,145,193,165,191,160,250,140"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="ac65af752d0d3114636096ad50b4833e3" name="ac65af752d0d3114636096ad50b4833e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac65af752d0d3114636096ad50b4833e3">&#9670;&#160;</a></span>show_stack_trace_in_messages</h2>
+<a id="a3a7fbb7d8c433dcd773fb0e37466214a" name="a3a7fbb7d8c433dcd773fb0e37466214a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a7fbb7d8c433dcd773fb0e37466214a">&#9670;&#160;</a></span>write_field()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;class CharT, class Traits&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::applied::logger::logger::logger_applied_config_view_t::show_stack_trace_in_messages</td>
+          <td class="memname">void lumex::core::string_view::view::detail::write_field </td>
+          <td>(</td>
+          <td class="paramtype">std::basic_ostream&lt; CharT, Traits &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ostr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CharT const *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>length</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>STACKTRACE=... </p>
+<p>The field of an inserted view: padding, the characters, the width. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01574_a3a7fbb7d8c433dcd773fb0e37466214a_cgraph.png" border="0" usemap="#aa01574_a3a7fbb7d8c433dcd773fb0e37466214a_cgraph" alt=""/></div>
+<map name="aa01574_a3a7fbb7d8c433dcd773fb0e37466214a_cgraph" id="aa01574_a3a7fbb7d8c433dcd773fb0e37466214a_cgraph">
+<area shape="rect" title="The field of an inserted view: padding, the characters, the width." alt="" coords="5,5,149,60"/>
+<area shape="rect" href="a01574.html#a6dabe4dc16ae1e082dbb46e53613d3ee" title="Writes count copies of fill to buf; false when it fails." alt="" coords="197,5,341,60"/>
+<area shape="poly" title=" " alt="" coords="149,30,183,30,183,35,149,35"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="a8f83bcdb2bd432297d55abe91e9e7d14" name="a8f83bcdb2bd432297d55abe91e9e7d14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f83bcdb2bd432297d55abe91e9e7d14">&#9670;&#160;</a></span>stack_trace_max_frames</h2>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="afe3ab615f3925843f98e58582b4dfdc2" name="afe3ab615f3925843f98e58582b4dfdc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe3ab615f3925843f98e58582b4dfdc2">&#9670;&#160;</a></span>no_pos</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">short lumex::applied::logger::logger::logger_applied_config_view_t::stack_trace_max_frames</td>
+          <td class="memname">std::size_t const lumex::core::string_view::view::detail::no_pos = static_cast&lt;std::size_t&gt; (-1)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>STACKTRACE_FRAMES=... </p>
+<p>The value of <code>npos</code> of every view. </p>
 
 </div>
 </div>
-<a id="ae3ba3a6fd3eb320cd02b92d8a587b326" name="ae3ba3a6fd3eb320cd02b92d8a587b326"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3ba3a6fd3eb320cd02b92d8a587b326">&#9670;&#160;</a></span>use_timestamped_logs</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool lumex::applied::logger::logger::logger_applied_config_view_t::use_timestamped_logs</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>TIMESTAMPED=... </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00128_source.html">LumexLogger.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01271.html">logger</a></li><li class="navelem"><a class="el" href="a01272.html">logger</a></li><li class="navelem"><a class="el" href="a01574.html">logger_applied_config_view_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01572.html">string_view</a></li><li class="navelem"><a class="el" href="a01573.html">view</a></li><li class="navelem"><a class="el" href="a01574.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,7 @@
+<map id="lumex::core::span::view::detail::is_sized_sentinel&lt; Sentinel, Iterator, typename std::enable_if&lt; !std::is_convertible&lt; Sentinel, std::size_t &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Sentinel &amp; &gt;() &#45; std::declval&lt; Iterator &amp; &gt;()), std::ptrdiff_t &gt;::value &gt;::type &gt;" name="lumex::core::span::view::detail::is_sized_sentinel&lt; Sentinel, Iterator, typename std::enable_if&lt; !std::is_convertible&lt; Sentinel, std::size_t &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Sentinel &amp; &gt;() &#45; std::declval&lt; Iterator &amp; &gt;()), std::ptrdiff_t &gt;::value &gt;::type &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,276,221"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="12,5,131,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,42,105,77,101,80,82,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="154,5,266,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,44,181,80,176,77,194,42"/>
+</map>

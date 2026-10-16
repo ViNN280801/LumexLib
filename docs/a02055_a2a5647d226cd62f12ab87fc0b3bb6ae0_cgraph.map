@@ -1,0 +1,7 @@
+<map id="lumex::core::circular_buffer::circular_buffer::erase" name="lumex::core::circular_buffer::circular_buffer::erase">
+<area shape="rect" id="Node000001" title="Removes the elements of the range [first, last)." alt="" coords="5,41,173,96"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a783389fe18620fa39870a80f0a7ef984" title="Returns an iterator to the start of the logical sequence." alt="" coords="237,5,405,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,53,223,45,224,50,174,58"/>
+<area shape="rect" id="Node000003" href="$a02055.html#a5aca85451470b8c973ad79a8be7897ce" title="Returns an iterator to the end of the logical sequence." alt="" coords="221,85,421,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,79,208,84,207,90,173,84"/>
+</map>

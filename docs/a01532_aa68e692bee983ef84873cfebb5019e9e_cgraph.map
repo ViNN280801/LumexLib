@@ -1,0 +1,8 @@
+<map id="lumex::core::expected::result::make_expected" name="lumex::core::expected::result::make_expected">
+<area shape="rect" id="Node000001" title="Creates a successful expected&lt;void, ErrorType&gt; specialization." alt="" coords="5,29,184,69"/>
+<area shape="rect" id="Node000002" href="$a01532.html#a27b6adb30814e791117277cf6ea0cd2f" title="Creates a successful expected&lt;T, ErrorType&gt; from a value." alt="" coords="232,29,411,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,47,218,47,218,52,184,52"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="280,30,278,20,284,10,299,5,321,3,347,6,361,13,358,18,345,11,321,8,300,10,288,15,283,21,285,28"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="459,29,625,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="411,47,445,47,445,52,411,52"/>
+</map>

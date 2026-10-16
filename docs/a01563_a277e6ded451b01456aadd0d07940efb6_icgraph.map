@@ -1,0 +1,15 @@
+<map id="lumex::core::smart_ptr::detail::create_block" name="lumex::core::smart_ptr::detail::create_block">
+<area shape="rect" id="Node000001" title="Allocates one object of Block with the allocator Alloc rebound to it, constructs it with make and fre..." alt="" coords="520,91,703,131"/>
+<area shape="rect" id="Node000002" href="$a03847.html#a95f558d550641bc52b405eb65a814cc8" title="Allocates a block and constructs the object in it from args." alt="" coords="301,5,472,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="540,89,464,63,466,58,542,84"/>
+<area shape="rect" id="Node000003" href="$a03843.html#aaae03fcf0dd57bc527b2a16ce6f51324" title="Allocates and constructs a block." alt="" coords="314,84,459,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="507,114,459,114,459,109,507,109"/>
+<area shape="rect" id="Node000004" href="$a03995.html#a0a6c3ea863906e8dee2185a0288877ed" title="Allocates a block that owns owner." alt="" coords="314,163,459,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="542,138,460,167,459,162,540,133"/>
+<area shape="rect" id="Node000005" href="$a01562.html#a0f7e35c6ff6b5552331b1d5449faf6cc" title="Wraps a std::shared_ptr, taking it over (no extra reference of it)." alt="" coords="108,138,253,178"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="300,179,253,172,254,167,300,174"/>
+<area shape="rect" id="Node000006" href="$a01562.html#ac2864e50b7539f646b6e1f278485d428" title="Wraps a std::shared_ptr (see the file text)." alt="" coords="108,202,253,242"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="300,206,254,213,253,208,300,201"/>
+<area shape="rect" id="Node000007" href="$a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,209,60,235"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="94,225,60,225,60,219,94,219"/>
+</map>

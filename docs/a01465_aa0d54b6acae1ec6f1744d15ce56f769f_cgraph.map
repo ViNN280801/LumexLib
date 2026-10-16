@@ -1,0 +1,11 @@
+<map id="lumex::applied::serial::enumeration::enumerate_serial_port_names" name="lumex::applied::serial::enumeration::enumerate_serial_port_names">
+<area shape="rect" id="Node000001" title="Enumerate serial port names only." alt="" coords="5,84,197,139"/>
+<area shape="rect" id="Node000002" href="$a01465.html#a06d1dda0ef41ff2008e9792d2c6744ab" title="Enumerate serial ports with full serial_port_info_t records." alt="" coords="245,84,437,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,109,231,109,231,114,198,114"/>
+<area shape="rect" id="Node000003" href="$a01465.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="496,5,673,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="425,81,486,62,488,67,427,86"/>
+<area shape="rect" id="Node000004" href="$a01465.html#aeda0fc72f871cf1ddc177f5c172131ea" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="485,84,684,139"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="438,109,472,109,472,114,438,114"/>
+<area shape="rect" id="Node000005" href="$a01465.html#a2baec958c3eebd588ab9cbc9bccd7e5f" title="Maps an open outcome to the enumeration state." alt="" coords="489,163,681,217"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="427,136,488,156,486,161,425,141"/>
+</map>

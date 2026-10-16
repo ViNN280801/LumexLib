@@ -1,0 +1,10 @@
+<map id="lumex::core::exceptions::crash::lumex_crash_handler::initialize" name="lumex::core::exceptions::crash::lumex_crash_handler::initialize">
+<area shape="rect" id="Node000001" title="Initializes the crash handler." alt="" coords="5,57,217,112"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a395ab3b27b542b7cb9092beed95f748d" title="Static convenience method to retrieve an environment variable." alt="" coords="265,65,487,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,82,252,82,252,87,217,87"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="535,5,736,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="475,62,521,53,522,58,476,67"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="539,108,731,163"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="479,102,526,111,525,117,478,107"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="585,108,585,98,594,89,611,83,635,81,664,84,681,92,679,97,663,90,635,87,612,89,597,93,590,100,590,108"/>
+</map>

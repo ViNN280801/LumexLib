@@ -1,0 +1,5 @@
+<map id="lumex::applied::logger::logger::LumexLogger::log" name="lumex::applied::logger::logger::LumexLogger::log">
+<area shape="rect" id="Node000001" title="Writes a message at the given log level." alt="" coords="5,13,200,53"/>
+<area shape="rect" id="Node000002" href="$a01755.html#aee932e2ee3ecf51f5f8204ec9ea05130" title="Prints a developer hint on how to use the logger." alt="" coords="248,5,416,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,30,234,30,234,35,201,35"/>
+</map>

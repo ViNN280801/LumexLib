@@ -1,0 +1,9 @@
+<map id="lumex::xml::xpath::query::XPathQuery::operator=" name="lumex::xml::xpath::query::XPathQuery::operator=">
+<area shape="rect" id="Node000001" title="Move assignment operator." alt="" coords="5,49,220,89"/>
+<area shape="rect" id="Node000002" href="$a05319.html#a838c9cdc33385026763bb8f7233fa96e" title="Destroys an XPathQueryImpl instance and releases its resources." alt="" coords="268,49,452,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,66,254,66,254,71,220,71"/>
+<area shape="rect" id="Node000003" href="$a05259.html#ab93c0b3a302c65d01f9846257ac426ce" title="Releases all dynamically allocated memory blocks managed by this allocator." alt="" coords="531,5,709,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="452,53,517,44,517,50,452,59"/>
+<area shape="rect" id="Node000004" href="$a05319.html#aea826e8ae8d0db4e60f2c4bd4fa5bfd3" title="Constructs an XPathQueryImpl object." alt="" coords="500,85,740,125"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="452,79,487,84,486,89,452,84"/>
+</map>

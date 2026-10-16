@@ -1,0 +1,17 @@
+<map id="lumex::core::filesystem::fs::operator/" name="lumex::core::filesystem::fs::operator/">
+<area shape="rect" id="Node000001" title="Concatenation of a std::filesystem::path and a path: lhs / rhs." alt="" coords="5,37,180,77"/>
+<area shape="rect" id="Node000002" href="$a01539.html#a50771a5ef3d8c96a8122faf5e6590a93" title="Builds a std::filesystem::path from a path (see path)." alt="" coords="228,30,403,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,55,214,55,214,60,180,60"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,30,272,20,280,11,294,5,315,3,340,6,355,14,352,19,339,12,315,9,296,11,283,15,277,22,277,30"/>
+<area shape="rect" id="Node000003" href="$a02947.html#a54758ce9dd25cab6d714efd2ac1e8ace" title="Returns a copy of the path as a std::string." alt="" coords="451,5,625,45"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="402,42,437,37,438,42,403,47"/>
+<area shape="rect" id="Node000004" href="$a02947.html#a411cd428bcee18a7e01558506ba9a543" title="Converts and returns the path as a std::wstring." alt="" coords="451,69,625,109"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="403,67,438,72,437,77,402,73"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a8a23d2af01acf0e74e1432449f7268c0" title="Converts a std::string (UTF&#45;8 encoded) to a std::wstring." alt="" coords="673,62,848,117"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="625,87,660,87,660,92,625,92"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="719,62,719,52,727,43,740,37,761,35,785,38,799,46,796,51,783,43,761,41,742,43,730,47,724,54,724,62"/>
+<area shape="rect" id="Node000006" href="$a01584.html#a13d59f937ade78876e613ede4929011e" title="Converts length bytes of UTF&#45;8 text to a wchar_t string." alt="" coords="896,69,1055,109"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="849,87,882,87,882,92,849,92"/>
+<area shape="rect" id="Node000007" href="$a04287.html#a0ea14e7a0dd342f28237c0e7ff007335" title=" " alt="" coords="1103,62,1261,117"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1055,87,1089,87,1089,92,1055,92"/>
+</map>

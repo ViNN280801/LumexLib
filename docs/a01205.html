@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexGenerators File Reference</title>
+<title>LumexLib: LumexSettingsGuard.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,34 +103,176 @@ $(function(){initNavTree('a01205.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexGenerators File Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">LumexSettingsGuard.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Generators module: <code>number_generator</code>, random integral and floating-point numbers from the uniform, normal, exponential, gamma, Bernoulli, binomial, geometric or Poisson distribution.  
+<p>Format-agnostic backup/repair/validation layer built on top of <code><a class="el" href="a01208.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00437_source.html">number_generator/LumexNumberGenerator.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01208_source.html">lumex/applied/settings/interface/ILumexSettings.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexGenerators:</div>
+Include dependency graph for LumexSettingsGuard.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01206.png" border="0" usemap="#a_lumex_generators" alt=""/></div>
+<div class="center"><img src="a01206.png" border="0" usemap="#aLumexSettingsGuard_8hpp" alt=""/></div>
+<map name="aLumexSettingsGuard_8hpp" id="aLumexSettingsGuard_8hpp">
+<area shape="rect" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="264,5,451,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="169,167,351,192"/>
+<area shape="poly" title=" " alt="" coords="264,24,192,30,119,41,57,57,35,68,19,80,9,98,10,113,21,126,39,138,93,156,156,167,155,173,91,161,37,143,17,130,5,115,4,97,15,77,32,64,55,52,118,36,191,25,263,19"/>
+<area shape="rect" title=" " alt="" coords="30,86,117,111"/>
+<area shape="poly" title=" " alt="" coords="305,33,130,81,121,84,119,79,129,76,304,28"/>
+<area shape="rect" title=" " alt="" coords="141,86,219,111"/>
+<area shape="poly" title=" " alt="" coords="330,33,222,83,219,78,328,28"/>
+<area shape="rect" title=" " alt="" coords="243,86,307,111"/>
+<area shape="poly" title=" " alt="" coords="346,33,300,78,296,74,342,29"/>
+<area shape="rect" title=" " alt="" coords="527,167,585,192"/>
+<area shape="poly" title=" " alt="" coords="451,22,510,30,569,41,618,56,637,66,650,77,656,88,658,98,650,120,628,147,599,165,596,161,624,143,646,117,653,98,651,89,646,80,634,70,616,61,568,46,510,35,451,28"/>
+<area shape="rect" title=" " alt="" coords="573,86,635,111"/>
+<area shape="poly" title=" " alt="" coords="408,28,482,49,562,76,567,78,565,83,560,81,480,54,407,33"/>
+<area shape="rect" href="a01208.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="331,79,549,119"/>
+<area shape="poly" title=" " alt="" coords="373,29,411,67,408,71,369,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="711,79,924,119"/>
+<area shape="poly" title=" " alt="" coords="430,28,697,75,697,80,429,33"/>
+<area shape="poly" title=" " alt="" coords="396,121,302,163,300,159,394,116"/>
+<area shape="poly" title=" " alt="" coords="471,117,528,157,525,161,468,121"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01207.png" border="0" usemap="#a_lumex_generatorsdep" alt=""/></div>
+<div class="center"><img src="a01207.png" border="0" usemap="#aLumexSettingsGuard_8hppdep" alt=""/></div>
+<map name="aLumexSettingsGuard_8hppdep" id="aLumexSettingsGuard_8hppdep">
+<area shape="rect" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="408,5,595,31"/>
+<area shape="rect" href="a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="354,79,473,104"/>
+<area shape="poly" title=" " alt="" coords="477,42,431,80,427,76,474,38"/>
+<area shape="rect" href="a01202.html" title=" " alt="" coords="497,79,682,104"/>
+<area shape="poly" title=" " alt="" coords="529,38,575,76,572,80,526,42"/>
+<area shape="rect" href="a00320.html" title=" " alt="" coords="5,152,171,177"/>
+<area shape="poly" title=" " alt="" coords="345,110,145,154,144,149,343,104"/>
+<area shape="rect" href="a00314.html" title=" " alt="" coords="195,152,394,177"/>
+<area shape="poly" title=" " alt="" coords="383,114,317,154,314,150,380,109"/>
+<area shape="rect" href="a00311.html" title=" " alt="" coords="418,152,649,177"/>
+<area shape="poly" title=" " alt="" coords="447,109,514,150,511,154,445,114"/>
+<area shape="rect" href="a00317.html" title=" " alt="" coords="673,152,871,177"/>
+<area shape="poly" title=" " alt="" coords="487,104,710,149,709,155,486,109"/>
+</map>
 </div>
 </div>
 <p><a href="a01205_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01899.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes a single settings key that <code><a class="el" href="a01903.html#a1b16b4af8293c508e1b10b2181ab3bb3" title="Ensures every key in specs is present and valid, restoring default_value otherwise.">LumexSettingsGuard::ensure_keys_with_defaults</a></code> must keep present and valid.  <a href="a01899.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01903.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format-agnostic backup/repair/validation guard for an <code><a class="el" href="a01911.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> instance.  <a href="a01903.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01477.html">lumex::applied::settings</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01479.html">lumex::applied::settings::guard</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:abb83c517a273434e9ce8e83640838f61" id="r_abb83c517a273434e9ce8e83640838f61"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01479.html#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a> = std::function&lt;bool (std::string const &amp;)&gt;</td></tr>
+<tr class="memdesc:abb83c517a273434e9ce8e83640838f61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validation callback for a single settings key.  <br /></td></tr>
+<tr class="separator:abb83c517a273434e9ce8e83640838f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa7cdf0a7ae72bb172b541454fb9bf5a" id="r_afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01479.html#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a> = std::function&lt;bool (void)&gt;</td></tr>
+<tr class="memdesc:afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback that (re)creates a settings file's default content from scratch.  <br /></td></tr>
+<tr class="separator:afa7cdf0a7ae72bb172b541454fb9bf5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03c038d49d13658f514ec716f3b4db81" id="r_a03c038d49d13658f514ec716f3b4db81"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03c038d49d13658f514ec716f3b4db81">LumexSettingsGuard</a> = <a class="el" href="a01903.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td></tr>
+<tr class="separator:a03c038d49d13658f514ec716f3b4db81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaba76e604dc91717d20367b64faa7745" id="r_aaba76e604dc91717d20367b64faa7745"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaba76e604dc91717d20367b64faa7745">lumex_settings_key_spec_t</a> = <a class="el" href="a01899.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td></tr>
+<tr class="separator:aaba76e604dc91717d20367b64faa7745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76e902ce20d92ae885d6684f4f295001" id="r_a76e902ce20d92ae885d6684f4f295001"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76e902ce20d92ae885d6684f4f295001">LumexSettingsValidateFn</a> = <a class="el" href="a01479.html#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a></td></tr>
+<tr class="separator:a76e902ce20d92ae885d6684f4f295001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abea24e19462376739279490b339d4de0" id="r_abea24e19462376739279490b339d4de0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abea24e19462376739279490b339d4de0">LumexSettingsCreateFn</a> = <a class="el" href="a01479.html#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a></td></tr>
+<tr class="separator:abea24e19462376739279490b339d4de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Generators module: <code>number_generator</code>, random integral and floating-point numbers from the uniform, normal, exponential, gamma, Bernoulli, binomial, geometric or Poisson distribution. </p>
-<p>Link <code>lumex::number_generator</code> (header-only). Works from C++11. The umbrella includes <code><a class="el" href="a00437.html" title="Defines the number_generator template class for versatile random number generation.">number_generator/LumexNumberGenerator.hpp</a></code>. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Format-agnostic backup/repair/validation layer built on top of <code><a class="el" href="a01208.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code>. </p>
+<p>Keeps a settings file usable: restores default keys, backs up and regenerates a corrupted file, and validates single keys. It works with any <code><a class="el" href="a01208.html#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> implementation (INI, JSON, XML or one of your own) because it drives everything through the interface's <code>load</code>/<code>save</code>/<code>get</code>/<code>add</code> contract instead of a concrete parser. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="aaba76e604dc91717d20367b64faa7745" name="aaba76e604dc91717d20367b64faa7745"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaba76e604dc91717d20367b64faa7745">&#9670;&#160;</a></span>lumex_settings_key_spec_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#aaba76e604dc91717d20367b64faa7745">lumex_settings_key_spec_t</a> = <a class="el" href="a01899.html">lumex::applied::settings::guard::lumex_settings_key_spec_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abea24e19462376739279490b339d4de0" name="abea24e19462376739279490b339d4de0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abea24e19462376739279490b339d4de0">&#9670;&#160;</a></span>LumexSettingsCreateFn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#abea24e19462376739279490b339d4de0">LumexSettingsCreateFn</a> = <a class="el" href="a01479.html#afa7cdf0a7ae72bb172b541454fb9bf5a">lumex::applied::settings::guard::LumexSettingsCreateFn</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03c038d49d13658f514ec716f3b4db81" name="a03c038d49d13658f514ec716f3b4db81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03c038d49d13658f514ec716f3b4db81">&#9670;&#160;</a></span>LumexSettingsGuard</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a03c038d49d13658f514ec716f3b4db81">LumexSettingsGuard</a> = <a class="el" href="a01903.html">lumex::applied::settings::guard::LumexSettingsGuard</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76e902ce20d92ae885d6684f4f295001" name="a76e902ce20d92ae885d6684f4f295001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76e902ce20d92ae885d6684f4f295001">&#9670;&#160;</a></span>LumexSettingsValidateFn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a76e902ce20d92ae885d6684f4f295001">LumexSettingsValidateFn</a> = <a class="el" href="a01479.html#abb83c517a273434e9ce8e83640838f61">lumex::applied::settings::guard::LumexSettingsValidateFn</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_7a0b57b0bc11e31c06666ccc60c080d7.html">generators</a></li><li class="navelem"><a class="el" href="a01205.html">LumexGenerators</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_6c1e121f7cdeaa97aad22f5242bef3d8.html">guard</a></li><li class="navelem"><a class="el" href="a01205.html">LumexSettingsGuard.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,23 @@
+<map id="lumex::core::string_view::view::lumex_basic_string_view::data" name="lumex::core::string_view::view::lumex_basic_string_view::data">
+<area shape="rect" id="Node000001" title="The pointer to the first character; null for a default view." alt="" coords="257,291,444,346"/>
+<area shape="rect" id="Node000002" href="$a02039.html#abf0c2c4214bf10c4e53c7f7a3b5f5d33" title="Decodes a Base64 string." alt="" coords="11,5,203,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="337,279,319,229,292,170,255,110,233,83,208,59,189,48,192,43,211,55,237,80,259,107,297,167,324,227,342,278"/>
+<area shape="rect" id="Node000003" href="$a02039.html#a360afd49df79519220388de49571f5a4" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="11,69,203,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="330,280,309,242,281,200,247,159,208,123,187,112,190,107,211,119,251,155,286,197,313,240,334,277"/>
+<area shape="rect" id="Node000004" href="$a02047.html#a60f7824316d61b0bddf6388be5f4110f" title="Encodes the characters of a string view into a Base64 string." alt="" coords="11,133,203,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="317,283,269,233,239,209,208,188,184,176,186,171,211,183,243,205,272,229,321,279"/>
+<area shape="rect" id="Node000005" href="$a02051.html#a1d9c71796e7ea3011f64939ff07a92f6" title="Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the ..." alt="" coords="30,198,185,253"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="266,289,208,266,179,255,181,250,210,262,268,284"/>
+<area shape="rect" id="Node000006" href="$a00290.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="80,277,135,302"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="244,308,135,295,135,290,244,303"/>
+<area shape="rect" id="Node000007" href="$a05115.html#aa13144828d356822926f495ad376f662" title="Assigns a string_view_t as the attribute&#39;s value." alt="" coords="14,327,201,367"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="244,334,201,339,201,333,243,328"/>
+<area shape="rect" id="Node000008" href="$a05187.html#a5fd089e0964587b6b63692d2627e76b1" title="Assignment operator for a string_view_t." alt="" coords="12,391,203,431"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="278,354,210,381,175,393,174,388,208,376,276,349"/>
+<area shape="rect" id="Node000009" href="$a05115.html#a7a36fb5f2f3a3ab150c6754ffb38e4db" title="Sets the value of the XML attribute from a string_view_t." alt="" coords="15,455,199,495"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="319,358,270,403,211,445,185,457,183,452,208,440,267,399,315,354"/>
+<area shape="rect" id="Node000010" href="$a05143.html#aa15caa513c7570b4cd374f9f364cabc3" title="Sets the value of the XML node from a string_view_t." alt="" coords="5,519,209,559"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="333,360,284,435,250,475,211,509,189,521,187,516,208,504,246,471,280,432,328,357"/>
+<area shape="rect" id="Node000011" href="$a01671.html#a3c5deb31f79c24e9ee3be945e125e6bd" title=" " alt="" coords="36,583,179,623"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="341,360,323,409,295,466,258,523,236,550,211,573,180,590,178,586,208,569,232,546,254,520,291,463,318,407,336,358"/>
+</map>

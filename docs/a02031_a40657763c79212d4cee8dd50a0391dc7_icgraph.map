@@ -1,0 +1,7 @@
+<map id="lumex::core::atomic::sync::table_wait::Detail::bit_lock::bit_lock" name="lumex::core::atomic::sync::table_wait::Detail::bit_lock::bit_lock">
+<area shape="rect" id="Node000001" title="Creates a released lock." alt="" coords="248,45,427,100"/>
+<area shape="rect" id="Node000002" href="$a02031.html#a7a11bd927dc006b54e6881e33290618b" title=" " alt="" coords="13,5,192,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,58,192,51,193,45,235,53"/>
+<area shape="rect" id="Node000003" href="$a02031.html#a3d9dc437ee1d83efbb55f001291730c7" title=" " alt="" coords="5,84,200,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="235,92,200,98,200,93,234,87"/>
+</map>

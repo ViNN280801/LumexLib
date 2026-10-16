@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::result::detail::storage::expected_checks&lt; T, E &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02818.html',''); initResizable(true); });
+$(function(){initNavTree('a02815.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,22 +103,33 @@ $(function(){initNavTree('a02818.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::string_buffer&lt; Char &gt; Member List</div></div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::detail::storage::expected_checks&lt; T, E &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02818.html">lumex::core::fmt::Detail::string_buffer&lt; Char &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02818.html#a806d2861292eb85a3b525b0d3b93d1d9">append</a>(Char const *first, Char const *stop) override</td><td class="entry"><a class="el" href="a02818.html">lumex::core::fmt::Detail::string_buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02814.html#aa54539fce5f7666a0702f9a3fb7657c1">lumex::core::fmt::Detail::buffer::append</a>(std::basic_string&lt; Char &gt; const &amp;text)</td><td class="entry"><a class="el" href="a02814.html">lumex::core::fmt::Detail::buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02818.html#a82e8f24ff1eaac49d82701b95b06d944">push_back</a>(Char value) override</td><td class="entry"><a class="el" href="a02818.html">lumex::core::fmt::Detail::string_buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02818.html#adebc6325eb64d16eac5e33e54bfee49c">string_buffer</a>(std::basic_string&lt; Char &gt; &amp;target)</td><td class="entry"><a class="el" href="a02818.html">lumex::core::fmt::Detail::string_buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02814.html#a966c18e72fc3490cc1f3fdf6aea2a666">~buffer</a>()=default</td><td class="entry"><a class="el" href="a02814.html">lumex::core::fmt::Detail::buffer&lt; Char &gt;</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<p>The requirements on the types of <code>expected&lt;T, E&gt;</code> ([expected.object.general]/2, [expected.un.general]/2), as <code>static_assert</code>s.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00908_source.html">ExpectedStorage.hpp</a>&gt;</code></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename E&gt;<br />
+struct lumex::core::expected::result::detail::storage::expected_checks&lt; T, E &gt;</div><p>The requirements on the types of <code>expected&lt;T, E&gt;</code> ([expected.object.general]/2, [expected.un.general]/2), as <code>static_assert</code>s. </p>
+<p>The base class of the storage (so that these messages come before any error the union would give for the same type, a union cannot hold a reference, and <code>expected</code> has one base only: a compiler that does not share the storage of several empty bases would make the object bigger). </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Value type. </td></tr>
+    <tr><td class="paramname">E</td><td>Error type. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00908_source.html">ExpectedStorage.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01532.html">result</a></li><li class="navelem"><a class="el" href="a01533.html">detail</a></li><li class="navelem"><a class="el" href="a01535.html">storage</a></li><li class="navelem"><a class="el" href="a02815.html">expected_checks</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

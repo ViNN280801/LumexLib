@@ -1,0 +1,17 @@
+<map id="lumex::core::optional::opt::detail::opt_destruct_base::construct" name="lumex::core::optional::opt::detail::opt_destruct_base::construct">
+<area shape="rect" id="Node000001" title="Starts the value&#39;s life with args...; the flag is set last, so a throwing constructor leaves the obje..." alt="" coords="5,34,191,88"/>
+<area shape="rect" id="Node000002" href="$a01554.html#ae2accfaa04f297a6e4c12a36448e19ef" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11." alt="" coords="679,61,853,101"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,36,283,19,394,6,513,4,573,9,631,18,678,33,721,52,719,57,676,38,630,24,572,14,513,10,394,12,284,24,191,41"/>
+<area shape="rect" id="Node000003" href="$a01554.html#a2d4cf60aacd9a54ae35907dc79d7a005" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="239,122,423,162"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="178,86,262,115,260,120,176,91"/>
+<area shape="rect" id="Node000004" href="$a01554.html#a082ca03541f76bc3739cf1d6618c70e8" title="static_cast&lt;T &amp;&amp;&gt; (t): std::forward is not constexpr in C++11." alt="" coords="471,57,631,97"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="191,62,457,71,457,76,191,67"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="726,61,724,51,730,42,744,36,766,34,791,37,805,45,802,49,789,42,766,40,746,42,733,46,729,52,731,60"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="290,123,287,113,294,103,308,98,331,96,356,99,370,106,368,111,355,104,331,101,310,103,297,108,292,114,295,121"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="398,120,469,98,471,103,399,125"/>
+<area shape="rect" id="Node000005" href="$a01554.html#a3ebf297c5727c955b66997cc5db2918a" title="The address of object as a void *, also for a const object." alt="" coords="471,145,631,185"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="423,149,458,153,457,158,422,154"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="511,57,508,47,515,38,529,32,551,30,576,33,589,41,587,45,574,38,551,36,530,38,518,42,513,48,516,56"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="601,142,701,104,703,109,603,147"/>
+<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="511,145,508,135,515,126,529,120,551,118,576,121,589,129,587,133,574,126,551,124,530,126,518,130,513,136,516,144"/>
+</map>

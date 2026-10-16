@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::block_allocator::deallocate" name="lumex::core::smart_ptr::detail::block_allocator::deallocate">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,168,60"/>
+<area shape="rect" id="Node000002" href="$a01563.html#a275195d522f31643de7f5240a63d9dc8" title="Releases memory from allocate_aligned with the same alignment." alt="" coords="216,5,384,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,30,202,30,202,35,169,35"/>
+</map>

@@ -19,5 +19,5 @@ var dir_aaa57aed14d71e316a67f95634c796d3 =
     [ "sequence", "dir_65c42de61641faded62c125b71f0e830.html", "dir_65c42de61641faded62c125b71f0e830" ],
     [ "traits", "dir_ff11623c7d0e1bf06b7d828827ccbe0f.html", "dir_ff11623c7d0e1bf06b7d828827ccbe0f" ],
     [ "util", "dir_0deadd0aca7ea116766ab685e8e1d5bb.html", "dir_0deadd0aca7ea116766ab685e8e1d5bb" ],
-    [ "LumexUtility", "a01241.html", null ]
+    [ "LumexUtility", "a01418.html", null ]
 ];

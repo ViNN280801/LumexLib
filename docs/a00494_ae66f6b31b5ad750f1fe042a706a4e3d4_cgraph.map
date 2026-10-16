@@ -1,0 +1,52 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,501,60,527"/>
+<area shape="rect" id="Node000002" href="$a00494.html#a1057d64ff5f47361ae80276a4f2cab85" title="The bytes of a span as a read&#45;only span of byte." alt="" coords="152,5,232,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="30,501,34,411,45,272,54,200,67,133,84,78,106,40,121,28,138,21,140,26,123,33,110,44,89,80,73,135,60,201,50,273,39,411,36,501"/>
+<area shape="rect" id="Node000003" href="$a00494.html#aa4387d88ffa0f7f69644053877d05f3e" title="The bytes of a span as a writable span of byte." alt="" coords="122,55,262,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="31,501,36,419,48,296,58,232,71,173,86,125,106,91,111,86,115,90,110,94,91,127,76,175,63,233,53,297,41,419,36,501"/>
+<area shape="rect" id="Node000004" href="$a04027.html#a7d97d6e5db14203a46ee1e31caa181de" title="The element at index, checked (C++26 in the standard)." alt="" coords="119,129,265,169"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="31,501,39,435,54,339,76,243,90,205,106,179,109,176,113,179,110,182,95,208,82,245,59,340,44,435,37,502"/>
+<area shape="rect" id="Node000006" href="$a04027.html#ab524cd456985fe4919c119a5a15317be" title="The last element." alt="" coords="119,217,265,257"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="31,501,35,458,46,398,69,333,85,302,106,274,118,262,122,266,110,277,90,305,74,335,51,400,40,459,36,501"/>
+<area shape="rect" id="Node000007" href="$a04027.html#a0ef06cbc786fe62ea93cbdf2794a432f" title="Tells whether the span has no elements." alt="" coords="324,274,471,314"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="31,501,35,464,46,413,69,361,85,337,106,317,129,303,154,292,207,278,261,274,311,276,310,282,261,279,208,283,156,297,132,307,110,321,90,341,73,363,51,415,40,465,36,502"/>
+<area shape="rect" id="Node000008" href="$a04027.html#a84210bd8411fe7434b1587c41848751e" title="An iterator to the first element." alt="" coords="324,454,471,494"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="43,499,70,475,107,456,159,444,212,441,263,444,310,450,310,455,263,449,212,446,159,449,109,460,73,480,46,503"/>
+<area shape="rect" id="Node000009" href="$a04027.html#a66306398cbf1a641bad4eb31005d0bfe" title="An iterator to the end of the span." alt="" coords="324,593,471,633"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="60,524,109,543,213,573,311,594,310,599,212,578,107,549,58,529"/>
+<area shape="rect" id="Node000010" href="$a04027.html#af227a2d7f284a6e0b8b227853bf790c5" title="The first element." alt="" coords="119,355,265,395"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="38,499,64,457,84,433,106,412,124,400,127,404,110,416,88,437,69,460,42,502"/>
+<area shape="rect" id="Node000011" href="$a04027.html#a71eadcb7899227393d70f0b0e236fa38" title="A reverse iterator to the last element." alt="" coords="119,633,265,673"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="46,525,110,588,153,622,150,627,106,592,43,529"/>
+<area shape="rect" id="Node000012" href="$a04027.html#ae5e8384b88145ebd85ef941e96e64e1d" title="A reverse iterator to the end of the reversed span." alt="" coords="119,494,265,534"/>
+<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="60,511,105,511,105,517,60,517"/>
+<area shape="rect" id="Node000013" href="$a04027.html#ab5393aa7cdc476762748852718a134b7" title="The number of elements." alt="" coords="119,721,265,761"/>
+<area shape="poly" id="edge24_Node000001_Node000013" title=" " alt="" coords="38,526,61,597,82,642,110,683,143,711,139,715,106,686,78,644,56,599,33,528"/>
+<area shape="rect" id="Node000014" href="$a04027.html#a7e33ca67de15b68692040ee4bd5fbf98" title="The size of the viewed sequence in bytes." alt="" coords="108,809,276,849"/>
+<area shape="poly" id="edge26_Node000001_Node000014" title=" " alt="" coords="36,527,41,571,52,635,74,705,90,740,110,771,140,799,137,803,106,774,86,742,69,707,47,636,35,572,31,527"/>
+<area shape="rect" id="Node000015" href="$a04027.html#a13a83ffe79d91fd182648cca8911f850" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="115,897,269,937"/>
+<area shape="poly" id="edge28_Node000001_Node000015" title=" " alt="" coords="37,527,62,693,84,792,96,831,110,859,123,874,139,887,136,891,120,878,106,862,92,833,79,793,56,694,32,527"/>
+<area shape="rect" id="Node000017" href="$a00494.html#af33736c685d14d2b787a7ff15f5437f9" title="Converts a byte to an integer type." alt="" coords="148,961,236,987"/>
+<area shape="poly" id="edge31_Node000001_Node000017" title=" " alt="" coords="36,527,40,611,53,738,62,803,75,864,91,913,110,947,122,957,136,964,134,968,119,961,106,950,86,916,70,865,57,804,47,738,35,611,30,527"/>
+<area shape="rect" id="Node000018" href="$a00449.html#a765661df16a1d68eca933c5943f17427" title="Adds samples up, for example every process of one name." alt="" coords="166,1011,218,1036"/>
+<area shape="poly" id="edge32_Node000001_Node000018" title=" " alt="" coords="36,527,39,620,49,762,59,836,72,904,89,960,110,998,129,1011,153,1019,151,1024,127,1016,106,1001,84,962,67,905,54,837,44,762,33,620,30,527"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="162,129,160,119,165,110,176,104,192,102,211,105,221,112,218,117,209,110,192,107,177,109,169,114,165,120,167,128"/>
+<area shape="rect" id="Node000005" href="$a01566.html#a7aeff79089621667da4b6131d3548e5a" title="Throws std::out_of_range; keeps the throw out of the inline accessors." alt="" coords="324,121,471,176"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="266,146,310,146,310,151,266,151"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="162,217,160,207,165,198,176,192,192,190,211,193,221,200,218,205,209,198,192,195,177,197,169,202,165,208,167,216"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="265,254,313,268,312,273,263,259"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="359,274,356,264,363,255,376,249,397,247,421,250,435,258,432,262,420,255,397,253,378,255,366,259,362,265,364,273"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="359,454,356,444,363,435,376,429,397,427,421,430,435,438,432,442,420,435,397,433,378,435,366,439,362,445,364,453"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="359,593,356,583,363,574,376,568,397,566,421,569,435,576,432,581,420,574,397,571,378,573,366,578,362,584,364,592"/>
+<area shape="poly" id="edge16_Node000010_Node000007" title=" " alt="" coords="242,353,333,317,335,322,244,358"/>
+<area shape="poly" id="edge17_Node000010_Node000010" title=" " alt="" coords="162,355,160,346,165,337,176,331,192,329,211,332,221,339,218,343,209,337,192,334,177,336,169,340,165,347,167,354"/>
+<area shape="poly" id="edge19_Node000011_Node000009" title=" " alt="" coords="265,636,310,627,311,632,266,641"/>
+<area shape="poly" id="edge20_Node000011_Node000011" title=" " alt="" coords="162,633,160,623,165,614,176,608,192,606,211,609,221,616,218,621,209,614,192,611,177,613,169,618,165,624,167,632"/>
+<area shape="poly" id="edge22_Node000012_Node000008" title=" " alt="" coords="265,497,310,488,311,493,266,502"/>
+<area shape="poly" id="edge23_Node000012_Node000012" title=" " alt="" coords="162,494,160,484,165,475,176,469,192,467,211,470,221,478,218,482,209,475,192,473,177,475,169,479,165,485,167,493"/>
+<area shape="poly" id="edge25_Node000013_Node000013" title=" " alt="" coords="162,721,160,711,165,702,176,696,192,694,211,697,221,704,218,709,209,702,192,699,177,701,169,706,165,712,167,720"/>
+<area shape="poly" id="edge27_Node000014_Node000014" title=" " alt="" coords="162,809,160,799,165,790,176,784,192,782,211,785,221,792,218,797,209,790,192,787,177,789,169,794,165,800,167,808"/>
+<area shape="poly" id="edge30_Node000015_Node000015" title=" " alt="" coords="162,897,160,887,165,878,176,872,192,870,211,873,221,880,218,885,209,878,192,875,177,877,169,882,165,888,167,896"/>
+<area shape="rect" id="Node000016" href="$a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="324,897,471,937"/>
+<area shape="poly" id="edge29_Node000015_Node000016" title=" " alt="" coords="269,914,310,914,310,919,269,919"/>
+</map>

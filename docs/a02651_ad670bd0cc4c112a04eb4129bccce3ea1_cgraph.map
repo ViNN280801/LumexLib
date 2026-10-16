@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::error::unexpected::error" name="lumex::core::expected::error::unexpected::error">
+<area shape="rect" id="Node000001" title="Returns an rvalue reference to the stored error." alt="" coords="5,5,189,45"/>
+<area shape="rect" id="Node000002" href="$a02651.html#a4d83aa2b2112492fa615797adbecc232" title="Returns a mutable lvalue reference to the stored error." alt="" coords="237,5,421,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,23,224,23,224,28,189,28"/>
+</map>

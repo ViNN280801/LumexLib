@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::settings::xml::Constants Namespace Reference</title>
+<title>LumexLib: LumexCPUVectorizationCapabilities.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,66 +104,122 @@ $(function(){initNavTree('a01310.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::settings::xml::Constants Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexCPUVectorizationCapabilities.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Run-time detection of the SIMD instruction sets that the processor and the operating system support.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;sys/auxv.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexCPUVectorizationCapabilities.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01311.png" border="0" usemap="#aLumexCPUVectorizationCapabilities_8hpp" alt=""/></div>
+<map name="aLumexCPUVectorizationCapabilities_8hpp" id="aLumexCPUVectorizationCapabilities_8hpp">
+<area shape="rect" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="225,5,508,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,79,187,104"/>
+<area shape="poly" title=" " alt="" coords="320,33,157,78,156,72,319,28"/>
+<area shape="rect" title=" " alt="" coords="211,79,267,104"/>
+<area shape="poly" title=" " alt="" coords="346,33,274,74,272,69,343,28"/>
+<area shape="rect" title=" " alt="" coords="291,79,357,104"/>
+<area shape="poly" title=" " alt="" coords="362,32,341,68,336,65,357,29"/>
+<area shape="rect" title=" " alt="" coords="381,79,440,104"/>
+<area shape="poly" title=" " alt="" coords="377,29,398,65,394,68,372,32"/>
+<area shape="rect" title=" " alt="" coords="464,79,555,104"/>
+<area shape="poly" title=" " alt="" coords="393,28,473,70,471,75,390,33"/>
+<area shape="rect" title=" " alt="" coords="579,79,653,104"/>
+<area shape="poly" title=" " alt="" coords="411,28,566,74,565,79,409,33"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01312.png" border="0" usemap="#aLumexCPUVectorizationCapabilities_8hppdep" alt=""/></div>
+<map name="aLumexCPUVectorizationCapabilities_8hppdep" id="aLumexCPUVectorizationCapabilities_8hppdep">
+<area shape="rect" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="120,5,403,31"/>
+<area shape="rect" href="a01319.html" title=" " alt="" coords="5,79,288,104"/>
+<area shape="poly" title=" " alt="" coords="231,41,168,81,165,76,228,36"/>
+<area shape="rect" href="a01331.html" title="Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the ..." alt="" coords="311,79,441,104"/>
+<area shape="poly" title=" " alt="" coords="294,36,357,76,354,81,292,41"/>
+<area shape="rect" href="a00455.html" title=" " alt="" coords="22,152,223,192"/>
+<area shape="poly" title=" " alt="" coords="324,111,187,154,185,149,322,106"/>
+<area shape="rect" href="a00452.html" title=" " alt="" coords="248,159,504,185"/>
+<area shape="poly" title=" " alt="" coords="379,118,379,159,373,159,373,118"/>
+<area shape="rect" href="a00458.html" title=" " alt="" coords="529,159,767,185"/>
+<area shape="poly" title=" " alt="" coords="433,105,606,157,604,162,432,111"/>
+</map>
+</div>
+</div>
+<p><a href="a01310_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:af855e4cf1325db801e3b37d639568677" id="r_af855e4cf1325db801e3b37d639568677"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af855e4cf1325db801e3b37d639568677">constXML_FILE_EXTENSION</a> = &quot;.xml&quot;</td></tr>
-<tr class="memdesc:af855e4cf1325db801e3b37d639568677"><td class="mdescLeft">&#160;</td><td class="mdescRight">XML file extension.  <br /></td></tr>
-<tr class="separator:af855e4cf1325db801e3b37d639568677"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9686f880e1ab09a34249727e8cb8f994" id="r_a9686f880e1ab09a34249727e8cb8f994"><td class="memItemLeft" align="right" valign="top">static constchar *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9686f880e1ab09a34249727e8cb8f994">constSETTINGS_ROOT_NAME</a> = &quot;settings&quot;</td></tr>
-<tr class="memdesc:a9686f880e1ab09a34249727e8cb8f994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Canonical root written by <code>save</code>.  <br /></td></tr>
-<tr class="separator:a9686f880e1ab09a34249727e8cb8f994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01703.html">lumex::applied::hardware::caps::CPUVectorizationDetector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPU vectorization capabilities detection utility class.  <a href="a01703.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01427.html">lumex::applied::hardware</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01428.html">lumex::applied::hardware::caps</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a284f1acc3e467f02e2b46bb9608d1788" id="r_a284f1acc3e467f02e2b46bb9608d1788"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a284f1acc3e467f02e2b46bb9608d1788">LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT</a>&#160;&#160;&#160;64</td></tr>
+<tr class="separator:a284f1acc3e467f02e2b46bb9608d1788"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a615573012d297003b337d062ccfe4e48" id="r_a615573012d297003b337d062ccfe4e48"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a615573012d297003b337d062ccfe4e48">LUMEX_CPU_VECTORIZATION_INFO_ALIGNED</a>&#160;&#160;&#160;  __attribute__ ((aligned (<a class="el" href="#a284f1acc3e467f02e2b46bb9608d1788">LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT</a>)))</td></tr>
+<tr class="separator:a615573012d297003b337d062ccfe4e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a97570187769d61bc5662e50a6e3b9240" id="r_a97570187769d61bc5662e50a6e3b9240"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01428.html#a97570187769d61bc5662e50a6e3b9240">lumex::applied::hardware::caps::__attribute__</a> ((aligned(64))) cpu_vectorization_info_t</td></tr>
+<tr class="memdesc:a97570187769d61bc5662e50a6e3b9240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comprehensive CPU vectorization capabilities structure.  <br /></td></tr>
+<tr class="separator:a97570187769d61bc5662e50a6e3b9240"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a9686f880e1ab09a34249727e8cb8f994" name="a9686f880e1ab09a34249727e8cb8f994"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9686f880e1ab09a34249727e8cb8f994">&#9670;&#160;</a></span>constSETTINGS_ROOT_NAME</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Run-time detection of the SIMD instruction sets that the processor and the operating system support. </p>
+<p>Declares <code>cpu_vectorization_info_t</code>, which holds one flag per instruction set (SSE to SSE4.2, AVX, AVX2, five AVX-512 subsets, FMA3, FMA4, NEON, SVE), the widest usable SIMD register in bits and a readable summary, and <code>CPUVectorizationDetector</code>, which fills it. On x86 and x64 the detector reads CPUID and reports AVX and the later sets only when the operating system saves the extended register state (XSAVE); on ARM Linux it reads the hardware capability words of the auxiliary vector (<code>getauxval</code>). Nothing is cached: every <code>detect()</code> call queries the processor again. The implementation is compiled into the <code>lumex::hardware</code> library. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a615573012d297003b337d062ccfe4e48" name="a615573012d297003b337d062ccfe4e48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a615573012d297003b337d062ccfe4e48">&#9670;&#160;</a></span>LUMEX_CPU_VECTORIZATION_INFO_ALIGNED</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constchar* lumex::applied::settings::xml::Constants::constSETTINGS_ROOT_NAME = &quot;settings&quot;</td>
+          <td class="memname">#define LUMEX_CPU_VECTORIZATION_INFO_ALIGNED&#160;&#160;&#160;  __attribute__ ((aligned (<a class="el" href="#a284f1acc3e467f02e2b46bb9608d1788">LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT</a>)))</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Canonical root written by <code>save</code>. </p>
-
 </div>
 </div>
-<a id="af855e4cf1325db801e3b37d639568677" name="af855e4cf1325db801e3b37d639568677"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af855e4cf1325db801e3b37d639568677">&#9670;&#160;</a></span>constXML_FILE_EXTENSION</h2>
+<a id="a284f1acc3e467f02e2b46bb9608d1788" name="a284f1acc3e467f02e2b46bb9608d1788"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a284f1acc3e467f02e2b46bb9608d1788">&#9670;&#160;</a></span>LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constchar* lumex::applied::settings::xml::Constants::constXML_FILE_EXTENSION = &quot;.xml&quot;</td>
+          <td class="memname">#define LUMEX_CPU_VECTORIZATION_INFO_ALIGNMENT&#160;&#160;&#160;64</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>XML file extension. </p>
 
 </div>
 </div>
@@ -172,7 +228,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01300.html">settings</a></li><li class="navelem"><a class="el" href="a01309.html">xml</a></li><li class="navelem"><a class="el" href="a01310.html">Constants</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_67ca2fc5a6ed9c37068e27e587cd4bd5.html">hardware</a></li><li class="navelem"><a class="el" href="dir_d44df35ae1ff921f3f5bbaddfc0f5b6e.html">caps</a></li><li class="navelem"><a class="el" href="a01310.html">LumexCPUVectorizationCapabilities.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

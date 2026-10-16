@@ -1,5 +1,5 @@
 var a00974 =
 [
-    [ "lumex::xml::memory::XmlMemoryPage", "a04962.html", "a04962" ],
-    [ "lumex::xml::memory::kdefault_xml_memory_page_size", "a01500.html#ac84ecf0eca5d2db3249e4552c2a861a4", null ]
+    [ "lumex::core::string::text::to_case_insensitive", "a01568.html#ad8f7eb93f5a0d72fd633cee8e25bd05a", null ],
+    [ "lumex::core::string::text::to_case_insensitive", "a01568.html#af2d09555090576cec202f328fb11ddbf", null ]
 ];

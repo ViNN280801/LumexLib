@@ -1,0 +1,20 @@
+<map id="LumexHazardPointerObjBase.hpp" name="LumexHazardPointerObjBase.hpp">
+<area shape="rect" id="Node000001" title="hazard_pointer_obj_base&lt;T, D&gt;, the base class of objects that hazard pointers protect,..." alt="" coords="241,5,481,31"/>
+<area shape="rect" id="Node000002" href="$a01385.html" title="Hazard pointer module: hazard_pointer, hazard_pointer_obj_base and make_hazard_pointer,..." alt="" coords="256,225,415,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="337,42,323,60,313,80,306,120,310,161,321,197,332,224,327,226,316,199,305,162,301,120,307,78,319,57,333,39"/>
+<area shape="rect" id="Node000007" href="$a01157.html" title="hazard_pointer, the owner of one hazard slot, with make_hazard_pointer, swap and the extension clean_..." alt="" coords="323,79,551,104"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="385,38,425,76,421,80,382,42"/>
+<area shape="rect" id="Node000003" href="$a00800.html" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="5,306,228,331"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="289,258,152,308,150,303,287,253"/>
+<area shape="rect" id="Node000004" href="$a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="77,387,303,427"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="317,263,210,388,206,384,313,259"/>
+<area shape="rect" id="Node000005" href="$a00524.html" title=" " alt="" coords="303,306,512,331"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="358,259,398,304,394,307,354,263"/>
+<area shape="rect" id="Node000006" href="$a00521.html" title=" " alt="" coords="536,299,719,339"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="395,252,555,296,554,301,394,257"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="138,341,175,385,171,388,134,344"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="404,114,382,132,363,153,346,191,339,226,334,225,341,190,358,151,378,128,401,110"/>
+<area shape="rect" id="Node000008" href="$a01154.html" title="make_hazard_pointer_batch and clear_hazard_pointer_batch, which fill and empty many holders at once (..." alt="" coords="372,152,595,177"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="454,114,477,150,473,153,450,117"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="447,186,362,228,360,223,444,181"/>
+</map>

@@ -1,0 +1,26 @@
+<map id="XmlWriterStream.cpp" name="XmlWriterStream.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="557,5,719,31"/>
+<area shape="rect" id="Node000002" href="$a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="448,79,631,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="624,33,576,72,573,68,620,29"/>
+<area shape="rect" id="Node000008" href="$a00665.html" title="XmlWriterStream, an IXmlWriter that writes to a narrow or a wide standard output stream." alt="" coords="667,86,830,111"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="657,29,721,75,718,80,654,33"/>
+<area shape="rect" id="Node000003" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="638,262,819,287"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="563,117,707,250,703,254,559,121"/>
+<area shape="rect" id="Node000004" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="225,167,414,207"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="490,121,383,164,381,159,488,116"/>
+<area shape="rect" id="Node000007" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="401,255,614,295"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="538,119,516,241,511,240,533,118"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,262,97,287"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="256,209,110,257,102,260,100,255,108,252,255,204"/>
+<area shape="rect" id="Node000006" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="121,255,376,295"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="305,209,276,245,271,242,301,205"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="364,204,453,246,451,251,361,209"/>
+<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="737,113,718,137,702,167,699,188,701,210,716,249,711,251,696,211,693,188,697,166,713,134,733,110"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="711,174,791,199"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="752,112,753,160,748,160,746,112"/>
+<area shape="rect" id="Node000010" href="$a00674.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="816,174,935,199"/>
+<area shape="poly" id="edge11_Node000008_Node000010" title=" " alt="" coords="769,109,847,164,844,168,766,114"/>
+<area shape="poly" id="edge12_Node000010_Node000003" title=" " alt="" coords="855,202,763,257,760,253,852,197"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="844,262,915,287"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="879,200,881,248,875,248,873,200"/>
+</map>

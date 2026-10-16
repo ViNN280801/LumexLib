@@ -1,0 +1,16 @@
+<map id="lumex::core::filesystem::fs::directory_entry::directory_entry" name="lumex::core::filesystem::fs::directory_entry::directory_entry">
+<area shape="rect" id="Node000001" title="Default constructor. Creates an empty directory entry." alt="" coords="228,203,403,257"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="352,192,339,184,315,181,296,183,283,188,277,194,277,203,272,203,272,192,280,184,294,178,315,176,340,179,355,187"/>
+<area shape="rect" id="Node000002" href="$a02959.html#a62fdb871b4081d28cbab43baacc14cad" title="Inequality comparison operator for directory_entry." alt="" coords="5,5,180,60"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="288,193,241,133,211,101,178,73,161,62,164,58,182,69,215,97,245,129,292,190"/>
+<area shape="rect" id="Node000003" href="$a02959.html#ab2a24fa65036727d7afb596f2dc7baef" title="Less&#45;than comparison operator for directory_entry." alt="" coords="5,84,180,139"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="259,198,179,152,156,141,158,136,181,148,261,193"/>
+<area shape="rect" id="Node000004" href="$a02959.html#a01d42a0c3689a914b52f138b15d6d661" title="Less&#45;than&#45;or&#45;equal&#45;to comparison operator for directory_entry." alt="" coords="5,163,180,217"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="214,215,180,208,181,203,215,209"/>
+<area shape="rect" id="Node000005" href="$a02959.html#a679b204e6c73ec1dd4b54ed78554a7d4" title="Equality comparison operator for directory_entry." alt="" coords="5,241,180,296"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="215,250,181,256,180,251,214,245"/>
+<area shape="rect" id="Node000006" href="$a02959.html#a70ba408991cc0d475ded1f64341652a0" title="Greater&#45;than comparison operator for directory_entry." alt="" coords="5,320,180,375"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="259,267,181,310,156,322,153,317,179,305,256,262"/>
+<area shape="rect" id="Node000007" href="$a02959.html#a848e911a41cdc44dbbdc6aa20d86524a" title="Greater&#45;than&#45;or&#45;equal&#45;to comparison operator for directory_entry." alt="" coords="5,399,180,453"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="291,270,244,329,214,360,182,388,162,401,159,396,178,384,210,357,240,326,287,267"/>
+</map>
