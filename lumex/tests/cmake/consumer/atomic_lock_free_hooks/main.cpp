@@ -54,7 +54,8 @@ static int g_failures = 0;
 // Every block carries a 16-byte header with its rounded size and, while it
 // is free, the link of its list (an intrusive list: the allocator must not
 // allocate), so the unsized operator delete (C++11 has no sized one) finds
-// its list too.
+// its list too. Every block the program frees with operator delete must come
+// from this operator new, so the nothrow forms below are replaced as well.
 
 namespace
 {
@@ -126,6 +127,52 @@ void
 operator delete (void *memory, std::size_t) noexcept
 {
   operator delete (memory);
+}
+
+// The nothrow forms are replaced too, with the default behavior the standard
+// gives them (call the throwing form, null on std::bad_alloc). The hazard
+// engine allocates its thread cache and its scan table with new (std::nothrow)
+// and frees them with delete, which is the operator delete above. libstdc++
+// before GCC 9 (PR libstdc++/68210) does not route its own nothrow forms to a
+// replaced operator new but calls malloc, so the block would have no header
+// and the delete above would free a pointer malloc never returned.
+
+void *
+operator new (std::size_t size, std::nothrow_t const &) noexcept
+{
+  try
+    {
+      return operator new (size);
+    }
+  catch (std::bad_alloc const &)
+    {
+      return nullptr;
+    }
+}
+
+void *
+operator new[] (std::size_t size, std::nothrow_t const &) noexcept
+{
+  try
+    {
+      return operator new[] (size);
+    }
+  catch (std::bad_alloc const &)
+    {
+      return nullptr;
+    }
+}
+
+void
+operator delete (void *memory, std::nothrow_t const &) noexcept
+{
+  operator delete (memory);
+}
+
+void
+operator delete[] (void *memory, std::nothrow_t const &) noexcept
+{
+  operator delete[] (memory);
 }
 
 // --- stalling threads at test points ---------------------------------------

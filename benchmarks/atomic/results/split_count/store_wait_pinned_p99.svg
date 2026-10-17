@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 557" width="900" height="557" font-family="system-ui, -apple-system, &#x27;Segoe UI&#x27;, Roboto, &#x27;Helvetica Neue&#x27;, Arial, sans-serif" text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<title>99th percentile of the time of one store(), ns</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20.0" y="30.0" font-size="18" text-anchor="start" font-weight="600" fill="#1a202c">99th percentile of the time of one store(), ns</text>
+<text x="20.0" y="52.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">12th Gen Intel(R) Core(TM) i7-12700K, 20 logical CPUs, governor powersave; GCC 13.2, libstdc++ 13; median of 10 runs</text>
+<text x="20.0" y="69.0" font-size="12" text-anchor="start" font-weight="normal" fill="#4a5568">Median over the repetitions; whiskers: 25th-75th percentile; logarithmic axis</text>
+<line x1="20.0" y1="91.0" x2="44.0" y2="91.0" stroke="#56B4E9" stroke-width="2.5"/>
+<circle cx="32.0" cy="91.0" r="3.5" fill="#56B4E9"/>
+<text x="50.0" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib lock-based, C++20</text>
+<line x1="243.6" y1="91.0" x2="267.6" y2="91.0" stroke="#D55E00" stroke-width="2.5" stroke-dasharray="7 4"/>
+<circle cx="255.6" cy="91.0" r="3.5" fill="#D55E00"/>
+<text x="273.6" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib lock-free, C++20</text>
+<line x1="460.6" y1="91.0" x2="484.6" y2="91.0" stroke="#E69F00" stroke-width="2.5" stroke-dasharray="2 4"/>
+<circle cx="472.6" cy="91.0" r="3.5" fill="#E69F00"/>
+<text x="490.6" y="95.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">std::atomic, libstdc++ 13</text>
+<line x1="20.0" y1="113.0" x2="44.0" y2="113.0" stroke="#000000" stroke-width="2.5"/>
+<circle cx="32.0" cy="113.0" r="3.5" fill="#000000"/>
+<text x="50.0" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">boost::atomic_shared_ptr (spinlock), Boost 1_92</text>
+<line x1="382.2" y1="113.0" x2="406.2" y2="113.0" stroke="#882255" stroke-width="2.5" stroke-dasharray="9 3 2 3"/>
+<circle cx="394.2" cy="113.0" r="3.5" fill="#882255"/>
+<text x="412.2" y="117.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib split-count r8 (own ptr), C++20</text>
+<line x1="20.0" y1="135.0" x2="44.0" y2="135.0" stroke="#44AA99" stroke-width="2.5" stroke-dasharray="4 4"/>
+<circle cx="32.0" cy="135.0" r="3.5" fill="#44AA99"/>
+<text x="50.0" y="139.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1a202c">LumexLib lock-based (own ptr), C++20</text>
+<line x1="80" y1="497.0" x2="870" y2="497.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="501.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">100</text>
+<line x1="80" y1="414.5" x2="870" y2="414.5" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="418.5" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">1000</text>
+<line x1="80" y1="332.0" x2="870" y2="332.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="336.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">10000</text>
+<line x1="80" y1="249.5" x2="870" y2="249.5" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="253.5" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">100000</text>
+<line x1="80" y1="167.0" x2="870" y2="167.0" stroke="#e2e8f0" stroke-width="1"/>
+<text x="72.0" y="171.0" font-size="11" text-anchor="end" font-weight="normal" fill="#4a5568">1000000</text>
+<line x1="100.0" y1="167" x2="100.0" y2="497" stroke="#f0f3f7" stroke-width="1"/>
+<text x="100.0" y="515.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">4</text>
+<line x1="207.1" y1="167" x2="207.1" y2="497" stroke="#f0f3f7" stroke-width="1"/>
+<text x="207.1" y="515.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">12</text>
+<line x1="314.3" y1="167" x2="314.3" y2="497" stroke="#f0f3f7" stroke-width="1"/>
+<text x="314.3" y="515.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">20</text>
+<line x1="850.0" y1="167" x2="850.0" y2="497" stroke="#f0f3f7" stroke-width="1"/>
+<text x="850.0" y="515.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#4a5568">60</text>
+<line x1="80" y1="497" x2="870" y2="497" stroke="#a0aec0" stroke-width="1"/>
+<text x="475.0" y="537.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#2d3748">threads</text>
+<text x="24" y="332.0" font-size="12" text-anchor="middle" fill="#2d3748" transform="rotate(-90 24 332.0)">nanoseconds per store (lower is better)</text>
+<path d="M92.5 363.7 L199.6 321.3 L306.8 297.5 L842.5 247.8" fill="none" stroke="#56B4E9" stroke-width="2.2"/>
+<path d="M92.5 364.0V363.3M89.5 364.0H95.5M89.5 363.3H95.5" stroke="#56B4E9" stroke-width="1.1" fill="none"/>
+<circle cx="92.5" cy="363.7" r="3.6" fill="#56B4E9" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-based, C++20, 4 threads: 4126.50 (4097.25..4170.50)</title></circle>
+<path d="M199.6 326.7V318.8M196.6 326.7H202.6M196.6 318.8H202.6" stroke="#56B4E9" stroke-width="1.1" fill="none"/>
+<circle cx="199.6" cy="321.3" r="3.6" fill="#56B4E9" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-based, C++20, 12 threads: 13493.50 (11596.25..14458.50)</title></circle>
+<path d="M306.8 300.4V293.9M303.8 300.4H309.8M303.8 293.9H309.8" stroke="#56B4E9" stroke-width="1.1" fill="none"/>
+<circle cx="306.8" cy="297.5" r="3.6" fill="#56B4E9" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-based, C++20, 20 threads: 26178.50 (24137.00..28978.00)</title></circle>
+<path d="M842.5 250.6V245.4M839.5 250.6H845.5M839.5 245.4H845.5" stroke="#56B4E9" stroke-width="1.1" fill="none"/>
+<circle cx="842.5" cy="247.8" r="3.6" fill="#56B4E9" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-based, C++20, 60 threads: 104857.50 (96847.00..112202.00)</title></circle>
+<path d="M95.5 432.7 L202.6 406.2 L309.8 392.7 L845.5 392.9" fill="none" stroke="#D55E00" stroke-width="2.2" stroke-dasharray="7 4"/>
+<path d="M95.5 435.3V430.4M92.5 435.3H98.5M92.5 430.4H98.5" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="95.5" cy="432.7" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-free, C++20, 4 threads: 602.00 (559.50..641.50)</title></circle>
+<path d="M202.6 407.0V406.0M199.6 407.0H205.6M199.6 406.0H205.6" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="202.6" cy="406.2" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-free, C++20, 12 threads: 1262.00 (1233.75..1268.50)</title></circle>
+<path d="M309.8 393.7V387.5M306.8 393.7H312.8M306.8 387.5H312.8" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="309.8" cy="392.7" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-free, C++20, 20 threads: 1838.00 (1788.75..2126.25)</title></circle>
+<path d="M845.5 395.1V390.5M842.5 395.1H848.5M842.5 390.5H848.5" stroke="#D55E00" stroke-width="1.1" fill="none"/>
+<circle cx="845.5" cy="392.9" r="3.6" fill="#D55E00" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-free, C++20, 60 threads: 1827.50 (1716.25..1953.75)</title></circle>
+<path d="M98.5 383.4 L205.6 310.4 L312.8 273.1 L848.5 273.8" fill="none" stroke="#E69F00" stroke-width="2.2" stroke-dasharray="2 4"/>
+<path d="M98.5 395.0V365.1M95.5 395.0H101.5M95.5 365.1H101.5" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="98.5" cy="383.4" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic, libstdc++ 13, 4 threads: 2379.00 (1721.00..3974.50)</title></circle>
+<path d="M205.6 313.0V309.4M202.6 313.0H208.6M202.6 309.4H208.6" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="205.6" cy="310.4" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic, libstdc++ 13, 12 threads: 18278.50 (17017.00..18794.75)</title></circle>
+<path d="M312.8 278.1V270.0M309.8 278.1H315.8M309.8 270.0H315.8" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="312.8" cy="273.1" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic, libstdc++ 13, 20 threads: 51799.50 (45018.50..56362.25)</title></circle>
+<path d="M848.5 274.8V269.8M845.5 274.8H851.5M845.5 269.8H851.5" stroke="#E69F00" stroke-width="1.1" fill="none"/>
+<circle cx="848.5" cy="273.8" r="3.6" fill="#E69F00" stroke="#ffffff" stroke-width="1"><title>std::atomic, libstdc++ 13, 60 threads: 50722.00 (49330.25..56760.50)</title></circle>
+<path d="M101.5 247.4 L208.6 237.4 L315.8 232.6 L851.5 222.1" fill="none" stroke="#000000" stroke-width="2.2"/>
+<path d="M101.5 253.0V247.2M98.5 253.0H104.5M98.5 247.2H104.5" stroke="#000000" stroke-width="1.1" fill="none"/>
+<circle cx="101.5" cy="247.4" r="3.6" fill="#000000" stroke="#ffffff" stroke-width="1"><title>boost::atomic_shared_ptr (spinlock), Boost 1_92, 4 threads: 106068.00 (90671.25..106647.00)</title></circle>
+<path d="M208.6 246.6V224.6M205.6 246.6H211.6M205.6 224.6H211.6" stroke="#000000" stroke-width="1.1" fill="none"/>
+<circle cx="208.6" cy="237.4" r="3.6" fill="#000000" stroke="#ffffff" stroke-width="1"><title>boost::atomic_shared_ptr (spinlock), Boost 1_92, 12 threads: 140158.50 (108440.25..200248.25)</title></circle>
+<path d="M315.8 232.8V222.6M312.8 232.8H318.8M312.8 222.6H318.8" stroke="#000000" stroke-width="1.1" fill="none"/>
+<circle cx="315.8" cy="232.6" r="3.6" fill="#000000" stroke="#ffffff" stroke-width="1"><title>boost::atomic_shared_ptr (spinlock), Boost 1_92, 20 threads: 160286.50 (159197.25..211693.75)</title></circle>
+<path d="M851.5 225.6V215.9M848.5 225.6H854.5M848.5 215.9H854.5" stroke="#000000" stroke-width="1.1" fill="none"/>
+<circle cx="851.5" cy="222.1" r="3.6" fill="#000000" stroke="#ffffff" stroke-width="1"><title>boost::atomic_shared_ptr (spinlock), Boost 1_92, 60 threads: 214569.50 (195018.25..255465.75)</title></circle>
+<path d="M104.5 422.5 L211.6 372.6 L318.8 348.3 L854.5 363.5" fill="none" stroke="#882255" stroke-width="2.2" stroke-dasharray="9 3 2 3"/>
+<path d="M104.5 431.4V421.5M101.5 431.4H107.5M101.5 421.5H107.5" stroke="#882255" stroke-width="1.1" fill="none"/>
+<circle cx="104.5" cy="422.5" r="3.6" fill="#882255" stroke="#ffffff" stroke-width="1"><title>LumexLib split-count r8 (own ptr), C++20, 4 threads: 800.50 (623.75..822.50)</title></circle>
+<path d="M211.6 376.5V370.6M208.6 376.5H214.6M208.6 370.6H214.6" stroke="#882255" stroke-width="1.1" fill="none"/>
+<circle cx="211.6" cy="372.6" r="3.6" fill="#882255" stroke="#ffffff" stroke-width="1"><title>LumexLib split-count r8 (own ptr), C++20, 12 threads: 3223.00 (2891.00..3400.75)</title></circle>
+<path d="M318.8 355.1V323.0M315.8 355.1H321.8M315.8 323.0H321.8" stroke="#882255" stroke-width="1.1" fill="none"/>
+<circle cx="318.8" cy="348.3" r="3.6" fill="#882255" stroke="#ffffff" stroke-width="1"><title>LumexLib split-count r8 (own ptr), C++20, 20 threads: 6338.00 (5255.00..12843.75)</title></circle>
+<path d="M854.5 367.4V361.5M851.5 367.4H857.5M851.5 361.5H857.5" stroke="#882255" stroke-width="1.1" fill="none"/>
+<circle cx="854.5" cy="363.5" r="3.6" fill="#882255" stroke="#ffffff" stroke-width="1"><title>LumexLib split-count r8 (own ptr), C++20, 60 threads: 4146.00 (3724.75..4385.00)</title></circle>
+<path d="M107.5 363.6 L214.6 321.2 L321.8 297.9 L857.5 246.2" fill="none" stroke="#44AA99" stroke-width="2.2" stroke-dasharray="4 4"/>
+<path d="M107.5 364.7V363.4M104.5 364.7H110.5M104.5 363.4H110.5" stroke="#44AA99" stroke-width="1.1" fill="none"/>
+<circle cx="107.5" cy="363.6" r="3.6" fill="#44AA99" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-based (own ptr), C++20, 4 threads: 4134.00 (4009.50..4159.75)</title></circle>
+<path d="M214.6 326.8V318.6M211.6 326.8H217.6M211.6 318.6H217.6" stroke="#44AA99" stroke-width="1.1" fill="none"/>
+<circle cx="214.6" cy="321.2" r="3.6" fill="#44AA99" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-based (own ptr), C++20, 12 threads: 13517.50 (11575.50..14524.00)</title></circle>
+<path d="M321.8 299.3V295.0M318.8 299.3H324.8M318.8 295.0H324.8" stroke="#44AA99" stroke-width="1.1" fill="none"/>
+<circle cx="321.8" cy="297.9" r="3.6" fill="#44AA99" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-based (own ptr), C++20, 20 threads: 25881.50 (24904.50..28123.00)</title></circle>
+<path d="M857.5 250.4V244.0M854.5 250.4H860.5M854.5 244.0H860.5" stroke="#44AA99" stroke-width="1.1" fill="none"/>
+<circle cx="857.5" cy="246.2" r="3.6" fill="#44AA99" stroke="#ffffff" stroke-width="1"><title>LumexLib lock-based (own ptr), C++20, 60 threads: 109670.50 (97623.25..116438.25)</title></circle>
+</svg>
