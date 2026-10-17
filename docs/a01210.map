@@ -1,0 +1,39 @@
+<map id="ILumexSettings.hpp" name="ILumexSettings.hpp">
+<area shape="rect" id="Node000001" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="479,5,629,31"/>
+<area shape="rect" id="Node000002" href="$a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="408,152,527,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="540,44,516,80,476,153,472,150,512,77,535,41"/>
+<area shape="rect" id="Node000007" href="$a01217.html" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="259,79,451,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="508,38,391,81,389,76,506,33"/>
+<area shape="rect" id="Node000009" href="$a01205.html" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="526,79,713,104"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="576,39,610,76,606,80,572,43"/>
+<area shape="rect" id="Node000011" href="$a01232.html" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="70,79,235,104"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="472,36,223,81,222,76,471,31"/>
+<area shape="rect" id="Node000013" href="$a01223.html" title="ILumexSettings over JSON files, parsed and written with the vendored nlohmann/json." alt="" coords="737,79,915,104"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="615,32,779,76,778,81,614,37"/>
+<area shape="rect" id="Node000015" href="$a01214.html" title="ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module." alt="" coords="940,79,1115,104"/>
+<area shape="poly" id="edge19_Node000001_Node000015" title=" " alt="" coords="643,29,946,76,945,81,643,34"/>
+<area shape="rect" id="Node000003" href="$a00320.html" title=" " alt="" coords="58,225,223,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="398,183,198,228,197,223,397,178"/>
+<area shape="rect" id="Node000004" href="$a00314.html" title=" " alt="" coords="248,225,447,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="436,187,370,227,367,223,433,182"/>
+<area shape="rect" id="Node000005" href="$a00311.html" title=" " alt="" coords="471,225,701,251"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="501,182,567,223,564,227,498,187"/>
+<area shape="rect" id="Node000006" href="$a00317.html" title=" " alt="" coords="726,225,923,251"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="540,177,763,223,762,228,539,182"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="388,109,449,150,446,154,385,114"/>
+<area shape="rect" id="Node000008" href="$a01220.html" title=" " alt="" coords="193,152,384,177"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="337,116,303,153,299,150,333,112"/>
+<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="582,112,495,154,493,149,580,108"/>
+<area shape="rect" id="Node000010" href="$a01202.html" title=" " alt="" coords="551,152,736,177"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="630,116,642,151,637,152,625,118"/>
+<area shape="poly" id="edge13_Node000011_Node000002" title=" " alt="" coords="221,105,413,149,412,154,220,110"/>
+<area shape="poly" id="edge14_Node000011_Node000008" title=" " alt="" coords="190,108,266,149,264,154,187,113"/>
+<area shape="rect" id="Node000012" href="$a01235.html" title=" " alt="" coords="5,152,169,177"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="134,116,101,153,97,150,130,112"/>
+<area shape="poly" id="edge17_Node000013_Node000002" title=" " alt="" coords="751,109,527,155,526,150,750,104"/>
+<area shape="rect" id="Node000014" href="$a01226.html" title=" " alt="" coords="761,152,939,177"/>
+<area shape="poly" id="edge18_Node000013_Node000014" title=" " alt="" coords="837,116,848,151,843,152,832,118"/>
+<area shape="poly" id="edge20_Node000015_Node000002" title=" " alt="" coords="927,107,731,129,540,155,527,157,527,151,539,149,730,124,926,101"/>
+<area shape="rect" id="Node000016" href="$a01211.html" title=" " alt="" coords="963,152,1137,177"/>
+<area shape="poly" id="edge21_Node000015_Node000016" title=" " alt="" coords="1038,116,1048,151,1043,152,1033,118"/>
+</map>

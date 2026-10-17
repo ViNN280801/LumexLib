@@ -1,0 +1,26 @@
+<map id="LumexHazardPointerEngine.hpp" name="LumexHazardPointerEngine.hpp">
+<area shape="rect" id="Node000001" title="The engine behind hazard_pointer: hazard slots, retired nodes, the entry points compiled into lumex::..." alt="" coords="110,5,340,31"/>
+<area shape="rect" id="Node000002" href="$a01154.html" title="make_hazard_pointer_batch and clear_hazard_pointer_batch, which fill and empty many holders at once (..." alt="" coords="96,225,319,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,36,63,55,36,67,19,80,9,103,12,125,27,146,49,165,109,199,168,223,166,228,107,204,46,170,23,149,7,127,4,103,15,77,33,63,61,50,133,31"/>
+<area shape="rect" id="Node000008" href="$a01151.html" title=" " alt="" coords="30,79,266,104"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="204,42,163,80,160,76,200,38"/>
+<area shape="rect" id="Node000009" href="$a01157.html" title="hazard_pointer, the owner of one hazard slot, with make_hazard_pointer, swap and the extension clean_..." alt="" coords="190,152,418,177"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="250,39,279,77,295,117,304,151,299,152,290,119,275,80,246,42"/>
+<area shape="rect" id="Node000010" href="$a01145.html" title="hazard_pointer_obj_base&lt;T, D&gt;, the base class of objects that hazard pointers protect,..." alt="" coords="340,79,580,104"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="280,32,420,76,418,81,278,37"/>
+<area shape="rect" id="Node000003" href="$a01385.html" title="Hazard pointer module: hazard_pointer, hazard_pointer_obj_base and make_hazard_pointer,..." alt="" coords="276,299,435,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="247,254,331,296,328,301,244,259"/>
+<area shape="rect" id="Node000004" href="$a00800.html" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="26,379,248,405"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="309,331,172,382,171,377,307,326"/>
+<area shape="rect" id="Node000005" href="$a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="97,460,324,500"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="338,336,230,461,226,458,334,333"/>
+<area shape="rect" id="Node000006" href="$a00524.html" title=" " alt="" coords="323,379,532,405"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="378,333,418,377,414,381,374,336"/>
+<area shape="rect" id="Node000007" href="$a00521.html" title=" " alt="" coords="556,372,739,412"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="416,325,576,369,574,374,414,330"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="159,414,195,458,191,461,155,417"/>
+<area shape="poly" id="edge11_Node000009_Node000002" title=" " alt="" coords="278,188,226,227,223,223,275,183"/>
+<area shape="poly" id="edge10_Node000009_Node000003" title=" " alt="" coords="318,189,333,224,355,298,350,299,328,226,313,191"/>
+<area shape="poly" id="edge13_Node000010_Node000003" title=" " alt="" coords="454,118,431,178,396,248,366,300,361,297,392,245,426,176,449,116"/>
+<area shape="poly" id="edge14_Node000010_Node000009" title=" " alt="" coords="421,112,332,154,330,149,419,107"/>
+</map>

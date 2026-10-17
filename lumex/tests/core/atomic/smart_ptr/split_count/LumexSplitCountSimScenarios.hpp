@@ -107,7 +107,8 @@ enum scenario_id_t
   // -- package V2: ABA scenarios --
   // AR1 to AR4, HA1 to HA4, WH1, WH2 and WR make a block or a holder appear
   // at the address of a freed one (`rec`, or the lowest free slot of the
-  // holder arena) while another thread holds a guess or a pin of the old one.
+  // holder arena) while another thread holds a pending guess of the old one
+  // (a pin keeps the block alive, so only a guess can cross a reuse).
   // DA, DA2, BA4, DAC and RW return the same live block to the cell (A -> A.m
   // -> A, A -> B -> A), CD1 to CD3, LKX, LKC, EXX, EXC, RX, and CE1 to CE3
   // cover the cancel-before-drain paths, lock and expired against the last
@@ -1123,7 +1124,7 @@ build_table ()
   // ended (six logical threads, but at most the threads of one generation
   // are ever preemptable against each other). These two scenarios are not
   // ABA scenarios: a generation has ended when the next one starts, so no
-  // thread holds a guess or a pin across the reuse of an address (CH1
+  // thread holds a guess across the reuse of an address (CH1
   // recreates A in slot 0 between the generations, in CH2 the holder of D
   // takes slot 0, freed by the holder of A~f, not the slot 1 of B~f). They
   // test that the engine keeps nothing per thread and that the cell is handed

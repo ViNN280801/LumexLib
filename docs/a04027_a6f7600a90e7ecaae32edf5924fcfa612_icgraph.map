@@ -1,0 +1,33 @@
+<map id="lumex::core::span::view::span::span" name="lumex::core::span::view::span::span">
+<area shape="rect" id="Node000001" title="Constructs an empty span." alt="" coords="408,248,555,288"/>
+<area shape="rect" id="Node000002" href="$a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="210,103,357,143"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="453,240,410,198,359,157,337,145,339,140,361,152,414,194,457,236"/>
+<area shape="rect" id="Node000003" href="$a04027.html#a519fb6bdd570183c039547be2ea18b6b" title="The first count elements." alt="" coords="9,5,155,45"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="469,236,453,196,430,150,399,105,380,86,359,69,310,45,257,30,204,24,155,22,155,17,204,18,258,25,312,40,361,64,383,82,403,102,435,147,458,194,474,234"/>
+<area shape="rect" id="Node000007" href="$a04027.html#ad4abbc4006bca1e6fce5d5a980de958f" title="The last Count elements as a span of static extent." alt="" coords="210,191,357,231"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="398,247,352,233,353,228,400,242"/>
+<area shape="rect" id="Node000008" href="$a04027.html#a2456551f8bf7066e034d58694f358ceb" title="The last count elements." alt="" coords="9,248,155,288"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="394,271,156,271,156,265,394,265"/>
+<area shape="rect" id="Node000009" href="$a04027.html#a3277fda4553402d6b23e566af45e22cf" title="Converts a span of another element type or extent." alt="" coords="210,305,357,345"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="400,294,353,308,352,303,398,289"/>
+<area shape="rect" id="Node000010" href="$a04027.html#a13a83ffe79d91fd182648cca8911f850" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="207,393,360,433"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="444,299,362,359,313,395,309,391,358,355,441,294"/>
+<area shape="rect" id="Node000012" href="$a04027.html#aa817167818526a7824a3312aee8b8c46" title="The elements from offset on, count of them or all the rest." alt="" coords="5,451,159,491"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="472,302,455,337,431,378,400,417,361,448,312,469,259,480,207,484,159,483,159,478,206,479,258,475,310,464,359,443,396,413,427,375,450,335,467,300"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="317,91,305,84,283,81,264,83,253,88,249,94,251,102,246,103,244,93,250,84,263,78,283,76,307,79,319,86"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="234,98,158,60,131,48,133,43,160,55,236,94"/>
+<area shape="rect" id="Node000004" href="$a00383.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="55,198,109,223"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="221,151,208,157,184,173,160,188,111,206,109,201,157,183,181,168,205,152,218,146"/>
+<area shape="rect" id="Node000005" href="$a04027.html#a46fb58083be5feae8d267eb313db196e" title="Constructs a span of the range [first, last)." alt="" coords="9,133,155,173"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="197,139,156,145,155,140,196,133"/>
+<area shape="rect" id="Node000006" href="$a04027.html#a7036a71b9b1d63512b727049faeda0d6" title="Constructs a span of count elements starting at first." alt="" coords="9,69,155,109"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="196,111,155,104,156,99,197,106"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="196,213,110,213,110,208,196,208"/>
+<area shape="poly" id="edge12_Node000007_Node000005" title=" " alt="" coords="199,189,152,176,153,171,201,184"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="317,179,305,172,283,169,264,171,253,176,249,182,251,190,246,191,244,181,250,172,263,166,283,164,307,167,319,174"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="201,237,153,251,152,245,199,232"/>
+<area shape="poly" id="edge17_Node000010_Node000010" title=" " alt="" coords="317,382,305,375,283,372,264,374,253,379,249,385,251,392,246,394,244,384,250,375,263,369,283,367,307,370,319,377"/>
+<area shape="rect" id="Node000011" href="$a00404.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="55,401,109,426"/>
+<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="193,416,110,416,110,411,193,411"/>
+<area shape="poly" id="edge18_Node000010_Node000012" title=" " alt="" coords="201,440,153,453,152,448,199,435"/>
+</map>

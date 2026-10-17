@@ -1,0 +1,9 @@
+<map id="lumex::core::smart_ptr::detail::access::stored" name="lumex::core::smart_ptr::detail::access::stored">
+<area shape="rect" id="Node000001" title=" " alt="" coords="304,128,449,183"/>
+<area shape="rect" id="Node000002" href="$a01987.html#ab7bec5e7535be60be3da17c068047ea1" title=" " alt="" coords="21,5,241,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="303,125,255,103,229,92,231,87,257,98,305,120"/>
+<area shape="rect" id="Node000003" href="$a01987.html#a5a9dc371582c8a7af83af9480e1e41b1" title="True for a weak pointer that observes nothing and stores null." alt="" coords="5,113,256,197"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="290,158,256,158,256,153,290,153"/>
+<area shape="rect" id="Node000004" href="$a02019.html#a3b5a6ab3012b63037f0278d92cde0185" title="The stored pointer of pointer." alt="" coords="39,222,223,321"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="307,191,224,230,222,226,305,186"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::copy" name="lumex::core::filesystem::fs::lumex_filesystem::copy">
+<area shape="rect" id="Node000001" title="Recursively copies a file or a directory (and its contents) from one location to another." alt="" coords="228,37,433,77"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="371,25,357,18,331,15,308,17,294,22,289,28,292,36,286,37,284,27,291,18,307,12,331,10,358,13,373,20"/>
+<area shape="rect" id="Node000002" href="$a02967.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,29,180,84"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="214,59,180,59,180,54,214,54"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="132,18,118,11,93,8,71,10,58,15,52,21,52,29,46,29,47,19,55,10,70,5,93,3,120,6,135,14"/>
+</map>

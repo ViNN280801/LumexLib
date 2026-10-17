@@ -1,0 +1,21 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::is_empty" name="lumex::core::filesystem::fs::lumex_filesystem::is_empty">
+<area shape="rect" id="Node000001" title="Checks if a file is empty or a directory is empty." alt="" coords="5,235,180,289"/>
+<area shape="poly" id="edge10_Node000001_Node000001" title=" " alt="" coords="49,235,50,224,57,216,72,210,93,208,118,211,132,219,129,224,116,216,93,213,73,215,60,220,55,226,55,235"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a00f75a949bda6f52adc1e19318d74e68" title="Checks if a file or directory exists at the specified path." alt="" coords="228,29,403,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,233,156,165,189,127,226,93,232,89,235,93,230,97,193,131,160,168,111,236"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a3f87b1dd26acd54f7bf7b76220930b6a" title="Retrieves the size of a regular file in bytes." alt="" coords="228,132,403,187"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="149,232,227,196,239,190,241,195,229,200,151,237"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a4be8bab7c98dca322220cdbbee740654" title="Checks if the specified path_arg refers to a directory." alt="" coords="228,235,403,289"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="180,259,214,259,214,265,180,265"/>
+<area shape="rect" id="Node000006" href="$a02939.html#aaae1487eda085cf06bd332015e4969d7" title="Checks if the operation was successful." alt="" coords="228,313,403,368"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="171,287,226,306,224,311,170,292"/>
+<area shape="rect" id="Node000007" href="$a02939.html#a804f0603877d3f4b1c02d3aab7a14150" title="Retrieves the encapsulated value (const version)." alt="" coords="228,392,403,447"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="122,288,170,332,229,377,239,383,237,388,227,382,167,336,118,292"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="272,29,272,19,280,10,294,5,315,3,340,6,355,14,352,18,339,11,315,8,296,10,283,15,277,21,277,29"/>
+<area shape="rect" id="Node000003" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="451,139,625,179"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,82,404,93,485,131,483,136,402,98,377,87"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="403,157,437,157,437,162,403,162"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="272,132,272,122,280,113,294,107,315,105,340,108,355,116,352,121,339,114,315,111,296,113,283,117,277,124,277,132"/>
+<area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="374,232,481,183,483,188,376,237"/>
+<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="272,235,272,224,280,216,294,210,315,208,340,211,355,219,352,224,339,216,315,213,296,215,283,220,277,226,277,235"/>
+</map>

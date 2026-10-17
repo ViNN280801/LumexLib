@@ -1,0 +1,16 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::expected_storage" name="lumex::core::expected::result::detail::storage::expected_storage::expected_storage">
+<area shape="rect" id="Node000001" title="Copies or moves the alternative of another storage of the same type: [expected.object...." alt="" coords="5,56,220,126"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="745,59,936,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,54,218,33,267,18,334,7,403,3,471,4,538,10,662,29,762,53,761,58,661,35,538,15,471,10,403,8,335,12,269,23,220,38,174,59"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="275,150,475,190"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,121,269,135,295,143,294,148,267,140,219,126"/>
+<area shape="rect" id="Node000006" href="$a02847.html#a73885ecff15c51b575ae662aa8190c9e" title="Starts val with args...; has_value () is true." alt="" coords="268,56,483,126"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="220,88,255,88,255,94,220,94"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="531,78,697,118"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="442,147,482,135,535,119,536,124,483,140,444,152"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="531,146,697,186"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="475,165,517,165,517,170,476,171"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="666,143,774,102,776,107,668,148"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="483,91,517,92,517,98,483,97"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="328,56,331,46,340,37,355,32,375,30,401,33,416,41,414,46,399,38,375,35,356,37,342,42,335,48,334,57"/>
+</map>

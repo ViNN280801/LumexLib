@@ -16,7 +16,9 @@
 #include <vector>
 
 #if !defined(_WIN32)
+#include <sys/types.h>
 #include <sys/wait.h>
+#include <unistd.h>
 #endif
 
 #include "lumex/core/atomic/LumexAtomic"
@@ -94,22 +96,32 @@ main (int argc, char **argv)
   // The span checks are on and abort a violation.
   if (argc > 0)
     {
+#if defined(_WIN32)
       std::string const command = std::string ("\"") + argv[0]
                                   + "\" --violate 2> span_violation.txt";
       int const status = std::system (command.c_str ());
+      check (status != 0, "span: a violated check ends the program");
+#else
+      // The child is started directly (fork and exec, no shell), so that its
+      // own wait status is seen: it must die of SIGABRT, and nothing else (an
+      // exit code of 134 would be a handler that calls exit, not abort).
+      pid_t const child = fork ();
+      if (child == 0)
+        {
+          if (std::freopen ("span_violation.txt", "w", stderr) != nullptr)
+            execl (argv[0], argv[0], "--violate",
+                   static_cast<char *> (nullptr));
+          _exit (127);
+        }
+      int status = 0;
+      check (child > 0 && waitpid (child, &status, 0) == child,
+             "span: the child is waited for");
+      check (WIFSIGNALED (status) && WTERMSIG (status) == SIGABRT,
+             "span: a violated check aborts the program (SIGABRT)");
+#endif
       std::ifstream stream ("span_violation.txt");
       std::ostringstream text;
       text << stream.rdbuf ();
-#if defined(_WIN32)
-      check (status != 0, "span: a violated check ends the program");
-#else
-      // The program must die of SIGABRT (std::system gives the wait status; a
-      // shell that ran the program as a child reports 128 + SIGABRT).
-      check (
-          (WIFSIGNALED (status) && WTERMSIG (status) == SIGABRT)
-              || (WIFEXITED (status) && WEXITSTATUS (status) == 128 + SIGABRT),
-          "span: a violated check aborts the program");
-#endif
       check (text.str ().find ("LUMEX_SPAN_CHECKS: index < m_storage.size ()")
                  == 0,
              "span: the message of the failed check");

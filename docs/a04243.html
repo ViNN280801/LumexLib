@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::temporary::tmp::temporary_file Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a04246.html',''); initResizable(true); });
+$(function(){initNavTree('a04243.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,378 @@ $(function(){initNavTree('a04246.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::utility::numeric::strong_ordering Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a04240.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::temporary::tmp::temporary_file Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a04246.html">lumex::core::utility::numeric::strong_ordering</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a04246.html#ab5061c36603286b918aabc590956bd31">equal</a></td><td class="entry"><a class="el" href="a04246.html">lumex::core::utility::numeric::strong_ordering</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04246.html#a9502a481e4aa214cea2a21a119dfbd32">equivalent</a></td><td class="entry"><a class="el" href="a04246.html">lumex::core::utility::numeric::strong_ordering</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04246.html#ab64d586bdac8e062c8f3215170a19e8e">greater</a></td><td class="entry"><a class="el" href="a04246.html">lumex::core::utility::numeric::strong_ordering</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04246.html#a6afd8739f62b9f3bed06e6a0cb2c0b22">less</a></td><td class="entry"><a class="el" href="a04246.html">lumex::core::utility::numeric::strong_ordering</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04234.html#a7a73dd7adfafbc58c4e443b0dace6c3c">m_value</a></td><td class="entry"><a class="el" href="a04234.html">lumex::core::utility::numeric::Detail::ordering_base&lt; strong_ordering &gt;</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04246.html#aec1d2d2965d94d15b2d0ab0195b667a0">operator partial_ordering</a>() const noexcept</td><td class="entry"><a class="el" href="a04246.html">lumex::core::utility::numeric::strong_ordering</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a04246.html#a4c17e41bf92a8640c8acea5a4ffe3192">operator weak_ordering</a>() const noexcept</td><td class="entry"><a class="el" href="a04246.html">lumex::core::utility::numeric::strong_ordering</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a04234.html#aa0d780eaef48f8a5a73511bfcecfa088">ordering_base</a>(ordering_value value) noexcept</td><td class="entry"><a class="el" href="a04234.html">lumex::core::utility::numeric::Detail::ordering_base&lt; strong_ordering &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span><span class="mlabel">protected</span></td></tr>
-</table></div><!-- contents -->
+<p>RAII wrapper for temporary file management.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00926_source.html">LumexTemporary.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ab92f39d673e611b1bec88b986a396691" id="r_ab92f39d673e611b1bec88b986a396691"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab92f39d673e611b1bec88b986a396691">temporary_file</a> ()</td></tr>
+<tr class="separator:ab92f39d673e611b1bec88b986a396691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ef83f7e8ffe6e1d7e8335d3e76227ef" id="r_a6ef83f7e8ffe6e1d7e8335d3e76227ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ef83f7e8ffe6e1d7e8335d3e76227ef">temporary_file</a> (<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> const &amp;<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>)</td></tr>
+<tr class="separator:a6ef83f7e8ffe6e1d7e8335d3e76227ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba3a88c63f219c78e74d3d128e0ee21f" id="r_aba3a88c63f219c78e74d3d128e0ee21f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba3a88c63f219c78e74d3d128e0ee21f">~temporary_file</a> ()</td></tr>
+<tr class="separator:aba3a88c63f219c78e74d3d128e0ee21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1769a7e50ee8424bf23c4a2371e45f3" id="r_af1769a7e50ee8424bf23c4a2371e45f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1769a7e50ee8424bf23c4a2371e45f3">temporary_file</a> (<a class="el" href="a04243.html">temporary_file</a> const &amp;)=delete</td></tr>
+<tr class="separator:af1769a7e50ee8424bf23c4a2371e45f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa851c34c72b1d8c65884c8c3facb073e" id="r_aa851c34c72b1d8c65884c8c3facb073e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a04243.html">temporary_file</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa851c34c72b1d8c65884c8c3facb073e">operator=</a> (<a class="el" href="a04243.html">temporary_file</a> const &amp;)=delete</td></tr>
+<tr class="separator:aa851c34c72b1d8c65884c8c3facb073e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37e77f6071861f9fd83661dd50c33987" id="r_a37e77f6071861f9fd83661dd50c33987"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37e77f6071861f9fd83661dd50c33987">temporary_file</a> (<a class="el" href="a04243.html">temporary_file</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a37e77f6071861f9fd83661dd50c33987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c0469d8f308bc6d3dd08f1b2ed964fe" id="r_a0c0469d8f308bc6d3dd08f1b2ed964fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a04243.html">temporary_file</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c0469d8f308bc6d3dd08f1b2ed964fe">operator=</a> (<a class="el" href="a04243.html">temporary_file</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a0c0469d8f308bc6d3dd08f1b2ed964fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257758907227b1ea5c0592f03489f310" id="r_a257758907227b1ea5c0592f03489f310"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a257758907227b1ea5c0592f03489f310">path</a> () const</td></tr>
+<tr class="separator:a257758907227b1ea5c0592f03489f310"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1087441dd562bb7fde735d9cd5c016bd" id="r_a1087441dd562bb7fde735d9cd5c016bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1087441dd562bb7fde735d9cd5c016bd">is_valid</a> () const</td></tr>
+<tr class="separator:a1087441dd562bb7fde735d9cd5c016bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac30e565373ca1a0a2f25f8db9d17fc8a" id="r_ac30e565373ca1a0a2f25f8db9d17fc8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac30e565373ca1a0a2f25f8db9d17fc8a">release</a> ()</td></tr>
+<tr class="separator:ac30e565373ca1a0a2f25f8db9d17fc8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>RAII wrapper for temporary file management. </p>
+<p>Automatically removes temporary file when destroyed </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab92f39d673e611b1bec88b986a396691" name="ab92f39d673e611b1bec88b986a396691"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab92f39d673e611b1bec88b986a396691">&#9670;&#160;</a></span>temporary_file() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::temporary::tmp::temporary_file::temporary_file </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04243_ab92f39d673e611b1bec88b986a396691_icgraph.png" border="0" usemap="#aa04243_ab92f39d673e611b1bec88b986a396691_icgraph" alt=""/></div>
+<map name="aa04243_ab92f39d673e611b1bec88b986a396691_icgraph" id="aa04243_ab92f39d673e611b1bec88b986a396691_icgraph">
+<area shape="rect" title=" " alt="" coords="228,124,403,179"/>
+<area shape="rect" href="a04243.html#a0c0469d8f308bc6d3dd08f1b2ed964fe" title=" " alt="" coords="5,5,180,60"/>
+<area shape="poly" title=" " alt="" coords="259,119,179,74,156,63,158,58,181,69,261,114"/>
+<area shape="rect" href="a04243.html#aa851c34c72b1d8c65884c8c3facb073e" title=" " alt="" coords="5,84,180,139"/>
+<area shape="poly" title=" " alt="" coords="214,136,180,130,181,124,215,131"/>
+<area shape="rect" href="a04243.html#a37e77f6071861f9fd83661dd50c33987" title=" " alt="" coords="5,163,180,217"/>
+<area shape="poly" title=" " alt="" coords="215,171,181,177,180,172,214,166"/>
+<area shape="rect" href="a04243.html#af1769a7e50ee8424bf23c4a2371e45f3" title=" " alt="" coords="5,241,180,296"/>
+<area shape="poly" title=" " alt="" coords="259,188,181,231,156,244,153,239,179,226,256,184"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6ef83f7e8ffe6e1d7e8335d3e76227ef" name="a6ef83f7e8ffe6e1d7e8335d3e76227ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ef83f7e8ffe6e1d7e8335d3e76227ef">&#9670;&#160;</a></span>temporary_file() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::temporary::tmp::temporary_file::temporary_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04243_a6ef83f7e8ffe6e1d7e8335d3e76227ef_cgraph.png" border="0" usemap="#aa04243_a6ef83f7e8ffe6e1d7e8335d3e76227ef_cgraph" alt=""/></div>
+<map name="aa04243_a6ef83f7e8ffe6e1d7e8335d3e76227ef_cgraph" id="aa04243_a6ef83f7e8ffe6e1d7e8335d3e76227ef_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,180,60"/>
+<area shape="rect" href="a04243.html#a257758907227b1ea5c0592f03489f310" title=" " alt="" coords="228,13,424,53"/>
+<area shape="poly" title=" " alt="" coords="180,30,214,30,214,35,180,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aba3a88c63f219c78e74d3d128e0ee21f" name="aba3a88c63f219c78e74d3d128e0ee21f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba3a88c63f219c78e74d3d128e0ee21f">&#9670;&#160;</a></span>~temporary_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::temporary::tmp::temporary_file::~temporary_file </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04243_aba3a88c63f219c78e74d3d128e0ee21f_cgraph.png" border="0" usemap="#aa04243_aba3a88c63f219c78e74d3d128e0ee21f_cgraph" alt=""/></div>
+<map name="aa04243_aba3a88c63f219c78e74d3d128e0ee21f_cgraph" id="aa04243_aba3a88c63f219c78e74d3d128e0ee21f_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,180,60"/>
+<area shape="rect" href="a04247.html#abd4e290c04ca9757fb39adff466e29bd" title="Removes a temporary file." alt="" coords="228,5,408,60"/>
+<area shape="poly" title=" " alt="" coords="180,30,214,30,214,35,180,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af1769a7e50ee8424bf23c4a2371e45f3" name="af1769a7e50ee8424bf23c4a2371e45f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1769a7e50ee8424bf23c4a2371e45f3">&#9670;&#160;</a></span>temporary_file() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::temporary::tmp::temporary_file::temporary_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04243.html">temporary_file</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04243_af1769a7e50ee8424bf23c4a2371e45f3_cgraph.png" border="0" usemap="#aa04243_af1769a7e50ee8424bf23c4a2371e45f3_cgraph" alt=""/></div>
+<map name="aa04243_af1769a7e50ee8424bf23c4a2371e45f3_cgraph" id="aa04243_af1769a7e50ee8424bf23c4a2371e45f3_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,180,60"/>
+<area shape="rect" href="a04243.html#ab92f39d673e611b1bec88b986a396691" title=" " alt="" coords="228,5,403,60"/>
+<area shape="poly" title=" " alt="" coords="180,30,214,30,214,35,180,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a37e77f6071861f9fd83661dd50c33987" name="a37e77f6071861f9fd83661dd50c33987"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37e77f6071861f9fd83661dd50c33987">&#9670;&#160;</a></span>temporary_file() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::temporary::tmp::temporary_file::temporary_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04243.html">temporary_file</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04243_a37e77f6071861f9fd83661dd50c33987_cgraph.png" border="0" usemap="#aa04243_a37e77f6071861f9fd83661dd50c33987_cgraph" alt=""/></div>
+<map name="aa04243_a37e77f6071861f9fd83661dd50c33987_cgraph" id="aa04243_a37e77f6071861f9fd83661dd50c33987_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,180,60"/>
+<area shape="rect" href="a04243.html#ab92f39d673e611b1bec88b986a396691" title=" " alt="" coords="228,5,403,60"/>
+<area shape="poly" title=" " alt="" coords="180,30,214,30,214,35,180,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1087441dd562bb7fde735d9cd5c016bd" name="a1087441dd562bb7fde735d9cd5c016bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1087441dd562bb7fde735d9cd5c016bd">&#9670;&#160;</a></span>is_valid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::temporary::tmp::temporary_file::is_valid </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c0469d8f308bc6d3dd08f1b2ed964fe" name="a0c0469d8f308bc6d3dd08f1b2ed964fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c0469d8f308bc6d3dd08f1b2ed964fe">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04243.html">temporary_file</a> &amp; lumex::core::temporary::tmp::temporary_file::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04243.html">temporary_file</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04243_a0c0469d8f308bc6d3dd08f1b2ed964fe_cgraph.png" border="0" usemap="#aa04243_a0c0469d8f308bc6d3dd08f1b2ed964fe_cgraph" alt=""/></div>
+<map name="aa04243_a0c0469d8f308bc6d3dd08f1b2ed964fe_cgraph" id="aa04243_a0c0469d8f308bc6d3dd08f1b2ed964fe_cgraph">
+<area shape="rect" title=" " alt="" coords="5,45,180,100"/>
+<area shape="rect" href="a04247.html#abd4e290c04ca9757fb39adff466e29bd" title="Removes a temporary file." alt="" coords="228,5,408,60"/>
+<area shape="poly" title=" " alt="" coords="180,54,214,48,215,54,181,60"/>
+<area shape="rect" href="a04243.html#ab92f39d673e611b1bec88b986a396691" title=" " alt="" coords="231,84,405,139"/>
+<area shape="poly" title=" " alt="" coords="181,85,218,91,217,97,180,90"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa851c34c72b1d8c65884c8c3facb073e" name="aa851c34c72b1d8c65884c8c3facb073e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa851c34c72b1d8c65884c8c3facb073e">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a04243.html">temporary_file</a> &amp; lumex::core::temporary::tmp::temporary_file::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a04243.html">temporary_file</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04243_aa851c34c72b1d8c65884c8c3facb073e_cgraph.png" border="0" usemap="#aa04243_aa851c34c72b1d8c65884c8c3facb073e_cgraph" alt=""/></div>
+<map name="aa04243_aa851c34c72b1d8c65884c8c3facb073e_cgraph" id="aa04243_aa851c34c72b1d8c65884c8c3facb073e_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,180,60"/>
+<area shape="rect" href="a04243.html#ab92f39d673e611b1bec88b986a396691" title=" " alt="" coords="228,5,403,60"/>
+<area shape="poly" title=" " alt="" coords="180,30,214,30,214,35,180,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a257758907227b1ea5c0592f03489f310" name="a257758907227b1ea5c0592f03489f310"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a257758907227b1ea5c0592f03489f310">&#9670;&#160;</a></span>path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> const  &amp; lumex::core::temporary::tmp::temporary_file::path </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04243_a257758907227b1ea5c0592f03489f310_icgraph.png" border="0" usemap="#aa04243_a257758907227b1ea5c0592f03489f310_icgraph" alt=""/></div>
+<map name="aa04243_a257758907227b1ea5c0592f03489f310_icgraph" id="aa04243_a257758907227b1ea5c0592f03489f310_icgraph">
+<area shape="rect" title=" " alt="" coords="228,13,424,53"/>
+<area shape="rect" href="a04243.html#a6ef83f7e8ffe6e1d7e8335d3e76227ef" title=" " alt="" coords="5,5,180,60"/>
+<area shape="poly" title=" " alt="" coords="214,35,180,35,180,30,214,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac30e565373ca1a0a2f25f8db9d17fc8a" name="ac30e565373ca1a0a2f25f8db9d17fc8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac30e565373ca1a0a2f25f8db9d17fc8a">&#9670;&#160;</a></span>release()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::temporary::tmp::temporary_file::release </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="a00926_source.html">LumexTemporary.hpp</a></li>
+<li><a class="el" href="a00929.html">LumexTemporary.cpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01577.html">temporary</a></li><li class="navelem"><a class="el" href="a01578.html">tmp</a></li><li class="navelem"><a class="el" href="a04243.html">temporary_file</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

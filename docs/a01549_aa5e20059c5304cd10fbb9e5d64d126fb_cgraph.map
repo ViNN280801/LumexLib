@@ -1,0 +1,9 @@
+<map id="lumex::core::math::ops::rms" name="lumex::core::math::ops::rms">
+<area shape="rect" id="Node000001" title="Root Mean Square of the element&#45;wise product of two equally&#45;sized ranges: sqrt( 1/N * sum (x_i * y_i)..." alt="" coords="5,69,155,109"/>
+<area shape="rect" id="Node000002" href="$a01551.html#abdf8ed32a58d7ef1884b0e2eb69e139b" title="begin (range) with std::begin and ADL, as a range&#45;for does." alt="" coords="203,5,365,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,67,207,47,208,52,145,72"/>
+<area shape="rect" id="Node000003" href="$a01551.html#a39800dfb129ce7e0f3b8520f0e8ce977" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="209,69,359,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,87,195,87,195,92,155,92"/>
+<area shape="rect" id="Node000004" href="$a01551.html#a09a7814d770820120d778770c90575e0" title="Called after a lockstep pass over two ranges that consumed count elements of each: throws lumex_math_..." alt="" coords="209,134,359,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="138,107,197,128,195,133,136,112"/>
+</map>

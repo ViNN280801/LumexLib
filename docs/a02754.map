@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::can_or_else&lt; Fn, ValueType, ValueArg, Args &gt;" name="lumex::core::expected::result::detail::can_or_else&lt; Fn, ValueType, ValueArg, Args &gt;">
+<area shape="rect" id="Node000001" title="or_else: Fn (Args...) returns an expected, and the value can be copied into it." alt="" coords="297,20,481,89"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,249,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,52,297,52,297,57,263,57"/>
+</map>

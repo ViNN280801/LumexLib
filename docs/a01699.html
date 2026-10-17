@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::xml::xpath::utility Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01702.html',''); initResizable(true); });
+$(function(){initNavTree('a01699.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,21 +103,335 @@ $(function(){initNavTree('a01702.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::applied::serial::resolver::port_holder_info_t Member List</div></div>
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::xml::xpath::utility Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a06d335726027c6477be96cb86f9e56ce" id="r_a06d335726027c6477be96cb86f9e56ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06d335726027c6477be96cb86f9e56ce">xpath_get_order</a> (<a class="el" href="a05283.html">XPathNode</a> const *begin, <a class="el" href="a05283.html">XPathNode</a> const *end)</td></tr>
+<tr class="memdesc:a06d335726027c6477be96cb86f9e56ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the current document order of a range of XPath nodes.  <br /></td></tr>
+<tr class="separator:a06d335726027c6477be96cb86f9e56ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cda3af8de6ebb42fc0186a350a138e1" id="r_a1cda3af8de6ebb42fc0186a350a138e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cda3af8de6ebb42fc0186a350a138e1">xpath_sort</a> (<a class="el" href="a05283.html">XPathNode</a> *begin, <a class="el" href="a05283.html">XPathNode</a> *end, <a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> type, bool rev)</td></tr>
+<tr class="memdesc:a1cda3af8de6ebb42fc0186a350a138e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sorts a range of XPath nodes by document order.  <br /></td></tr>
+<tr class="separator:a1cda3af8de6ebb42fc0186a350a138e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb9de3a45c0762f05c942cebbd27e46a" id="r_abb9de3a45c0762f05c942cebbd27e46a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05283.html">XPathNode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb9de3a45c0762f05c942cebbd27e46a">xpath_first</a> (<a class="el" href="a05283.html">XPathNode</a> const *begin, <a class="el" href="a05283.html">XPathNode</a> const *end, <a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> type)</td></tr>
+<tr class="memdesc:abb9de3a45c0762f05c942cebbd27e46a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the first node in document order from a range of XPath nodes.  <br /></td></tr>
+<tr class="separator:abb9de3a45c0762f05c942cebbd27e46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5664ce2a10255b6aca45326df60fcb8e" id="r_a5664ce2a10255b6aca45326df60fcb8e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5664ce2a10255b6aca45326df60fcb8e">copy_xpath_variable</a> (<a class="el" href="a05327.html">XPathVariable</a> *lhs, <a class="el" href="a05327.html">XPathVariable</a> const *rhs)</td></tr>
+<tr class="memdesc:a5664ce2a10255b6aca45326df60fcb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the value of one XPath variable to another.  <br /></td></tr>
+<tr class="separator:a5664ce2a10255b6aca45326df60fcb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a5664ce2a10255b6aca45326df60fcb8e" name="a5664ce2a10255b6aca45326df60fcb8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5664ce2a10255b6aca45326df60fcb8e">&#9670;&#160;</a></span>copy_xpath_variable()</h2>
 
-<p>This is the complete list of members for <a class="el" href="a01702.html">lumex::applied::serial::resolver::port_holder_info_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01702.html#a097c551f78ade1f63fe53fc0d36c2a5d">cmdline</a></td><td class="entry"><a class="el" href="a01702.html">lumex::applied::serial::resolver::port_holder_info_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01702.html#a52bdc7b78aca6bf1128878218165b797">exe_name</a></td><td class="entry"><a class="el" href="a01702.html">lumex::applied::serial::resolver::port_holder_info_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01702.html#a566fd1aa31b275caad94f3620a9a1df3">exe_path</a></td><td class="entry"><a class="el" href="a01702.html">lumex::applied::serial::resolver::port_holder_info_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01702.html#ac99a422884c1120ec45b568bf7c46d1e">pid</a></td><td class="entry"><a class="el" href="a01702.html">lumex::applied::serial::resolver::port_holder_info_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::xml::xpath::utility::copy_xpath_variable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05327.html">XPathVariable</a> *</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a05327.html">XPathVariable</a> const *</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies the value of one XPath variable to another. </p>
+<p>This function performs a deep copy of the value from <code>rhs</code> (source variable) to <code>lhs</code> (destination variable), handling different XPath variable types (node-set, number, string, boolean). It forwards to the inline <code><a class="el" href="a01680.html#a8c614ae14269eea0013728c7722e8f69" title="Copies the value of one XPath variable to another.">lumex::xml::xpath::variable::copy_xpath_variable</a></code> of <a class="el" href="a00563.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea...">XPathVariable.hpp</a>, which holds the only implementation; this exported function is kept so that programs linked against it still find it. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>A pointer to the destination <code><a class="el" href="a05327.html" title="Base class for all XPath variables.">XPathVariable</a></code> to which the value will be copied. </td></tr>
+    <tr><td class="paramname">rhs</td><td>A constant pointer to the source <code><a class="el" href="a05327.html" title="Base class for all XPath variables.">XPathVariable</a></code> from which the value will be copied. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the copy was successful, <code>false</code> otherwise (e.g., if memory allocation fails for node-set). </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if an invalid variable type is encountered. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function is typically used in XPath variable assignment or initialization scenarios. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01699_a5664ce2a10255b6aca45326df60fcb8e_cgraph.png" border="0" usemap="#aa01699_a5664ce2a10255b6aca45326df60fcb8e_cgraph" alt=""/></div>
+<map name="aa01699_a5664ce2a10255b6aca45326df60fcb8e_cgraph" id="aa01699_a5664ce2a10255b6aca45326df60fcb8e_cgraph">
+<area shape="rect" title="Copies the value of one XPath variable to another." alt="" coords="5,61,155,116"/>
+<area shape="rect" href="a01680.html#a8c614ae14269eea0013728c7722e8f69" title="Copies the value of one XPath variable to another." alt="" coords="203,61,361,116"/>
+<area shape="poly" title=" " alt="" coords="155,86,189,86,189,91,155,91"/>
+<area shape="rect" href="a05327.html#a2e73acf1b1853db7738a2c4986d72466" title="Sets the boolean value of the variable." alt="" coords="414,37,615,77"/>
+<area shape="poly" title=" " alt="" coords="361,75,400,70,401,75,362,80"/>
+<area shape="rect" href="a05327.html#af6133c6da37176e91f0b80593dd57140" title="Retrieves the XPath value type of the variable." alt="" coords="409,101,620,141"/>
+<area shape="poly" title=" " alt="" coords="362,97,396,102,396,107,361,102"/>
+<area shape="rect" href="a05327.html#ac76329b1d0f44b2d11c3f74eaa04e09e" title=" " alt="" coords="668,29,855,84"/>
+<area shape="poly" title=" " alt="" coords="615,54,654,54,654,59,615,59"/>
+<area shape="poly" title=" " alt="" coords="714,29,714,19,722,10,738,5,761,3,789,6,805,14,802,18,788,11,761,8,739,10,725,15,719,21,719,29"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="abb9de3a45c0762f05c942cebbd27e46a" name="abb9de3a45c0762f05c942cebbd27e46a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb9de3a45c0762f05c942cebbd27e46a">&#9670;&#160;</a></span>xpath_first()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a05283.html">XPathNode</a> lumex::xml::xpath::utility::xpath_first </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05283.html">XPathNode</a> const *</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a05283.html">XPathNode</a> const *</td>          <td class="paramname"><span class="paramname"><em>end</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the first node in document order from a range of XPath nodes. </p>
+<p>This function efficiently finds the first <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in XML document order within the specified range <code>[begin, end)</code>. If the range is already sorted, it directly returns the first or last element. If unsorted, it performs a linear scan using <code>std::min_element</code> with a document order comparator. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">begin</td><td>A pointer to the first <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the range. </td></tr>
+    <tr><td class="paramname">end</td><td>A pointer to one past the last <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the range. </td></tr>
+    <tr><td class="paramname">type</td><td>The <code><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c" title="Enumeration defining the ordering type of the node set.">XPathNodeSet::type_t</a></code> indicating the current order of the nodes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> that appears first in document order, or an empty <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> if the range is empty. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if an invalid <code>type</code> is provided. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01699_abb9de3a45c0762f05c942cebbd27e46a_icgraph.png" border="0" usemap="#aa01699_abb9de3a45c0762f05c942cebbd27e46a_icgraph" alt=""/></div>
+<map name="aa01699_abb9de3a45c0762f05c942cebbd27e46a_icgraph" id="aa01699_abb9de3a45c0762f05c942cebbd27e46a_icgraph">
+<area shape="rect" title="Retrieves the first node in document order from a range of XPath nodes." alt="" coords="1015,133,1164,173"/>
+<area shape="rect" href="a05287.html#a59ccd35fc04995cdabb89afccd87621e" title="Gets the first node in the collection based on document order." alt="" coords="780,81,967,121"/>
+<area shape="poly" title=" " alt="" coords="1000,134,956,123,957,118,1002,129"/>
+<area shape="rect" href="a05291.html#af170e7150e45bd3f219ac48d643265f3" title="Gets the first node in the collection by document order." alt="" coords="782,161,965,216"/>
+<area shape="poly" title=" " alt="" coords="1002,170,965,176,964,171,1001,165"/>
+<area shape="rect" href="a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="582,33,637,59"/>
+<area shape="poly" title=" " alt="" coords="768,80,731,73,637,54,638,49,733,67,769,75"/>
+<area shape="rect" href="a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="520,83,699,137"/>
+<area shape="poly" title=" " alt="" coords="768,160,698,139,700,134,769,155"/>
+<area shape="rect" href="a05315.html#a9e6e14d2583f26c245199b4d022aeae2" title="Evaluates the XPath query to a single node." alt="" coords="487,201,732,241"/>
+<area shape="poly" title=" " alt="" coords="769,204,733,208,732,203,768,199"/>
+<area shape="rect" href="a05291.html#a08db6b95af1bb02f7420c3b74c78e81e" title="Default constructor. Constructs an empty raw node set." alt="" coords="518,265,701,320"/>
+<area shape="poly" title=" " alt="" coords="805,224,733,255,698,268,697,263,731,250,803,219"/>
+<area shape="rect" href="a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="246,5,425,60"/>
+<area shape="poly" title=" " alt="" coords="506,92,403,63,405,57,508,87"/>
+<area shape="rect" href="a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="5,44,184,99"/>
+<area shape="poly" title=" " alt="" coords="506,112,184,88,184,82,506,107"/>
+<area shape="rect" href="a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="232,160,439,215"/>
+<area shape="poly" title=" " alt="" coords="508,141,433,162,432,157,506,136"/>
+<area shape="poly" title=" " alt="" coords="439,50,541,80,540,85,437,55"/>
+<area shape="poly" title=" " alt="" coords="233,61,185,68,184,63,232,55"/>
+<area shape="poly" title=" " alt="" coords="198,69,520,94,519,99,198,74"/>
+<area shape="poly" title=" " alt="" coords="197,43,245,36,246,41,198,49"/>
+<area shape="rect" href="a05143.html#ab3b8c4b5ae7c14a5f5353854af2c0980" title="Selects a single node by evaluating an XPath query." alt="" coords="233,239,437,279"/>
+<area shape="poly" title=" " alt="" coords="473,243,438,248,437,242,473,237"/>
+<area shape="rect" href="a05143.html#a260d31b59a5cd0c5f8fff0fd592c2793" title=" " alt="" coords="233,303,437,343"/>
+<area shape="poly" title=" " alt="" coords="504,248,488,255,474,264,464,274,455,284,440,294,413,306,411,301,437,289,451,280,461,270,471,260,485,250,501,243"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a06d335726027c6477be96cb86f9e56ce" name="a06d335726027c6477be96cb86f9e56ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06d335726027c6477be96cb86f9e56ce">&#9670;&#160;</a></span>xpath_get_order()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> lumex::xml::xpath::utility::xpath_get_order </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05283.html">XPathNode</a> const *</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a05283.html">XPathNode</a> const *</td>          <td class="paramname"><span class="paramname"><em>end</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines the current document order of a range of XPath nodes. </p>
+<p>This function efficiently checks if a given range of <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code>s is sorted in ascending, descending, or unsorted document order. It is an optimization to avoid unnecessary sorting. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">begin</td><td>A pointer to the first <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the range. </td></tr>
+    <tr><td class="paramname">end</td><td>A pointer to one past the last <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the range. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An <code><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c" title="Enumeration defining the ordering type of the node set.">XPathNodeSet::type_t</a></code> value indicating the order of the nodes in the range. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function performs a linear scan and is primarily used internally by <code>xpath_sort</code>. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01699_a06d335726027c6477be96cb86f9e56ce_icgraph.png" border="0" usemap="#aa01699_a06d335726027c6477be96cb86f9e56ce_icgraph" alt=""/></div>
+<map name="aa01699_a06d335726027c6477be96cb86f9e56ce_icgraph" id="aa01699_a06d335726027c6477be96cb86f9e56ce_icgraph">
+<area shape="rect" title="Determines the current document order of a range of XPath nodes." alt="" coords="1695,186,1868,226"/>
+<area shape="rect" href="a01699.html#a1cda3af8de6ebb42fc0186a350a138e1" title="Sorts a range of XPath nodes by document order." alt="" coords="1497,186,1647,226"/>
+<area shape="poly" title=" " alt="" coords="1681,209,1647,209,1647,203,1681,203"/>
+<area shape="rect" href="a05287.html#ae6372da5110a7cfe5d74554a4b8ce0a4" title="Sorts the collection by document order." alt="" coords="1263,150,1449,190"/>
+<area shape="poly" title=" " alt="" coords="1483,194,1449,188,1450,183,1484,189"/>
+<area shape="rect" href="a05291.html#ad6ba303523cd6ee4b69974a77fb9e33a" title="Sorts the raw node set in ascending document order." alt="" coords="1265,215,1447,269"/>
+<area shape="poly" title=" " alt="" coords="1484,223,1448,229,1447,224,1483,218"/>
+<area shape="rect" href="a05239.html#a1503ded341dc30788a4db31b632de4e8" title="Evaluates the XPath expression represented by this AST node to a node&#45;set." alt="" coords="1034,175,1213,229"/>
+<area shape="poly" title=" " alt="" coords="1251,227,1213,220,1213,215,1252,221"/>
+<area shape="rect" href="a05291.html#a08db6b95af1bb02f7420c3b74c78e81e" title="Default constructor. Constructs an empty raw node set." alt="" coords="1032,253,1215,308"/>
+<area shape="poly" title=" " alt="" coords="1251,262,1215,268,1214,263,1250,257"/>
+<area shape="rect" href="a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="772,80,951,135"/>
+<area shape="poly" title=" " alt="" coords="1034,172,936,137,938,132,1036,167"/>
+<area shape="rect" href="a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,83,439,137"/>
+<area shape="poly" title=" " alt="" coords="1020,192,438,123,439,118,1021,187"/>
+<area shape="rect" href="a05315.html#a9e6e14d2583f26c245199b4d022aeae2" title="Evaluates the XPath query to a single node." alt="" coords="739,210,984,250"/>
+<area shape="poly" title=" " alt="" coords="1021,216,984,220,984,214,1020,210"/>
+<area shape="rect" href="a05315.html#a7bf53aa20d04946a89d395e7345c1be5" title="Evaluates the XPath query to a node&#45;set." alt="" coords="758,303,965,357"/>
+<area shape="poly" title=" " alt="" coords="1045,237,1033,243,912,305,910,300,1031,238,1043,233"/>
+<area shape="rect" href="a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="499,5,678,60"/>
+<area shape="poly" title=" " alt="" coords="758,91,659,63,660,57,759,85"/>
+<area shape="poly" title=" " alt="" coords="758,118,439,119,439,114,758,113"/>
+<area shape="poly" title=" " alt="" coords="692,49,791,77,790,82,691,55"/>
+<area shape="poly" title=" " alt="" coords="516,67,440,92,438,87,514,62"/>
+<area shape="poly" title=" " alt="" coords="452,99,772,98,772,103,452,105"/>
+<area shape="poly" title=" " alt="" coords="422,75,498,50,500,55,423,81"/>
+<area shape="rect" href="a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,83,212,137"/>
+<area shape="poly" title=" " alt="" coords="246,113,212,113,212,107,246,107"/>
+<area shape="rect" href="a05143.html#ab3b8c4b5ae7c14a5f5353854af2c0980" title="Selects a single node by evaluating an XPath query." alt="" coords="487,210,691,250"/>
+<area shape="poly" title=" " alt="" coords="725,233,691,233,691,227,725,227"/>
+<area shape="rect" href="a05143.html#a260d31b59a5cd0c5f8fff0fd592c2793" title=" " alt="" coords="487,274,691,314"/>
+<area shape="poly" title=" " alt="" coords="763,256,674,277,673,271,762,251"/>
+<area shape="rect" href="a05143.html#ab8730fb0f45c45e980dc2e0cc918318f" title="Selects a set of nodes by evaluating an XPath query." alt="" coords="487,338,691,378"/>
+<area shape="poly" title=" " alt="" coords="745,345,691,350,690,345,744,339"/>
+<area shape="rect" href="a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="322,345,377,371"/>
+<area shape="poly" title=" " alt="" coords="473,361,377,361,377,355,473,355"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1cda3af8de6ebb42fc0186a350a138e1" name="a1cda3af8de6ebb42fc0186a350a138e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cda3af8de6ebb42fc0186a350a138e1">&#9670;&#160;</a></span>xpath_sort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> lumex::xml::xpath::utility::xpath_sort </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a05283.html">XPathNode</a> *</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a05283.html">XPathNode</a> *</td>          <td class="paramname"><span class="paramname"><em>end</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rev</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sorts a range of XPath nodes by document order. </p>
+<p>This function sorts the nodes in the specified range <code>[begin, end)</code> according to their XML document order. It can sort in ascending or descending order. It first checks the current order using <code>xpath_get_order</code> to avoid redundant sorting. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">begin</td><td>A pointer to the first <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the mutable range to sort. </td></tr>
+    <tr><td class="paramname">end</td><td>A pointer to one past the last <code><a class="el" href="a05283.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the mutable range to sort. </td></tr>
+    <tr><td class="paramname">type</td><td>The current <code><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c" title="Enumeration defining the ordering type of the node set.">XPathNodeSet::type_t</a></code> of the range before sorting. </td></tr>
+    <tr><td class="paramname">rev</td><td>If <code>true</code>, sort in descending document order; otherwise, ascending. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The new <code><a class="el" href="a05287.html#adb8cd64c821b92dc30490b083e5e686c" title="Enumeration defining the ordering type of the node set.">XPathNodeSet::type_t</a></code> indicating the sorted order of the nodes. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01699_a1cda3af8de6ebb42fc0186a350a138e1_cgraph.png" border="0" usemap="#aa01699_a1cda3af8de6ebb42fc0186a350a138e1_cgraph" alt=""/></div>
+<map name="aa01699_a1cda3af8de6ebb42fc0186a350a138e1_cgraph" id="aa01699_a1cda3af8de6ebb42fc0186a350a138e1_cgraph">
+<area shape="rect" title="Sorts a range of XPath nodes by document order." alt="" coords="5,5,155,45"/>
+<area shape="rect" href="a01699.html#a06d335726027c6477be96cb86f9e56ce" title="Determines the current document order of a range of XPath nodes." alt="" coords="203,5,376,45"/>
+<area shape="poly" title=" " alt="" coords="155,23,189,23,189,28,155,28"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01699_a1cda3af8de6ebb42fc0186a350a138e1_icgraph.png" border="0" usemap="#aa01699_a1cda3af8de6ebb42fc0186a350a138e1_icgraph" alt=""/></div>
+<map name="aa01699_a1cda3af8de6ebb42fc0186a350a138e1_icgraph" id="aa01699_a1cda3af8de6ebb42fc0186a350a138e1_icgraph">
+<area shape="rect" title="Sorts a range of XPath nodes by document order." alt="" coords="1497,186,1647,226"/>
+<area shape="rect" href="a05287.html#ae6372da5110a7cfe5d74554a4b8ce0a4" title="Sorts the collection by document order." alt="" coords="1263,150,1449,190"/>
+<area shape="poly" title=" " alt="" coords="1483,194,1449,188,1450,183,1484,189"/>
+<area shape="rect" href="a05291.html#ad6ba303523cd6ee4b69974a77fb9e33a" title="Sorts the raw node set in ascending document order." alt="" coords="1265,215,1447,269"/>
+<area shape="poly" title=" " alt="" coords="1484,223,1448,229,1447,224,1483,218"/>
+<area shape="rect" href="a05239.html#a1503ded341dc30788a4db31b632de4e8" title="Evaluates the XPath expression represented by this AST node to a node&#45;set." alt="" coords="1034,175,1213,229"/>
+<area shape="poly" title=" " alt="" coords="1251,227,1213,220,1213,215,1252,221"/>
+<area shape="rect" href="a05291.html#a08db6b95af1bb02f7420c3b74c78e81e" title="Default constructor. Constructs an empty raw node set." alt="" coords="1032,253,1215,308"/>
+<area shape="poly" title=" " alt="" coords="1251,262,1215,268,1214,263,1250,257"/>
+<area shape="rect" href="a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="772,80,951,135"/>
+<area shape="poly" title=" " alt="" coords="1034,172,936,137,938,132,1036,167"/>
+<area shape="rect" href="a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,83,439,137"/>
+<area shape="poly" title=" " alt="" coords="1020,192,438,123,439,118,1021,187"/>
+<area shape="rect" href="a05315.html#a9e6e14d2583f26c245199b4d022aeae2" title="Evaluates the XPath query to a single node." alt="" coords="739,210,984,250"/>
+<area shape="poly" title=" " alt="" coords="1021,216,984,220,984,214,1020,210"/>
+<area shape="rect" href="a05315.html#a7bf53aa20d04946a89d395e7345c1be5" title="Evaluates the XPath query to a node&#45;set." alt="" coords="758,303,965,357"/>
+<area shape="poly" title=" " alt="" coords="1045,237,1033,243,912,305,910,300,1031,238,1043,233"/>
+<area shape="rect" href="a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="499,5,678,60"/>
+<area shape="poly" title=" " alt="" coords="758,91,659,63,660,57,759,85"/>
+<area shape="poly" title=" " alt="" coords="758,118,439,119,439,114,758,113"/>
+<area shape="poly" title=" " alt="" coords="692,49,791,77,790,82,691,55"/>
+<area shape="poly" title=" " alt="" coords="516,67,440,92,438,87,514,62"/>
+<area shape="poly" title=" " alt="" coords="452,99,772,98,772,103,452,105"/>
+<area shape="poly" title=" " alt="" coords="422,75,498,50,500,55,423,81"/>
+<area shape="rect" href="a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,83,212,137"/>
+<area shape="poly" title=" " alt="" coords="246,113,212,113,212,107,246,107"/>
+<area shape="rect" href="a05143.html#ab3b8c4b5ae7c14a5f5353854af2c0980" title="Selects a single node by evaluating an XPath query." alt="" coords="487,210,691,250"/>
+<area shape="poly" title=" " alt="" coords="725,233,691,233,691,227,725,227"/>
+<area shape="rect" href="a05143.html#a260d31b59a5cd0c5f8fff0fd592c2793" title=" " alt="" coords="487,274,691,314"/>
+<area shape="poly" title=" " alt="" coords="763,256,674,277,673,271,762,251"/>
+<area shape="rect" href="a05143.html#ab8730fb0f45c45e980dc2e0cc918318f" title="Selects a set of nodes by evaluating an XPath query." alt="" coords="487,338,691,378"/>
+<area shape="poly" title=" " alt="" coords="745,345,691,350,690,345,744,339"/>
+<area shape="rect" href="a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="322,345,377,371"/>
+<area shape="poly" title=" " alt="" coords="473,361,377,361,377,355,473,355"/>
+</map>
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01669.html">xml</a></li><li class="navelem"><a class="el" href="a01678.html">xpath</a></li><li class="navelem"><a class="el" href="a01699.html">utility</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

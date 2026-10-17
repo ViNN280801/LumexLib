@@ -1,0 +1,12 @@
+<map id="lumex::applied::json::schema::LumexJsonSchemaException::LumexJsonSchemaException" name="lumex::applied::json::schema::LumexJsonSchemaException::LumexJsonSchemaException">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,125,281,180"/>
+<area shape="rect" id="Node000002" href="$a01727.html#aa74f7f71a6811747d910836b9a86b86f" title=" " alt="" coords="348,29,624,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,123,329,94,363,85,364,90,330,99,232,128"/>
+<area shape="rect" id="Node000003" href="$a01727.html#a8fb0ac0d0fefc811db309fb1680365d6" title=" " alt="" coords="329,133,643,173"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="282,150,316,150,316,155,282,155"/>
+<area shape="rect" id="Node000004" href="$a01727.html#aef55884f8ebc188b9390ff069b504748" title=" " alt="" coords="348,221,624,276"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="242,177,376,215,374,220,240,183"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="421,29,421,19,433,10,454,5,486,3,524,6,546,14,544,19,523,11,486,8,455,10,435,15,426,21,426,29"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="424,133,420,123,430,114,452,108,486,106,525,109,547,116,545,121,524,114,486,111,453,113,432,118,425,124,428,131"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="421,221,421,211,433,202,454,197,486,195,524,198,546,206,544,211,523,203,486,200,455,202,435,207,426,213,426,221"/>
+</map>

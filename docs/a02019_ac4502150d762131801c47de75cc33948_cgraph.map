@@ -1,0 +1,5 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::control" name="lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::control">
+<area shape="rect" id="Node000001" title="The block of pointer (null for an empty one)." alt="" coords="5,5,189,104"/>
+<area shape="rect" id="Node000002" href="$a03899.html#ab5a9909429775aef7fd4ae60255e2b1e" title="The control block of a shared pointer (null when it has none)." alt="" coords="237,27,383,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,52,224,52,224,57,189,57"/>
+</map>

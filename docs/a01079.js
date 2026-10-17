@@ -1,5 +1,4 @@
 var a01079 =
 [
-    [ "lumex::xml::xpath::memory::XPathStack", "a05098.html", "a05098" ],
-    [ "lumex::xml::xpath::memory::XPathStackData", "a05102.html", "a05102" ]
+    [ "lumex::core::utility::process::get_current_pid", "a01607.html#a70c7aae8bb35572f410d8de09cfee689", null ]
 ];

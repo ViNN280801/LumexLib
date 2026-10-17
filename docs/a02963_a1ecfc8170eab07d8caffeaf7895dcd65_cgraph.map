@@ -1,0 +1,6 @@
+<map id="lumex::core::filesystem::fs::directory_iterator::operator++" name="lumex::core::filesystem::fs::directory_iterator::operator++">
+<area shape="rect" id="Node000001" title="Post&#45;increments the iterator to move to the next entry in the directory." alt="" coords="5,29,180,84"/>
+<area shape="rect" id="Node000002" href="$a02963.html#aefba50ce7561bef534d53fff091febd7" title="Default constructor. Creates an end iterator." alt="" coords="228,29,403,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,54,214,54,214,59,180,59"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,29,272,19,280,10,294,5,315,3,340,6,355,14,352,18,339,11,315,8,296,10,283,15,277,21,277,29"/>
+</map>

@@ -33,9 +33,11 @@
 // tests of LumexSplitCountSimAbaSoak.cxx11.tests.cpp (the suite name contains
 // `Soak`).
 //
-// The full quick set runs in the C++11 suite with the default backend; the
-// other suites (built-in backend, C++17, C++20, wait table) run the toy
-// control and the two scenarios AR1 and HA3 at bound 1.
+// The full quick set runs in the two C++11 suites with the default backend
+// (the default one and the prefer_split_count one: the preference does not
+// change the cell that the simulator drives); the other suites (built-in
+// backend, C++17, C++20, wait table) run the toy control and the two
+// scenarios AR1 and HA3 at bound 1.
 #include <string>
 
 #include <gtest/gtest.h>

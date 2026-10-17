@@ -1,0 +1,8 @@
+<map id="lumex::xml::node::XmlNode::find_attribute" name="lumex::xml::node::XmlNode::find_attribute">
+<area shape="rect" id="Node000001" title="Finds the first attribute for which the provided predicate returns true." alt="" coords="5,5,209,45"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="509,5,713,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,20,257,19,461,19,496,19,496,25,461,24,257,24,209,25"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a1fd71ea59944927bf9867fc98be0ffcf" title="Retrieves the first attribute of the node." alt="" coords="257,33,461,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,34,244,38,243,43,209,39"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="461,39,495,36,496,41,462,45"/>
+</map>

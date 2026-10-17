@@ -1,5 +1,10 @@
 var a00830 =
 [
-    [ "process_id_t", "a00830.html#aebb1d3ca32183ed3a945b592f024e2da", null ],
-    [ "main", "a00830.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
+    [ "LUMEX_ATOMIC_DWCAS_TARGET_OK", "a00830.html#a8d2eb58f8b3305259831c09ae4cdec43", null ],
+    [ "LUMEX_ATOMIC_HAS_DWCAS", "a00830.html#af22f90160f02bc6ca6017e69c8f09638", null ],
+    [ "LUMEX_DWCAS_BACKEND", "a00830.html#ab893b67dd1410f918075bfeadcd45249", null ],
+    [ "LUMEX_DWCAS_BACKEND_ASM", "a00830.html#a1a86e716c52fe3b475232079e8e55613", null ],
+    [ "LUMEX_DWCAS_BACKEND_BUILTIN", "a00830.html#a818f856684ac8224ca66e4734fbaedd3", null ],
+    [ "LUMEX_DWCAS_BACKEND_MSVC", "a00830.html#a600ddcd8502e21b6664e62d6e8b8d68f", null ],
+    [ "LUMEX_DWCAS_BACKEND_NONE", "a00830.html#a5b9811a5577fd2b65d5d4a07b986af58", null ]
 ];

@@ -1,0 +1,22 @@
+<map id="lumex::core::smart_ptr::detail::access::control" name="lumex::core::smart_ptr::detail::access::control">
+<area shape="rect" id="Node000001" title="The control block of a shared pointer (null when it has none)." alt="" coords="415,418,560,473"/>
+<area shape="rect" id="Node000002" href="$a02015.html#a64ee7a20aa9b62c6d671a3d42d09839a" title="The block of pointer (null for an empty one)." alt="" coords="147,5,328,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="480,405,468,343,447,267,413,188,391,151,365,118,347,102,327,89,330,84,350,98,369,114,395,148,418,186,452,265,473,342,485,404"/>
+<area shape="rect" id="Node000003" href="$a02019.html#ac4502150d762131801c47de75cc33948" title="The block of pointer (null for an empty one)." alt="" coords="145,128,329,227"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="470,406,429,324,400,280,365,241,328,215,331,210,368,237,404,276,434,321,475,404"/>
+<area shape="rect" id="Node000004" href="$a01979.html#a1310be9e0d70011306d7c4cdbfdb96f6" title=" " alt="" coords="123,251,352,335"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="447,411,408,379,365,349,345,338,347,333,368,344,412,375,450,406"/>
+<area shape="rect" id="Node000005" href="$a01987.html#ab7bec5e7535be60be3da17c068047ea1" title=" " alt="" coords="127,359,347,443"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="400,433,347,423,348,418,401,427"/>
+<area shape="rect" id="Node000006" href="$a01562.html#a6e3d9dcac0bec89fe26be2e26f03f67d" title="A pointer to the deleter of type D that p owns, or null." alt="" coords="165,468,310,508"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="401,463,311,478,310,473,401,457"/>
+<area shape="rect" id="Node000008" href="$a01979.html#a8bc8072d1a8878346ec7c5769b5fa235" title="True for a pointer that owns nothing and stores a null pointer." alt="" coords="108,533,367,617"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="436,483,368,522,342,535,340,530,365,518,433,478"/>
+<area shape="rect" id="Node000009" href="$a01987.html#a5a9dc371582c8a7af83af9480e1e41b1" title="True for a weak pointer that observes nothing and stores null." alt="" coords="112,641,363,725"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="472,487,431,559,402,597,368,630,351,643,348,638,365,626,398,593,426,556,467,484"/>
+<area shape="rect" id="Node000010" href="$a01562.html#a90a10e20ac0ae6ad39579fd8d528e1c1" title="Wraps a shared_ptr of this module into a std::shared_ptr." alt="" coords="165,749,310,789"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="485,487,473,543,451,611,417,679,395,711,368,738,341,755,311,765,309,760,339,750,365,734,391,707,413,677,446,609,468,542,479,486"/>
+<area shape="rect" id="Node000007" href="$a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,617,60,642"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="153,502,130,511,110,522,85,544,65,570,40,618,35,615,61,568,81,541,106,518,128,506,151,497"/>
+<area shape="poly" id="edge10_Node000010_Node000007" title=" " alt="" coords="150,759,107,738,82,716,61,690,36,643,40,641,66,687,85,712,109,734,153,754"/>
+</map>

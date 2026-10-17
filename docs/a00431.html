@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexFormatChrono.hpp File Reference</title>
+<title>LumexLib: example_optional_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,147 +104,97 @@ $(function(){initNavTree('a00431.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexFormatChrono.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_optional_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>std::chrono::duration</code> and <code>system_clock</code> time points for LumexFormat, with the chrono specification of C++20 <code>std::format</code>.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
-<code>#include &lt;cmath&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;ctime&gt;</code><br />
-<code>#include &lt;iterator&gt;</code><br />
-<code>#include &lt;locale&gt;</code><br />
-<code>#include &lt;ratio&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00428_source.html">lumex/core/fmt/LumexFormat.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01391_source.html">lumex/core/optional/LumexOptional</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexFormatChrono.hpp:</div>
+Include dependency graph for example_optional_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00432.png" border="0" usemap="#a_lumex_format_chrono_8hpp" alt=""/></div>
+<div class="center"><img src="a00432.png" border="0" usemap="#aexample__optional__workflow_8cpp" alt=""/></div>
+<map name="aexample__optional__workflow_8cpp" id="aexample__optional__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="827,5,1057,31"/>
+<area shape="rect" title=" " alt="" coords="762,86,842,111"/>
+<area shape="poly" title=" " alt="" coords="921,33,837,81,835,77,918,29"/>
+<area shape="rect" title=" " alt="" coords="1091,511,1150,537"/>
+<area shape="poly" title=" " alt="" coords="985,28,1035,49,1087,80,1110,100,1129,124,1141,150,1146,179,1146,348,1140,431,1129,498,1124,498,1135,430,1141,348,1141,180,1136,151,1125,126,1107,104,1084,85,1033,54,983,33"/>
+<area shape="rect" href="a01391.html" title="Optional module: a C++11 implementation of the C++17 std::optional with the C++23 monadic operations." alt="" coords="866,79,1018,119"/>
+<area shape="poly" title=" " alt="" coords="945,31,945,65,939,65,939,31"/>
+<area shape="rect" href="a00986.html" title="The global names of the optional module: optional, nullopt, make_optional and lumex_bad_optional_acce..." alt="" coords="743,167,965,192"/>
+<area shape="poly" title=" " alt="" coords="922,121,880,159,876,155,918,117"/>
+<area shape="rect" href="a00989.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type&#45;safe nullab..." alt="" coords="622,240,801,280"/>
+<area shape="poly" title=" " alt="" coords="832,195,761,235,758,231,830,190"/>
+<area shape="rect" title=" " alt="" coords="25,423,112,449"/>
+<area shape="poly" title=" " alt="" coords="622,276,500,299,365,331,226,376,112,421,110,416,224,371,364,325,499,294,621,271"/>
+<area shape="rect" title=" " alt="" coords="628,423,739,449"/>
+<area shape="poly" title=" " alt="" coords="707,281,695,328,687,410,682,410,690,328,702,279"/>
+<area shape="rect" title=" " alt="" coords="104,511,196,537"/>
+<area shape="poly" title=" " alt="" coords="622,268,463,283,278,311,190,330,113,355,53,384,31,400,15,417,8,436,15,455,30,473,49,488,92,508,90,513,46,492,26,477,10,457,3,436,10,415,27,396,50,379,111,350,189,325,277,305,463,278,621,263"/>
+<area shape="rect" title=" " alt="" coords="763,423,823,449"/>
+<area shape="poly" title=" " alt="" coords="716,280,723,321,739,367,754,391,772,412,768,415,750,394,734,369,718,322,711,281"/>
+<area shape="rect" title=" " alt="" coords="749,335,823,361"/>
+<area shape="poly" title=" " alt="" coords="731,279,768,323,764,326,727,282"/>
+<area shape="rect" href="a00995.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f..." alt="" coords="377,328,595,368"/>
+<area shape="poly" title=" " alt="" coords="661,283,551,325,549,320,659,278"/>
+<area shape="rect" href="a00992.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,..." alt="" coords="899,416,1105,456"/>
+<area shape="poly" title=" " alt="" coords="776,278,828,298,881,326,932,364,975,404,972,408,929,368,878,330,826,303,774,283"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="666,504,879,544"/>
+<area shape="poly" title=" " alt="" coords="778,278,811,298,838,327,843,348,846,382,844,422,837,457,825,478,811,495,806,492,821,475,832,455,839,421,841,382,838,349,833,329,808,302,775,283"/>
+<area shape="poly" title=" " alt="" coords="377,368,259,390,132,419,120,422,119,417,131,413,258,385,377,363"/>
+<area shape="poly" title=" " alt="" coords="532,366,643,415,641,420,530,371"/>
+<area shape="poly" title=" " alt="" coords="378,362,258,384,209,399,177,418,164,436,157,456,151,498,146,497,152,455,160,433,174,414,207,394,257,379,377,357"/>
+<area shape="poly" title=" " alt="" coords="582,365,665,386,751,413,756,415,754,420,749,419,663,392,581,371"/>
+<area shape="rect" title=" " alt="" coords="188,423,237,449"/>
+<area shape="poly" title=" " alt="" coords="401,371,327,392,251,418,248,420,246,415,249,414,325,387,399,366"/>
+<area shape="rect" title=" " alt="" coords="262,423,339,449"/>
+<area shape="poly" title=" " alt="" coords="445,371,341,420,339,415,442,366"/>
+<area shape="poly" title=" " alt="" coords="595,364,886,413,885,419,594,369"/>
+<area shape="poly" title=" " alt="" coords="511,366,617,454,660,477,704,497,702,501,658,482,614,458,508,370"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="363,416,553,456"/>
+<area shape="poly" title=" " alt="" coords="482,369,471,404,466,402,477,368"/>
+<area shape="poly" title=" " alt="" coords="1031,454,1094,501,1091,505,1028,459"/>
+<area shape="rect" title=" " alt="" coords="959,511,1045,537"/>
+<area shape="poly" title=" " alt="" coords="1005,456,1005,498,999,498,999,456"/>
+<area shape="poly" title=" " alt="" coords="950,459,839,502,837,497,948,454"/>
+<area shape="poly" title=" " alt="" coords="388,459,209,510,207,505,387,454"/>
+<area shape="poly" title=" " alt="" coords="531,454,688,498,687,503,529,459"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="331,504,585,544"/>
+<area shape="poly" title=" " alt="" coords="461,456,461,490,455,490,455,456"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00433.png" border="0" usemap="#a_lumex_format_chrono_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00431_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02966.html">lumex::core::fmt::Detail::civil_time_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Broken-down calendar date and time of day.  <a href="a02966.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02970.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses <code>[[fill]align][width][.precision][L][chrono-specs]</code> and pads the chrono text; base of the duration and time point formatters.  <a href="a02970.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02978.html">lumex::core::fmt::formatter&lt; std::chrono::time_point&lt; std::chrono::system_clock, Duration &gt;, Char, typename std::enable_if&lt;!std::chrono::treat_as_floating_point&lt; typename Duration::rep &gt;::value &gt;::type &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::chrono::system_clock</code> time points (UTC): <code>F T</code> by default, the date only for whole-day time points.  <a href="a02978.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01363.html">lumex::core::fmt</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html">lumex::core::fmt::Detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8a3611c453003762e23f73cdf331d06a" id="r_a8a3611c453003762e23f73cdf331d06a"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html#a8a3611c453003762e23f73cdf331d06a">lumex::core::fmt::Detail::floor_div</a> (long long value, long long divisor) noexcept</td></tr>
-<tr class="memdesc:a8a3611c453003762e23f73cdf331d06a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value / divisor</code> rounded toward negative infinity.  <br /></td></tr>
-<tr class="separator:a8a3611c453003762e23f73cdf331d06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8c7658b63539d3879a215371302723c" id="r_ae8c7658b63539d3879a215371302723c"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html#ae8c7658b63539d3879a215371302723c">lumex::core::fmt::Detail::floor_mod</a> (long long value, long long divisor) noexcept</td></tr>
-<tr class="memdesc:ae8c7658b63539d3879a215371302723c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value mod divisor</code> in <code>[0, divisor)</code> for a positive divisor.  <br /></td></tr>
-<tr class="separator:ae8c7658b63539d3879a215371302723c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a365347e3849bfaedcfb56627e1ee586e" id="r_a365347e3849bfaedcfb56627e1ee586e"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html#a365347e3849bfaedcfb56627e1ee586e">lumex::core::fmt::Detail::days_from_civil</a> (long long year_value, int month_value, int day_value) noexcept</td></tr>
-<tr class="memdesc:a365347e3849bfaedcfb56627e1ee586e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Days since 1970-01-01 of a civil date.  <br /></td></tr>
-<tr class="separator:a365347e3849bfaedcfb56627e1ee586e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf8a964b73ead1cec0f493a86c4b9fab" id="r_abf8a964b73ead1cec0f493a86c4b9fab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html#abf8a964b73ead1cec0f493a86c4b9fab">lumex::core::fmt::Detail::civil_from_days</a> (long long day_count, <a class="el" href="a02966.html">civil_time_t</a> &amp;time) noexcept</td></tr>
-<tr class="memdesc:abf8a964b73ead1cec0f493a86c4b9fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the date part of <code>time</code> from days since 1970-01-01.  <br /></td></tr>
-<tr class="separator:abf8a964b73ead1cec0f493a86c4b9fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf2d03bfeff88c2c87dc0258865374ca" id="r_abf2d03bfeff88c2c87dc0258865374ca"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html#abf2d03bfeff88c2c87dc0258865374ca">lumex::core::fmt::Detail::power_of_ten</a> (int exponent) noexcept</td></tr>
-<tr class="memdesc:abf2d03bfeff88c2c87dc0258865374ca"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>10^exponent</code> for <code>exponent</code> in 0..18.  <br /></td></tr>
-<tr class="separator:abf2d03bfeff88c2c87dc0258865374ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ba235f9fcada7ece959be451804b733" id="r_a6ba235f9fcada7ece959be451804b733"><td class="memTemplParams" colspan="2">template&lt;typename Period&gt; </td></tr>
-<tr class="memitem:a6ba235f9fcada7ece959be451804b733"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a6ba235f9fcada7ece959be451804b733">lumex::core::fmt::Detail::fractional_digits</a> () noexcept</td></tr>
-<tr class="memdesc:a6ba235f9fcada7ece959be451804b733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fractional second digits of <code>S</code> for <code>Period</code>: the smallest <code>n</code> (at most 18) with <code>Period * 10^n</code> whole, 6 when there is none.  <br /></td></tr>
-<tr class="separator:a6ba235f9fcada7ece959be451804b733"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a474c0fd7c9f1ace69805a5a6a099600a" id="r_a474c0fd7c9f1ace69805a5a6a099600a"><td class="memTemplParams" colspan="2">template&lt;typename Rep, typename Period&gt; </td></tr>
-<tr class="memitem:a474c0fd7c9f1ace69805a5a6a099600a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a474c0fd7c9f1ace69805a5a6a099600a">lumex::core::fmt::Detail::split_seconds</a> (std::chrono::duration&lt; Rep, Period &gt; const &amp;value, int digits, long long &amp;whole_seconds, long long &amp;ticks)</td></tr>
-<tr class="memdesc:a474c0fd7c9f1ace69805a5a6a099600a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a non-negative duration into whole seconds and the fraction in <code>10^-digits</code> units (truncated).  <br /></td></tr>
-<tr class="separator:a474c0fd7c9f1ace69805a5a6a099600a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8436ead0f08c22325c76c607c228c592" id="r_a8436ead0f08c22325c76c607c228c592"><td class="memTemplParams" colspan="2">template&lt;typename Period&gt; </td></tr>
-<tr class="memitem:a8436ead0f08c22325c76c607c228c592"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a8436ead0f08c22325c76c607c228c592">lumex::core::fmt::Detail::unit_suffix</a> ()</td></tr>
-<tr class="memdesc:a8436ead0f08c22325c76c607c228c592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit suffix of <code>q</code> / <code>{}</code> for <code>Period</code>.  <br /></td></tr>
-<tr class="separator:a8436ead0f08c22325c76c607c228c592"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ccbbce0aa0b3f54e45e28809998ecca" id="r_a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
-<tr class="memitem:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a8ccbbce0aa0b3f54e45e28809998ecca">lumex::core::fmt::Detail::is_chrono_conversion</a> (Char conversion, Char modifier, bool is_duration) noexcept</td></tr>
-<tr class="memdesc:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>%&lt;conversion&gt;</code> is valid for a duration / a time point.  <br /></td></tr>
-<tr class="separator:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28ba701722fdcf7194acbbdaaa6062fd" id="r_a28ba701722fdcf7194acbbdaaa6062fd"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
-<tr class="memitem:a28ba701722fdcf7194acbbdaaa6062fd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a28ba701722fdcf7194acbbdaaa6062fd">lumex::core::fmt::Detail::check_chrono_specs</a> (Char const *begin, Char const *end, bool is_duration)</td></tr>
-<tr class="memdesc:a28ba701722fdcf7194acbbdaaa6062fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks <code>[begin, end)</code> as chrono-specs; they must start with a conversion.  <br /></td></tr>
-<tr class="separator:a28ba701722fdcf7194acbbdaaa6062fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50d6c5e29743cab15e1594cf58b632a7" id="r_a50d6c5e29743cab15e1594cf58b632a7"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
-<tr class="memitem:a50d6c5e29743cab15e1594cf58b632a7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a50d6c5e29743cab15e1594cf58b632a7">lumex::core::fmt::Detail::append_ascii</a> (std::basic_string&lt; Char &gt; &amp;out, std::string const &amp;text)</td></tr>
-<tr class="separator:a50d6c5e29743cab15e1594cf58b632a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a818162ff93668f48df1c55821b00846f" id="r_a818162ff93668f48df1c55821b00846f"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
-<tr class="memitem:a818162ff93668f48df1c55821b00846f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a818162ff93668f48df1c55821b00846f">lumex::core::fmt::Detail::append_number</a> (std::basic_string&lt; Char &gt; &amp;out, long long value, int width)</td></tr>
-<tr class="memdesc:a818162ff93668f48df1c55821b00846f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value</code> with at least <code>width</code> digits, zero padded, with sign.  <br /></td></tr>
-<tr class="separator:a818162ff93668f48df1c55821b00846f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40ff57adf446dd2e2b97a65f9e817121" id="r_a40ff57adf446dd2e2b97a65f9e817121"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
-<tr class="memitem:a40ff57adf446dd2e2b97a65f9e817121"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a40ff57adf446dd2e2b97a65f9e817121">lumex::core::fmt::Detail::append_seconds</a> (std::basic_string&lt; Char &gt; &amp;out, <a class="el" href="a02966.html">civil_time_t</a> const &amp;time)</td></tr>
-<tr class="separator:a40ff57adf446dd2e2b97a65f9e817121"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cfab9d85ccf991300e57dec088e9dac" id="r_a3cfab9d85ccf991300e57dec088e9dac"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
-<tr class="memitem:a3cfab9d85ccf991300e57dec088e9dac"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a3cfab9d85ccf991300e57dec088e9dac">lumex::core::fmt::Detail::append_localized</a> (std::basic_string&lt; Char &gt; &amp;out, <a class="el" href="a02966.html">civil_time_t</a> const &amp;time, char conversion, char modifier, std::locale const &amp;locale)</td></tr>
-<tr class="memdesc:a3cfab9d85ccf991300e57dec088e9dac"><td class="mdescLeft">&#160;</td><td class="mdescRight">One conversion through the locale's <code>std::time_put</code> (<code>L</code>).  <br /></td></tr>
-<tr class="separator:a3cfab9d85ccf991300e57dec088e9dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeefcec729273930a28872e248746c365" id="r_aeefcec729273930a28872e248746c365"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html#aeefcec729273930a28872e248746c365">lumex::core::fmt::Detail::weekday_name</a> (int weekday_index, bool full) noexcept</td></tr>
-<tr class="separator:aeefcec729273930a28872e248746c365"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8add933ba8511f86512df2449d2bd4f9" id="r_a8add933ba8511f86512df2449d2bd4f9"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html#a8add933ba8511f86512df2449d2bd4f9">lumex::core::fmt::Detail::month_name</a> (int month_index, bool full) noexcept</td></tr>
-<tr class="separator:a8add933ba8511f86512df2449d2bd4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bb3e619b249d54a8889159cb394a5bd" id="r_a9bb3e619b249d54a8889159cb394a5bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01364.html#a9bb3e619b249d54a8889159cb394a5bd">lumex::core::fmt::Detail::iso_week</a> (<a class="el" href="a02966.html">civil_time_t</a> const &amp;time, long long &amp;iso_year, int &amp;week) noexcept</td></tr>
-<tr class="memdesc:a9bb3e619b249d54a8889159cb394a5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">ISO 8601 week-based year and week number.  <br /></td></tr>
-<tr class="separator:a9bb3e619b249d54a8889159cb394a5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a754034de35d8ea974e37818b711109a8" id="r_a754034de35d8ea974e37818b711109a8"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
-<tr class="memitem:a754034de35d8ea974e37818b711109a8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#a754034de35d8ea974e37818b711109a8">lumex::core::fmt::Detail::write_chrono</a> (std::basic_string&lt; Char &gt; &amp;out, Char const *it, Char const *end, <a class="el" href="a02966.html">civil_time_t</a> const &amp;time, std::basic_string&lt; Char &gt; const &amp;count, std::string const &amp;unit, bool localized, std::locale const &amp;locale)</td></tr>
-<tr class="memdesc:a754034de35d8ea974e37818b711109a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes <code>time</code> following the checked chrono-specs <code>[it, end)</code>.  <br /></td></tr>
-<tr class="separator:a754034de35d8ea974e37818b711109a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad543c02880402a3b7f724bbf0650fb51" id="r_ad543c02880402a3b7f724bbf0650fb51"><td class="memTemplParams" colspan="2">template&lt;typename Char, typename Rep&gt; </td></tr>
-<tr class="memitem:ad543c02880402a3b7f724bbf0650fb51"><td class="memTemplItemLeft" align="right" valign="top">std::basic_string&lt; Char &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01364.html#ad543c02880402a3b7f724bbf0650fb51">lumex::core::fmt::Detail::duration_count</a> (Rep count, int precision)</td></tr>
-<tr class="memdesc:ad543c02880402a3b7f724bbf0650fb51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Count of a duration as <code>{}</code> / <code>Q</code> print it.  <br /></td></tr>
-<tr class="separator:ad543c02880402a3b7f724bbf0650fb51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>std::chrono::duration</code> and <code>system_clock</code> time points for LumexFormat, with the chrono specification of C++20 <code>std::format</code>. </p>
-<ul>
-<li><code>{}</code> of a duration prints its count and unit: <code>42s</code>, <code>1500ms</code>, <code>7us</code>, <code>3min</code>, <code>2h</code>, <code>5d</code>, <code>5[1/3]s</code>. A floating-point count prints shortest, or fixed with a precision (<code>{:.2}</code> -&gt; <code>1.56s</code>).</li>
-<li><code>{}</code> of a <code>system_clock</code> time point prints <code>F T</code> in UTC with as many fractional second digits as its duration has (<code>2026-09-25 13:04:05.007</code>); a whole-day time point prints the date only.</li>
-<li>Specification: <code>[[fill]align][width][.precision][L][chrono-specs]</code>, where chrono-specs start with a conversion (<code>H:M</code>) and may contain literal text. Durations: <code>H M S T R I p r j Q q n t %%</code>. Time points additionally: <code>Y C y m d e F D j a A b B h u w U W V G g c x X Z z</code> and the <code>E</code> / <code>O</code> modifiers the standard allows.</li>
-<li><code>S</code> shows as many fractional digits as the duration's period needs (3 for milliseconds, 7 for 100 ns ticks, 6 when no decimal is exact).</li>
-<li>A negative duration prints one <code>-</code> before everything else (<code>-01:02:05</code>).</li>
-<li>Without <code>L</code>, names (<code>a b p</code>) and <code>c x X</code> are those of the C locale (<code>c</code> = <code>a b e T Y</code>); with <code>L</code> they come from the locale's <code>std::time_put</code>.</li>
-<li>The microsecond suffix is the ASCII <code>us</code> (the standard allows it; MSVC prints it too), so the output never depends on the execution charset. </li>
-</ul>
-</div></div><!-- contents -->
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_338a3242ca58d57e3179a5eb9e6b0159.html">fmt</a></li><li class="navelem"><a class="el" href="a00431.html">LumexFormatChrono.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_240a0f5524b67bc4e0e47160544eecb7.html">optional</a></li><li class="navelem"><a class="el" href="a00431.html">example_optional_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

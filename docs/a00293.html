@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSplitCountTraits.hpp File Reference</title>
+<title>LumexLib: example_string_view_workflow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,92 +104,101 @@ $(function(){initNavTree('a00293.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexSplitCountTraits.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_string_view_workflow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>What the split-count engine needs to know about the pointer it stores: the counter group its references use (the ledger), its holder block, and how to take a pointer apart and put it together.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;exception&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00275_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00488_source.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00491_source.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlKinds.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00494_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrAccess.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00497_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00515_source.html">lumex/core/smart_ptr/shared/LumexSharedPtr.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00518_source.html">lumex/core/smart_ptr/weak/LumexWeakPtr.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01406_source.html">lumex/core/string_view/LumexStringView</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSplitCountTraits.hpp:</div>
+Include dependency graph for example_string_view_workflow.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00294.png" border="0" usemap="#a_lumex_split_count_traits_8hpp" alt=""/></div>
+<div class="center"><img src="a00294.png" border="0" usemap="#aexample__string__view__workflow_8cpp" alt=""/></div>
+<map name="aexample__string__view__workflow_8cpp" id="aexample__string__view__workflow_8cpp">
+<area shape="rect" title=" " alt="" coords="354,5,515,45"/>
+<area shape="rect" title=" " alt="" coords="317,101,397,126"/>
+<area shape="poly" title=" " alt="" coords="419,48,380,92,376,88,415,44"/>
+<area shape="rect" title=" " alt="" coords="5,335,64,361"/>
+<area shape="poly" title=" " alt="" coords="437,46,431,89,424,113,411,135,394,151,361,172,267,227,73,331,71,326,265,223,358,168,390,147,407,132,419,111,426,88,432,45"/>
+<area shape="rect" href="a01406.html" title="String view module: the C++11 implementation of std::string_view and its relatives,..." alt="" coords="522,93,697,133"/>
+<area shape="poly" title=" " alt="" coords="476,43,559,85,556,90,474,48"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="655,255,889,280"/>
+<area shape="poly" title=" " alt="" coords="582,135,564,151,550,169,543,188,549,205,566,219,595,231,670,249,668,255,593,236,564,223,544,208,538,188,545,167,560,148,578,132"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="559,181,758,207"/>
+<area shape="poly" title=" " alt="" coords="624,132,646,168,642,171,620,135"/>
+<area shape="rect" href="a00860.html" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11." alt="" coords="781,181,992,207"/>
+<area shape="poly" title=" " alt="" coords="679,131,830,175,829,180,677,136"/>
+<area shape="poly" title=" " alt="" coords="655,275,342,295,188,311,77,331,71,332,69,327,75,325,187,306,342,290,655,270"/>
+<area shape="rect" title=" " alt="" coords="1385,335,1455,361"/>
+<area shape="poly" title=" " alt="" coords="889,272,1154,294,1282,309,1374,325,1382,328,1380,333,1373,331,1281,314,1153,299,889,278"/>
+<area shape="rect" title=" " alt="" coords="1480,335,1547,361"/>
+<area shape="poly" title=" " alt="" coords="889,270,1202,291,1357,306,1469,325,1477,328,1475,333,1467,331,1356,312,1202,296,889,276"/>
+<area shape="rect" title=" " alt="" coords="1571,335,1637,361"/>
+<area shape="poly" title=" " alt="" coords="889,269,1248,288,1429,304,1503,314,1559,325,1567,328,1566,333,1558,331,1502,320,1428,310,1248,294,889,274"/>
+<area shape="rect" title=" " alt="" coords="89,335,175,361"/>
+<area shape="poly" title=" " alt="" coords="655,274,436,290,311,307,187,331,176,333,175,328,186,325,310,302,436,285,655,268"/>
+<area shape="rect" title=" " alt="" coords="199,335,286,361"/>
+<area shape="poly" title=" " alt="" coords="655,278,485,296,391,311,298,331,287,333,286,328,297,325,390,306,485,291,655,272"/>
+<area shape="rect" title=" " alt="" coords="310,335,351,361"/>
+<area shape="poly" title=" " alt="" coords="655,282,491,303,417,316,363,331,361,331,359,326,362,325,416,311,490,298,655,277"/>
+<area shape="rect" title=" " alt="" coords="375,335,446,361"/>
+<area shape="poly" title=" " alt="" coords="681,283,574,302,459,331,453,333,451,328,458,325,573,297,680,277"/>
+<area shape="rect" title=" " alt="" coords="471,335,548,361"/>
+<area shape="poly" title=" " alt="" coords="723,283,561,331,554,333,552,328,559,325,722,278"/>
+<area shape="rect" title=" " alt="" coords="573,335,649,361"/>
+<area shape="poly" title=" " alt="" coords="748,283,649,332,647,327,745,278"/>
+<area shape="rect" title=" " alt="" coords="673,335,759,361"/>
+<area shape="poly" title=" " alt="" coords="765,282,735,325,731,322,761,279"/>
+<area shape="rect" title=" " alt="" coords="783,335,873,361"/>
+<area shape="poly" title=" " alt="" coords="783,279,813,322,809,325,779,282"/>
+<area shape="rect" title=" " alt="" coords="786,423,878,449"/>
+<area shape="poly" title=" " alt="" coords="821,278,858,296,874,310,888,327,894,350,888,374,875,396,859,415,855,411,870,393,883,372,888,350,883,329,871,314,855,301,819,283"/>
+<area shape="rect" title=" " alt="" coords="1263,335,1361,361"/>
+<area shape="poly" title=" " alt="" coords="889,275,1058,294,1245,325,1260,329,1259,334,1243,331,1057,299,888,280"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="999,328,1188,368"/>
+<area shape="poly" title=" " alt="" coords="823,277,1000,322,999,327,822,283"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="902,416,1157,456"/>
+<area shape="poly" title=" " alt="" coords="809,278,857,298,908,326,959,364,1002,404,998,408,956,368,905,330,855,303,807,283"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1181,416,1395,456"/>
+<area shape="poly" title=" " alt="" coords="889,272,1066,291,1145,306,1201,326,1224,342,1243,361,1273,402,1269,406,1239,365,1220,346,1199,330,1144,311,1065,296,889,277"/>
+<area shape="poly" title=" " alt="" coords="1034,371,892,419,883,421,881,416,890,413,1033,365"/>
+<area shape="poly" title=" " alt="" coords="1081,370,1054,406,1050,403,1076,367"/>
+<area shape="poly" title=" " alt="" coords="1139,366,1232,408,1230,413,1137,371"/>
+<area shape="poly" title=" " alt="" coords="680,205,742,245,739,249,677,209"/>
+<area shape="poly" title=" " alt="" coords="868,209,805,249,802,245,865,205"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00295.png" border="0" usemap="#a_lumex_split_count_traits_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00293_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01826.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_strong_ledger_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The strong group of a control block.  <a href="a01826.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01830.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_weak_ledger_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weak ledger of a control block.  <a href="a01830.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01838.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a03686.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a>&lt;T&gt;</code>.  <a href="a01838.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01842.html">lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="a03690.html" title="A weak reference to an object owned by shared_ptr objects.">lumex::core::smart_ptr::weak_ptr</a>&lt;T&gt;</code>.  <a href="a01842.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01312.html">lumex::core::atomic</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01313.html">lumex::core::atomic::smart_ptr</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01314.html">lumex::core::atomic::smart_ptr::table_wait</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01315.html">lumex::core::atomic::smart_ptr::table_wait::Detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a023309f567d7a3d067a6715ac3c998f7" id="r_a023309f567d7a3d067a6715ac3c998f7"><td class="memTemplParams" colspan="2">template&lt;typename E&gt; </td></tr>
-<tr class="memitem:a023309f567d7a3d067a6715ac3c998f7"><td class="memTemplItemLeft" align="right" valign="top">void *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01315.html#a023309f567d7a3d067a6715ac3c998f7">lumex::core::atomic::smart_ptr::table_wait::Detail::split_erase</a> (E *pointer) noexcept</td></tr>
-<tr class="memdesc:a023309f567d7a3d067a6715ac3c998f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A stored pointer as the <code>void *</code> a holder keeps.  <br /></td></tr>
-<tr class="separator:a023309f567d7a3d067a6715ac3c998f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa27e593e75b976cbaf1e42f9a5bac437" id="r_aa27e593e75b976cbaf1e42f9a5bac437"><td class="memTemplParams" colspan="2">template&lt;typename Holder&gt; </td></tr>
-<tr class="memitem:aa27e593e75b976cbaf1e42f9a5bac437"><td class="memTemplItemLeft" align="right" valign="top">Holder *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01315.html#aa27e593e75b976cbaf1e42f9a5bac437">lumex::core::atomic::smart_ptr::table_wait::Detail::split_make_holder</a> (<a class="el" href="a03662.html">::lumex::core::smart_ptr::detail::ctl_base</a> *owner, void *pointer) noexcept</td></tr>
-<tr class="memdesc:aa27e593e75b976cbaf1e42f9a5bac437"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates the holder of an alias; running out of memory ends the program, because every operation of the engine is <code>noexcept</code>.  <br /></td></tr>
-<tr class="separator:aa27e593e75b976cbaf1e42f9a5bac437"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>What the split-count engine needs to know about the pointer it stores: the counter group its references use (the ledger), its holder block, and how to take a pointer apart and put it together. </p>
-<p>Two pointer kinds of <code><a class="el" href="a01385.html">lumex::core::smart_ptr</a></code> are supported:</p>
-<p>| Pointer | Ledger of a block word | Holder | Reference of a holder on its owner | | &mdash; | &mdash; | &mdash; | &mdash; | | <code>shared_ptr&lt;T&gt;</code> | the strong group (<code>add_strong</code>, <code>transfer_strong_ext</code>, <code>untransfer_strong_ext</code>, <code>settle_strong</code>, <code>settle_strong_n</code>, <code>take_and_settle_strong</code>, <code>release_strong</code>, <code>release_strong_with_ext</code>) | <code>ctl_holder</code> | strong | | <code>weak_ptr&lt;T&gt;</code> | the weak ledger (the same operations on the weak ledger) | <code>ctl_weak_holder</code> | weak |</p>
-<p>A holder word always uses the strong group of the holder itself: the atomic object owns one strong reference to the holder, and the readers tick and settle on it; the holder's own reference on its owner is of the kind of the pointer. The pointer classes are taken apart through the module's documented <code>detail::access</code> friend: <code>control</code>, <code>stored</code>, <code>detach</code> (the count moves to the caller), <code>adopt</code> (a count the caller owns moves into a pointer).</p>
-<p>Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_95030709502da905a080530bb25e5eb1.html">split_count</a></li><li class="navelem"><a class="el" href="a00293.html">LumexSplitCountTraits.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_bc782a393a6b988e43baa711f0e6ca41.html">string_view</a></li><li class="navelem"><a class="el" href="a00293.html">example_string_view_workflow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

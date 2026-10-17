@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::formatter&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03118.html',''); initResizable(true); });
+$(function(){initNavTree('a03115.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,22 +103,235 @@ $(function(){initNavTree('a03118.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::hazard_pointer::engine::statistics_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a03112.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::formatter&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03118.html">lumex::core::hazard_pointer::engine::statistics_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03118.html#a6a42281aa79e087b2c6c5fa23e9723ce">passes</a></td><td class="entry"><a class="el" href="a03118.html">lumex::core::hazard_pointer::engine::statistics_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03118.html#a299784e89772e3d16a9b229117a6c8aa">pooled_records</a></td><td class="entry"><a class="el" href="a03118.html">lumex::core::hazard_pointer::engine::statistics_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03118.html#a6a28f29ce339fb639b9c399166fd560e">reclaimed</a></td><td class="entry"><a class="el" href="a03118.html">lumex::core::hazard_pointer::engine::statistics_t</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03118.html#af469b2ab57e159a976018bb01c7da020">records</a></td><td class="entry"><a class="el" href="a03118.html">lumex::core::hazard_pointer::engine::statistics_t</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03118.html#af1f22475fa29b308b3508dab7cb2f67d">retired</a></td><td class="entry"><a class="el" href="a03118.html">lumex::core::hazard_pointer::engine::statistics_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Standard formatter of a built-in type; a user <code>formatter</code> can inherit it to accept the standard specification.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01013_source.html">LumexFormat.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a39f101800996fa7c6cac0e20f45486cb" id="r_a39f101800996fa7c6cac0e20f45486cb"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39f101800996fa7c6cac0e20f45486cb">formatter</a> () noexcept</td></tr>
+<tr class="separator:a39f101800996fa7c6cac0e20f45486cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54567b2c48faa10cfb1c67c2c86d2a73" id="r_a54567b2c48faa10cfb1c67c2c86d2a73"><td class="memItemLeft" align="right" valign="top">constexpr Char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54567b2c48faa10cfb1c67c2c86d2a73">parse</a> (<a class="el" href="a02979.html">basic_format_parse_context</a>&lt; Char &gt; &amp;ctx)</td></tr>
+<tr class="separator:a54567b2c48faa10cfb1c67c2c86d2a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a278cf6463435bc7aeaca587abf9a360b" id="r_a278cf6463435bc7aeaca587abf9a360b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03011.html">basic_appender</a>&lt; Char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a278cf6463435bc7aeaca587abf9a360b">format</a> (T const &amp;value, <a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; &amp;ctx) const</td></tr>
+<tr class="separator:a278cf6463435bc7aeaca587abf9a360b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9112c94300e77a697d64cdb6cf167668" id="r_a9112c94300e77a697d64cdb6cf167668"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02983.html#a9112c94300e77a697d64cdb6cf167668">formatter</a> ()=delete</td></tr>
+<tr class="separator:a9112c94300e77a697d64cdb6cf167668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a1dc1d68310efc31349a5a829b28417" id="r_a2a1dc1d68310efc31349a5a829b28417"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02983.html#a2a1dc1d68310efc31349a5a829b28417">formatter</a> (<a class="el" href="a02983.html">formatter</a> const &amp;)=delete</td></tr>
+<tr class="separator:a2a1dc1d68310efc31349a5a829b28417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bff704bc2e0aafc38754401598cb8c1" id="r_a1bff704bc2e0aafc38754401598cb8c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a02983.html">formatter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02983.html#a1bff704bc2e0aafc38754401598cb8c1">operator=</a> (<a class="el" href="a02983.html">formatter</a> const &amp;)=delete</td></tr>
+<tr class="separator:a1bff704bc2e0aafc38754401598cb8c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename Char&gt;<br />
+class lumex::core::fmt::formatter&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;</div><p>Standard formatter of a built-in type; a user <code>formatter</code> can inherit it to accept the standard specification. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a39f101800996fa7c6cac0e20f45486cb" name="a39f101800996fa7c6cac0e20f45486cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39f101800996fa7c6cac0e20f45486cb">&#9670;&#160;</a></span>formatter() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::formatter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9112c94300e77a697d64cdb6cf167668" name="a9112c94300e77a697d64cdb6cf167668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9112c94300e77a697d64cdb6cf167668">&#9670;&#160;</a></span>formatter() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::formatter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a1dc1d68310efc31349a5a829b28417" name="a2a1dc1d68310efc31349a5a829b28417"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a1dc1d68310efc31349a5a829b28417">&#9670;&#160;</a></span>formatter() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::formatter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02983.html">formatter</a>&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a278cf6463435bc7aeaca587abf9a360b" name="a278cf6463435bc7aeaca587abf9a360b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a278cf6463435bc7aeaca587abf9a360b">&#9670;&#160;</a></span>format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03011.html">basic_appender</a>&lt; Char &gt; <a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::format </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03115_a278cf6463435bc7aeaca587abf9a360b_cgraph.png" border="0" usemap="#aa03115_a278cf6463435bc7aeaca587abf9a360b_cgraph" alt=""/></div>
+<map name="aa03115_a278cf6463435bc7aeaca587abf9a360b_cgraph" id="aa03115_a278cf6463435bc7aeaca587abf9a360b_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,252,104"/>
+<area shape="rect" href="a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="760,10,919,35"/>
+<area shape="poly" title=" " alt="" coords="252,37,383,24,525,15,614,13,703,15,747,16,746,21,703,20,614,18,525,20,384,30,252,43"/>
+<area shape="rect" href="a01541.html#ab761c82e15f50e3810992ea38ddf3e71" title="Type&#45;erases one (decayed) value into arg." alt="" coords="300,88,477,128"/>
+<area shape="poly" title=" " alt="" coords="253,77,287,84,286,90,252,83"/>
+<area shape="poly" title=" " alt="" coords="424,86,471,64,525,45,581,34,639,26,746,19,746,25,639,31,582,39,526,51,473,69,426,90"/>
+<area shape="rect" href="a01541.html#a36ba631ed556433cf82a615650711b90" title="Storage kind of an argument of type T (after decay and after unwrapping a named argument): built in,..." alt="" coords="525,175,703,215"/>
+<area shape="poly" title=" " alt="" coords="442,126,550,167,548,172,440,131"/>
+<area shape="rect" href="a01541.html#a24e1689d8a19eee3efc71c48ef7c5efe" title=" " alt="" coords="981,147,1158,187"/>
+<area shape="poly" title=" " alt="" coords="478,113,967,155,967,161,477,118"/>
+<area shape="rect" href="a01541.html#aad5f22f79a0e3ad34115a809dd6d25d8" title=" " alt="" coords="976,239,1163,279"/>
+<area shape="poly" title=" " alt="" coords="408,126,459,176,491,202,527,224,586,253,634,269,685,279,751,288,839,295,928,288,981,279,982,284,928,293,839,301,750,293,684,284,633,274,584,258,524,229,488,206,455,180,405,130"/>
+<area shape="rect" href="a01541.html#aa88197a195f6c5764a3b96718dcca27d" title=" " alt="" coords="525,60,703,100"/>
+<area shape="poly" title=" " alt="" coords="477,94,512,90,512,95,478,100"/>
+<area shape="rect" href="a01541.html#a09714a12a6e0072636b67fef0440066e" title="Storage kind of a built&#45;in type T (decayed) for character type Char, or ArgKind::none when T is not b..." alt="" coords="751,175,928,215"/>
+<area shape="poly" title=" " alt="" coords="703,192,737,192,737,197,703,197"/>
+<area shape="rect" href="a01541.html#a6fc398c1d4ed4998c2df05aa40afd752" title="formatter&lt;T, Char&gt; is enabled." alt="" coords="751,239,928,279"/>
+<area shape="poly" title=" " alt="" coords="685,212,756,232,755,237,684,217"/>
+<area shape="poly" title=" " alt="" coords="928,181,967,176,968,182,929,186"/>
+<area shape="poly" title=" " alt="" coords="912,212,985,232,984,238,911,217"/>
+<area shape="poly" title=" " alt="" coords="692,57,776,36,777,41,693,63"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1bff704bc2e0aafc38754401598cb8c1" name="a1bff704bc2e0aafc38754401598cb8c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bff704bc2e0aafc38754401598cb8c1">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02983.html">formatter</a> &amp; <a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02983.html">formatter</a>&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a54567b2c48faa10cfb1c67c2c86d2a73" name="a54567b2c48faa10cfb1c67c2c86d2a73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54567b2c48faa10cfb1c67c2c86d2a73">&#9670;&#160;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Char const  * <a class="el" href="a02983.html">lumex::core::fmt::formatter</a>&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::parse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02979.html">basic_format_parse_context</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01013_source.html">LumexFormat.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a03115.html">formatter&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

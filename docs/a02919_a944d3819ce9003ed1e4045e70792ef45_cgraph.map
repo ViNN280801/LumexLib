@@ -1,0 +1,9 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::value" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::value">
+<area shape="rect" id="Node000001" title="Checks the state; throws if the object holds an error (rvalue)." alt="" coords="5,34,188,89"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a23933cdbbf11abf83fa4ce762534ecbf" title="static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t), the body of std::move for a constexpr function of C++11,..." alt="" coords="238,5,405,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,44,224,38,225,43,188,49"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a32b16d60d745c9c9149f741d862646d5" title="Throws bad_expected_access&lt;E&gt; that holds error; with exceptions off (LUMEX_EXPECTED_HAS_EXCEPTIONS is..." alt="" coords="236,70,407,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,73,223,79,222,84,188,79"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="455,77,621,117"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="407,95,441,95,441,100,407,100"/>
+</map>

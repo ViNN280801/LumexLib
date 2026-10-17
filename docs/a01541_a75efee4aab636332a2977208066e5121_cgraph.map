@@ -1,0 +1,5 @@
+<map id="lumex::core::fmt::Detail::write_magnitude_digits" name="lumex::core::fmt::Detail::write_magnitude_digits">
+<area shape="rect" id="Node000001" title="Select the digit writer that does not divide a 128&#45;bit value." alt="" coords="5,5,188,45"/>
+<area shape="rect" id="Node000002" href="$a01541.html#aa5164d1e854b75e53cc0707028b65fff" title="Digits of an integer of at most 64 bits." alt="" coords="236,5,471,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,23,222,23,222,28,188,28"/>
+</map>

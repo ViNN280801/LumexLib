@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::split_counter::add" name="lumex::core::smart_ptr::detail::split_counter::add">
+<area shape="rect" id="Node000001" title="Adds n to count. Relaxed: see the file text." alt="" coords="5,5,151,60"/>
+<area shape="rect" id="Node000002" href="$a03835.html#a0a3e9f409ee9e1d968644f35688936f0" title="Largest count the 32&#45;bit half holds before it would carry into ext." alt="" coords="199,5,357,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,30,185,30,185,35,151,35"/>
+</map>

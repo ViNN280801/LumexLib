@@ -1,0 +1,18 @@
+<map id="lumex::core::utility::ranges::Algorithm::get_nearest_to" name="lumex::core::utility::ranges::Algorithm::get_nearest_to">
+<area shape="rect" id="Node000001" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,84,160,139"/>
+<area shape="rect" id="Node000002" href="$a01610.html#abef5f7c3d2178dabfde845fb876bf38c" title=" " alt="" coords="208,5,363,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,81,201,62,203,67,155,86"/>
+<area shape="rect" id="Node000003" href="$a01610.html#a66202dfc4f2374989b80f34adf0ba9ac" title=" " alt="" coords="208,84,363,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,109,194,109,194,114,160,114"/>
+<area shape="rect" id="Node000004" href="$a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="208,187,363,241"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="138,136,220,178,218,183,136,141"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="245,187,246,177,253,168,266,162,285,160,308,163,322,171,319,176,307,168,285,165,267,167,256,172,251,178,251,187"/>
+<area shape="rect" id="Node000005" href="$a01610.html#a0fd1a5acf2f1fed8edeee1309059b06f" title="Absolute difference |a &#45; b| of two integers, computed without an intermediate signed underflow for un..." alt="" coords="426,68,581,123"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="323,184,409,132,421,126,423,131,412,136,326,189"/>
+<area shape="rect" id="Node000006" href="$a01610.html#a1b56a450e15cc28e53421e2f7d8fd7b4" title="projection (argument) with the INVOKE rules: a callable, or a pointer to a data member or a member fu..." alt="" coords="411,147,596,201"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="362,197,396,191,397,196,363,202"/>
+<area shape="rect" id="Node000007" href="$a01610.html#a355239355da779ff320602768f793190" title="The iterator that last stands for: last itself when it is an iterator of the same type,..." alt="" coords="426,225,581,280"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="363,225,413,234,412,239,362,230"/>
+<area shape="rect" id="Node000008" href="$a01610.html#a6f1b3a468e3bc9e2ca02b75c1f0829aa" title=" " alt="" coords="417,304,589,359"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="328,239,412,289,425,296,423,300,409,294,325,244"/>
+</map>

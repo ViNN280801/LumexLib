@@ -1,0 +1,19 @@
+<map id="lumex::core::exceptions::crash::lumex_crash_handler::operator=" name="lumex::core::exceptions::crash::lumex_crash_handler::operator=">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,159,217,213"/>
+<area shape="rect" id="Node000002" href="$a02615.html#a67ac36ce2a535462e3b31cf1693fc356" title="Initializes the crash handler." alt="" coords="265,56,477,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,156,264,120,281,113,283,118,266,124,177,161"/>
+<area shape="rect" id="Node000006" href="$a02615.html#abbf721ddd957b81ca671fdd159b0c878" title="Returns the singleton instance of the crash handler." alt="" coords="265,159,477,213"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="217,183,252,183,252,189,217,189"/>
+<area shape="rect" id="Node000007" href="$a02615.html#a304984b8d0169346c65ca2eefbbeeddd" title=" " alt="" coords="530,191,742,245"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="205,211,266,222,330,228,395,230,516,226,516,231,395,235,329,233,265,227,204,216"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a395ab3b27b542b7cb9092beed95f748d" title="Static convenience method to retrieve an environment variable." alt="" coords="525,63,747,103"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="477,81,512,81,512,86,477,86"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="795,5,996,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="738,61,780,52,781,58,739,66"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="799,108,991,163"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="736,101,787,111,786,116,735,106"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="845,108,845,98,854,89,871,83,895,81,924,84,941,92,939,97,923,90,895,87,872,89,857,93,850,100,850,108"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="321,159,321,148,330,140,347,134,371,132,400,135,417,143,415,148,399,140,371,137,348,139,333,144,326,150,326,159"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="478,196,517,201,516,206,477,201"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="586,191,586,180,595,172,612,166,636,164,665,167,682,175,679,180,664,172,636,169,613,171,598,176,591,182,591,191"/>
+</map>

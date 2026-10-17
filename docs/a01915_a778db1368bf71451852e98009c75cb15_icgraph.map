@@ -1,0 +1,7 @@
+<map id="lumex::applied::settings::json::LumexSettingsJSON::load" name="lumex::applied::settings::json::LumexSettingsJSON::load">
+<area shape="rect" id="Node000001" title="Loads and parses a JSON file from the given path." alt="" coords="284,35,515,75"/>
+<area shape="rect" id="Node000002" href="$a01915.html#a5c83aecd16719d36974493a4a6eb4322" title=" " alt="" coords="5,5,236,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="270,44,236,40,237,35,271,38"/>
+<area shape="rect" id="Node000003" href="$a00314.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="93,70,148,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="271,70,148,83,148,77,270,65"/>
+</map>

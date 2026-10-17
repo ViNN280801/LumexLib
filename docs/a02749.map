@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::can_and_then&lt; Fn, ErrorType, ErrorArg, Args &gt;" name="lumex::core::expected::result::detail::can_and_then&lt; Fn, ErrorType, ErrorArg, Args &gt;">
+<area shape="rect" id="Node000001" title="and_then: Fn (Args...) returns an expected, and the error can be copied into it." alt="" coords="265,13,457,82"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,217,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,45,265,45,265,50,231,50"/>
+</map>

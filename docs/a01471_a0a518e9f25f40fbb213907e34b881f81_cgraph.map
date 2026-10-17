@@ -1,0 +1,7 @@
+<map id="lumex::applied::serial::probe::detail::bounded_open_serial_port" name="lumex::applied::serial::probe::detail::bounded_open_serial_port">
+<area shape="rect" id="Node000001" title="Opens open_path so the caller never waits past deadline." alt="" coords="5,45,181,100"/>
+<area shape="rect" id="Node000002" href="$a01891.html#a87b46d54c13a2ae30c97f22a4e98fc7c" title="Format a system error code." alt="" coords="229,5,456,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,56,215,50,216,56,182,61"/>
+<area shape="rect" id="Node000003" href="$a01471.html#a2cf67f171039ab45a5ec960d36c054c6" title="The platform value that means &quot;no handle&quot;." alt="" coords="261,84,425,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,84,248,94,247,99,181,89"/>
+</map>

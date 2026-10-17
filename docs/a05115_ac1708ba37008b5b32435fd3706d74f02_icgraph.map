@@ -1,0 +1,7 @@
+<map id="lumex::xml::attribute::XmlAttribute::set" name="lumex::xml::attribute::XmlAttribute::set">
+<area shape="rect" id="Node000001" title="Sets the internal XmlAttributeBase pointer for this XmlAttribute object." alt="" coords="257,37,417,77"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a08455733163442720ade80272bc2614d" title="attribute with a name of size characters at name, which need no terminating NUL (a range of a larger ..." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,47,209,42,210,37,244,42"/>
+<area shape="rect" id="Node000003" href="$a05143.html#ac98e53ac13eb30a240694791d6c21978" title="Finds an attribute by name, optimizing search with a hint." alt="" coords="5,69,209,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,73,210,78,209,72,243,68"/>
+</map>

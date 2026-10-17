@@ -1,11 +1,12 @@
 var a01453 =
 [
-    [ "ValueType", "a01453.html#aeb04febba4d94b5e613ca199f2214d68", null ],
-    [ "kCatalogCheck", "a01453.html#a4cace16bf95c6905ec818ad2e5f982f6", null ],
-    [ "kInit", "a01453.html#a2b6b51211a20dcbdff2d08d5100640ff", null ],
-    [ "kPoly", "a01453.html#aca73dc1b855f84a76993ba781ce058af", null ],
-    [ "kRefIn", "a01453.html#a83a72953c0fa1dadf26bc32b36e31d08", null ],
-    [ "kRefOut", "a01453.html#a45298028c114864d5d55fca9fb916706", null ],
-    [ "kWidth", "a01453.html#af5ae6850094ec6e5409b31f8b9f94127", null ],
-    [ "kXorOut", "a01453.html#a0aac9e8bcdff57946837640148d6a865", null ]
+    [ "LumexLogging", "a01759.html", "a01759" ],
+    [ "LumexLogLevel", "a01453.html#ab89470b4db8a7dc224df84237c78270c", [
+      [ "Debug", "a01453.html#ab89470b4db8a7dc224df84237c78270caa603905470e2a5b8c13e96b579ef0dba", null ],
+      [ "Info", "a01453.html#ab89470b4db8a7dc224df84237c78270ca4059b0251f66a18cb56f544728796875", null ],
+      [ "Success", "a01453.html#ab89470b4db8a7dc224df84237c78270ca505a83f220c02df2f85c3810cd9ceb38", null ],
+      [ "Warning", "a01453.html#ab89470b4db8a7dc224df84237c78270ca0eaadb4fcb48a0a0ed7bc9868be9fbaa", null ],
+      [ "Error", "a01453.html#ab89470b4db8a7dc224df84237c78270ca902b0d55fddef6f8d651fe1035b7d4bd", null ],
+      [ "Critical", "a01453.html#ab89470b4db8a7dc224df84237c78270ca278d01e5af56273bae1bb99a98b370cd", null ]
+    ] ]
 ];

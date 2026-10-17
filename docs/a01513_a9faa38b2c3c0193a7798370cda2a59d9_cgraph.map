@@ -1,0 +1,5 @@
+<map id="lumex::core::crc::catalog::set_transport_crc_rev_eng_params" name="lumex::core::crc::catalog::set_transport_crc_rev_eng_params">
+<area shape="rect" id="Node000001" title="Transport: caller&#45;defined 8&#45;bit CRC (must match the peer)." alt="" coords="5,5,188,60"/>
+<area shape="rect" id="Node000002" href="$a01513.html#a387c6bf3f3bd9d744ec43a4e006e95b8" title="Validates parameters before computation (width 1..64)." alt="" coords="236,13,460,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,30,222,30,222,35,188,35"/>
+</map>

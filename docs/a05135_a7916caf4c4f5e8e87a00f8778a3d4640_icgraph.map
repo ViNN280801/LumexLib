@@ -1,0 +1,260 @@
+<map id="lumex::xml::memory::XmlAllocator::deallocate_memory" name="lumex::xml::memory::XmlAllocator::deallocate_memory">
+<area shape="rect" id="Node000001" title="Deallocates a block of memory previously allocated by this allocator." alt="" coords="1517,241,1708,295"/>
+<area shape="rect" id="Node000002" href="$a05135.html#aa83864016ef06776b8a0075a4fe42d8e" title="Deallocates a string previously allocated by allocate_string." alt="" coords="1279,241,1469,295"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1504,271,1470,271,1470,265,1504,265"/>
+<area shape="rect" id="Node000003" href="$a01670.html#a39c4f1cfa1cc6b95363c620f8c07bdea" title="Destroys and deallocates an XmlAttributeBase object." alt="" coords="1071,248,1231,288"/>
+<area shape="poly" id="edge135_Node000001_Node000003" title=" " alt="" coords="1516,240,1469,231,1374,222,1332,224,1279,231,1240,239,1204,250,1202,245,1239,234,1278,225,1332,218,1374,216,1470,225,1517,235"/>
+<area shape="rect" id="Node000004" href="$a01672.html#a4c2f2a89afe0c018d7c328d9bda84cb7" title="Destroys an XmlNodeBase object and recursively deallocates its children and attributes." alt="" coords="791,198,1023,223"/>
+<area shape="poly" id="edge136_Node000001_Node000004" title=" " alt="" coords="1526,302,1428,327,1371,337,1310,344,1248,345,1187,339,1126,326,1069,302,1052,287,1044,270,1036,253,1021,238,996,226,998,221,1024,234,1041,250,1048,268,1056,284,1072,298,1128,321,1187,334,1249,339,1310,338,1370,332,1427,322,1524,297"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1265,271,1231,271,1231,265,1265,265"/>
+<area shape="poly" id="edge17_Node000002_Node000004" title=" " alt="" coords="1265,245,1230,239,1124,226,1023,218,1023,213,1125,221,1231,233,1266,239"/>
+<area shape="rect" id="Node000016" href="$a01671.html#a9b9f5b80f9fb35252ff521a51e4974e6" title=" " alt="" coords="1079,2603,1222,2643"/>
+<area shape="poly" id="edge18_Node000002_Node000016" title=" " alt="" coords="1373,310,1155,2602,1150,2602,1367,309"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1058,247,1022,239,966,226,967,221,1023,233,1060,242"/>
+<area shape="rect" id="Node000011" href="$a05143.html#a6f070ed5f320f3b771a23e57e4565492" title="Removes a specified XmlAttribute from the current node." alt="" coords="805,248,1009,288"/>
+<area shape="poly" id="edge11_Node000003_Node000011" title=" " alt="" coords="1057,271,1009,271,1009,265,1057,265"/>
+<area shape="rect" id="Node000015" href="$a05143.html#a65c439391e38b67b41e324daa3d3d390" title="Removes all attributes from the current node." alt="" coords="805,312,1009,352"/>
+<area shape="poly" id="edge16_Node000003_Node000015" title=" " alt="" coords="1062,294,984,315,982,309,1060,289"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="950,189,947,184,940,180,907,177,881,179,867,184,864,189,871,196,867,200,859,190,863,180,880,174,907,171,941,175,951,180,954,186"/>
+<area shape="rect" id="Node000005" href="$a05143.html#ad1c60286d13be69a8220624272bbce51" title="Removes a specified child node from the current node." alt="" coords="531,69,735,109"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="874,193,813,158,742,124,709,112,711,107,744,119,816,154,876,188"/>
+<area shape="rect" id="Node000010" href="$a05143.html#a755de6a01e5af91f33b90f9ac4022e84" title="Removes all child nodes from the current node." alt="" coords="531,133,735,173"/>
+<area shape="poly" id="edge10_Node000004_Node000010" title=" " alt="" coords="832,198,728,176,729,171,833,193"/>
+<area shape="rect" id="Node000006" href="$a00392.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="339,198,394,223"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="535,118,526,123,511,139,503,155,494,172,477,188,435,205,395,212,394,207,434,200,475,183,490,168,498,152,506,136,522,119,532,113"/>
+<area shape="rect" id="Node000007" href="$a05143.html#a398241c262e713edf78677ccced9b7dd" title="Removes the first child node with the specified name from the current node." alt="" coords="265,5,469,45"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="536,69,449,48,451,43,537,63"/>
+<area shape="rect" id="Node000008" href="$a05143.html#aa5d1dd2641f178f3e5418d6d6c8ac01c" title="remove_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="265,69,469,109"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="517,92,469,92,469,87,517,87"/>
+<area shape="rect" id="Node000009" href="$a05143.html#aeec38af035a8b9e7aab29479fb8d0f5e" title="Removes the first child node with the specified name (string_view_t) from the current node." alt="" coords="265,133,469,173"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="537,115,451,136,449,131,536,110"/>
+<area shape="poly" id="edge12_Node000011_Node000006" title=" " alt="" coords="801,248,742,239,543,221,394,214,394,209,543,215,743,233,802,243"/>
+<area shape="rect" id="Node000012" href="$a05143.html#a91d04cb37686560b2d32e81d1403a7dd" title="Removes an attribute with the specified name from the current node." alt="" coords="531,248,735,288"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="791,271,735,271,735,265,791,265"/>
+<area shape="rect" id="Node000013" href="$a05143.html#aebbf6ee277fe4c7e95171e8db55c1705" title="remove_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="531,312,735,352"/>
+<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="808,294,719,315,718,309,807,289"/>
+<area shape="rect" id="Node000014" href="$a05143.html#a2da7fdb1ef394ec19945b7cdd906a8df" title="Removes an attribute with the specified name (string_view_t) from the current node." alt="" coords="531,376,735,416"/>
+<area shape="poly" id="edge15_Node000011_Node000014" title=" " alt="" coords="802,296,792,302,777,317,769,333,761,350,744,366,722,378,720,374,741,362,756,347,764,331,773,314,789,298,799,292"/>
+<area shape="rect" id="Node000017" href="$a01671.html#a5e7ff474c20e982939860bf95d53b4a3" title=" " alt="" coords="835,504,979,544"/>
+<area shape="poly" id="edge19_Node000016_Node000017" title=" " alt="" coords="1148,2589,1143,2351,1126,1948,1110,1708,1088,1455,1058,1198,1020,947,994,826,963,710,911,545,916,544,968,708,1000,825,1025,946,1063,1197,1093,1454,1115,1708,1131,1948,1149,2351,1153,2589"/>
+<area shape="rect" id="Node000030" href="$a05187.html#a74efb088aa753d7cfa2dc2ebeaa91f3e" title="Sets the text content from a null&#45;terminated C&#45;style string." alt="" coords="797,959,1016,985"/>
+<area shape="poly" id="edge32_Node000016_Node000030" title=" " alt="" coords="1145,2589,1101,2184,1064,1886,1020,1580,988,1395,954,1217,907,985,912,984,960,1216,994,1394,1025,1580,1069,1886,1106,2183,1150,2589"/>
+<area shape="rect" id="Node000043" href="$a05187.html#af222257353edf3fd9df924213efca570" title="Sets the text content from a C&#45;style string with a specified size." alt="" coords="797,1593,1016,1618"/>
+<area shape="poly" id="edge45_Node000016_Node000043" title=" " alt="" coords="1146,2589,1131,2380,1104,2075,1086,1922,1066,1788,1044,1687,1032,1653,1021,1632,1005,1620,1009,1616,1025,1629,1037,1650,1049,1685,1072,1787,1092,1922,1109,2075,1137,2379,1151,2589"/>
+<area shape="rect" id="Node000044" href="$a05115.html#a442774c703a6a3ab1c8fbfe114b903e2" title="Sets the name of the XML attribute from a null&#45;terminated C&#45;style string." alt="" coords="814,1643,999,1683"/>
+<area shape="poly" id="edge46_Node000016_Node000044" title=" " alt="" coords="1140,2590,909,1684,914,1682,1145,2589"/>
+<area shape="rect" id="Node000059" href="$a05115.html#a521794daf2be0a21a1a88abf1d9cb5e1" title="Sets the name of the XML attribute from a C&#45;style string with a specified size." alt="" coords="814,2209,999,2249"/>
+<area shape="poly" id="edge61_Node000016_Node000059" title=" " alt="" coords="1146,2589,1137,2520,1117,2433,1101,2386,1080,2341,1053,2300,1021,2263,998,2248,1001,2244,1024,2259,1058,2297,1084,2339,1106,2384,1122,2431,1143,2520,1151,2588"/>
+<area shape="rect" id="Node000060" href="$a05143.html#ab93fdc51ad6c79aeab15b4df76843306" title="Sets the name of the XML node." alt="" coords="805,2273,1009,2313"/>
+<area shape="poly" id="edge62_Node000016_Node000060" title=" " alt="" coords="1125,2593,920,2315,924,2312,1130,2590"/>
+<area shape="rect" id="Node000078" href="$a05143.html#a574dd82e620e2eee8cc3eac8eba83e1c" title="Sets the name of the XML node from a C&#45;style string with a specified size." alt="" coords="805,2603,1009,2643"/>
+<area shape="poly" id="edge89_Node000016_Node000078" title=" " alt="" coords="1065,2625,1009,2625,1009,2620,1065,2620"/>
+<area shape="rect" id="Node000079" href="$a05115.html#a4f9cd4cb2c3e5f1096da48b53848b155" title="Sets the value of the XML attribute from a null&#45;terminated C&#45;style string." alt="" coords="815,2899,999,2939"/>
+<area shape="poly" id="edge90_Node000016_Node000079" title=" " alt="" coords="1127,2655,925,2900,921,2897,1123,2652"/>
+<area shape="rect" id="Node000092" href="$a05115.html#a8d0f0392ab1982af23ca8ea293037835" title="Sets the value of the XML attribute from a C&#45;style string with a specified size." alt="" coords="815,2963,999,3003"/>
+<area shape="poly" id="edge104_Node000016_Node000092" title=" " alt="" coords="1150,2657,1139,2720,1118,2799,1101,2841,1081,2882,1055,2919,1024,2953,1000,2968,997,2964,1021,2949,1051,2916,1076,2879,1096,2839,1113,2798,1134,2718,1145,2656"/>
+<area shape="rect" id="Node000093" href="$a05143.html#ac95ca2fd76efe3f07e1e92c22eb79993" title="Sets the value of the XML node." alt="" coords="805,3027,1009,3067"/>
+<area shape="poly" id="edge105_Node000016_Node000093" title=" " alt="" coords="1147,2657,1128,2742,1099,2849,1064,2950,1045,2990,1025,3017,1008,3029,1005,3025,1021,3013,1040,2987,1059,2948,1094,2848,1122,2741,1141,2656"/>
+<area shape="rect" id="Node000095" href="$a05143.html#ad01e579b2e7e041c91752e04c05f49bb" title="Sets the value of the XML node from a C&#45;style string with a specified size." alt="" coords="805,3091,1009,3131"/>
+<area shape="poly" id="edge107_Node000016_Node000095" title=" " alt="" coords="1148,2657,1131,2755,1104,2881,1068,3001,1047,3048,1025,3081,1009,3093,1006,3088,1021,3077,1043,3046,1063,3000,1099,2880,1126,2754,1143,2656"/>
+<area shape="rect" id="Node000096" href="$a01671.html#a4df69866175ace0f2872d0b8b482d70d" title=" " alt="" coords="835,3507,978,3547"/>
+<area shape="poly" id="edge108_Node000016_Node000096" title=" " alt="" coords="1146,2657,1097,2863,1025,3143,963,3356,916,3507,911,3506,958,3355,1020,3142,1092,2862,1140,2656"/>
+<area shape="rect" id="Node000107" href="$a01671.html#a61fa2a37a7c7620ffd807097aa39164b" title=" " alt="" coords="835,3628,978,3668"/>
+<area shape="poly" id="edge119_Node000016_Node000107" title=" " alt="" coords="1152,2657,1143,2838,1121,3104,1104,3243,1083,3372,1057,3481,1042,3525,1025,3560,1009,3582,990,3601,948,3630,945,3626,986,3597,1005,3578,1020,3557,1037,3523,1052,3480,1078,3371,1099,3243,1116,3104,1137,2838,1147,2657"/>
+<area shape="rect" id="Node000110" href="$a01671.html#a3b52cfdd683b3e968962bc2d11a111e9" title=" " alt="" coords="833,3989,980,4029"/>
+<area shape="poly" id="edge122_Node000016_Node000110" title=" " alt="" coords="1152,2657,1143,2817,1121,3070,1104,3217,1083,3372,1057,3528,1025,3681,1000,3773,969,3861,918,3990,913,3988,964,3860,995,3771,1020,3679,1052,3527,1078,3371,1099,3217,1116,3069,1137,2816,1147,2656"/>
+<area shape="rect" id="Node000018" href="$a01670.html#a05babdf187dfa6292de80d86d7470a11" title="Copies the name and value strings from a source XmlAttributeBase to a destination XmlAttributeBase." alt="" coords="552,440,715,480"/>
+<area shape="poly" id="edge20_Node000017_Node000018" title=" " alt="" coords="821,507,714,482,716,477,822,501"/>
+<area shape="rect" id="Node000023" href="$a01672.html#aec8cf7d559fe456a7d4396307ffc5404" title="Copies the name and value strings and all attributes from a source XmlNodeBase to a destination XmlNo..." alt="" coords="545,504,721,544"/>
+<area shape="poly" id="edge25_Node000017_Node000023" title=" " alt="" coords="821,527,722,527,722,521,821,521"/>
+<area shape="rect" id="Node000019" href="$a05143.html#ace7d9948e6fb922f91d513b2e7cc6655" title="Appends a copy of an existing attribute (proto) to the current node." alt="" coords="265,312,469,352"/>
+<area shape="poly" id="edge21_Node000018_Node000019" title=" " alt="" coords="538,439,522,430,506,414,498,397,490,381,474,366,453,354,456,350,478,362,494,378,502,395,510,411,526,426,541,435"/>
+<area shape="rect" id="Node000020" href="$a05143.html#a102eaa077981305070e0649d8286c196" title="Inserts a copy of an existing attribute (proto) after a given existing attribute (attr)." alt="" coords="265,376,469,416"/>
+<area shape="poly" id="edge22_Node000018_Node000020" title=" " alt="" coords="538,440,450,419,451,414,539,435"/>
+<area shape="rect" id="Node000021" href="$a05143.html#a59a0d19e40b7937c796ec7995d3b3390" title="Inserts a copy of an existing attribute (proto) before a given existing attribute (attr)." alt="" coords="265,440,469,480"/>
+<area shape="poly" id="edge23_Node000018_Node000021" title=" " alt="" coords="538,463,469,463,469,457,538,457"/>
+<area shape="rect" id="Node000022" href="$a05143.html#a0519abe0f6488556f8a8fd22d242df12" title="Prepends a copy of an existing attribute (proto) to the current node." alt="" coords="265,504,469,544"/>
+<area shape="poly" id="edge24_Node000018_Node000022" title=" " alt="" coords="539,485,451,506,450,501,538,480"/>
+<area shape="rect" id="Node000024" href="$a01672.html#a11377e4dbc3c07bbcae59a081a6040b6" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="279,568,455,608"/>
+<area shape="poly" id="edge26_Node000023_Node000024" title=" " alt="" coords="537,550,451,571,449,565,536,545"/>
+<area shape="rect" id="Node000025" href="$a05143.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,440,209,480"/>
+<area shape="poly" id="edge27_Node000024_Node000025" title=" " alt="" coords="265,564,256,558,239,542,231,525,223,509,208,494,187,482,189,478,211,490,227,506,236,523,244,539,259,554,268,560"/>
+<area shape="rect" id="Node000026" href="$a05143.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="5,504,209,544"/>
+<area shape="poly" id="edge28_Node000024_Node000026" title=" " alt="" coords="271,567,188,547,189,541,273,562"/>
+<area shape="rect" id="Node000027" href="$a05143.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="5,568,209,608"/>
+<area shape="poly" id="edge29_Node000024_Node000027" title=" " alt="" coords="265,591,210,591,210,585,265,585"/>
+<area shape="rect" id="Node000028" href="$a05143.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,632,209,672"/>
+<area shape="poly" id="edge30_Node000024_Node000028" title=" " alt="" coords="273,614,189,635,188,629,271,609"/>
+<area shape="rect" id="Node000029" href="$a05127.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="23,696,192,736"/>
+<area shape="poly" id="edge31_Node000024_Node000029" title=" " alt="" coords="329,618,274,653,210,686,180,698,178,693,208,682,271,648,326,614"/>
+<area shape="rect" id="Node000031" href="$a05187.html#adf9743a903c23313463863a1b5b5cf92" title="Assignment operator for a boolean." alt="" coords="538,568,729,608"/>
+<area shape="poly" id="edge33_Node000030_Node000031" title=" " alt="" coords="900,947,884,881,854,793,833,747,808,701,777,659,741,622,724,610,727,606,744,618,781,655,812,698,838,744,859,791,889,879,905,945"/>
+<area shape="rect" id="Node000032" href="$a05187.html#a39307a0d5b9e4102aad287b16178733e" title="Assignment operator for a C&#45;style string." alt="" coords="538,632,729,672"/>
+<area shape="poly" id="edge34_Node000030_Node000032" title=" " alt="" coords="897,947,877,892,846,822,800,748,772,715,741,686,722,674,725,670,744,682,776,711,805,745,850,819,882,890,902,945"/>
+<area shape="rect" id="Node000033" href="$a05187.html#a279b1f564a5be9313c73688159edfdb1" title="Assignment operator for a double&#45;precision floating&#45;point number." alt="" coords="538,696,729,736"/>
+<area shape="poly" id="edge35_Node000030_Node000033" title=" " alt="" coords="893,948,870,905,837,852,793,797,768,772,741,750,720,739,723,734,744,746,772,768,797,793,841,849,875,902,898,946"/>
+<area shape="rect" id="Node000034" href="$a05187.html#a24830fb72eec89075c826044b9355d9a" title="Assignment operator for a single&#45;precision floating&#45;point number." alt="" coords="538,760,729,800"/>
+<area shape="poly" id="edge36_Node000030_Node000034" title=" " alt="" coords="887,950,827,883,786,846,741,814,716,802,719,798,744,810,790,842,831,879,891,947"/>
+<area shape="rect" id="Node000035" href="$a05187.html#a5d592ecf66a0989d99f10c4b56ea520a" title="Assignment operator for an integer." alt="" coords="538,824,729,864"/>
+<area shape="poly" id="edge37_Node000030_Node000035" title=" " alt="" coords="876,954,815,916,742,878,710,867,712,862,744,874,818,912,879,949"/>
+<area shape="rect" id="Node000036" href="$a05187.html#addee4661b9e3dbf98633eaa197a9e691" title="Assignment operator for a long long integer." alt="" coords="538,888,729,928"/>
+<area shape="poly" id="edge38_Node000030_Node000036" title=" " alt="" coords="838,959,719,931,720,925,839,953"/>
+<area shape="rect" id="Node000037" href="$a05187.html#a6f52ef9705fa4054768025a185abddfe" title="Assignment operator for a long integer." alt="" coords="538,952,729,992"/>
+<area shape="poly" id="edge39_Node000030_Node000037" title=" " alt="" coords="783,975,729,975,729,969,783,969"/>
+<area shape="rect" id="Node000038" href="$a05187.html#a5fd089e0964587b6b63692d2627e76b1" title="Assignment operator for a string_view_t." alt="" coords="538,1016,729,1056"/>
+<area shape="poly" id="edge40_Node000030_Node000038" title=" " alt="" coords="839,991,720,1019,719,1013,838,985"/>
+<area shape="rect" id="Node000039" href="$a05187.html#ad315b1f1d44ec5dcdd5dd452d39acaa3" title="Assignment operator for an unsigned integer." alt="" coords="538,1080,729,1120"/>
+<area shape="poly" id="edge41_Node000030_Node000039" title=" " alt="" coords="879,995,818,1032,744,1070,712,1082,710,1077,742,1066,815,1028,876,990"/>
+<area shape="rect" id="Node000040" href="$a05187.html#acb365dee8ae1e91b4d6595c556575460" title="Assignment operator for an unsigned long long integer." alt="" coords="538,1144,729,1184"/>
+<area shape="poly" id="edge42_Node000030_Node000040" title=" " alt="" coords="891,997,831,1065,790,1102,744,1134,719,1146,716,1142,741,1130,786,1098,827,1061,887,994"/>
+<area shape="rect" id="Node000041" href="$a05187.html#aa3a8c4cc58660f712e9e1f80dc168c01" title="Assignment operator for an unsigned long integer." alt="" coords="538,1208,729,1248"/>
+<area shape="poly" id="edge43_Node000030_Node000041" title=" " alt="" coords="898,998,875,1042,841,1095,797,1151,772,1176,744,1198,723,1210,720,1205,741,1194,768,1172,793,1147,837,1092,870,1039,893,996"/>
+<area shape="rect" id="Node000042" href="$a05187.html#aafe4e3e064d50ec3c914cd5be7ae7a79" title="Sets the text content from a string_view_t." alt="" coords="524,1273,743,1298"/>
+<area shape="poly" id="edge44_Node000030_Node000042" title=" " alt="" coords="902,999,884,1054,852,1126,831,1163,806,1200,777,1233,744,1262,721,1275,719,1270,741,1258,773,1229,802,1196,826,1160,847,1123,879,1052,897,997"/>
+<area shape="rect" id="Node000045" href="$a05143.html#ada2567cc0764ef183d966076cb8521a5" title="Appends a new attribute with the specified name to the current node." alt="" coords="531,1323,735,1363"/>
+<area shape="poly" id="edge47_Node000044_Node000045" title=" " alt="" coords="800,1641,789,1631,767,1599,759,1566,759,1534,764,1502,769,1470,769,1439,761,1408,741,1376,727,1365,730,1361,745,1373,766,1406,775,1438,774,1471,769,1502,764,1534,764,1565,772,1596,793,1628,804,1637"/>
+<area shape="rect" id="Node000048" href="$a05143.html#a98517bc923b581acabf15a09a86976b7" title="append_attribute with a name of size characters at name, which need no terminating NUL (a range of a ..." alt="" coords="531,1387,735,1427"/>
+<area shape="poly" id="edge50_Node000044_Node000048" title=" " alt="" coords="800,1641,789,1631,771,1607,763,1582,762,1558,764,1534,766,1510,765,1487,757,1464,741,1441,726,1429,730,1425,745,1437,762,1461,770,1486,771,1510,769,1534,767,1558,769,1581,776,1604,793,1628,803,1637"/>
+<area shape="rect" id="Node000049" href="$a05143.html#a1afe55c5a83f0973e3b62d4bf8a7d1c3" title="insert_attribute_after with a name of size characters at name, which need no terminating NUL (a range..." alt="" coords="531,1451,735,1491"/>
+<area shape="poly" id="edge51_Node000044_Node000049" title=" " alt="" coords="800,1640,789,1631,775,1615,768,1599,764,1566,760,1535,753,1520,741,1505,725,1493,728,1489,744,1501,758,1517,765,1533,769,1566,773,1597,780,1612,793,1627,804,1636"/>
+<area shape="rect" id="Node000050" href="$a05143.html#a209987dd4c7649b2062772d74c6a8bb3" title="Inserts a new attribute with the specified name after a given existing attribute." alt="" coords="531,1515,735,1555"/>
+<area shape="poly" id="edge52_Node000044_Node000050" title=" " alt="" coords="802,1639,789,1631,773,1616,764,1599,756,1584,741,1569,720,1557,722,1552,744,1565,760,1580,769,1597,777,1612,792,1627,804,1634"/>
+<area shape="rect" id="Node000052" href="$a05143.html#a907ba2d6ba1a4afcc1d3243b87746d68" title="insert_attribute_before with a name of size characters at name, which need no terminating NUL (a rang..." alt="" coords="531,1579,735,1619"/>
+<area shape="poly" id="edge54_Node000044_Node000052" title=" " alt="" coords="807,1642,718,1621,719,1616,808,1637"/>
+<area shape="rect" id="Node000053" href="$a05143.html#a08bd76620887844f06b8806c8ca05227" title="Inserts a new attribute with the specified name before a given existing attribute." alt="" coords="531,1643,735,1683"/>
+<area shape="poly" id="edge55_Node000044_Node000053" title=" " alt="" coords="800,1665,735,1665,735,1660,800,1660"/>
+<area shape="rect" id="Node000055" href="$a05143.html#afc6e5a7c3b3dc02be7f5f003c5192d27" title="Prepends a new attribute with the specified name to the current node." alt="" coords="531,1707,735,1747"/>
+<area shape="poly" id="edge57_Node000044_Node000055" title=" " alt="" coords="808,1688,719,1709,718,1704,807,1683"/>
+<area shape="rect" id="Node000057" href="$a05143.html#a15e68847db6ff8e341f795e5be99f613" title="prepend_attribute with a name of size characters at name, which need no terminating NUL (a range of a..." alt="" coords="531,1771,735,1811"/>
+<area shape="poly" id="edge59_Node000044_Node000057" title=" " alt="" coords="867,1693,810,1728,744,1761,712,1773,710,1768,742,1756,807,1723,864,1688"/>
+<area shape="rect" id="Node000058" href="$a05115.html#abdb9ba56752a9b703189e5d27baa679e" title="Sets the name of the XML attribute from a string_view_t." alt="" coords="541,1835,726,1875"/>
+<area shape="poly" id="edge60_Node000044_Node000058" title=" " alt="" coords="885,1696,825,1761,787,1795,744,1825,719,1837,716,1832,741,1820,783,1791,822,1757,881,1692"/>
+<area shape="rect" id="Node000046" href="$a05143.html#aed4795cbf9669bd00fcacd49e19a4447" title="Appends a new attribute with the specified name (string_view_t) to the current node." alt="" coords="265,1323,469,1363"/>
+<area shape="poly" id="edge48_Node000045_Node000046" title=" " alt="" coords="517,1345,469,1345,469,1340,517,1340"/>
+<area shape="rect" id="Node000047" href="$a00395.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="339,1879,394,1905"/>
+<area shape="poly" id="edge49_Node000045_Node000047" title=" " alt="" coords="529,1374,526,1376,515,1394,507,1417,500,1476,500,1546,504,1621,507,1697,507,1767,499,1826,490,1850,478,1868,460,1883,438,1892,394,1897,394,1891,436,1886,457,1878,474,1865,485,1847,493,1825,502,1767,502,1697,498,1622,494,1546,494,1475,502,1416,510,1392,522,1373,525,1370"/>
+<area shape="rect" id="Node000051" href="$a05143.html#ab226afbbdb502d2c775736f8f2b2fca4" title="Inserts a new attribute with the specified name (string_view_t) after a given existing attribute." alt="" coords="265,1515,469,1555"/>
+<area shape="poly" id="edge53_Node000050_Node000051" title=" " alt="" coords="517,1537,469,1537,469,1532,517,1532"/>
+<area shape="rect" id="Node000054" href="$a05143.html#a715b4ab8ffbbd98d8fe0c84c68e3f28e" title="Inserts a new attribute with the specified name (string_view_t) before a given existing attribute." alt="" coords="265,1643,469,1683"/>
+<area shape="poly" id="edge56_Node000053_Node000054" title=" " alt="" coords="517,1665,469,1665,469,1660,517,1660"/>
+<area shape="rect" id="Node000056" href="$a05143.html#a59b7df394f724928ed2edcd4feba7e3b" title="Prepends a new attribute with the specified name (string_view_t) to the current node." alt="" coords="265,1707,469,1747"/>
+<area shape="poly" id="edge58_Node000055_Node000056" title=" " alt="" coords="517,1729,469,1729,469,1724,517,1724"/>
+<area shape="rect" id="Node000061" href="$a05143.html#a3c7bd51171193d163b75123b6fcb858d" title="Appends a new child element with the specified name to the current node." alt="" coords="265,1815,469,1855"/>
+<area shape="poly" id="edge63_Node000060_Node000061" title=" " alt="" coords="792,2266,789,2263,773,2242,762,2221,754,2180,756,2139,765,2098,773,2058,776,2018,767,1978,756,1959,741,1939,716,1918,692,1905,668,1900,644,1899,589,1900,557,1897,523,1889,475,1869,439,1857,440,1852,477,1864,525,1884,558,1892,589,1894,644,1893,669,1894,694,1900,719,1913,745,1936,761,1956,772,1977,781,2018,778,2058,770,2099,762,2139,759,2180,767,2220,778,2239,793,2260,796,2263"/>
+<area shape="rect" id="Node000062" href="$a05143.html#a25d05a0cc347c9c670f4ec1df768742c" title="append_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="265,1993,469,2033"/>
+<area shape="poly" id="edge64_Node000060_Node000062" title=" " alt="" coords="793,2267,789,2263,771,2238,764,2213,763,2187,765,2162,768,2138,767,2114,759,2091,741,2069,722,2057,696,2047,627,2032,547,2023,469,2018,469,2013,547,2017,628,2027,698,2042,725,2052,744,2065,763,2088,772,2113,773,2138,771,2163,768,2188,769,2212,776,2236,793,2260,796,2263"/>
+<area shape="rect" id="Node000063" href="$a05143.html#a6226c2329935d1fc5d905862a3b21da3" title="Appends a new child node of a specified type to the current node." alt="" coords="531,1949,735,1989"/>
+<area shape="poly" id="edge65_Node000060_Node000063" title=" " alt="" coords="792,2267,789,2263,767,2231,758,2199,758,2167,763,2135,768,2104,768,2073,761,2041,741,2010,718,1992,721,1988,745,2006,765,2039,773,2072,773,2104,768,2136,764,2167,764,2198,772,2229,793,2260,796,2263"/>
+<area shape="rect" id="Node000065" href="$a05143.html#ae8bb7651245fb6e302ffd4cb102d20c3" title="insert_child_after with a name of size characters at name, which need no terminating NUL (a range of ..." alt="" coords="265,2057,469,2097"/>
+<area shape="poly" id="edge70_Node000060_Node000065" title=" " alt="" coords="794,2267,789,2263,774,2244,767,2225,765,2186,763,2149,756,2132,741,2115,711,2095,678,2080,644,2069,608,2062,536,2058,469,2062,469,2056,536,2052,609,2057,645,2064,680,2075,714,2091,744,2111,760,2129,768,2147,771,2186,772,2224,779,2242,793,2260,797,2263"/>
+<area shape="rect" id="Node000066" href="$a05143.html#a33547ff6911a38d3cd5aafb699001b7a" title="Inserts a new child element with the specified name after a given existing child node." alt="" coords="265,2121,469,2161"/>
+<area shape="poly" id="edge71_Node000060_Node000066" title=" " alt="" coords="795,2268,789,2263,777,2250,770,2235,765,2206,760,2179,754,2167,741,2156,707,2137,670,2124,631,2116,591,2112,514,2114,445,2124,444,2119,513,2109,591,2106,632,2110,671,2118,709,2132,744,2151,758,2163,765,2177,771,2205,775,2233,781,2247,792,2259,799,2264"/>
+<area shape="rect" id="Node000067" href="$a05143.html#a8ac674a8eb55c7777142210558672170" title="Inserts a new child node of a specified type before a given existing child node." alt="" coords="531,2165,735,2205"/>
+<area shape="poly" id="edge72_Node000060_Node000067" title=" " alt="" coords="805,2271,789,2264,765,2245,741,2226,700,2208,702,2203,744,2222,768,2241,792,2259,807,2266"/>
+<area shape="rect" id="Node000069" href="$a05143.html#aab7bcf34968c0972b2f2663112ac9cc6" title="insert_child_before with a name of size characters at name, which need no terminating NUL (a range of..." alt="" coords="265,2249,469,2289"/>
+<area shape="poly" id="edge76_Node000060_Node000069" title=" " alt="" coords="791,2281,743,2277,599,2272,469,2271,469,2265,600,2266,743,2272,791,2276"/>
+<area shape="rect" id="Node000070" href="$a05143.html#a382508de160ecc5107cf79c88c597b36" title="Inserts a new child element with the specified name before a given existing child node." alt="" coords="265,2313,469,2353"/>
+<area shape="poly" id="edge77_Node000060_Node000070" title=" " alt="" coords="791,2303,524,2321,469,2326,469,2321,524,2316,791,2298"/>
+<area shape="rect" id="Node000071" href="$a05143.html#a62df8cc6d084b34512830bb14d04a8f2" title="Inserts a new child node of a specified type after a given existing child node." alt="" coords="531,2331,735,2371"/>
+<area shape="poly" id="edge78_Node000060_Node000071" title=" " alt="" coords="798,2319,729,2333,728,2328,797,2314"/>
+<area shape="rect" id="Node000073" href="$a05143.html#aa6f134b485f2cd2c478edf6c0af50243" title="Prepends a new child element with the specified name to the current node." alt="" coords="265,2441,469,2481"/>
+<area shape="poly" id="edge82_Node000060_Node000073" title=" " alt="" coords="866,2323,809,2356,744,2385,674,2408,602,2426,470,2451,469,2446,601,2421,672,2403,742,2380,806,2351,863,2319"/>
+<area shape="rect" id="Node000074" href="$a05143.html#ad1158e66c6a726feead88bf858821421" title="prepend_child with a name of size characters at name, which need no terminating NUL (a range of a lar..." alt="" coords="265,2505,469,2545"/>
+<area shape="poly" id="edge83_Node000060_Node000074" title=" " alt="" coords="884,2326,824,2386,786,2417,744,2442,685,2465,637,2473,587,2477,525,2487,440,2508,439,2503,523,2481,586,2471,636,2468,684,2460,741,2438,783,2412,821,2382,880,2322"/>
+<area shape="rect" id="Node000075" href="$a05143.html#a2b60652b5cf0a8218617bcc2256066b5" title="Prepends a new child node of a specified type to the current node." alt="" coords="531,2496,735,2536"/>
+<area shape="poly" id="edge84_Node000060_Node000075" title=" " alt="" coords="888,2326,829,2402,789,2444,744,2480,708,2498,705,2494,741,2475,786,2440,825,2399,884,2323"/>
+<area shape="rect" id="Node000077" href="$a05143.html#aa9e3f026003d77c6e0ebdc9c6876371c" title="Sets the name of the XML node from a string_view_t." alt="" coords="531,2560,735,2600"/>
+<area shape="poly" id="edge88_Node000060_Node000077" title=" " alt="" coords="897,2327,875,2376,842,2437,799,2498,773,2526,744,2550,724,2562,721,2558,741,2546,769,2522,795,2494,838,2434,870,2374,892,2325"/>
+<area shape="poly" id="edge69_Node000063_Node000047" title=" " alt="" coords="563,1947,475,1920,394,1900,395,1895,477,1915,565,1942"/>
+<area shape="poly" id="edge66_Node000063_Node000061" title=" " alt="" coords="543,1946,522,1933,506,1916,498,1900,490,1884,474,1869,453,1857,456,1852,478,1865,494,1881,503,1897,511,1913,526,1929,546,1941"/>
+<area shape="poly" id="edge67_Node000063_Node000062" title=" " alt="" coords="518,1991,469,1999,468,1994,517,1986"/>
+<area shape="rect" id="Node000064" href="$a05143.html#a72fa49721a6ffa9200f240b4772e8a12" title="Appends a new child element with the specified name (string_view_t) to the current node." alt="" coords="265,1929,469,1969"/>
+<area shape="poly" id="edge68_Node000063_Node000064" title=" " alt="" coords="517,1963,469,1960,469,1954,518,1958"/>
+<area shape="poly" id="edge73_Node000067_Node000065" title=" " alt="" coords="583,2161,475,2112,440,2100,442,2095,477,2107,585,2156"/>
+<area shape="poly" id="edge74_Node000067_Node000066" title=" " alt="" coords="517,2169,468,2161,469,2156,518,2164"/>
+<area shape="rect" id="Node000068" href="$a05143.html#a91f2cdca9e92733aeb3496240735c5de" title="Inserts a new child element with the specified name (string_view_t) after a given existing child node..." alt="" coords="265,2185,469,2225"/>
+<area shape="poly" id="edge75_Node000067_Node000068" title=" " alt="" coords="518,2197,469,2200,469,2195,517,2191"/>
+<area shape="poly" id="edge79_Node000071_Node000069" title=" " alt="" coords="557,2329,475,2304,435,2292,437,2287,477,2299,558,2324"/>
+<area shape="poly" id="edge80_Node000071_Node000070" title=" " alt="" coords="517,2346,469,2343,469,2337,518,2340"/>
+<area shape="rect" id="Node000072" href="$a05143.html#a972e7ea652b109d8b1c1b383cae27905" title="Inserts a new child element with the specified name (string_view_t) before a given existing child nod..." alt="" coords="265,2377,469,2417"/>
+<area shape="poly" id="edge81_Node000071_Node000072" title=" " alt="" coords="518,2374,469,2382,468,2377,517,2368"/>
+<area shape="poly" id="edge85_Node000075_Node000073" title=" " alt="" coords="522,2496,464,2484,465,2479,523,2491"/>
+<area shape="poly" id="edge86_Node000075_Node000074" title=" " alt="" coords="518,2523,469,2524,469,2519,517,2517"/>
+<area shape="rect" id="Node000076" href="$a05143.html#a077e87bb4351f086653426a4b66560e3" title="Prepends a new child element with the specified name (string_view_t) to the current node." alt="" coords="265,2569,469,2609"/>
+<area shape="poly" id="edge87_Node000075_Node000076" title=" " alt="" coords="548,2542,440,2572,439,2567,547,2537"/>
+<area shape="poly" id="edge91_Node000079_Node000047" title=" " alt="" coords="893,2887,871,2837,839,2776,796,2716,770,2688,741,2665,712,2650,683,2644,627,2647,600,2649,573,2646,547,2636,522,2614,506,2587,495,2554,488,2515,486,2470,489,2371,497,2264,506,2158,509,2059,506,2015,500,1977,490,1944,474,1919,457,1906,437,1897,394,1893,394,1887,438,1892,460,1901,478,1916,494,1942,505,1976,512,2015,514,2059,511,2158,503,2265,494,2372,491,2470,494,2514,500,2553,510,2585,526,2610,550,2631,575,2641,600,2644,627,2642,683,2639,713,2645,744,2660,773,2684,800,2712,844,2774,876,2835,898,2885"/>
+<area shape="rect" id="Node000080" href="$a05115.html#afdc74c20f283db4734c255a87ea75635" title="Assigns a bool as the attribute&#39;s value, converting it to &quot;true&quot; or &quot;false&quot;." alt="" coords="540,2675,727,2715"/>
+<area shape="poly" id="edge92_Node000079_Node000080" title=" " alt="" coords="886,2888,861,2851,828,2808,787,2765,741,2729,719,2717,721,2713,744,2724,791,2761,832,2805,865,2848,890,2885"/>
+<area shape="rect" id="Node000081" href="$a05115.html#a955073ff2eca3bfc5070516af70406b9" title="Assigns a null&#45;terminated C&#45;style string as the attribute&#39;s value." alt="" coords="540,2739,727,2779"/>
+<area shape="poly" id="edge93_Node000079_Node000081" title=" " alt="" coords="875,2891,815,2841,779,2815,741,2793,714,2781,716,2776,744,2788,782,2811,819,2837,878,2887"/>
+<area shape="rect" id="Node000082" href="$a05115.html#a69c722e6500f74b77f33d56a92daec03" title="Assigns a double as the attribute&#39;s value, converting it to a string with default precision." alt="" coords="540,2803,727,2843"/>
+<area shape="poly" id="edge94_Node000079_Node000082" title=" " alt="" coords="845,2896,742,2857,705,2845,706,2840,744,2852,847,2891"/>
+<area shape="rect" id="Node000083" href="$a05115.html#a8f438045e97d3575541237abec5402b5" title="Assigns a float as the attribute&#39;s value, converting it to a string with default precision." alt="" coords="540,2867,727,2907"/>
+<area shape="poly" id="edge95_Node000079_Node000083" title=" " alt="" coords="801,2909,727,2900,727,2895,801,2904"/>
+<area shape="rect" id="Node000084" href="$a05115.html#afcdaa8752216eb8bc2ede239b7cb2b78" title="Assigns an int as the attribute&#39;s value, converting it to a string." alt="" coords="540,2931,727,2971"/>
+<area shape="poly" id="edge96_Node000079_Node000084" title=" " alt="" coords="801,2934,727,2942,727,2937,801,2928"/>
+<area shape="rect" id="Node000085" href="$a05115.html#adbcff57ee5acefbd8881bec171149cc5" title="Assigns a long long as the attribute&#39;s value, converting it to a string." alt="" coords="540,2995,727,3035"/>
+<area shape="poly" id="edge97_Node000079_Node000085" title=" " alt="" coords="810,2946,792,2953,768,2969,744,2985,714,2997,712,2992,741,2980,765,2964,789,2948,808,2941"/>
+<area shape="rect" id="Node000086" href="$a05115.html#aa587613e97526bc44c3acc261442868b" title="Assigns a long as the attribute&#39;s value, converting it to a string." alt="" coords="540,3059,727,3099"/>
+<area shape="poly" id="edge98_Node000079_Node000086" title=" " alt="" coords="804,2945,792,2953,782,2964,775,2975,769,2999,763,3024,756,3037,744,3049,726,3061,723,3056,741,3045,752,3033,758,3022,764,2998,770,2973,777,2961,789,2949,801,2940"/>
+<area shape="rect" id="Node000087" href="$a05115.html#aa13144828d356822926f495ad376f662" title="Assigns a string_view_t as the attribute&#39;s value." alt="" coords="540,3123,727,3163"/>
+<area shape="poly" id="edge99_Node000079_Node000087" title=" " alt="" coords="804,2943,793,2953,778,2972,771,2991,769,3031,768,3071,760,3092,745,3113,729,3125,726,3120,741,3109,755,3090,762,3070,764,3030,766,2990,773,2969,789,2949,801,2939"/>
+<area shape="rect" id="Node000088" href="$a05115.html#a3a3a5c46fab9a68fe7b97653dee2a568" title="Assigns an unsigned int as the attribute&#39;s value, converting it to a string." alt="" coords="540,3187,727,3227"/>
+<area shape="poly" id="edge100_Node000079_Node000088" title=" " alt="" coords="805,2942,793,2952,774,2980,766,3007,766,3034,769,3062,773,3090,772,3119,764,3148,745,3176,729,3189,725,3185,741,3173,759,3146,767,3118,767,3091,764,3063,760,3035,761,3006,769,2977,789,2949,801,2938"/>
+<area shape="rect" id="Node000089" href="$a05115.html#a879e3c2da7328470e1d5422240161665" title="Assigns an unsigned long long as the attribute&#39;s value, converting it to a string." alt="" coords="540,3251,727,3291"/>
+<area shape="poly" id="edge101_Node000079_Node000089" title=" " alt="" coords="805,2942,793,2952,770,2988,761,3023,763,3058,769,3094,775,3130,777,3167,768,3203,745,3240,729,3254,725,3250,741,3237,763,3201,772,3166,770,3131,764,3095,757,3059,756,3022,765,2986,789,2949,801,2938"/>
+<area shape="rect" id="Node000090" href="$a05115.html#a5af7aef2164be969423a6a7261d07134" title="Assigns an unsigned long as the attribute&#39;s value, converting it to a string." alt="" coords="540,3315,727,3355"/>
+<area shape="poly" id="edge102_Node000079_Node000090" title=" " alt="" coords="805,2942,793,2952,776,2974,765,2996,759,3018,756,3039,760,3082,769,3126,778,3170,782,3214,773,3259,761,3282,745,3304,729,3318,725,3314,741,3301,757,3279,768,3257,776,3214,773,3170,764,3127,754,3083,751,3039,754,3016,761,2994,772,2971,789,2949,801,2938"/>
+<area shape="rect" id="Node000091" href="$a05115.html#a7a36fb5f2f3a3ab150c6754ffb38e4db" title="Sets the value of the XML attribute from a string_view_t." alt="" coords="541,3379,725,3419"/>
+<area shape="poly" id="edge103_Node000079_Node000091" title=" " alt="" coords="804,2942,793,2952,774,2978,761,3004,754,3030,752,3055,757,3106,769,3158,781,3209,786,3262,784,3288,777,3315,764,3341,745,3368,727,3383,724,3379,741,3365,759,3339,772,3313,779,3287,781,3262,776,3210,764,3159,751,3107,746,3055,749,3029,756,3002,769,2976,789,2949,801,2938"/>
+<area shape="rect" id="Node000094" href="$a05143.html#aa15caa513c7570b4cd374f9f364cabc3" title="Sets the value of the XML node from a string_view_t." alt="" coords="531,3443,735,3483"/>
+<area shape="poly" id="edge106_Node000093_Node000094" title=" " alt="" coords="796,3077,793,3080,776,3102,765,3124,759,3146,756,3167,760,3210,769,3254,778,3298,782,3342,773,3387,761,3410,745,3432,731,3444,728,3440,741,3429,757,3407,768,3385,776,3342,773,3298,764,3255,754,3211,751,3167,754,3144,761,3122,772,3099,789,3077,792,3074"/>
+<area shape="rect" id="Node000097" href="$a01671.html#aca0b763de1215151eeda5cfa4becd08c" title=" " alt="" coords="559,3507,708,3547"/>
+<area shape="poly" id="edge109_Node000096_Node000097" title=" " alt="" coords="822,3529,708,3529,708,3524,822,3524"/>
+<area shape="rect" id="Node000098" href="$a01671.html#ad3630629a15e0d50c4d9f0ba49f3fb22" title=" " alt="" coords="559,3571,708,3611"/>
+<area shape="poly" id="edge110_Node000096_Node000098" title=" " alt="" coords="823,3549,709,3576,708,3571,821,3544"/>
+<area shape="rect" id="Node000099" href="$a05187.html#a55fb421a55db0afee9f3b6b65a76a255" title="Sets the text content from a double&#45;precision floating&#45;point number, converting it to a string." alt="" coords="257,3402,476,3427"/>
+<area shape="poly" id="edge111_Node000098_Node000099" title=" " alt="" coords="544,3575,522,3561,509,3545,502,3530,498,3498,493,3468,487,3454,474,3441,457,3430,460,3425,478,3437,491,3451,499,3467,503,3498,507,3528,514,3543,526,3557,547,3571"/>
+<area shape="rect" id="Node000100" href="$a05187.html#adb9a35d249b4b9d6408076652b6c3541" title="Sets the text content from a double&#45;precision floating&#45;point number with a specified precision." alt="" coords="257,3451,476,3477"/>
+<area shape="poly" id="edge112_Node000098_Node000100" title=" " alt="" coords="545,3574,522,3561,506,3543,498,3524,490,3506,474,3490,453,3479,455,3474,478,3486,495,3503,503,3522,510,3540,526,3557,547,3569"/>
+<area shape="rect" id="Node000101" href="$a05187.html#ae7762559c79d5a33450c910b270ba2de" title="Sets the text content from a single&#45;precision floating&#45;point number, converting it to a string." alt="" coords="257,3501,476,3526"/>
+<area shape="poly" id="edge113_Node000098_Node000101" title=" " alt="" coords="546,3569,523,3561,475,3540,434,3529,436,3524,477,3535,525,3556,548,3564"/>
+<area shape="rect" id="Node000102" href="$a05187.html#a04839f8ee9d5b8272277c4202ea79458" title="Sets the text content from a single&#45;precision floating&#45;point number with a specified precision." alt="" coords="257,3550,476,3575"/>
+<area shape="poly" id="edge114_Node000098_Node000102" title=" " alt="" coords="545,3584,476,3577,477,3572,545,3579"/>
+<area shape="rect" id="Node000103" href="$a05115.html#a256ea851e7295e13ad6941fb71471aab" title="Sets the attribute&#39;s value after converting a double to its string representation using default preci..." alt="" coords="275,3600,459,3640"/>
+<area shape="poly" id="edge115_Node000098_Node000103" title=" " alt="" coords="545,3603,459,3612,459,3607,545,3598"/>
+<area shape="rect" id="Node000104" href="$a05115.html#ae0ceccfbd9209f082043f9580a27aafd" title="Sets the attribute&#39;s value after converting a double to its string representation with specified prec..." alt="" coords="275,3664,459,3704"/>
+<area shape="poly" id="edge116_Node000098_Node000104" title=" " alt="" coords="546,3617,525,3625,501,3640,477,3654,446,3666,444,3661,475,3650,499,3635,523,3620,544,3612"/>
+<area shape="rect" id="Node000105" href="$a05115.html#a92922e5e152205740dcaca672f1b3fff" title="Sets the attribute&#39;s value after converting a float to its string representation using default precis..." alt="" coords="275,3728,459,3768"/>
+<area shape="poly" id="edge117_Node000098_Node000105" title=" " alt="" coords="547,3611,526,3625,509,3647,503,3670,496,3694,478,3718,459,3730,457,3726,474,3714,491,3692,497,3669,504,3644,522,3621,544,3607"/>
+<area shape="rect" id="Node000106" href="$a05115.html#a57792a600a2485e6d09ed0f94a4bf054" title="Sets the attribute&#39;s value after converting a float to its string representation with specified preci..." alt="" coords="275,3792,459,3832"/>
+<area shape="poly" id="edge118_Node000098_Node000106" title=" " alt="" coords="548,3609,526,3625,511,3643,504,3662,503,3701,501,3741,493,3762,478,3782,461,3795,457,3791,474,3778,489,3759,496,3740,497,3701,499,3661,507,3641,522,3621,545,3605"/>
+<area shape="rect" id="Node000108" href="$a05187.html#a22b66c13f21226ce506865cf9e3197b7" title="Sets the text content from a boolean, converting it to &quot;true&quot; or &quot;false&quot;." alt="" coords="524,3635,743,3661"/>
+<area shape="poly" id="edge120_Node000107_Node000108" title=" " alt="" coords="822,3651,743,3651,743,3645,822,3645"/>
+<area shape="rect" id="Node000109" href="$a05115.html#a01240ea7933082a3f56dd05a12d05b37" title="Sets the attribute&#39;s value after converting a bool to its string representation." alt="" coords="541,3685,725,3725"/>
+<area shape="poly" id="edge121_Node000107_Node000109" title=" " alt="" coords="822,3668,726,3689,725,3683,821,3663"/>
+<area shape="rect" id="Node000111" href="$a05187.html#a4a46464d906be58c903b12338afc3524" title="Sets the text content from an integer, converting it to a string." alt="" coords="524,3750,743,3775"/>
+<area shape="poly" id="edge123_Node000110_Node000111" title=" " alt="" coords="890,3978,867,3935,834,3883,792,3832,768,3809,741,3789,719,3778,721,3773,744,3784,771,3805,796,3828,838,3880,872,3932,895,3976"/>
+<area shape="rect" id="Node000112" href="$a05187.html#a7a17e838991eeb6f210af248983ff64e" title="Sets the text content from a long long integer, converting it to a string." alt="" coords="524,3799,743,3825"/>
+<area shape="poly" id="edge124_Node000110_Node000112" title=" " alt="" coords="884,3979,858,3945,825,3907,786,3870,741,3838,715,3827,718,3822,744,3834,789,3865,829,3903,863,3942,888,3976"/>
+<area shape="rect" id="Node000113" href="$a05187.html#aa7d46e1943e76f380c67df8c490ac56f" title="Sets the text content from a long integer, converting it to a string." alt="" coords="524,3849,743,3874"/>
+<area shape="poly" id="edge125_Node000110_Node000113" title=" " alt="" coords="875,3982,816,3933,780,3908,742,3888,710,3877,712,3872,744,3883,782,3904,819,3929,878,3978"/>
+<area shape="rect" id="Node000114" href="$a05187.html#a38fe0f8000f84b589be4ef7b12c92922" title="Sets the text content from an unsigned integer, converting it to a string." alt="" coords="524,3898,743,3923"/>
+<area shape="poly" id="edge126_Node000110_Node000114" title=" " alt="" coords="855,3986,801,3960,742,3937,701,3926,703,3921,744,3932,803,3955,858,3981"/>
+<area shape="rect" id="Node000115" href="$a05187.html#afcf1b736b71d34c4f842e818e69c26bc" title="Sets the text content from an unsigned long long integer, converting it to a string." alt="" coords="524,3947,743,3973"/>
+<area shape="poly" id="edge127_Node000110_Node000115" title=" " alt="" coords="819,3996,703,3975,704,3970,820,3991"/>
+<area shape="rect" id="Node000116" href="$a05187.html#a9208f3d5535dd8fca6386d0a61900ba3" title="Sets the text content from an unsigned long integer, converting it to a string." alt="" coords="524,3997,743,4022"/>
+<area shape="poly" id="edge128_Node000110_Node000116" title=" " alt="" coords="819,4012,743,4012,743,4007,819,4007"/>
+<area shape="rect" id="Node000117" href="$a05115.html#aad555329398ae610ee23350565f200a1" title="Sets the attribute&#39;s value after converting an int to its string representation." alt="" coords="541,4047,725,4087"/>
+<area shape="poly" id="edge129_Node000110_Node000117" title=" " alt="" coords="821,4030,726,4050,725,4045,819,4025"/>
+<area shape="rect" id="Node000118" href="$a05115.html#a4b67bd8b4cbae360fe84ff68dec8ab65" title="Sets the attribute&#39;s value after converting a long long to its string representation." alt="" coords="541,4111,725,4151"/>
+<area shape="poly" id="edge130_Node000110_Node000118" title=" " alt="" coords="864,4039,808,4071,744,4101,711,4113,709,4108,742,4096,805,4066,861,4034"/>
+<area shape="rect" id="Node000119" href="$a05115.html#a53899f006138cd6d4411676c5e41e459" title="Sets the attribute&#39;s value after converting a long to its string representation." alt="" coords="541,4175,725,4215"/>
+<area shape="poly" id="edge131_Node000110_Node000119" title=" " alt="" coords="884,4042,824,4104,786,4137,744,4165,719,4177,716,4172,741,4160,783,4133,821,4100,880,4038"/>
+<area shape="rect" id="Node000120" href="$a05115.html#a06d50fc8a8030db9165babb92f957b4f" title="Sets the attribute&#39;s value after converting an unsigned int to its string representation." alt="" coords="541,4239,725,4279"/>
+<area shape="poly" id="edge132_Node000110_Node000120" title=" " alt="" coords="893,4043,869,4085,836,4136,794,4186,744,4229,722,4241,720,4236,741,4224,790,4182,832,4132,865,4083,888,4041"/>
+<area shape="rect" id="Node000121" href="$a05115.html#a7fdcade807a5dafa365f56bdc1f95901" title="Sets the attribute&#39;s value after converting an unsigned long long to its string representation." alt="" coords="541,4303,725,4343"/>
+<area shape="poly" id="edge133_Node000110_Node000121" title=" " alt="" coords="899,4043,879,4098,846,4165,802,4234,775,4265,744,4293,725,4305,722,4300,741,4289,771,4262,798,4231,842,4162,874,4096,894,4041"/>
+<area shape="rect" id="Node000122" href="$a05115.html#aadf024a8f77fbb6565f2199163c2a6bc" title="Sets the attribute&#39;s value after converting an unsigned long to its string representation." alt="" coords="541,4367,725,4407"/>
+<area shape="poly" id="edge134_Node000110_Node000122" title=" " alt="" coords="903,4044,886,4110,856,4194,835,4238,809,4281,779,4322,744,4357,726,4369,723,4364,741,4353,775,4318,805,4278,830,4236,851,4192,881,4108,898,4042"/>
+</map>

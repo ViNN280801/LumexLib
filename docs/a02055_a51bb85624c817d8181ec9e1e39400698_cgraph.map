@@ -1,0 +1,6 @@
+<map id="lumex::core::circular_buffer::circular_buffer::swap" name="lumex::core::circular_buffer::circular_buffer::swap">
+<area shape="rect" id="Node000001" title="Exchanges the contents of two buffers." alt="" coords="5,37,216,77"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a583c3fee3eb06a9b927eae01eab586be" title="Creates an empty buffer with capacity 0." alt="" coords="264,29,432,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,54,250,54,250,59,216,59"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="302,29,302,19,310,10,326,5,348,3,375,6,390,14,388,18,373,11,348,8,327,10,313,15,307,21,307,29"/>
+</map>

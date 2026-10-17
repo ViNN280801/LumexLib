@@ -1,0 +1,30 @@
+<map id="lumex::xml::node::append_node" name="lumex::xml::node::append_node">
+<area shape="rect" id="Node000001" title="Appends a child node to the end of a node&#39;s child list." alt="" coords="761,278,992,303"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a6226c2329935d1fc5d905862a3b21da3" title="Appends a new child node of a specified type to the current node." alt="" coords="509,133,713,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="839,274,649,176,651,171,841,269"/>
+<area shape="rect" id="Node000007" href="$a05143.html#affd983d76ecc8d527bff7cb6f9c13018" title="Appends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,240,209,280"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="748,288,210,267,210,261,748,283"/>
+<area shape="rect" id="Node000008" href="$a05143.html#aed35bff5c54a2e71c2022719a34f2d71" title="Moves an existing XmlNode (moved) to become the last child of the current node." alt="" coords="509,299,713,339"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="748,307,714,311,713,305,747,302"/>
+<area shape="rect" id="Node000009" href="$a01672.html#a250c352fb5975642cf858d3b0904f533" title="Appends a newly allocated child node of a specified type to the current node." alt="" coords="515,364,707,404"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="831,311,714,353,675,366,673,361,712,348,829,306"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a3c7bd51171193d163b75123b6fcb858d" title="Appends a new child element with the specified name to the current node." alt="" coords="257,5,461,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="572,127,520,93,460,60,431,48,433,43,462,55,523,88,575,123"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a25d05a0cc347c9c670f4ec1df768742c" title="append_child with a name of size characters at name, which need no terminating NUL (a range of a larg..." alt="" coords="257,69,461,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="518,132,437,112,439,107,520,127"/>
+<area shape="rect" id="Node000005" href="$a05143.html#a72fa49721a6ffa9200f240b4772e8a12" title="Appends a new child element with the specified name (string_view_t) to the current node." alt="" coords="257,133,461,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="496,156,462,156,462,151,496,151"/>
+<area shape="rect" id="Node000006" href="$a00395.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="332,198,387,223"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="511,179,388,207,387,202,510,174"/>
+<area shape="rect" id="Node000010" href="$a01672.html#a11377e4dbc3c07bbcae59a081a6040b6" title="Performs a deep copy of an XML node&#39;s entire subtree (including itself, children, and attributes)." alt="" coords="271,367,447,407"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="501,388,447,388,447,383,501,382"/>
+<area shape="poly" id="edge10_Node000010_Node000007" title=" " alt="" coords="320,361,268,327,208,294,179,283,181,278,210,290,271,322,323,357"/>
+<area shape="rect" id="Node000011" href="$a05143.html#ade75f490c8aafb015483a5444c1af76c" title="Inserts a deep copy of an existing XmlNode (proto) after a given existing child node." alt="" coords="5,304,209,344"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="265,366,187,347,189,341,266,361"/>
+<area shape="rect" id="Node000012" href="$a05143.html#a35ef839927e8d9eaef5c22122c802fb1" title="Inserts a deep copy of an existing XmlNode (proto) before a given existing child node." alt="" coords="5,368,209,408"/>
+<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="258,390,210,390,210,385,257,385"/>
+<area shape="rect" id="Node000013" href="$a05143.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="5,432,209,472"/>
+<area shape="poly" id="edge13_Node000010_Node000013" title=" " alt="" coords="270,413,185,435,184,429,268,407"/>
+<area shape="rect" id="Node000014" href="$a05127.html#a3be8c5ddd0fac3d0f74c85f9ce393341" title="Removes all nodes from the document, then copies the entire contents of a specified document." alt="" coords="23,496,192,536"/>
+<area shape="poly" id="edge14_Node000010_Node000014" title=" " alt="" coords="324,417,271,453,210,486,181,498,179,493,208,482,269,448,321,413"/>
+</map>

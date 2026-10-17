@@ -1,0 +1,71 @@
+<map id="lumex::core::fmt::Detail::parse_arg_id" name="lumex::core::fmt::Detail::parse_arg_id">
+<area shape="rect" id="Node000001" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="1175,513,1352,553"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a1d433bc889461c7576948230c7d3a0ed" title="Parses {} / {3} / {name} used as dynamic width / precision." alt="" coords="949,337,1127,377"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1225,506,1062,379,1066,375,1228,502"/>
+<area shape="rect" id="Node000012" href="$a01541.html#a9fced4d130ed35de9eb22230b7bd6e56" title="Walks a format string and reports literal text, replacement fields and their specifications to handle..." alt="" coords="949,545,1127,585"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="1161,550,1127,555,1126,549,1161,545"/>
+<area shape="rect" id="Node000003" href="$a03147.html#af9ba2acf39838afe8a32284dc181d356" title=" " alt="" coords="437,210,676,250"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="989,333,946,313,901,295,786,266,676,247,677,241,787,261,902,290,948,308,991,328"/>
+<area shape="rect" id="Node000006" href="$a01541.html#ae60423b45d0639b6fcc845a3aebf8a26" title="Parses [[fill]align][width] from ctx.begin(), the part every specification shares (used by the range ..." alt="" coords="724,305,901,345"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="935,345,901,340,902,335,936,339"/>
+<area shape="rect" id="Node000010" href="$a01541.html#acd49f7dcde40ad4568f6d1ff160ec51f" title="Parses [[fill]align][sign][#][0][width][.precision][L][type] starting at ctx.begin(); returns the pos..." alt="" coords="724,369,901,409"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="936,374,902,379,901,373,935,369"/>
+<area shape="rect" id="Node000004" href="$a03151.html#af70c80686607990194ad6b9d5c6d7e40" title=" " alt="" coords="130,5,367,119"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="512,205,388,132,366,121,369,116,391,128,515,200"/>
+<area shape="rect" id="Node000005" href="$a03155.html#a8c33df3c8d7c78779c80c4419a69501d" title=" " alt="" coords="108,143,389,256"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="423,219,389,216,390,211,424,214"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="745,302,610,253,612,248,747,297"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a78146b6be0e4554a882bb6eec9971b9d" title="[[fill]align][width] of a range / tuple specification: : is never a fill here (it starts the element ..." alt="" coords="449,305,664,345"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="710,327,664,327,664,322,710,322"/>
+<area shape="rect" id="Node000008" href="$a03199.html#a59aa6a934d521a15be0b21917759e892" title=" " alt="" coords="160,305,337,345"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="436,327,337,327,337,322,436,322"/>
+<area shape="rect" id="Node000009" href="$a03211.html#a17890e390c0e0052a3ae901f2af1b561" title=" " alt="" coords="135,369,362,453"/>
+<area shape="poly" id="edge10_Node000007_Node000009" title=" " alt="" coords="469,351,438,359,363,381,362,375,437,354,467,346"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="285,293,272,286,249,283,228,285,215,290,211,296,213,304,208,305,206,295,212,286,227,280,249,278,274,281,288,288"/>
+<area shape="rect" id="Node000011" href="$a03099.html#a5bd9434b7065ca09ea27fa6aafca3d27" title=" " alt="" coords="465,369,649,409"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="710,391,649,391,649,386,710,386"/>
+<area shape="rect" id="Node000013" href="$a01541.html#a9b8fbd4db71c1059fadb982021043cb4" title="Formats into buffer; adds the field offset to errors." alt="" coords="724,746,901,786"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="1007,596,837,748,834,744,1003,592"/>
+<area shape="rect" id="Node000014" href="$a01540.html#af0c4202c543a5a74b969858fa5e919cc" title=" " alt="" coords="455,581,658,607"/>
+<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="790,736,742,676,710,645,675,620,649,609,651,604,677,616,714,641,746,672,795,733"/>
+<area shape="rect" id="Node000015" href="$a01540.html#a62a311d6ac094ef44b71559d4a6afb7f" title="Writes at most limit characters; size is the full length." alt="" coords="448,631,665,656"/>
+<area shape="poly" id="edge16_Node000013_Node000015" title=" " alt="" coords="779,739,732,702,675,670,642,659,644,654,677,665,735,698,782,735"/>
+<area shape="rect" id="Node000017" href="$a01540.html#acc51f6f992040aec5664f82f619bd93c" title="Number of characters format would produce." alt="" coords="439,680,675,705"/>
+<area shape="poly" id="edge18_Node000013_Node000017" title=" " alt="" coords="749,744,675,719,628,708,630,703,677,714,750,738"/>
+<area shape="rect" id="Node000018" href="$a01540.html#a55a58f4ca365fa94db3766c720cb2585" title=" " alt="" coords="461,729,652,755"/>
+<area shape="poly" id="edge20_Node000013_Node000018" title=" " alt="" coords="710,759,652,754,653,748,710,754"/>
+<area shape="rect" id="Node000027" href="$a01540.html#a7d9e4c2ae8e3db7e2f2129cdcdacb8c0" title=" " alt="" coords="461,779,652,804"/>
+<area shape="poly" id="edge33_Node000013_Node000027" title=" " alt="" coords="710,779,653,785,652,779,710,773"/>
+<area shape="rect" id="Node000028" href="$a01540.html#a102d3de5140a6be478c55ed9d54a2251" title=" " alt="" coords="461,828,652,853"/>
+<area shape="poly" id="edge34_Node000013_Node000028" title=" " alt="" coords="750,794,677,818,625,831,624,825,675,813,748,789"/>
+<area shape="rect" id="Node000029" href="$a01540.html#a8cea8aec58fc2810df873013975c028e" title=" " alt="" coords="461,877,652,903"/>
+<area shape="poly" id="edge35_Node000013_Node000029" title=" " alt="" coords="782,797,735,834,677,867,640,880,638,875,675,862,732,829,779,793"/>
+<area shape="rect" id="Node000030" href="$a01540.html#a9ffa795f1a738249bd401cbf5d278105" title=" " alt="" coords="451,927,662,952"/>
+<area shape="poly" id="edge36_Node000013_Node000030" title=" " alt="" coords="794,799,746,860,714,891,677,916,648,929,646,924,675,912,710,887,742,856,790,796"/>
+<area shape="rect" id="Node000031" href="$a01540.html#ad3aaee0b9ba3458f6cb167af66572b92" title=" " alt="" coords="451,976,662,1001"/>
+<area shape="poly" id="edge38_Node000013_Node000031" title=" " alt="" coords="801,800,782,839,755,884,720,929,677,966,652,978,649,974,675,961,716,925,751,881,778,837,797,798"/>
+<area shape="rect" id="Node000016" href="$a00464.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,680,60,705"/>
+<area shape="poly" id="edge17_Node000015_Node000016" title=" " alt="" coords="447,627,436,620,425,609,418,598,412,575,405,553,399,543,388,535,349,514,314,499,280,490,248,487,215,489,182,498,147,513,110,535,92,549,77,567,55,608,43,649,37,680,32,679,38,647,50,606,73,564,88,545,106,530,145,508,180,493,214,484,248,481,281,485,316,494,352,509,391,530,403,540,410,550,417,573,423,596,429,606,439,616,449,623"/>
+<area shape="poly" id="edge19_Node000017_Node000016" title=" " alt="" coords="446,676,436,669,424,658,417,645,412,620,406,596,399,586,388,576,350,555,315,541,282,532,250,530,218,533,184,542,109,576,82,598,62,627,47,657,39,681,34,679,42,655,57,625,78,595,107,572,182,537,217,528,250,524,283,527,317,536,352,550,391,572,403,582,411,594,417,619,422,643,428,655,439,665,449,672"/>
+<area shape="poly" id="edge21_Node000018_Node000016" title=" " alt="" coords="448,727,436,719,424,706,417,693,412,666,406,641,400,630,388,620,350,599,316,586,284,579,252,578,220,582,187,591,109,620,88,633,70,649,43,681,39,678,66,645,85,628,107,616,185,586,219,577,252,573,285,574,318,581,353,595,391,616,404,627,411,639,417,665,422,691,428,703,439,715,451,722"/>
+<area shape="rect" id="Node000019" href="$a01540.html#a6f5d036f82841e8744c1df0fa4714e7b" title="Writes the formatted text to std::cout." alt="" coords="165,631,333,656"/>
+<area shape="poly" id="edge22_Node000018_Node000019" title=" " alt="" coords="454,727,436,719,420,707,411,693,403,681,388,670,361,659,332,651,334,646,363,654,391,665,406,677,416,690,424,703,439,714,456,722"/>
+<area shape="rect" id="Node000020" href="$a01540.html#aa1112fa46a171649d6dad36091a64230" title="Writes the formatted text to stream." alt="" coords="165,680,333,705"/>
+<area shape="poly" id="edge23_Node000018_Node000020" title=" " alt="" coords="464,730,328,708,329,703,465,725"/>
+<area shape="rect" id="Node000021" href="$a01540.html#a8497ca7713b4fc3e602a3768b06749e7" title=" " alt="" coords="165,729,333,755"/>
+<area shape="poly" id="edge25_Node000018_Node000021" title=" " alt="" coords="448,745,333,745,333,739,448,739"/>
+<area shape="rect" id="Node000022" href="$a01540.html#a2755f2f4f2eebdc587644f5d473a6883" title=" " alt="" coords="159,779,339,804"/>
+<area shape="poly" id="edge26_Node000018_Node000022" title=" " alt="" coords="465,759,329,781,328,776,464,754"/>
+<area shape="rect" id="Node000023" href="$a01540.html#af4ebc4ca0f60751e0508fe67d4505e70" title="print followed by a new line." alt="" coords="159,828,339,853"/>
+<area shape="poly" id="edge27_Node000018_Node000023" title=" " alt="" coords="452,762,439,768,424,780,416,792,406,805,391,818,340,835,338,830,388,813,403,802,411,789,420,776,436,764,450,757"/>
+<area shape="rect" id="Node000024" href="$a01540.html#a2e4df4e3d732a135bcfe4c5252baa4e2" title=" " alt="" coords="159,877,339,903"/>
+<area shape="poly" id="edge29_Node000018_Node000024" title=" " alt="" coords="451,761,439,768,428,779,422,791,416,816,410,842,403,855,391,867,366,881,339,889,338,884,364,876,388,863,399,852,405,840,411,815,417,789,424,776,436,764,448,756"/>
+<area shape="rect" id="Node000025" href="$a01540.html#af18b181b489ca7b9b343f99cc1d70e42" title="Like format, but never throws: a failure (bad specification at run time, missing argument,..." alt="" coords="171,927,327,967"/>
+<area shape="poly" id="edge30_Node000018_Node000025" title=" " alt="" coords="450,760,439,768,425,785,418,803,416,840,414,878,406,897,391,916,361,935,328,946,326,941,359,930,388,912,402,895,408,877,410,840,413,801,420,782,436,764,447,755"/>
+<area shape="rect" id="Node000026" href="$a01540.html#aba924c190d0b6cd078e2a0bbcabf1ddc" title=" " alt="" coords="171,991,327,1031"/>
+<area shape="poly" id="edge32_Node000018_Node000026" title=" " alt="" coords="450,759,439,768,421,793,413,819,412,845,416,872,419,899,419,927,411,954,391,981,362,1001,328,1012,326,1007,359,996,387,977,406,952,413,926,414,900,410,873,407,845,408,818,416,791,435,764,447,755"/>
+<area shape="poly" id="edge24_Node000020_Node000016" title=" " alt="" coords="151,695,60,695,60,690,151,690"/>
+<area shape="poly" id="edge28_Node000023_Node000016" title=" " alt="" coords="144,835,107,818,79,792,58,761,34,707,39,704,63,758,83,788,109,813,146,830"/>
+<area shape="poly" id="edge31_Node000025_Node000016" title=" " alt="" coords="156,942,130,932,106,916,94,900,82,876,60,816,33,706,38,705,66,814,87,874,98,897,110,912,132,927,158,937"/>
+<area shape="poly" id="edge37_Node000030_Node000016" title=" " alt="" coords="447,960,439,965,423,984,417,1005,410,1027,402,1037,391,1046,314,1083,279,1094,244,1099,211,1097,177,1088,142,1071,106,1045,87,1020,71,981,59,933,49,880,36,777,31,706,36,705,41,777,54,879,64,932,76,979,92,1017,110,1041,145,1066,179,1083,211,1091,244,1093,278,1089,312,1078,388,1041,398,1033,405,1024,412,1004,418,982,436,961,445,956"/>
+</map>

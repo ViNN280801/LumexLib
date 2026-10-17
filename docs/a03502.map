@@ -1,0 +1,5 @@
+<map id="lumex::core::optional::opt::detail::has_nonconst_copy_assign&lt; T &gt;" name="lumex::core::optional::opt::detail::has_nonconst_copy_assign&lt; T &gt;">
+<area shape="rect" id="Node000001" title="Whether T has a copy assignment that takes a non&#45;const reference (T &amp;operator= (T &amp;),..." alt="" coords="296,57,489,111"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,248,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="262,81,296,81,296,87,262,87"/>
+</map>

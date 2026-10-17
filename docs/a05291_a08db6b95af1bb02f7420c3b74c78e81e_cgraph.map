@@ -1,0 +1,44 @@
+<map id="lumex::xml::xpath::node::XPathNodeSetRaw::XPathNodeSetRaw" name="lumex::xml::xpath::node::XPathNodeSetRaw::XPathNodeSetRaw">
+<area shape="rect" id="Node000001" title="Default constructor. Constructs an empty raw node set." alt="" coords="5,417,188,471"/>
+<area shape="rect" id="Node000002" href="$a05291.html#a384a6bff75041853497ae998fbec64e8" title="Appends a range of nodes to the end of the set." alt="" coords="503,93,685,147"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,416,118,327,148,212,167,154,188,103,210,62,234,35,263,18,290,7,315,3,340,4,393,16,456,35,506,55,550,83,547,87,504,60,454,40,391,21,339,9,315,8,291,13,265,23,238,39,215,65,193,105,172,156,154,213,123,329,105,417"/>
+<area shape="rect" id="Node000005" href="$a05291.html#a17bdaec8667770ca754919477846ad37" title="Returns a mutable pointer to the beginning of the node data." alt="" coords="254,50,437,105"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="98,416,111,355,136,274,154,231,176,189,203,149,234,114,240,109,244,113,238,118,207,152,181,191,159,233,141,276,116,356,103,417"/>
+<area shape="rect" id="Node000006" href="$a05291.html#ab15b45057b7cbd26c49c52b4f42c0f00" title="Checks if the raw node set is empty." alt="" coords="254,129,437,183"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="103,416,120,368,147,309,185,248,208,219,234,194,241,189,244,193,238,198,212,223,190,251,152,312,125,370,108,417"/>
+<area shape="rect" id="Node000007" href="$a05291.html#a42f9fcfa0ba05b74396809932c2b99e0" title="Returns a mutable pointer to one past the last node in the data." alt="" coords="239,208,452,248"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="108,415,128,379,157,337,192,294,234,258,244,252,247,257,238,262,196,298,161,340,133,382,112,418"/>
+<area shape="rect" id="Node000008" href="$a05291.html#af170e7150e45bd3f219ac48d643265f3" title="Gets the first node in the collection by document order." alt="" coords="254,273,437,327"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="126,414,175,375,235,336,246,331,248,336,237,341,178,379,129,419"/>
+<area shape="rect" id="Node000010" href="$a05291.html#ad76a876ca103f59296393154f42102fd" title="Adds a node to the end of the set." alt="" coords="254,351,437,406"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="188,417,240,404,241,409,189,423"/>
+<area shape="rect" id="Node000011" href="$a05291.html#ae4874dabce6c97680fb85b886841da56" title="Adds a node to the end of the set, growing the underlying buffer if necessary." alt="" coords="503,355,685,410"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="188,439,315,431,454,415,489,408,490,413,455,420,315,436,188,444"/>
+<area shape="rect" id="Node000012" href="$a05291.html#ac580c05d74e99799e1c3bb54a7a8b98d" title="Removes duplicate nodes from the raw node set." alt="" coords="254,482,437,537"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="189,466,241,479,240,485,188,471"/>
+<area shape="rect" id="Node000014" href="$a05291.html#ae8251b3a2fc09e96b358e5e54ebd761a" title="Sets the ordering type of the raw node set." alt="" coords="254,561,437,615"/>
+<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="129,470,178,509,237,547,248,553,246,557,235,552,175,513,126,474"/>
+<area shape="rect" id="Node000015" href="$a05291.html#a79bfb95de3b0d8cae5a9467f1dd0ff7a" title="Gets the number of nodes currently in the raw node set." alt="" coords="238,640,453,680"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="112,470,133,506,161,548,196,590,238,626,247,632,244,636,234,630,192,594,157,551,128,509,108,473"/>
+<area shape="rect" id="Node000016" href="$a05291.html#ad6ba303523cd6ee4b69974a77fb9e33a" title="Sorts the raw node set in ascending document order." alt="" coords="254,705,437,759"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="108,471,125,518,152,577,190,637,212,665,238,690,244,695,241,699,234,694,208,669,185,641,147,579,120,520,103,473"/>
+<area shape="rect" id="Node000019" href="$a05291.html#aa0b1b3a0b197171b1fe48f410e127d96" title="Truncates the raw node set to a new end position." alt="" coords="254,783,437,838"/>
+<area shape="poly" id="edge21_Node000001_Node000019" title=" " alt="" coords="103,471,116,532,141,613,159,655,181,697,207,736,238,770,244,775,240,779,234,774,203,739,176,699,154,657,136,614,111,534,98,472"/>
+<area shape="rect" id="Node000020" href="$a05291.html#a5bce1d3244fd74435da34a6a2af6c190" title="Gets the current ordering type of the raw node set." alt="" coords="236,863,455,903"/>
+<area shape="poly" id="edge22_Node000001_Node000020" title=" " alt="" coords="100,472,108,547,129,648,147,702,170,756,200,805,238,849,242,853,239,857,234,853,196,808,166,758,142,704,124,650,103,547,95,472"/>
+<area shape="rect" id="Node000003" href="$a05259.html#aa2549a11a0984f0c478cb7eaf82c0caa" title="Reallocates a previously allocated block of memory." alt="" coords="733,355,912,410"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="620,146,792,343,788,347,616,149"/>
+<area shape="rect" id="Node000004" href="$a05259.html#a5b46ca174cf2a08d8ac4ed3d0b9a1a52" title="Allocates a block of memory of the specified size." alt="" coords="960,389,1139,443"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="913,393,947,398,946,404,912,399"/>
+<area shape="rect" id="Node000009" href="$a01699.html#abb9de3a45c0762f05c942cebbd27e46a" title="Retrieves the first node in document order from a range of XPath nodes." alt="" coords="519,280,669,320"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="437,297,505,297,505,303,437,303"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="437,378,489,378,489,384,437,383"/>
+<area shape="poly" id="edge11_Node000011_Node000003" title=" " alt="" coords="686,380,720,380,720,385,686,385"/>
+<area shape="poly" id="edge14_Node000012_Node000004" title=" " alt="" coords="437,487,502,475,740,443,946,422,946,428,741,449,503,480,437,492"/>
+<area shape="rect" id="Node000013" href="$a01671.html#ae10323c79b428ecefbd57549c80d093c" title=" " alt="" coords="523,489,665,529"/>
+<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="437,507,509,507,509,512,437,512"/>
+<area shape="rect" id="Node000017" href="$a01699.html#a1cda3af8de6ebb42fc0186a350a138e1" title="Sorts a range of XPath nodes by document order." alt="" coords="519,712,669,752"/>
+<area shape="poly" id="edge19_Node000016_Node000017" title=" " alt="" coords="437,729,505,729,505,735,437,735"/>
+<area shape="rect" id="Node000018" href="$a01699.html#a06d335726027c6477be96cb86f9e56ce" title="Determines the current document order of a range of XPath nodes." alt="" coords="736,712,909,752"/>
+<area shape="poly" id="edge20_Node000017_Node000018" title=" " alt="" coords="669,729,722,729,722,735,669,735"/>
+</map>

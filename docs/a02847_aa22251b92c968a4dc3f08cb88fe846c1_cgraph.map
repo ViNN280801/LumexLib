@@ -1,0 +1,14 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::init_value" name="lumex::core::expected::result::detail::storage::expected_storage::init_value">
+<area shape="rect" id="Node000001" title="The conversion of a value from a source (the class val_type is built from *rhs)." alt="" coords="5,29,224,84"/>
+<area shape="poly" id="edge7_Node000001_Node000001" title=" " alt="" coords="65,29,65,19,74,10,91,5,115,3,144,6,160,14,158,18,142,11,115,8,92,10,77,15,70,21,70,29"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="735,45,925,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,38,322,27,439,19,563,17,687,26,752,39,751,44,686,31,563,23,439,24,323,32,224,43"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="272,94,472,134"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,78,269,88,268,94,224,84"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="520,41,687,81"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="224,55,506,57,506,63,224,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="458,91,506,80,507,86,459,97"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="520,105,687,145"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="472,116,506,118,506,123,472,121"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="679,102,740,86,742,91,680,107"/>
+</map>

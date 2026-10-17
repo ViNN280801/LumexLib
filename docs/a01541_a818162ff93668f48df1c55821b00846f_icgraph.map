@@ -1,0 +1,15 @@
+<map id="lumex::core::fmt::Detail::append_number" name="lumex::core::fmt::Detail::append_number">
+<area shape="rect" id="Node000001" title="value with at least width digits, zero padded, with sign." alt="" coords="793,129,971,169"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a40ff57adf446dd2e2b97a65f9e817121" title=" " alt="" coords="568,71,745,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="789,128,735,114,736,109,791,123"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a754034de35d8ea974e37818b711109a8" title="Writes time following the checked chrono&#45;specs [it, end)." alt="" coords="343,94,520,134"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="779,143,520,123,520,118,779,138"/>
+<area shape="rect" id="Node000006" href="$a01541.html#ad543c02880402a3b7f724bbf0650fb51" title="Count of a duration as {} / Q print it." alt="" coords="343,179,520,219"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="780,163,520,192,520,187,779,158"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="555,104,520,108,520,102,554,99"/>
+<area shape="rect" id="Node000004" href="$a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,143,269,256"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="353,140,270,166,268,161,352,135"/>
+<area shape="rect" id="Node000005" href="$a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,5,295,119"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="328,98,295,91,295,86,329,92"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="329,202,269,202,269,197,329,197"/>
+</map>

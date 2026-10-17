@@ -1,0 +1,7 @@
+<map id="lumex::xml::utility::get_value_llong" name="lumex::xml::utility::get_value_llong">
+<area shape="rect" id="Node000001" title=" " alt="" coords="244,37,387,77"/>
+<area shape="rect" id="Node000002" href="$a05115.html#a1000b87b582c20c1afdde2a70a2e47aa" title="Converts the attribute&#39;s value to a long long." alt="" coords="13,5,188,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,47,188,41,189,36,231,42"/>
+<area shape="rect" id="Node000003" href="$a05187.html#a62bbd99961c455e12cf4ca0125c07e68" title="Converts the text object&#39;s value to a long long." alt="" coords="5,69,196,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,73,197,78,196,72,230,67"/>
+</map>

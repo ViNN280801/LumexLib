@@ -1,0 +1,7 @@
+<map id="lumex::applied::json::diagnostics::to_string" name="lumex::applied::json::diagnostics::to_string">
+<area shape="rect" id="Node000001" title=" " alt="" coords="411,13,580,53"/>
+<area shape="rect" id="Node000002" href="$a01442.html#ab6f3b82c767e9d70cfc7b4fad75bdf33" title="Default sink: writes [level] message to std::cerr for warning and error, drops debug and info...." alt="" coords="208,5,363,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="397,35,363,35,363,30,397,30"/>
+<area shape="rect" id="Node000003" href="$a01442.html#ad8e38666393a49d562e6873564539189" title="Concatenates parts with operator&lt;&lt; and sends the text to the installed sink, or to the default one wh..." alt="" coords="5,5,160,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="194,35,160,35,160,30,194,30"/>
+</map>

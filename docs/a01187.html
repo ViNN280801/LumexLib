@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexCrc File Reference</title>
+<title>LumexLib: LumexSerialProber.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,35 +103,186 @@ $(function(){initNavTree('a01187.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexCrc File Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexSerialProber.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue's named parameter sets.  
+<p>Bounded serial port probing: open a port, send a request and wait for a caller-defined response inside one deadline.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00350_source.html">parametric/LumexCrcParametric.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00347_source.html">catalog/LumexCrcCatalog.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01124_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexCrc:</div>
+Include dependency graph for LumexSerialProber.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01188.png" border="0" usemap="#a_lumex_crc" alt=""/></div>
+<div class="center"><img src="a01188.png" border="0" usemap="#aLumexSerialProber_8hpp" alt=""/></div>
+<map name="aLumexSerialProber_8hpp" id="aLumexSerialProber_8hpp">
+<area shape="rect" title="Bounded serial port probing: open a port, send a request and wait for a caller&#45;defined response insid..." alt="" coords="553,5,725,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,86,187,111"/>
+<area shape="poly" title=" " alt="" coords="553,31,389,53,199,81,172,86,171,81,198,76,388,47,552,26"/>
+<area shape="rect" title=" " alt="" coords="211,86,277,111"/>
+<area shape="poly" title=" " alt="" coords="553,30,428,49,358,63,290,81,283,83,282,78,289,76,357,58,427,44,552,24"/>
+<area shape="rect" title=" " alt="" coords="302,86,373,111"/>
+<area shape="poly" title=" " alt="" coords="573,33,484,54,386,81,380,83,378,78,385,76,483,49,572,28"/>
+<area shape="rect" title=" " alt="" coords="397,86,464,111"/>
+<area shape="poly" title=" " alt="" coords="603,33,477,81,472,83,470,78,475,76,601,28"/>
+<area shape="rect" title=" " alt="" coords="489,86,575,111"/>
+<area shape="poly" title=" " alt="" coords="623,33,561,80,558,76,620,29"/>
+<area shape="rect" title=" " alt="" coords="600,86,677,111"/>
+<area shape="poly" title=" " alt="" coords="641,31,641,72,636,72,636,31"/>
+<area shape="rect" title=" " alt="" coords="701,86,760,111"/>
+<area shape="poly" title=" " alt="" coords="655,29,707,75,704,79,652,33"/>
+<area shape="rect" title=" " alt="" coords="785,86,847,111"/>
+<area shape="poly" title=" " alt="" coords="668,28,777,78,774,83,666,33"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="872,79,1061,119"/>
+<area shape="poly" title=" " alt="" coords="691,28,872,73,871,78,690,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1119,167,1332,207"/>
+<area shape="poly" title=" " alt="" coords="725,22,917,43,1009,58,1074,76,1102,94,1127,117,1185,157,1182,161,1124,121,1099,99,1072,81,1008,63,917,48,725,27"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1137,79,1391,119"/>
+<area shape="poly" title=" " alt="" coords="725,26,1118,76,1123,77,1122,82,1117,81,724,31"/>
+<area shape="rect" title=" " alt="" coords="723,174,815,199"/>
+<area shape="poly" title=" " alt="" coords="922,121,812,171,809,166,920,116"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="839,167,1094,207"/>
+<area shape="poly" title=" " alt="" coords="969,119,969,153,964,153,964,119"/>
+<area shape="poly" title=" " alt="" coords="1027,116,1154,160,1153,165,1025,121"/>
+<area shape="poly" title=" " alt="" coords="1257,120,1242,155,1237,153,1253,118"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01189.png" border="0" usemap="#a_lumex_crcdep" alt=""/></div>
+<div class="center"><img src="a01189.png" border="0" usemap="#aLumexSerialProber_8hppdep" alt=""/></div>
+<map name="aLumexSerialProber_8hppdep" id="aLumexSerialProber_8hppdep">
+<area shape="rect" title="Bounded serial port probing: open a port, send a request and wait for a caller&#45;defined response insid..." alt="" coords="429,5,601,31"/>
+<area shape="rect" href="a01346.html" title="Serial port module: lists serial ports with device details, turns a configuration&#45;style port name int..." alt="" coords="118,79,247,104"/>
+<area shape="poly" title=" " alt="" coords="445,36,241,81,240,76,443,31"/>
+<area shape="rect" href="a01199.html" title=" " alt="" coords="271,79,510,104"/>
+<area shape="poly" title=" " alt="" coords="482,40,414,81,411,76,480,36"/>
+<area shape="rect" href="a01175.html" title="Internal deadline engine of the serial prober." alt="" coords="534,79,746,104"/>
+<area shape="poly" title=" " alt="" coords="549,35,619,76,617,81,547,40"/>
+<area shape="rect" href="a01172.html" title=" " alt="" coords="625,152,796,177"/>
+<area shape="poly" title=" " alt="" coords="615,28,702,47,737,60,759,77,765,87,766,98,759,119,744,138,728,154,725,150,740,135,754,116,760,97,760,89,755,80,734,65,700,52,614,33"/>
+<area shape="rect" href="a00305.html" title=" " alt="" coords="5,152,155,177"/>
+<area shape="poly" title=" " alt="" coords="155,114,100,154,96,150,152,110"/>
+<area shape="rect" href="a00308.html" title=" " alt="" coords="179,152,394,177"/>
+<area shape="poly" title=" " alt="" coords="213,110,270,150,267,154,210,114"/>
+<area shape="poly" title=" " alt="" coords="664,112,700,150,696,153,660,116"/>
+</map>
 </div>
 </div>
 <p><a href="a01187_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01851.html">lumex::applied::serial::probe::serial_port_settings_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serial port settings applied when the port is opened.  <a href="a01851.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01855.html">lumex::applied::serial::probe::serial_probe_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of one <code><a class="el" href="a01867.html#a845214e6e33fa487163f38e3b13ee1ec" title="Opens the port when needed, sends request and collects the response until response_complete confirms ...">SerialProber::probe</a></code> call.  <a href="a01855.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01859.html">lumex::applied::serial::probe::serial_io_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code><a class="el" href="a01867.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline.">SerialProber::open</a></code> and <code><a class="el" href="a01867.html#a5d84b61824813951c20b4fed25b8cdab" title="Writes every byte of data or stops at the deadline.">SerialProber::write</a></code>.  <a href="a01859.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01863.html">lumex::applied::serial::probe::serial_read_result_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code><a class="el" href="a01867.html#a2bec366a058baf6a1573254d30bce52e" title="Reads once: returns as soon as at least one byte is available or the deadline expires.">SerialProber::read</a></code>.  <a href="a01863.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01867.html">lumex::applied::serial::probe::SerialProber</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RAII session that opens one serial port in bounded time, sends a request and waits for the device response.  <a href="a01867.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01464.html">lumex::applied::serial</a></td></tr>
+<tr class="memdesc:a01464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01470.html">lumex::applied::serial::probe</a></td></tr>
+<tr class="memdesc:a01470"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bounded probing of the device behind a serial port. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01474.html">lumex::applied::serial::probe::Constants</a></td></tr>
+<tr class="memdesc:a01474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time defaults of the probe contract. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a35e8dd720e7d47783713bb668ff52984" id="r_a35e8dd720e7d47783713bb668ff52984"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01470.html#a35e8dd720e7d47783713bb668ff52984">lumex::applied::serial::probe::serial_parity</a> { <br />
+&#160;&#160;<a class="el" href="a01470.html#a35e8dd720e7d47783713bb668ff52984a334c4a4c42fdb79d7ebc3e73b517e6f8">lumex::applied::serial::probe::none</a>
+, <a class="el" href="a01470.html#a35e8dd720e7d47783713bb668ff52984aa2b6f2a6066ed8700d83335fc50a2b8e">lumex::applied::serial::probe::odd</a>
+, <a class="el" href="a01470.html#a35e8dd720e7d47783713bb668ff52984acc935c5faf4c8f7a0468d7552a9b8138">lumex::applied::serial::probe::even</a>
+, <a class="el" href="a01470.html#a35e8dd720e7d47783713bb668ff52984aea82410c7a9991816b5eeeebe195e20a">lumex::applied::serial::probe::mark</a>
+, <br />
+&#160;&#160;<a class="el" href="a01470.html#a35e8dd720e7d47783713bb668ff52984aff2364a0be3d20e46cc69efb36afe9a5">lumex::applied::serial::probe::space</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a35e8dd720e7d47783713bb668ff52984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parity the prober configures on the port.  <a href="a01470.html#a35e8dd720e7d47783713bb668ff52984">More...</a><br /></td></tr>
+<tr class="separator:a35e8dd720e7d47783713bb668ff52984"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ba3046381db5b1676afe71b6c30b8b9" id="r_a9ba3046381db5b1676afe71b6c30b8b9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01470.html#a9ba3046381db5b1676afe71b6c30b8b9">lumex::applied::serial::probe::serial_stop_bits</a> { <a class="el" href="a01470.html#a9ba3046381db5b1676afe71b6c30b8b9af97c5d29941bfb1b2fdab0874906ab82">lumex::applied::serial::probe::one</a>
+, <a class="el" href="a01470.html#a9ba3046381db5b1676afe71b6c30b8b9a63c7d2efed06075d832f32fb99fd1fc0">lumex::applied::serial::probe::one_point_five</a>
+, <a class="el" href="a01470.html#a9ba3046381db5b1676afe71b6c30b8b9ab8a9f715dbb64fd5c56e7783c6820a61">lumex::applied::serial::probe::two</a>
+ }</td></tr>
+<tr class="memdesc:a9ba3046381db5b1676afe71b6c30b8b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of stop bits the prober configures on the port.  <a href="a01470.html#a9ba3046381db5b1676afe71b6c30b8b9">More...</a><br /></td></tr>
+<tr class="separator:a9ba3046381db5b1676afe71b6c30b8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e8605a2bfad8a67a50ee15f4825c474" id="r_a8e8605a2bfad8a67a50ee15f4825c474"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01470.html#a8e8605a2bfad8a67a50ee15f4825c474">lumex::applied::serial::probe::serial_flow_control</a> { <a class="el" href="a01470.html#a8e8605a2bfad8a67a50ee15f4825c474a334c4a4c42fdb79d7ebc3e73b517e6f8">lumex::applied::serial::probe::none</a>
+, <a class="el" href="a01470.html#a8e8605a2bfad8a67a50ee15f4825c474af9fa10ba956cacf91d7878861139efb9">lumex::applied::serial::probe::software</a>
+, <a class="el" href="a01470.html#a8e8605a2bfad8a67a50ee15f4825c474a3ca14c518d1bf901acc339e7c9cd6d7f">lumex::applied::serial::probe::hardware</a>
+ }</td></tr>
+<tr class="memdesc:a8e8605a2bfad8a67a50ee15f4825c474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flow control the prober configures on the port.  <a href="a01470.html#a8e8605a2bfad8a67a50ee15f4825c474">More...</a><br /></td></tr>
+<tr class="separator:a8e8605a2bfad8a67a50ee15f4825c474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56c2aa18ee561595757e875c8f3a3887" id="r_a56c2aa18ee561595757e875c8f3a3887"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01470.html#a56c2aa18ee561595757e875c8f3a3887">lumex::applied::serial::probe::serial_probe_status</a> { <br />
+&#160;&#160;<a class="el" href="a01470.html#a56c2aa18ee561595757e875c8f3a3887ac73f9961000ace6c1fad4bf49de0e2b0">lumex::applied::serial::probe::responded</a>
+, <a class="el" href="a01470.html#a56c2aa18ee561595757e875c8f3a3887a5ed4e9858ad8d239145ef285b6210a00">lumex::applied::serial::probe::incomplete</a>
+, <a class="el" href="a01470.html#a56c2aa18ee561595757e875c8f3a3887a97829ffd5428c3a65d31acec100e97c3">lumex::applied::serial::probe::no_response</a>
+, <a class="el" href="a01470.html#a56c2aa18ee561595757e875c8f3a3887a91bb35dd8a98943a124f49b6d9ff907e">lumex::applied::serial::probe::open_timeout</a>
+, <br />
+&#160;&#160;<a class="el" href="a01470.html#a56c2aa18ee561595757e875c8f3a3887a93ac46772777323b172bbf1299ef96a6">lumex::applied::serial::probe::open_failed</a>
+, <a class="el" href="a01470.html#a56c2aa18ee561595757e875c8f3a3887acccc32f2a5f7dc7b87d2f85daea66789">lumex::applied::serial::probe::io_error</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a56c2aa18ee561595757e875c8f3a3887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outcome of one <code>SerialProber::probe</code> call.  <a href="a01470.html#a56c2aa18ee561595757e875c8f3a3887">More...</a><br /></td></tr>
+<tr class="separator:a56c2aa18ee561595757e875c8f3a3887"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa79b632754bb66e98b34740d10fe1108" id="r_aa79b632754bb66e98b34740d10fe1108"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01470.html#aa79b632754bb66e98b34740d10fe1108">lumex::applied::serial::probe::serial_io_status</a> { <a class="el" href="a01470.html#aa79b632754bb66e98b34740d10fe1108a444bcb3a3fcf8389296c49467f27e1d6">lumex::applied::serial::probe::ok</a>
+, <a class="el" href="a01470.html#aa79b632754bb66e98b34740d10fe1108a3cef844c7982c2acb28d67b35e5bacc7">lumex::applied::serial::probe::deadline_exceeded</a>
+, <a class="el" href="a01470.html#aa79b632754bb66e98b34740d10fe1108a26934eb377001f66e37289a5c93fe284">lumex::applied::serial::probe::failed</a>
+, <a class="el" href="a01470.html#aa79b632754bb66e98b34740d10fe1108a6b1a77eefb001009d87f53a6ab0f94cf">lumex::applied::serial::probe::not_open</a>
+ }</td></tr>
+<tr class="memdesc:aa79b632754bb66e98b34740d10fe1108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outcome of <code>SerialProber::open</code>, <code>write</code> and <code>read</code>.  <a href="a01470.html#aa79b632754bb66e98b34740d10fe1108">More...</a><br /></td></tr>
+<tr class="separator:aa79b632754bb66e98b34740d10fe1108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a9e0fd1a76f5f73871121c1cb4ba1881d" id="r_a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01474.html#a9e0fd1a76f5f73871121c1cb4ba1881d">lumex::applied::serial::probe::Constants::KDEFAULT_PROBE_DEADLINE_MS</a> = 500U</td></tr>
+<tr class="memdesc:a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default overall probe deadline in milliseconds.  <br /></td></tr>
+<tr class="separator:a9e0fd1a76f5f73871121c1cb4ba1881d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a986ffb1746dc1de359d5f8d07b163b1d" id="r_a986ffb1746dc1de359d5f8d07b163b1d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01474.html#a986ffb1746dc1de359d5f8d07b163b1d">lumex::applied::serial::probe::Constants::KDEFAULT_PROBE_MAX_RESPONSE_BYTES</a> = 8192U</td></tr>
+<tr class="memdesc:a986ffb1746dc1de359d5f8d07b163b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default cap of the collected response, in bytes.  <br /></td></tr>
+<tr class="separator:a986ffb1746dc1de359d5f8d07b163b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC module: parametric CRC engines in the notation of the CRC RevEng catalogue, and the catalogue's named parameter sets. </p>
-<p>Link <code>lumex::crc</code> (compiled library; it links <code>lumex::span</code> and <code>lumex::string_view</code>). Works from C++11. The library itself is compiled as C++11 (below C++17 it also defines the static members of the specs that a consumer odr-uses), and the exported functions take only fundamental types, <code>std::vector</code> and the span of <code><a class="el" href="a01387.html" title="The span module: a non-owning view of a contiguous sequence.">lumex::core::span</a></code>, so a consumer of any standard links it. A parametric algorithm builds its lookup table at compile time from C++14 and on first use in C++11. The byte-taking functions accept a pointer and a size, a <code>std::vector</code>, a <code><a class="el" href="a03850.html" title="A non-owning view of a contiguous sequence of objects.">lumex::core::span::view::span</a></code> (a <code>std::span</code> converts to it) and, where the catalogue has it, a string: the <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> of <code>lumex::string_view</code> in every standard (a string literal, a <code>char const *</code> and a <code>std::string</code> convert to it, and from C++17 so does a <code>std::string_view</code>). The umbrella includes <code><a class="el" href="a00350.html" title="Header-only CRC engines for every algorithm of the CRC RevEng catalogue up to 64 bits.">parametric/LumexCrcParametric.hpp</a></code> and <code><a class="el" href="a00347.html" title="Run-time CRC computation by catalogue index or by explicit parameters, and the process-wide 8-bit tra...">catalog/LumexCrcCatalog.hpp</a></code>. </p>
+<div class="textblock"><p>Bounded serial port probing: open a port, send a request and wait for a caller-defined response inside one deadline. </p>
+<p>Declares the <code>SerialProber</code> session class and its result types. Every open, write and read is bounded by a caller-supplied deadline (default <code>Constants::KDEFAULT_PROBE_DEADLINE_MS</code>); the class never waits past it, including on Windows virtual COM ports whose open blocks inside <code>CreateFile</code> (a paired but disconnected Bluetooth SPP/LE device). The response is collected until the caller's predicate confirms it, the response cap is reached or the deadline expires.</p>
+<p>The class is a move-only RAII session and is not thread-safe. Link <code>lumex::serial</code> (compiled library). Works from C++11. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_151da19bde5d804ceec895a888706424.html">crc</a></li><li class="navelem"><a class="el" href="a01187.html">LumexCrc</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_0eb40f4dc310d2549676f4667bcb916d.html">probe</a></li><li class="navelem"><a class="el" href="a01187.html">LumexSerialProber.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

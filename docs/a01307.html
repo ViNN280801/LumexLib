@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::settings::json Namespace Reference</title>
+<title>LumexLib: LumexProcessDetail.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,29 +104,216 @@ $(function(){initNavTree('a01307.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::settings::json Namespace Reference</div></div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexProcessDetail.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Text parsers for Linux <code>/proc/&lt;pid&gt;</code> files, the executable name rules and the process tree rules of <code><a class="el" href="a06592.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01391_source.html">lumex/core/optional/LumexOptional</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01406_source.html">lumex/core/string_view/LumexStringView</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01124_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for LumexProcessDetail.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01308.png" border="0" usemap="#aLumexProcessDetail_8hpp" alt=""/></div>
+<map name="aLumexProcessDetail_8hpp" id="aLumexProcessDetail_8hpp">
+<area shape="rect" title="Text parsers for Linux /proc/&lt;pid&gt; files, the executable name rules and the process tree rules of Lum..." alt="" coords="1114,5,1297,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,86,187,111"/>
+<area shape="poly" title=" " alt="" coords="1114,23,718,38,463,56,206,81,172,86,171,81,205,76,463,50,718,33,1114,17"/>
+<area shape="rect" title=" " alt="" coords="262,438,333,463"/>
+<area shape="poly" title=" " alt="" coords="1114,23,935,35,832,46,730,62,638,83,562,111,533,127,512,145,498,165,493,187,493,275,489,304,478,330,461,354,440,376,392,410,345,435,343,430,390,406,437,372,457,351,473,328,484,302,488,274,488,186,493,163,508,142,530,123,560,106,636,78,729,56,831,41,935,29,1114,18"/>
+<area shape="rect" title=" " alt="" coords="1309,438,1376,463"/>
+<area shape="poly" title=" " alt="" coords="1212,30,1231,97,1239,141,1243,187,1243,275,1245,297,1251,320,1270,362,1296,398,1321,426,1317,430,1292,401,1266,364,1246,321,1240,298,1237,275,1237,187,1234,142,1226,98,1207,32"/>
+<area shape="rect" title=" " alt="" coords="341,526,400,551"/>
+<area shape="poly" title=" " alt="" coords="1114,22,999,27,857,38,702,55,547,81,491,89,434,90,330,90,288,97,255,113,243,125,234,141,229,161,227,187,227,363,228,420,235,443,251,469,268,487,288,501,329,523,327,527,285,506,264,491,247,472,230,445,223,421,221,363,221,187,223,160,229,139,239,122,252,108,286,92,330,85,434,85,490,83,546,76,701,50,857,32,999,22,1114,17"/>
+<area shape="rect" title=" " alt="" coords="1505,86,1567,111"/>
+<area shape="poly" title=" " alt="" coords="1280,28,1379,48,1486,76,1494,79,1492,84,1485,81,1378,53,1279,33"/>
+<area shape="rect" href="a01391.html" title="Optional module: a C++11 implementation of the C++17 std::optional with the C++23 monadic operations." alt="" coords="1277,79,1429,119"/>
+<area shape="poly" title=" " alt="" coords="1230,29,1306,70,1303,74,1228,33"/>
+<area shape="rect" href="a01406.html" title="String view module: the C++11 implementation of std::string_view and its relatives,..." alt="" coords="914,167,1089,207"/>
+<area shape="poly" title=" " alt="" coords="1192,33,1038,160,1035,156,1188,29"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="2166,167,2421,207"/>
+<area shape="poly" title=" " alt="" coords="1289,28,1365,47,1443,76,1458,87,1469,98,1479,108,1494,116,1531,125,1592,133,1765,150,2152,176,2152,182,1765,156,1591,139,1530,130,1492,121,1476,112,1465,101,1455,91,1440,81,1363,52,1287,33"/>
+<area shape="rect" href="a00986.html" title="The global names of the optional module: optional, nullopt, make_optional and lumex_bad_optional_acce..." alt="" coords="1643,174,1866,199"/>
+<area shape="poly" title=" " alt="" coords="1430,113,1684,168,1683,174,1429,118"/>
+<area shape="rect" href="a00989.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type&#45;safe nullab..." alt="" coords="1981,255,2160,295"/>
+<area shape="poly" title=" " alt="" coords="1801,197,1986,248,1985,254,1800,202"/>
+<area shape="rect" title=" " alt="" coords="1451,438,1538,463"/>
+<area shape="poly" title=" " alt="" coords="2000,297,1798,356,1551,433,1543,436,1541,431,1550,428,1796,351,1999,292"/>
+<area shape="rect" title=" " alt="" coords="2286,438,2397,463"/>
+<area shape="poly" title=" " alt="" coords="2110,292,2193,340,2315,427,2312,432,2191,345,2108,297"/>
+<area shape="rect" title=" " alt="" coords="1825,526,1917,551"/>
+<area shape="poly" title=" " alt="" coords="1981,286,1839,303,1675,333,1598,352,1530,376,1476,402,1456,417,1442,432,1434,451,1436,460,1442,469,1487,481,1587,498,1811,529,1811,534,1586,503,1486,487,1438,473,1431,462,1429,451,1438,429,1453,413,1473,398,1528,371,1596,347,1674,328,1838,298,1981,280"/>
+<area shape="rect" title=" " alt="" coords="2421,438,2481,463"/>
+<area shape="poly" title=" " alt="" coords="2130,292,2184,314,2239,340,2267,360,2295,380,2352,406,2410,428,2414,430,2412,435,2408,433,2350,411,2292,385,2264,365,2236,345,2182,319,2128,297"/>
+<area shape="rect" title=" " alt="" coords="2305,350,2380,375"/>
+<area shape="poly" title=" " alt="" coords="2137,292,2288,340,2296,343,2294,348,2286,345,2136,297"/>
+<area shape="rect" href="a00995.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f..." alt="" coords="1962,343,2179,383"/>
+<area shape="poly" title=" " alt="" coords="2073,295,2073,329,2068,329,2068,295"/>
+<area shape="rect" href="a00992.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,..." alt="" coords="1665,431,1871,471"/>
+<area shape="poly" title=" " alt="" coords="2036,297,1952,345,1815,426,1812,421,1949,340,2034,292"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="2004,519,2217,559"/>
+<area shape="poly" title=" " alt="" coords="2161,279,2274,299,2335,316,2393,340,2428,358,2455,374,2477,396,2496,430,2503,451,2502,462,2495,472,2478,487,2453,499,2388,517,2310,529,2232,536,2231,531,2309,524,2387,512,2451,494,2475,482,2491,469,2497,460,2498,452,2491,432,2472,399,2452,378,2426,362,2391,345,2333,321,2273,304,2160,284"/>
+<area shape="poly" title=" " alt="" coords="1962,373,1769,394,1659,411,1551,433,1541,436,1539,431,1550,428,1659,406,1769,388,1962,367"/>
+<area shape="poly" title=" " alt="" coords="2133,380,2290,431,2288,436,2132,385"/>
+<area shape="poly" title=" " alt="" coords="2087,382,2098,402,2106,425,2108,450,2099,472,2072,492,2030,508,1931,532,1929,526,2028,503,2070,487,2095,469,2103,449,2101,426,2093,404,2082,384"/>
+<area shape="poly" title=" " alt="" coords="2180,375,2292,396,2410,428,2415,430,2413,435,2409,433,2291,401,2179,380"/>
+<area shape="rect" title=" " alt="" coords="2161,438,2210,463"/>
+<area shape="poly" title=" " alt="" coords="2099,381,2160,428,2157,432,2096,385"/>
+<area shape="rect" title=" " alt="" coords="1563,438,1640,463"/>
+<area shape="poly" title=" " alt="" coords="1962,377,1815,399,1734,414,1654,433,1645,436,1643,431,1653,428,1732,409,1814,393,1961,372"/>
+<area shape="poly" title=" " alt="" coords="2002,385,1851,429,1850,424,2001,380"/>
+<area shape="poly" title=" " alt="" coords="2161,380,2196,400,2225,429,2232,450,2225,472,2205,496,2181,514,2177,510,2202,492,2220,469,2227,450,2220,432,2193,404,2158,385"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1896,431,2085,471"/>
+<area shape="poly" title=" " alt="" coords="2054,385,2020,422,2016,419,2050,381"/>
+<area shape="poly" title=" " alt="" coords="1665,472,1652,473,1467,492,1277,507,912,527,608,537,414,541,414,536,607,532,912,521,1277,501,1466,486,1652,468,1664,467"/>
+<area shape="rect" title=" " alt="" coords="1058,526,1145,551"/>
+<area shape="poly" title=" " alt="" coords="1665,471,1652,473,1376,510,1159,535,1158,530,1375,505,1652,468,1664,466"/>
+<area shape="poly" title=" " alt="" coords="1847,468,2020,513,2019,518,1846,473"/>
+<area shape="poly" title=" " alt="" coords="1964,473,1901,520,1897,516,1961,469"/>
+<area shape="poly" title=" " alt="" coords="2020,469,2074,508,2070,512,2017,473"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1421,519,1675,559"/>
+<area shape="poly" title=" " alt="" coords="1896,472,1663,519,1662,513,1895,467"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="851,350,1085,375"/>
+<area shape="poly" title=" " alt="" coords="1000,207,976,337,970,336,995,206"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="1005,262,1203,287"/>
+<area shape="poly" title=" " alt="" coords="1027,205,1080,251,1077,255,1023,209"/>
+<area shape="rect" href="a00860.html" title="lumex_wstring_view: the view over wchar_t, the std::wstring_view of the library from C++11." alt="" coords="720,262,931,287"/>
+<area shape="poly" title=" " alt="" coords="962,209,864,258,862,254,960,204"/>
+<area shape="poly" title=" " alt="" coords="851,370,744,377,619,389,485,407,353,433,342,436,340,431,351,428,484,402,618,384,744,372,851,365"/>
+<area shape="poly" title=" " alt="" coords="1046,373,1162,396,1291,428,1300,431,1299,436,1290,433,1161,401,1045,378"/>
+<area shape="poly" title=" " alt="" coords="851,372,577,395,459,413,420,422,398,433,385,450,377,470,372,513,366,512,371,469,380,447,394,429,418,417,458,407,577,390,851,367"/>
+<area shape="poly" title=" " alt="" coords="1051,373,1388,428,1438,437,1437,442,1388,433,1050,378"/>
+<area shape="poly" title=" " alt="" coords="1030,373,1111,395,1197,428,1214,439,1226,450,1238,459,1254,468,1811,529,1811,535,1253,473,1235,464,1222,454,1211,443,1195,433,1109,400,1029,378"/>
+<area shape="poly" title=" " alt="" coords="1085,365,1186,372,1303,384,1428,402,1551,428,1561,431,1559,436,1550,433,1427,408,1303,389,1186,377,1085,370"/>
+<area shape="poly" title=" " alt="" coords="963,377,954,396,946,420,944,446,952,469,970,490,993,506,1046,527,1044,532,991,511,967,494,947,472,939,447,941,419,949,394,958,374"/>
+<area shape="poly" title=" " alt="" coords="1056,373,1148,394,1197,409,1244,428,1260,439,1271,450,1282,460,1298,468,1357,484,1432,494,1610,505,1790,510,1930,516,1991,522,1990,527,1929,521,1790,515,1610,511,1432,500,1356,489,1296,473,1279,464,1268,453,1257,443,1241,433,1195,414,1147,399,1055,378"/>
+<area shape="poly" title=" " alt="" coords="1085,365,1438,385,1658,403,1883,428,1882,433,1657,408,1437,390,1085,370"/>
+<area shape="poly" title=" " alt="" coords="969,375,972,422,980,448,995,469,1014,478,1050,487,1154,504,1407,527,1406,532,1153,509,1048,492,1013,483,992,473,975,450,967,423,964,376"/>
+<area shape="rect" title=" " alt="" coords="1005,438,1072,463"/>
+<area shape="poly" title=" " alt="" coords="981,374,1022,425,1018,429,976,377"/>
+<area shape="rect" title=" " alt="" coords="1097,438,1183,463"/>
+<area shape="poly" title=" " alt="" coords="994,373,1104,429,1102,434,992,378"/>
+<area shape="rect" title=" " alt="" coords="409,438,450,463"/>
+<area shape="poly" title=" " alt="" coords="851,375,635,399,534,415,462,433,460,434,458,429,461,428,533,410,634,394,851,370"/>
+<area shape="rect" title=" " alt="" coords="474,438,545,463"/>
+<area shape="poly" title=" " alt="" coords="851,377,709,398,632,414,557,433,550,435,548,430,555,428,631,409,708,393,850,372"/>
+<area shape="rect" title=" " alt="" coords="569,438,645,463"/>
+<area shape="poly" title=" " alt="" coords="893,378,781,401,657,433,649,436,648,431,655,428,780,396,892,373"/>
+<area shape="rect" title=" " alt="" coords="669,438,758,463"/>
+<area shape="poly" title=" " alt="" coords="931,378,770,433,763,436,761,431,768,428,929,373"/>
+<area shape="rect" title=" " alt="" coords="782,438,879,463"/>
+<area shape="poly" title=" " alt="" coords="949,378,863,433,860,428,946,373"/>
+<area shape="poly" title=" " alt="" coords="1085,290,1001,345,998,340,1082,285"/>
+<area shape="poly" title=" " alt="" coords="848,285,937,340,934,345,845,290"/>
+<area shape="poly" title=" " alt="" coords="2332,204,2407,252,2448,284,2486,318,2516,356,2534,395,2538,415,2536,434,2529,454,2517,473,2503,481,2479,489,2409,504,2232,529,2231,524,2408,499,2478,484,2501,476,2513,469,2525,451,2531,433,2532,415,2529,396,2511,359,2482,322,2444,288,2404,256,2329,209"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01309.png" border="0" usemap="#aLumexProcessDetail_8hppdep" alt=""/></div>
+<map name="aLumexProcessDetail_8hppdep" id="aLumexProcessDetail_8hppdep">
+<area shape="rect" title="Text parsers for Linux /proc/&lt;pid&gt; files, the executable name rules and the process tree rules of Lum..." alt="" coords="111,5,293,31"/>
+<area shape="rect" href="a01304.html" title=" " alt="" coords="5,79,188,104"/>
+<area shape="poly" title=" " alt="" coords="174,41,117,81,114,76,171,36"/>
+<area shape="rect" href="a01301.html" title=" " alt="" coords="212,79,403,104"/>
+<area shape="poly" title=" " alt="" coords="233,36,290,76,287,81,230,41"/>
+</map>
+</div>
+</div>
+<p><a href="a01307_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01308.html">Constants</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01738.html">LumexSettingsJSON</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lightweight, C++11-based JSON settings manager.  <a href="a01738.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01779.html">lumex::applied::resource_monitor::process::detail::proc_pid_stat_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The fields of <code>/proc/&lt;pid&gt;/stat</code> the monitor needs.  <a href="a01779.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01783.html">lumex::applied::resource_monitor::process::detail::proc_pid_status_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The memory fields of <code>/proc/&lt;pid&gt;/status</code> the monitor needs.  <a href="a01783.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01787.html">lumex::applied::resource_monitor::process::detail::process_link_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One process and its parent, as the process tree rules need them.  <a href="a01787.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01791.html">lumex::applied::resource_monitor::process::detail::process_tree_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A process and every process below it.  <a href="a01791.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01454.html">lumex::applied::resource_monitor</a></td></tr>
+<tr class="memdesc:a01454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background system-resource (CPU/RAM) sampling utilities. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01460.html">lumex::applied::resource_monitor::process</a></td></tr>
+<tr class="memdesc:a01460"><td class="mdescLeft">&#160;</td><td class="mdescRight">CPU and RAM of single processes. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html">lumex::applied::resource_monitor::process::detail</a></td></tr>
+<tr class="memdesc:a01461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation details of <code><a class="el" href="a01823.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code>, public only for its tests. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a4732c0dcb60b25cb92c642d4545ea018" id="r_a4732c0dcb60b25cb92c642d4545ea018"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#a4732c0dcb60b25cb92c642d4545ea018">lumex::applied::resource_monitor::process::detail::process_id_t</a> = std::uint32_t</td></tr>
+<tr class="memdesc:a4732c0dcb60b25cb92c642d4545ea018"><td class="mdescLeft">&#160;</td><td class="mdescRight">A process ID (<code>DWORD</code> on Windows, <code>pid_t</code> on POSIX).  <br /></td></tr>
+<tr class="separator:a4732c0dcb60b25cb92c642d4545ea018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab97f8f8bddf5fcda9df7dd830459706d" id="r_ab97f8f8bddf5fcda9df7dd830459706d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00986.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; <a class="el" href="a01779.html">proc_pid_stat_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#ab97f8f8bddf5fcda9df7dd830459706d">lumex::applied::resource_monitor::process::detail::parse_proc_pid_stat</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> text)</td></tr>
+<tr class="memdesc:ab97f8f8bddf5fcda9df7dd830459706d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the text of <code>/proc/&lt;pid&gt;/stat</code>.  <br /></td></tr>
+<tr class="separator:ab97f8f8bddf5fcda9df7dd830459706d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfd03a410a583bd4d98d8452b164f802" id="r_abfd03a410a583bd4d98d8452b164f802"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01783.html">proc_pid_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#abfd03a410a583bd4d98d8452b164f802">lumex::applied::resource_monitor::process::detail::parse_proc_pid_status</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> text)</td></tr>
+<tr class="memdesc:abfd03a410a583bd4d98d8452b164f802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the text of <code>/proc/&lt;pid&gt;/status</code>.  <br /></td></tr>
+<tr class="separator:abfd03a410a583bd4d98d8452b164f802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a338216e93dcc183c0b94bcc5f00f0579" id="r_a338216e93dcc183c0b94bcc5f00f0579"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#a338216e93dcc183c0b94bcc5f00f0579">lumex::applied::resource_monitor::process::detail::executable_name</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> link_target)</td></tr>
+<tr class="memdesc:a338216e93dcc183c0b94bcc5f00f0579"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file name of a <code>/proc/&lt;pid&gt;/exe</code> link target.  <br /></td></tr>
+<tr class="separator:a338216e93dcc183c0b94bcc5f00f0579"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fdc61ad2fd0b3708f639104d5888ca3" id="r_a1fdc61ad2fd0b3708f639104d5888ca3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00986.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#a1fdc61ad2fd0b3708f639104d5888ca3">lumex::applied::resource_monitor::process::detail::first_argument_name</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> cmdline)</td></tr>
+<tr class="memdesc:a1fdc61ad2fd0b3708f639104d5888ca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file name of the first argument in a <code>/proc/&lt;pid&gt;/cmdline</code> text.  <br /></td></tr>
+<tr class="separator:a1fdc61ad2fd0b3708f639104d5888ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab85d8b416a2ab829a4f6ab529a0fb87c" id="r_ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#ab85d8b416a2ab829a4f6ab529a0fb87c">lumex::applied::resource_monitor::process::detail::linux_name_matches</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> requested, <a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> name, bool name_is_comm)</td></tr>
+<tr class="memdesc:ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Linux name rule: does a process named <code class="param">name</code> match the requested name?  <br /></td></tr>
+<tr class="separator:ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa17a3f0aaa3c95a1ed09133d4d7e7a02" id="r_aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a01461.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#aa17a3f0aaa3c95a1ed09133d4d7e7a02">lumex::applied::resource_monitor::process::detail::descendants_of</a> (<a class="el" href="a01461.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> root, std::vector&lt; <a class="el" href="a01787.html">process_link_t</a> &gt; const &amp;links)</td></tr>
+<tr class="memdesc:aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every process below one process: its children, their children, and so on.  <br /></td></tr>
+<tr class="separator:aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab09c4e1b3214362a5927245f139cad05" id="r_ab09c4e1b3214362a5927245f139cad05"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a01791.html">process_tree_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#ab09c4e1b3214362a5927245f139cad05">lumex::applied::resource_monitor::process::detail::process_trees</a> (std::vector&lt; <a class="el" href="a01461.html#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt; const &amp;roots, std::vector&lt; <a class="el" href="a01787.html">process_link_t</a> &gt; const &amp;links)</td></tr>
+<tr class="memdesc:ab09c4e1b3214362a5927245f139cad05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Groups processes into trees, so that every process is counted once.  <br /></td></tr>
+<tr class="separator:ab09c4e1b3214362a5927245f139cad05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed847477a88ce98cee280fdd2732ab07" id="r_aed847477a88ce98cee280fdd2732ab07"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#aed847477a88ce98cee280fdd2732ab07">lumex::applied::resource_monitor::process::detail::windows_name_matches</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> requested, <a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> name)</td></tr>
+<tr class="memdesc:aed847477a88ce98cee280fdd2732ab07"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Windows name rule: equal without regard to ASCII case, with or without <code>.exe</code> on either side.  <br /></td></tr>
+<tr class="separator:aed847477a88ce98cee280fdd2732ab07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad2529eaee467605722c3e72490f3ac7f" id="r_ad2529eaee467605722c3e72490f3ac7f"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01461.html#ad2529eaee467605722c3e72490f3ac7f">lumex::applied::resource_monitor::process::detail::KCOMM_LENGTH</a> = 15</td></tr>
+<tr class="memdesc:ad2529eaee467605722c3e72490f3ac7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The length the Linux kernel cuts a process's <code>comm</code> to.  <br /></td></tr>
+<tr class="separator:ad2529eaee467605722c3e72490f3ac7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Text parsers for Linux <code>/proc/&lt;pid&gt;</code> files, the executable name rules and the process tree rules of <code><a class="el" href="a06592.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code>. </p>
+<p>Pure functions on text and on lists of process links, so they work, and are tested, on any platform; the monitor applies the Linux ones on Linux and the Windows one on Windows. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01300.html">settings</a></li><li class="navelem"><a class="el" href="a01307.html">json</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_f9152e2f803c7072c4cc804ced04476e.html">resource_monitor</a></li><li class="navelem"><a class="el" href="dir_7e4aa1d3c3df06d6268652f90de54db3.html">process</a></li><li class="navelem"><a class="el" href="dir_09c476a83a24c12acac03c80c930ad42.html">detail</a></li><li class="navelem"><a class="el" href="a01307.html">LumexProcessDetail.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

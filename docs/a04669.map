@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::traits::meta::is_derived_from&lt; Derived, Base &gt;" name="lumex::core::utility::traits::meta::is_derived_from&lt; Derived, Base &gt;">
+<area shape="rect" id="Node000001" title="Derived is derived from Base through a public and unambiguous base, or is the same class (the C++11 f..." alt="" coords="340,35,521,89"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,292,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="306,59,340,59,340,65,306,65"/>
+</map>

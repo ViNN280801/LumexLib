@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: CircularBuffer File Reference</title>
+<title>LumexLib: LumexSerialBoundedOpen.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,34 +103,158 @@ $(function(){initNavTree('a01181.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">CircularBuffer File Reference</div></div>
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexSerialBoundedOpen.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Circular buffer module: a ring buffer with a run-time capacity that overwrites its oldest element when full, similar to Boost's <code>circular_buffer</code>.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00326_source.html">CircularBuffer.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cerrno&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01178_source.html">lumex/applied/serial/probe/detail/LumexSerialBoundedOpen.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01193_source.html">lumex/applied/serial/resolver/LumexPortProcessResolver.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for CircularBuffer:</div>
+Include dependency graph for LumexSerialBoundedOpen.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01182.png" border="0" usemap="#a_circular_buffer" alt=""/></div>
+<div class="center"><img src="a01182.png" border="0" usemap="#aLumexSerialBoundedOpen_8cpp" alt=""/></div>
+<map name="aLumexSerialBoundedOpen_8cpp" id="aLumexSerialBoundedOpen_8cpp">
+<area shape="rect" title=" " alt="" coords="369,5,590,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,68,111"/>
+<area shape="poly" title=" " alt="" coords="369,31,234,50,88,81,79,84,78,79,87,76,233,45,368,26"/>
+<area shape="rect" title=" " alt="" coords="251,445,318,471"/>
+<area shape="poly" title=" " alt="" coords="369,27,299,34,230,45,171,60,149,70,133,81,115,104,108,127,109,187,109,267,112,296,123,323,139,348,158,371,204,409,247,436,245,441,200,413,154,374,134,351,118,325,107,297,103,268,103,187,103,127,110,102,130,77,146,65,169,55,229,40,298,29,368,22"/>
+<area shape="rect" title=" " alt="" coords="144,86,287,111"/>
+<area shape="poly" title=" " alt="" coords="438,33,271,85,269,79,437,28"/>
+<area shape="rect" title=" " alt="" coords="342,445,409,471"/>
+<area shape="poly" title=" " alt="" coords="457,33,428,53,403,80,388,107,381,130,378,187,378,267,378,431,373,431,373,267,373,187,375,129,383,105,399,77,424,49,454,28"/>
+<area shape="rect" title=" " alt="" coords="1539,541,1617,566"/>
+<area shape="poly" title=" " alt="" coords="590,19,968,39,1160,55,1239,65,1300,76,1347,84,1394,87,1480,93,1515,101,1544,118,1554,130,1562,146,1569,186,1569,355,1572,450,1578,527,1573,527,1567,450,1563,355,1563,187,1557,147,1550,133,1540,122,1513,106,1479,98,1393,92,1346,89,1299,81,1239,70,1160,61,967,44,590,25"/>
+<area shape="rect" title=" " alt="" coords="413,86,477,111"/>
+<area shape="poly" title=" " alt="" coords="476,32,458,74,453,72,471,30"/>
+<area shape="rect" title=" " alt="" coords="569,629,627,654"/>
+<area shape="poly" title=" " alt="" coords="448,33,412,52,379,81,300,179,271,223,249,267,236,313,230,364,232,420,242,485,252,534,261,553,280,571,300,583,329,594,404,612,555,634,554,640,403,617,327,599,298,588,276,575,257,556,247,536,237,486,226,420,224,363,230,312,244,266,266,221,295,176,375,77,409,48,445,28"/>
+<area shape="rect" title=" " alt="" coords="551,86,615,111"/>
+<area shape="poly" title=" " alt="" coords="498,29,557,75,554,79,494,33"/>
+<area shape="rect" title=" " alt="" coords="640,86,703,111"/>
+<area shape="poly" title=" " alt="" coords="512,28,628,76,632,78,630,83,626,81,510,33"/>
+<area shape="rect" title=" " alt="" coords="727,86,802,111"/>
+<area shape="poly" title=" " alt="" coords="538,28,623,49,716,76,723,78,721,84,715,81,621,54,537,33"/>
+<area shape="rect" href="a01178.html" title="Internal bounded open shared by the serial prober and the port enumeration." alt="" coords="443,328,689,383"/>
+<area shape="poly" title=" " alt="" coords="485,30,558,314,553,315,480,31"/>
+<area shape="rect" href="a01193.html" title="Identifies the process that holds a serial port open." alt="" coords="1000,79,1287,119"/>
+<area shape="poly" title=" " alt="" coords="584,28,987,77,986,82,583,33"/>
+<area shape="poly" title=" " alt="" coords="463,385,397,407,331,433,316,441,314,436,329,428,395,402,462,380"/>
+<area shape="poly" title=" " alt="" coords="516,385,413,441,410,436,514,380"/>
+<area shape="poly" title=" " alt="" coords="531,385,475,433,450,461,439,474,422,488,403,498,384,503,350,506,319,512,305,520,292,535,285,554,292,572,309,585,335,597,407,616,486,629,555,636,555,641,485,634,405,621,334,602,306,590,288,575,279,554,288,532,302,516,317,507,349,500,383,497,401,493,419,483,435,470,446,458,471,429,528,381"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="686,541,867,566"/>
+<area shape="poly" title=" " alt="" coords="647,380,685,401,720,429,739,452,753,478,772,527,767,529,749,480,734,455,716,433,682,406,644,385"/>
+<area shape="rect" href="a01196.html" title="Enumerates serial ports and reports structured device information." alt="" coords="485,431,705,485"/>
+<area shape="poly" title=" " alt="" coords="576,382,586,417,581,418,571,384"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1429,621,1642,661"/>
+<area shape="poly" title=" " alt="" coords="643,380,754,428,819,468,867,506,915,540,945,556,983,571,1045,590,1099,601,1147,607,1193,609,1291,609,1415,619,1415,624,1291,615,1193,614,1147,612,1098,606,1044,595,981,576,943,561,912,544,863,510,816,473,751,433,641,385"/>
+<area shape="rect" href="a01070.html" title="Cross&#45;platform OS macros." alt="" coords="1035,438,1209,478"/>
+<area shape="poly" title=" " alt="" coords="690,375,1021,437,1020,442,689,381"/>
+<area shape="poly" title=" " alt="" coords="598,485,600,615,595,615,593,485"/>
+<area shape="poly" title=" " alt="" coords="649,483,742,532,739,537,647,488"/>
+<area shape="rect" title=" " alt="" coords="489,541,560,566"/>
+<area shape="poly" title=" " alt="" coords="577,487,545,531,540,528,573,484"/>
+<area shape="rect" title=" " alt="" coords="303,541,379,566"/>
+<area shape="poly" title=" " alt="" coords="519,488,391,536,385,538,383,533,389,531,518,483"/>
+<area shape="rect" title=" " alt="" coords="403,541,465,566"/>
+<area shape="poly" title=" " alt="" coords="550,488,469,536,466,531,547,483"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1275,533,1465,573"/>
+<area shape="poly" title=" " alt="" coords="706,465,956,491,1262,531,1262,536,956,496,705,471"/>
+<area shape="poly" title=" " alt="" coords="608,484,634,531,652,553,675,571,704,584,739,595,823,610,922,617,1028,618,1241,615,1336,615,1415,619,1415,624,1336,620,1241,621,1028,624,921,622,823,615,738,600,702,589,673,576,649,557,629,534,603,487"/>
+<area shape="rect" title=" " alt="" coords="1965,629,2057,654"/>
+<area shape="poly" title=" " alt="" coords="1465,564,1952,631,1952,636,1465,569"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1149,621,1404,661"/>
+<area shape="poly" title=" " alt="" coords="1350,576,1310,614,1306,610,1347,572"/>
+<area shape="poly" title=" " alt="" coords="1409,571,1487,613,1485,617,1407,576"/>
+<area shape="poly" title=" " alt="" coords="1176,476,1306,526,1304,531,1174,481"/>
+<area shape="rect" href="a01109.html" title="Compiler identification and version macros." alt="" coords="993,533,1251,573"/>
+<area shape="poly" title=" " alt="" coords="1125,478,1125,520,1119,520,1119,478"/>
+<area shape="poly" title=" " alt="" coords="1102,121,1062,145,1022,179,1005,198,991,219,983,242,979,268,979,355,976,425,961,480,948,504,931,527,881,575,863,587,837,597,773,615,641,638,640,633,772,609,836,592,860,582,878,571,927,524,944,501,956,478,970,424,974,355,974,267,977,241,987,217,1001,195,1018,175,1059,141,1099,117"/>
+<area shape="poly" title=" " alt="" coords="1040,121,997,140,960,169,942,191,932,213,929,237,929,267,929,355,925,385,916,413,902,439,885,463,846,504,809,535,805,531,842,501,881,460,898,436,911,410,920,384,923,355,923,267,924,236,927,211,937,189,956,165,994,136,1038,116"/>
+<area shape="poly" title=" " alt="" coords="1187,116,1227,141,1267,175,1285,195,1299,217,1308,241,1311,267,1311,355,1316,401,1327,446,1356,520,1351,522,1322,447,1310,402,1306,355,1306,268,1303,242,1294,219,1280,198,1264,178,1224,145,1184,121"/>
+<area shape="poly" title=" " alt="" coords="1222,116,1311,143,1402,178,1442,199,1475,220,1497,243,1505,267,1505,458,1513,539,1528,607,1523,609,1507,540,1499,458,1499,268,1492,246,1471,224,1440,203,1400,183,1309,148,1221,121"/>
+<area shape="rect" href="a01391.html" title="Optional module: a C++11 implementation of the C++17 std::optional with the C++23 monadic operations." alt="" coords="1837,167,1989,207"/>
+<area shape="poly" title=" " alt="" coords="1287,112,1823,174,1822,179,1286,118"/>
+<area shape="rect" href="a00986.html" title="The global names of the optional module: optional, nullopt, make_optional and lumex_bad_optional_acce..." alt="" coords="1925,255,2148,280"/>
+<area shape="poly" title=" " alt="" coords="1945,205,2007,245,2004,249,1943,209"/>
+<area shape="rect" href="a00989.html" title="C++11 implementation of std::optional (C++17) and of its C++23 monadic operations: a type&#45;safe nullab..." alt="" coords="2063,335,2242,375"/>
+<area shape="poly" title=" " alt="" coords="2055,278,2117,325,2113,329,2052,282"/>
+<area shape="poly" title=" " alt="" coords="2243,367,2345,392,2387,409,2413,429,2436,467,2444,503,2436,539,2413,575,2396,585,2365,595,2273,612,2071,638,2071,633,2272,607,2363,590,2394,580,2409,571,2431,537,2438,503,2431,469,2409,432,2384,414,2343,397,2242,372"/>
+<area shape="poly" title=" " alt="" coords="2200,373,2271,410,2308,433,2342,459,2368,486,2384,515,2387,530,2386,546,2380,561,2369,575,2353,585,2327,594,2251,606,2150,613,2038,618,1820,621,1690,624,1656,628,1655,622,1690,619,1820,616,2037,613,2150,608,2250,600,2326,588,2351,580,2366,571,2375,558,2381,544,2382,531,2379,517,2364,490,2338,463,2305,437,2269,414,2198,378"/>
+<area shape="rect" title=" " alt="" coords="2049,541,2136,566"/>
+<area shape="poly" title=" " alt="" coords="2153,376,2145,427,2130,486,2110,530,2105,527,2125,484,2140,426,2148,375"/>
+<area shape="rect" title=" " alt="" coords="2160,541,2271,566"/>
+<area shape="poly" title=" " alt="" coords="2162,375,2210,526,2205,528,2156,376"/>
+<area shape="rect" title=" " alt="" coords="2295,541,2355,566"/>
+<area shape="poly" title=" " alt="" coords="2172,374,2306,528,2302,532,2168,377"/>
+<area shape="rect" title=" " alt="" coords="1798,445,1873,471"/>
+<area shape="poly" title=" " alt="" coords="2064,378,1977,402,1887,433,1870,441,1867,436,1885,428,1976,397,2063,373"/>
+<area shape="rect" href="a00995.html" title="Internal machinery of optional: the storage union, the layers that give optional the special member f..." alt="" coords="1897,438,2115,478"/>
+<area shape="poly" title=" " alt="" coords="2126,378,2048,432,2045,428,2123,373"/>
+<area shape="rect" href="a00992.html" title="The tags and the exception of the optional module: nullopt_t, nullopt, in_place_t,..." alt="" coords="1641,533,1848,573"/>
+<area shape="poly" title=" " alt="" coords="2063,366,1986,376,1905,390,1834,409,1807,420,1788,433,1772,452,1761,474,1750,520,1744,519,1756,472,1768,449,1784,429,1804,416,1832,404,1904,385,1985,371,2063,361"/>
+<area shape="poly" title=" " alt="" coords="1919,481,1885,488,1757,509,1701,518,1631,536,1622,539,1620,533,1629,531,1700,513,1756,504,1884,483,1918,475"/>
+<area shape="poly" title=" " alt="" coords="1922,481,1885,488,1479,542,1478,537,1884,483,1921,475"/>
+<area shape="poly" title=" " alt="" coords="2009,478,2013,615,2008,615,2004,478"/>
+<area shape="poly" title=" " alt="" coords="1982,480,1862,576,1825,589,1774,602,1656,625,1655,620,1773,596,1823,584,1859,571,1979,476"/>
+<area shape="poly" title=" " alt="" coords="2026,476,2074,529,2070,532,2022,480"/>
+<area shape="poly" title=" " alt="" coords="2051,476,2176,532,2174,537,2049,481"/>
+<area shape="poly" title=" " alt="" coords="2097,476,2188,500,2284,531,2288,532,2287,537,2282,536,2187,505,2096,481"/>
+<area shape="rect" title=" " alt="" coords="1924,541,1973,566"/>
+<area shape="poly" title=" " alt="" coords="1996,480,1966,530,1961,528,1992,477"/>
+<area shape="poly" title=" " alt="" coords="1951,481,1813,531,1812,526,1950,476"/>
+<area shape="poly" title=" " alt="" coords="1641,574,1629,576,1334,605,1045,625,641,643,641,637,1045,619,1333,600,1628,571,1641,569"/>
+<area shape="poly" title=" " alt="" coords="1698,576,1597,618,1594,614,1696,571"/>
+<area shape="rect" title=" " alt="" coords="1701,629,1788,654"/>
+<area shape="poly" title=" " alt="" coords="1747,574,1747,615,1742,615,1742,574"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01183.png" border="0" usemap="#a_circular_bufferdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a01181_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Circular buffer module: a ring buffer with a run-time capacity that overwrites its oldest element when full, similar to Boost's <code>circular_buffer</code>. </p>
-<p>Link <code>lumex::circular_buffer</code> (header-only; it brings <code>lumex::utility</code> for <code>LUMEX_ASSERT</code>). Works from C++11. The umbrella includes <code><a class="el" href="a00326.html" title="circular_buffer, a ring buffer with a run-time capacity that overwrites its oldest element when full,...">CircularBuffer.hpp</a></code>. </p>
-</div></div><!-- contents -->
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01464.html">lumex::applied::serial</a></td></tr>
+<tr class="memdesc:a01464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01470.html">lumex::applied::serial::probe</a></td></tr>
+<tr class="memdesc:a01470"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bounded probing of the device behind a serial port. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01471.html">lumex::applied::serial::probe::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a0a518e9f25f40fbb213907e34b881f81" id="r_a0a518e9f25f40fbb213907e34b881f81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01831.html">open_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01471.html#a0a518e9f25f40fbb213907e34b881f81">lumex::applied::serial::probe::detail::bounded_open_serial_port</a> (std::string const &amp;open_path, std::uint32_t platform_open_flags, std::chrono::milliseconds deadline)</td></tr>
+<tr class="memdesc:a0a518e9f25f40fbb213907e34b881f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens <code>open_path</code> so the caller never waits past <code>deadline</code>.  <br /></td></tr>
+<tr class="separator:a0a518e9f25f40fbb213907e34b881f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeda0fc72f871cf1ddc177f5c172131ea" id="r_aeda0fc72f871cf1ddc177f5c172131ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01471.html#aeda0fc72f871cf1ddc177f5c172131ea">lumex::applied::serial::probe::detail::close_serial_handle</a> (<a class="el" href="a01471.html#a3ac21019735948552e6d1ef799f957e7">native_serial_handle_t</a> handle) noexcept</td></tr>
+<tr class="memdesc:aeda0fc72f871cf1ddc177f5c172131ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes <code>handle</code>; a no-op for the invalid value.  <br /></td></tr>
+<tr class="separator:aeda0fc72f871cf1ddc177f5c172131ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2baec958c3eebd588ab9cbc9bccd7e5f" id="r_a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400">enumeration::serial_port_state</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01471.html#a2baec958c3eebd588ab9cbc9bccd7e5f">lumex::applied::serial::probe::detail::state_from_open_result</a> (<a class="el" href="a01831.html">open_result_t</a> const &amp;result) noexcept</td></tr>
+<tr class="memdesc:a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps an open outcome to the enumeration state.  <br /></td></tr>
+<tr class="separator:a2baec958c3eebd588ab9cbc9bccd7e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_82c4d626dd2f6730040a8639806b148e.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a01181.html">CircularBuffer</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_0eb40f4dc310d2549676f4667bcb916d.html">probe</a></li><li class="navelem"><a class="el" href="dir_717a927561f37227ea34383ea00766b8.html">detail</a></li><li class="navelem"><a class="el" href="a01181.html">LumexSerialBoundedOpen.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

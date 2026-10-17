@@ -1,0 +1,15 @@
+<map id="lumex::core::filesystem::fs::detail::path_to_standard" name="lumex::core::filesystem::fs::detail::path_to_standard">
+<area shape="rect" id="Node000001" title="Builds a std::filesystem::path from a path (see path)." alt="" coords="5,30,180,85"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="49,30,50,20,57,11,72,5,93,3,118,6,132,14,129,19,116,12,93,9,73,11,60,15,55,22,55,30"/>
+<area shape="rect" id="Node000002" href="$a02947.html#a54758ce9dd25cab6d714efd2ac1e8ace" title="Returns a copy of the path as a std::string." alt="" coords="228,5,403,45"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="180,42,214,37,215,42,180,47"/>
+<area shape="rect" id="Node000003" href="$a02947.html#a411cd428bcee18a7e01558506ba9a543" title="Converts and returns the path as a std::wstring." alt="" coords="228,69,403,109"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="180,67,215,72,214,77,180,73"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a8a23d2af01acf0e74e1432449f7268c0" title="Converts a std::string (UTF&#45;8 encoded) to a std::wstring." alt="" coords="451,62,625,117"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="403,87,437,87,437,92,403,92"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="496,62,496,52,504,43,518,37,538,35,562,38,576,46,573,51,561,43,538,41,519,43,507,47,501,54,501,62"/>
+<area shape="rect" id="Node000005" href="$a01584.html#a13d59f937ade78876e613ede4929011e" title="Converts length bytes of UTF&#45;8 text to a wchar_t string." alt="" coords="673,69,832,109"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="626,87,660,87,660,92,626,92"/>
+<area shape="rect" id="Node000006" href="$a04287.html#a0ea14e7a0dd342f28237c0e7ff007335" title=" " alt="" coords="880,62,1039,117"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="833,87,866,87,866,92,833,92"/>
+</map>

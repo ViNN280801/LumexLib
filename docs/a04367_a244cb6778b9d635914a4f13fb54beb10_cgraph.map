@@ -1,0 +1,12 @@
+<map id="lumex::core::utility::dump::dump_factory::create_configuration" name="lumex::core::utility::dump::dump_factory::create_configuration">
+<area shape="rect" id="Node000001" title="Create a dump configuration with error handling." alt="" coords="5,81,171,136"/>
+<area shape="rect" id="Node000002" href="$a04367.html#afc6cdbe900e2509620b120b132847470" title="Create a dump configuration for the specified type." alt="" coords="219,29,384,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,86,205,78,206,83,172,91"/>
+<area shape="rect" id="Node000004" href="$a04367.html#a202299d3ad3385faf47a8a1ba2b8e31e" title="Check if a dump type is supported on the current platform." alt="" coords="219,132,384,187"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="172,126,206,134,205,139,170,131"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,29,260,19,267,10,281,5,301,3,326,6,339,14,337,18,324,11,301,8,282,10,270,15,265,21,265,29"/>
+<area shape="rect" id="Node000003" href="$a04367.html#a8385c6ac0f9474e9d0f7744b6d0e56c4" title="Get the default dump type for the current platform." alt="" coords="432,29,616,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="384,54,418,54,418,59,384,59"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="481,29,481,19,489,10,503,5,524,3,549,6,563,14,561,18,547,11,524,8,504,10,492,15,486,21,486,29"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="259,132,260,122,267,113,281,107,301,105,326,108,339,116,337,121,324,113,301,111,282,113,270,117,265,124,265,132"/>
+</map>

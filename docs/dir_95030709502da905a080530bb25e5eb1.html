@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -110,21 +110,34 @@ $(function(){initNavTree('dir_95030709502da905a080530bb25e5eb1.html',''); initRe
 Directory dependency graph for split_count:</div>
 <div class="dyncontent">
 <div class="center"><img src="dir_95030709502da905a080530bb25e5eb1_dep.png" border="0" usemap="#adir__95030709502da905a080530bb25e5eb1__dep" alt="split_count"/></div>
+<map name="adir__95030709502da905a080530bb25e5eb1__dep" id="adir__95030709502da905a080530bb25e5eb1__dep">
+<area shape="rect" href="dir_95030709502da905a080530bb25e5eb1.html" title="split_count" alt="" coords="75,52,169,77"/>
+<area shape="rect" href="dir_0ef745ae619b7a2bc428b08d4c1ccc55.html" title="dwcas" alt="" coords="5,125,68,151"/>
+<area shape="poly" href="dir_000138_000045.html" alt="" coords="109,79,64,118,61,114,105,75"/>
+<area shape="rect" href="dir_000138_000045.html" title="3" alt="" coords="67,112,76,127"/>
+<area shape="rect" href="dir_aaa57aed14d71e316a67f95634c796d3.html" title="utility" alt="" coords="92,125,152,151"/>
+<area shape="poly" href="dir_000138_000162.html" alt="" coords="125,77,125,111,119,111,119,77"/>
+<area shape="rect" href="dir_000138_000162.html" title="5" alt="" coords="126,99,135,114"/>
+<area shape="rect" href="dir_f49348c03cbbd10cc8855c06335ffde3.html" title="smart_ptr" alt="" coords="177,125,262,151"/>
+<area shape="poly" href="dir_000138_000134.html" alt="" coords="141,75,193,115,189,119,137,80"/>
+<area shape="rect" href="dir_000138_000134.html" title="8" alt="" coords="188,100,197,115"/>
+<area shape="rect" href="dir_554c46647e80ff154b2b91be60b0bc34.html" title="smart_ptr" alt="" coords="65,16,179,88"/>
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00287_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00287.html">LumexSplitCountCell.hpp</a></td></tr>
-<tr class="memdesc:a00287"><td class="mdescLeft">&#160;</td><td class="mdescRight">The split-count engine behind <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code>: one 16-byte word updated by a 128-bit compare-and-swap over the module's own control block. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00809_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00809.html">LumexSplitCountCell.hpp</a></td></tr>
+<tr class="memdesc:a00809"><td class="mdescLeft">&#160;</td><td class="mdescRight">The split-count engine behind <code>atomic_shared_ptr_lock_free_split_count</code> and <code>atomic_weak_ptr_lock_free_split_count</code>: one 16-byte word updated by a 128-bit compare-and-swap over the module's own control block. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00290_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00290.html">LumexSplitCountPolicy.hpp</a></td></tr>
-<tr class="memdesc:a00290"><td class="mdescLeft">&#160;</td><td class="mdescRight">The policy of the split-count engine: the named steps of its protocol, the events a ledger counts, the guess of the word, the tick limit, the reserve and the back-off. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00812_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00812.html">LumexSplitCountPolicy.hpp</a></td></tr>
+<tr class="memdesc:a00812"><td class="mdescLeft">&#160;</td><td class="mdescRight">The policy of the split-count engine: the named steps of its protocol, the events a ledger counts, the guess of the word, the tick limit, the reserve and the back-off. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00293_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00293.html">LumexSplitCountTraits.hpp</a></td></tr>
-<tr class="memdesc:a00293"><td class="mdescLeft">&#160;</td><td class="mdescRight">What the split-count engine needs to know about the pointer it stores: the counter group its references use (the ledger), its holder block, and how to take a pointer apart and put it together. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00818_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00818.html">LumexSplitCountTraits.hpp</a></td></tr>
+<tr class="memdesc:a00818"><td class="mdescLeft">&#160;</td><td class="mdescRight">What the split-count engine needs to know about the pointer it stores: the counter group its references use (the ledger), its holder block, and how to take a pointer apart and put it together. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00296_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00296.html">LumexSplitCountWord.hpp</a></td></tr>
-<tr class="memdesc:a00296"><td class="mdescLeft">&#160;</td><td class="mdescRight">The slot word of the split-count engine: a control block, the ticks of the loads in flight and the stored pointer in one 16-byte word. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="a00815_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00815.html">LumexSplitCountWord.hpp</a></td></tr>
+<tr class="memdesc:a00815"><td class="mdescLeft">&#160;</td><td class="mdescRight">The slot word of the split-count engine: a control block, the ticks of the loads in flight and the stored pointer in one 16-byte word. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

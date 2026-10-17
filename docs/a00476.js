@@ -1,26 +1,6 @@
 var a00476 =
 [
-    [ "lumex::core::reflection::field_reflection::detail::is_json_convertible< U >", "a03618.html", null ],
-    [ "lumex::core::reflection::field_reflection::detail::is_map_like< U >", "a03622.html", null ],
-    [ "lumex::core::reflection::field_reflection::detail::is_aggregate_candidate< U >", "a03626.html", null ],
-    [ "lumex::core::reflection::field_reflection::detail::value_kind< U >", "a03630.html", null ],
-    [ "lumex::core::reflection::field_reflection::detail::value_writer< U, k_kind_direct >", "a03638.html", "a03638" ],
-    [ "lumex::core::reflection::field_reflection::detail::value_writer< U, k_kind_optional >", "a03642.html", "a03642" ],
-    [ "lumex::core::reflection::field_reflection::detail::value_writer< U, k_kind_map >", "a03646.html", "a03646" ],
-    [ "lumex::core::reflection::field_reflection::detail::value_writer< U, k_kind_array >", "a03650.html", "a03650" ],
-    [ "lumex::core::reflection::field_reflection::detail::value_writer< U, k_kind_aggregate >", "a03654.html", "a03654" ],
-    [ "lumex::core::reflection::field_reflection::detail::append_all", "a01380.html#af756bcf608cd4a96e0fba1b0d9251147", null ],
-    [ "lumex::core::reflection::field_reflection::detail::append_field", "a01380.html#a0f41e924cf040d1f629bd894cf8de99d", null ],
-    [ "lumex::core::reflection::field_reflection::detail::append_one", "a01380.html#a6ccfa808b640814a57c069c6ba330c50", null ],
-    [ "lumex::core::reflection::field_reflection::detail::append_one", "a01380.html#a8cd209ad1a1778e47a6305485be9e311", null ],
-    [ "lumex::core::reflection::field_reflection::detail::swallow", "a01380.html#a17d49d12b7bbd1233be03ebe79837a0a", null ],
-    [ "lumex::core::reflection::field_reflection::to_json", "a01379.html#adf61047afd5b3dcf759431721bae5a13", null ],
-    [ "lumex::core::reflection::field_reflection::detail::to_json_fields", "a01380.html#a2445ac257e8a7d923a7046c25e14120d", null ],
-    [ "lumex::core::reflection::field_reflection::detail::to_json_fields", "a01380.html#a220977190460122e266388dff10349c1", null ],
-    [ "lumex::core::reflection::field_reflection::detail::to_value", "a01380.html#a97621a71036a0f0120097859783bc1ec", null ],
-    [ "lumex::core::reflection::field_reflection::detail::k_kind_aggregate", "a01380.html#a899175256997788d0e7833c6434b63d0", null ],
-    [ "lumex::core::reflection::field_reflection::detail::k_kind_array", "a01380.html#a8297325f0ac521295929ec75f94044ed", null ],
-    [ "lumex::core::reflection::field_reflection::detail::k_kind_direct", "a01380.html#ae03a0272abebaea8ede3952ac1ce8986", null ],
-    [ "lumex::core::reflection::field_reflection::detail::k_kind_map", "a01380.html#a980a58dc2e9c84025f35111c4ea6132c", null ],
-    [ "lumex::core::reflection::field_reflection::detail::k_kind_optional", "a01380.html#ae95fddb660537367a7ed2236bef162a3", null ]
+    [ "lumex::core::fmt::formatter< pipe_list_t >", "a05023.html", "a05023" ],
+    [ "lumex::core::fmt::formatter< register_dump_t >", "a05027.html", "a05027" ],
+    [ "main", "a00476.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

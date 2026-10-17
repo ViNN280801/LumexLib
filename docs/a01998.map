@@ -1,0 +1,5 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based&lt; T &gt;" name="lumex::core::atomic::smart_ptr::table_wait::atomic_weak_ptr_lock_based&lt; T &gt;">
+<area shape="rect" id="Node000001" title="Atomic std::weak_ptr&lt;T&gt; over a lock (the lock&#45;based engine)." alt="" coords="255,20,431,89"/>
+<area shape="rect" id="Node000002" href="$a01995.html" title=" " alt="" coords="5,5,207,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,52,254,52,254,57,220,57"/>
+</map>

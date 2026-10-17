@@ -1,0 +1,18 @@
+<map id="lumex::xml::document::XmlDocumentBase" name="lumex::xml::document::XmlDocumentBase">
+<area shape="rect" id="Node000001" title="Base structure representing an XML document, combining node and allocator functionalities." alt="" coords="681,199,851,239"/>
+<area shape="rect" id="Node000002" href="$a05159.html" title="Base structure representing an XML node in the document tree." alt="" coords="307,206,543,231"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="557,216,681,216,681,221,557,221"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="388,192,399,183,425,179,446,182,459,188,462,198,456,207,451,204,457,197,455,191,444,187,425,185,401,188,392,196"/>
+<area shape="rect" id="Node000003" href="$a05119.html" title="Base structure for representing an XML attribute." alt="" coords="5,199,165,239"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="179,216,306,216,306,221,179,221"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="58,182,67,175,85,172,101,174,111,180,116,189,114,199,109,198,111,190,107,184,99,179,85,177,69,180,61,187"/>
+<area shape="rect" id="Node000004" href="$a05135.html" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document." alt="" coords="345,59,504,99"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="518,99,544,108,647,153,731,196,729,201,644,158,542,113,516,104"/>
+<area shape="rect" id="Node000005" href="$a05139.html" title="Represents a single fixed&#45;size memory page used by the XmlAllocator." alt="" coords="687,59,845,99"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="518,92,586,97,657,96,686,92,686,98,658,101,586,103,518,97"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="673,81,504,81,504,76,673,76"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="738,42,748,35,766,32,782,34,792,40,797,49,795,59,790,58,792,50,789,44,780,39,766,37,750,40,741,47"/>
+<area shape="rect" id="Node000006" href="$a05199.html" title=" " alt="" coords="335,295,514,335"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="508,288,694,236,695,241,510,294"/>
+<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="391,278,403,271,425,268,444,270,456,276,462,285,460,295,455,294,457,286,453,280,442,275,425,273,404,276,393,283"/>
+</map>

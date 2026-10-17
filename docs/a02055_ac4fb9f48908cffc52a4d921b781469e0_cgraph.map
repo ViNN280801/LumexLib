@@ -1,0 +1,5 @@
+<map id="lumex::core::circular_buffer::circular_buffer::back_safe" name="lumex::core::circular_buffer::circular_buffer::back_safe">
+<area shape="rect" id="Node000001" title="Const bounds&#45;checked access to the newest element (back)." alt="" coords="5,5,173,60"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a8d484612f38792175e6101ef13cb1513" title="Checks whether the buffer is empty." alt="" coords="221,5,389,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,30,207,30,207,35,173,35"/>
+</map>

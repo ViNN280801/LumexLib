@@ -1,0 +1,13 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,141,60,166"/>
+<area shape="rect" id="Node000002" href="$a04471.html#a9c9de90e2e2e91bdf8145b897bbf0327" title="Get the current comparator value." alt="" coords="108,5,339,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="37,139,63,98,83,75,106,55,117,49,119,54,110,60,87,79,68,101,41,142"/>
+<area shape="rect" id="Node000003" href="$a01607.html#a70c7aae8bb35572f410d8de09cfee689" title="Returns the OS process id of the calling process." alt="" coords="129,69,318,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="59,138,107,119,132,111,133,116,109,124,61,143"/>
+<area shape="rect" id="Node000004" href="$a01605.html#a31c729130c13b921089959234edad643" title="Utility that converts a comparison result to bool." alt="" coords="145,133,301,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="60,151,132,151,132,156,60,156"/>
+<area shape="rect" id="Node000005" href="$a04471.html#a0c1a83b8a794a186c009776e9afc17f4" title="Safe &gt;= comparison with another type." alt="" coords="123,198,324,253"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="61,163,109,183,130,191,128,196,107,188,59,168"/>
+<area shape="rect" id="Node000006" href="$a01605.html#ade679d0f6d8775607e52c0291a3e75b2" title="Safe three&#45;way comparison (the &lt;=&gt; category)" alt="" coords="143,277,303,331"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="40,165,66,212,86,239,110,262,132,276,129,280,106,266,82,242,62,215,36,168"/>
+</map>

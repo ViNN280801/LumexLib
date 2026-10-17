@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: ExpectedVoid.hpp File Reference</title>
+<title>LumexLib: example_json.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,63 +105,354 @@ $(function(){initNavTree('a00416.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">ExpectedVoid.hpp File Reference</div></div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_json.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The specialization <code>expected&lt;void, ErrorType&gt;</code> for operations that succeed without a value; an implementation of C++23 <code>std::expected&lt;void, E&gt;</code>.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;initializer_list&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00404_source.html">Expected.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00407_source.html">ExpectedDetail.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00410_source.html">ExpectedStorage.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00581_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;exception&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01334_source.html">lumex/applied/json/LumexJson</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00854_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for ExpectedVoid.hpp:</div>
+Include dependency graph for example_json.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00417.png" border="0" usemap="#a_expected_void_8hpp" alt=""/></div>
+<div class="center"><img src="a00417.png" border="0" usemap="#aexample__json_8cpp" alt=""/></div>
+<map name="aexample__json_8cpp" id="aexample__json_8cpp">
+<area shape="rect" title=" " alt="" coords="1026,5,1166,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,67,111"/>
+<area shape="poly" title=" " alt="" coords="1026,22,821,27,549,38,280,55,170,67,86,81,77,84,75,79,85,76,169,62,280,50,548,33,820,22,1026,17"/>
+<area shape="rect" title=" " alt="" coords="922,541,1009,566"/>
+<area shape="poly" title=" " alt="" coords="1026,27,809,48,537,84,410,106,305,131,264,145,233,159,214,173,208,187,208,275,210,298,217,316,228,330,243,341,281,360,326,380,365,395,399,401,461,401,492,400,523,402,557,411,595,428,610,442,618,457,625,471,639,483,688,502,760,519,909,544,908,549,759,525,686,507,636,488,621,474,613,459,606,445,592,433,555,416,522,407,491,405,461,406,398,407,363,400,324,385,278,365,240,346,224,334,213,319,205,299,203,275,203,186,210,170,231,154,262,140,303,126,409,101,536,78,809,43,1025,21"/>
+<area shape="rect" title=" " alt="" coords="293,541,373,566"/>
+<area shape="poly" title=" " alt="" coords="1026,23,675,43,486,60,409,70,350,81,306,89,263,94,184,102,152,110,128,126,112,150,107,187,107,274,112,318,128,360,151,398,180,433,244,491,301,531,298,536,240,495,176,437,147,401,123,362,107,320,101,275,101,186,107,148,124,122,150,105,183,96,262,88,305,84,349,76,408,65,486,54,675,38,1025,18"/>
+<area shape="rect" title=" " alt="" coords="2148,541,2207,566"/>
+<area shape="poly" title=" " alt="" coords="1098,31,1101,81,1112,153,1123,192,1139,230,1160,264,1188,293,1218,310,1259,325,1359,350,1543,380,1653,394,1741,397,1827,403,1877,413,1935,428,1996,451,2055,478,2147,531,2145,535,2053,483,1994,455,1934,433,1876,418,1826,409,1740,402,1653,399,1542,385,1358,355,1257,331,1216,315,1185,297,1156,267,1134,232,1118,194,1107,155,1095,82,1093,31"/>
+<area shape="rect" title=" " alt="" coords="1933,350,2080,375"/>
+<area shape="poly" title=" " alt="" coords="1166,20,1401,38,1705,70,1852,89,1979,112,2073,137,2105,151,2123,165,2131,187,2135,222,2132,262,2121,296,2109,312,2094,326,2060,347,2057,342,2090,322,2105,309,2116,293,2127,261,2130,223,2126,188,2119,168,2102,155,2071,142,1977,117,1851,95,1704,75,1400,44,1166,25"/>
+<area shape="rect" href="a01334.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="1589,79,1736,119"/>
+<area shape="poly" title=" " alt="" coords="1166,25,1576,84,1576,89,1166,31"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="1555,343,1757,383"/>
+<area shape="poly" title=" " alt="" coords="1103,30,1152,167,1189,244,1207,274,1224,293,1264,318,1300,332,1335,339,1369,339,1444,335,1487,335,1536,340,1542,341,1541,346,1536,345,1487,340,1444,340,1369,345,1334,344,1299,337,1261,323,1221,297,1203,277,1184,247,1148,169,1098,32"/>
+<area shape="rect" href="a01247.html" title="Process&#45;wide report sink for the non&#45;throwing JSON helpers." alt="" coords="952,350,1227,375"/>
+<area shape="poly" title=" " alt="" coords="1590,119,1512,141,1418,171,1319,210,1224,257,1162,300,1114,342,1110,338,1159,295,1221,252,1317,205,1417,166,1510,136,1589,114"/>
+<area shape="rect" href="a01256.html" title="Non&#45;throwing helpers for JSON configuration files and documents." alt="" coords="675,262,883,287"/>
+<area shape="poly" title=" " alt="" coords="1590,111,1424,135,1230,169,1015,217,840,261,839,256,1014,212,1229,164,1424,130,1589,106"/>
+<area shape="rect" href="a01265.html" title="Contract for turning raw JSON text into a canonical document." alt="" coords="1894,255,2085,295"/>
+<area shape="poly" title=" " alt="" coords="1700,116,1860,204,1939,246,1936,250,1857,209,1697,121"/>
+<area shape="rect" href="a01268.html" title="Abstract base for per&#45;operation normalizers built on the schema walker." alt="" coords="1870,167,2109,207"/>
+<area shape="poly" title=" " alt="" coords="1737,116,1902,160,1901,166,1736,121"/>
+<area shape="rect" href="a01253.html" title="Recursive walker for a JSON Schema draft&#45;7 subset." alt="" coords="2312,255,2603,295"/>
+<area shape="poly" title=" " alt="" coords="1736,101,1932,121,2049,139,2166,164,2293,204,2401,247,2399,252,2291,209,2165,169,2048,145,1931,127,1736,106"/>
+<area shape="rect" href="a01250.html" title="Exception thrown by the JSON schema engine on the first violation." alt="" coords="2307,343,2603,383"/>
+<area shape="poly" title=" " alt="" coords="1736,102,1946,125,2049,142,2091,153,2123,164,2137,173,2146,183,2167,205,2232,252,2301,292,2392,335,2390,340,2299,297,2229,257,2164,209,2143,187,2134,177,2120,169,2089,158,2048,148,1945,130,1736,107"/>
+<area shape="rect" href="a01259.html" title="Contract for checking raw JSON text against a schema." alt="" coords="1235,255,1453,295"/>
+<area shape="poly" title=" " alt="" coords="1627,121,1394,250,1391,246,1625,117"/>
+<area shape="rect" href="a01262.html" title="Validate&#45;only checker for one schema tree." alt="" coords="1555,167,1770,207"/>
+<area shape="poly" title=" " alt="" coords="1665,119,1665,153,1660,153,1660,119"/>
+<area shape="poly" title=" " alt="" coords="965,378,890,385,603,394,428,407,366,418,346,425,334,432,322,454,319,479,321,504,327,527,321,528,316,505,313,479,317,452,330,429,343,420,365,413,428,402,603,389,889,380,965,373"/>
+<area shape="poly" title=" " alt="" coords="1219,373,1296,380,1416,385,1571,389,1725,401,1789,412,1840,428,1859,441,1870,456,1880,470,1897,483,1931,498,1960,507,2014,513,2069,516,2101,521,2137,531,2142,533,2140,538,2135,536,2099,526,2068,521,2013,518,1959,512,1929,503,1895,488,1876,474,1866,459,1855,445,1837,433,1788,417,1724,406,1571,395,1416,391,1296,385,1219,378"/>
+<area shape="rect" title=" " alt="" coords="2231,541,2297,566"/>
+<area shape="poly" title=" " alt="" coords="1227,371,1627,404,1886,428,1982,449,2055,470,2220,531,2225,533,2223,538,2218,536,2054,475,1981,454,1885,433,1626,409,1227,376"/>
+<area shape="rect" title=" " alt="" coords="1052,445,1127,471"/>
+<area shape="poly" title=" " alt="" coords="1092,376,1092,431,1087,431,1087,376"/>
+<area shape="rect" href="a01031.html" title="X&#45;macro system that generates a scoped enum together with its own compile&#45;time reflection data and a ..." alt="" coords="2569,431,2804,485"/>
+<area shape="poly" title=" " alt="" coords="1227,367,1714,392,2330,428,2556,445,2556,450,2329,433,1714,397,1227,372"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1855,621,2068,661"/>
+<area shape="poly" title=" " alt="" coords="1065,378,1005,413,971,436,940,462,915,489,900,518,897,531,898,545,903,558,912,571,924,577,949,583,1032,594,1287,612,1586,626,1841,635,1840,641,1586,632,1286,618,1031,599,948,588,922,582,909,575,898,561,893,546,892,531,895,516,910,486,936,458,968,432,1002,408,1062,373"/>
+<area shape="rect" href="a01142.html" title="Process&#45;wide slot for one consumer&#45;installed function pointer." alt="" coords="344,438,581,478"/>
+<area shape="poly" title=" " alt="" coords="1006,378,595,441,594,435,1005,373"/>
+<area shape="rect" title=" " alt="" coords="2748,541,2804,566"/>
+<area shape="poly" title=" " alt="" coords="2714,484,2757,529,2753,532,2711,487"/>
+<area shape="rect" title=" " alt="" coords="2322,541,2393,566"/>
+<area shape="poly" title=" " alt="" coords="2579,488,2413,536,2404,539,2403,534,2411,531,2578,483"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="2879,533,3068,573"/>
+<area shape="poly" title=" " alt="" coords="2770,483,2900,526,2899,531,2768,488"/>
+<area shape="poly" title=" " alt="" coords="2579,488,2518,509,2459,536,2444,546,2434,556,2423,566,2406,576,2347,593,2264,609,2082,632,2081,627,2263,604,2346,588,2404,571,2420,562,2430,552,2440,542,2456,531,2516,504,2577,483"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="2469,533,2723,573"/>
+<area shape="poly" title=" " alt="" coords="2662,487,2626,525,2623,522,2659,484"/>
+<area shape="rect" title=" " alt="" coords="1267,629,1359,654"/>
+<area shape="poly" title=" " alt="" coords="2879,569,2816,576,2138,609,1373,642,1373,636,2138,604,2816,571,2878,564"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="2846,621,3101,661"/>
+<area shape="poly" title=" " alt="" coords="2976,574,2976,607,2971,607,2971,574"/>
+<area shape="poly" title=" " alt="" coords="2879,573,2860,576,2646,599,2432,617,2082,639,2082,633,2432,612,2645,594,2860,571,2878,568"/>
+<area shape="poly" title=" " alt="" coords="2469,574,2082,627,2081,622,2468,568"/>
+<area shape="poly" title=" " alt="" coords="563,475,601,483,909,540,908,546,599,488,562,481"/>
+<area shape="poly" title=" " alt="" coords="437,480,364,534,360,530,434,476"/>
+<area shape="poly" title=" " alt="" coords="582,462,1040,483,1311,491,1540,494,1929,495,2317,502,2546,512,2816,531,2865,535,2865,541,2816,536,2546,518,2317,507,1929,500,1540,499,1311,496,1040,488,581,467"/>
+<area shape="poly" title=" " alt="" coords="519,476,674,525,769,550,866,571,951,582,1061,593,1331,611,1841,634,1841,640,1330,616,1061,598,950,587,865,576,768,556,673,530,518,481"/>
+<area shape="rect" title=" " alt="" coords="429,541,496,566"/>
+<area shape="poly" title=" " alt="" coords="465,478,465,527,460,527,460,478"/>
+<area shape="poly" title=" " alt="" coords="812,285,853,307,874,323,891,341,921,388,942,439,956,488,964,527,959,528,951,489,937,441,917,390,887,344,870,327,850,312,810,290"/>
+<area shape="poly" title=" " alt="" coords="883,281,1052,303,1146,319,1239,340,1270,350,1294,361,1317,371,1347,380,1428,393,1499,396,1621,388,1680,385,1741,388,1809,401,1887,428,1906,441,1919,455,1930,470,1948,483,1998,503,2040,511,2083,516,2137,531,2142,533,2140,538,2135,536,2082,522,2039,516,1996,508,1945,488,1926,474,1914,459,1903,445,1884,433,1808,406,1741,393,1680,390,1621,393,1499,402,1428,399,1346,385,1315,376,1291,366,1268,355,1238,345,1145,324,1051,308,883,286"/>
+<area shape="poly" title=" " alt="" coords="883,279,1770,340,1920,352,1919,358,1769,345,883,284"/>
+<area shape="poly" title=" " alt="" coords="825,285,1032,344,1031,349,823,290"/>
+<area shape="poly" title=" " alt="" coords="883,284,1082,308,1311,340,1427,361,1543,380,1673,393,1775,398,1877,406,2006,428,2094,451,2181,480,2317,533,2315,538,2179,485,2093,456,2005,433,1876,411,1775,403,1673,399,1542,385,1426,366,1310,345,1081,314,883,289"/>
+<area shape="poly" title=" " alt="" coords="675,283,547,292,411,306,297,323,259,334,239,345,217,373,201,402,192,430,188,459,191,487,201,515,217,544,239,571,253,578,282,584,380,596,676,616,1006,629,1253,637,1253,642,1006,635,675,621,379,601,282,589,251,583,236,575,212,547,196,518,186,488,183,459,186,429,196,400,213,370,236,341,257,329,296,318,410,300,547,287,674,278"/>
+<area shape="poly" title=" " alt="" coords="675,287,463,312,373,328,343,336,327,345,300,372,278,400,261,428,250,457,246,486,250,515,262,543,283,571,474,582,919,600,1840,634,1840,640,919,605,474,587,280,576,257,546,244,516,241,486,245,456,256,426,274,397,296,368,324,341,341,331,372,323,462,307,674,281"/>
+<area shape="rect" title=" " alt="" coords="395,350,469,375"/>
+<area shape="poly" title=" " alt="" coords="709,290,602,313,482,345,475,347,474,342,481,340,600,308,708,285"/>
+<area shape="rect" title=" " alt="" coords="493,350,568,375"/>
+<area shape="poly" title=" " alt="" coords="740,290,581,345,575,347,573,342,579,340,738,285"/>
+<area shape="rect" title=" " alt="" coords="1033,541,1103,566"/>
+<area shape="poly" title=" " alt="" coords="675,286,469,311,384,327,355,336,341,344,333,363,341,381,373,410,406,423,439,425,475,421,512,415,551,411,594,414,638,428,659,442,671,456,684,470,703,483,748,500,787,510,859,514,932,515,974,520,1022,531,1029,533,1027,538,1021,536,973,525,931,520,858,520,787,515,746,505,700,488,680,474,667,460,655,446,636,433,593,419,551,416,513,420,475,427,439,431,404,428,370,414,337,384,327,363,337,341,353,331,382,322,468,305,674,281"/>
+<area shape="rect" title=" " alt="" coords="592,350,656,375"/>
+<area shape="poly" title=" " alt="" coords="757,290,660,345,657,341,755,285"/>
+<area shape="rect" title=" " alt="" coords="1127,541,1225,566"/>
+<area shape="poly" title=" " alt="" coords="675,288,495,313,421,329,397,337,385,344,377,363,385,381,407,397,440,408,481,415,527,419,618,422,688,428,904,473,1117,531,1127,534,1126,539,1115,536,903,479,688,433,618,428,527,424,481,420,439,413,405,402,381,384,371,363,381,341,395,332,420,324,494,308,674,283"/>
+<area shape="poly" title=" " alt="" coords="883,282,1541,348,1541,354,882,288"/>
+<area shape="rect" href="a01118.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="681,343,877,383"/>
+<area shape="poly" title=" " alt="" coords="781,288,781,329,776,329,776,288"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="1589,438,1827,478"/>
+<area shape="poly" title=" " alt="" coords="1669,382,1693,425,1688,427,1665,384"/>
+<area shape="poly" title=" " alt="" coords="1615,481,1571,488,1487,498,1416,503,1295,505,1174,511,1104,520,1022,536,1010,539,1009,534,1021,531,1103,515,1174,506,1295,500,1416,497,1487,493,1570,483,1614,475"/>
+<area shape="poly" title=" " alt="" coords="1807,475,1846,483,1928,495,1992,501,2057,510,2137,531,2142,533,2140,538,2135,536,2056,515,1992,506,1927,500,1845,488,1806,481"/>
+<area shape="poly" title=" " alt="" coords="1827,464,2013,487,2117,506,2219,531,2226,533,2225,538,2218,536,2116,511,2013,492,1827,469"/>
+<area shape="poly" title=" " alt="" coords="1827,461,1931,469,2053,482,2182,503,2310,531,2318,533,2317,538,2309,536,2182,508,2052,488,1931,474,1827,466"/>
+<area shape="poly" title=" " alt="" coords="1827,461,2263,487,2539,506,2816,531,2865,536,2865,541,2816,536,2538,512,2263,492,1827,466"/>
+<area shape="poly" title=" " alt="" coords="1611,481,1461,513,1376,536,1358,553,1343,574,1324,617,1319,615,1339,572,1354,550,1373,531,1460,508,1610,475"/>
+<area shape="poly" title=" " alt="" coords="1792,476,1896,503,1975,531,1990,542,2001,552,2011,562,2026,571,2071,581,2148,591,2364,608,2832,633,2832,638,2364,614,2147,596,2070,586,2024,576,2008,567,1997,556,1987,546,1972,536,1894,508,1791,481"/>
+<area shape="poly" title=" " alt="" coords="1611,481,1469,512,1415,526,1391,535,1383,554,1385,562,1391,571,1412,583,1450,593,1567,611,1708,624,1841,633,1841,638,1707,629,1566,616,1449,598,1410,588,1388,575,1380,564,1378,553,1387,531,1413,521,1468,507,1610,475"/>
+<area shape="poly" title=" " alt="" coords="1614,481,1571,488,1443,501,1342,505,1242,512,1184,521,1117,536,1109,538,1107,533,1115,531,1183,515,1242,506,1342,499,1442,496,1570,483,1613,475"/>
+<area shape="poly" title=" " alt="" coords="1610,481,1571,488,1239,545,1238,540,1570,483,1609,475"/>
+<area shape="rect" title=" " alt="" coords="1401,541,1468,566"/>
+<area shape="poly" title=" " alt="" coords="1644,481,1482,536,1477,538,1475,533,1480,531,1642,475"/>
+<area shape="rect" title=" " alt="" coords="1493,541,1579,566"/>
+<area shape="poly" title=" " alt="" coords="1673,481,1572,536,1570,532,1670,476"/>
+<area shape="rect" title=" " alt="" coords="1603,541,1645,566"/>
+<area shape="poly" title=" " alt="" coords="1692,480,1646,532,1642,529,1688,476"/>
+<area shape="rect" title=" " alt="" coords="1669,541,1747,566"/>
+<area shape="poly" title=" " alt="" coords="1711,478,1711,527,1705,527,1705,478"/>
+<area shape="rect" title=" " alt="" coords="1771,541,1847,566"/>
+<area shape="poly" title=" " alt="" coords="1731,476,1788,529,1784,533,1728,480"/>
+<area shape="rect" title=" " alt="" coords="2037,541,2123,566"/>
+<area shape="poly" title=" " alt="" coords="1798,475,2018,531,2029,534,2028,539,2017,536,1797,481"/>
+<area shape="rect" title=" " alt="" coords="1871,541,1961,566"/>
+<area shape="poly" title=" " alt="" coords="1753,476,1877,532,1874,537,1751,481"/>
+<area shape="poly" title=" " alt="" coords="1971,297,1916,347,1865,385,1824,401,1786,408,1720,408,1655,409,1619,417,1579,433,1561,446,1551,460,1540,475,1521,488,1450,515,1388,528,1331,531,1276,529,1162,521,1097,524,1022,536,1010,539,1009,534,1021,531,1097,518,1162,516,1276,523,1331,526,1387,522,1449,509,1519,483,1536,471,1547,457,1558,442,1576,428,1617,412,1654,404,1720,403,1786,403,1822,396,1863,380,1913,343,1967,293"/>
+<area shape="poly" title=" " alt="" coords="1996,295,2004,336,1999,337,1991,296"/>
+<area shape="poly" title=" " alt="" coords="2085,277,2327,297,2471,315,2615,340,2763,381,2859,410,2908,428,2928,449,2944,472,2966,519,2961,521,2940,475,2924,452,2905,433,2857,415,2761,386,2614,345,2471,321,2326,302,2085,282"/>
+<area shape="poly" title=" " alt="" coords="1914,297,1746,342,1745,337,1913,292"/>
+<area shape="poly" title=" " alt="" coords="1954,209,1919,231,1884,257,1852,292,1831,325,1809,356,1771,385,1736,402,1705,413,1650,422,1592,424,1520,433,1257,488,1139,509,1022,536,1012,539,1011,534,1021,531,1137,504,1255,483,1520,428,1592,419,1649,417,1704,408,1734,397,1768,380,1805,352,1827,322,1848,289,1881,253,1916,226,1951,204"/>
+<area shape="poly" title=" " alt="" coords="2054,204,2090,224,2121,253,2133,275,2143,306,2159,382,2178,527,2172,527,2154,383,2138,307,2128,277,2117,256,2087,229,2052,209"/>
+<area shape="poly" title=" " alt="" coords="2044,204,2075,225,2100,253,2106,275,2100,296,2078,324,2049,345,2046,341,2074,321,2095,293,2101,275,2095,256,2072,229,2041,209"/>
+<area shape="poly" title=" " alt="" coords="2109,187,2387,195,2722,208,3009,227,3103,239,3132,245,3147,253,3170,281,3186,309,3194,338,3196,366,3192,395,3182,425,3147,487,3119,516,3082,535,3080,530,3115,512,3143,484,3177,423,3187,394,3191,366,3189,339,3181,311,3166,284,3144,257,3130,250,3102,244,3009,232,2722,213,2387,200,2109,192"/>
+<area shape="poly" title=" " alt="" coords="2109,186,2382,192,2714,204,3011,223,3118,237,3180,252,3221,272,3253,293,3265,306,3274,321,3279,340,3281,363,3281,458,3277,492,3263,517,3243,534,3217,545,3153,560,3081,576,3022,586,2923,597,2647,615,2082,640,2082,634,2647,610,2922,591,3021,581,3079,571,3152,555,3215,540,3240,529,3259,513,3272,490,3276,458,3276,363,3274,341,3269,323,3260,309,3249,297,3218,276,3178,257,3117,242,3011,229,2714,209,2382,197,2109,191"/>
+<area shape="poly" title=" " alt="" coords="1908,209,1848,229,1788,257,1733,295,1687,335,1684,331,1729,291,1785,252,1846,225,1907,204"/>
+<area shape="poly" title=" " alt="" coords="1992,207,1992,241,1987,241,1987,207"/>
+<area shape="poly" title=" " alt="" coords="2097,204,2338,249,2337,255,2096,209"/>
+<area shape="poly" title=" " alt="" coords="2362,297,2288,319,2258,332,2239,345,2223,365,2210,388,2192,438,2183,487,2180,527,2175,527,2178,486,2187,436,2205,386,2218,362,2236,341,2256,327,2286,314,2361,292"/>
+<area shape="poly" title=" " alt="" coords="2355,297,2086,350,2085,345,2354,292"/>
+<area shape="poly" title=" " alt="" coords="2552,292,2588,312,2617,341,2624,362,2617,384,2590,407,2539,440,2456,488,2416,504,2384,514,2312,536,2307,538,2305,533,2310,531,2383,509,2414,499,2453,483,2537,435,2586,403,2612,381,2619,362,2612,344,2585,316,2549,297"/>
+<area shape="poly" title=" " alt="" coords="2544,292,2613,314,2642,327,2661,341,2673,358,2681,377,2689,416,2684,417,2676,379,2668,361,2657,345,2639,332,2611,319,2542,297"/>
+<area shape="poly" title=" " alt="" coords="2357,297,2314,316,2277,345,2249,378,2234,411,2233,445,2248,484,2258,495,2275,508,2319,532,2316,537,2272,512,2254,499,2243,487,2228,446,2229,410,2244,375,2273,341,2311,312,2355,292"/>
+<area shape="poly" title=" " alt="" coords="2603,279,2739,288,2878,300,2992,318,3031,328,3053,341,3066,363,3071,386,3068,411,3061,436,3035,484,3004,524,3000,521,3030,481,3056,434,3063,410,3065,387,3061,365,3049,345,3029,333,2991,323,2878,306,2739,293,2603,284"/>
+<area shape="poly" title=" " alt="" coords="2603,278,2746,286,2894,299,3015,317,3056,328,3079,341,3102,369,3116,397,3124,425,3126,453,3122,481,3113,511,3082,575,3063,599,3039,617,3036,612,3060,595,3078,572,3108,509,3116,480,3120,453,3119,426,3111,399,3097,372,3076,345,3054,333,3014,322,2893,305,2746,292,2603,283"/>
+<area shape="poly" title=" " alt="" coords="2312,293,1771,353,1771,347,2311,288"/>
+<area shape="rect" title=" " alt="" coords="2779,350,2864,375"/>
+<area shape="poly" title=" " alt="" coords="2558,292,2761,340,2772,343,2770,348,2759,345,2557,297"/>
+<area shape="rect" title=" " alt="" coords="2889,350,2951,375"/>
+<area shape="poly" title=" " alt="" coords="2603,286,2737,307,2808,322,2877,340,2883,342,2881,347,2875,345,2807,327,2736,312,2602,291"/>
+<area shape="rect" title=" " alt="" coords="2257,445,2317,471"/>
+<area shape="poly" title=" " alt="" coords="2363,297,2326,316,2297,344,2287,365,2282,388,2284,432,2279,432,2277,387,2282,363,2293,341,2323,312,2361,292"/>
+<area shape="rect" title=" " alt="" coords="2975,350,3038,375"/>
+<area shape="poly" title=" " alt="" coords="2603,280,2778,300,2872,317,2965,340,2971,342,2969,347,2963,345,2871,322,2777,305,2603,285"/>
+<area shape="poly" title=" " alt="" coords="2459,295,2458,329,2453,329,2454,295"/>
+<area shape="poly" title=" " alt="" coords="2449,384,2421,436,2400,463,2375,487,2335,510,2300,518,2264,523,2220,536,2216,537,2214,533,2218,531,2262,518,2299,513,2333,505,2372,483,2396,460,2417,433,2444,381"/>
+<area shape="poly" title=" " alt="" coords="2458,383,2451,434,2442,462,2426,487,2400,510,2374,519,2345,525,2312,536,2307,538,2305,533,2310,531,2344,520,2372,514,2397,505,2422,484,2437,460,2446,433,2452,383"/>
+<area shape="poly" title=" " alt="" coords="2505,380,2609,423,2606,428,2503,385"/>
+<area shape="poly" title=" " alt="" coords="2603,375,2752,397,2816,411,2861,428,2881,443,2904,467,2951,521,2947,524,2900,470,2877,447,2859,433,2814,417,2751,402,2603,380"/>
+<area shape="poly" title=" " alt="" coords="2603,379,2740,402,2791,415,2818,429,2842,466,2850,503,2842,539,2818,575,2787,586,2724,595,2526,613,2082,639,2082,633,2526,608,2723,590,2786,581,2814,571,2837,537,2845,503,2837,468,2814,433,2789,420,2739,407,2602,384"/>
+<area shape="poly" title=" " alt="" coords="2430,385,2375,432,2355,462,2346,475,2331,488,2280,512,2237,520,2192,524,2137,536,2128,539,2126,534,2135,531,2191,519,2236,515,2279,507,2328,483,2342,471,2351,459,2371,429,2426,381"/>
+<area shape="poly" title=" " alt="" coords="2420,385,2323,441,2320,436,2418,381"/>
+<area shape="poly" title=" " alt="" coords="1331,297,1256,387,1201,440,1140,488,1090,509,1014,538,1012,533,1088,504,1137,483,1197,436,1252,383,1327,293"/>
+<area shape="poly" title=" " alt="" coords="1416,292,1572,336,1570,341,1414,297"/>
+<area shape="poly" title=" " alt="" coords="1618,209,1524,257,1467,297,1391,353,1334,400,1275,443,1192,488,1146,506,1108,516,1070,523,1022,536,1014,539,1012,534,1021,531,1069,518,1107,510,1144,501,1190,483,1272,438,1331,396,1388,349,1464,293,1521,252,1615,205"/>
+<area shape="poly" title=" " alt="" coords="1703,204,1971,341,1968,346,1701,209"/>
+<area shape="poly" title=" " alt="" coords="1771,196,1859,204,2094,215,2487,237,2690,254,2870,276,2945,289,3006,305,3052,322,3079,341,3089,367,3090,405,3083,447,3066,487,3048,509,3026,528,3023,524,3045,506,3062,484,3077,446,3085,405,3084,368,3075,344,3050,326,3005,310,2944,295,2869,281,2689,259,2486,242,2094,221,1858,209,1770,201"/>
+<area shape="poly" title=" " alt="" coords="1641,209,1558,286,1457,393,1413,448,1382,499,1373,521,1368,541,1369,558,1377,571,1398,583,1438,594,1559,611,1704,625,1841,633,1841,638,1704,630,1558,617,1437,599,1396,588,1373,575,1364,560,1363,541,1367,520,1377,496,1409,445,1453,389,1555,282,1638,205"/>
+<area shape="poly" title=" " alt="" coords="1665,207,1660,329,1655,328,1659,207"/>
+<area shape="poly" title=" " alt="" coords="1771,196,2299,254,2298,260,1770,201"/>
+<area shape="poly" title=" " alt="" coords="1684,205,1725,244,1781,292,1849,340,1922,380,1972,394,2060,412,2243,447,2242,453,2058,417,1971,399,1920,385,1846,345,1778,296,1721,248,1681,209"/>
+<area shape="poly" title=" " alt="" coords="1591,209,1431,253,1429,248,1589,204"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00418.png" border="0" usemap="#a_expected_void_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00416_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02742.html">lumex::core::expected::result::expected&lt; void, ErrorType &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>expected</code> specialization when the success value is absent (<code>void</code>).  <a href="a02742.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06568.html">LumexJsonHelper</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One API for flat and sectioned JSON configurations.  <a href="a06568.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06572.html">LumexJsonSchemaNormalizer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shares the schema walker and the strict/non-strict error policy between concrete normalizers.  <a href="a06572.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06576.html">LumexJsonSchemaException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carries the failure reason, the JSON path of the offending value (<code>$.items[2].name</code>) and a human-readable detail.  <a href="a06576.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06580.html">LumexJsonSchemaTraverser</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stateless schema walker. All members are static.  <a href="a06580.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06584.html">LumexJsonSchemaValidator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses raw JSON text and walks it against one schema tree in <code>validate_only</code> mode. It never normalizes or rewrites fields; use a <code><a class="el" href="a06572.html" title="Shares the schema walker and the strict/non-strict error policy between concrete normalizers.">LumexJsonSchemaNormalizer</a></code> subclass for that.  <a href="a06584.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01351.html">lumex::core::expected</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01355.html">lumex::core::expected::result</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a210b248fe3338b4d5161ae03caad7942" id="r_a210b248fe3338b4d5161ae03caad7942"><td class="memItemLeft" align="right" valign="top">typedef lumex_basic_string_view&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a210b248fe3338b4d5161ae03caad7942">lumex_string_view</a></td></tr>
+<tr class="memdesc:a210b248fe3338b4d5161ae03caad7942"><td class="mdescLeft">&#160;</td><td class="mdescRight">The view of <code>char</code>: the <code>std::string_view</code> of the library.  <br /></td></tr>
+<tr class="separator:a210b248fe3338b4d5161ae03caad7942"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:acf6c250fe30b33bf20e97c6bc52ad446" id="r_acf6c250fe30b33bf20e97c6bc52ad446"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> </td></tr>
+<tr class="memdesc:acf6c250fe30b33bf20e97c6bc52ad446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Severity of a diagnostic message.  <a href="#acf6c250fe30b33bf20e97c6bc52ad446">More...</a><br /></td></tr>
+<tr class="separator:acf6c250fe30b33bf20e97c6bc52ad446"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c1c9ae8fd4d21054801c40a3c89dbb5" id="r_a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c1c9ae8fd4d21054801c40a3c89dbb5">set_diagnostic_reporter</a> (json_diagnostic_fn reporter) noexcept</td></tr>
+<tr class="memdesc:a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the report sink. <code>nullptr</code> restores the default (<code>warning</code> and <code>error</code> to <code>std::cerr</code>, the rest dropped).  <br /></td></tr>
+<tr class="separator:a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The specialization <code>expected&lt;void, ErrorType&gt;</code> for operations that succeed without a value; an implementation of C++23 <code>std::expected&lt;void, E&gt;</code>. </p>
-<p>It follows [expected.void] of the working draft and keeps the interface of the primary template where it applies to an absent value: <code>has_value()</code>, <code>has_error()</code>, <code>value()</code> (which only checks the state and throws <code><a class="el" href="a06343.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a></code> on an error), <code>error()</code>, <code>error_or()</code>, <code>emplace()</code>, <code>emplace_error()</code>, <code>swap()</code>, the converting constructors from an <code>expected&lt;void, G&gt;</code>, the assignment from an <code>unexpected</code>, and the monadic operations, whose functions take no arguments in the success state. The header includes <code><a class="el" href="a00404.html" title="expected&lt;SuccessType, ErrorType&gt;, an implementation of C++23 std::expected usable from C++11,...">Expected.hpp</a></code>, so it is enough for both forms. The differences from <code>std::expected</code> listed at the class <code>expected</code> in <code><a class="el" href="a00404.html" title="expected&lt;SuccessType, ErrorType&gt;, an implementation of C++23 std::expected usable from C++11,...">Expected.hpp</a></code> apply here too, and so does the table of what is <code>constexpr</code> in each standard. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a210b248fe3338b4d5161ae03caad7942" name="a210b248fe3338b4d5161ae03caad7942"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a210b248fe3338b4d5161ae03caad7942">&#9670;&#160;</a></span>lumex_string_view</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef lumex_basic_string_view&lt;char&gt; <a class="el" href="a01573.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The view of <code>char</code>: the <code>std::string_view</code> of the library. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="acf6c250fe30b33bf20e97c6bc52ad446" name="acf6c250fe30b33bf20e97c6bc52ad446"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf6c250fe30b33bf20e97c6bc52ad446">&#9670;&#160;</a></span>LumexJsonDiagnosticLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="a01441.html#acf6c250fe30b33bf20e97c6bc52ad446">lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Severity of a diagnostic message. </p>
+<p><code><a class="el" href="a00470.html#a75839935a8fd0da03fd56602968144fb">to_string()</a></code> returns the enumerator name (<code>"warning"</code>). </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00416_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00416_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00416_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00416_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,285,60,310"/>
+<area shape="rect" href="a06568.html#a3c294a75299ef8fd653d78a68d505e1a" title="Like write_value, but only replaces a key that already exists (not null) in a non&#45;empty file." alt="" coords="141,5,310,45"/>
+<area shape="poly" title=" " alt="" coords="32,284,59,166,81,99,93,73,106,55,126,41,129,45,110,59,98,76,86,101,64,167,38,285"/>
+<area shape="rect" href="a06572.html#aa895f4efd6c47529d881aa66d27621f2" title="Text of the exception held by error." alt="" coords="117,69,334,109"/>
+<area shape="poly" title=" " alt="" coords="32,284,38,251,51,207,73,160,88,138,106,119,112,115,115,119,110,123,92,142,78,162,56,208,43,252,37,285"/>
+<area shape="rect" href="a06568.html#afc8400f0c4c8e2fb3575c993f1b84954" title="Reads key as T from section (or the root)." alt="" coords="143,133,308,173"/>
+<area shape="poly" title=" " alt="" coords="35,283,61,234,81,207,106,183,129,171,131,175,110,187,85,210,65,237,40,286"/>
+<area shape="rect" href="a06568.html#a910df43bdf51ef72704365f5632cc3e6" title="Whether key exists in section (or at the root) and is not null." alt="" coords="126,198,325,223"/>
+<area shape="poly" title=" " alt="" coords="43,282,70,257,107,234,128,225,130,230,109,238,74,262,46,286"/>
+<area shape="rect" href="a06568.html#ac2438f84fe091074be251ab7ca8a3445" title="Loads a JSON document from a file." alt="" coords="139,248,311,288"/>
+<area shape="poly" title=" " alt="" coords="60,290,125,281,126,286,61,296"/>
+<area shape="rect" href="a06580.html#a1933c607554e5bae08d9a21ea3396cab" title="Walks input against schema." alt="" coords="108,313,343,338"/>
+<area shape="poly" title=" " alt="" coords="61,299,125,308,124,313,60,304"/>
+<area shape="rect" href="a00416.html#a7c1c9ae8fd4d21054801c40a3c89dbb5" title="Installs the report sink. nullptr restores the default (warning and error to std::cerr,..." alt="" coords="138,362,313,387"/>
+<area shape="poly" title=" " alt="" coords="49,308,76,328,109,347,133,356,132,361,107,352,73,333,46,313"/>
+<area shape="rect" href="a06568.html#a17a81c641ecb11ad8159e5af5287a13b" title="Stores value under key in section (or the root), creating the section path when needed." alt="" coords="143,412,307,452"/>
+<area shape="poly" title=" " alt="" coords="41,309,67,352,86,376,110,396,132,409,129,413,106,401,82,380,62,355,36,311"/>
+<area shape="rect" href="a01739.html#a1d14359bf452f33397a8b39a2789c64e" title="Strict: throws on the first violation. Non&#45;strict: never throws for a violation and discards it; use ..." alt="" coords="112,501,339,555"/>
+<area shape="poly" title=" " alt="" coords="38,309,61,380,82,423,110,462,147,492,144,496,106,466,77,426,56,382,33,311"/>
+<area shape="rect" href="a06568.html#a8591e536f16a57221a13814d3fdff1e7" title="Loads the file (an unreadable or missing file counts as an empty object), stores value and saves it b..." alt="" coords="137,580,314,620"/>
+<area shape="poly" title=" " alt="" coords="37,310,63,442,84,517,97,546,110,565,126,577,123,582,106,568,92,548,79,518,57,443,32,311"/>
+<area shape="poly" title=" " alt="" coords="187,501,188,491,194,482,207,476,225,474,247,477,260,485,257,490,245,482,225,479,208,481,198,486,193,492,193,501"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7c1c9ae8fd4d21054801c40a3c89dbb5" name="a7c1c9ae8fd4d21054801c40a3c89dbb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c1c9ae8fd4d21054801c40a3c89dbb5">&#9670;&#160;</a></span>set_diagnostic_reporter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::json::diagnostics::set_diagnostic_reporter </td>
+          <td>(</td>
+          <td class="paramtype">json_diagnostic_fn</td>          <td class="paramname"><span class="paramname"><em>reporter</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Installs the report sink. <code>nullptr</code> restores the default (<code>warning</code> and <code>error</code> to <code>std::cerr</code>, the rest dropped). </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00416_a7c1c9ae8fd4d21054801c40a3c89dbb5_icgraph.png" border="0" usemap="#aa00416_a7c1c9ae8fd4d21054801c40a3c89dbb5_icgraph" alt=""/></div>
+<map name="aa00416_a7c1c9ae8fd4d21054801c40a3c89dbb5_icgraph" id="aa00416_a7c1c9ae8fd4d21054801c40a3c89dbb5_icgraph">
+<area shape="rect" title="Installs the report sink. nullptr restores the default (warning and error to std::cerr,..." alt="" coords="108,5,283,31"/>
+<area shape="rect" href="a00416.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" title=" " alt="" coords="94,21,60,21,60,15,94,15"/>
+</map>
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="dir_558ea4e037858a45ed7ac4d50d1489ee.html">result</a></li><li class="navelem"><a class="el" href="a00416.html">ExpectedVoid.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_4071ad1724fa0e77f3bdca2354e6ad35.html">json</a></li><li class="navelem"><a class="el" href="a00416.html">example_json.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,14 @@
+<map id="lumex::core::span::view::span::size" name="lumex::core::span::view::span::size">
+<area shape="rect" id="Node000001" title="The number of elements." alt="" coords="348,95,495,135"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="458,83,445,76,421,73,401,75,388,80,384,86,386,94,381,95,378,85,385,76,399,70,421,68,447,71,460,78"/>
+<area shape="rect" id="Node000002" href="$a02047.html#a2ed8718a506b3b69780006ab80ed9ed6" title="Encodes binary data from a span&lt;byte_type const&gt; into a Base64 string." alt="" coords="108,5,300,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="369,91,299,60,267,48,269,43,301,55,371,86"/>
+<area shape="rect" id="Node000003" href="$a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="177,70,231,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="334,105,231,89,232,84,335,99"/>
+<area shape="rect" id="Node000004" href="$a01544.html#a065793a2b525314276ceaf0af8c0f23e" title="Gives every empty element a hazard slot, all or none." alt="" coords="119,119,289,174"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="335,130,290,137,289,131,334,125"/>
+<area shape="rect" id="Node000006" href="$a04027.html#a9368a9a24c55eb575bbef4613bf1ea25" title="Constructs a span of a contiguous range." alt="" coords="131,199,277,239"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="381,144,301,188,269,201,267,196,299,183,378,139"/>
+<area shape="rect" id="Node000005" href="$a00524.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,134,60,159"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="105,149,60,149,60,144,105,144"/>
+</map>

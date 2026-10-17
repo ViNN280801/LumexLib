@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexMathConstants.hpp File Reference</title>
+<title>LumexLib: example_cpu_vectorization_capabilities.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,429 +104,108 @@ $(function(){initNavTree('a00455.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexMathConstants.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">example_cpu_vectorization_capabilities.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Mathematical constants as <code>LUMEX_MATH_CONSTANTS_*</code> macros.  
-<a href="#details">More...</a></p>
-<div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01331_source.html">lumex/applied/hardware/LumexHardware</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for example_cpu_vectorization_capabilities.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00457.png" border="0" usemap="#a_lumex_math_constants_8hppdep" alt=""/></div>
+<div class="center"><img src="a00456.png" border="0" usemap="#aexample__cpu__vectorization__capabilities_8cpp" alt=""/></div>
+<map name="aexample__cpu__vectorization__capabilities_8cpp" id="aexample__cpu__vectorization__capabilities_8cpp">
+<area shape="rect" title=" " alt="" coords="1949,5,2151,45"/>
+<area shape="rect" title=" " alt="" coords="1855,101,1935,126"/>
+<area shape="poly" title=" " alt="" coords="2016,48,1931,96,1928,91,2013,43"/>
+<area shape="rect" title=" " alt="" coords="2267,277,2326,302"/>
+<area shape="poly" title=" " alt="" coords="2088,43,2122,65,2154,91,2195,135,2232,183,2285,263,2280,266,2228,186,2191,139,2151,95,2119,69,2086,48"/>
+<area shape="rect" href="a01331.html" title="Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the ..." alt="" coords="1960,93,2140,133"/>
+<area shape="poly" title=" " alt="" coords="2053,46,2053,79,2047,79,2047,46"/>
+<area shape="rect" href="a01310.html" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="1944,181,2156,221"/>
+<area shape="poly" title=" " alt="" coords="2053,134,2053,167,2047,167,2047,134"/>
+<area shape="rect" href="a01313.html" title="Hardware inventory (processor, memory, graphics adapter) and the decision whether an application shou..." alt="" coords="1084,189,1352,214"/>
+<area shape="poly" title=" " alt="" coords="1960,134,1948,136,1793,156,1637,172,1366,195,1366,189,1637,167,1792,151,1947,131,1960,129"/>
+<area shape="poly" title=" " alt="" coords="2119,219,2256,267,2260,269,2258,273,2254,272,2117,224"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1777,277,1958,302"/>
+<area shape="poly" title=" " alt="" coords="2009,224,1907,273,1905,268,2007,219"/>
+<area shape="rect" title=" " alt="" coords="2187,277,2243,302"/>
+<area shape="poly" title=" " alt="" coords="2089,219,2181,268,2178,273,2087,224"/>
+<area shape="rect" title=" " alt="" coords="1982,277,2049,302"/>
+<area shape="poly" title=" " alt="" coords="2044,223,2028,265,2023,263,2039,221"/>
+<area shape="rect" title=" " alt="" coords="2073,277,2163,302"/>
+<area shape="poly" title=" " alt="" coords="2068,220,2102,264,2098,267,2064,223"/>
+<area shape="rect" title=" " alt="" coords="1678,277,1753,302"/>
+<area shape="poly" title=" " alt="" coords="1950,224,1860,245,1765,272,1759,274,1757,269,1764,267,1858,240,1949,219"/>
+<area shape="poly" title=" " alt="" coords="1353,201,1572,207,1832,219,2078,239,2179,251,2256,267,2262,269,2261,274,2255,272,2178,257,2078,244,1832,225,1572,213,1352,206"/>
+<area shape="poly" title=" " alt="" coords="1340,211,1539,235,1765,267,1793,271,1792,277,1764,272,1539,240,1339,217"/>
+<area shape="poly" title=" " alt="" coords="1352,206,1688,229,1852,246,1971,267,1979,269,1977,274,1969,272,1851,252,1687,234,1352,211"/>
+<area shape="poly" title=" " alt="" coords="1352,211,1504,232,1586,247,1667,267,1675,269,1673,274,1665,272,1585,253,1503,237,1352,216"/>
+<area shape="rect" title=" " alt="" coords="1083,277,1156,302"/>
+<area shape="poly" title=" " alt="" coords="1205,216,1146,269,1142,265,1202,212"/>
+<area shape="rect" title=" " alt="" coords="1181,277,1255,302"/>
+<area shape="poly" title=" " alt="" coords="1221,214,1221,263,1215,263,1215,214"/>
+<area shape="rect" title=" " alt="" coords="1279,277,1351,302"/>
+<area shape="poly" title=" " alt="" coords="1234,212,1293,265,1289,269,1231,216"/>
+<area shape="rect" title=" " alt="" coords="1375,277,1450,302"/>
+<area shape="poly" title=" " alt="" coords="1247,212,1373,268,1371,273,1245,217"/>
+<area shape="rect" title=" " alt="" coords="1475,277,1537,302"/>
+<area shape="poly" title=" " alt="" coords="1274,212,1363,235,1463,267,1468,269,1466,274,1461,272,1362,240,1272,217"/>
+<area shape="rect" title=" " alt="" coords="1561,277,1653,302"/>
+<area shape="poly" title=" " alt="" coords="1295,211,1416,235,1551,267,1561,270,1559,275,1549,272,1415,240,1294,217"/>
+<area shape="rect" title=" " alt="" coords="5,277,84,302"/>
+<area shape="poly" title=" " alt="" coords="1084,207,848,214,564,227,293,246,182,258,97,272,87,275,85,270,96,267,181,253,293,241,563,222,847,209,1084,202"/>
+<area shape="rect" title=" " alt="" coords="109,277,175,302"/>
+<area shape="poly" title=" " alt="" coords="1084,207,866,214,608,227,364,246,264,258,188,272,180,274,179,269,187,267,263,252,364,240,608,221,866,209,1084,202"/>
+<area shape="rect" title=" " alt="" coords="199,277,295,302"/>
+<area shape="poly" title=" " alt="" coords="1084,210,669,234,460,251,308,272,294,275,293,270,307,267,459,246,669,229,1084,205"/>
+<area shape="rect" title=" " alt="" coords="319,277,466,302"/>
+<area shape="poly" title=" " alt="" coords="1084,211,804,232,641,249,478,272,456,276,455,271,478,267,640,244,804,227,1084,205"/>
+<area shape="rect" title=" " alt="" coords="491,277,601,302"/>
+<area shape="poly" title=" " alt="" coords="1084,212,862,233,737,250,613,272,598,276,596,270,612,267,736,245,862,228,1083,207"/>
+<area shape="rect" title=" " alt="" coords="625,277,728,302"/>
+<area shape="poly" title=" " alt="" coords="1100,217,933,239,748,272,732,276,731,270,747,267,932,234,1099,211"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="804,269,1059,309"/>
+<area shape="poly" title=" " alt="" coords="1177,217,1011,268,1009,263,1176,212"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="742,357,955,397"/>
+<area shape="poly" title=" " alt="" coords="1084,217,901,241,829,256,806,263,793,271,786,288,790,307,801,327,816,345,812,349,796,330,785,309,781,288,789,268,803,259,828,250,900,235,1084,211"/>
+<area shape="poly" title=" " alt="" coords="914,312,879,349,875,345,910,308"/>
+</map>
 </div>
-</div>
-<p><a href="a00455_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a90c8706d5ca0db2bdfc18ba319992a14" id="r_a90c8706d5ca0db2bdfc18ba319992a14"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90c8706d5ca0db2bdfc18ba319992a14">LUMEX_MATH_CONSTANTS_PI</a>&#160;&#160;&#160;  3.14159265358979323846264338327950288419716939937510</td></tr>
-<tr class="separator:a90c8706d5ca0db2bdfc18ba319992a14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19da021499da8bb1b451b3fddc8fb557" id="r_a19da021499da8bb1b451b3fddc8fb557"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19da021499da8bb1b451b3fddc8fb557">LUMEX_MATH_CONSTANTS_EULER_NUMBER</a>&#160;&#160;&#160;  2.71828182845904523536028747135266249775724709369995</td></tr>
-<tr class="separator:a19da021499da8bb1b451b3fddc8fb557"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae463bd7911974e01edea620fd45b83c5" id="r_ae463bd7911974e01edea620fd45b83c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae463bd7911974e01edea620fd45b83c5">LUMEX_MATH_CONSTANTS_GOLDEN_RATIO</a>&#160;&#160;&#160;  1.61803398874989484820458683436563811772030917980576</td></tr>
-<tr class="separator:ae463bd7911974e01edea620fd45b83c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba10c6bd3213d21a2c30a477b3f0c70f" id="r_aba10c6bd3213d21a2c30a477b3f0c70f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba10c6bd3213d21a2c30a477b3f0c70f">LUMEX_MATH_CONSTANTS_SILVER_RATIO</a>&#160;&#160;&#160;  2.41421356237309504880168872420969807856967187537694</td></tr>
-<tr class="separator:aba10c6bd3213d21a2c30a477b3f0c70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01815a919ddc9f8bcc22aa6f8ac19bcd" id="r_a01815a919ddc9f8bcc22aa6f8ac19bcd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01815a919ddc9f8bcc22aa6f8ac19bcd">LUMEX_MATH_CONSTANTS_EULER_MASCHERONI</a>&#160;&#160;&#160;  0.57721566490153286060651209008240243104215933593992</td></tr>
-<tr class="separator:a01815a919ddc9f8bcc22aa6f8ac19bcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3bce4463ada8aec1f335bc22ea4ac37" id="r_aa3bce4463ada8aec1f335bc22ea4ac37"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3bce4463ada8aec1f335bc22ea4ac37">LUMEX_MATH_CONSTANTS_SQRT_2</a>&#160;&#160;&#160;  1.41421356237309504880168872420969807856967187537694</td></tr>
-<tr class="separator:aa3bce4463ada8aec1f335bc22ea4ac37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe793637b3b3e52d88c1e4093a110e5f" id="r_abe793637b3b3e52d88c1e4093a110e5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe793637b3b3e52d88c1e4093a110e5f">LUMEX_MATH_CONSTANTS_SQRT_3</a>&#160;&#160;&#160;  1.73205080756887729352744634150587236694280525381038</td></tr>
-<tr class="separator:abe793637b3b3e52d88c1e4093a110e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaebdebb6d64cd6af2b802a2a67c6a0c9" id="r_aaebdebb6d64cd6af2b802a2a67c6a0c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaebdebb6d64cd6af2b802a2a67c6a0c9">LUMEX_MATH_CONSTANTS_SQRT_5</a>&#160;&#160;&#160;  2.23606797749978969640917366873127623544061835961152</td></tr>
-<tr class="separator:aaebdebb6d64cd6af2b802a2a67c6a0c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcc545543b2bd5f761780e7b8237015c" id="r_adcc545543b2bd5f761780e7b8237015c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adcc545543b2bd5f761780e7b8237015c">LUMEX_MATH_CONSTANTS_LN_2</a>&#160;&#160;&#160;  0.69314718055994530941723212145817656807550013436025</td></tr>
-<tr class="separator:adcc545543b2bd5f761780e7b8237015c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92087a0c1ff74ac5a19409f9827e0c03" id="r_a92087a0c1ff74ac5a19409f9827e0c03"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92087a0c1ff74ac5a19409f9827e0c03">LUMEX_MATH_CONSTANTS_LN_10</a>&#160;&#160;&#160;  2.30258509299404568401799145468436420760110148862877</td></tr>
-<tr class="separator:a92087a0c1ff74ac5a19409f9827e0c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af63c12a7f019726dcb0722629ce6f49e" id="r_af63c12a7f019726dcb0722629ce6f49e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af63c12a7f019726dcb0722629ce6f49e">LUMEX_MATH_CONSTANTS_APERY</a>&#160;&#160;&#160;  1.20205690315959428539973816151144999076498629234049</td></tr>
-<tr class="separator:af63c12a7f019726dcb0722629ce6f49e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a824e19d313acb83c37a4add873bd5cfe" id="r_a824e19d313acb83c37a4add873bd5cfe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a824e19d313acb83c37a4add873bd5cfe">LUMEX_MATH_CONSTANTS_CATALAN</a>&#160;&#160;&#160;  0.91596559417721901505460351493238411077414937428167</td></tr>
-<tr class="separator:a824e19d313acb83c37a4add873bd5cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71a248e9bc4d1f68cbf6337a9f786433" id="r_a71a248e9bc4d1f68cbf6337a9f786433"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71a248e9bc4d1f68cbf6337a9f786433">LUMEX_MATH_CONSTANTS_LEMNISCATE</a>&#160;&#160;&#160;  5.24411510858423962092967917978223882736550990286324</td></tr>
-<tr class="separator:a71a248e9bc4d1f68cbf6337a9f786433"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a624c7000a4b4d3096d532f65a5b5166c" id="r_a624c7000a4b4d3096d532f65a5b5166c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a624c7000a4b4d3096d532f65a5b5166c">LUMEX_MATH_CONSTANTS_GAMMA_1_4</a>&#160;&#160;&#160;  3.62560990822190831193068515586767200299516768288006</td></tr>
-<tr class="separator:a624c7000a4b4d3096d532f65a5b5166c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9637afd78ca1def8450057980f52325f" id="r_a9637afd78ca1def8450057980f52325f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9637afd78ca1def8450057980f52325f">LUMEX_MATH_CONSTANTS_GAMMA_1_3</a>&#160;&#160;&#160;  2.67893853470774763365569294097467764412868937795730</td></tr>
-<tr class="separator:a9637afd78ca1def8450057980f52325f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65030713db7d289fd18c665e3eb25101" id="r_a65030713db7d289fd18c665e3eb25101"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65030713db7d289fd18c665e3eb25101">LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES</a>&#160;&#160;&#160;  1.902160583104</td></tr>
-<tr class="separator:a65030713db7d289fd18c665e3eb25101"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c997a0c0890aca3816782b8ef4b8b4c" id="r_a0c997a0c0890aca3816782b8ef4b8b4c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c997a0c0890aca3816782b8ef4b8b4c">LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER</a>&#160;&#160;&#160;  1.32471795724474602596090885447809734073440405690173</td></tr>
-<tr class="separator:a0c997a0c0890aca3816782b8ef4b8b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad08c1e3d45f6bcd519583c4cf904f29f" id="r_ad08c1e3d45f6bcd519583c4cf904f29f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad08c1e3d45f6bcd519583c4cf904f29f">LUMEX_MATH_CONSTANTS_RECIPROCAL_PI</a>&#160;&#160;&#160;  0.31830988618379067153776752674502872406891929148091</td></tr>
-<tr class="separator:ad08c1e3d45f6bcd519583c4cf904f29f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a953dede6a9a9740fb0e4e90f22ebb1bb" id="r_a953dede6a9a9740fb0e4e90f22ebb1bb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a953dede6a9a9740fb0e4e90f22ebb1bb">LUMEX_MATH_CONSTANTS_SQRT_PI</a>&#160;&#160;&#160;  1.77245385090551602729816748334114518279754945612239</td></tr>
-<tr class="separator:a953dede6a9a9740fb0e4e90f22ebb1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34e8ed5a85456096dcd3ba5c8c8526bc" id="r_a34e8ed5a85456096dcd3ba5c8c8526bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34e8ed5a85456096dcd3ba5c8c8526bc">LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI</a>&#160;&#160;&#160;  0.56418958354775628694807945156077258584405062932899</td></tr>
-<tr class="separator:a34e8ed5a85456096dcd3ba5c8c8526bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07299359a3e831b42a9dc68b20029f76" id="r_a07299359a3e831b42a9dc68b20029f76"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07299359a3e831b42a9dc68b20029f76">LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT</a>&#160;&#160;&#160;  0.01745329251994329576923690768488612713442871888541</td></tr>
-<tr class="separator:a07299359a3e831b42a9dc68b20029f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a973ad186d224eb2b533085db9109fadb" id="r_a973ad186d224eb2b533085db9109fadb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a973ad186d224eb2b533085db9109fadb">LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION</a>&#160;&#160;&#160;  9.80665000000000000000000000000000000000000000000000</td></tr>
-<tr class="separator:a973ad186d224eb2b533085db9109fadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0a9d59070a4da7ef40198827b7bae2a" id="r_ae0a9d59070a4da7ef40198827b7bae2a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0a9d59070a4da7ef40198827b7bae2a">LUMEX_MATH_CONSTANTS_LIGHT_SPEED</a>&#160;&#160;&#160;  299792458.000000000000000000000000000000000000000000</td></tr>
-<tr class="separator:ae0a9d59070a4da7ef40198827b7bae2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff4b7903e7fa7a3be57542688b7f3da7" id="r_aff4b7903e7fa7a3be57542688b7f3da7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff4b7903e7fa7a3be57542688b7f3da7">LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT</a>&#160;&#160;&#160;  6.62607015e-34</td></tr>
-<tr class="separator:aff4b7903e7fa7a3be57542688b7f3da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81d3814edd34efc7ab9be4e794006ccf" id="r_a81d3814edd34efc7ab9be4e794006ccf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81d3814edd34efc7ab9be4e794006ccf">LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT</a>&#160;&#160;&#160;  6.02214076e23</td></tr>
-<tr class="separator:a81d3814edd34efc7ab9be4e794006ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Mathematical constants as <code>LUMEX_MATH_CONSTANTS_*</code> macros. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://en.wikipedia.org/wiki/List_of_mathematical_constants">https://en.wikipedia.org/wiki/List_of_mathematical_constants</a> </dd>
-<dd>
-<a href="https://calculla.com/math_constants">https://calculla.com/math_constants</a> </dd>
-<dd>
-<a href="http://www.numberworld.org/digits/">http://www.numberworld.org/digits/</a> </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="af63c12a7f019726dcb0722629ce6f49e" name="af63c12a7f019726dcb0722629ce6f49e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af63c12a7f019726dcb0722629ce6f49e">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_APERY</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_APERY&#160;&#160;&#160;  1.20205690315959428539973816151144999076498629234049</td>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00455_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00455_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00455_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00455_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,60,60,85"/>
+<area shape="rect" href="a01703.html#a0c41e02b6d1e0710680d86766b4732a1" title="Performs comprehensive CPU vectorization capabilities detection." alt="" coords="108,5,344,60"/>
+<area shape="poly" title=" " alt="" coords="60,64,94,57,95,62,61,70"/>
+<area shape="rect" href="a01703.html#a3714f0eda41c0d71a8a52e5c2a1c6e43" title="Gets a human&#45;readable summary of supported vectorization technologies." alt="" coords="108,84,344,139"/>
+<area shape="poly" title=" " alt="" coords="61,76,95,82,94,88,60,81"/>
+</map>
 </div>
-</div>
-<a id="a81d3814edd34efc7ab9be4e794006ccf" name="a81d3814edd34efc7ab9be4e794006ccf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81d3814edd34efc7ab9be4e794006ccf">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_AVOGADRO_CONSTANT&#160;&#160;&#160;  6.02214076e23</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a65030713db7d289fd18c665e3eb25101" name="a65030713db7d289fd18c665e3eb25101"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65030713db7d289fd18c665e3eb25101">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_BRUNS_CONSTANT_TWIN_PRIMES&#160;&#160;&#160;  1.902160583104</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a824e19d313acb83c37a4add873bd5cfe" name="a824e19d313acb83c37a4add873bd5cfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a824e19d313acb83c37a4add873bd5cfe">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_CATALAN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_CATALAN&#160;&#160;&#160;  0.91596559417721901505460351493238411077414937428167</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a07299359a3e831b42a9dc68b20029f76" name="a07299359a3e831b42a9dc68b20029f76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07299359a3e831b42a9dc68b20029f76">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_COPERNICUS_CONSTANT&#160;&#160;&#160;  0.01745329251994329576923690768488612713442871888541</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a01815a919ddc9f8bcc22aa6f8ac19bcd" name="a01815a919ddc9f8bcc22aa6f8ac19bcd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01815a919ddc9f8bcc22aa6f8ac19bcd">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_EULER_MASCHERONI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_EULER_MASCHERONI&#160;&#160;&#160;  0.57721566490153286060651209008240243104215933593992</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a19da021499da8bb1b451b3fddc8fb557" name="a19da021499da8bb1b451b3fddc8fb557"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19da021499da8bb1b451b3fddc8fb557">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_EULER_NUMBER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_EULER_NUMBER&#160;&#160;&#160;  2.71828182845904523536028747135266249775724709369995</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9637afd78ca1def8450057980f52325f" name="a9637afd78ca1def8450057980f52325f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9637afd78ca1def8450057980f52325f">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_GAMMA_1_3</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_GAMMA_1_3&#160;&#160;&#160;  2.67893853470774763365569294097467764412868937795730</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a624c7000a4b4d3096d532f65a5b5166c" name="a624c7000a4b4d3096d532f65a5b5166c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a624c7000a4b4d3096d532f65a5b5166c">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_GAMMA_1_4</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_GAMMA_1_4&#160;&#160;&#160;  3.62560990822190831193068515586767200299516768288006</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae463bd7911974e01edea620fd45b83c5" name="ae463bd7911974e01edea620fd45b83c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae463bd7911974e01edea620fd45b83c5">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_GOLDEN_RATIO</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_GOLDEN_RATIO&#160;&#160;&#160;  1.61803398874989484820458683436563811772030917980576</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a973ad186d224eb2b533085db9109fadb" name="a973ad186d224eb2b533085db9109fadb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a973ad186d224eb2b533085db9109fadb">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_GRAVITY_ACCELERATION&#160;&#160;&#160;  9.80665000000000000000000000000000000000000000000000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a34e8ed5a85456096dcd3ba5c8c8526bc" name="a34e8ed5a85456096dcd3ba5c8c8526bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34e8ed5a85456096dcd3ba5c8c8526bc">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_INVERSE_SQRT_PI&#160;&#160;&#160;  0.56418958354775628694807945156077258584405062932899</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a71a248e9bc4d1f68cbf6337a9f786433" name="a71a248e9bc4d1f68cbf6337a9f786433"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71a248e9bc4d1f68cbf6337a9f786433">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_LEMNISCATE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_LEMNISCATE&#160;&#160;&#160;  5.24411510858423962092967917978223882736550990286324</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae0a9d59070a4da7ef40198827b7bae2a" name="ae0a9d59070a4da7ef40198827b7bae2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0a9d59070a4da7ef40198827b7bae2a">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_LIGHT_SPEED</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_LIGHT_SPEED&#160;&#160;&#160;  299792458.000000000000000000000000000000000000000000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a92087a0c1ff74ac5a19409f9827e0c03" name="a92087a0c1ff74ac5a19409f9827e0c03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92087a0c1ff74ac5a19409f9827e0c03">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_LN_10</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_LN_10&#160;&#160;&#160;  2.30258509299404568401799145468436420760110148862877</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="adcc545543b2bd5f761780e7b8237015c" name="adcc545543b2bd5f761780e7b8237015c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcc545543b2bd5f761780e7b8237015c">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_LN_2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_LN_2&#160;&#160;&#160;  0.69314718055994530941723212145817656807550013436025</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a90c8706d5ca0db2bdfc18ba319992a14" name="a90c8706d5ca0db2bdfc18ba319992a14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90c8706d5ca0db2bdfc18ba319992a14">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_PI&#160;&#160;&#160;  3.14159265358979323846264338327950288419716939937510</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aff4b7903e7fa7a3be57542688b7f3da7" name="aff4b7903e7fa7a3be57542688b7f3da7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff4b7903e7fa7a3be57542688b7f3da7">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_PLANCK_CONSTANT&#160;&#160;&#160;  6.62607015e-34</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0c997a0c0890aca3816782b8ef4b8b4c" name="a0c997a0c0890aca3816782b8ef4b8b4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c997a0c0890aca3816782b8ef4b8b4c">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_PLASTIC_NUMBER&#160;&#160;&#160;  1.32471795724474602596090885447809734073440405690173</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad08c1e3d45f6bcd519583c4cf904f29f" name="ad08c1e3d45f6bcd519583c4cf904f29f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad08c1e3d45f6bcd519583c4cf904f29f">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_RECIPROCAL_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_RECIPROCAL_PI&#160;&#160;&#160;  0.31830988618379067153776752674502872406891929148091</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aba10c6bd3213d21a2c30a477b3f0c70f" name="aba10c6bd3213d21a2c30a477b3f0c70f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba10c6bd3213d21a2c30a477b3f0c70f">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SILVER_RATIO</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SILVER_RATIO&#160;&#160;&#160;  2.41421356237309504880168872420969807856967187537694</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa3bce4463ada8aec1f335bc22ea4ac37" name="aa3bce4463ada8aec1f335bc22ea4ac37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3bce4463ada8aec1f335bc22ea4ac37">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SQRT_2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SQRT_2&#160;&#160;&#160;  1.41421356237309504880168872420969807856967187537694</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abe793637b3b3e52d88c1e4093a110e5f" name="abe793637b3b3e52d88c1e4093a110e5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe793637b3b3e52d88c1e4093a110e5f">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SQRT_3</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SQRT_3&#160;&#160;&#160;  1.73205080756887729352744634150587236694280525381038</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aaebdebb6d64cd6af2b802a2a67c6a0c9" name="aaebdebb6d64cd6af2b802a2a67c6a0c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaebdebb6d64cd6af2b802a2a67c6a0c9">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SQRT_5</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SQRT_5&#160;&#160;&#160;  2.23606797749978969640917366873127623544061835961152</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a953dede6a9a9740fb0e4e90f22ebb1bb" name="a953dede6a9a9740fb0e4e90f22ebb1bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a953dede6a9a9740fb0e4e90f22ebb1bb">&#9670;&#160;</a></span>LUMEX_MATH_CONSTANTS_SQRT_PI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_MATH_CONSTANTS_SQRT_PI&#160;&#160;&#160;  1.77245385090551602729816748334114518279754945612239</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -535,7 +214,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_d223f57be190bde72e88025a46faedd4.html">math</a></li><li class="navelem"><a class="el" href="dir_3e6c35e348a445e7cf0fb5d49f1e3ff7.html">constants</a></li><li class="navelem"><a class="el" href="a00455.html">LumexMathConstants.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_4dd30098bfbd5f3058c90a2baa527711.html">hardware</a></li><li class="navelem"><a class="el" href="a00455.html">example_cpu_vectorization_capabilities.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

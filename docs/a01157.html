@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexJson File Reference</title>
+<title>LumexLib: LumexHazardPointerHolder.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,41 +103,136 @@ $(function(){initNavTree('a01157.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexJson File Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexHazardPointerHolder.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>JSON module: non-throwing helpers for JSON configuration files, and validation and normalization of a document against a JSON Schema draft-7 subset.  
+<p><code>hazard_pointer</code>, the owner of one hazard slot, with <code>make_hazard_pointer</code>, <code>swap</code> and the extension <code>clean_up</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00098_source.html">diagnostics/LumexJsonDiagnostics.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00101_source.html">helper/LumexJsonHelper.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00104_source.html">normalization/ILumexJsonNormalizer.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00107_source.html">normalization/LumexJsonSchemaNormalizer.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00110_source.html">schema/LumexJsonSchemaException.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00113_source.html">schema/LumexJsonSchemaTraverser.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00116_source.html">validation/ILumexJsonSchemaValidator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00119_source.html">validation/LumexJsonSchemaValidator.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01145_source.html">lumex/core/hazard_pointer/base/LumexHazardPointerObjBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01148_source.html">lumex/core/hazard_pointer/engine/LumexHazardPointerEngine.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexJson:</div>
+Include dependency graph for LumexHazardPointerHolder.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01158.png" border="0" usemap="#a_lumex_json" alt=""/></div>
+<div class="center"><img src="a01158.png" border="0" usemap="#aLumexHazardPointerHolder_8hpp" alt=""/></div>
+<map name="aLumexHazardPointerHolder_8hpp" id="aLumexHazardPointerHolder_8hpp">
+<area shape="rect" title="hazard_pointer, the owner of one hazard slot, with make_hazard_pointer, swap and the extension clean_..." alt="" coords="413,5,641,31"/>
+<area shape="rect" title=" " alt="" coords="773,262,840,287"/>
+<area shape="poly" title=" " alt="" coords="570,28,619,48,677,76,735,115,761,139,784,165,795,185,802,207,809,248,804,249,797,208,790,187,779,168,757,143,732,119,675,81,617,52,568,33"/>
+<area shape="rect" title=" " alt="" coords="865,262,935,287"/>
+<area shape="poly" title=" " alt="" coords="599,28,662,47,725,76,778,117,824,164,861,211,887,249,883,252,857,214,820,168,775,121,723,81,660,52,597,33"/>
+<area shape="rect" title=" " alt="" coords="95,438,187,463"/>
+<area shape="poly" title=" " alt="" coords="413,25,318,31,220,42,133,58,99,69,73,81,43,103,23,124,12,151,8,187,8,275,11,299,18,322,45,365,79,401,112,428,108,432,75,405,41,369,14,325,6,300,3,275,3,187,7,150,19,122,40,99,71,76,97,64,131,53,219,37,318,26,412,20"/>
+<area shape="rect" title=" " alt="" coords="43,174,103,199"/>
+<area shape="poly" title=" " alt="" coords="413,30,219,52,140,66,114,73,99,81,86,98,78,119,74,161,69,160,73,117,81,95,96,77,112,68,139,61,218,47,412,25"/>
+<area shape="rect" href="a01145.html" title="hazard_pointer_obj_base&lt;T, D&gt;, the base class of objects that hazard pointers protect,..." alt="" coords="110,79,389,119"/>
+<area shape="poly" title=" " alt="" coords="483,33,332,77,331,72,482,28"/>
+<area shape="rect" href="a01148.html" title="The engine behind hazard_pointer: hazard slots, retired nodes, the entry points compiled into lumex::..." alt="" coords="487,167,769,207"/>
+<area shape="poly" title=" " alt="" coords="537,29,611,153,606,156,532,32"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="331,343,520,383"/>
+<area shape="poly" title=" " alt="" coords="524,32,477,167,455,255,436,329,431,328,449,254,472,166,519,30"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="533,431,747,471"/>
+<area shape="poly" title=" " alt="" coords="604,28,716,51,837,86,891,107,935,130,965,157,973,171,976,186,976,275,971,310,956,341,933,367,904,388,871,406,835,420,761,439,759,434,833,415,868,401,901,384,929,363,951,338,966,309,971,274,971,187,968,173,961,160,932,135,889,112,835,91,714,57,603,33"/>
+<area shape="poly" title=" " alt="" coords="215,121,189,142,169,168,155,201,145,236,135,308,135,374,140,424,135,425,130,374,130,308,140,235,150,199,164,165,186,138,212,117"/>
+<area shape="poly" title=" " alt="" coords="210,121,112,170,110,166,208,116"/>
+<area shape="rect" title=" " alt="" coords="179,174,256,199"/>
+<area shape="poly" title=" " alt="" coords="244,120,229,162,224,160,239,118"/>
+<area shape="poly" title=" " alt="" coords="336,116,529,161,527,166,335,121"/>
+<area shape="poly" title=" " alt="" coords="258,118,271,166,277,200,279,231,279,285,281,309,287,332,299,356,320,380,390,399,520,426,519,431,388,405,317,385,295,359,282,334,275,310,273,285,274,231,272,201,265,167,253,120"/>
+<area shape="poly" title=" " alt="" coords="670,204,770,254,767,258,668,209"/>
+<area shape="poly" title=" " alt="" coords="702,204,853,252,859,254,857,259,851,257,700,209"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="595,350,776,375"/>
+<area shape="poly" title=" " alt="" coords="641,206,663,254,683,336,678,337,657,256,637,208"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="465,255,647,295"/>
+<area shape="poly" title=" " alt="" coords="613,209,583,245,579,242,609,205"/>
+<area shape="poly" title=" " alt="" coords="663,205,695,228,731,260,765,298,790,342,797,363,790,384,767,409,739,427,736,423,764,405,786,381,792,363,786,344,761,301,728,264,692,233,659,209"/>
+<area shape="poly" title=" " alt="" coords="587,293,657,340,654,344,584,297"/>
+<area shape="poly" title=" " alt="" coords="527,297,468,337,465,332,524,293"/>
+<area shape="poly" title=" " alt="" coords="561,294,569,336,585,381,612,419,607,422,580,384,564,337,556,295"/>
+<area shape="poly" title=" " alt="" coords="361,385,197,436,195,431,360,380"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="254,431,509,471"/>
+<area shape="poly" title=" " alt="" coords="418,384,400,419,395,417,413,382"/>
+<area shape="poly" title=" " alt="" coords="476,380,579,423,577,428,474,385"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01159.png" border="0" usemap="#a_lumex_jsondep" alt=""/></div>
+<div class="center"><img src="a01159.png" border="0" usemap="#aLumexHazardPointerHolder_8hppdep" alt=""/></div>
+<map name="aLumexHazardPointerHolder_8hppdep" id="aLumexHazardPointerHolder_8hppdep">
+<area shape="rect" title="hazard_pointer, the owner of one hazard slot, with make_hazard_pointer, swap and the extension clean_..." alt="" coords="221,5,449,31"/>
+<area shape="rect" href="a01385.html" title="Hazard pointer module: hazard_pointer, hazard_pointer_obj_base and make_hazard_pointer,..." alt="" coords="256,152,415,177"/>
+<area shape="poly" title=" " alt="" coords="313,42,300,60,290,79,289,99,296,118,322,150,318,154,291,121,283,100,285,78,295,57,309,39"/>
+<area shape="rect" href="a01154.html" title="make_hazard_pointer_batch and clear_hazard_pointer_batch, which fill and empty many holders at once (..." alt="" coords="299,79,521,104"/>
+<area shape="poly" title=" " alt="" coords="360,39,399,76,395,80,356,42"/>
+<area shape="rect" href="a00800.html" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="5,233,228,258"/>
+<area shape="poly" title=" " alt="" coords="289,185,152,235,150,230,287,180"/>
+<area shape="rect" href="a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="77,313,303,353"/>
+<area shape="poly" title=" " alt="" coords="317,190,210,315,206,311,313,186"/>
+<area shape="rect" href="a00524.html" title=" " alt="" coords="303,233,512,258"/>
+<area shape="poly" title=" " alt="" coords="358,186,398,230,394,234,354,190"/>
+<area shape="rect" href="a00521.html" title=" " alt="" coords="536,225,719,265"/>
+<area shape="poly" title=" " alt="" coords="395,179,555,223,554,228,394,184"/>
+<area shape="poly" title=" " alt="" coords="138,267,175,311,171,315,134,271"/>
+<area shape="poly" title=" " alt="" coords="389,116,351,153,347,150,385,112"/>
+</map>
 </div>
 </div>
 <p><a href="a01157_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03299.html">lumex::core::hazard_pointer::hazard_pointer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Owner of one hazard slot ([saferecl.hp.holder]).  <a href="a03299.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03311.html">lumex::core::hazard_pointer::detail::holder_access</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01544.html">lumex::core::hazard_pointer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01545.html">lumex::core::hazard_pointer::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab1c692679886fcb3aa4271b5fd82a319" id="r_ab1c692679886fcb3aa4271b5fd82a319"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03299.html">hazard_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01544.html#ab1c692679886fcb3aa4271b5fd82a319">lumex::core::hazard_pointer::make_hazard_pointer</a> ()</td></tr>
+<tr class="memdesc:ab1c692679886fcb3aa4271b5fd82a319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a holder that owns a slot ([saferecl.hp.holder.nonmem]).  <br /></td></tr>
+<tr class="separator:ab1c692679886fcb3aa4271b5fd82a319"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ed3eba6c11447fb8ec9eb39a6c1107b" id="r_a2ed3eba6c11447fb8ec9eb39a6c1107b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01544.html#a2ed3eba6c11447fb8ec9eb39a6c1107b">lumex::core::hazard_pointer::swap</a> (<a class="el" href="a03299.html">hazard_pointer</a> &amp;lhs, <a class="el" href="a03299.html">hazard_pointer</a> &amp;rhs) noexcept</td></tr>
+<tr class="memdesc:a2ed3eba6c11447fb8ec9eb39a6c1107b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges two holders.  <br /></td></tr>
+<tr class="separator:a2ed3eba6c11447fb8ec9eb39a6c1107b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4d9a3cd888e73da0c4ae347b790118e" id="r_ad4d9a3cd888e73da0c4ae347b790118e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01544.html#ad4d9a3cd888e73da0c4ae347b790118e">lumex::core::hazard_pointer::clean_up</a> () noexcept</td></tr>
+<tr class="memdesc:ad4d9a3cd888e73da0c4ae347b790118e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a reclamation pass now (extension of this module).  <br /></td></tr>
+<tr class="separator:ad4d9a3cd888e73da0c4ae347b790118e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>JSON module: non-throwing helpers for JSON configuration files, and validation and normalization of a document against a JSON Schema draft-7 subset. </p>
-<p>Link <code>lumex::json</code> (header-only). The module is written against nlohmann/json 3.x and does not ship it: put your own <code>&lt;nlohmann/json.hpp&gt;</code> on the include path. Works from C++11. The umbrella includes the report sink (<code>diagnostics/</code>), <code><a class="el" href="a00101.html" title="Non-throwing helpers for JSON configuration files and documents.">helper/LumexJsonHelper.hpp</a></code>, the normalizer and validator contracts with their schema-based implementations (<code>normalization/</code>, <code>validation/</code>) and the schema walker with its exception (<code>schema/</code>). </p>
+<div class="textblock"><p><code>hazard_pointer</code>, the owner of one hazard slot, with <code>make_hazard_pointer</code>, <code>swap</code> and the extension <code>clean_up</code>. </p>
+<p>A <code>hazard_pointer</code> ([saferecl.hp.holder]) owns one hazard slot of the domain. It protects at most one object at a time: <code>try_protect</code> announces the object, issues a fence and checks that the source still holds it, so a deleter of <code>hazard_pointer_obj_base</code> cannot run for the object until the protection ends (<code>reset_protection</code>, the next <code>try_protect</code>, a move assignment over the holder, or its destruction). A holder is movable, not copyable; a default constructed or moved-from holder is empty and owns no slot. <code>make_hazard_pointer</code> may throw <code>std::bad_alloc</code>; everything else is <code>noexcept</code>.</p>
+<p>Every member that uses the slot expects a non-empty holder; that is checked with <code>LUMEX_ASSERT</code> in builds without <code>NDEBUG</code> only, since this is the hot path. A holder is used by one thread at a time; moving it to another thread is fine.</p>
+<p><code>clean_up ()</code> is an extension of this module: it runs a reclamation pass at once, so that tests and leak checkers see every unprotected retired object reclaimed.</p>
+<p>The classes are the library's own on every standard and toolchain, in <code><a class="el" href="a01544.html">lumex::core::hazard_pointer</a></code>; the API shape is the standard's. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_3e92e8848bcd01e21718dfea84e9b21e.html">json</a></li><li class="navelem"><a class="el" href="a01157.html">LumexJson</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_6af0c2de0c279f8479476a3ac4c68aac.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="dir_115e35c88b355c5290d87d334cea88f4.html">holder</a></li><li class="navelem"><a class="el" href="a01157.html">LumexHazardPointerHolder.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,27 @@
+<map id="lumex::core::fmt::basic_format_context::locale" name="lumex::core::fmt::basic_format_context::locale">
+<area shape="rect" id="Node000001" title="The locale passed to format (loc, ...), else the global one." alt="" coords="900,299,1076,339"/>
+<area shape="rect" id="Node000002" href="$a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="589,5,826,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="969,288,921,211,888,169,850,132,825,114,828,109,854,128,892,166,926,208,974,285"/>
+<area shape="rect" id="Node000003" href="$a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="563,143,852,256"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="927,296,839,259,842,254,929,291"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a70073520a5772944d567f23f0c4f76af" title=" " alt="" coords="305,325,483,365"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="886,326,483,344,483,338,886,321"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a6b34c5fe47ddfae5a9c589dccabb1828" title=" " alt="" coords="305,261,483,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="886,315,483,289,483,284,886,310"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a7898bf6375c2b5c9cb5388739286a138" title="Writes an integer given as sign + magnitude." alt="" coords="619,382,796,422"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="916,346,853,366,786,385,785,379,851,361,914,341"/>
+<area shape="rect" id="Node000009" href="$a01541.html#a8b79a1789ab9e1a4f978bdf8cb91c6c1" title="Writes with write_body (context) directly, or into a temporary text padded to the resolved width when..." alt="" coords="619,586,796,626"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="961,351,729,588,725,584,957,347"/>
+<area shape="rect" id="Node000005" href="$a03099.html#a16ef79c73db159e87e2fa860cdb76b82" title=" " alt="" coords="5,325,225,365"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="291,347,225,347,225,342,291,342"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="294,306,203,327,202,322,293,301"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="605,386,483,364,484,358,606,381"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="605,403,448,396,273,379,203,367,204,362,274,374,448,390,605,397"/>
+<area shape="rect" id="Node000008" href="$a03119.html#a63e555d41c58a3f16e9cdbc4a7b4be4c" title=" " alt="" coords="273,439,515,538"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="622,428,515,458,514,453,621,423"/>
+<area shape="rect" id="Node000010" href="$a03199.html#a4f8059f3994ef544167a8c963effd113" title=" " alt="" coords="302,586,486,626"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="605,609,486,609,486,603,605,603"/>
+<area shape="rect" id="Node000011" href="$a03211.html#a9855da9aeeff8e79ede9b8c3c49bfe93" title=" " alt="" coords="277,651,511,735"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="622,632,512,663,511,658,621,627"/>
+<area shape="poly" id="edge13_Node000010_Node000010" title=" " alt="" coords="442,574,425,567,394,565,367,567,351,572,345,577,348,585,343,587,340,576,348,567,366,561,394,559,426,562,444,569"/>
+</map>

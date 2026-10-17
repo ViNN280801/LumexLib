@@ -1,0 +1,12 @@
+<map id="ILumexJsonNormalizer.hpp" name="ILumexJsonNormalizer.hpp">
+<area shape="rect" id="Node000001" title="Contract for turning raw JSON text into a canonical document." alt="" coords="76,5,272,31"/>
+<area shape="rect" id="Node000002" href="$a01334.html" title="JSON module: non&#45;throwing helpers for JSON configuration files, and validation and normalization of a..." alt="" coords="127,152,221,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,41,125,70,120,87,122,103,138,129,159,150,155,154,134,133,117,105,115,86,120,68,144,38"/>
+<area shape="rect" id="Node000005" href="$a01268.html" title="Abstract base for per&#45;operation normalizers built on the schema walker." alt="" coords="132,79,376,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="200,38,241,76,238,80,196,42"/>
+<area shape="rect" id="Node000003" href="$a00416.html" title=" " alt="" coords="5,225,145,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="147,188,95,227,91,223,144,183"/>
+<area shape="rect" id="Node000004" href="$a00413.html" title=" " alt="" coords="170,225,375,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="204,183,257,223,253,227,201,188"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="232,115,190,154,187,150,228,111"/>
+</map>

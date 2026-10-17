@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell&lt; Pointer, Reclaim &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01970.html',''); initResizable(true); });
+$(function(){initNavTree('a01967.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,709 @@ $(function(){initNavTree('a01970.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc3_gsm_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="a01964.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell&lt; Pointer, Reclaim &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01970.html#ab3d818f01973a5928eb995b316ff8856">kCatalogCheck</a></td><td class="entry"><a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01970.html#ae3efe5d8b2b14c1c192f76b4dc268224">kInit</a></td><td class="entry"><a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01970.html#a223fd705aa50663ed6b82947ec27bb3d">kPoly</a></td><td class="entry"><a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01970.html#a0e293c04edd36f1931c5211d911dc815">kRefIn</a></td><td class="entry"><a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01970.html#af864f6edceba18c0e5afac2449ebef09">kRefOut</a></td><td class="entry"><a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01970.html#ab11ea020bb9681f0b44e3e9dfdf1f42c">kWidth</a></td><td class="entry"><a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01970.html#acf6bbb1b6ce4724d155599c4bb5c41df">kXorOut</a></td><td class="entry"><a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a01970.html#a3e3061f2d494c58df5cab65e66f26579">ValueType</a> typedef</td><td class="entry"><a class="el" href="a01970.html">lumex::core::crc::parametric::crc3_gsm_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Lock-free atomic cell over an ordinary smart pointer.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00821_source.html">LumexAtomicSmartPtrLockFreeCell.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell&lt; Pointer, Reclaim &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01966.png" border="0" usemap="#alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1Detail_1_1lock__free__cell_3_01Pointer_00_01Reclaim_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1Detail_1_1lock__free__cell_3_01Pointer_00_01Reclaim_01_4_inherit__map" id="alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1Detail_1_1lock__free__cell_3_01Pointer_00_01Reclaim_01_4_inherit__map">
+<area shape="rect" title="Lock&#45;free atomic cell over an ordinary smart pointer." alt="" coords="15,108,185,177"/>
+<area shape="rect" href="a01959.html" title="The wait generation shared by every engine: notify_* advances a 32&#45;bit counter and wakes the threads ..." alt="" coords="5,5,195,60"/>
+<area shape="poly" title=" " alt="" coords="103,74,103,108,97,108,97,74"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell&lt; Pointer, Reclaim &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01965.png" border="0" usemap="#alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1Detail_1_1lock__free__cell_3_01Pointer_00_01Reclaim_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1Detail_1_1lock__free__cell_3_01Pointer_00_01Reclaim_01_4_coll__map" id="alumex_1_1core_1_1atomic_1_1smart__ptr_1_1table__wait_1_1Detail_1_1lock__free__cell_3_01Pointer_00_01Reclaim_01_4_coll__map">
+<area shape="rect" title="Lock&#45;free atomic cell over an ordinary smart pointer." alt="" coords="15,108,185,177"/>
+<area shape="rect" href="a01959.html" title="The wait generation shared by every engine: notify_* advances a 32&#45;bit counter and wakes the threads ..." alt="" coords="5,5,195,60"/>
+<area shape="poly" title=" " alt="" coords="103,74,103,108,97,108,97,74"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a2f9ae14c0087712f3949f98c633cc6bc" id="r_a2f9ae14c0087712f3949f98c633cc6bc"><td class="memItemLeft" align="right" valign="top">typedef Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f9ae14c0087712f3949f98c633cc6bc">value_type</a></td></tr>
+<tr class="separator:a2f9ae14c0087712f3949f98c633cc6bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a21f73a6e19fc35fd4a8a3ce8aad78247" id="r_a21f73a6e19fc35fd4a8a3ce8aad78247"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21f73a6e19fc35fd4a8a3ce8aad78247">lock_free_cell</a> () noexcept</td></tr>
+<tr class="separator:a21f73a6e19fc35fd4a8a3ce8aad78247"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6fd17d0cbcde0b9ed4d5f7997ab851e" id="r_ac6fd17d0cbcde0b9ed4d5f7997ab851e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6fd17d0cbcde0b9ed4d5f7997ab851e">lock_free_cell</a> (Pointer desired) noexcept</td></tr>
+<tr class="separator:ac6fd17d0cbcde0b9ed4d5f7997ab851e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12378f5aad97081e7fcfaa73804f3b7a" id="r_a12378f5aad97081e7fcfaa73804f3b7a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12378f5aad97081e7fcfaa73804f3b7a">lock_free_cell</a> (<a class="el" href="a01967.html">lock_free_cell</a> const &amp;)=delete</td></tr>
+<tr class="separator:a12378f5aad97081e7fcfaa73804f3b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19c2608f9a598ef2462770c993bdf150" id="r_a19c2608f9a598ef2462770c993bdf150"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01967.html">lock_free_cell</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19c2608f9a598ef2462770c993bdf150">operator=</a> (<a class="el" href="a01967.html">lock_free_cell</a> const &amp;)=delete</td></tr>
+<tr class="separator:a19c2608f9a598ef2462770c993bdf150"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b6991f066d1ffcded8c12357a6923e6" id="r_a1b6991f066d1ffcded8c12357a6923e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b6991f066d1ffcded8c12357a6923e6">~lock_free_cell</a> ()</td></tr>
+<tr class="separator:a1b6991f066d1ffcded8c12357a6923e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29d51ebe65cd2158f72626c110363023" id="r_a29d51ebe65cd2158f72626c110363023"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29d51ebe65cd2158f72626c110363023">is_lock_free</a> () const noexcept</td></tr>
+<tr class="separator:a29d51ebe65cd2158f72626c110363023"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2eb7065b40199b77df7416c5056bf40" id="r_ae2eb7065b40199b77df7416c5056bf40"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2eb7065b40199b77df7416c5056bf40">load</a> (std::memory_order order) const noexcept</td></tr>
+<tr class="separator:ae2eb7065b40199b77df7416c5056bf40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38199164391b8725ac7b764449db1abe" id="r_a38199164391b8725ac7b764449db1abe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38199164391b8725ac7b764449db1abe">store</a> (Pointer desired, std::memory_order order) noexcept</td></tr>
+<tr class="separator:a38199164391b8725ac7b764449db1abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a651eca4a9d7bedcb59009d2453e4d15d" id="r_a651eca4a9d7bedcb59009d2453e4d15d"><td class="memItemLeft" align="right" valign="top">Pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a651eca4a9d7bedcb59009d2453e4d15d">exchange</a> (Pointer desired, std::memory_order order) noexcept</td></tr>
+<tr class="separator:a651eca4a9d7bedcb59009d2453e4d15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b787494b8811a5ae3b29185eb075f7f" id="r_a5b787494b8811a5ae3b29185eb075f7f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b787494b8811a5ae3b29185eb075f7f">compare_exchange_strong</a> (Pointer &amp;<a class="el" href="a06532.html">expected</a>, Pointer desired, std::memory_order success, std::memory_order) noexcept</td></tr>
+<tr class="separator:a5b787494b8811a5ae3b29185eb075f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94db93f105f2971e9a3d422ebf12c481" id="r_a94db93f105f2971e9a3d422ebf12c481"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94db93f105f2971e9a3d422ebf12c481">compare_exchange_strong</a> (Pointer &amp;<a class="el" href="a06532.html">expected</a>, Pointer desired, std::memory_order order) noexcept</td></tr>
+<tr class="separator:a94db93f105f2971e9a3d422ebf12c481"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace6ff62a0acc95fc79f2bdd87ec5b1e3" id="r_ace6ff62a0acc95fc79f2bdd87ec5b1e3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace6ff62a0acc95fc79f2bdd87ec5b1e3">compare_exchange_weak</a> (Pointer &amp;<a class="el" href="a06532.html">expected</a>, Pointer desired, std::memory_order success, std::memory_order) noexcept</td></tr>
+<tr class="separator:ace6ff62a0acc95fc79f2bdd87ec5b1e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1fb05a92a89daeffd40454148e1eeff" id="r_aa1fb05a92a89daeffd40454148e1eeff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1fb05a92a89daeffd40454148e1eeff">compare_exchange_weak</a> (Pointer &amp;<a class="el" href="a06532.html">expected</a>, Pointer desired, std::memory_order order) noexcept</td></tr>
+<tr class="separator:aa1fb05a92a89daeffd40454148e1eeff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e4528f16146e83dfefe8891ca8165ca" id="r_a9e4528f16146e83dfefe8891ca8165ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e4528f16146e83dfefe8891ca8165ca">wait</a> (Pointer const &amp;old, std::memory_order order) const noexcept</td></tr>
+<tr class="separator:a9e4528f16146e83dfefe8891ca8165ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad459e98a0f89eef706c8adc3f9c7e9bb" id="r_ad459e98a0f89eef706c8adc3f9c7e9bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad459e98a0f89eef706c8adc3f9c7e9bb">notify_all</a> () noexcept</td></tr>
+<tr class="separator:ad459e98a0f89eef706c8adc3f9c7e9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a35b745d3511c725f65e8e074f8498e" id="r_a1a35b745d3511c725f65e8e074f8498e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a35b745d3511c725f65e8e074f8498e">notify_one</a> () noexcept</td></tr>
+<tr class="separator:a1a35b745d3511c725f65e8e074f8498e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a60df8fe5edd3a41d5609132b3e3eb6e9" id="r_a60df8fe5edd3a41d5609132b3e3eb6e9"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60df8fe5edd3a41d5609132b3e3eb6e9">is_always_lock_free</a> = true</td></tr>
+<tr class="separator:a60df8fe5edd3a41d5609132b3e3eb6e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Pointer, typename Reclaim&gt;<br />
+class lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell&lt; Pointer, Reclaim &gt;</div><p>Lock-free atomic cell over an ordinary smart pointer. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Pointer</td><td><code>std::shared_ptr&lt;T&gt;</code> or <code>std::weak_ptr&lt;T&gt;</code>. </td></tr>
+    <tr><td class="paramname">Reclaim</td><td><code><a class="el" href="a01931.html" title="Tries to destroy the replaced value inside the replacing call.">reclaim::immediate</a></code> or <code><a class="el" href="a01935.html" title="Leaves the replaced value to the reclamation passes of the hazard domain.">reclaim::deferred</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a2f9ae14c0087712f3949f98c633cc6bc" name="a2f9ae14c0087712f3949f98c633cc6bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f9ae14c0087712f3949f98c633cc6bc">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef Pointer <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::value_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a21f73a6e19fc35fd4a8a3ce8aad78247" name="a21f73a6e19fc35fd4a8a3ce8aad78247"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21f73a6e19fc35fd4a8a3ce8aad78247">&#9670;&#160;</a></span>lock_free_cell() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::lock_free_cell </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01967_a21f73a6e19fc35fd4a8a3ce8aad78247_cgraph.png" border="0" usemap="#aa01967_a21f73a6e19fc35fd4a8a3ce8aad78247_cgraph" alt=""/></div>
+<map name="aa01967_a21f73a6e19fc35fd4a8a3ce8aad78247_cgraph" id="aa01967_a21f73a6e19fc35fd4a8a3ce8aad78247_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,175,99"/>
+<area shape="rect" href="a01959.html#a0094a0dcf8e1f8fc7ba9ede1bdbfb62a" title=" " alt="" coords="223,29,412,99"/>
+<area shape="poly" title=" " alt="" coords="175,61,209,61,209,67,175,67"/>
+<area shape="poly" title=" " alt="" coords="272,29,274,19,283,10,297,5,317,3,342,6,357,14,354,19,340,11,317,8,299,10,286,15,279,21,278,30"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01967_a21f73a6e19fc35fd4a8a3ce8aad78247_icgraph.png" border="0" usemap="#aa01967_a21f73a6e19fc35fd4a8a3ce8aad78247_icgraph" alt=""/></div>
+<map name="aa01967_a21f73a6e19fc35fd4a8a3ce8aad78247_icgraph" id="aa01967_a21f73a6e19fc35fd4a8a3ce8aad78247_icgraph">
+<area shape="rect" title=" " alt="" coords="223,52,392,121"/>
+<area shape="rect" href="a01967.html#a12378f5aad97081e7fcfaa73804f3b7a" title=" " alt="" coords="5,5,175,75"/>
+<area shape="poly" title=" " alt="" coords="208,68,174,61,175,56,209,63"/>
+<area shape="rect" href="a01967.html#a19c2608f9a598ef2462770c993bdf150" title=" " alt="" coords="5,99,175,168"/>
+<area shape="poly" title=" " alt="" coords="209,110,175,118,174,113,208,105"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac6fd17d0cbcde0b9ed4d5f7997ab851e" name="ac6fd17d0cbcde0b9ed4d5f7997ab851e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6fd17d0cbcde0b9ed4d5f7997ab851e">&#9670;&#160;</a></span>lock_free_cell() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::lock_free_cell </td>
+          <td>(</td>
+          <td class="paramtype">Pointer</td>          <td class="paramname"><span class="paramname"><em>desired</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01967_ac6fd17d0cbcde0b9ed4d5f7997ab851e_cgraph.png" border="0" usemap="#aa01967_ac6fd17d0cbcde0b9ed4d5f7997ab851e_cgraph" alt=""/></div>
+<map name="aa01967_ac6fd17d0cbcde0b9ed4d5f7997ab851e_cgraph" id="aa01967_ac6fd17d0cbcde0b9ed4d5f7997ab851e_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,175,99"/>
+<area shape="rect" href="a01959.html#a0094a0dcf8e1f8fc7ba9ede1bdbfb62a" title=" " alt="" coords="223,29,412,99"/>
+<area shape="poly" title=" " alt="" coords="175,61,209,61,209,67,175,67"/>
+<area shape="poly" title=" " alt="" coords="272,29,274,19,283,10,297,5,317,3,342,6,357,14,354,19,340,11,317,8,299,10,286,15,279,21,278,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a12378f5aad97081e7fcfaa73804f3b7a" name="a12378f5aad97081e7fcfaa73804f3b7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12378f5aad97081e7fcfaa73804f3b7a">&#9670;&#160;</a></span>lock_free_cell() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::lock_free_cell </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01967.html">lock_free_cell</a>&lt; Pointer, Reclaim &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01967_a12378f5aad97081e7fcfaa73804f3b7a_cgraph.png" border="0" usemap="#aa01967_a12378f5aad97081e7fcfaa73804f3b7a_cgraph" alt=""/></div>
+<map name="aa01967_a12378f5aad97081e7fcfaa73804f3b7a_cgraph" id="aa01967_a12378f5aad97081e7fcfaa73804f3b7a_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,175,99"/>
+<area shape="rect" href="a01967.html#a21f73a6e19fc35fd4a8a3ce8aad78247" title=" " alt="" coords="223,29,392,99"/>
+<area shape="poly" title=" " alt="" coords="175,61,209,61,209,67,175,67"/>
+<area shape="rect" href="a01959.html#a0094a0dcf8e1f8fc7ba9ede1bdbfb62a" title=" " alt="" coords="440,29,629,99"/>
+<area shape="poly" title=" " alt="" coords="393,61,426,61,426,67,393,67"/>
+<area shape="poly" title=" " alt="" coords="490,29,492,19,500,10,515,5,535,3,559,6,574,14,571,19,558,11,535,8,516,10,503,15,496,21,495,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1b6991f066d1ffcded8c12357a6923e6" name="a1b6991f066d1ffcded8c12357a6923e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b6991f066d1ffcded8c12357a6923e6">&#9670;&#160;</a></span>~lock_free_cell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::~<a class="el" href="a01967.html">lock_free_cell</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Destroys the last box at once: nobody uses the object any more. With the immediate policy, a box this cell had to retire (a reader named it at that moment) is reclaimed by a pass of the hazard domain before the destructor returns, so everything the cell ever held is destroyed when the cell is, as with the other engines; no reader names those boxes any more, because none may be inside an operation of a destroyed object. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a94db93f105f2971e9a3d422ebf12c481" name="a94db93f105f2971e9a3d422ebf12c481"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94db93f105f2971e9a3d422ebf12c481">&#9670;&#160;</a></span>compare_exchange_strong() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::compare_exchange_strong </td>
+          <td>(</td>
+          <td class="paramtype">Pointer &amp;</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pointer</td>          <td class="paramname"><span class="paramname"><em>desired</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em>order</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5b787494b8811a5ae3b29185eb075f7f" name="a5b787494b8811a5ae3b29185eb075f7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b787494b8811a5ae3b29185eb075f7f">&#9670;&#160;</a></span>compare_exchange_strong() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::compare_exchange_strong </td>
+          <td>(</td>
+          <td class="paramtype">Pointer &amp;</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pointer</td>          <td class="paramname"><span class="paramname"><em>desired</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em>success</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa1fb05a92a89daeffd40454148e1eeff" name="aa1fb05a92a89daeffd40454148e1eeff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1fb05a92a89daeffd40454148e1eeff">&#9670;&#160;</a></span>compare_exchange_weak() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::compare_exchange_weak </td>
+          <td>(</td>
+          <td class="paramtype">Pointer &amp;</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pointer</td>          <td class="paramname"><span class="paramname"><em>desired</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em>order</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace6ff62a0acc95fc79f2bdd87ec5b1e3" name="ace6ff62a0acc95fc79f2bdd87ec5b1e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace6ff62a0acc95fc79f2bdd87ec5b1e3">&#9670;&#160;</a></span>compare_exchange_weak() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::compare_exchange_weak </td>
+          <td>(</td>
+          <td class="paramtype">Pointer &amp;</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pointer</td>          <td class="paramname"><span class="paramname"><em>desired</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em>success</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a651eca4a9d7bedcb59009d2453e4d15d" name="a651eca4a9d7bedcb59009d2453e4d15d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a651eca4a9d7bedcb59009d2453e4d15d">&#9670;&#160;</a></span>exchange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Pointer <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::exchange </td>
+          <td>(</td>
+          <td class="paramtype">Pointer</td>          <td class="paramname"><span class="paramname"><em>desired</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em>order</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a29d51ebe65cd2158f72626c110363023" name="a29d51ebe65cd2158f72626c110363023"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29d51ebe65cd2158f72626c110363023">&#9670;&#160;</a></span>is_lock_free()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::is_lock_free </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2eb7065b40199b77df7416c5056bf40" name="ae2eb7065b40199b77df7416c5056bf40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2eb7065b40199b77df7416c5056bf40">&#9670;&#160;</a></span>load()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Pointer <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::load </td>
+          <td>(</td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em>order</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad459e98a0f89eef706c8adc3f9c7e9bb" name="ad459e98a0f89eef706c8adc3f9c7e9bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad459e98a0f89eef706c8adc3f9c7e9bb">&#9670;&#160;</a></span>notify_all()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::notify_all </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1a35b745d3511c725f65e8e074f8498e" name="a1a35b745d3511c725f65e8e074f8498e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a35b745d3511c725f65e8e074f8498e">&#9670;&#160;</a></span>notify_one()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::core::atomic::smart_ptr::table_wait::Detail::epoch_wait_base::notify_one </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a19c2608f9a598ef2462770c993bdf150" name="a19c2608f9a598ef2462770c993bdf150"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19c2608f9a598ef2462770c993bdf150">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01967.html">lock_free_cell</a> &amp; <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01967.html">lock_free_cell</a>&lt; Pointer, Reclaim &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01967_a19c2608f9a598ef2462770c993bdf150_cgraph.png" border="0" usemap="#aa01967_a19c2608f9a598ef2462770c993bdf150_cgraph" alt=""/></div>
+<map name="aa01967_a19c2608f9a598ef2462770c993bdf150_cgraph" id="aa01967_a19c2608f9a598ef2462770c993bdf150_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,175,99"/>
+<area shape="rect" href="a01967.html#a21f73a6e19fc35fd4a8a3ce8aad78247" title=" " alt="" coords="223,29,392,99"/>
+<area shape="poly" title=" " alt="" coords="175,61,209,61,209,67,175,67"/>
+<area shape="rect" href="a01959.html#a0094a0dcf8e1f8fc7ba9ede1bdbfb62a" title=" " alt="" coords="440,29,629,99"/>
+<area shape="poly" title=" " alt="" coords="393,61,426,61,426,67,393,67"/>
+<area shape="poly" title=" " alt="" coords="490,29,492,19,500,10,515,5,535,3,559,6,574,14,571,19,558,11,535,8,516,10,503,15,496,21,495,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a38199164391b8725ac7b764449db1abe" name="a38199164391b8725ac7b764449db1abe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38199164391b8725ac7b764449db1abe">&#9670;&#160;</a></span>store()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::store </td>
+          <td>(</td>
+          <td class="paramtype">Pointer</td>          <td class="paramname"><span class="paramname"><em>desired</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em>order</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9e4528f16146e83dfefe8891ca8165ca" name="a9e4528f16146e83dfefe8891ca8165ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e4528f16146e83dfefe8891ca8165ca">&#9670;&#160;</a></span>wait()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::wait </td>
+          <td>(</td>
+          <td class="paramtype">Pointer const &amp;</td>          <td class="paramname"><span class="paramname"><em>old</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::memory_order</td>          <td class="paramname"><span class="paramname"><em>order</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01967_a9e4528f16146e83dfefe8891ca8165ca_cgraph.png" border="0" usemap="#aa01967_a9e4528f16146e83dfefe8891ca8165ca_cgraph" alt=""/></div>
+<map name="aa01967_a9e4528f16146e83dfefe8891ca8165ca_cgraph" id="aa01967_a9e4528f16146e83dfefe8891ca8165ca_cgraph">
+<area shape="rect" title=" " alt="" coords="5,13,208,67"/>
+<area shape="rect" href="a01959.html#a9e5bade21d039edeab4e67ff83d137d8" title=" " alt="" coords="256,5,445,75"/>
+<area shape="poly" title=" " alt="" coords="208,37,243,37,243,43,208,43"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a60df8fe5edd3a41d5609132b3e3eb6e9" name="a60df8fe5edd3a41d5609132b3e3eb6e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60df8fe5edd3a41d5609132b3e3eb6e9">&#9670;&#160;</a></span>is_always_lock_free</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Pointer, typename Reclaim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a01967.html">lumex::core::atomic::smart_ptr::table_wait::Detail::lock_free_cell</a>&lt; Pointer, Reclaim &gt;::is_always_lock_free = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a00821_source.html">LumexAtomicSmartPtrLockFreeCell.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01489.html">atomic</a></li><li class="navelem"><a class="el" href="a01490.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a01491.html">table_wait</a></li><li class="navelem"><a class="el" href="a01492.html">Detail</a></li><li class="navelem"><a class="el" href="a01967.html">lock_free_cell</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

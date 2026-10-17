@@ -1,0 +1,16 @@
+<map id="lumex::core::fmt::Detail::is_integer_presentation" name="lumex::core::fmt::Detail::is_integer_presentation">
+<area shape="rect" id="Node000001" title=" " alt="" coords="795,151,977,191"/>
+<area shape="rect" id="Node000002" href="$a03119.html#a63e555d41c58a3f16e9cdbc4a7b4be4c" title=" " alt="" coords="505,5,747,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="827,147,736,106,738,102,829,143"/>
+<area shape="rect" id="Node000003" href="$a03099.html#a16ef79c73db159e87e2fa860cdb76b82" title=" " alt="" coords="237,151,457,191"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="781,170,747,169,505,169,457,170,457,165,505,164,747,164,781,165"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a139ccf757ca65d8e8ac71e3ed3407e5f" title="Checks the parsed specification against what kind accepts." alt="" coords="537,243,715,283"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="833,199,748,233,709,245,707,240,746,228,831,194"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a70073520a5772944d567f23f0c4f76af" title=" " alt="" coords="537,179,715,219"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="781,185,715,192,715,186,781,179"/>
+<area shape="rect" id="Node000005" href="$a01541.html#acd49f7dcde40ad4568f6d1ff160ec51f" title="Parses [[fill]align][sign][#][0][width][.precision][L][type] starting at ctx.begin(); returns the pos..." alt="" coords="259,243,436,283"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="524,265,436,265,436,260,524,260"/>
+<area shape="rect" id="Node000006" href="$a03099.html#a5bd9434b7065ca09ea27fa6aafca3d27" title=" " alt="" coords="5,243,189,283"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="245,265,190,265,190,260,245,260"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="523,191,457,184,458,179,523,186"/>
+</map>

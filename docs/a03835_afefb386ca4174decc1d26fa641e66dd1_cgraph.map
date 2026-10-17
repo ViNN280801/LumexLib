@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::split_counter::alive" name="lumex::core::smart_ptr::detail::split_counter::alive">
+<area shape="rect" id="Node000001" title="True while the group is alive (count or ext not zero)." alt="" coords="5,5,151,60"/>
+<area shape="rect" id="Node000002" href="$a03835.html#a0f5af0ec22136603611be39621d4df78" title="The whole word (relaxed)." alt="" coords="199,5,344,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,30,185,30,185,35,151,35"/>
+</map>

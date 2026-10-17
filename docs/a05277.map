@@ -1,0 +1,11 @@
+<map id="lumex::xml::xpath::memory::XPathStackData" name="lumex::xml::xpath::memory::XPathStackData">
+<area shape="rect" id="Node000001" title="Manages the memory for XPath evaluation, providing dedicated allocators." alt="" coords="17,328,205,368"/>
+<area shape="rect" id="Node000002" href="$a05259.html" title="Allocator for XPath&#45;related data structures." alt="" coords="21,108,200,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,162,104,211,104,265,110,327,105,328,99,265,99,210,103,161"/>
+<area shape="rect" id="Node000004" href="$a05275.html" title="Represents a pair of XPath allocators for managing expression evaluation memory." alt="" coords="155,225,312,265"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="144,156,214,223,210,227,140,160"/>
+<area shape="rect" id="Node000003" href="$a05267.html" title="Represents a block of memory used by XPathAllocator." alt="" coords="5,5,216,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,59,113,108,108,108,108,59"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="231,17,243,25,235,33,217,36,216,31,232,28,237,26,228,21"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="200,277,137,330,133,326,197,273"/>
+</map>

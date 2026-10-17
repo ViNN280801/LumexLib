@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::numeric::Detail::is_plain_ordering&lt; T &gt;" name="lumex::core::utility::numeric::Detail::is_plain_ordering&lt; T &gt;">
+<area shape="rect" id="Node000001" title="True if T, which has no cv&#45;qualifier and is no reference, is an ordering." alt="" coords="292,35,452,89"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,244,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,59,292,59,292,65,258,65"/>
+</map>

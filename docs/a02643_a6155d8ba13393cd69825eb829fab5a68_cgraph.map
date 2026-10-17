@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::error::bad_expected_access::error" name="lumex::core::expected::error::bad_expected_access::error">
+<area shape="rect" id="Node000001" title="Returns a const rvalue reference to the stored error." alt="" coords="5,5,172,60"/>
+<area shape="rect" id="Node000002" href="$a02643.html#aef84018a864b59d4dec018df8c2ef89e" title="Returns a mutable lvalue reference to the stored error." alt="" coords="220,5,387,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,30,207,30,207,35,172,35"/>
+</map>

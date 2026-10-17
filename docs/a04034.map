@@ -1,0 +1,7 @@
+<map id="lumex::core::span::view::is_contiguous_iterator&lt; T * &gt;" name="lumex::core::span::view::is_contiguous_iterator&lt; T * &gt;">
+<area shape="rect" id="Node000001" title="Pointers to objects are contiguous iterators; pointers to void and to functions are not." alt="" coords="69,79,218,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,124,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,39,121,77,117,80,83,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="149,5,295,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,43,170,80,166,77,199,39"/>
+</map>

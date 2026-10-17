@@ -1,0 +1,18 @@
+<map id="lumex::core::expected::result::detail::reinit_dispatch" name="lumex::core::expected::result::detail::reinit_dispatch">
+<area shape="rect" id="Node000001" title="reinit&#45;expected for an old object that holds something." alt="" coords="5,5,172,60"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="683,9,849,49"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,28,435,23,635,23,669,24,669,29,635,29,435,29,172,33"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a6b2e60741d402ef37ccb3959f558e0bc" title="The reinit&#45;expected of [expected.object.assign]/1 for the case that the construction of the new objec..." alt="" coords="220,59,387,113"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,51,208,59,206,65,172,56"/>
+<area shape="poly" id="edge9_Node000003_Node000002" title=" " alt="" coords="386,61,434,51,556,37,669,29,669,35,557,42,435,57,388,66"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="897,159,1088,199"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="332,112,378,149,406,167,436,179,493,195,552,205,612,211,672,213,786,208,883,197,884,202,786,214,672,218,612,216,551,210,492,200,434,185,403,171,375,154,328,116"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="435,130,635,170"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="388,107,450,124,448,129,386,112"/>
+<area shape="rect" id="Node000007" href="$a01533.html#aac3cdf6524f1c94486d6cff93fba3008" title="Ends the lifetime of the T at where: std::destroy_at for an object that is not an array." alt="" coords="440,66,629,106"/>
+<area shape="poly" id="edge8_Node000003_Node000007" title=" " alt="" coords="387,83,426,83,426,89,387,89"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="605,127,633,116,685,86,729,55,732,59,687,91,636,120,607,132"/>
+<area shape="rect" id="Node000006" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="683,130,849,170"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="635,147,669,147,669,153,635,153"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="850,158,884,163,883,168,849,163"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_optional.cpp File Reference</title>
+<title>LumexLib: LumexAtomicSmartPtrLumexFamily.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,48 +104,204 @@ $(function(){initNavTree('a00803.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_optional.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">LumexAtomicSmartPtrLumexFamily.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01214_source.html">lumex/core/optional/LumexOptional</a>&quot;</code><br />
+
+<p>The equivalence traits of the module's own pointer family (<code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a></code> / <code>weak_ptr</code>) for the lock-based cell, which <code>atomic_shared_ptr_lock_based_lumex</code> and <code>atomic_weak_ptr_lock_based_lumex</code> use.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="a00794_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrCell.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00791_source.html">lumex/core/atomic/smart_ptr/LumexAtomicSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00776_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrAccess.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00773_source.html">lumex/core/smart_ptr/shared/LumexSharedPtr.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00788_source.html">lumex/core/smart_ptr/weak/LumexWeakPtr.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_optional.cpp:</div>
+Include dependency graph for LumexAtomicSmartPtrLumexFamily.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00804.png" border="0" usemap="#aexample__optional_8cpp" alt=""/></div>
+<div class="center"><img src="a00804.png" border="0" usemap="#aLumexAtomicSmartPtrLumexFamily_8hpp" alt=""/></div>
+<map name="aLumexAtomicSmartPtrLumexFamily_8hpp" id="aLumexAtomicSmartPtrLumexFamily_8hpp">
+<area shape="rect" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="547,5,760,45"/>
+<area shape="rect" href="a00794.html" title="Storage and operations behind atomic_shared_ptr_lock_based, atomic_weak_ptr_lock_based and the *_std_..." alt="" coords="488,269,739,309"/>
+<area shape="poly" title=" " alt="" coords="653,46,621,256,616,255,648,45"/>
+<area shape="rect" href="a00791.html" title="The one place that decides which engines exist and which one the common names atomic_shared_ptr and a..." alt="" coords="144,357,411,397"/>
+<area shape="poly" title=" " alt="" coords="633,48,311,350,307,346,630,44"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1292,797,1505,837"/>
+<area shape="poly" title=" " alt="" coords="547,42,477,55,398,75,317,102,238,137,167,181,137,207,111,235,89,266,73,300,62,337,59,377,59,553,63,607,75,651,95,684,122,709,155,727,194,738,238,745,286,747,394,743,511,736,633,734,694,738,754,747,894,770,1035,787,1278,808,1278,813,1035,793,893,775,753,752,693,743,633,739,511,741,394,748,286,752,237,750,193,743,153,732,119,713,91,687,71,653,58,608,53,553,53,377,57,336,68,298,84,264,106,232,133,203,164,177,236,132,315,97,397,70,476,50,546,37"/>
+<area shape="rect" href="a00776.html" title="Forward declarations of the pointer classes and detail::access, the friend that gives the split&#45;count..." alt="" coords="1403,269,1645,309"/>
+<area shape="poly" title=" " alt="" coords="719,43,1006,131,1444,263,1443,268,1005,136,717,48"/>
+<area shape="rect" href="a00773.html" title="shared_ptr&lt;T&gt;: shared ownership with the module&#39;s own control block, at the level of the C++17 std::s..." alt="" coords="1420,181,1628,221"/>
+<area shape="poly" title=" " alt="" coords="753,43,1412,176,1411,181,752,48"/>
+<area shape="rect" href="a00788.html" title="weak_ptr&lt;T&gt; and owner_less: non&#45;owning observers of an object that a shared_ptr owns ([util...." alt="" coords="2073,93,2263,133"/>
+<area shape="poly" title=" " alt="" coords="761,29,2059,104,2059,110,760,34"/>
+<area shape="rect" title=" " alt="" coords="197,541,264,566"/>
+<area shape="poly" title=" " alt="" coords="593,312,497,392,434,441,367,488,319,515,273,537,271,533,317,510,364,483,430,437,494,388,589,308"/>
+<area shape="rect" title=" " alt="" coords="1097,541,1164,566"/>
+<area shape="poly" title=" " alt="" coords="714,307,781,327,847,355,1005,483,1093,532,1090,537,1003,488,844,360,779,332,712,312"/>
+<area shape="rect" title=" " alt="" coords="1016,453,1093,478"/>
+<area shape="poly" title=" " alt="" coords="740,307,819,327,897,355,936,375,972,398,1031,442,1028,446,969,402,933,379,895,360,817,332,738,312"/>
+<area shape="rect" title=" " alt="" coords="1771,453,1831,478"/>
+<area shape="poly" title=" " alt="" coords="725,307,969,349,1258,395,1543,433,1758,458,1757,463,1542,438,1257,400,968,354,724,312"/>
+<area shape="poly" title=" " alt="" coords="537,312,368,356,367,351,536,307"/>
+<area shape="rect" href="a00851.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="509,445,688,485"/>
+<area shape="poly" title=" " alt="" coords="610,310,601,358,599,431,594,431,596,357,605,309"/>
+<area shape="poly" title=" " alt="" coords="718,307,763,326,803,355,844,401,867,444,877,492,880,553,880,641,880,675,882,701,891,724,911,747,928,756,960,764,1054,780,1279,805,1278,810,1053,785,959,769,927,761,908,751,886,727,877,702,874,675,875,641,875,553,872,493,862,446,839,404,800,359,760,331,716,312"/>
+<area shape="rect" href="a00848.html" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="611,357,789,397"/>
+<area shape="poly" title=" " alt="" coords="635,308,673,346,669,349,632,312"/>
+<area shape="poly" title=" " alt="" coords="307,396,327,414,344,437,353,461,352,474,348,487,336,499,318,512,273,537,270,532,315,508,333,495,343,484,347,473,348,462,339,439,323,418,303,400"/>
+<area shape="poly" title=" " alt="" coords="411,390,1003,457,1002,462,411,395"/>
+<area shape="rect" href="a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="144,445,333,485"/>
+<area shape="poly" title=" " alt="" coords="271,399,256,434,251,431,266,397"/>
+<area shape="poly" title=" " alt="" coords="351,395,513,439,511,444,350,400"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="77,797,331,837"/>
+<area shape="poly" title=" " alt="" coords="204,400,166,419,134,447,117,473,110,496,109,553,109,641,116,683,132,722,154,757,177,785,173,788,150,760,128,724,111,684,104,642,104,553,105,495,113,470,130,444,163,415,201,395"/>
+<area shape="poly" title=" " alt="" coords="510,486,383,512,283,536,276,538,274,533,282,531,382,507,508,480"/>
+<area shape="poly" title=" " alt="" coords="689,478,1084,543,1083,548,688,483"/>
+<area shape="rect" title=" " alt="" coords="339,541,395,566"/>
+<area shape="poly" title=" " alt="" coords="538,488,409,536,405,538,403,533,407,531,536,483"/>
+<area shape="rect" title=" " alt="" coords="419,541,562,566"/>
+<area shape="poly" title=" " alt="" coords="575,488,519,534,515,530,572,484"/>
+<area shape="rect" title=" " alt="" coords="2373,541,2443,566"/>
+<area shape="poly" title=" " alt="" coords="688,467,1004,483,1349,495,1618,500,1886,509,2231,531,2359,544,2359,549,2230,536,1886,514,1618,506,1349,500,1004,488,688,473"/>
+<area shape="rect" title=" " alt="" coords="587,541,651,566"/>
+<area shape="poly" title=" " alt="" coords="606,485,615,527,610,528,601,486"/>
+<area shape="rect" title=" " alt="" coords="2169,541,2218,566"/>
+<area shape="poly" title=" " alt="" coords="688,467,1868,531,2155,548,2155,554,1868,536,688,473"/>
+<area shape="rect" title=" " alt="" coords="725,541,789,566"/>
+<area shape="poly" title=" " alt="" coords="636,483,724,532,721,536,634,488"/>
+<area shape="poly" title=" " alt="" coords="510,486,396,512,352,525,328,536,302,562,279,593,245,662,223,730,211,784,206,783,218,728,240,660,275,591,298,559,325,531,350,520,395,507,509,481"/>
+<area shape="poly" title=" " alt="" coords="621,484,665,532,688,565,704,596,728,652,740,677,756,701,778,724,809,747,834,756,876,764,998,781,1279,806,1278,812,997,786,875,770,832,761,807,752,775,729,752,705,735,680,723,654,700,598,683,568,661,535,617,487"/>
+<area shape="poly" title=" " alt="" coords="624,400,562,421,499,448,470,468,441,488,398,505,363,515,328,523,283,536,277,538,275,533,282,531,327,518,362,510,397,500,439,483,467,463,496,443,560,416,623,395"/>
+<area shape="poly" title=" " alt="" coords="749,395,961,483,1086,533,1084,538,959,488,747,400"/>
+<area shape="poly" title=" " alt="" coords="678,400,634,438,630,434,675,396"/>
+<area shape="poly" title=" " alt="" coords="709,397,751,527,746,528,704,398"/>
+<area shape="poly" title=" " alt="" coords="716,396,749,444,779,487,804,532,815,566,819,596,819,651,821,676,826,700,839,723,860,747,880,757,917,766,1024,783,1279,807,1278,812,1024,788,916,771,879,762,857,751,834,727,821,702,815,677,814,651,814,597,809,567,799,534,774,489,744,447,712,399"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1304,709,1493,749"/>
+<area shape="poly" title=" " alt="" coords="790,381,1193,413,1375,430,1457,443,1477,473,1486,506,1486,541,1479,577,1453,645,1423,699,1418,696,1448,643,1474,576,1480,541,1480,507,1472,475,1455,448,1375,435,1193,418,789,386"/>
+<area shape="poly" title=" " alt="" coords="1304,739,345,810,345,804,1304,734"/>
+<area shape="poly" title=" " alt="" coords="1401,750,1401,783,1396,783,1396,750"/>
+<area shape="rect" title=" " alt="" coords="2337,805,2429,830"/>
+<area shape="poly" title=" " alt="" coords="1494,735,2323,809,2323,815,1493,740"/>
+<area shape="poly" title=" " alt="" coords="1422,312,1341,333,1258,360,1164,404,1087,448,1085,443,1161,399,1256,355,1340,327,1421,307"/>
+<area shape="poly" title=" " alt="" coords="1557,307,1771,443,1768,448,1554,312"/>
+<area shape="poly" title=" " alt="" coords="1534,309,1565,412,1578,482,1584,553,1584,641,1582,676,1573,702,1558,725,1535,751,1506,775,1473,794,1470,789,1503,771,1531,747,1554,722,1568,700,1576,675,1579,641,1579,553,1573,483,1560,414,1529,310"/>
+<area shape="poly" title=" " alt="" coords="1548,307,1657,401,1716,450,1761,483,1790,499,1814,508,1869,531,2011,604,2149,680,2350,795,2348,800,2146,684,2009,609,1867,536,1812,513,1788,504,1759,488,1713,454,1653,405,1545,311"/>
+<area shape="rect" href="a00758.html" title="ctl_base: the control block of shared_ptr and weak_ptr, 32 bytes on a 64&#45;bit target." alt="" coords="1269,357,1494,397"/>
+<area shape="poly" title=" " alt="" coords="1493,312,1427,352,1424,348,1490,307"/>
+<area shape="rect" href="a00779.html" title="Configuration macros of core/smart_ptr: exception handling, ThreadSanitizer detection,..." alt="" coords="1619,533,1856,573"/>
+<area shape="poly" title=" " alt="" coords="1539,308,1591,387,1666,484,1705,522,1701,526,1662,487,1587,391,1534,311"/>
+<area shape="poly" title=" " alt="" coords="1303,400,1254,420,1208,447,1188,466,1171,488,1145,530,1140,527,1166,485,1184,463,1205,443,1252,415,1301,395"/>
+<area shape="poly" title=" " alt="" coords="1425,395,1458,416,1487,444,1509,470,1523,494,1531,520,1533,553,1533,641,1531,699,1524,724,1507,751,1486,774,1460,793,1457,788,1482,770,1503,748,1519,721,1526,698,1528,641,1528,553,1526,521,1518,496,1504,473,1483,447,1454,420,1422,400"/>
+<area shape="rect" href="a00764.html" title="split_counter: the packed reference counter of the control block, one 64&#45;bit atomic word {count:32,..." alt="" coords="1218,445,1443,485"/>
+<area shape="poly" title=" " alt="" coords="1372,399,1351,435,1347,432,1367,396"/>
+<area shape="poly" title=" " alt="" coords="1218,479,1106,488,886,500,715,504,545,513,327,536,278,545,277,540,326,531,544,507,715,499,886,495,1105,483,1218,473"/>
+<area shape="poly" title=" " alt="" coords="1286,488,1173,538,1171,533,1284,483"/>
+<area shape="poly" title=" " alt="" coords="1218,485,803,549,802,544,1217,480"/>
+<area shape="poly" title=" " alt="" coords="1323,486,1301,536,1281,603,1276,640,1275,677,1281,714,1294,748,1312,771,1336,788,1333,793,1309,775,1290,751,1276,715,1270,678,1271,640,1276,602,1296,534,1318,484"/>
+<area shape="poly" title=" " alt="" coords="1338,485,1393,695,1387,696,1333,486"/>
+<area shape="poly" title=" " alt="" coords="1424,483,1632,528,1631,533,1423,488"/>
+<area shape="rect" title=" " alt="" coords="1826,629,1891,654"/>
+<area shape="poly" title=" " alt="" coords="1767,572,1832,618,1828,623,1764,576"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1619,621,1802,661"/>
+<area shape="poly" title=" " alt="" coords="1734,575,1723,609,1718,607,1729,573"/>
+<area shape="poly" title=" " alt="" coords="1697,663,1656,707,1630,731,1601,752,1551,777,1499,796,1497,791,1549,772,1599,747,1627,727,1653,704,1693,660"/>
+<area shape="poly" title=" " alt="" coords="1640,664,1484,708,1483,703,1639,659"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1669,717,1851,742"/>
+<area shape="poly" title=" " alt="" coords="1724,660,1748,703,1744,706,1720,663"/>
+<area shape="poly" title=" " alt="" coords="1470,224,1399,256,1315,304,1273,334,1233,368,1197,405,1166,447,1148,488,1137,528,1132,526,1143,486,1162,444,1193,402,1229,364,1269,330,1312,300,1396,252,1468,219"/>
+<area shape="poly" title=" " alt="" coords="1421,218,1340,238,1299,253,1260,272,1220,302,1170,349,1078,444,1074,440,1166,345,1217,298,1257,267,1297,248,1338,233,1419,213"/>
+<area shape="poly" title=" " alt="" coords="1611,219,1659,239,1703,267,1739,308,1766,355,1786,401,1797,438,1792,440,1781,402,1762,357,1735,311,1700,271,1657,243,1609,224"/>
+<area shape="poly" title=" " alt="" coords="1628,206,1922,231,2067,248,2173,267,2235,281,2284,294,2329,316,2378,355,2403,385,2417,414,2421,446,2420,486,2415,527,2410,527,2415,485,2416,446,2412,415,2399,388,2374,359,2326,320,2282,299,2234,287,2171,272,2066,253,1921,236,1628,211"/>
+<area shape="poly" title=" " alt="" coords="1420,208,930,233,667,251,476,272,375,283,294,291,257,298,219,311,178,330,134,360,78,401,39,441,26,463,16,488,10,518,8,553,8,641,11,667,20,690,34,712,52,731,95,764,140,789,137,794,92,769,48,735,30,715,16,693,6,668,3,642,3,553,5,517,11,487,21,461,35,438,75,397,130,355,176,326,217,306,255,293,293,285,374,278,476,267,667,246,930,228,1420,203"/>
+<area shape="poly" title=" " alt="" coords="1420,210,1286,220,1141,233,1019,251,978,261,955,271,936,294,930,318,931,377,931,641,933,654,939,667,965,691,1003,714,1052,734,1166,769,1279,794,1278,800,1164,774,1050,739,1001,719,962,695,935,670,928,656,925,642,925,377,924,317,932,292,952,267,976,256,1018,246,1141,228,1286,214,1419,205"/>
+<area shape="poly" title=" " alt="" coords="1629,203,2128,228,2372,246,2459,256,2511,267,2571,283,2623,299,2644,310,2660,326,2671,348,2675,377,2675,642,2668,679,2650,712,2624,739,2590,761,2554,779,2515,793,2443,811,2442,806,2514,788,2551,774,2588,756,2620,734,2646,708,2663,677,2669,641,2669,378,2666,350,2656,330,2641,315,2621,304,2570,288,2510,272,2459,262,2371,252,2128,233,1628,208"/>
+<area shape="poly" title=" " alt="" coords="1527,222,1527,255,1521,255,1521,222"/>
+<area shape="poly" title=" " alt="" coords="1457,224,1422,243,1394,271,1386,288,1381,306,1379,343,1374,343,1376,305,1381,286,1390,268,1419,239,1454,219"/>
+<area shape="poly" title=" " alt="" coords="1590,219,1627,239,1659,268,1680,298,1697,331,1721,400,1734,466,1739,519,1734,520,1729,467,1716,402,1693,333,1676,301,1655,271,1624,243,1587,224"/>
+<area shape="rect" title=" " alt="" coords="2547,453,2634,478"/>
+<area shape="poly" title=" " alt="" coords="1628,201,1848,207,2110,220,2342,239,2424,252,2472,267,2495,284,2515,304,2548,351,2571,399,2586,438,2581,440,2566,401,2543,354,2511,308,2492,288,2469,272,2423,257,2341,244,2109,225,1847,213,1628,206"/>
+<area shape="rect" title=" " alt="" coords="814,277,890,302"/>
+<area shape="poly" title=" " alt="" coords="1420,208,1185,228,1047,246,910,272,898,275,897,270,909,267,1046,241,1184,222,1419,203"/>
+<area shape="rect" href="a00761.html" title="The control blocks shared_ptr creates: ctl_ptr (a separate object with a deleter),..." alt="" coords="1897,269,2127,309"/>
+<area shape="poly" title=" " alt="" coords="1629,217,1888,264,1887,270,1628,223"/>
+<area shape="rect" href="a00782.html" title="Building blocks of the smart pointers: the type identity without RTTI, the empty&#45;base storage of dele..." alt="" coords="2075,357,2306,397"/>
+<area shape="poly" title=" " alt="" coords="1628,205,1930,229,2065,246,2113,256,2140,267,2157,283,2170,303,2186,343,2181,345,2165,305,2153,287,2137,272,2111,261,2064,252,1930,234,1628,210"/>
+<area shape="rect" href="a00767.html" title="bad_weak_ptr: the exception that shared_ptr (weak_ptr) and shared_from_this () throw when the object ..." alt="" coords="965,269,1189,309"/>
+<area shape="poly" title=" " alt="" coords="1423,224,1193,269,1192,264,1422,219"/>
+<area shape="poly" title=" " alt="" coords="1927,312,1735,354,1507,400,1285,436,1107,461,1106,456,1284,431,1506,395,1734,349,1925,307"/>
+<area shape="poly" title=" " alt="" coords="1996,312,1956,353,1906,399,1836,448,1833,443,1902,395,1952,350,1992,308"/>
+<area shape="poly" title=" " alt="" coords="2127,298,2255,320,2309,335,2346,355,2363,374,2377,395,2396,442,2406,488,2410,527,2405,527,2401,489,2391,444,2372,398,2359,377,2342,359,2307,340,2254,325,2126,303"/>
+<area shape="poly" title=" " alt="" coords="2127,297,2186,306,2243,318,2290,335,2308,344,2321,356,2333,380,2334,405,2326,430,2311,455,2269,500,2226,535,2222,530,2265,496,2306,452,2321,428,2329,404,2328,381,2317,359,2305,349,2288,339,2242,324,2185,311,2126,303"/>
+<area shape="poly" title=" " alt="" coords="2016,309,2021,414,2024,553,2024,642,2020,661,2009,679,1992,696,1970,711,1911,737,1839,759,1758,777,1674,792,1519,811,1518,805,1673,786,1757,772,1837,754,1909,732,1967,706,1989,692,2005,676,2015,659,2019,641,2019,553,2016,414,2011,310"/>
+<area shape="poly" title=" " alt="" coords="2127,298,2271,321,2334,336,2377,355,2436,395,2478,436,2493,459,2503,486,2510,517,2512,553,2512,641,2509,666,2502,690,2477,734,2445,771,2413,798,2410,794,2441,767,2472,731,2497,688,2504,665,2507,641,2507,553,2505,517,2498,487,2488,461,2474,439,2432,400,2375,360,2332,341,2270,326,2126,304"/>
+<area shape="poly" title=" " alt="" coords="1897,308,1508,362,1507,357,1897,303"/>
+<area shape="poly" title=" " alt="" coords="2004,311,1979,353,1946,399,1908,438,1866,474,1786,528,1783,524,1862,470,1904,434,1942,396,1975,350,1999,308"/>
+<area shape="poly" title=" " alt="" coords="2054,307,2139,349,2137,354,2052,312"/>
+<area shape="poly" title=" " alt="" coords="2105,400,2024,422,1940,448,1893,469,1872,479,1845,488,1785,500,1706,511,1515,530,1178,553,1177,548,1515,524,1705,505,1784,494,1843,483,1870,474,1891,464,1938,443,2023,416,2104,395"/>
+<area shape="poly" title=" " alt="" coords="2102,400,1845,458,1844,453,2101,395"/>
+<area shape="poly" title=" " alt="" coords="2217,395,2383,529,2379,534,2214,400"/>
+<area shape="poly" title=" " alt="" coords="2194,397,2196,527,2190,527,2188,398"/>
+<area shape="poly" title=" " alt="" coords="2152,400,2124,420,2099,447,2084,474,2077,497,2075,553,2075,641,2075,675,2073,703,2064,727,2042,751,2014,764,1967,774,1831,792,1669,805,1519,814,1519,809,1668,800,1830,787,1966,769,2013,758,2038,747,2059,725,2068,702,2070,675,2069,641,2069,553,2072,496,2079,472,2095,444,2120,416,2149,395"/>
+<area shape="poly" title=" " alt="" coords="2206,396,2239,464,2253,508,2259,553,2259,641,2261,665,2268,688,2293,731,2325,767,2356,794,2352,798,2321,771,2289,734,2264,690,2256,666,2253,641,2253,553,2248,509,2234,466,2201,399"/>
+<area shape="poly" title=" " alt="" coords="2148,400,2053,442,1940,488,1815,532,1813,527,1938,483,2050,437,2145,395"/>
+<area shape="poly" title=" " alt="" coords="2283,395,2534,450,2533,455,2281,400"/>
+<area shape="rect" title=" " alt="" coords="2109,453,2168,478"/>
+<area shape="poly" title=" " alt="" coords="2181,399,2156,442,2151,439,2176,396"/>
+<area shape="poly" title=" " alt="" coords="1077,310,1061,439,1055,439,1072,309"/>
+<area shape="poly" title=" " alt="" coords="2108,136,2055,158,1997,187,1939,225,1887,271,1857,313,1835,359,1819,403,1809,440,1804,438,1814,402,1830,357,1853,310,1883,268,1935,221,1994,183,2053,153,2106,131"/>
+<area shape="poly" title=" " alt="" coords="2264,121,2402,142,2479,157,2553,176,2620,198,2675,224,2696,238,2712,254,2722,271,2725,289,2725,377,2723,399,2717,420,2696,455,2663,483,2624,506,2581,523,2536,536,2457,551,2456,546,2535,531,2579,518,2622,501,2660,479,2692,451,2712,418,2718,398,2720,377,2720,290,2717,273,2707,257,2692,242,2672,228,2618,203,2552,181,2478,162,2402,147,2263,126"/>
+<area shape="poly" title=" " alt="" coords="2264,119,2467,143,2564,159,2633,179,2686,198,2731,215,2750,226,2764,242,2773,263,2776,289,2776,642,2773,654,2765,666,2734,687,2687,706,2625,723,2465,752,2272,774,2063,791,1856,804,1519,817,1519,812,1856,798,2063,786,2272,769,2464,746,2624,718,2685,701,2732,682,2761,662,2768,652,2771,641,2771,289,2768,264,2759,245,2746,231,2729,220,2684,203,2631,184,2563,165,2467,148,2263,124"/>
+<area shape="poly" title=" " alt="" coords="2264,115,2410,124,2575,138,2716,156,2765,167,2794,179,2815,203,2825,228,2827,256,2827,289,2827,641,2827,675,2825,702,2815,727,2794,751,2768,767,2731,780,2636,800,2532,812,2442,818,2442,812,2532,806,2635,795,2729,775,2765,762,2790,747,2811,724,2819,701,2822,675,2821,641,2821,289,2822,256,2820,229,2811,206,2790,184,2764,172,2715,161,2575,143,2410,130,2264,121"/>
+<area shape="poly" title=" " alt="" coords="2073,130,1950,152,1817,184,1692,225,1584,267,1582,262,1690,220,1815,179,1949,147,2072,125"/>
+<area shape="poly" title=" " alt="" coords="2073,120,1761,135,1358,164,1163,185,995,209,926,223,870,238,829,254,805,271,797,290,799,298,804,307,820,313,857,321,972,336,1255,364,1254,369,972,342,856,326,819,319,801,311,794,300,791,289,801,268,826,250,868,233,925,218,994,204,1162,179,1357,159,1760,130,2072,114"/>
+<area shape="poly" title=" " alt="" coords="2073,129,1642,188,1641,183,2072,124"/>
+<area shape="poly" title=" " alt="" coords="2238,131,2300,153,2372,183,2445,221,2512,267,2553,306,2578,356,2590,399,2593,438,2588,439,2584,400,2574,358,2549,309,2509,271,2442,225,2369,187,2298,158,2236,136"/>
+<area shape="poly" title=" " alt="" coords="2172,133,2190,343,2185,344,2167,134"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div>
+<p><a href="a00803_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01979.html">lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01983.html">lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::probe_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer of the family needs no extra state to be compared.  <a href="a01983.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01987.html">lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01991.html">lumex::core::atomic::smart_ptr::table_wait::Detail::smart_ptr_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::probe_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer of the family needs no extra state to be compared.  <a href="a01991.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01489.html">lumex::core::atomic</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01490.html">lumex::core::atomic::smart_ptr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01491.html">lumex::core::atomic::smart_ptr::table_wait</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::core::atomic::smart_ptr::table_wait::Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The equivalence traits of the module's own pointer family (<code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">lumex::core::smart_ptr::shared_ptr</a></code> / <code>weak_ptr</code>) for the lock-based cell, which <code>atomic_shared_ptr_lock_based_lumex</code> and <code>atomic_weak_ptr_lock_based_lumex</code> use. </p>
+<p>Two pointers of the family are equivalent when they store the same pointer and share the control block, or are both empty ([util.smartptr.atomic]). Unlike <code>std::weak_ptr</code>, a weak pointer of the family exposes its stored pointer (<code>detail::access::stored</code>), so the equivalence of weak pointers is exact and needs no <code>lock ()</code>.</p>
+<p>Included by <code><a class="el" href="a00806.html" title="atomic_shared_ptr&lt;T&gt; and its engines (atomic_shared_ptr_lock_free, atomic_shared_ptr_lock_based,...">LumexAtomicSharedPtr.hpp</a></code> and <code><a class="el" href="a00797.html" title="atomic_weak_ptr&lt;T&gt; and its engines (atomic_weak_ptr_lock_free, atomic_weak_ptr_lock_based,...">LumexAtomicWeakPtr.hpp</a></code> where <code>LUMEX_ATOMIC_SMART_PTR_HAS_LUMEX_FAMILY</code> is 1. Everything here is an implementation detail of <code>lumex/core/atomic</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_240a0f5524b67bc4e0e47160544eecb7.html">optional</a></li><li class="navelem"><a class="el" href="a00803.html">example_optional.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_46588a2def099f5c90ce8dff319725b2.html">atomic</a></li><li class="navelem"><a class="el" href="dir_554c46647e80ff154b2b91be60b0bc34.html">smart_ptr</a></li><li class="navelem"><a class="el" href="a00803.html">LumexAtomicSmartPtrLumexFamily.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

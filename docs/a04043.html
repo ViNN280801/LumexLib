@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::span::view::detail::is_array_convertible&lt; From, To, typename &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a04046.html',''); initResizable(true); });
+$(function(){initNavTree('a04043.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,47 @@ $(function(){initNavTree('a04046.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">std::hash&lt;::lumex::core::string_view::view::lumex_basic_string_view&lt; char, std::char_traits&lt; char &gt; &gt; &gt; Member List</div></div>
+  <div class="headertitle"><div class="title">lumex::core::span::view::detail::is_array_convertible&lt; From, To, typename &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a04046.html">std::hash&lt;::lumex::core::string_view::view::lumex_basic_string_view&lt; char, std::char_traits&lt; char &gt; &gt; &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a04046.html#a6d0d0911f51604fc24ac1914ad66cd72">operator()</a>(::lumex::core::string_view::view::lumex_basic_string_view&lt; char, std::char_traits&lt; char &gt; &gt; const &amp;sview) const noexcept</td><td class="entry"><a class="el" href="a04046.html">std::hash&lt;::lumex::core::string_view::view::lumex_basic_string_view&lt; char, std::char_traits&lt; char &gt; &gt; &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>True when <code>From (*)[]</code> converts to <code>To (*)[]</code>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01040_source.html">LumexSpanTraits.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::span::view::detail::is_array_convertible&lt; From, To, typename &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04042.png" border="0" usemap="#alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__array__convertible_3_01From_00_01To_00_01typename_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__array__convertible_3_01From_00_01To_00_01typename_01_4_inherit__map" id="alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__array__convertible_3_01From_00_01To_00_01typename_01_4_inherit__map">
+<area shape="rect" title="True when From (*)[] converts to To (*)[]." alt="" coords="5,79,180,148"/>
+<area shape="rect" title=" " alt="" coords="33,5,152,31"/>
+<area shape="poly" title=" " alt="" coords="95,44,95,79,90,79,90,44"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::span::view::detail::is_array_convertible&lt; From, To, typename &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a04041.png" border="0" usemap="#alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__array__convertible_3_01From_00_01To_00_01typename_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__array__convertible_3_01From_00_01To_00_01typename_01_4_coll__map" id="alumex_1_1core_1_1span_1_1view_1_1detail_1_1is__array__convertible_3_01From_00_01To_00_01typename_01_4_coll__map">
+<area shape="rect" title="True when From (*)[] converts to To (*)[]." alt="" coords="5,79,180,148"/>
+<area shape="rect" title=" " alt="" coords="33,5,152,31"/>
+<area shape="poly" title=" " alt="" coords="95,44,95,79,90,79,90,44"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename From, typename To, typename = void&gt;<br />
+struct lumex::core::span::view::detail::is_array_convertible&lt; From, To, typename &gt;</div><p>True when <code>From (*)[]</code> converts to <code>To (*)[]</code>. </p>
+<p>The test the standard uses to allow a qualification conversion of the element type and nothing else (<code>int</code> to <code>const int</code>, never <code>Derived</code> to <code>Base</code>). </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a01040_source.html">LumexSpanTraits.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01564.html">span</a></li><li class="navelem"><a class="el" href="a01565.html">view</a></li><li class="navelem"><a class="el" href="a01566.html">detail</a></li><li class="navelem"><a class="el" href="a04043.html">is_array_convertible</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,6 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::create_symlink" name="lumex::core::filesystem::fs::lumex_filesystem::create_symlink">
+<area shape="rect" id="Node000001" title="Creates a new symbolic link link that points to target." alt="" coords="5,29,180,84"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="49,29,50,19,57,10,72,5,93,3,118,6,132,14,129,18,116,11,93,8,73,10,60,15,55,21,55,29"/>
+<area shape="rect" id="Node000002" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="228,37,403,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,54,214,54,214,59,180,59"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="LumexTextCase.hpp" name="LumexTextCase.hpp">
+<area shape="rect" id="Node000001" title="Normalizes text for case&#45;insensitive comparison." alt="" coords="89,5,243,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,86,71,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,33,71,81,69,76,144,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="95,86,154,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,32,140,75,135,72,157,30"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="179,86,239,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,30,198,72,193,75,170,32"/>
+<area shape="rect" id="Node000005" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="263,79,517,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="202,28,322,71,320,76,201,33"/>
+</map>

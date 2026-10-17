@@ -1,0 +1,20 @@
+<map id="LumexWeakPtr.hpp" name="LumexWeakPtr.hpp">
+<area shape="rect" id="Node000001" title="weak_ptr&lt;T&gt; and owner_less: non&#45;owning observers of an object that a shared_ptr owns ([util...." alt="" coords="369,5,516,31"/>
+<area shape="rect" id="Node000002" href="$a00803.html" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="5,79,219,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="378,36,195,81,194,76,377,31"/>
+<area shape="rect" id="Node000003" href="$a00770.html" title="enable_shared_from_this&lt;T&gt;: lets an object that is owned by a shared_ptr of this module hand out furt..." alt="" coords="243,86,485,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="422,43,379,87,375,84,419,39"/>
+<area shape="rect" id="Node000004" href="$a01397.html" title="Smart pointer module: shared_ptr, weak_ptr, enable_shared_from_this, make_shared, allocate_shared,..." alt="" coords="361,167,484,192"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="472,38,488,56,500,78,505,99,500,120,477,149,450,169,447,164,474,145,495,117,500,99,495,80,483,59,468,42"/>
+<area shape="rect" id="Node000008" href="$a00818.html" title="What the split&#45;count engine needs to know about the pointer it stores: the counter group its referenc..." alt="" coords="561,86,757,111"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="490,33,626,83,624,88,489,38"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="384,121,415,165,411,168,379,124"/>
+<area shape="rect" id="Node000005" href="$a00278.html" title=" " alt="" coords="145,240,311,280"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="380,200,278,242,276,237,378,195"/>
+<area shape="rect" id="Node000006" href="$a00266.html" title=" " alt="" coords="335,247,510,273"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="425,206,425,247,420,247,420,206"/>
+<area shape="rect" id="Node000007" href="$a00269.html" title=" " alt="" coords="534,247,775,273"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="473,194,619,245,617,250,471,199"/>
+<area shape="rect" id="Node000009" href="$a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="565,167,752,192"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="661,125,661,166,656,166,656,125"/>
+</map>

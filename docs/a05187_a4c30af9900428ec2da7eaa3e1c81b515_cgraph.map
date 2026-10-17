@@ -1,0 +1,9 @@
+<map id="lumex::xml::text::XmlText::as_double" name="lumex::xml::text::XmlText::as_double">
+<area shape="rect" id="Node000001" title="Converts the text object&#39;s value to a double." alt="" coords="5,37,196,77"/>
+<area shape="rect" id="Node000002" href="$a05187.html#a04729cf70921cbf2ada7655e91bf10b6" title="Retrieves the underlying data node (node_pcdata or node_cdata) for this text object." alt="" coords="244,5,435,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,42,230,37,231,43,196,47"/>
+<area shape="rect" id="Node000004" href="$a01671.html#ab7948998dd533ef6c4c7b3071242053b" title=" " alt="" coords="267,69,412,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,67,254,75,253,80,196,73"/>
+<area shape="rect" id="Node000003" href="$a05187.html#a93c80d4442ba4b50bfd4dd7985283928" title=" " alt="" coords="483,5,673,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="435,23,469,23,469,28,435,28"/>
+</map>

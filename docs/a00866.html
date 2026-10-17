@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_span_std_conversion.cpp File Reference</title>
+<title>LumexLib: LumexExceptionWrapper.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,46 +104,126 @@ $(function(){initNavTree('a00866.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_span_std_conversion.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexExceptionWrapper.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01223_source.html">lumex/core/span/LumexSpan</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a01142_source.html">lumex/core/utility/callback/LumexCallbackSlot.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00863_source.html">LumexExceptionWrapper.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_span_std_conversion.cpp:</div>
+Include dependency graph for LumexExceptionWrapper.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00867.png" border="0" usemap="#aexample__span__std__conversion_8cpp" alt=""/></div>
+<div class="center"><img src="a00867.png" border="0" usemap="#aLumexExceptionWrapper_8cpp" alt=""/></div>
+<map name="aLumexExceptionWrapper_8cpp" id="aLumexExceptionWrapper_8cpp">
+<area shape="rect" title=" " alt="" coords="569,5,780,31"/>
+<area shape="rect" href="a01142.html" title="Process&#45;wide slot for one consumer&#45;installed function pointer." alt="" coords="128,79,365,119"/>
+<area shape="poly" title=" " alt="" coords="608,33,367,79,366,73,607,28"/>
+<area shape="rect" href="a00863.html" title="Exception&#45;safe call wrapper: invokes a callable, catches anything it throws, reports it to std::cerr,..." alt="" coords="1073,86,1284,111"/>
+<area shape="poly" title=" " alt="" coords="754,28,1086,81,1085,86,754,33"/>
+<area shape="rect" title=" " alt="" coords="5,174,72,199"/>
+<area shape="poly" title=" " alt="" coords="199,121,85,169,81,171,79,166,83,164,197,116"/>
+<area shape="rect" title=" " alt="" coords="97,174,183,199"/>
+<area shape="poly" title=" " alt="" coords="224,121,168,167,164,163,220,117"/>
+<area shape="rect" title=" " alt="" coords="309,174,389,199"/>
+<area shape="poly" title=" " alt="" coords="272,117,326,163,322,167,269,121"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="411,343,600,383"/>
+<area shape="poly" title=" " alt="" coords="243,120,235,156,230,202,235,250,243,273,255,293,277,309,311,323,398,344,396,349,309,328,274,313,251,296,238,275,230,252,225,202,229,155,238,118"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1308,431,1521,471"/>
+<area shape="poly" title=" " alt="" coords="253,118,263,157,282,205,310,254,328,275,349,292,466,314,726,353,1295,432,1294,437,725,358,465,320,347,297,324,279,306,257,277,208,258,159,248,120"/>
+<area shape="rect" title=" " alt="" coords="327,438,419,463"/>
+<area shape="poly" title=" " alt="" coords="476,385,405,432,402,428,473,381"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="502,431,757,471"/>
+<area shape="poly" title=" " alt="" coords="536,381,591,420,588,424,533,385"/>
+<area shape="poly" title=" " alt="" coords="601,377,619,380,803,401,987,419,1294,441,1294,446,987,424,803,407,618,385,600,383"/>
+<area shape="poly" title=" " alt="" coords="1073,107,720,133,539,150,409,169,396,172,395,167,407,164,539,145,719,127,1073,102"/>
+<area shape="poly" title=" " alt="" coords="1073,104,886,115,776,125,666,140,561,160,469,185,430,201,396,217,369,236,350,256,340,276,334,298,335,344,347,388,362,425,358,427,342,390,330,345,329,297,335,274,346,253,366,232,393,213,427,196,467,180,560,155,665,135,776,120,885,110,1073,99"/>
+<area shape="poly" title=" " alt="" coords="1285,104,1519,127,1630,144,1710,164,1779,194,1807,209,1831,227,1851,248,1868,274,1883,305,1896,342,1902,364,1902,374,1895,385,1878,395,1847,404,1756,421,1535,444,1535,439,1755,415,1846,399,1876,390,1891,381,1896,372,1897,364,1891,343,1878,307,1864,276,1847,252,1827,231,1804,214,1777,198,1708,169,1629,149,1518,132,1284,109"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1700,350,1881,375"/>
+<area shape="poly" title=" " alt="" coords="1285,105,1428,124,1589,153,1664,172,1730,195,1782,222,1801,237,1816,253,1824,274,1823,297,1808,339,1803,337,1818,296,1818,275,1811,256,1798,241,1779,227,1728,200,1662,177,1587,158,1427,129,1284,111"/>
+<area shape="rect" title=" " alt="" coords="1145,174,1212,199"/>
+<area shape="poly" title=" " alt="" coords="1181,112,1181,160,1176,160,1176,112"/>
+<area shape="rect" title=" " alt="" coords="1743,262,1801,287"/>
+<area shape="poly" title=" " alt="" coords="1257,109,1374,132,1503,164,1619,204,1732,252,1735,254,1733,259,1730,257,1617,208,1502,169,1373,137,1256,114"/>
+<area shape="rect" title=" " alt="" coords="361,262,421,287"/>
+<area shape="poly" title=" " alt="" coords="1095,114,967,136,803,167,622,208,441,257,433,260,432,255,439,252,620,203,802,162,967,130,1094,109"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1535,255,1718,295"/>
+<area shape="poly" title=" " alt="" coords="1252,109,1346,131,1446,164,1524,203,1589,244,1586,249,1521,208,1444,169,1345,136,1251,114"/>
+<area shape="rect" href="a01118.html" title="General preprocessor helpers: LUMEX_FUNCTION_NAME, LUMEX_STRINGIZE and LUMEX_CONCAT." alt="" coords="1237,167,1433,207"/>
+<area shape="poly" title=" " alt="" coords="1203,109,1288,157,1286,162,1200,114"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="919,167,1121,207"/>
+<area shape="poly" title=" " alt="" coords="1157,114,1070,162,1067,157,1154,109"/>
+<area shape="poly" title=" " alt="" coords="1535,287,1422,297,973,333,614,358,614,353,972,327,1421,292,1535,281"/>
+<area shape="poly" title=" " alt="" coords="1639,294,1650,338,1649,362,1639,384,1624,398,1599,410,1536,430,1534,425,1597,405,1621,393,1635,381,1644,361,1645,338,1634,295"/>
+<area shape="poly" title=" " alt="" coords="1666,293,1756,341,1754,346,1663,297"/>
+<area shape="poly" title=" " alt="" coords="919,197,698,220,593,237,518,257,479,274,450,290,426,311,401,344,391,364,384,385,377,425,372,424,379,383,386,362,396,341,422,307,447,285,477,269,516,252,592,232,697,215,919,192"/>
+<area shape="poly" title=" " alt="" coords="919,197,687,220,588,237,555,247,538,257,527,276,528,293,539,307,555,318,593,334,614,341,629,379,634,417,628,417,624,380,610,345,592,339,553,323,535,310,523,294,522,275,534,253,553,242,587,232,686,215,919,191"/>
+<area shape="poly" title=" " alt="" coords="1121,202,1134,204,1200,209,1286,214,1368,225,1401,236,1423,253,1430,263,1431,274,1424,296,1409,313,1391,321,1374,328,1361,344,1357,363,1361,383,1371,402,1385,419,1380,422,1367,405,1356,384,1352,363,1356,341,1371,324,1389,316,1406,309,1419,293,1426,274,1425,265,1419,256,1398,241,1367,230,1285,219,1199,214,1133,209,1120,207"/>
+<area shape="poly" title=" " alt="" coords="1122,202,1134,204,1224,213,1302,216,1435,214,1498,215,1566,220,1643,231,1731,252,1737,254,1736,259,1730,257,1642,237,1566,225,1498,220,1435,220,1302,221,1224,218,1133,209,1121,208"/>
+<area shape="poly" title=" " alt="" coords="919,198,660,224,533,240,441,257,432,260,430,255,439,252,532,235,659,219,919,193"/>
+<area shape="poly" title=" " alt="" coords="1121,202,1134,204,1325,228,1516,252,1522,253,1521,258,1516,257,1324,233,1133,209,1120,207"/>
+<area shape="rect" title=" " alt="" coords="547,262,618,287"/>
+<area shape="poly" title=" " alt="" coords="919,201,782,222,706,238,631,257,624,260,622,255,630,252,704,233,781,217,919,195"/>
+<area shape="rect" title=" " alt="" coords="642,262,729,287"/>
+<area shape="poly" title=" " alt="" coords="928,209,742,257,733,260,731,255,741,252,926,204"/>
+<area shape="rect" title=" " alt="" coords="753,262,823,287"/>
+<area shape="poly" title=" " alt="" coords="965,209,837,257,831,259,829,254,835,252,963,204"/>
+<area shape="rect" title=" " alt="" coords="848,262,907,287"/>
+<area shape="poly" title=" " alt="" coords="989,209,911,257,909,252,986,205"/>
+<area shape="rect" title=" " alt="" coords="931,262,1008,287"/>
+<area shape="poly" title=" " alt="" coords="1011,208,986,251,981,249,1006,206"/>
+<area shape="rect" title=" " alt="" coords="1033,262,1109,287"/>
+<area shape="poly" title=" " alt="" coords="1034,206,1059,249,1054,251,1029,208"/>
+<area shape="rect" title=" " alt="" coords="1133,262,1187,287"/>
+<area shape="poly" title=" " alt="" coords="1054,205,1129,252,1127,257,1051,209"/>
+<area shape="rect" title=" " alt="" coords="1212,262,1287,287"/>
+<area shape="poly" title=" " alt="" coords="1075,204,1201,252,1207,254,1205,259,1199,257,1073,209"/>
+<area shape="rect" title=" " alt="" coords="1311,262,1409,287"/>
+<area shape="poly" title=" " alt="" coords="1110,204,1299,252,1310,255,1309,260,1298,257,1109,209"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1370,343,1625,383"/>
+<area shape="poly" title=" " alt="" coords="1121,202,1134,204,1208,210,1306,214,1401,226,1439,237,1467,253,1481,269,1491,289,1499,329,1494,330,1485,291,1477,272,1464,257,1437,242,1399,231,1306,219,1208,215,1133,209,1120,207"/>
+<area shape="poly" title=" " alt="" coords="1480,385,1445,422,1441,419,1476,381"/>
+</map>
 </div>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01519.html">lumex::core::exceptions</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01522.html">lumex::core::exceptions::Wrapper</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d9df48ad62f6a5f94220cd14b5f70c" id="r_a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01522.html#a71d9df48ad62f6a5f94220cd14b5f70c">lumex::core::exceptions::Wrapper::set_safe_call_reporter</a> (<a class="el" href="a01522.html#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> reporter) noexcept</td></tr>
+<tr class="memdesc:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e00681207c6fe8355e6416db22d6ee8" id="r_a0e00681207c6fe8355e6416db22d6ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01522.html#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01522.html#a0e00681207c6fe8355e6416db22d6ee8">lumex::core::exceptions::Wrapper::get_safe_call_reporter</a> () noexcept</td></tr>
+<tr class="memdesc:a0e00681207c6fe8355e6416db22d6ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:a0e00681207c6fe8355e6416db22d6ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00866_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00866_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -152,7 +232,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_105904fcb25bcfb5016e41ac15f378dd.html">span</a></li><li class="navelem"><a class="el" href="a00866.html">example_span_std_conversion.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_c5abfa2a5a0424f8cc91dab0edfcaee4.html">exceptions</a></li><li class="navelem"><a class="el" href="a00866.html">LumexExceptionWrapper.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

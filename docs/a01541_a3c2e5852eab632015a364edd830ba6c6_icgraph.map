@@ -1,0 +1,13 @@
+<map id="lumex::core::fmt::Detail::truncate_to_width" name="lumex::core::fmt::Detail::truncate_to_width">
+<area shape="rect" id="Node000001" title="End of the longest prefix of whole grapheme clusters whose estimated width is &lt;= limit." alt="" coords="768,128,945,168"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a0225ca55fbb325de3eb470c53224d360" title=" " alt="" coords="543,128,720,168"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="754,151,720,151,720,145,754,145"/>
+<area shape="rect" id="Node000003" href="$a03119.html#a63e555d41c58a3f16e9cdbc4a7b4be4c" title=" " alt="" coords="253,5,495,104"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="562,126,494,101,496,96,564,121"/>
+<area shape="rect" id="Node000004" href="$a03123.html#a4bc6a825a1ee2c996cde58b722f70579" title=" " alt="" coords="278,128,470,168"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="529,151,470,151,470,145,529,145"/>
+<area shape="rect" id="Node000006" href="$a03099.html#a16ef79c73db159e87e2fa860cdb76b82" title=" " alt="" coords="264,192,484,232"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="538,174,455,195,454,189,537,169"/>
+<area shape="rect" id="Node000005" href="$a03131.html#a1f694ca6b4fcac1b2a8b2efd6bd2152b" title=" " alt="" coords="5,121,205,175"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="264,151,205,151,205,145,264,145"/>
+</map>

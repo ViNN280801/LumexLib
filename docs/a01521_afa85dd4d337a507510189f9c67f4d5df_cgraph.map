@@ -1,0 +1,8 @@
+<map id="lumex::core::exceptions::exception::lumex_exception_get_stack_trace_trampoline" name="lumex::core::exceptions::exception::lumex_exception_get_stack_trace_trampoline">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,44,220,99"/>
+<area shape="rect" id="Node000002" href="$a02623.html#a58a9eb2674e70e8bdc39f055da939803" title=" " alt="" coords="268,29,477,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,69,254,69,254,74,220,74"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="325,28,329,18,338,10,353,5,373,3,398,6,413,14,410,19,396,11,373,8,354,10,341,14,333,21,330,30"/>
+<area shape="rect" id="Node000003" href="$a01526.html#abae5e5ea16517cfe808d236a42d3d8ae" title="Platform&#45;specific stacktrace capture implementation for POSIX systems." alt="" coords="525,44,704,99"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="477,69,512,69,512,74,477,74"/>
+</map>

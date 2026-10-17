@@ -1,0 +1,7 @@
+<map id="ILumexSettings.hpp" name="ILumexSettings.hpp">
+<area shape="rect" id="Node000001" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="93,5,243,31"/>
+<area shape="rect" id="Node000002" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,79,187,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,33,120,70,117,67,154,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="211,79,269,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,29,219,67,216,70,179,33"/>
+</map>

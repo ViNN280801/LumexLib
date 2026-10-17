@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc8_rohc_spec_t Struct Reference</title>
+<title>LumexLib: lumex::core::unicode::utf Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,222 +104,106 @@ $(function(){initNavTree('a01585.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01582.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc8_rohc_spec_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::unicode::utf Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>CRC-8/ROHC: width=8 poly=0x07 init=0xff refin=true refout=true xorout=0x00.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a16a822d285d85c8422ae96f523982be1" id="r_a16a822d285d85c8422ae96f523982be1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16a822d285d85c8422ae96f523982be1">ValueType</a> = std::uint8_t</td></tr>
-<tr class="separator:a16a822d285d85c8422ae96f523982be1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04299.html">latin1_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a Latin-1 (ISO 8859-1) buffer: every byte is a code point, passed to <code>Traits::low</code>.  <a href="a04299.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04283.html">latin1_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores a code point as one Latin-1 byte, and <code>?</code> for a code point above U+00FF.  <a href="a04283.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04263.html">utf16_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the number of 16-bit units in the UTF-16 form (1 for a code point below U+10000, 2 for a surrogate pair).  <a href="a04263.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04291.html">utf16_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-16 buffer.  <a href="a04291.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04275.html">utf16_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores the UTF-16 units of each code point, with a surrogate pair from U+10000 on, in the byte order of the machine.  <a href="a04275.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04267.html">utf32_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the number of 32-bit units in the UTF-32 form, one per code point.  <a href="a04267.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04295.html">utf32_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-32 buffer: <code>Traits::low</code> for a code point below U+10000 and <code>Traits::high</code> from U+10000 on. With <code>SwapBytes</code> set, every unit is byte swapped first. It does not validate the values.  <a href="a04295.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04279.html">utf32_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores each code point as one 32-bit unit, in the byte order of the machine.  <a href="a04279.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04259.html">utf8_counter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy: the size in bytes of the UTF-8 form of what a decoder yields.  <a href="a04259.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04287.html">utf8_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a UTF-8 buffer.  <a href="a04287.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04271.html">utf8_writer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy: stores the UTF-8 bytes of each code point.  <a href="a04271.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04315.html">wchar_decoder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoder of a <code>wchar_t</code> buffer: <code><a class="el" href="a04291.html" title="Decoder of a UTF-16 buffer.">utf16_decoder</a>&lt;false&gt;</code> where <code>wchar_t</code> has 2 bytes (Windows) and <code><a class="el" href="a04295.html" title="Decoder of a UTF-32 buffer: Traits::low for a code point below U+10000 and Traits::high from U+10000 ...">utf32_decoder</a>&lt;false&gt;</code> where it has 4.  <a href="a04315.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04303.html">wchar_selector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The counting policy, writing policy, decoder and unit type that match a <code>wchar_t</code> of <code>Size</code> bytes (2: UTF-16, 4: UTF-32), as members <code>type</code>, <code>counter</code>, <code>writer</code> and <code>decoder</code>.  <a href="a04303.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04307.html">wchar_selector&lt; 2 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04311.html">wchar_selector&lt; 4 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a58f789fefb0cc2d31882a31a7b2e3518" id="r_a58f789fefb0cc2d31882a31a7b2e3518"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58f789fefb0cc2d31882a31a7b2e3518">kWidth</a> = 8</td></tr>
-<tr class="separator:a58f789fefb0cc2d31882a31a7b2e3518"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a386030baf6ce2fed18b0694d6c00b0f7" id="r_a386030baf6ce2fed18b0694d6c00b0f7"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a386030baf6ce2fed18b0694d6c00b0f7">kPoly</a> = 0x07U</td></tr>
-<tr class="separator:a386030baf6ce2fed18b0694d6c00b0f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92b31121ad48e78691f7f36c960b2031" id="r_a92b31121ad48e78691f7f36c960b2031"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92b31121ad48e78691f7f36c960b2031">kInit</a> = 0xFFU</td></tr>
-<tr class="separator:a92b31121ad48e78691f7f36c960b2031"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7c093cece206aa1677d88db4682fa07" id="r_ad7c093cece206aa1677d88db4682fa07"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7c093cece206aa1677d88db4682fa07">kRefIn</a> = true</td></tr>
-<tr class="separator:ad7c093cece206aa1677d88db4682fa07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1538609a500b602881de76ce5e901e5" id="r_ad1538609a500b602881de76ce5e901e5"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1538609a500b602881de76ce5e901e5">kRefOut</a> = true</td></tr>
-<tr class="separator:ad1538609a500b602881de76ce5e901e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02f8e9dce545ea1e689abc4d47077b12" id="r_a02f8e9dce545ea1e689abc4d47077b12"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02f8e9dce545ea1e689abc4d47077b12">kXorOut</a> = 0x00U</td></tr>
-<tr class="separator:a02f8e9dce545ea1e689abc4d47077b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52ba494ad486d6fa17b8f4df81a852e7" id="r_a52ba494ad486d6fa17b8f4df81a852e7"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52ba494ad486d6fa17b8f4df81a852e7">kCatalogCheck</a> = 0xD0U</td></tr>
-<tr class="separator:a52ba494ad486d6fa17b8f4df81a852e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a67b24d308b9e5a21966d2132eabc433d" id="r_a67b24d308b9e5a21966d2132eabc433d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67b24d308b9e5a21966d2132eabc433d">wchar_counter</a> = <a class="el" href="a04303.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::counter</td></tr>
+<tr class="memdesc:a67b24d308b9e5a21966d2132eabc433d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counting policy for the <code>wchar_t</code> of this platform.  <br /></td></tr>
+<tr class="separator:a67b24d308b9e5a21966d2132eabc433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8470246579d2e5c29ed54f50a8a1216" id="r_ae8470246579d2e5c29ed54f50a8a1216"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8470246579d2e5c29ed54f50a8a1216">wchar_writer</a> = <a class="el" href="a04303.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::writer</td></tr>
+<tr class="memdesc:ae8470246579d2e5c29ed54f50a8a1216"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writing policy for the <code>wchar_t</code> of this platform.  <br /></td></tr>
+<tr class="separator:ae8470246579d2e5c29ed54f50a8a1216"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-8/ROHC: width=8 poly=0x07 init=0xff refin=true refout=true xorout=0x00. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-8/ROHC </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a16a822d285d85c8422ae96f523982be1" name="a16a822d285d85c8422ae96f523982be1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16a822d285d85c8422ae96f523982be1">&#9670;&#160;</a></span>ValueType</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a67b24d308b9e5a21966d2132eabc433d" name="a67b24d308b9e5a21966d2132eabc433d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67b24d308b9e5a21966d2132eabc433d">&#9670;&#160;</a></span>wchar_counter</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#a16a822d285d85c8422ae96f523982be1">lumex::core::crc::parametric::crc8_rohc_spec_t::ValueType</a> = std::uint8_t</td>
+          <td class="memname">using <a class="el" href="#a67b24d308b9e5a21966d2132eabc433d">lumex::core::unicode::utf::wchar_counter</a> = <a class="el" href="a04303.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::counter</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Counting policy for the <code>wchar_t</code> of this platform. </p>
+
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a52ba494ad486d6fa17b8f4df81a852e7" name="a52ba494ad486d6fa17b8f4df81a852e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52ba494ad486d6fa17b8f4df81a852e7">&#9670;&#160;</a></span>kCatalogCheck</h2>
+<a id="ae8470246579d2e5c29ed54f50a8a1216" name="ae8470246579d2e5c29ed54f50a8a1216"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8470246579d2e5c29ed54f50a8a1216">&#9670;&#160;</a></span>wchar_writer</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint8_t lumex::core::crc::parametric::crc8_rohc_spec_t::kCatalogCheck = 0xD0U</td>
+          <td class="memname">using <a class="el" href="#ae8470246579d2e5c29ed54f50a8a1216">lumex::core::unicode::utf::wchar_writer</a> = <a class="el" href="a04303.html">wchar_selector</a>&lt;sizeof (wchar_t)&gt;::writer</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a92b31121ad48e78691f7f36c960b2031" name="a92b31121ad48e78691f7f36c960b2031"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92b31121ad48e78691f7f36c960b2031">&#9670;&#160;</a></span>kInit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_rohc_spec_t::kInit = 0xFFU</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Writing policy for the <code>wchar_t</code> of this platform. </p>
 
 </div>
 </div>
-<a id="a386030baf6ce2fed18b0694d6c00b0f7" name="a386030baf6ce2fed18b0694d6c00b0f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a386030baf6ce2fed18b0694d6c00b0f7">&#9670;&#160;</a></span>kPoly</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_rohc_spec_t::kPoly = 0x07U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad7c093cece206aa1677d88db4682fa07" name="ad7c093cece206aa1677d88db4682fa07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7c093cece206aa1677d88db4682fa07">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc8_rohc_spec_t::kRefIn = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad1538609a500b602881de76ce5e901e5" name="ad1538609a500b602881de76ce5e901e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1538609a500b602881de76ce5e901e5">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc8_rohc_spec_t::kRefOut = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a58f789fefb0cc2d31882a31a7b2e3518" name="a58f789fefb0cc2d31882a31a7b2e3518"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58f789fefb0cc2d31882a31a7b2e3518">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc8_rohc_spec_t::kWidth = 8</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a02f8e9dce545ea1e689abc4d47077b12" name="a02f8e9dce545ea1e689abc4d47077b12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02f8e9dce545ea1e689abc4d47077b12">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc8_rohc_spec_t::kXorOut = 0x00U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01585.html">crc8_rohc_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01583.html">unicode</a></li><li class="navelem"><a class="el" href="a01585.html">utf</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

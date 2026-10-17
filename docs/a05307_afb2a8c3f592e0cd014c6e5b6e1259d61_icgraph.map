@@ -1,0 +1,31 @@
+<map id="lumex::xml::xpath::parser::XPathParser::alloc_string" name="lumex::xml::xpath::parser::XPathParser::alloc_string">
+<area shape="rect" id="Node000001" title="Allocates a new string and copies contents from an XPathLexerString." alt="" coords="1796,259,1945,314"/>
+<area shape="rect" id="Node000002" href="$a05307.html#a94a6d92fbfc6de074d2b4a9dfc706acc" title="Parses a PrimaryExpr production in the XPath grammar." alt="" coords="1545,23,1748,78"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1833,251,1671,80,1675,76,1837,247"/>
+<area shape="rect" id="Node000008" href="$a05307.html#a9c860c7129b5f44bb914b8a6649fe187" title="Parses a Step production in the XPath grammar." alt="" coords="488,266,637,321"/>
+<area shape="poly" id="edge18_Node000001_Node000008" title=" " alt="" coords="1797,322,1718,351,1621,380,1515,403,1460,409,1407,412,968,412,919,409,870,403,774,380,688,351,619,323,621,318,690,346,776,375,871,398,920,404,968,407,1407,407,1460,404,1514,398,1620,375,1716,346,1795,317"/>
+<area shape="rect" id="Node000003" href="$a05307.html#a36eceab449e9caffedaba9928580dca9" title="Parses a FilterExpr production in the XPath grammar." alt="" coords="1316,23,1497,78"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1532,53,1497,53,1497,48,1532,48"/>
+<area shape="rect" id="Node000004" href="$a05307.html#ac5decb2d227214cd43834d74b54a6d61" title="Parses a PathExpr, UnionExpr, or UnaryExpr production." alt="" coords="1101,91,1268,160"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1313,85,1269,100,1267,95,1312,80"/>
+<area shape="rect" id="Node000005" href="$a05307.html#a0db2c6a36b7bb7d4555b6fad1c547bc2" title="Parses a general XPath expression (Expr)." alt="" coords="685,34,835,89"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1087,119,1053,113,835,82,835,76,1054,108,1088,114"/>
+<area shape="rect" id="Node000011" href="$a05307.html#a6263a1f1e32bf9258c8123f0064fc3ea" title="Recursively parses binary expressions based on operator precedence." alt="" coords="883,135,1053,190"/>
+<area shape="poly" id="edge15_Node000004_Node000011" title=" " alt="" coords="1088,145,1054,150,1053,145,1087,139"/>
+<area shape="poly" id="edge9_Node000005_Node000002" title=" " alt="" coords="848,40,882,35,1150,12,1346,3,1431,3,1498,8,1560,21,1559,26,1497,13,1431,9,1346,9,1150,18,883,40,849,45"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="849,55,883,55,1316,48,1316,54,883,60,849,61"/>
+<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="849,58,1054,84,1102,93,1101,98,1053,89,848,63"/>
+<area shape="rect" id="Node000006" href="$a05307.html#aba27010788f3f47a1ad2d1f0b0c00d61" title="Parses the XPath query." alt="" coords="488,34,637,89"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="671,64,638,64,638,59,671,59"/>
+<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="730,101,588,267,584,264,726,98"/>
+<area shape="rect" id="Node000007" href="$a05315.html#a2a56412faeaeb1eebca754f5e970c9e4" title="Constructs an XPathQuery by parsing the given query string." alt="" coords="215,41,440,81"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="474,64,440,64,440,59,474,59"/>
+<area shape="rect" id="Node000009" href="$a05307.html#a85ae080728b0c9380662df52ac8094b8" title="Parses a RelativeLocationPath production in the XPath grammar." alt="" coords="218,266,437,321"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="474,296,437,296,437,291,474,291"/>
+<area shape="poly" id="edge14_Node000009_Node000004" title=" " alt="" coords="435,321,488,331,563,336,637,331,758,321,852,312,897,304,943,291,994,272,1052,244,1082,226,1109,204,1155,158,1158,162,1113,208,1085,230,1055,249,996,277,945,296,898,309,853,318,758,326,638,336,563,341,488,336,434,326"/>
+<area shape="rect" id="Node000010" href="$a05307.html#a6fbb4c6336015c96cd046d723e18a6d5" title="Parses a LocationPath production in the XPath grammar." alt="" coords="5,234,167,289"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="204,280,166,275,167,269,205,274"/>
+<area shape="poly" id="edge13_Node000010_Node000004" title=" " alt="" coords="180,248,358,233,563,225,760,225,909,227,973,221,1052,200,1096,181,1136,158,1139,162,1099,186,1054,205,974,226,909,233,760,231,563,231,358,238,181,253"/>
+<area shape="poly" id="edge16_Node000011_Node000005" title=" " alt="" coords="898,132,815,91,818,86,901,127"/>
+<area shape="poly" id="edge17_Node000011_Node000011" title=" " alt="" coords="1002,124,990,117,968,114,950,116,938,120,932,127,932,135,927,135,927,125,935,116,948,111,968,109,992,112,1005,120"/>
+</map>

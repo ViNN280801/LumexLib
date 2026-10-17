@@ -1,0 +1,9 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::is_nearest_range_call&lt; Range, Value, Predicate, Projection, traits::meta::void_t&lt; typename range_types&lt; Range &gt;::iterator &gt; &gt;" name="lumex::core::utility::ranges::Algorithm::Detail::is_nearest_range_call&lt; Range, Value, Predicate, Projection, traits::meta::void_t&lt; typename range_types&lt; Range &gt;::iterator &gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="595,8,849,121"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="380,5,499,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="513,27,595,41,594,46,512,33"/>
+<area shape="rect" id="Node000003" href="$a04563.html" title=" " alt="" coords="332,55,547,168"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="560,89,594,83,595,88,561,94"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,62,284,161"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="298,109,332,109,332,114,298,114"/>
+</map>

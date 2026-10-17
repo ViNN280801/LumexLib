@@ -1,0 +1,6 @@
+<map id="lumex::core::hazard_pointer::engine::reclaim_or_retire" name="lumex::core::hazard_pointer::engine::reclaim_or_retire">
+<area shape="rect" id="Node000001" title="Reclaims an object now when no slot names it, otherwise retires it." alt="" coords="269,29,453,84"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="403,18,388,11,361,8,339,10,325,15,318,21,318,29,313,29,313,19,322,10,338,5,361,3,389,6,405,14"/>
+<area shape="rect" id="Node000002" href="$a03219.html#ae679dcd412ee0d0837c4431f69d7a588" title=" " alt="" coords="5,7,221,106"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="255,59,222,59,222,54,255,54"/>
+</map>

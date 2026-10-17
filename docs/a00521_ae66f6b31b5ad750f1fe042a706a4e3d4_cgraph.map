@@ -1,0 +1,24 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,203,60,229"/>
+<area shape="rect" id="Node000002" href="$a01544.html#ad4d9a3cd888e73da0c4ae347b790118e" title="Runs a reclamation pass now (extension of this module)." alt="" coords="130,37,281,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="35,202,61,151,81,122,106,95,127,81,130,86,110,99,85,125,65,154,40,204"/>
+<area shape="rect" id="Node000004" href="$a01544.html#ab1c692679886fcb3aa4271b5fd82a319" title="Makes a holder that owns a slot ([saferecl.hp.holder.nonmem])." alt="" coords="120,110,291,165"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="55,201,107,175,123,168,125,173,109,180,57,206"/>
+<area shape="rect" id="Node000008" href="$a03299.html#af399e64d25a641dfe9dfad781b93a075" title="Protects ptr without checking a source (ends the previous protection)." alt="" coords="115,189,295,243"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="60,213,102,213,102,219,60,219"/>
+<area shape="rect" id="Node000009" href="$a01546.html#a1f96ec7d1b96fe75d3ff8e28c64c4f99" title="Reads the counters of the domain." alt="" coords="108,292,303,332"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="57,226,159,283,156,288,54,231"/>
+<area shape="rect" id="Node000010" href="$a00449.html#a765661df16a1d68eca933c5943f17427" title="Adds samples up, for example every process of one name." alt="" coords="179,357,231,382"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="39,228,63,283,83,315,110,342,137,356,166,363,165,369,135,361,106,346,79,318,58,286,34,230"/>
+<area shape="rect" id="Node000003" href="$a01546.html#a94bbb08d16159c30fbc6f73783601ff8" title="Runs a full reclamation pass now and waits for a running one." alt="" coords="361,29,555,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="281,52,347,50,347,56,281,58"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="413,30,411,20,418,10,434,5,458,3,486,6,501,13,499,18,484,11,458,8,435,10,421,15,416,21,418,28"/>
+<area shape="rect" id="Node000005" href="$a01546.html#a3d2a866e3b2b069642be2741590ed4d5" title="Takes a hazard slot for the calling thread." alt="" coords="351,117,565,157"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="291,135,337,135,337,140,291,140"/>
+<area shape="rect" id="Node000006" href="$a03311.html#a6743f391cd0165050e4f597c935f7a7a" title=" " alt="" coords="373,182,543,237"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="292,159,360,179,359,184,290,164"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="413,118,411,108,418,98,434,93,458,91,486,94,501,101,499,106,484,99,458,96,435,98,421,103,416,109,418,116"/>
+<area shape="rect" id="Node000007" href="$a03311.html#a49b4c6de52ac4748816a8346d63295d6" title=" " alt="" coords="613,182,783,237"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="543,207,600,207,600,212,543,212"/>
+<area shape="poly" id="edge11_Node000009_Node000009" title=" " alt="" coords="173,292,171,282,176,273,188,267,205,265,226,268,237,276,234,280,224,273,205,271,189,273,180,277,176,283,178,291"/>
+</map>

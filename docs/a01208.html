@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexHazardPointer File Reference</title>
+<title>LumexLib: ILumexSettings.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,37 +103,121 @@ $(function(){initNavTree('a01208.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">LumexHazardPointer File Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">ILumexSettings.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Hazard pointer module: <code>hazard_pointer</code>, <code>hazard_pointer_obj_base</code> and <code>make_hazard_pointer</code>, the interface of the C++26 <code>&lt;hazard_pointer&gt;</code> from C++11 on.  
+<p>The interface every settings format implements: load, save, and get, add or remove a string value by section and key.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00440_source.html">base/LumexHazardPointerObjBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00449_source.html">holder/LumexHazardPointerBatch.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00452_source.html">holder/LumexHazardPointerHolder.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;string&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexHazardPointer:</div>
+Include dependency graph for ILumexSettings.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01209.png" border="0" usemap="#a_lumex_hazard_pointer" alt=""/></div>
+<div class="center"><img src="a01209.png" border="0" usemap="#aILumexSettings_8hpp" alt=""/></div>
+<map name="aILumexSettings_8hpp" id="aILumexSettings_8hpp">
+<area shape="rect" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="93,5,243,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,79,187,104"/>
+<area shape="poly" title=" " alt="" coords="157,33,120,70,117,67,154,29"/>
+<area shape="rect" title=" " alt="" coords="211,79,269,104"/>
+<area shape="poly" title=" " alt="" coords="182,29,219,67,216,70,179,33"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01210.png" border="0" usemap="#a_lumex_hazard_pointerdep" alt=""/></div>
+<div class="center"><img src="a01210.png" border="0" usemap="#aILumexSettings_8hppdep" alt=""/></div>
+<map name="aILumexSettings_8hppdep" id="aILumexSettings_8hppdep">
+<area shape="rect" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="479,5,629,31"/>
+<area shape="rect" href="a01349.html" title="Settings module: section, key and value configuration files in INI, JSON or XML behind one interface,..." alt="" coords="408,152,527,177"/>
+<area shape="poly" title=" " alt="" coords="540,44,516,80,476,153,472,150,512,77,535,41"/>
+<area shape="rect" href="a01217.html" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="259,79,451,104"/>
+<area shape="poly" title=" " alt="" coords="508,38,391,81,389,76,506,33"/>
+<area shape="rect" href="a01205.html" title="Format&#45;agnostic backup/repair/validation layer built on top of ILumexSettings." alt="" coords="526,79,713,104"/>
+<area shape="poly" title=" " alt="" coords="576,39,610,76,606,80,572,43"/>
+<area shape="rect" href="a01232.html" title="ILumexSettings over INI files, parsed and written by the library itself." alt="" coords="70,79,235,104"/>
+<area shape="poly" title=" " alt="" coords="472,36,223,81,222,76,471,31"/>
+<area shape="rect" href="a01223.html" title="ILumexSettings over JSON files, parsed and written with the vendored nlohmann/json." alt="" coords="737,79,915,104"/>
+<area shape="poly" title=" " alt="" coords="615,32,779,76,778,81,614,37"/>
+<area shape="rect" href="a01214.html" title="ILumexSettings over XML files, parsed and written with the library&#39;s own lumex::xml module." alt="" coords="940,79,1115,104"/>
+<area shape="poly" title=" " alt="" coords="643,29,946,76,945,81,643,34"/>
+<area shape="rect" href="a00320.html" title=" " alt="" coords="58,225,223,251"/>
+<area shape="poly" title=" " alt="" coords="398,183,198,228,197,223,397,178"/>
+<area shape="rect" href="a00314.html" title=" " alt="" coords="248,225,447,251"/>
+<area shape="poly" title=" " alt="" coords="436,187,370,227,367,223,433,182"/>
+<area shape="rect" href="a00311.html" title=" " alt="" coords="471,225,701,251"/>
+<area shape="poly" title=" " alt="" coords="501,182,567,223,564,227,498,187"/>
+<area shape="rect" href="a00317.html" title=" " alt="" coords="726,225,923,251"/>
+<area shape="poly" title=" " alt="" coords="540,177,763,223,762,228,539,182"/>
+<area shape="poly" title=" " alt="" coords="388,109,449,150,446,154,385,114"/>
+<area shape="rect" href="a01220.html" title=" " alt="" coords="193,152,384,177"/>
+<area shape="poly" title=" " alt="" coords="337,116,303,153,299,150,333,112"/>
+<area shape="poly" title=" " alt="" coords="582,112,495,154,493,149,580,108"/>
+<area shape="rect" href="a01202.html" title=" " alt="" coords="551,152,736,177"/>
+<area shape="poly" title=" " alt="" coords="630,116,642,151,637,152,625,118"/>
+<area shape="poly" title=" " alt="" coords="221,105,413,149,412,154,220,110"/>
+<area shape="poly" title=" " alt="" coords="190,108,266,149,264,154,187,113"/>
+<area shape="rect" href="a01235.html" title=" " alt="" coords="5,152,169,177"/>
+<area shape="poly" title=" " alt="" coords="134,116,101,153,97,150,130,112"/>
+<area shape="poly" title=" " alt="" coords="751,109,527,155,526,150,750,104"/>
+<area shape="rect" href="a01226.html" title=" " alt="" coords="761,152,939,177"/>
+<area shape="poly" title=" " alt="" coords="837,116,848,151,843,152,832,118"/>
+<area shape="poly" title=" " alt="" coords="927,107,731,129,540,155,527,157,527,151,539,149,730,124,926,101"/>
+<area shape="rect" href="a01211.html" title=" " alt="" coords="963,152,1137,177"/>
+<area shape="poly" title=" " alt="" coords="1038,116,1048,151,1043,152,1033,118"/>
+</map>
 </div>
 </div>
 <p><a href="a01208_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01911.html">lumex::applied::settings::ILumexSettings</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface of a settings store kept in a configuration file.  <a href="a01911.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01477.html">lumex::applied::settings</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a9c9dcfa5bf995afa0f8e898afaf8efcf" id="r_a9c9dcfa5bf995afa0f8e898afaf8efcf"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a> = <a class="el" href="a01911.html">lumex::applied::settings::ILumexSettings</a></td></tr>
+<tr class="separator:a9c9dcfa5bf995afa0f8e898afaf8efcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Hazard pointer module: <code>hazard_pointer</code>, <code>hazard_pointer_obj_base</code> and <code>make_hazard_pointer</code>, the interface of the C++26 <code>&lt;hazard_pointer&gt;</code> from C++11 on. </p>
-<p>Link <code>lumex::hazard_pointer</code> (a compiled library; the reader side is header-only). Works from C++11. A hazard pointer protects one object that is read from an atomic pointer; a thread that removes the object from the structure calls <code>retire</code> on it, and the object is deleted only once no hazard pointer protects it. The classes follow [saferecl.hp] of the C++26 draft (P2530R3) with the batch functions of P3428R4 (<code>make_hazard_pointer_batch</code>, <code>clear_hazard_pointer_batch</code>). The extension <code>clean_up ()</code> runs a reclamation pass at once. One domain serves the whole process; there are no custom domains, cohorts or executors, as in the standard.</p>
-<p>The names are in <code><a class="el" href="a01367.html">lumex::core::hazard_pointer</a></code>. The classes are the module's own on every standard and toolchain (they are not aliases of the C++26 standard ones, which no library ships yet); the API shape is the standard's. The umbrella includes <code><a class="el" href="a00440.html" title="hazard_pointer_obj_base&lt;T, D&gt;, the base class of objects that hazard pointers protect,...">base/LumexHazardPointerObjBase.hpp</a></code>, <code><a class="el" href="a00452.html" title="hazard_pointer, the owner of one hazard slot, with make_hazard_pointer, swap and the extension clean_...">holder/LumexHazardPointerHolder.hpp</a></code> and <code><a class="el" href="a00449.html" title="make_hazard_pointer_batch and clear_hazard_pointer_batch, which fill and empty many holders at once (...">holder/LumexHazardPointerBatch.hpp</a></code>; the engine (slots, retired lists, reclamation) is in <code><a class="el" href="a00446.html" title="The engine behind hazard_pointer: hazard slots, retired nodes, the entry points compiled into lumex::...">engine/LumexHazardPointerEngine.hpp</a></code>. </p><dl class="section see"><dt>See also</dt><dd>The <code>README.md</code> page next to this umbrella (part of the documentation). </dd></dl>
-</div></div><!-- contents -->
+<div class="textblock"><p>The interface every settings format implements: load, save, and get, add or remove a string value by section and key. </p>
+<p><code><a class="el" href="#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a></code> is what <code><a class="el" href="a01217.html#a90f219acff9eb90d97465a960d7a7d0f">LumexSettingsFactory</a></code> returns and what <code><a class="el" href="a01205.html#a03c038d49d13658f514ec716f3b4db81">LumexSettingsGuard</a></code> works on, so code written against it does not depend on the file format. It is declared in <code><a class="el" href="a01477.html">lumex::applied::settings</a></code> rather than in a namespace named after its directory, because the Windows SDK header <code>combaseapi.h</code> defines <code>interface</code> as a macro. A global alias of the same name is provided. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a9c9dcfa5bf995afa0f8e898afaf8efcf" name="a9c9dcfa5bf995afa0f8e898afaf8efcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c9dcfa5bf995afa0f8e898afaf8efcf">&#9670;&#160;</a></span>ILumexSettings</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a9c9dcfa5bf995afa0f8e898afaf8efcf">ILumexSettings</a> = <a class="el" href="a01911.html">lumex::applied::settings::ILumexSettings</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_6af0c2de0c279f8479476a3ac4c68aac.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="a01208.html">LumexHazardPointer</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9258c4c02d6a33184acee8f108260d77.html">settings</a></li><li class="navelem"><a class="el" href="dir_a55c3a6c2f1224311e2e61f490a68b21.html">interface</a></li><li class="navelem"><a class="el" href="a01208.html">ILumexSettings.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

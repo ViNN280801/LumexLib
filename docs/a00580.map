@@ -1,0 +1,13 @@
+<map id="XPathContext.hpp" name="XPathContext.hpp">
+<area shape="rect" id="Node000001" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="85,5,224,31"/>
+<area shape="rect" id="Node000002" href="$a00572.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="83,79,226,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,44,157,78,152,78,152,44"/>
+<area shape="rect" id="Node000003" href="$a00575.html" title=" " alt="" coords="5,152,147,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="133,115,92,153,88,150,129,111"/>
+<area shape="rect" id="Node000004" href="$a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="171,152,298,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="181,111,222,150,219,154,177,115"/>
+<area shape="rect" id="Node000005" href="$a00605.html" title=" " alt="" coords="97,225,223,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="214,189,175,227,171,223,210,185"/>
+<area shape="rect" id="Node000006" href="$a00554.html" title=" " alt="" coords="247,225,369,251"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="259,185,297,223,293,227,255,189"/>
+</map>

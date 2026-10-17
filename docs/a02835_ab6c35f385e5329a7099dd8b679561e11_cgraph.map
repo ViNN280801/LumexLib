@@ -1,0 +1,8 @@
+<map id="lumex::core::expected::result::detail::storage::expected_union&lt; V, E, true &gt;::expected_union" name="lumex::core::expected::result::detail::storage::expected_union&lt; V, E, true &gt;::expected_union">
+<area shape="rect" id="Node000001" title="Starts val with the result of invoke_call (fn, args...)." alt="" coords="5,5,184,75"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="475,20,641,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,34,232,33,427,33,461,34,461,39,427,39,232,39,184,40"/>
+<area shape="rect" id="Node000003" href="$a01533.html#aec5d127a8ba19a9021889817a3dd0351" title=" " alt="" coords="232,48,427,88"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,48,219,52,218,57,184,53"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="427,53,461,49,461,55,427,59"/>
+</map>

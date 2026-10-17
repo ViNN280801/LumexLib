@@ -1,0 +1,36 @@
+<map id="lumex::core::utility::dump::core_dump_generator::rename_core_files" name="lumex::core::utility::dump::core_dump_generator::rename_core_files">
+<area shape="rect" id="Node000001" title="Rename any core files that were created." alt="" coords="5,460,223,515"/>
+<area shape="poly" id="edge18_Node000001_Node000001" title=" " alt="" coords="62,460,63,450,72,441,89,435,114,433,144,436,161,444,159,449,143,442,114,439,90,441,75,445,67,452,68,460"/>
+<area shape="rect" id="Node000002" href="$a04371.html#abc108236fa4d3ffc16b070da17d3f948" title="Generate a dump using this instance&#39;s configuration." alt="" coords="273,184,491,239"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,458,144,413,176,357,218,298,242,272,269,248,275,244,278,248,272,252,246,275,222,302,180,359,149,415,128,461"/>
+<area shape="rect" id="Node000009" href="$a04371.html#af05531caa7e5b3cb7b3ad7fcca5297e1" title="Get the current configuration for this instance." alt="" coords="273,263,491,317"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="132,458,190,393,227,357,269,326,278,321,281,326,272,331,231,361,193,397,136,462"/>
+<area shape="rect" id="Node000010" href="$a04371.html#a82902aaaebb45bee541eada4652c5897" title="Get the dump directory for this instance." alt="" coords="271,341,493,396"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="164,457,270,406,288,399,290,404,272,411,166,462"/>
+<area shape="rect" id="Node000011" href="$a04371.html#a9b1109c5448613998ea35e689d515b29" title="Check if the current process is running with administrator privileges." alt="" coords="273,420,491,475"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="223,468,259,463,260,468,223,474"/>
+<area shape="rect" id="Node000012" href="$a04371.html#ac7c1b0f0acb646b1873c6c76b317e746" title="Check if this instance is initialized." alt="" coords="273,499,491,553"/>
+<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="223,500,260,506,259,511,223,506"/>
+<area shape="rect" id="Node000013" href="$a04371.html#a2cf886bee631c3b24f149dd3d7d0fb4f" title="POSIX&#45;safe console&#45;style graceful shutdown registration. Blocks SIGINT/SIGTERM/SIGHUP in the caller a..." alt="" coords="273,578,491,647"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="168,512,272,564,286,570,284,575,270,568,165,517"/>
+<area shape="rect" id="Node000014" href="$a04371.html#a36599fc4c775e3a5b86200597c47191a" title="Register a custom signal handler for graceful shutdown signals." alt="" coords="273,671,491,741"/>
+<area shape="poly" id="edge17_Node000001_Node000014" title=" " alt="" coords="135,514,192,584,230,623,272,657,280,662,277,667,269,661,227,627,188,588,131,517"/>
+<area shape="rect" id="Node000015" href="$a04371.html#a028398ab0058934a2f781f7cd5e2c592" title="Sets the admin group name used by is_admin_privileges() on UNIX." alt="" coords="273,765,491,820"/>
+<area shape="poly" id="edge19_Node000001_Node000015" title=" " alt="" coords="126,514,145,564,176,628,219,694,244,724,272,751,280,756,276,760,269,755,240,727,214,697,172,630,140,566,121,516"/>
+<area shape="rect" id="Node000003" href="$a04371.html#a0b3cc8ffb6d1d5bc1ec3c088a9ea7318" title="Manually trigger a dump generation." alt="" coords="541,184,759,239"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="491,209,527,209,527,214,491,214"/>
+<area shape="rect" id="Node000004" href="$a04367.html#afc6cdbe900e2509620b120b132847470" title="Create a dump configuration for the specified type." alt="" coords="826,29,991,84"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="680,182,737,137,805,93,816,87,819,92,808,98,740,142,683,186"/>
+<area shape="rect" id="Node000006" href="$a04367.html#a089569dd9d7c24e07cb8579fafae3d44" title="Get a human&#45;readable description of the dump type." alt="" coords="826,132,991,187"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="758,187,812,176,813,181,759,192"/>
+<area shape="rect" id="Node000007" href="$a04363.html#ab14b939f86e081be2c51420ef0e0230e" title=" " alt="" coords="807,235,1011,289"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="759,230,794,237,793,242,758,235"/>
+<area shape="rect" id="Node000008" href="$a04363.html#a0ff5aa176e47a23ef046f4335491bbf6" title=" " alt="" coords="807,313,1011,368"/>
+<area shape="poly" id="edge11_Node000003_Node000008" title=" " alt="" coords="695,236,808,298,824,305,821,310,805,303,693,241"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="862,29,862,19,871,10,886,5,909,3,936,6,951,14,949,18,934,11,909,8,887,10,873,15,867,21,867,29"/>
+<area shape="rect" id="Node000005" href="$a04367.html#a8385c6ac0f9474e9d0f7744b6d0e56c4" title="Get the default dump type for the current platform." alt="" coords="1059,29,1243,84"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="992,54,1045,54,1045,59,992,59"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="1104,29,1104,19,1113,10,1128,5,1151,3,1178,6,1193,14,1191,18,1176,11,1151,8,1129,10,1115,15,1109,21,1109,29"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="862,132,862,122,871,113,886,107,909,105,936,108,951,116,949,121,934,114,909,111,887,113,873,117,867,124,867,132"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="862,235,862,224,871,216,886,210,909,208,936,211,951,219,949,224,934,216,909,213,887,215,873,220,867,226,867,235"/>
+</map>

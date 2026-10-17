@@ -1,0 +1,11 @@
+<map id="lumex::core::circular_buffer::circular_buffer::erase" name="lumex::core::circular_buffer::circular_buffer::erase">
+<area shape="rect" id="Node000001" title="Removes the element at pos." alt="" coords="5,77,173,132"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a783389fe18620fa39870a80f0a7ef984" title="Returns an iterator to the start of the logical sequence." alt="" coords="237,5,405,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,76,223,60,225,65,175,81"/>
+<area shape="rect" id="Node000003" href="$a02055.html#a5aca85451470b8c973ad79a8be7897ce" title="Returns an iterator to the end of the logical sequence." alt="" coords="221,85,421,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,102,208,102,208,107,174,107"/>
+<area shape="rect" id="Node000004" href="$a02055.html#a4d0f3cb17e665856416fbda7f3ed3077" title="Removes the newest element." alt="" coords="237,149,405,204"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,128,225,144,223,149,173,133"/>
+<area shape="rect" id="Node000005" href="$a02055.html#a8d484612f38792175e6101ef13cb1513" title="Checks whether the buffer is empty." alt="" coords="469,149,637,204"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="406,174,455,174,455,179,406,179"/>
+</map>

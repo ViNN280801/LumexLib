@@ -1,0 +1,23 @@
+<map id="lumex::core::fmt::formatter&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::format" name="lumex::core::fmt::formatter&lt; T, Char, typename std::enable_if&lt; Detail::builtin_kind&lt; Char, typename std::decay&lt; T &gt;::type &gt;() !=Detail::ArgKind::none &gt;::type &gt;::format">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,252,104"/>
+<area shape="rect" id="Node000002" href="$a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="760,10,919,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,37,383,24,525,15,614,13,703,15,747,16,746,21,703,20,614,18,525,20,384,30,252,43"/>
+<area shape="rect" id="Node000003" href="$a01541.html#ab761c82e15f50e3810992ea38ddf3e71" title="Type&#45;erases one (decayed) value into arg." alt="" coords="300,88,477,128"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,77,287,84,286,90,252,83"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="424,86,471,64,525,45,581,34,639,26,746,19,746,25,639,31,582,39,526,51,473,69,426,90"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a36ba631ed556433cf82a615650711b90" title="Storage kind of an argument of type T (after decay and after unwrapping a named argument): built in,..." alt="" coords="525,175,703,215"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="442,126,550,167,548,172,440,131"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a24e1689d8a19eee3efc71c48ef7c5efe" title=" " alt="" coords="981,147,1158,187"/>
+<area shape="poly" id="edge11_Node000003_Node000006" title=" " alt="" coords="478,113,967,155,967,161,477,118"/>
+<area shape="rect" id="Node000007" href="$a01541.html#aad5f22f79a0e3ad34115a809dd6d25d8" title=" " alt="" coords="976,239,1163,279"/>
+<area shape="poly" id="edge12_Node000003_Node000007" title=" " alt="" coords="408,126,459,176,491,202,527,224,586,253,634,269,685,279,751,288,839,295,928,288,981,279,982,284,928,293,839,301,750,293,684,284,633,274,584,258,524,229,488,206,455,180,405,130"/>
+<area shape="rect" id="Node000009" href="$a01541.html#aa88197a195f6c5764a3b96718dcca27d" title=" " alt="" coords="525,60,703,100"/>
+<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="477,94,512,90,512,95,478,100"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a09714a12a6e0072636b67fef0440066e" title="Storage kind of a built&#45;in type T (decayed) for character type Char, or ArgKind::none when T is not b..." alt="" coords="751,175,928,215"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="703,192,737,192,737,197,703,197"/>
+<area shape="rect" id="Node000008" href="$a01541.html#a6fc398c1d4ed4998c2df05aa40afd752" title="formatter&lt;T, Char&gt; is enabled." alt="" coords="751,239,928,279"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="685,212,756,232,755,237,684,217"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="928,181,967,176,968,182,929,186"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="912,212,985,232,984,238,911,217"/>
+<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="692,57,776,36,777,41,693,63"/>
+</map>

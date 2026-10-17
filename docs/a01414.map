@@ -1,0 +1,17 @@
+<map id="LumexTime" name="LumexTime">
+<area shape="rect" id="Node000001" title="Time module: lumex_time, the current date and time as text and timestamps in units from nanoseconds t..." alt="" coords="610,5,709,31"/>
+<area shape="rect" id="Node000002" href="$a00893.html" title=" " alt="" coords="5,79,185,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="597,29,186,82,185,77,596,24"/>
+<area shape="rect" id="Node000003" href="$a00872.html" title=" " alt="" coords="210,79,367,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="597,33,353,81,352,76,596,28"/>
+<area shape="rect" id="Node000004" href="$a01277.html" title=" " alt="" coords="391,79,535,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="613,38,499,81,497,76,611,33"/>
+<area shape="rect" id="Node000005" href="$a01295.html" title=" " alt="" coords="559,79,759,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="662,44,662,78,657,78,657,44"/>
+<area shape="rect" id="Node000006" href="$a01202.html" title=" " alt="" coords="784,79,969,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="711,33,840,76,838,81,709,38"/>
+<area shape="rect" id="Node000007" href="$a00509.html" title=" " alt="" coords="993,79,1136,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="723,27,995,76,994,81,722,32"/>
+<area shape="rect" id="Node000008" href="$a00512.html" title=" " alt="" coords="1161,79,1369,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="723,23,1161,76,1160,81,722,28"/>
+</map>

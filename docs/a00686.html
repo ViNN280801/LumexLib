@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_circular_buffer_queue.cpp File Reference</title>
+<title>LumexLib: XmlParser.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,44 +104,662 @@ $(function(){initNavTree('a00686.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_circular_buffer_queue.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">XmlParser.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;numeric&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01181_source.html">lumex/core/circular_buffer/CircularBuffer</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a01034_source.html">lumex/core/unicode/utf/LumexUtf.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01073_source.html">lumex/core/utility/assert/LumexAssert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00653_source.html">lumex/xml/constants/XmlConstants.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00710_source.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00713_source.html">lumex/xml/utility/XmlUtils.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00689_source.html">XmlParser.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_circular_buffer_queue.cpp:</div>
+Include dependency graph for XmlParser.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00687.png" border="0" usemap="#aexample__circular__buffer__queue_8cpp" alt=""/></div>
+<div class="center"><img src="a00687.png" border="0" usemap="#aXmlParser_8cpp" alt=""/></div>
+<map name="aXmlParser_8cpp" id="aXmlParser_8cpp">
+<area shape="rect" title=" " alt="" coords="1939,5,2053,31"/>
+<area shape="rect" href="a01034.html" title="Transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t: counters, writers and decoders t..." alt="" coords="450,577,601,617"/>
+<area shape="poly" title=" " alt="" coords="1939,22,1331,42,968,60,817,70,703,81,626,84,549,78,406,62,348,63,323,69,303,78,286,93,273,112,265,139,263,172,263,333,268,375,284,413,307,448,336,479,369,507,403,532,468,569,466,574,400,536,366,511,332,483,303,451,279,415,263,376,257,334,257,172,260,138,268,110,282,89,300,74,322,64,347,58,407,57,550,73,626,79,702,76,817,65,968,54,1330,37,1938,17"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="2734,489,2917,529"/>
+<area shape="poly" title=" " alt="" coords="2054,17,2221,25,2438,46,2546,64,2643,86,2723,114,2753,131,2777,150,2805,187,2824,229,2837,275,2843,321,2843,409,2835,477,2829,476,2838,408,2838,321,2831,276,2819,231,2800,190,2773,154,2750,136,2721,119,2642,91,2545,69,2437,52,2221,31,2054,22"/>
+<area shape="rect" href="a00653.html" title="Constants of the XML module: parse and format option flags, the masks of the node and attribute heade..." alt="" coords="693,665,851,705"/>
+<area shape="poly" title=" " alt="" coords="1938,21,1643,30,1444,39,1237,53,1041,73,877,99,813,115,765,132,734,152,727,162,724,172,724,421,728,486,738,549,764,651,759,652,733,550,723,486,719,421,719,172,722,159,730,148,762,128,812,110,876,94,1040,67,1236,48,1444,34,1643,24,1938,16"/>
+<area shape="rect" href="a00710.html" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa..." alt="" coords="2003,585,2242,610"/>
+<area shape="poly" title=" " alt="" coords="2054,18,2282,34,2583,64,2726,84,2845,109,2891,122,2927,137,2950,154,2959,171,2959,253,2961,296,2967,335,2978,405,2979,437,2973,468,2958,499,2931,531,2916,540,2892,548,2821,559,2729,567,2625,572,2306,580,2247,586,2246,581,2305,575,2625,567,2728,562,2820,554,2891,543,2914,535,2928,527,2954,496,2968,466,2974,436,2973,405,2962,336,2956,297,2953,253,2953,173,2946,157,2924,142,2890,127,2843,114,2725,90,2582,69,2282,39,2053,24"/>
+<area shape="rect" href="a00713.html" title="Header&#45;only helpers of the XML implementation: encoding detection and buffer conversion,..." alt="" coords="1179,321,1402,346"/>
+<area shape="poly" title=" " alt="" coords="1969,33,1333,318,1330,313,1966,28"/>
+<area shape="rect" href="a00689.html" title="The internal XML parser that turns a writable character buffer into a node tree in place." alt="" coords="2148,79,2263,104"/>
+<area shape="poly" title=" " alt="" coords="2033,28,2157,72,2155,77,2032,33"/>
+<area shape="rect" title=" " alt="" coords="897,761,967,786"/>
+<area shape="poly" title=" " alt="" coords="601,598,746,605,916,618,1062,637,1113,649,1140,663,1148,674,1150,685,1141,707,1125,725,1108,736,1072,745,1033,747,987,756,980,759,978,753,986,751,1032,742,1072,740,1106,731,1121,721,1136,704,1144,685,1143,676,1137,667,1111,654,1061,642,915,623,746,610,601,603"/>
+<area shape="rect" title=" " alt="" coords="805,761,872,786"/>
+<area shape="poly" title=" " alt="" coords="552,615,610,658,681,703,737,729,794,751,798,753,796,758,792,756,735,734,679,708,607,662,549,620"/>
+<area shape="rect" href="a01082.html" title="Bit helpers. count_leading_zeros (C++11) counts the leading zeros of an unsigned integer of 1,..." alt="" coords="293,665,430,705"/>
+<area shape="poly" title=" " alt="" coords="489,620,412,661,410,656,486,615"/>
+<area shape="poly" title=" " alt="" coords="430,686,522,692,636,704,761,723,885,751,893,753,891,758,883,756,760,729,635,710,521,698,430,691"/>
+<area shape="poly" title=" " alt="" coords="431,688,598,709,697,727,794,751,801,753,799,758,793,756,695,732,597,714,430,693"/>
+<area shape="rect" title=" " alt="" coords="93,761,179,786"/>
+<area shape="poly" title=" " alt="" coords="311,708,182,758,180,753,309,703"/>
+<area shape="rect" title=" " alt="" coords="355,761,411,786"/>
+<area shape="poly" title=" " alt="" coords="369,705,379,747,374,748,364,706"/>
+<area shape="rect" title=" " alt="" coords="435,761,501,786"/>
+<area shape="poly" title=" " alt="" coords="388,704,444,750,440,754,384,708"/>
+<area shape="rect" title=" " alt="" coords="1608,761,1685,786"/>
+<area shape="poly" title=" " alt="" coords="430,687,680,703,820,708,939,708,1141,703,1239,704,1342,710,1459,725,1597,751,1607,754,1606,759,1595,756,1459,730,1342,715,1238,709,1141,708,939,713,820,713,680,708,430,693"/>
+<area shape="rect" title=" " alt="" coords="2641,849,2733,874"/>
+<area shape="poly" title=" " alt="" coords="351,707,342,727,335,750,335,773,344,791,368,797,427,803,628,813,1225,827,2119,839,2627,856,2627,862,2119,844,1225,833,628,818,427,808,367,802,341,795,330,774,330,749,337,725,347,704"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1851,841,2106,881"/>
+<area shape="poly" title=" " alt="" coords="337,707,317,727,300,750,293,772,294,782,300,791,322,800,368,808,519,820,725,828,958,833,1635,839,1838,850,1838,855,1635,844,958,839,724,834,519,826,368,813,321,805,297,795,289,784,287,772,295,747,313,724,333,704"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="723,841,936,881"/>
+<area shape="poly" title=" " alt="" coords="315,708,283,726,256,747,247,758,243,769,243,780,250,791,271,803,311,813,429,831,573,844,709,853,709,858,573,850,429,836,309,819,269,808,246,795,238,782,237,768,243,755,252,743,280,721,313,703"/>
+<area shape="poly" title=" " alt="" coords="2890,527,3006,571,3069,600,3126,634,3173,670,3190,690,3202,710,3209,731,3208,752,3200,774,3183,796,3152,803,3083,810,2847,821,2147,834,1099,844,950,854,949,848,1099,839,2146,829,2847,815,3082,805,3151,798,3180,791,3195,771,3203,751,3203,732,3198,712,3186,693,3169,674,3123,638,3066,605,3004,576,2888,532"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="2317,585,2499,610"/>
+<area shape="poly" title=" " alt="" coords="2734,531,2482,584,2481,579,2733,526"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="2980,753,3169,793"/>
+<area shape="poly" title=" " alt="" coords="2846,528,3048,741,3044,745,2843,531"/>
+<area shape="poly" title=" " alt="" coords="2987,796,2747,850,2746,845,2986,791"/>
+<area shape="poly" title=" " alt="" coords="2980,789,2918,796,2482,833,2120,856,2119,851,2481,827,2917,791,2980,784"/>
+<area shape="poly" title=" " alt="" coords="2980,790,2918,796,2641,814,2407,824,2201,828,2009,828,1610,828,1376,833,1099,844,950,854,949,849,1099,839,1376,827,1610,823,2008,823,2201,822,2407,818,2641,809,2917,791,2980,784"/>
+<area shape="poly" title=" " alt="" coords="810,703,898,752,896,756,807,708"/>
+<area shape="poly" title=" " alt="" coords="790,704,823,748,818,751,785,707"/>
+<area shape="poly" title=" " alt="" coords="693,704,674,708,603,720,547,727,492,736,423,756,419,758,417,753,422,751,491,731,546,721,602,714,673,703,692,699"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="526,753,781,793"/>
+<area shape="poly" title=" " alt="" coords="746,708,693,747,690,743,743,704"/>
+<area shape="poly" title=" " alt="" coords="695,791,778,833,776,838,693,796"/>
+<area shape="poly" title=" " alt="" coords="2165,608,2229,631,2300,663,2328,685,2340,694,2357,703,2442,729,2515,743,2581,749,2643,749,2775,743,2852,744,2942,751,2967,754,2966,759,2941,756,2852,749,2775,748,2644,754,2581,754,2514,749,2440,734,2355,708,2337,699,2325,689,2297,668,2227,636,2163,613"/>
+<area shape="poly" title=" " alt="" coords="1179,342,1004,361,906,379,810,404,757,421,716,438,678,460,632,491,588,529,552,568,549,564,585,526,629,487,675,455,714,433,755,416,809,399,905,374,1003,356,1179,336"/>
+<area shape="poly" title=" " alt="" coords="1290,347,1277,416,1271,462,1268,509,1268,598,1263,635,1247,663,1222,685,1189,708,1160,724,1134,734,1086,740,1036,743,1007,747,975,756,971,758,969,753,974,751,1006,742,1035,737,1085,735,1133,728,1158,719,1187,703,1219,681,1243,660,1258,634,1263,597,1263,509,1265,462,1271,415,1285,346"/>
+<area shape="poly" title=" " alt="" coords="1179,341,709,366,495,384,426,394,395,404,374,430,359,461,350,494,346,529,347,597,356,652,351,653,342,597,340,529,345,493,354,459,369,427,392,399,425,389,495,379,709,361,1179,335"/>
+<area shape="poly" title=" " alt="" coords="1179,337,962,342,707,353,586,362,483,373,406,387,379,395,363,404,326,436,295,470,272,505,257,541,250,578,252,618,263,660,282,704,294,721,309,734,343,756,340,760,306,739,290,724,278,707,257,661,247,618,245,578,252,539,268,502,291,467,322,432,360,399,377,390,404,382,482,368,586,357,706,348,962,337,1179,332"/>
+<area shape="poly" title=" " alt="" coords="1179,343,917,365,791,382,740,393,701,404,614,434,545,463,516,482,490,506,464,538,440,578,436,597,440,617,451,688,464,747,459,748,446,689,435,618,431,597,435,576,460,535,486,503,513,478,543,459,612,429,699,399,738,387,790,377,917,360,1179,337"/>
+<area shape="poly" title=" " alt="" coords="1179,340,725,363,487,381,389,392,314,404,260,411,205,413,106,415,66,422,35,438,24,450,15,465,10,485,8,509,8,685,9,719,14,746,26,769,49,791,84,804,144,816,321,835,526,847,709,855,709,860,526,853,320,840,144,821,82,809,47,796,22,772,9,748,4,720,3,685,3,509,5,484,10,463,19,446,32,433,64,417,106,409,205,408,259,406,313,399,388,387,486,376,725,357,1179,335"/>
+<area shape="poly" title=" " alt="" coords="1402,334,2083,357,2429,376,2553,387,2627,399,2673,415,2716,436,2788,479,2786,484,2714,440,2671,420,2626,404,2553,392,2428,381,2083,362,1402,339"/>
+<area shape="poly" title=" " alt="" coords="1244,348,1194,370,1169,385,1147,403,1134,419,1127,435,1119,466,1112,498,1103,514,1090,531,1037,577,976,613,915,642,858,664,856,659,913,637,974,609,1033,572,1086,527,1099,511,1107,496,1114,465,1122,433,1130,416,1143,399,1166,380,1191,365,1242,344"/>
+<area shape="poly" title=" " alt="" coords="1282,348,1216,427,1119,531,1071,579,1016,620,989,635,966,644,943,653,916,668,891,688,865,708,809,733,753,752,751,747,808,728,863,703,888,684,913,663,941,648,964,639,986,630,1013,615,1067,575,1115,527,1212,424,1278,345"/>
+<area shape="poly" title=" " alt="" coords="1399,343,1539,367,1602,382,1645,399,1666,414,1681,430,1700,464,1719,497,1733,513,1753,527,1858,549,2033,580,2032,585,1857,554,1751,532,1730,517,1715,500,1696,467,1677,434,1663,418,1643,404,1600,387,1538,372,1398,349"/>
+<area shape="rect" title=" " alt="" coords="1353,409,1412,434"/>
+<area shape="poly" title=" " alt="" coords="1306,344,1361,397,1357,401,1302,348"/>
+<area shape="rect" title=" " alt="" coords="1436,409,1503,434"/>
+<area shape="poly" title=" " alt="" coords="1318,344,1432,400,1430,405,1315,349"/>
+<area shape="rect" title=" " alt="" coords="1811,761,1874,786"/>
+<area shape="poly" title=" " alt="" coords="1385,343,1509,367,1564,382,1602,399,1620,418,1646,453,1712,553,1831,748,1826,750,1707,556,1641,456,1616,422,1598,404,1562,387,1508,372,1384,349"/>
+<area shape="rect" title=" " alt="" coords="1527,409,1588,434"/>
+<area shape="poly" title=" " alt="" coords="1341,344,1423,367,1516,399,1520,401,1518,405,1514,404,1422,372,1339,349"/>
+<area shape="rect" title=" " alt="" coords="1010,497,1075,522"/>
+<area shape="poly" title=" " alt="" coords="1212,349,1152,369,1122,384,1096,403,1080,421,1068,442,1051,484,1047,482,1063,440,1076,418,1093,399,1120,380,1149,364,1210,344"/>
+<area shape="rect" href="a00935.html" title="Numeric helpers: NaN/Inf checks, exact floating&#45;point comparison, checked narrowing casts,..." alt="" coords="1455,665,1615,705"/>
+<area shape="poly" title=" " alt="" coords="1298,345,1316,388,1344,440,1385,501,1430,560,1508,653,1504,656,1426,564,1381,505,1339,443,1312,391,1293,348"/>
+<area shape="rect" href="a00704.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="2348,409,2615,434"/>
+<area shape="poly" title=" " alt="" coords="1402,339,2335,408,2334,413,1402,344"/>
+<area shape="rect" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="1764,497,1991,522"/>
+<area shape="poly" title=" " alt="" coords="1403,341,1595,364,1683,380,1746,399,1780,417,1811,440,1859,485,1855,489,1807,444,1777,422,1744,404,1682,385,1594,369,1402,346"/>
+<area shape="rect" href="a00623.html" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="821,401,1013,441"/>
+<area shape="poly" title=" " alt="" coords="1237,349,1016,401,1015,396,1236,343"/>
+<area shape="poly" title=" " alt="" coords="1455,705,1436,708,1310,722,1210,726,1112,734,987,756,976,759,975,754,986,751,1111,728,1210,721,1309,717,1436,703,1454,700"/>
+<area shape="poly" title=" " alt="" coords="1455,696,886,756,878,758,877,753,885,751,1454,691"/>
+<area shape="poly" title=" " alt="" coords="1616,703,1680,723,1745,751,1762,762,1773,773,1784,782,1801,791,1850,801,1936,811,2172,831,2627,856,2626,861,2172,836,1935,817,1850,806,1799,796,1781,787,1770,777,1759,766,1743,756,1678,728,1614,708"/>
+<area shape="poly" title=" " alt="" coords="1592,703,1644,725,1699,751,1727,772,1756,791,1816,816,1878,835,1876,840,1815,821,1753,796,1724,776,1696,756,1642,729,1590,708"/>
+<area shape="poly" title=" " alt="" coords="1455,705,1436,708,1332,720,1250,725,1169,733,1067,756,1024,774,981,796,888,838,886,833,979,791,1021,769,1066,751,1168,728,1250,720,1332,715,1436,703,1454,699"/>
+<area shape="poly" title=" " alt="" coords="1615,686,2266,714,2642,732,2918,751,2967,756,2966,761,2917,756,2642,738,2266,719,1615,691"/>
+<area shape="poly" title=" " alt="" coords="1615,701,1701,724,1793,751,1800,753,1798,758,1791,756,1700,729,1614,707"/>
+<area shape="rect" title=" " alt="" coords="2009,761,2079,786"/>
+<area shape="poly" title=" " alt="" coords="1615,688,1792,708,1896,726,1998,751,2005,753,2003,758,1997,756,1895,732,1792,714,1615,693"/>
+<area shape="rect" title=" " alt="" coords="1427,761,1485,786"/>
+<area shape="poly" title=" " alt="" coords="1518,708,1479,752,1475,748,1514,704"/>
+<area shape="rect" title=" " alt="" coords="1509,761,1584,786"/>
+<area shape="poly" title=" " alt="" coords="1540,705,1546,747,1540,747,1535,706"/>
+<area shape="rect" title=" " alt="" coords="1898,761,1985,786"/>
+<area shape="poly" title=" " alt="" coords="1615,694,1744,717,1887,751,1897,754,1896,759,1886,756,1743,723,1614,700"/>
+<area shape="rect" title=" " alt="" coords="1564,849,1623,874"/>
+<area shape="poly" title=" " alt="" coords="1474,708,1442,727,1417,755,1410,774,1417,792,1437,808,1472,824,1551,848,1550,854,1470,829,1434,813,1412,795,1405,774,1412,752,1438,723,1471,703"/>
+<area shape="rect" title=" " alt="" coords="1110,849,1170,874"/>
+<area shape="poly" title=" " alt="" coords="1455,705,1436,708,1355,713,1249,715,1196,718,1148,725,1110,737,1083,755,1078,765,1076,775,1082,797,1097,818,1116,838,1112,841,1093,822,1077,799,1071,775,1073,763,1079,752,1107,732,1147,720,1196,713,1249,709,1355,707,1436,703,1454,699"/>
+<area shape="rect" href="a01121.html" title="Macros that declare an exception class in one line." alt="" coords="1093,753,1353,793"/>
+<area shape="poly" title=" " alt="" coords="1464,708,1308,752,1307,747,1463,703"/>
+<area shape="poly" title=" " alt="" coords="1308,791,1551,849,1550,854,1307,796"/>
+<area shape="poly" title=" " alt="" coords="1205,796,1163,840,1159,837,1202,792"/>
+<area shape="poly" title=" " alt="" coords="2532,431,2735,483,2733,489,2530,437"/>
+<area shape="poly" title=" " alt="" coords="2472,436,2453,460,2436,490,2422,532,2414,571,2409,570,2417,531,2431,488,2449,457,2468,433"/>
+<area shape="poly" title=" " alt="" coords="2510,432,2619,487,2820,609,3032,743,3030,748,2817,613,2616,492,2508,437"/>
+<area shape="poly" title=" " alt="" coords="2395,437,1978,497,1978,492,2394,431"/>
+<area shape="rect" href="a00698.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="2445,497,2605,522"/>
+<area shape="poly" title=" " alt="" coords="2490,433,2515,483,2510,485,2485,436"/>
+<area shape="poly" title=" " alt="" coords="1835,525,1544,606,1344,658,1139,708,1068,721,1012,729,956,738,886,756,879,758,878,753,885,751,955,733,1011,724,1067,716,1138,703,1343,653,1543,601,1833,519"/>
+<area shape="poly" title=" " alt="" coords="1914,520,2076,578,2074,583,1912,525"/>
+<area shape="poly" title=" " alt="" coords="1838,524,1798,546,1780,560,1766,579,1760,598,1766,616,1786,639,1810,657,1839,672,1870,683,1937,698,2004,708,2061,717,2101,730,2112,741,2116,756,2110,774,2094,795,2074,803,2031,811,1903,830,1636,860,1636,854,1902,824,2031,806,2072,798,2090,791,2105,771,2110,755,2108,744,2098,735,2060,722,2003,713,1936,703,1869,688,1837,676,1808,662,1782,643,1762,619,1754,598,1762,576,1776,557,1795,541,1835,520"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="1776,577,1979,617"/>
+<area shape="poly" title=" " alt="" coords="1880,522,1880,563,1875,563,1875,522"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="2049,665,2287,705"/>
+<area shape="poly" title=" " alt="" coords="1944,615,2089,659,2088,664,1943,620"/>
+<area shape="poly" title=" " alt="" coords="2049,693,1622,715,1353,733,1082,756,981,769,981,763,1081,751,1352,727,1622,709,2049,687"/>
+<area shape="poly" title=" " alt="" coords="2049,693,1373,725,1048,743,886,756,877,758,876,753,885,751,1047,737,1373,719,2049,688"/>
+<area shape="poly" title=" " alt="" coords="2049,693,1147,728,514,756,506,758,505,753,513,751,1147,723,2049,687"/>
+<area shape="poly" title=" " alt="" coords="2049,708,1699,767,1698,762,2049,703"/>
+<area shape="poly" title=" " alt="" coords="2287,700,2306,703,2423,706,2619,711,2721,715,2812,723,2881,735,2905,742,2919,751,2932,774,2928,794,2911,810,2885,824,2818,844,2747,857,2746,852,2816,839,2883,819,2908,806,2923,791,2927,775,2915,755,2902,747,2880,740,2811,728,2721,721,2619,716,2423,712,2305,708,2286,706"/>
+<area shape="poly" title=" " alt="" coords="2198,704,2220,723,2238,746,2247,770,2246,783,2239,795,2221,810,2193,823,2120,843,2119,837,2191,818,2218,805,2235,792,2241,781,2242,771,2234,748,2216,726,2195,708"/>
+<area shape="poly" title=" " alt="" coords="2163,707,2137,753,2118,777,2093,796,2067,805,2026,813,1912,825,1764,833,1600,837,1099,844,950,854,949,849,1099,839,1600,832,1764,827,1911,820,2026,808,2065,800,2091,791,2114,773,2133,750,2158,704"/>
+<area shape="poly" title=" " alt="" coords="2287,701,2306,703,2490,718,2634,725,2778,732,2962,751,2966,751,2965,757,2961,756,2777,738,2633,730,2489,724,2305,708,2287,706"/>
+<area shape="poly" title=" " alt="" coords="2141,708,2074,755,2071,751,2138,704"/>
+<area shape="poly" title=" " alt="" coords="2117,708,1988,758,1986,753,2115,703"/>
+<area shape="poly" title=" " alt="" coords="2183,704,2192,725,2199,749,2199,773,2188,795,2164,804,2112,813,1955,832,1637,861,1636,855,1954,827,2111,808,2163,799,2185,791,2194,772,2194,750,2187,727,2178,707"/>
+<area shape="rect" title=" " alt="" coords="2307,761,2394,786"/>
+<area shape="poly" title=" " alt="" coords="2211,703,2313,752,2311,757,2209,708"/>
+<area shape="rect" title=" " alt="" coords="2418,761,2505,786"/>
+<area shape="poly" title=" " alt="" coords="2244,703,2407,751,2415,753,2414,758,2406,756,2243,708"/>
+<area shape="rect" title=" " alt="" coords="2529,761,2570,786"/>
+<area shape="poly" title=" " alt="" coords="2287,701,2419,725,2476,738,2518,751,2520,752,2518,757,2516,756,2475,743,2418,730,2286,706"/>
+<area shape="rect" title=" " alt="" coords="2594,761,2670,786"/>
+<area shape="poly" title=" " alt="" coords="2287,701,2467,729,2583,751,2591,753,2590,758,2582,756,2466,735,2286,706"/>
+<area shape="rect" title=" " alt="" coords="2694,761,2783,786"/>
+<area shape="poly" title=" " alt="" coords="2287,700,2306,703,2412,714,2495,720,2578,730,2683,751,2694,754,2693,759,2682,756,2577,735,2495,726,2412,720,2305,708,2286,705"/>
+<area shape="rect" title=" " alt="" coords="2807,761,2905,786"/>
+<area shape="poly" title=" " alt="" coords="2287,700,2306,703,2444,715,2552,719,2660,728,2797,751,2810,754,2808,759,2795,756,2659,733,2552,725,2443,720,2305,708,2286,706"/>
+<area shape="poly" title=" " alt="" coords="2531,522,2534,570,2528,597,2512,619,2486,633,2445,643,2323,656,2164,660,1986,660,1645,656,1517,658,1473,662,1444,668,1427,676,1416,687,1404,698,1386,708,1326,727,1274,736,1227,739,1182,738,1089,736,1036,742,975,756,970,758,968,753,974,751,1036,737,1089,731,1182,732,1226,733,1273,731,1325,721,1384,703,1401,694,1412,683,1424,672,1442,663,1472,657,1517,653,1645,650,1986,654,2164,655,2322,651,2444,638,2485,628,2509,615,2523,594,2528,569,2526,522"/>
+<area shape="poly" title=" " alt="" coords="2510,524,2437,579,2434,574,2506,520"/>
+<area shape="poly" title=" " alt="" coords="849,444,798,464,748,492,704,532,631,605,491,752,487,749,627,602,700,528,745,487,796,459,848,439"/>
+<area shape="poly" title=" " alt="" coords="821,432,705,445,563,465,413,494,269,532,205,554,149,580,102,608,67,638,46,672,41,690,41,708,44,728,52,748,83,791,94,799,113,806,169,819,335,839,532,850,709,856,709,862,532,856,335,844,168,825,111,812,92,804,79,795,47,750,39,729,35,709,36,689,41,670,63,635,99,603,146,575,203,549,267,527,411,489,562,460,704,440,821,427"/>
+<area shape="poly" title=" " alt="" coords="928,440,955,486,976,509,1000,527,1032,538,1083,547,1228,560,1414,567,1621,571,2017,571,2255,575,2308,580,2308,586,2255,580,2017,577,1621,576,1414,573,1227,565,1082,552,1031,543,997,532,972,513,951,490,924,443"/>
+<area shape="poly" title=" " alt="" coords="948,440,1015,487,1012,491,945,444"/>
+<area shape="rect" href="a00626.html" title="XPathMemoryBlock, the unit of memory of the XPath allocator." alt="" coords="759,497,935,522"/>
+<area shape="poly" title=" " alt="" coords="903,443,868,487,863,484,899,440"/>
+<area shape="poly" title=" " alt="" coords="918,519,981,537,1049,566,1082,585,1113,607,1141,634,1164,664,1181,701,1181,715,1178,726,1159,739,1129,745,1051,746,1011,748,975,756,971,758,969,753,974,751,1010,743,1051,740,1128,739,1157,734,1173,723,1176,714,1175,702,1159,667,1137,637,1110,611,1079,589,1047,571,979,542,917,525"/>
+<area shape="poly" title=" " alt="" coords="826,524,418,756,416,751,823,520"/>
+<area shape="poly" title=" " alt="" coords="906,519,954,527,1151,545,1318,554,1466,557,1603,557,1889,556,2057,561,2255,575,2309,580,2308,586,2254,580,2057,567,1889,561,1603,562,1466,563,1318,560,1151,551,953,532,905,525"/>
+<area shape="rect" href="a00587.html" title="Size limits and alignment of the XPath engine." alt="" coords="927,665,1127,705"/>
+<area shape="poly" title=" " alt="" coords="862,521,998,653,994,657,858,524"/>
+<area shape="poly" title=" " alt="" coords="1007,708,958,753,954,749,1003,704"/>
+<area shape="poly" title=" " alt="" coords="985,708,879,757,877,752,982,703"/>
+<area shape="poly" title=" " alt="" coords="942,708,753,753,751,748,941,703"/>
+<area shape="poly" title=" " alt="" coords="2208,104,2214,174,2233,284,2249,347,2270,410,2299,472,2334,528,2357,553,2381,574,2378,578,2353,557,2330,531,2294,474,2266,412,2244,348,2228,285,2209,175,2203,104"/>
+<area shape="poly" title=" " alt="" coords="2264,98,2325,115,2394,142,2427,160,2459,182,2487,208,2510,239,2519,258,2524,280,2522,323,2511,364,2497,397,2492,395,2506,362,2517,322,2519,280,2514,260,2506,241,2483,212,2456,186,2425,165,2391,146,2323,120,2263,104"/>
+<area shape="poly" title=" " alt="" coords="2148,106,2054,130,1949,164,1902,184,1865,206,1839,229,1833,241,1831,253,1831,333,1834,375,1844,416,1868,483,1863,485,1839,418,1829,376,1825,333,1825,252,1828,239,1835,226,1861,202,1900,179,1947,159,2052,125,2147,101"/>
+<area shape="rect" href="a00740.html" title="Internal root record of a document: the document node and the allocator of its tree in one object." alt="" coords="2584,152,2763,192"/>
+<area shape="poly" title=" " alt="" coords="2263,99,2571,152,2570,157,2262,104"/>
+<area shape="rect" href="a00716.html" title="Internal storage of an XML node and the functions that build, link, copy and destroy the tree." alt="" coords="2243,240,2495,265"/>
+<area shape="poly" title=" " alt="" coords="2221,103,2348,228,2345,232,2217,106"/>
+<area shape="rect" href="a00692.html" title="xml_parse_result_t, the outcome of loading XML or appending a fragment, and the internal entry point ..." alt="" coords="1917,409,2171,434"/>
+<area shape="poly" title=" " alt="" coords="2201,105,2059,397,2054,395,2197,103"/>
+<area shape="poly" title=" " alt="" coords="2685,191,2813,476,2808,478,2680,193"/>
+<area shape="poly" title=" " alt="" coords="2710,190,2798,250,2848,290,2894,335,2932,384,2945,409,2954,434,2958,459,2956,483,2947,508,2931,531,2911,543,2874,553,2765,571,2635,584,2513,594,2512,588,2635,579,2765,565,2873,548,2909,538,2928,527,2943,505,2951,482,2953,459,2949,435,2940,411,2927,387,2890,339,2844,294,2794,254,2707,195"/>
+<area shape="poly" title=" " alt="" coords="2664,193,2619,267,2554,355,2508,402,2504,398,2550,352,2614,264,2660,191"/>
+<area shape="poly" title=" " alt="" coords="2678,192,2679,240,2674,305,2659,376,2646,411,2629,443,2602,472,2570,492,2568,488,2599,468,2624,440,2641,408,2654,374,2669,304,2673,240,2672,192"/>
+<area shape="poly" title=" " alt="" coords="2598,195,2431,239,2430,234,2597,189"/>
+<area shape="poly" title=" " alt="" coords="2421,263,2473,281,2531,309,2586,348,2610,372,2629,400,2636,428,2635,467,2630,505,2619,531,2598,547,2565,561,2486,584,2484,579,2563,556,2595,542,2615,528,2625,504,2630,467,2630,429,2624,402,2606,376,2583,352,2528,314,2471,286,2419,268"/>
+<area shape="poly" title=" " alt="" coords="2391,263,2418,284,2444,312,2465,354,2478,394,2473,396,2460,356,2439,315,2414,288,2388,267"/>
+<area shape="poly" title=" " alt="" coords="2305,268,2203,291,2084,323,1976,361,1935,382,1907,403,1895,421,1887,442,1880,483,1875,483,1881,441,1890,419,1903,399,1932,377,1974,356,2082,318,2201,286,2304,263"/>
+<area shape="rect" href="a00536.html" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="2259,313,2429,353"/>
+<area shape="poly" title=" " alt="" coords="2368,266,2357,301,2352,299,2363,265"/>
+<area shape="poly" title=" " alt="" coords="2336,354,2323,395,2320,418,2323,441,2336,479,2354,515,2392,572,2387,575,2349,517,2331,481,2317,442,2315,418,2318,393,2331,353"/>
+<area shape="poly" title=" " alt="" coords="2377,351,2451,399,2448,403,2374,356"/>
+<area shape="poly" title=" " alt="" coords="2338,354,2328,397,2330,419,2338,440,2355,454,2384,468,2456,491,2455,496,2382,473,2353,459,2334,443,2324,421,2323,396,2333,353"/>
+<area shape="poly" title=" " alt="" coords="1971,437,1867,459,1753,492,1650,537,1520,601,1389,665,1332,691,1285,708,1238,720,1199,727,1129,732,1061,737,1021,744,975,756,970,758,968,753,974,751,1020,739,1060,732,1129,727,1198,721,1237,715,1283,703,1330,686,1387,660,1517,596,1647,532,1751,487,1866,454,1970,431"/>
+<area shape="poly" title=" " alt="" coords="2061,432,2128,484,2192,527,2265,557,2337,579,2335,584,2264,562,2189,532,2125,488,2058,436"/>
+<area shape="poly" title=" " alt="" coords="2053,433,2083,478,2105,504,2131,527,2163,545,2191,553,2221,560,2256,575,2281,596,2292,606,2306,615,2407,643,2585,680,2967,752,2966,757,2584,686,2405,648,2304,620,2288,610,2278,600,2253,580,2219,565,2190,558,2161,550,2128,532,2102,508,2079,482,2049,436"/>
+<area shape="poly" title=" " alt="" coords="2021,436,1915,493,1912,488,2019,432"/>
+</map>
 </div>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05167.html">gap</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05171.html">strconv_attribute_impl&lt; Escape &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05175.html">strconv_pcdata_impl&lt; Trim, Eol, Escape &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a1771b42a0b454094b266b58f4b5cd053" id="r_a1771b42a0b454094b266b58f4b5cd053"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1771b42a0b454094b266b58f4b5cd053">strconv_attribute_t</a>) (<a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *, <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a>)</td></tr>
+<tr class="separator:a1771b42a0b454094b266b58f4b5cd053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a674e7a8702a4fbe62d2bbf8d7813c963" id="r_a674e7a8702a4fbe62d2bbf8d7813c963"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a674e7a8702a4fbe62d2bbf8d7813c963">strconv_pcdata_t</a>) (<a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *)</td></tr>
+<tr class="separator:a674e7a8702a4fbe62d2bbf8d7813c963"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a572ca023c41c429e54892e03cdc88a64" id="r_a572ca023c41c429e54892e03cdc88a64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a572ca023c41c429e54892e03cdc88a64">strconv_escape</a> (<a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *s, <a class="el" href="a05167.html">gap</a> &amp;g)</td></tr>
+<tr class="separator:a572ca023c41c429e54892e03cdc88a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51e9b0004ac41f142aeed82a9801e288" id="r_a51e9b0004ac41f142aeed82a9801e288"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1771b42a0b454094b266b58f4b5cd053">strconv_attribute_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51e9b0004ac41f142aeed82a9801e288">get_strconv_attribute</a> (unsigned int optmask)</td></tr>
+<tr class="separator:a51e9b0004ac41f142aeed82a9801e288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabac4ba634904454129cb546e203a896" id="r_aabac4ba634904454129cb546e203a896"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabac4ba634904454129cb546e203a896">strconv_comment</a> (<a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *str, <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> endch)</td></tr>
+<tr class="separator:aabac4ba634904454129cb546e203a896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe3e6f37492a7bf6f15aa79ea3473a15" id="r_afe3e6f37492a7bf6f15aa79ea3473a15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe3e6f37492a7bf6f15aa79ea3473a15">strconv_cdata</a> (<a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *str, <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> endch)</td></tr>
+<tr class="separator:afe3e6f37492a7bf6f15aa79ea3473a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a107a81d20f6de13719a1c04b6eab36c8" id="r_a107a81d20f6de13719a1c04b6eab36c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a674e7a8702a4fbe62d2bbf8d7813c963">strconv_pcdata_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a107a81d20f6de13719a1c04b6eab36c8">get_strconv_pcdata</a> (unsigned int optmask)</td></tr>
+<tr class="separator:a107a81d20f6de13719a1c04b6eab36c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a1771b42a0b454094b266b58f4b5cd053" name="a1771b42a0b454094b266b58f4b5cd053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1771b42a0b454094b266b58f4b5cd053">&#9670;&#160;</a></span>strconv_attribute_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *(* strconv_attribute_t) (<a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *, <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a674e7a8702a4fbe62d2bbf8d7813c963" name="a674e7a8702a4fbe62d2bbf8d7813c963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a674e7a8702a4fbe62d2bbf8d7813c963">&#9670;&#160;</a></span>strconv_pcdata_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *(* strconv_pcdata_t) (<a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a51e9b0004ac41f142aeed82a9801e288" name="a51e9b0004ac41f142aeed82a9801e288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51e9b0004ac41f142aeed82a9801e288">&#9670;&#160;</a></span>get_strconv_attribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1771b42a0b454094b266b58f4b5cd053">strconv_attribute_t</a> get_strconv_attribute </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>optmask</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00686_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00686_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<div class="center"><img src="a00686_a51e9b0004ac41f142aeed82a9801e288_cgraph.png" border="0" usemap="#aa00686_a51e9b0004ac41f142aeed82a9801e288_cgraph" alt=""/></div>
+<map name="aa00686_a51e9b0004ac41f142aeed82a9801e288_cgraph" id="aa00686_a51e9b0004ac41f142aeed82a9801e288_cgraph">
+<area shape="rect" title=" " alt="" coords="5,109,167,134"/>
+<area shape="rect" href="a05171.html#acccf8a12dfcace9ed82810fa84e5e17f" title=" " alt="" coords="215,5,384,45"/>
+<area shape="poly" title=" " alt="" coords="109,106,214,55,230,48,232,53,216,60,111,111"/>
+<area shape="rect" href="a05171.html#ac050cfff8db4aee9bc3072e5c77e72a8" title=" " alt="" coords="215,133,384,173"/>
+<area shape="poly" title=" " alt="" coords="168,131,202,136,201,141,167,136"/>
+<area shape="rect" href="a05171.html#a622d52f8ba72199fa7465766ecbdc2fa" title=" " alt="" coords="215,69,384,109"/>
+<area shape="poly" title=" " alt="" coords="167,107,201,101,202,107,168,112"/>
+<area shape="rect" href="a05171.html#a084b5e97bd5be058ef2678a28ccf8ecb" title=" " alt="" coords="215,197,384,237"/>
+<area shape="poly" title=" " alt="" coords="111,132,216,183,232,190,230,195,214,188,109,136"/>
+<area shape="rect" href="a05167.html#a7d5e84d56dbeef1310977fe1ecec5ded" title=" " alt="" coords="451,105,536,130"/>
+<area shape="poly" title=" " alt="" coords="357,43,385,55,462,95,459,100,383,60,355,48"/>
+<area shape="rect" href="a05167.html#a1b60601371665958226d443c7db6e099" title=" " alt="" coords="603,105,688,130"/>
+<area shape="poly" title=" " alt="" coords="385,31,468,45,556,68,614,95,612,100,554,73,467,50,384,37"/>
+<area shape="rect" href="a00686.html#a572ca023c41c429e54892e03cdc88a64" title=" " alt="" coords="432,154,555,179"/>
+<area shape="poly" title=" " alt="" coords="368,43,386,55,403,77,411,98,418,119,434,139,441,145,438,149,430,143,413,121,406,100,398,80,382,59,365,48"/>
+<area shape="poly" title=" " alt="" coords="532,151,592,132,593,137,533,156"/>
+<area shape="poly" title=" " alt="" coords="384,135,437,125,438,130,385,140"/>
+<area shape="poly" title=" " alt="" coords="385,157,418,159,418,164,384,162"/>
+<area shape="poly" title=" " alt="" coords="385,99,437,107,437,112,384,104"/>
+<area shape="poly" title=" " alt="" coords="384,82,467,82,555,89,596,98,595,103,554,95,467,87,384,87"/>
+<area shape="poly" title=" " alt="" coords="354,107,385,119,433,139,451,146,448,151,431,144,383,124,352,112"/>
+<area shape="poly" title=" " alt="" coords="360,195,383,183,397,172,406,162,416,151,431,139,440,134,443,138,433,144,419,154,410,165,400,176,385,188,362,200"/>
+<area shape="poly" title=" " alt="" coords="384,218,468,212,512,203,554,190,592,166,623,138,627,142,596,170,556,194,513,208,469,217,385,224"/>
+<area shape="poly" title=" " alt="" coords="375,195,431,180,432,185,377,200"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_a51e9b0004ac41f142aeed82a9801e288_icgraph.png" border="0" usemap="#aa00686_a51e9b0004ac41f142aeed82a9801e288_icgraph" alt=""/></div>
+<map name="aa00686_a51e9b0004ac41f142aeed82a9801e288_icgraph" id="aa00686_a51e9b0004ac41f142aeed82a9801e288_icgraph">
+<area shape="rect" title=" " alt="" coords="1444,113,1605,138"/>
+<area shape="rect" href="a05179.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1192,105,1396,145"/>
+<area shape="poly" title=" " alt="" coords="1430,128,1396,128,1396,123,1430,123"/>
+<area shape="rect" href="a05179.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="940,105,1144,145"/>
+<area shape="poly" title=" " alt="" coords="1179,128,1144,128,1144,123,1179,123"/>
+<area shape="rect" href="a01682.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="725,105,892,145"/>
+<area shape="poly" title=" " alt="" coords="926,128,892,128,892,123,926,123"/>
+<area shape="rect" href="a05143.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="473,5,677,45"/>
+<area shape="poly" title=" " alt="" coords="761,101,676,60,644,48,646,43,678,55,763,96"/>
+<area shape="rect" href="a05127.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,69,677,109"/>
+<area shape="poly" title=" " alt="" coords="711,113,677,108,678,102,712,108"/>
+<area shape="rect" href="a05127.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="473,134,677,189"/>
+<area shape="poly" title=" " alt="" coords="712,143,678,148,677,143,711,138"/>
+<area shape="rect" href="a05127.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="473,213,677,267"/>
+<area shape="poly" title=" " alt="" coords="766,155,679,202,650,215,648,210,676,198,763,150"/>
+<area shape="rect" href="a05127.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,69,425,109"/>
+<area shape="poly" title=" " alt="" coords="459,92,426,92,426,87,459,87"/>
+<area shape="rect" href="a05127.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,40,175,80"/>
+<area shape="poly" title=" " alt="" coords="209,78,174,73,175,68,209,72"/>
+<area shape="rect" href="a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="63,105,117,130"/>
+<area shape="poly" title=" " alt="" coords="209,106,118,117,117,111,209,100"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a107a81d20f6de13719a1c04b6eab36c8" name="a107a81d20f6de13719a1c04b6eab36c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a107a81d20f6de13719a1c04b6eab36c8">&#9670;&#160;</a></span>get_strconv_pcdata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a674e7a8702a4fbe62d2bbf8d7813c963">strconv_pcdata_t</a> get_strconv_pcdata </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>optmask</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_a107a81d20f6de13719a1c04b6eab36c8_cgraph.png" border="0" usemap="#aa00686_a107a81d20f6de13719a1c04b6eab36c8_cgraph" alt=""/></div>
+<map name="aa00686_a107a81d20f6de13719a1c04b6eab36c8_cgraph" id="aa00686_a107a81d20f6de13719a1c04b6eab36c8_cgraph">
+<area shape="rect" title=" " alt="" coords="5,56,155,81"/>
+<area shape="rect" href="a05175.html#aa8f41b6dded790c9b586ea8bd2c86e44" title=" " alt="" coords="203,49,360,89"/>
+<area shape="poly" title=" " alt="" coords="155,66,189,66,189,71,155,71"/>
+<area shape="rect" href="a05167.html#a7d5e84d56dbeef1310977fe1ecec5ded" title=" " alt="" coords="427,5,512,31"/>
+<area shape="poly" title=" " alt="" coords="355,46,412,31,414,36,356,51"/>
+<area shape="rect" href="a05167.html#a1b60601371665958226d443c7db6e099" title=" " alt="" coords="579,81,664,107"/>
+<area shape="poly" title=" " alt="" coords="360,72,565,87,565,92,360,77"/>
+<area shape="rect" href="a00686.html#a572ca023c41c429e54892e03cdc88a64" title=" " alt="" coords="408,107,531,132"/>
+<area shape="poly" title=" " alt="" coords="356,86,410,100,408,106,355,91"/>
+<area shape="poly" title=" " alt="" coords="530,106,565,101,566,106,531,112"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_a107a81d20f6de13719a1c04b6eab36c8_icgraph.png" border="0" usemap="#aa00686_a107a81d20f6de13719a1c04b6eab36c8_icgraph" alt=""/></div>
+<map name="aa00686_a107a81d20f6de13719a1c04b6eab36c8_icgraph" id="aa00686_a107a81d20f6de13719a1c04b6eab36c8_icgraph">
+<area shape="rect" title=" " alt="" coords="1444,113,1593,138"/>
+<area shape="rect" href="a05179.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1192,105,1396,145"/>
+<area shape="poly" title=" " alt="" coords="1430,128,1396,128,1396,123,1430,123"/>
+<area shape="rect" href="a05179.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="940,105,1144,145"/>
+<area shape="poly" title=" " alt="" coords="1179,128,1144,128,1144,123,1179,123"/>
+<area shape="rect" href="a01682.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="725,105,892,145"/>
+<area shape="poly" title=" " alt="" coords="926,128,892,128,892,123,926,123"/>
+<area shape="rect" href="a05143.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="473,5,677,45"/>
+<area shape="poly" title=" " alt="" coords="761,101,676,60,644,48,646,43,678,55,763,96"/>
+<area shape="rect" href="a05127.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,69,677,109"/>
+<area shape="poly" title=" " alt="" coords="711,113,677,108,678,102,712,108"/>
+<area shape="rect" href="a05127.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="473,134,677,189"/>
+<area shape="poly" title=" " alt="" coords="712,143,678,148,677,143,711,138"/>
+<area shape="rect" href="a05127.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="473,213,677,267"/>
+<area shape="poly" title=" " alt="" coords="766,155,679,202,650,215,648,210,676,198,763,150"/>
+<area shape="rect" href="a05127.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,69,425,109"/>
+<area shape="poly" title=" " alt="" coords="459,92,426,92,426,87,459,87"/>
+<area shape="rect" href="a05127.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,40,175,80"/>
+<area shape="poly" title=" " alt="" coords="209,78,174,73,175,68,209,72"/>
+<area shape="rect" href="a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="63,105,117,130"/>
+<area shape="poly" title=" " alt="" coords="209,106,118,117,117,111,209,100"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="afe3e6f37492a7bf6f15aa79ea3473a15" name="afe3e6f37492a7bf6f15aa79ea3473a15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe3e6f37492a7bf6f15aa79ea3473a15">&#9670;&#160;</a></span>strconv_cdata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> * strconv_cdata </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a></td>          <td class="paramname"><span class="paramname"><em>endch</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_afe3e6f37492a7bf6f15aa79ea3473a15_cgraph.png" border="0" usemap="#aa00686_afe3e6f37492a7bf6f15aa79ea3473a15_cgraph" alt=""/></div>
+<map name="aa00686_afe3e6f37492a7bf6f15aa79ea3473a15_cgraph" id="aa00686_afe3e6f37492a7bf6f15aa79ea3473a15_cgraph">
+<area shape="rect" title=" " alt="" coords="5,31,119,56"/>
+<area shape="rect" href="a05167.html#a7d5e84d56dbeef1310977fe1ecec5ded" title=" " alt="" coords="167,5,252,31"/>
+<area shape="poly" title=" " alt="" coords="119,31,153,25,153,30,119,36"/>
+<area shape="rect" href="a05167.html#a1b60601371665958226d443c7db6e099" title=" " alt="" coords="167,55,252,80"/>
+<area shape="poly" title=" " alt="" coords="119,50,153,56,153,61,119,55"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_afe3e6f37492a7bf6f15aa79ea3473a15_icgraph.png" border="0" usemap="#aa00686_afe3e6f37492a7bf6f15aa79ea3473a15_icgraph" alt=""/></div>
+<map name="aa00686_afe3e6f37492a7bf6f15aa79ea3473a15_icgraph" id="aa00686_afe3e6f37492a7bf6f15aa79ea3473a15_icgraph">
+<area shape="rect" title=" " alt="" coords="1696,113,1809,138"/>
+<area shape="rect" href="a05179.html#af02163f17fba53cccc3858f93e36bc6c" title="Parses XML constructs starting with an exclamation mark (&lt;!...)." alt="" coords="1444,105,1648,145"/>
+<area shape="poly" title=" " alt="" coords="1682,128,1648,128,1648,123,1682,123"/>
+<area shape="rect" href="a05179.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1192,105,1396,145"/>
+<area shape="poly" title=" " alt="" coords="1431,128,1396,128,1396,123,1431,123"/>
+<area shape="rect" href="a05179.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="940,105,1144,145"/>
+<area shape="poly" title=" " alt="" coords="1179,128,1144,128,1144,123,1179,123"/>
+<area shape="rect" href="a01682.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="725,105,892,145"/>
+<area shape="poly" title=" " alt="" coords="926,128,892,128,892,123,926,123"/>
+<area shape="rect" href="a05143.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="473,5,677,45"/>
+<area shape="poly" title=" " alt="" coords="761,101,676,60,644,48,646,43,678,55,763,96"/>
+<area shape="rect" href="a05127.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,69,677,109"/>
+<area shape="poly" title=" " alt="" coords="711,113,677,108,678,102,712,108"/>
+<area shape="rect" href="a05127.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="473,134,677,189"/>
+<area shape="poly" title=" " alt="" coords="712,143,678,148,677,143,711,138"/>
+<area shape="rect" href="a05127.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="473,213,677,267"/>
+<area shape="poly" title=" " alt="" coords="766,155,679,202,650,215,648,210,676,198,763,150"/>
+<area shape="rect" href="a05127.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,69,425,109"/>
+<area shape="poly" title=" " alt="" coords="459,92,426,92,426,87,459,87"/>
+<area shape="rect" href="a05127.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,40,175,80"/>
+<area shape="poly" title=" " alt="" coords="209,78,174,73,175,68,209,72"/>
+<area shape="rect" href="a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="63,105,117,130"/>
+<area shape="poly" title=" " alt="" coords="209,106,118,117,117,111,209,100"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aabac4ba634904454129cb546e203a896" name="aabac4ba634904454129cb546e203a896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabac4ba634904454129cb546e203a896">&#9670;&#160;</a></span>strconv_comment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> * strconv_comment </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a></td>          <td class="paramname"><span class="paramname"><em>endch</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_aabac4ba634904454129cb546e203a896_cgraph.png" border="0" usemap="#aa00686_aabac4ba634904454129cb546e203a896_cgraph" alt=""/></div>
+<map name="aa00686_aabac4ba634904454129cb546e203a896_cgraph" id="aa00686_aabac4ba634904454129cb546e203a896_cgraph">
+<area shape="rect" title=" " alt="" coords="5,31,144,56"/>
+<area shape="rect" href="a05167.html#a7d5e84d56dbeef1310977fe1ecec5ded" title=" " alt="" coords="192,5,277,31"/>
+<area shape="poly" title=" " alt="" coords="144,30,178,24,179,30,145,35"/>
+<area shape="rect" href="a05167.html#a1b60601371665958226d443c7db6e099" title=" " alt="" coords="192,55,277,80"/>
+<area shape="poly" title=" " alt="" coords="145,51,179,56,178,62,144,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_aabac4ba634904454129cb546e203a896_icgraph.png" border="0" usemap="#aa00686_aabac4ba634904454129cb546e203a896_icgraph" alt=""/></div>
+<map name="aa00686_aabac4ba634904454129cb546e203a896_icgraph" id="aa00686_aabac4ba634904454129cb546e203a896_icgraph">
+<area shape="rect" title=" " alt="" coords="1696,113,1835,138"/>
+<area shape="rect" href="a05179.html#af02163f17fba53cccc3858f93e36bc6c" title="Parses XML constructs starting with an exclamation mark (&lt;!...)." alt="" coords="1444,105,1648,145"/>
+<area shape="poly" title=" " alt="" coords="1683,128,1648,128,1648,123,1683,123"/>
+<area shape="rect" href="a05179.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1192,105,1396,145"/>
+<area shape="poly" title=" " alt="" coords="1431,128,1396,128,1396,123,1431,123"/>
+<area shape="rect" href="a05179.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="940,105,1144,145"/>
+<area shape="poly" title=" " alt="" coords="1179,128,1144,128,1144,123,1179,123"/>
+<area shape="rect" href="a01682.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="725,105,892,145"/>
+<area shape="poly" title=" " alt="" coords="926,128,892,128,892,123,926,123"/>
+<area shape="rect" href="a05143.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="473,5,677,45"/>
+<area shape="poly" title=" " alt="" coords="761,101,676,60,644,48,646,43,678,55,763,96"/>
+<area shape="rect" href="a05127.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,69,677,109"/>
+<area shape="poly" title=" " alt="" coords="711,113,677,108,678,102,712,108"/>
+<area shape="rect" href="a05127.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="473,134,677,189"/>
+<area shape="poly" title=" " alt="" coords="712,143,678,148,677,143,711,138"/>
+<area shape="rect" href="a05127.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="473,213,677,267"/>
+<area shape="poly" title=" " alt="" coords="766,155,679,202,650,215,648,210,676,198,763,150"/>
+<area shape="rect" href="a05127.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,69,425,109"/>
+<area shape="poly" title=" " alt="" coords="459,92,426,92,426,87,459,87"/>
+<area shape="rect" href="a05127.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,40,175,80"/>
+<area shape="poly" title=" " alt="" coords="209,78,174,73,175,68,209,72"/>
+<area shape="rect" href="a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="63,105,117,130"/>
+<area shape="poly" title=" " alt="" coords="209,106,118,117,117,111,209,100"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a572ca023c41c429e54892e03cdc88a64" name="a572ca023c41c429e54892e03cdc88a64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a572ca023c41c429e54892e03cdc88a64">&#9670;&#160;</a></span>strconv_escape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> * strconv_escape </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01685.html#af5c331138f914028e4642100ea3e7a24">char_t</a> *</td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a05167.html">gap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_a572ca023c41c429e54892e03cdc88a64_cgraph.png" border="0" usemap="#aa00686_a572ca023c41c429e54892e03cdc88a64_cgraph" alt=""/></div>
+<map name="aa00686_a572ca023c41c429e54892e03cdc88a64_cgraph" id="aa00686_a572ca023c41c429e54892e03cdc88a64_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,128,31"/>
+<area shape="rect" href="a05167.html#a1b60601371665958226d443c7db6e099" title=" " alt="" coords="176,5,261,31"/>
+<area shape="poly" title=" " alt="" coords="128,15,162,15,162,21,128,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00686_a572ca023c41c429e54892e03cdc88a64_icgraph.png" border="0" usemap="#aa00686_a572ca023c41c429e54892e03cdc88a64_icgraph" alt=""/></div>
+<map name="aa00686_a572ca023c41c429e54892e03cdc88a64_icgraph" id="aa00686_a572ca023c41c429e54892e03cdc88a64_icgraph">
+<area shape="rect" title=" " alt="" coords="1871,141,1993,166"/>
+<area shape="rect" href="a05175.html#aa8f41b6dded790c9b586ea8bd2c86e44" title=" " alt="" coords="1659,5,1817,45"/>
+<area shape="poly" title=" " alt="" coords="1909,132,1870,96,1821,60,1798,48,1801,43,1824,55,1873,91,1913,128"/>
+<area shape="rect" href="a05171.html#acccf8a12dfcace9ed82810fa84e5e17f" title=" " alt="" coords="1653,69,1823,109"/>
+<area shape="poly" title=" " alt="" coords="1879,139,1798,112,1800,107,1881,134"/>
+<area shape="rect" href="a05171.html#ac050cfff8db4aee9bc3072e5c77e72a8" title=" " alt="" coords="1653,133,1823,173"/>
+<area shape="poly" title=" " alt="" coords="1857,156,1823,156,1823,151,1857,151"/>
+<area shape="rect" href="a05171.html#a622d52f8ba72199fa7465766ecbdc2fa" title=" " alt="" coords="1653,197,1823,237"/>
+<area shape="poly" title=" " alt="" coords="1881,173,1800,200,1798,195,1879,168"/>
+<area shape="rect" href="a05171.html#a084b5e97bd5be058ef2678a28ccf8ecb" title=" " alt="" coords="1653,261,1823,301"/>
+<area shape="poly" title=" " alt="" coords="1913,178,1873,215,1824,252,1801,264,1798,259,1821,247,1870,211,1909,174"/>
+<area shape="rect" href="a00686.html#a107a81d20f6de13719a1c04b6eab36c8" title=" " alt="" coords="1450,53,1599,78"/>
+<area shape="poly" title=" " alt="" coords="1646,45,1593,55,1592,50,1645,40"/>
+<area shape="rect" href="a05179.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1192,109,1396,149"/>
+<area shape="poly" title=" " alt="" coords="1466,84,1367,112,1366,107,1465,79"/>
+<area shape="rect" href="a05179.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="940,109,1144,149"/>
+<area shape="poly" title=" " alt="" coords="1179,132,1144,132,1144,127,1179,127"/>
+<area shape="rect" href="a01682.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="725,109,892,149"/>
+<area shape="poly" title=" " alt="" coords="926,132,892,132,892,127,926,127"/>
+<area shape="rect" href="a05143.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="473,9,677,49"/>
+<area shape="poly" title=" " alt="" coords="761,105,676,64,644,52,646,47,678,59,763,100"/>
+<area shape="rect" href="a05127.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,73,677,113"/>
+<area shape="poly" title=" " alt="" coords="711,117,677,112,678,106,712,112"/>
+<area shape="rect" href="a05127.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="473,138,677,193"/>
+<area shape="poly" title=" " alt="" coords="712,147,678,152,677,147,711,142"/>
+<area shape="rect" href="a05127.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="473,217,677,271"/>
+<area shape="poly" title=" " alt="" coords="767,159,679,208,653,219,651,214,676,203,764,154"/>
+<area shape="rect" href="a05127.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,73,425,113"/>
+<area shape="poly" title=" " alt="" coords="459,96,426,96,426,91,459,91"/>
+<area shape="rect" href="a05127.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,44,175,84"/>
+<area shape="poly" title=" " alt="" coords="209,82,174,77,175,72,209,76"/>
+<area shape="rect" href="a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="63,109,117,134"/>
+<area shape="poly" title=" " alt="" coords="209,110,118,121,117,115,209,104"/>
+<area shape="rect" href="a00686.html#a51e9b0004ac41f142aeed82a9801e288" title=" " alt="" coords="1444,141,1605,166"/>
+<area shape="poly" title=" " alt="" coords="1659,116,1568,143,1566,138,1657,111"/>
+<area shape="poly" title=" " alt="" coords="1430,146,1396,143,1396,137,1431,141"/>
+<area shape="poly" title=" " alt="" coords="1640,156,1605,156,1605,151,1640,151"/>
+<area shape="poly" title=" " alt="" coords="1657,196,1566,169,1568,164,1659,191"/>
+<area shape="poly" title=" " alt="" coords="1665,258,1652,252,1586,208,1537,168,1541,164,1590,204,1655,247,1667,253"/>
+</map>
 </div>
 
 </div>
@@ -151,7 +769,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_0355cb929a8769565a0594efea203022.html">circular_buffer</a></li><li class="navelem"><a class="el" href="a00686.html">example_circular_buffer_queue.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a00686.html">XmlParser.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

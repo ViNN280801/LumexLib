@@ -1,0 +1,14 @@
+<map id="lumex::core::hazard_pointer::make_hazard_pointer_batch" name="lumex::core::hazard_pointer::make_hazard_pointer_batch">
+<area shape="rect" id="Node000001" title="Gives every empty element a hazard slot, all or none." alt="" coords="5,110,176,165"/>
+<area shape="rect" id="Node000002" href="$a01546.html#a05ed59c81364fd53de26142343a8b795" title="Takes count hazard slots at once, all or none." alt="" coords="224,29,445,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,107,223,79,246,71,248,76,225,84,153,112"/>
+<area shape="rect" id="Node000004" href="$a04027.html#ab5393aa7cdc476762748852718a134b7" title="The number of elements." alt="" coords="261,117,408,157"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="176,135,248,135,248,140,176,140"/>
+<area shape="rect" id="Node000005" href="$a03311.html#a49b4c6de52ac4748816a8346d63295d6" title=" " alt="" coords="250,182,419,237"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="177,160,237,178,236,183,175,165"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="289,30,287,20,294,10,310,5,335,3,363,6,378,13,376,18,361,11,335,8,311,10,297,15,292,21,295,28"/>
+<area shape="rect" id="Node000003" href="$a01546.html#ac2f5479b3d0eb9819218688201bc0a6a" title="Clears a slot (ending the protection) and gives it back." alt="" coords="493,29,708,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="446,47,479,47,479,52,446,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="552,30,549,20,557,10,574,5,601,3,631,5,648,13,646,18,630,11,601,8,575,10,560,15,554,21,557,28"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="289,118,287,108,294,98,310,93,335,91,363,94,378,101,376,106,361,99,335,96,311,98,297,103,292,109,295,116"/>
+</map>

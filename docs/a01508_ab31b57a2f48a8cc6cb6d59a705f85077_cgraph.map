@@ -1,0 +1,7 @@
+<map id="lumex::core::circular_buffer::operator&lt;" name="lumex::core::circular_buffer::operator&lt;">
+<area shape="rect" id="Node000001" title="&quot;less&quot; operator for two circular_buffer objects." alt="" coords="5,49,160,89"/>
+<area shape="rect" id="Node000002" href="$a02055.html#a783389fe18620fa39870a80f0a7ef984" title="Returns an iterator to the start of the logical sequence." alt="" coords="224,5,392,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,54,210,46,211,51,161,59"/>
+<area shape="rect" id="Node000003" href="$a02055.html#a5aca85451470b8c973ad79a8be7897ce" title="Returns an iterator to the end of the logical sequence." alt="" coords="208,85,408,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,78,195,84,194,89,160,84"/>
+</map>

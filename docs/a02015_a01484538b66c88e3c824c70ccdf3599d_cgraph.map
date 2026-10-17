@@ -1,0 +1,5 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::detach" name="lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;::detach">
+<area shape="rect" id="Node000001" title="Empties pointer without dropping its count (the caller owns it)." alt="" coords="5,5,187,104"/>
+<area shape="rect" id="Node000002" href="$a03899.html#a726c8be561404b98285628a3be4badbb" title=" " alt="" coords="235,27,380,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,52,221,52,221,57,187,57"/>
+</map>

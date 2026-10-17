@@ -1,0 +1,27 @@
+<map id="lumex::xml::node::XmlNode::remove_attribute" name="lumex::xml::node::XmlNode::remove_attribute">
+<area shape="rect" id="Node000001" title="Removes an attribute with the specified name (string_view_t) from the current node." alt="" coords="5,133,209,173"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="257,101,461,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,138,243,133,244,139,210,143"/>
+<area shape="rect" id="Node000003" href="$a05143.html#a6f070ed5f320f3b771a23e57e4565492" title="Removes a specified XmlAttribute from the current node." alt="" coords="257,165,461,205"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="210,164,244,168,243,173,209,169"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="313,102,310,92,317,82,334,77,359,75,388,78,404,85,402,90,387,83,359,80,335,82,320,87,315,93,318,100"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="509,5,713,45"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="442,163,459,151,477,128,483,105,489,80,507,55,514,50,517,55,511,59,494,82,488,106,481,131,463,155,445,167"/>
+<area shape="rect" id="Node000005" href="$a01670.html#a39c4f1cfa1cc6b95363c620f8c07bdea" title="Destroys and deallocates an XmlAttributeBase object." alt="" coords="531,69,691,109"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="431,163,460,151,484,135,508,119,525,112,527,117,511,124,487,140,463,156,433,168"/>
+<area shape="rect" id="Node000009" href="$a05115.html#a0bbf2ddf1ea68f4ed3612fe0a45849eb" title="Retrieves the raw internal XmlAttributeBase pointer wrapped by this XmlAttribute object." alt="" coords="531,133,691,173"/>
+<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="461,170,517,163,518,168,462,175"/>
+<area shape="rect" id="Node000010" href="$a01677.html#a9e2f482374d0d85e41688b19b06931c7" title="Retrieves the XmlAllocator instance that manages the memory for a given object." alt="" coords="532,197,691,237"/>
+<area shape="poly" id="edge11_Node000003_Node000010" title=" " alt="" coords="462,196,519,203,518,208,461,201"/>
+<area shape="rect" id="Node000011" href="$a01671.html#a2ba3bf150e471b2392f8a8ba5d48a749" title=" " alt="" coords="540,261,683,301"/>
+<area shape="poly" id="edge12_Node000003_Node000011" title=" " alt="" coords="405,203,510,247,532,254,530,259,508,252,402,208"/>
+<area shape="rect" id="Node000012" href="$a01670.html#afa881ac8bc7844492c7dbf561cc2480c" title="Removes an XmlAttributeBase from its parent node&#39;s attribute list." alt="" coords="531,325,691,365"/>
+<area shape="poly" id="edge13_Node000003_Node000012" title=" " alt="" coords="380,204,435,257,472,286,511,311,524,318,522,322,508,316,468,290,432,261,376,207"/>
+<area shape="rect" id="Node000006" href="$a05135.html#a7916caf4c4f5e8e87a00f8778a3d4640" title="Deallocates a block of memory previously allocated by this allocator." alt="" coords="1000,63,1191,118"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="691,83,761,81,952,81,986,82,986,88,952,87,761,87,692,89"/>
+<area shape="rect" id="Node000008" href="$a05135.html#aa83864016ef06776b8a0075a4fe42d8e" title="Deallocates a string previously allocated by allocate_string." alt="" coords="761,95,952,150"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="692,98,748,105,747,110,691,103"/>
+<area shape="rect" id="Node000007" href="$a05135.html#a46230e854a38c3389d5b092bdd422645" title="Deallocates a memory page previously allocated by this allocator." alt="" coords="1239,71,1468,111"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1191,88,1225,88,1225,93,1191,93"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="952,107,986,103,987,108,952,113"/>
+</map>

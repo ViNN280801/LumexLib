@@ -1,0 +1,14 @@
+<map id="lumex::applied::settings::guard::LumexSettingsGuard::backup" name="lumex::applied::settings::guard::LumexSettingsGuard::backup">
+<area shape="rect" id="Node000001" title="Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD&#45;HHMMSS&gt; backup file." alt="" coords="5,120,216,175"/>
+<area shape="rect" id="Node000002" href="$a01903.html#ab558db30df367f2e78987194eb74e3c6" title=" " alt="" coords="265,5,476,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,117,263,69,278,63,280,68,265,74,164,122"/>
+<area shape="rect" id="Node000003" href="$a04251.html#a32efb9c5bcc248c83b37abd86a5dd24d" title="Retrieves the current date and time formatted as a string." alt="" coords="285,84,456,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,130,271,122,272,128,216,135"/>
+<area shape="rect" id="Node000004" href="$a01759.html#aafb110cd6feeb2ab91305f27352b9118" title="Log an INFO&#45;level message." alt="" coords="277,163,464,203"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="216,159,264,166,263,171,216,165"/>
+<area shape="rect" id="Node000006" href="$a01759.html#af4fec23e76323ffee4eaf2aaf716eb15" title="Log a WARNING&#45;level message." alt="" coords="264,227,477,267"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="169,172,265,213,287,221,285,226,263,218,167,177"/>
+<area shape="rect" id="Node000005" href="$a01570.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="525,195,669,235"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="465,194,512,201,511,206,464,199"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="477,230,511,225,512,230,478,235"/>
+</map>

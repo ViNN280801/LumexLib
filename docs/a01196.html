@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Expected File Reference</title>
+<title>LumexLib: LumexSerialPortEnumeration.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -103,40 +103,142 @@ $(function(){initNavTree('a01196.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">Expected File Reference</div></div>
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexSerialPortEnumeration.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Expected module: <code>expected&lt;T, E&gt;</code>, a value or an error after the C++23 <code>std::expected</code>, with its <code>void</code> specialization, <code>unexpected</code>, <code><a class="el" href="a06343.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a></code> and the <code>success</code> / <code>failure</code> markers.  
+<p>Enumerates serial ports and reports structured device information.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00398_source.html">error/BadExpectedAccess.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00401_source.html">error/Unexpected.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00404_source.html">result/Expected.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00413_source.html">result/ExpectedTypes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00416_source.html">result/ExpectedVoid.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00419_source.html">result/SuccessFailure.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;ostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for Expected:</div>
+Include dependency graph for LumexSerialPortEnumeration.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01197.png" border="0" usemap="#a_expected" alt=""/></div>
+<div class="center"><img src="a01197.png" border="0" usemap="#aLumexSerialPortEnumeration_8hpp" alt=""/></div>
+<map name="aLumexSerialPortEnumeration_8hpp" id="aLumexSerialPortEnumeration_8hpp">
+<area shape="rect" title="Enumerates serial ports and reports structured device information." alt="" coords="316,5,556,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,86,187,111"/>
+<area shape="poly" title=" " alt="" coords="383,33,164,85,162,80,382,28"/>
+<area shape="rect" title=" " alt="" coords="211,86,282,111"/>
+<area shape="poly" title=" " alt="" coords="407,33,294,81,290,83,288,78,292,76,405,28"/>
+<area shape="rect" title=" " alt="" coords="306,86,382,111"/>
+<area shape="poly" title=" " alt="" coords="423,33,371,79,367,75,419,29"/>
+<area shape="rect" title=" " alt="" coords="407,86,465,111"/>
+<area shape="poly" title=" " alt="" coords="439,31,439,72,433,72,433,31"/>
+<area shape="rect" title=" " alt="" coords="490,86,553,111"/>
+<area shape="poly" title=" " alt="" coords="452,29,499,74,496,78,448,33"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="577,79,767,119"/>
+<area shape="poly" title=" " alt="" coords="474,28,601,72,600,77,473,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="792,167,1005,207"/>
+<area shape="poly" title=" " alt="" coords="546,28,679,49,738,62,780,76,808,93,834,113,875,154,871,158,830,117,805,97,778,81,736,67,678,54,545,33"/>
+<area shape="rect" title=" " alt="" coords="397,174,489,199"/>
+<area shape="poly" title=" " alt="" coords="620,121,489,172,488,167,618,116"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="513,167,767,207"/>
+<area shape="poly" title=" " alt="" coords="667,120,655,154,650,153,662,118"/>
+<area shape="poly" title=" " alt="" coords="725,116,835,159,833,164,723,121"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01198.png" border="0" usemap="#a_expecteddep" alt=""/></div>
+<div class="center"><img src="a01198.png" border="0" usemap="#aLumexSerialPortEnumeration_8hppdep" alt=""/></div>
+<map name="aLumexSerialPortEnumeration_8hppdep" id="aLumexSerialPortEnumeration_8hppdep">
+<area shape="rect" title="Enumerates serial ports and reports structured device information." alt="" coords="445,5,685,31"/>
+<area shape="rect" href="a01178.html" title="Internal bounded open shared by the serial prober and the port enumeration." alt="" coords="266,79,489,104"/>
+<area shape="poly" title=" " alt="" coords="521,38,411,81,409,76,519,33"/>
+<area shape="rect" href="a01199.html" title=" " alt="" coords="446,152,685,177"/>
+<area shape="poly" title=" " alt="" coords="568,44,568,152,563,152,563,44"/>
+<area shape="rect" href="a01346.html" title="Serial port module: lists serial ports with device details, turns a configuration&#45;style port name int..." alt="" coords="719,79,849,104"/>
+<area shape="poly" title=" " alt="" coords="617,33,747,76,745,81,615,38"/>
+<area shape="rect" href="a01181.html" title=" " alt="" coords="5,152,227,177"/>
+<area shape="poly" title=" " alt="" coords="320,110,162,154,161,149,318,105"/>
+<area shape="poly" title=" " alt="" coords="424,107,533,149,531,154,422,112"/>
+<area shape="rect" href="a01172.html" title=" " alt="" coords="251,152,421,177"/>
+<area shape="poly" title=" " alt="" coords="366,117,346,153,341,150,361,115"/>
+<area shape="rect" href="a00305.html" title=" " alt="" coords="709,152,859,177"/>
+<area shape="poly" title=" " alt="" coords="787,118,787,152,781,152,781,118"/>
+<area shape="rect" href="a00308.html" title=" " alt="" coords="883,152,1098,177"/>
+<area shape="poly" title=" " alt="" coords="834,106,956,149,954,154,832,111"/>
+</map>
 </div>
 </div>
 <p><a href="a01196_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01827.html">lumex::applied::serial::enumeration::serial_port_info_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structured description of one serial port discovered on this host.  <a href="a01827.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">lumex::applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01464.html">lumex::applied::serial</a></td></tr>
+<tr class="memdesc:a01464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross-platform helpers for naming/resolving serial (and serial-adjacent) communication ports. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01465.html">lumex::applied::serial::enumeration</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a2833c2a4c2aca860a7fe8ecce5e59400" id="r_a2833c2a4c2aca860a7fe8ecce5e59400"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400">lumex::applied::serial::enumeration::serial_port_state</a> { <a class="el" href="a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400aaa2d6e4f578eb0cfaba23beef76c2194">lumex::applied::serial::enumeration::free</a>
+, <a class="el" href="a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400a8bc1b2f84252c3df4edd53e4aad097a7">lumex::applied::serial::enumeration::busy</a>
+, <a class="el" href="a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400ae4894ca167b08880bfc35862f18575eb">lumex::applied::serial::enumeration::available</a>
+, <a class="el" href="a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400a09cc203633ead318e3e8a61aeeff155d">lumex::applied::serial::enumeration::unresponsive</a>
+ }</td></tr>
+<tr class="memdesc:a2833c2a4c2aca860a7fe8ecce5e59400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of an open-probe performed during enumeration.  <a href="a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400">More...</a><br /></td></tr>
+<tr class="separator:a2833c2a4c2aca860a7fe8ecce5e59400"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:acecd7b3c45f11e0b7e71a47a7f84bb5a" id="r_acecd7b3c45f11e0b7e71a47a7f84bb5a"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01465.html#acecd7b3c45f11e0b7e71a47a7f84bb5a">lumex::applied::serial::enumeration::serial_port_state_to_string</a> (<a class="el" href="a01465.html#a2833c2a4c2aca860a7fe8ecce5e59400">serial_port_state</a> state) noexcept</td></tr>
+<tr class="memdesc:acecd7b3c45f11e0b7e71a47a7f84bb5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert <code>state</code> to a stable ASCII token.  <br /></td></tr>
+<tr class="separator:acecd7b3c45f11e0b7e71a47a7f84bb5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06d1dda0ef41ff2008e9792d2c6744ab" id="r_a06d1dda0ef41ff2008e9792d2c6744ab"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a01827.html">serial_port_info_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01465.html#a06d1dda0ef41ff2008e9792d2c6744ab">lumex::applied::serial::enumeration::enumerate_serial_ports_detailed</a> (std::string const &amp;connected_port=std::string(), bool need_to_filter_bluetooth=false, bool need_full_path=false)</td></tr>
+<tr class="memdesc:a06d1dda0ef41ff2008e9792d2c6744ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate serial ports with full <code><a class="el" href="a01827.html" title="Structured description of one serial port discovered on this host.">serial_port_info_t</a></code> records.  <br /></td></tr>
+<tr class="separator:a06d1dda0ef41ff2008e9792d2c6744ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0d54b6acae1ec6f1744d15ce56f769f" id="r_aa0d54b6acae1ec6f1744d15ce56f769f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01465.html#aa0d54b6acae1ec6f1744d15ce56f769f">lumex::applied::serial::enumeration::enumerate_serial_port_names</a> (bool need_to_filter_bluetooth=false, bool need_full_path=false)</td></tr>
+<tr class="memdesc:aa0d54b6acae1ec6f1744d15ce56f769f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate serial port names only.  <br /></td></tr>
+<tr class="separator:aa0d54b6acae1ec6f1744d15ce56f769f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae27c22d50630c732a459b88a4f0e4260" id="r_ae27c22d50630c732a459b88a4f0e4260"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01465.html#ae27c22d50630c732a459b88a4f0e4260">lumex::applied::serial::enumeration::is_bluetooth_enumerated_port</a> (std::string const &amp;port_name) noexcept</td></tr>
+<tr class="memdesc:ae27c22d50630c732a459b88a4f0e4260"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when Windows registered <code>port_name</code> through a Bluetooth enumerator (<code>BTHENUM</code> / <code>BTHLEENUM</code>).  <br /></td></tr>
+<tr class="separator:ae27c22d50630c732a459b88a4f0e4260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a94a2885dc60a216e50441898ce62c" id="r_a72a94a2885dc60a216e50441898ce62c"><td class="memTemplParams" colspan="2">template&lt;typename CharT, typename Traits&gt; </td></tr>
+<tr class="memitem:a72a94a2885dc60a216e50441898ce62c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01465.html#a72a94a2885dc60a216e50441898ce62c">lumex::applied::serial::enumeration::print_serial_ports_info</a> (std::basic_ostream&lt; CharT, Traits &gt; &amp;os, std::vector&lt; <a class="el" href="a01827.html">serial_port_info_t</a> &gt; const &amp;infos)</td></tr>
+<tr class="memdesc:a72a94a2885dc60a216e50441898ce62c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a grouped port table to <code>os</code>.  <br /></td></tr>
+<tr class="separator:a72a94a2885dc60a216e50441898ce62c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Expected module: <code>expected&lt;T, E&gt;</code>, a value or an error after the C++23 <code>std::expected</code>, with its <code>void</code> specialization, <code>unexpected</code>, <code><a class="el" href="a06343.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a></code> and the <code>success</code> / <code>failure</code> markers. </p>
-<p>Link <code>lumex::expected</code> (header-only; it brings <code>lumex::utility</code> for <code>LUMEX_ASSERT</code>). Works from C++11. The umbrella includes the error types (<code>error/</code>) and the result types (<code>result/</code>); <code><a class="el" href="a00407.html" title="Internal helpers of expected: language helpers that C++11 lacks as constexpr (fwd,...">result/ExpectedDetail.hpp</a></code> and <code><a class="el" href="a00410.html" title="Internal storage of expected: the union of the two alternatives, and the layers that give expected th...">result/ExpectedStorage.hpp</a></code> are internal. The surface follows <code>std::expected</code> ([<a class="el" href="a06355.html#a72092f1c4a7809f1670784a1c76775b1">expected.expected</a>] of the working draft): the special member functions are deleted, left out and trivial as the standard says, the members are <code>constexpr</code> as far as the language of the standard in use allows, and the differences that remain are listed at the class <code>expected</code>.</p>
-<p>Global names: <code>expected</code>, <code><a class="el" href="a06343.html" title="Exception thrown when the value of an expected is read while it holds an error.">bad_expected_access</a></code>, <code>make_unexpected</code>, <code>unexpect</code>, <code><a class="el" href="a06375.html" title="C++23-compatible tag: construct the error in place.">unexpect_t</a></code> and <code><a class="el" href="a06371.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a></code> are also visible at global scope. <code>unexpected</code> and <code>in_place</code> are not (the MinGW runtime declares a global function <code>unexpected</code>, and <code>optional</code> has its own <code>in_place</code>): write <code><a class="el" href="a02474.html" title="Wrapper that holds an error value for expected.">lumex::core::expected::error::unexpected</a></code> and <code><a class="el" href="a01355.html#a2843a9a82731a57457a67854be6546d6" title="Global constant of type in_place_tag.">lumex::core::expected::result::in_place</a></code>. </p>
+<div class="textblock"><p>Enumerates serial ports and reports structured device information. </p>
+<p>Two consumer surfaces:</p><ol type="1">
+<li><code>enumerate_serial_ports_detailed</code> fills a <code>serial_port_info_t</code> per port (path, state, friendly name, USB identifiers, holder text).</li>
+<li><code>print_serial_ports_info</code> writes a grouped table to any <code>std::basic_ostream</code>.</li>
+</ol>
+<p>Platform sources:</p><ul>
+<li>Windows: SetupAPI classes <code>Ports</code> and <code>Modem</code>, registry <code>PortName</code>, <code>SPDRP_*</code> properties. Fallback: <code>COM1</code>..<code>COM255</code> via <code>CreateFileA</code>.</li>
+<li>POSIX: <code>/sys/class/tty</code> with USB sysfs attributes, then <code>/dev</code>.</li>
+</ul>
+<p>Enumeration is not thread-safe against a concurrent scan of the same device set. Every open it performs is bounded by the probe deadline, so an unresponsive port cannot stall the scan.</p>
+<p>Bluetooth SPP/LE virtual COM ports (<code>BTHENUM</code> / <code>BTHLEENUM</code>) sit in the same SetupAPI <code>"Ports"</code> class as real serial devices. Opening a paired but disconnected Bluetooth port blocks in the radio stack (<code>ERROR_SEM_TIMEOUT</code>). Pass <code>need_to_filter_bluetooth = true</code> to drop those ports from the result. The default is <code>false</code> so callers that need the Bluetooth COM names still receive them. Included Bluetooth ports are not open-probed: state is <code>available</code> from SetupAPI presence only. <code>is_bluetooth_enumerated_port</code> is the same enumerator-name predicate and can be called on its own; it never opens the port. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_91063fb91facb4308dc4edc779d408bb.html">expected</a></li><li class="navelem"><a class="el" href="a01196.html">Expected</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_de45db85bd98abf883bc2bd6c3907fd8.html">applied</a></li><li class="navelem"><a class="el" href="dir_9f3553d7e4d4ebb0490c2c83481c4624.html">serial</a></li><li class="navelem"><a class="el" href="dir_ff29a7b3c440f963e3520e9b4ff1cd83.html">enumeration</a></li><li class="navelem"><a class="el" href="a01196.html">LumexSerialPortEnumeration.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

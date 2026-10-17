@@ -1,0 +1,25 @@
+<map id="strconv_attribute_impl::parse_simple" name="strconv_attribute_impl::parse_simple">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1653,105,1823,145"/>
+<area shape="rect" id="Node000002" href="$a00686.html#a51e9b0004ac41f142aeed82a9801e288" title=" " alt="" coords="1444,113,1605,138"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1640,128,1605,128,1605,123,1640,123"/>
+<area shape="rect" id="Node000003" href="$a05179.html#a6428c586faec7c093c2720191554582b" title="The main parsing function that constructs the XML document tree from a buffer." alt="" coords="1192,105,1396,145"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1430,128,1396,128,1396,123,1430,123"/>
+<area shape="rect" id="Node000004" href="$a05179.html#a6b411ab037cc6b67ddb6c7e3c6f74d57" title="Parses an XML buffer and builds the document tree." alt="" coords="940,105,1144,145"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1179,128,1144,128,1144,123,1179,123"/>
+<area shape="rect" id="Node000005" href="$a01682.html#a7355b4c5a34fafe87b02c6fd5d116775" title="Internal implementation for loading an XML document from a buffer." alt="" coords="725,105,892,145"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="926,128,892,128,892,123,926,123"/>
+<area shape="rect" id="Node000006" href="$a05143.html#ad912c9685395afada772e08f6b4fbbf8" title="Parses an XML buffer as a document fragment and appends its root&#45;level nodes as children to the curre..." alt="" coords="473,5,677,45"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="761,101,676,60,644,48,646,43,678,55,763,96"/>
+<area shape="rect" id="Node000007" href="$a05127.html#a2be82b4cec0c495439948d0743cf967e" title="Loads an XML document from a read&#45;only memory buffer." alt="" coords="473,69,677,109"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="711,113,677,108,678,102,712,108"/>
+<area shape="rect" id="Node000011" href="$a05127.html#ae9e5c00e1006515a52f21ab08ff70183" title="Loads an XML document by parsing a provided memory buffer in&#45;place." alt="" coords="473,134,677,189"/>
+<area shape="poly" id="edge10_Node000005_Node000011" title=" " alt="" coords="712,143,678,148,677,143,711,138"/>
+<area shape="rect" id="Node000012" href="$a05127.html#ad5dd01b2674c63beb5ec52966f930319" title="Loads an XML document by parsing a provided memory buffer in&#45;place, with ownership transfer." alt="" coords="473,213,677,267"/>
+<area shape="poly" id="edge11_Node000005_Node000012" title=" " alt="" coords="766,155,679,202,650,215,648,210,676,198,763,150"/>
+<area shape="rect" id="Node000008" href="$a05127.html#a9e0254f783e96e70cde965a50ba9c7e0" title="Loads an XML document from a zero&#45;terminated C&#45;style string." alt="" coords="223,69,425,109"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="459,92,426,92,426,87,459,87"/>
+<area shape="rect" id="Node000009" href="$a05127.html#a8b098069f109e13fd8bd8e02648d490f" title="DEPRECATED: Loads an XML document from a zero&#45;terminated C&#45;style string. Use load_string instead." alt="" coords="5,40,175,80"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="209,78,174,73,175,68,209,72"/>
+<area shape="rect" id="Node000010" href="$a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="63,105,117,130"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="209,106,118,117,117,111,209,100"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="lumex::core::span::view::span::empty" name="lumex::core::span::view::span::empty">
+<area shape="rect" id="Node000001" title="Tells whether the span has no elements." alt="" coords="303,87,449,127"/>
+<area shape="poly" id="edge4_Node000001_Node000001" title=" " alt="" coords="409,75,397,68,376,65,357,67,346,72,342,78,344,86,339,87,337,77,343,68,356,62,376,60,399,63,411,70"/>
+<area shape="rect" id="Node000002" href="$a04027.html#ab524cd456985fe4919c119a5a15317be" title="The last element." alt="" coords="108,29,255,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="294,85,249,72,250,67,296,80"/>
+<area shape="rect" id="Node000003" href="$a00494.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,94,60,119"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="289,109,60,109,60,104,289,104"/>
+<area shape="rect" id="Node000004" href="$a04027.html#af227a2d7f284a6e0b8b227853bf790c5" title="The first element." alt="" coords="108,168,255,208"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="317,134,230,170,228,166,314,129"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="205,17,197,11,181,8,168,10,160,14,157,21,158,28,153,29,151,20,156,11,166,5,181,3,199,6,209,13"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="117,77,61,99,59,94,116,72"/>
+<area shape="poly" id="edge7_Node000004_Node000003" title=" " alt="" coords="131,164,55,122,57,117,134,159"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="205,156,197,149,181,147,168,149,160,153,157,159,158,167,153,168,151,158,156,149,166,143,181,141,199,144,209,152"/>
+</map>

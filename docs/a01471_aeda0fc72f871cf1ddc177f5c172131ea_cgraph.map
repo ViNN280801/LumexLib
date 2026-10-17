@@ -1,0 +1,5 @@
+<map id="lumex::applied::serial::probe::detail::close_serial_handle" name="lumex::applied::serial::probe::detail::close_serial_handle">
+<area shape="rect" id="Node000001" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="5,5,168,60"/>
+<area shape="rect" id="Node000002" href="$a01471.html#a2cf67f171039ab45a5ec960d36c054c6" title="The platform value that means &quot;no handle&quot;." alt="" coords="216,5,380,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,30,202,30,202,35,168,35"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="lumex::core::utility::ranges::Algorithm::Detail::iterator_at" name="lumex::core::utility::ranges::Algorithm::Detail::iterator_at">
+<area shape="rect" id="Node000001" title="The iterator that last stands for: last itself when it is an iterator of the same type,..." alt="" coords="411,29,565,84"/>
+<area shape="rect" id="Node000002" href="$a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="208,29,363,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="397,59,363,59,363,54,397,54"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="319,18,307,11,285,8,267,10,256,15,251,21,251,29,245,29,246,19,253,10,266,5,285,3,308,6,322,14"/>
+<area shape="rect" id="Node000003" href="$a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,29,160,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>

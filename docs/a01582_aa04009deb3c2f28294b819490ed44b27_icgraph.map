@@ -1,0 +1,7 @@
+<map id="lumex::core::time::timer::write_measure_time_report" name="lumex::core::time::timer::write_measure_time_report">
+<area shape="rect" id="Node000001" title="Writes a measure&#45;time report line to out." alt="" coords="315,5,477,60"/>
+<area shape="rect" id="Node000002" href="$a01582.html#ac2a95e66868e1a2cc9cc1da9676e38c8" title="Optionally gates timing/reporting via an environment variable, then measures callable and writes the ..." alt="" coords="108,13,267,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="301,35,267,35,267,30,301,30"/>
+<area shape="rect" id="Node000003" href="$a00509.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,20,60,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="94,35,60,35,60,30,94,30"/>
+</map>

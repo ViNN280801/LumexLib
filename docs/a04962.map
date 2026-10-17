@@ -1,0 +1,7 @@
+<map id="ExampleSequenceAbort" name="ExampleSequenceAbort">
+<area shape="rect" id="Node000001" title=" " alt="" coords="7,181,185,207"/>
+<area shape="rect" id="Node000002" href="$a02619.html" title="Base exception that records the stack where it was constructed." alt="" coords="5,79,187,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,147,99,181,93,181,93,147"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="39,5,153,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,45,99,78,93,78,93,45"/>
+</map>

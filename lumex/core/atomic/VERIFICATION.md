@@ -19,7 +19,7 @@ The words are those of the README: a *tick* is a pin of a loader on the installa
 | S2 | Single disposal | The object and the control block of a smart pointer are disposed once. A holder (the block that stores an alias whose offset does not fit in 40 bits) is installed in at most one word, at most once, and a load of a holder word returns the owner, never the holder. |
 | C1 | The counter rule | `use_count () = count + ext` for the strong group, and `ext` is never negative. |
 | G1 | Never below | At every instant `use_count ()` is not below the number of owners. So `use_count () == 1` means that the caller is the sole owner. It never waits. |
-| G2 | Bounded above | `use_count ()` equals the number of owners except inside three windows, each tied to an operation in flight on the atomic that holds the value: (i) a `store` or a successful compare-exchange between its swap and the drop of the old value (+1); (ii) a writer between its pre-transfer and the end of its call (the ticks it found plus its reserve); (iii) a load whose pin has already counted itself, until its payment (+1). Outside the windows, in particular at rest, it is exact. |
+| G2 | Bounded above | `use_count ()` equals the number of owners except inside three windows, each tied to an operation in flight on the atomic that holds the value: (i) a `store` or a successful compare-exchange between its swap and the drop of the old value (+1); (ii) a writer, a compare-exchange included, between its pre-transfer and the end of its call (the ticks it found plus its reserve; a compare-exchange has the reserve `cas_reserve ()` of the policy, 8 in production, and a weak one that fails, or a strong one that fails on another value, shows the whole deposit until its withdraw; a strong one that keeps its deposit shows the most ticks it saw plus `k`); (iii) a load whose pin has already counted itself, until its payment (+1). Outside the windows, in particular at rest, it is exact. |
 | I4 | Balance at rest | When no operation is in flight, every word has no tick, every `ext` is zero and every `count` equals the live pointers plus the words that name the block. Every tick ends exactly once, and every deposit is paid or returned (the ledger identities). |
 | LIN | Linearizability | `load`, `store`, `exchange` and both compare-exchanges are linearizable with the linearization points of the protocol: the successful swap for a writer, the load a failing compare-exchange performs, the count step of a live load. A strong compare-exchange does not fail while the stored value is equivalent to `expected`. |
 | ABA | No ABA | The engine has no tag and no epoch. A block that was freed, created again at the same address and installed is simply the live block; a stale handle that names only an address does not match a new object; two values are equivalent only when both the owner and the stored pointer are equal. |
@@ -30,7 +30,7 @@ The words are those of the README: a *tick* is a pin of a loader on the installa
 
 What is not claimed:
 
-- Wait-freedom or starvation-freedom. A writer can lose its swap again and again under a read-heavy load; only the rate of stores under that load was measured (section "Benchmarks").
+- Wait-freedom or starvation-freedom. A writer can lose its swap again and again under a read-heavy load; the rate of stores under that load and the time of every single store were measured (section "Benchmarks"); a bound seen on one machine is not a proof.
 - That `use_count ()` is exact while an operation on the same atomic is in flight (the windows of G2), or that a count read without a lock is stable: it is a never-below bound, not a snapshot.
 - Correctness on a platform that was not run: the engine does not exist off x86-64; the recorded Windows work is a clang-cl run and an MSVC build (section "What the verification does not show"), not a result of every layer; the Relacy models were built with GCC and Clang only; a CPU without CMPXCHG16B terminates the program at the first use.
 - That the code is free of defects. Tests, simulations and models find the defects they are shaped to find. A search of a model under the C++11 memory model is bounded, and its random part is evidence, not proof.
@@ -72,6 +72,17 @@ Layers: **U** the dedicated unit and stress suites; **V1** the simulated-schedul
 - (k) The progress suites of the family require a minimum number of successful swaps under concurrent loads (the compare-exchange livelock test).
 - (j) U has the debug assertion `ext >= 0` in `use_count ()` (active in builds without `NDEBUG`, the Debug rows of the sanitizer matrix) and the identities at rest; it has no oracle that reads `ext` at every step.
 
+### The reserve of the compare-exchange under G1, G2 and the balance
+
+A successful `compare_exchange` deposits the reserve `k` of `Policy::cas_reserve ()` (8 in production, `reserve ()` by default) on top of the ticks it sees, like `store` and `exchange`. The properties above hold with it, and each is checked by the layers named in the table:
+
+- **G1 (never below).** Before the swap `ext` only grows, by units that are returned (success) or withdrawn (failure), so `count + ext >= owners` can only be further above the owners. Nobody pays these units: a loader pays one unit per tick of its own, and the ticks of the word at the swap are at most the deposit (`L <= moved`); the surplus of the swap (`moved - L`) is exactly what the drop returns in the same read-modify-write that releases the old word's unit. The strong form keeps the deposit across a retry on the same block and offset with other ticks and tops it up (only upward) to `L + k` of the word it now sees, so the deposit always covers the ticks that leave with the swap. The holder path deposits `(L - 1) + k` when the pinned word had ticks, as `store` does.
+- **G2 (bounded above).** Window (ii) of a compare-exchange is now the ticks of other threads plus `k`, as for a `store`; a weak compare-exchange that fails, and a strong one that fails on another value, show the whole deposit (the ticks they saw plus `k`) until the withdraw, and a strong one that keeps its deposit across an equivalent failure shows the most ticks it saw plus `k` (pinned by the test `cas_retained_deposit`). Window (i) (the lagging decrement after a successful swap) is unchanged. The observable: `use_count ()` can read up to `k` higher than the owner count during a concurrent compare-exchange, inside the documented window.
+- **Balance.** The ledger counts the deposit with the transfers and the returned surplus as an `untransfer`, so `transfers - untransfers == settles` and `ticks == unticks + settles + consumed` still hold at rest; a failure withdraws the whole deposit. `ext` at rest is zero (I4).
+- **Memory orders.** The failure order of the block-word swap stays `relaxed`: the retained deposit is never the basis of a payment decision, and the next swap compares the whole word again. The release of the swap publishes the deposit (sequenced before it) to the payers, as for `store`.
+
+Layers: the dedicated suites run the production policy (reserve 8 for both) and the policy with reserve 0 (the old path), and `cas_window_ii` and `cas_retained_deposit` of the Exact suite pin window (ii) of a compare-exchange on block and holder words for both and the deposit a strong compare-exchange keeps and tops up across an equivalent failure; the simulator checks W2BOUND with the bound `max_need + cas_reserve` and the PATH row for the return of the surplus (policies R8 and R0); the Relacy models take `k` as the reserve of the compare-exchange (`k` = 0 the old path, 2 and 8 the new one) with the coverage counters `S10-keep` and `S10-keep-topup`. The mutations of the reserve and their catchers are in the section "The mutations of the reserve of the compare-exchange".
+
 ## The unit and stress suites (U)
 
 **What runs.** `lumex/tests/core/atomic/smart_ptr/split_count/` (CTest prefix `atomic.smart_ptr.split_count.`) holds one executable per standard and per variant: the default backend at C++11, 17 and 20; the built-in backend (`builtin`) at C++11 and 20; the forced wait table at C++20; the build with the engine disabled (`no_split_count`) and with the family alias switched to it (`prefer_split_count`), both at C++11 and 20. Each executable registers the tests of its standard and the lower ones.
@@ -106,7 +117,7 @@ At C++17 the executable adds `Orders` (2 tests: every legal pair of success and 
 
 **Bounds.** The stress shapes (the shared engine, the tick limit lowered to 2, holders of two owners mixed with in-window aliases, the weak engine with weak holders) run at 1, 2, 4, 8 and 24 threads, five repetitions each, with the reserve 0, 4 and 8 (0 takes the top-up path on every attempt). Seeds, thread counts and work scale are set with `LUMEX_TEST_SEED`, `LUMEX_TEST_THREADS` and `LUMEX_TEST_SCALE`; a failure prints the replay line.
 
-**Results.** GCC 13.2.0, Release, `ctest -j4` on the default selection of the sanitizer matrix (`-R 'atomic\.smart_ptr\.split_count\.|\.(split_count_engine|lock_based_lumex)\.cxx' -LE soak`) in a tree that also has the Relacy cases: 4205 tests, 0 failed, 765 skipped by design, 222 s. Of these 2155 are tests of the dedicated executables (1392 passed, 763 skipped), 2028 are tests of the family executables of the section "The broad suites" (2026 passed, 2 skipped) and 22 are the Relacy cases. Of the 763 skips of the dedicated executables, 738 are simulator and ABA scenario tests, which run the full set only in the C++11 executables that use the default backend and a small set at bound 1 in the others, and 25 are the placeholders of the `no_split_count` executables (`GivenAPlatformWithoutTheEngine...`); the two skips of the family executables are the `constinit` case below C++20. The same selection without the Relacy cases is the 4183 tests of the sanitizer matrix.
+**Results.** GCC 13.2.0, Release, `ctest -j4` on the default selection of the sanitizer matrix (`-R 'atomic\.smart_ptr\.split_count\.|\.(split_count_engine|lock_based_lumex)\.cxx' -LE soak`) in a tree that also has the Relacy cases: 4205 tests, 0 failed, 765 skipped by design, 222 s. Of these 2155 are tests of the dedicated executables (1392 passed, 763 skipped), 2028 are tests of the family executables of the section "The broad suites" (2026 passed, 2 skipped) and 22 are the Relacy cases. Of the 763 skips of the dedicated executables, 738 are simulator and ABA scenario tests, which run the full set only in the C++11 executables that use the default backend and a small set at bound 1 in the others, and 25 are the placeholders of the `no_split_count` executables (`GivenAPlatformWithoutTheEngine...`); the two skips of the family executables are the `constinit` case below C++20. Without the Relacy cases the selection is the 4199 tests of the sanitizer matrix on the final engine.
 
 Executables and registered tests (soak fixtures included in the count, 128 per executable that has the engine):
 
@@ -141,15 +152,15 @@ Executables and registered tests (soak fixtures included in the count, 128 per e
 | NONNEG | `count >= 0` and `ext >= 0` on every live group |
 | E-ID, C-ID, BAL | the counter identities: `ext` equals the units deposited by the writers in flight plus the pins owed (ticks swapped out whose unit is not yet paid); `count` equals the counted owners plus the lagging decrement of window (i); `use_count` equals the owners plus the windows |
 | G1, G2 | never below the owners; equal to the owners when no window is open |
-| W2BOUND, DEP-SHORT | a writer deposits at most what it needs plus the reserve (a compare-exchange: no reserve); at a swap the deposit covers the ticks that leave |
-| PATH, NOTE, OP-END | every step stops at an allowed point of the protocol (the loader's decision and the writer's decision are the essential rows); notes follow their steps; at the end of an operation no pin, deposit or lag is left |
+| W2BOUND, DEP-SHORT | a writer deposits at most what it needs plus the reserve (a compare-exchange: plus `cas_reserve ()`, which the policies of the tests set to their own reserve; the bound of a compare-exchange is `max_need + cas_reserve`); at a swap the deposit covers the ticks that leave |
+| PATH, NOTE, OP-END | every step stops at an allowed point of the protocol (the loader's decision and the writer's decision are the essential rows); notes follow their steps (a successful compare-exchange of a policy with a `cas_reserve` other than 0 may note the return of its surplus before the release of the old word, as a store does); at the end of an operation no pin, deposit or lag is left |
 | LOCK, EXPIRED | `lock ()` returning empty and `expired ()` returning true had no owner at the boundary before the step |
 | LIN | at the end of a schedule, per cell, every load and every failed compare-exchange has a history entry equivalent to its result whose interval meets the call, in non-decreasing order per thread; an exchange returns the value before its swap; a successful compare-exchange replaced a value equivalent to `expected`; a strong compare-exchange that failed returned a value not equivalent to its `expected` (CAS-STRONG) |
 | I4, LEDGER, PEAK | at the end: no tick, `ext` zero, every `count` equal to the pointers and slots, every holder installed in exactly one cell; the two ledger identities; the peak of `L` within the limit |
 | OUTCOME, COVERAGE | the outcome of the schedule is in the expected set of the scenario; after a complete search of a scenario marked so, every expected outcome was seen |
 | PROGRESS, HANG, DEADLOCK, TIME, LEAK | an operation not finished alone within 300 points, or a schedule over 4000 points; a baton wait over 10 s; no thread can move; a wall-time budget; after teardown every slot is free and no object lives |
 
-- *Policies.* R8: reserve 8, tick limit 2^24 - 1 (production); R0: reserve 0 (the top-up on every attempt); L2: reserve 8, tick limit 2; L1: tick limit 1 (the back-off at the limit).
+- *Policies.* R8: reserve 8 and the same reserve 8 for the compare-exchange (`cas_reserve ()`), tick limit 2^24 - 1 (production); R0: reserve 0 for both (the top-up on every attempt, and a compare-exchange that deposits exactly the ticks it sees: the path of the engine before the reserve of the compare-exchange); L2: reserve 8, tick limit 2; L1: tick limit 1 (the back-off at the limit).
 
 **Scenarios.** 44 scenarios of the simulator (73 with the ABA scenarios of the next section), 88 runs (scenario and policy): S01 to S16 (two to six threads: loaders, one or two writers, keepers of old blocks, a compare-exchange; S09 to S11 and S14 create the block again at the same address); H1 to H5 (holder words: a replacement, two new holders, an exchange, a compare-exchange with a holder-shaped `expected`, a block-shaped `expected` that does not match the holder word); W1 to W3 (the weak engine: a weak load and `lock ()` against the last release, a weak holder, two writers); LK and EX (`lock ()` and `expired ()` against the last release); RI and RIC (the same block re-installed with another offset); UW, UW2 and GF (two writers: the undo of a writer whose block was swapped out; a block freed between a writer's guess and its pin); TU (reserve 0 forces the top-up), TL (tick limit 2, three loaders: the back-off), TB (tick limit 1: a loader and the writer both back off); SC and SCL (a compare-exchange against a store and against a loader); HC and HM (a holder compare-exchange against another alias of the same owner, which does not match, and a matching one under tick limit 2, which backs off); XB (an exchange of a block word with a member alias); E1 (an empty pointer that stores a pointer); WX, WC and WCW (the weak engine: exchange, strong and weak compare-exchange); SW (the weak form of compare-exchange on the shared engine). The table below shows, for each scenario, the policies it runs, the preemption bound and the number of schedules of the quick run and of the soak run for the policy of the row (the first of its list), and the outcomes seen at soak.
 
@@ -206,8 +217,8 @@ Executables and registered tests (soak fixtures included in the count, 128 per e
 
 - Self-tests of the explorer on toy threads (no engine): the number of schedules at preemption bounds 0, 1, 2 and 3 equals the count of an independent model for threads with (2, 2), (1, 1, 1) and (2, 2, 2) yields (2, 6, 14, 18; 6, 24, 60, 90; 6, 42, 192, 552); a toy lost update is found at one preemption and not at zero, and the printed decisions replay it; a search run twice gives the same schedule counts, step counts and trace hashes (scenario S02); the outcome table of every scenario has the number of entries it states.
 - Quick run, C++11 executable with the default backend: 135 tests (92 of the simulator and 43 of the ABA scenarios) pass in 20 s. Every test prints a SIM-STATS line (scenario, policy, bound, schedules, random schedules, steps, seconds, outcomes seen of expected, capped); the lines of the run, with the repeated lines of the determinism test counted once, add up to 146,578 schedules, 2,800 random schedules and 3,960,020 steps (`sim_scenarios.csv`).
-- Soak run, the same executable, `LUMEX_TEST_SOAK=1`, default seed: 88 simulator tests pass in 951 s and 40 ABA tests in 94 s. The lines (a scenario that starts with a complete pass at a lower bound prints two) add up to 5,504,738 schedules, 70,000 random schedules and 193,505,838 steps. The search is complete (not capped) for every scenario but S08, which stopped at its cap of 600,000 schedules (policies R8 and R0) and was completed by 5,000 random schedules. In every soak line all expected outcomes were seen (the outcomes of S03 are 3 of 4 at the quick bound and 4 of 4 at the soak bound, an example of why the bound matters).
-- The simulator tests also ran under ASan and UBSan (rows 1 to 4 of the sanitizer matrix). After the two fixes of the tests the default selection was run again on rows 1, 3 and 4 (no failure), and the simulator soak tests on row 1 (256 of the 1028 execute the simulator, the rest are skipped by design; no failure and no UBSan or ASan report); row 2 and the soak runs of rows 3 and 4 were not run again.
+- Soak run, the same executable, `LUMEX_TEST_SOAK=1`, default seed: 88 simulator tests pass in 951 s and 40 ABA tests in about 100 s (94 s and 101 s in two runs). The lines (a scenario that starts with a complete pass at a lower bound prints two) add up to 5,504,738 schedules, 70,000 random schedules and 193,505,838 steps. The search is complete (not capped) for every scenario but S08, which stopped at its cap of 600,000 schedules (policies R8 and R0) and was completed by 5,000 random schedules. In every soak line all expected outcomes were seen (the outcomes of S03 are 3 of 4 at the quick bound and 4 of 4 at the soak bound, an example of why the bound matters).
+- The simulator tests also ran under ASan and UBSan (rows 1 to 4 of the sanitizer matrix). On the final engine rows 1 to 4 were run again with the default and the soak selections, with the seeds of the matrix: no failure and no UBSan or AddressSanitizer report.
 - Every one of the mandatory mutations of the engine is caught (table "The pre-registered mutations", column V1); the oracle, the schedule number and the decision string of each catch are not recorded.
 
 **Limits (what the explorer cannot see).**
@@ -225,7 +236,7 @@ An ABA needs a state in which a guess, a pin or a handle names an address, the a
 
 | Group | Scenarios | What happens |
 | --- | --- | --- |
-| Address reuse between a loader's guess and its tick | AR1, AR2, AR3, AR4 | the guessed block is freed and created again at the same address with another offset (AR1, AR2), as a holder word (AR3), or a holder is replaced by a holder whose block takes the freed slot (AR4); the same offset is the case of S09 to S11 and S14 of the previous layer |
+| Address reuse between a loader's guess and its tick | AR1, AR2, AR3, AR4 | the guessed block is freed and created again at the same address with another offset (AR1, AR2), as a holder word (AR3), or a holder is replaced and the holder that replaces it takes the freed slot of the holder arena (AR4); the same offset is the case of S09 to S11 and S14 of the previous layer |
 | The same live block returns | DA, DA2, BA4, DAC, RW | `A -> A.m -> A` during a load (DA; DA2 with the two stores split between two writers of consecutive generations), four stores with two loaders (BA4), a compare-exchange expecting `A` against a word that goes `A -> A.m -> A` (DAC: it may match `A`, never `A.m`), a writer pinned on `A` while a second writer swaps `A` out and installs it again with another offset (RW) |
 | Cancel before drain | CD1, CD2, CD3, RX | a store, a compare-exchange or an exchange whose pinned swap fails because another writer swapped first while loaders hold ticks: the deposit is undone and the own tick paid; RX: two loads of one loader against two writers, the ticks of the first load meet two swaps and the second load a third word |
 | `lock` and `expired` against the last release | LKX, LKC, EXX, EXC | the last strong release driven by an exchange or a compare-exchange |
@@ -275,7 +286,7 @@ The 40 runs are 29 under policy R8 and 11 under R0 (AR1, AR3, DA, CD3, LKX, LKC,
 | Mutant | Mutation | V1 scenarios | V2 scenarios | Caught by | Class |
 | --- | --- | --- | --- | --- | --- |
 | M01 | same_value ignores delta (same as N02) | caught | caught | V2 DAC; V1 RIC | caught at quick |
-| M02 | load: stale holder owner/pointer from the first guess | not caught | caught | V2 HA1 HA3 HA4 WH1 WH2 | caught at quick |
+| M02 | load: stale holder owner/pointer from the first guess, the cache refreshed on every failed compare-exchange (a cache that is never refreshed is also caught by V1, scenario H2) | not caught | caught | V2 HA1 HA3 HA4 WH1 WH2 | caught at quick |
 | M03 | holder CAS: owner/pointer read from the guess | not caught | caught | V2 HA1 HA4 WH2 | caught at quick |
 | M04 | holder CAS: no compare after the pin | caught | caught | V2 HA1 HA2 HA4 WH2; V1 HC | caught at quick |
 | M05 | settle: blind retry | caught | caught | V2 36 tests (AR1 and others); V1 84 tests | caught at quick |
@@ -337,7 +348,7 @@ The difference is exactly the tests marked `Std-only` in the sources, which cann
 
 So no family engine is checked against `std::atomic<std::shared_ptr>` in a differential run; that stays with the standard-pointer suites.
 
-**Results.** The variants are part of the default selection of the sanitizer matrix: they pass on every row that was run after the two fixes (table in the next section). In the run of the previous section, 2026 of the 2028 family tests passed and 2 were skipped.
+**Results.** The variants are part of the default selection of the sanitizer matrix: they pass on every row of the sanitizer matrix on the final engine (table in the next section). In the run of the previous section, 2026 of the 2028 family tests passed and 2 were skipped.
 
 **The mutants of the review.** An independent review of these suites applied five mutations of the split-count cell (as copies placed first on the include path), built the Aba, Linearizability, Structures and Lifecycle suites of the `split_count_engine` variant at C++11 (the unmutated build passes all 35 of their tests) and recorded which tests fail:
 
@@ -369,14 +380,14 @@ The findings of the review that were kept: a silent fallback to the standard eng
 
 [Relacy](https://github.com/dvyukov/relacy) is a race detector for the C++11 memory model: it runs the threads of a small program as fibers, explores the schedules and, for a load of an atomic, some of the stale values the memory model allows, and reports data races on plain variables, failed assertions and use of freed memory. The models of `lumex/tests/core/atomic/smart_ptr/split_count/relacy/` check the memory orders of the engine, which the sequentially consistent explorer cannot. Relacy is vendored in `3rdparty/relacy` (commit 2c87447b5, the headers unmodified except that the line endings are LF, and the license) and used only by these models.
 
-**What a model is.** `LumexSplitCountRelacyModel.hpp` transcribes the shared-engine cell step by step with the orders of the code (`pin`, `count_and_settle`, `settle`, `swap_out`, `store`, `exchange`, both compare-exchanges, the deposit, withdrawal and payment helpers and the holder mirror) on Relacy atomics. Three programs hold the models: `Block` (block words), `Holder` (holder words) and `Litmus` (store buffering and independent reads for the `seq_cst` question). Each model has two to four threads over one cell and a pool of control blocks; the reserve `k` is a template parameter (0 and 2; two models also 8).
+**What a model is.** `LumexSplitCountRelacyModel.hpp` transcribes the shared-engine cell step by step with the orders of the code (`pin`, `count_and_settle`, `settle`, `swap_out`, `store`, `exchange`, both compare-exchanges, the deposit, withdrawal and payment helpers and the holder mirror) on Relacy atomics. Three programs hold the models: `Block` (block words), `Holder` (holder words) and `Litmus` (store buffering and independent reads for the `seq_cst` question). Each model has two to four threads over one cell and a pool of control blocks; the reserve `k` is a template parameter (0 and 2; two models also 8) and is also the reserve of the compare-exchange: `k` = 0 runs the path of a compare-exchange without a reserve, `k` = 2 the path with it in every compare-exchange model and `k` = 8 in the random searches of `cas_load_store` of both programs (a deposit of the ticks plus `k`, the surplus returned with the drop, the retained deposit of the strong form with its top-up, the holder deposit of `(L - 1) + k`).
 
 | Program | Models | What they check |
 | --- | --- | --- |
 | `Block` | `publish_load` | a publisher stores a new block, a reader loads and reads it (L3 and S1: the object written before the release swap is visible after the tick) |
 | | `load_store`, `exchange_load` | a loader against a store, or against an exchange that hands the old value over (L5 to L9 against S1 to S7; the last owner disposes) |
 | | `two_loaders_store`, `two_writers_load` | two loaders against a store (top-up of the deposit); a loader and two writers (S5: the second writer's pin is swapped out by the first and it pays `moved + 1` in one read-modify-write) |
-| | `publish_exchange`, `cas_load_store`, `cas_restore` | a thread publishes, another exchanges it out and reads it; a compare-exchange (S8 to S11, no pin) against a loader and a store; the retry of the strong form |
+| | `publish_exchange`, `cas_load_store`, `cas_load`, `cas_weak_load_store`, `cas_restore` | a thread publishes, another exchanges it out and reads it; a compare-exchange (S8 to S11, no pin) against a loader and a store; a strong compare-exchange against a loader alone (the loader's tick arrives between the deposit and the swap: the equivalent failure that keeps the deposit); a WEAK compare-exchange against a loader and a store (a failed attempt withdraws its whole deposit); the retry of the strong form (two threads, no loader: the word has no tick at the compare-exchange, so `cas_restore` runs with `k` = 0 only) |
 | | `load_reset`, `exchange_reset` | a loader against a store or an exchange of an empty pointer (the empty word has the witness of block 0) |
 | `Holder` | `load_store`, `exchange_load`, `publish_load`, `load_reset`, `exchange_reset` | the same shapes on holder words: the pins of a holder are mirrored on `ext` of its owner, a loader returns the owner, the replaced holder is destroyed by the last thread to pay for it |
 | | `two_loaders_store`, `three_loaders_store` | ticks of one holder arrive and leave while the writer is pinned (the release sequence of the un-ticks) |
@@ -397,40 +408,43 @@ The findings of the review that were kept: a silent fallback to the standard eng
 
 | Model | Threads | Search | Reserve k | Executions | Seconds |
 | --- | ---: | --- | --- | ---: | ---: |
-| block.publish_load | 2 | full | 0, 2 | 39,841 / 39,841 | 0.08 / 0.08 |
-| block.load_store | 2 | full | 0, 2 | 39,841 / 39,841 | 0.07 / 0.07 |
-| block.exchange_load | 2 | full | 0, 2 | 42,947 / 96,502 | 0.08 / 0.19 |
-| block.two_loaders_store | 3 | bound 4 | 0, 2 | 1,310,860 / 1,307,788 | 3.07 / 2.97 |
-| block.two_loaders_store | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 5.00 / 4.97 |
-| block.two_writers_load | 3 | bound 4 | 0, 2 | 484,234 / 483,146 | 1.13 / 1.11 |
-| block.two_writers_load | 3 | random | 0, 2, 8 | 2,000,000 / 2,000,000 / 2,000,000 | 4.90 / 4.85 / 4.77 |
-| block.publish_exchange | 3 | bound 4 | 0, 2 | 486,090 / 534,534 | 1.16 / 1.24 |
-| block.publish_exchange | 3 | random | 0, 2, 8 | 2,000,000 / 2,000,000 / 2,000,000 | 4.95 / 4.87 / 4.90 |
-| block.cas_load_store | 3 | bound 4 | 0, 2 | 3,603,484 / 3,600,220 | 10.43 / 10.24 |
-| block.cas_load_store | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 6.35 / 6.33 |
-| block.load_reset | 2 | full | 0, 2 | 16,156 / 16,156 | 0.02 / 0.03 |
-| block.exchange_reset | 2 | full | 0, 2 | 17,401 / 39,722 | 0.03 / 0.08 |
-| block.cas_restore | 2 | bound 6 | 0 | 32,947 | 0.07 |
-| block.cas_restore | 2 | random | 0 | 2,000,000 | 3.82 |
-| holder.load_store | 2 | full | 0, 2 | 229,361 / 229,361 | 0.53 / 0.51 |
-| holder.exchange_load | 2 | full | 0, 2 | 244,673 / 1,248,512 | 0.56 / 3.05 |
-| holder.cas_load | 2 | full | - | 646,080 | 1.53 |
-| holder.cas_miss_load | 2 | bound 8 | - | 1,786,529 | 4.92 |
-| holder.cas_miss_load | 2 | random | - | 2,000,000 | 5.44 |
-| holder.two_loads_in_one_thread_store | 2 | bound 8 | 0, 2 | 1,601,285 / 1,601,285 | 4.30 / 4.33 |
-| holder.two_loads_in_one_thread_store | 2 | random | 0, 2 | 2,000,000 / 2,000,000 | 5.24 / 5.15 |
-| holder.two_loads_in_one_thread_exchange | 2 | bound 8 | 0, 2 | 1,977,253 / 3,884,944 | 5.44 / 11.08 |
-| holder.two_loads_in_one_thread_exchange | 2 | random | 0, 2 | 2,000,000 / 2,000,000 | 5.15 / 5.32 |
-| holder.load_reset | 2 | full | 0, 2 | 95,517 / 95,517 | 0.20 / 0.20 |
-| holder.exchange_reset | 2 | full | 0, 2 | 101,749 / 526,670 | 0.22 / 1.22 |
-| holder.two_loaders_store | 3 | bound 4 | 0, 2 | 1,858,592 / 1,849,376 | 5.13 / 5.15 |
-| holder.two_loaders_store | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 5.85 / 5.89 |
-| holder.publish_load | 3 | bound 4 | 0, 2 | 1,891,183 / 1,886,287 | 6.08 / 6.12 |
-| holder.publish_load | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 6.62 / 6.77 |
-| holder.cas_load_store | 3 | bound 4 | 0, 2 | 1,583,966 / 1,580,894 | 4.83 / 4.84 |
-| holder.cas_load_store | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 6.50 / 6.69 |
-| holder.three_loaders_store | 4 | bound 2 | 0, 2 | 429,480 / 429,480 | 1.41 / 1.43 |
-| holder.three_loaders_store | 4 | random | 0, 2 | 2,000,000 / 2,000,000 | 8.07 / 7.97 |
+| block.publish_load | 2 | full | 0, 2 | 39,841 / 39,841 | 0.09 / 0.07 |
+| block.load_store | 2 | full | 0, 2 | 39,841 / 39,841 | 0.07 / 0.08 |
+| block.exchange_load | 2 | full | 0, 2 | 42,947 / 96,502 | 0.08 / 0.18 |
+| block.two_loaders_store | 3 | bound 4 | 0, 2 | 1,310,860 / 1,307,788 | 3.22 / 3.13 |
+| block.two_loaders_store | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 5.18 / 5.09 |
+| block.two_writers_load | 3 | bound 4 | 0, 2 | 484,234 / 483,146 | 1.15 / 1.14 |
+| block.two_writers_load | 3 | random | 0, 2, 8 | 2,000,000 / 2,000,000 / 2,000,000 | 4.98 / 4.90 / 4.94 |
+| block.publish_exchange | 3 | bound 4 | 0, 2 | 486,090 / 534,534 | 1.18 / 1.29 |
+| block.publish_exchange | 3 | random | 0, 2, 8 | 2,000,000 / 2,000,000 / 2,000,000 | 5.21 / 5.05 / 5.06 |
+| block.cas_load_store | 3 | bound 4 | 0, 2 | 3,603,484 / 3,588,990 | 10.84 / 10.75 |
+| block.cas_load_store | 3 | random | 0, 2, 8 | 2,000,000 / 2,000,000 / 2,000,000 | 6.64 / 6.49 / 6.52 |
+| block.load_reset | 2 | full | 0, 2 | 16,156 / 16,156 | 0.03 / 0.03 |
+| block.exchange_reset | 2 | full | 0, 2 | 17,401 / 39,722 | 0.02 / 0.08 |
+| block.cas_restore | 2 | bound 6 | 0 | 32,947 | 0.08 |
+| block.cas_restore | 2 | random | 0 | 2,000,000 | 3.93 |
+| block.cas_load | 2 | full | 0, 2 | 32,117 / 31,276 | 0.07 / 0.06 |
+| block.cas_weak_load_store | 3 | bound 4 | 0, 2 | 3,808,810 / 3,805,546 | 11.49 / 11.42 |
+| block.cas_weak_load_store | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 6.61 / 6.54 |
+| holder.load_store | 2 | full | 0, 2 | 229,361 / 229,361 | 0.54 / 0.54 |
+| holder.exchange_load | 2 | full | 0, 2 | 244,673 / 1,248,512 | 0.57 / 3.08 |
+| holder.cas_load | 2 | full | 0, 2 | 646,080 / 646,080 | 1.55 / 1.55 |
+| holder.cas_miss_load | 2 | bound 8 | - | 1,786,529 | 5.00 |
+| holder.cas_miss_load | 2 | random | - | 2,000,000 | 5.55 |
+| holder.two_loads_in_one_thread_store | 2 | bound 8 | 0, 2 | 1,601,285 / 1,601,285 | 4.34 / 4.37 |
+| holder.two_loads_in_one_thread_store | 2 | random | 0, 2 | 2,000,000 / 2,000,000 | 5.24 / 5.23 |
+| holder.two_loads_in_one_thread_exchange | 2 | bound 8 | 0, 2 | 1,977,253 / 3,884,944 | 5.59 / 11.50 |
+| holder.two_loads_in_one_thread_exchange | 2 | random | 0, 2 | 2,000,000 / 2,000,000 | 5.30 / 5.95 |
+| holder.load_reset | 2 | full | 0, 2 | 95,517 / 95,517 | 0.21 / 0.21 |
+| holder.exchange_reset | 2 | full | 0, 2 | 101,749 / 526,670 | 0.23 / 1.23 |
+| holder.two_loaders_store | 3 | bound 4 | 0, 2 | 1,858,592 / 1,849,376 | 5.17 / 5.10 |
+| holder.two_loaders_store | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 6.21 / 5.95 |
+| holder.publish_load | 3 | bound 4 | 0, 2 | 1,891,183 / 1,886,287 | 6.18 / 6.25 |
+| holder.publish_load | 3 | random | 0, 2 | 2,000,000 / 2,000,000 | 6.79 / 6.75 |
+| holder.cas_load_store | 3 | bound 4 | 0, 2 | 1,583,966 / 1,578,446 | 4.88 / 4.73 |
+| holder.cas_load_store | 3 | random | 0, 2, 8 | 2,000,000 / 2,000,000 / 2,000,000 | 6.53 / 6.51 / 6.41 |
+| holder.three_loaders_store | 4 | bound 2 | 0, 2 | 429,480 / 429,480 | 1.45 / 1.45 |
+| holder.three_loaders_store | 4 | random | 0, 2 | 2,000,000 / 2,000,000 | 8.20 / 8.14 |
 | litmus.sb_plain_weak_is_found (control: the weak outcome must be found) | 2 | full | - | 2 (to the first violation) | - |
 | litmus.sb_plain_seq_cst | 2 | full | - | 20 | <0.01 (floor) |
 | litmus.sb_cells | 2 | bound 4 | - | 4,380 | 0.02 |
@@ -445,21 +459,21 @@ The findings of the review that were kept: a silent fallback to the standard eng
 
 *Figure: the number of executions of every model and search (library counter), on a logarithmic axis, coloured by kind of search. The control bars are the plain-atomic tests that must find the weak outcome; their length is the number of the execution at which it was found. Data: relacy_models.csv.*
 
-**Results.** All 74 entries pass with both counters: 86,587,130 executions per counter (`Block` 34,231,551, `Holder` 51,777,994, `Litmus` 577,585). The programs took 88 s (`Block`, both counters), 154 s and 152 s (`Holder`, library and TSan counter) and 1 s (`Litmus`); six programs one after another take 483 s. Coverage counters exist only for some steps; there are none for L0 to L2, L4, L5, S8 and S9. Between `Block` and `Holder` every step that has a counter was reached (L3, L6, L7, L8, L9, S1, S2, S3, S4, S5 top-up and undo, S6, S7, S10 swap and withdrawal, S11 retry, S12 swap, mismatch, top-up and undo, and the disposal of a block). The totals over all executions of the library-counter run:
+**Results.** All 83 entries pass with both counters: 102,897,281 executions per counter (`Block` 47,898,070, `Holder` 54,421,626, `Litmus` 577,585). The programs took 133 and 153 s (`Block`, library and TSan counter), 164 and 159 s (`Holder`) and 1 s (`Litmus`); six programs one after another take 611 s. Coverage counters exist only for some steps; there are none for L0 to L2, L4, L5, S8 and S9. Between `Block` and `Holder` every step that has a counter was reached (L3, L6, L7, L8, L9, S1, S2, S3, S4, S5 top-up and undo, S6, S7, S10 swap and withdrawal, S10 keep and keep-with-top-up (the strong compare-exchange that kept its deposit), S11 retry, S12 swap, mismatch, top-up and undo, and the disposal of a block). The totals over all executions of the library-counter run:
 
 | Step | `Block` | `Holder` | Step | `Block` | `Holder` |
 | --- | ---: | ---: | --- | ---: | ---: |
-| L3 tick | 57,241,843 | 94,225,504 | S4 consumed | 20,452,423 | 32,494,561 |
-| L6 count live | 55,417,327 | 92,291,729 | S5 top-up | 702,761 | 865,551 |
-| L7 un-tick | 37,135,291 | 70,842,251 | S5 undo | 3,524,727 | 2,594,728 |
-| L8 settle and pay | 18,282,036 | 25,236,007 | S6 surplus | 11,551,139 | 15,229,414 |
-| L9 count and pay | 1,824,516 | 1,933,775 | S7 hand-over | 0 | 11,983,801 |
-| S1 fast swap | 29,800,079 | 74,406,288 | S10 swap / withdraw | 6,369,848 / 3,183,466 | 0 |
-| S2 writer pin | 23,977,150 | 35,089,289 | S11 retry | 354,276 | 0 |
-| S3 deposit | 28,719,317 | 39,668,554 | S12 swap / miss / top-up / undo | 0 | 3,640,178 / 3,786,529 / 787,379 / 1,240,304 |
-| dispose | 61,456,206 | 121,383,967 | | | |
+| L3 tick | 93,342,834 | 97,902,036 | S4 consumed | 28,373,689 | 33,088,797 |
+| L6 count live | 90,398,921 | 95,938,590 | S5 top-up | 919,539 | 865,551 |
+| L7 un-tick | 63,084,867 | 73,291,545 | S5 undo | 4,415,625 | 2,955,390 |
+| L8 settle and pay | 27,314,054 | 26,433,574 | S6 surplus | 19,116,391 | 17,733,054 |
+| L9 count and pay | 2,943,913 | 1,963,446 | S7 hand-over | 0 | 11,983,801 |
+| S1 fast swap | 35,481,939 | 78,453,236 | S10 swap / withdraw | 11,205,021 / 6,105,900 | 0 / 0 |
+| S2 writer pin | 32,789,314 | 36,044,187 | S10 keep / keep and top-up | 698,226 / 184,231 | 0 / 0 |
+| S3 deposit | 42,032,450 | 41,939,518 | S11 retry | 354,276 | 0 |
+| dispose | 88,725,851 | 128,668,783 | S12 swap / miss / top-up / undo | 0 / 0 / 0 / 0 | 5,250,910 / 3,786,529 / 875,890 / 1,533,261 |
 
-**The mutation table.** Mutations of single orders, each built as its own program (`-DLUMEX_RELACY_MUTANT=<n>`, label `relacy_mutant`). A caught case passes only if the named model reports a data race at one of the expected sites followed by the failure of that model; a crash, a filter that matches nothing or another kind of failure does not count. A case marked "survives" passes only when the program ran and every model passed. All sixteen cases give the verdict below (49 s for the sixteen). The numbers M8, M9, M10, M25 and M33 are those of the pre-registered list; M33a and M33b are its two halves (the loader's decision read, and the failure order of the writer's swap), each alone; V4/101 to V4/105 are mutants of the models only.
+**The mutation table.** Mutations of single orders, each built as its own program (`-DLUMEX_RELACY_MUTANT=<n>`, label `relacy_mutant`). A caught case passes only if the named model reports a data race at one of the expected sites followed by the failure of that model; a crash, a filter that matches nothing or another kind of failure does not count. A case marked "survives" passes only when the program ran and every model passed. All twenty cases give the verdict below (46 s for the twenty). V4/201 to V4/204 are mutations of the reserve of the compare-exchange, not of an order: they are logic mutants, caught when the named model fails its check of the balance or of its coverage requirement (no data race is expected; the case passes when `USER INVARIANT FAILED`, `USER ASSERT FAILED` or `COVERAGE FAILED` is followed by `RESULT FAIL` of the named model). The numbers M8, M9, M10, M25 and M33 are those of the pre-registered list; M33a and M33b are its two halves (the loader's decision read, and the failure order of the writer's swap), each alone; V4/101 to V4/105 are mutants of the models only.
 
 | Mutation | Counter | Verdict | First failing model, site and execution |
 | --- | --- | --- | --- |
@@ -476,6 +490,10 @@ The findings of the review that were kept: a silent fallback to the standard eng
 | V4/104 S2 writer's pin relaxed | library | caught | holder.publish_load/k0; DATA RACE in deposit; found at execution 45 (bound 4 search; 155 in the random search) |
 | V4/105 S10 and S12 compare-exchange swap relaxed (block word) | library | caught | block.cas_load_store/k0; DATA RACE in finish; found at execution 1 (bound 4 search; 4 in the random search) |
 | V4/105 S10 and S12 compare-exchange swap relaxed (holder word) | library | caught | holder.cas_load; DATA RACE in witness_read; found at execution 80 (full search) |
+| V4/201 compare-exchange: the surplus of the swap one too big (block word) | library | caught | block.cas_load_store/k2; USER INVARIANT FAILED (`ext` negative); found at execution 1 (bound 4 search; 2 in the random search) |
+| V4/202 strong compare-exchange: the retained deposit is not topped up | library | caught | block.cas_load_store/k2; USER INVARIANT FAILED (`ext` negative); found at execution 899,400 (bound 4 search; 88 in the random search) |
+| V4/203 holder compare-exchange: the deposit is one short | library | caught | holder.cas_load/k2; USER INVARIANT FAILED (`ext` negative); found at execution 59 (full search) |
+| V4/204 strong compare-exchange: the deposit is never kept (withdrawn and made again on every equivalent failure) | library | caught | block.cas_load_store/k2; COVERAGE FAILED (`S10-keep` and `S10-keep-topup` never reached; the balance holds); reported when the search ended (3,600,220 executions of the bound 4 search; 2,000,000 of the random search) |
 | M9 S4 and S12 swap success order without acquire | TSan | caught | holder.two_loads_in_one_thread_store/k0; DATA RACE in finish; found at execution 126746 (bound 8 search; 2138 in the random search) |
 | M9 S4 and S12 swap success order without acquire | library | survives | the 8 entries of the CTest case (filter two_loads_in_one_thread) pass; the whole LumexSplitCountRelacyHolder_M9 program, 35 entries, also passes in a re-run of this page (152 s); masked by the acquire fence of the disposing drop |
 | M25 rmw_order ignores seq_cst | library | survives | all models of the Litmus program pass (see the argument in the README) |
@@ -488,28 +506,28 @@ The findings of the review that were kept: a silent fallback to the standard eng
 
 ## The sanitizer matrix (V5)
 
-The suites of the previous sections were run under AddressSanitizer with LeakSanitizer, UndefinedBehaviorSanitizer and ThreadSanitizer, in Debug and Release, with GCC and Clang and with both standard libraries, and without a sanitizer with GCC 8.3 (C++11 only) and GCC 13.2. The selection is the 4183 tests of the previous sections (4109 in the first run) and the soak selection of 1036 tests; the runs use `UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1`, so every UBSan report is a test failure.
+The suites of the previous sections were run under AddressSanitizer with LeakSanitizer, UndefinedBehaviorSanitizer and ThreadSanitizer, in Debug and Release, with GCC and Clang and with both standard libraries, and without a sanitizer with GCC 8.3 (C++11 only) and GCC 13.2. Every row ran on the final engine (`release/v2.0.0.3` at `fdce2c6cc`) with the default selection (4199 tests) and the soak selection (1036 tests); the first-run columns are kept for the record. The runs use `UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1`, so every UBSan report is a test failure.
 
-| Row | Compiler, library, sanitizers, build | First run, default (4109 tests) | First run, soak (1036 tests) | After the fixes, default (4183 tests) | After the fixes, soak |
+| Row | Compiler, library, sanitizers, build | First run, default (4109 tests) | First run, soak (1036 tests) | Final engine, default (4199 tests) | Final engine, soak (1036 tests) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | GCC 13.2, libstdc++ 13, ASan + UBSan + LSan, Debug | 297 failed of 4109, skips not recorded; 2 runs (seeds default, 7001); UBSan misalignment in test code | 256 failed of 1036, skips not recorded; same class | 3410 passed, 773 skipped (of 4183) | run in two parts. Part 1 (1028 tests): 215 passed, 644 skipped by design, 169 not completed: 139 not run (39 C++11 and 100 C++20 tests of the `prefer_split_count` suites found no executable), 28 C++20 tests failed to start (loader error: `libLumexCore_hazard_pointer.so.2.0` not found), 2 C++11 tests killed after 187 s and 371 s; 87 other tests of the C++11 `prefer_split_count` suite passed before; the log has no oracle, UBSan or AddressSanitizer report. Part 2 (the 256 `prefer_split_count` simulator soak tests, which contain the 169): 128 passed, 128 skipped by design, none failed. Only 256 of the 1028 tests execute the simulator (128 in each of the two C++11 executables with the default backend); the other 772 are skipped by design |
-| 2 | GCC 13.2, libstdc++ 13, ASan + UBSan, Release | 3 failed, 3333 passed, 773 skipped (of 4109); UBSan misalignment (`thread_counters_t`) | 264 passed, 772 skipped (of 1036); 2 runs (seeds default, 1111) | not run | not run |
-| 3 | Clang 23.1, libstdc++ 13, ASan + UBSan, Debug | 3 failed, 3333 passed, 773 skipped (of 4109); 2 runs (seeds default, 7001); the same three tests in both runs | 264 passed, 772 skipped (of 1036) | 3410 passed, 773 skipped (of 4183) | not run |
-| 4 | Clang 23.1, libc++, ASan + UBSan, Debug | 3 failed, 3331 passed, 775 skipped (of 4109); 2 runs (seeds default, 7001); the same three tests in both runs | 264 passed, 772 skipped (of 1036) | 3408 passed, 775 skipped (of 4183) | not run |
-| 5a | Clang 23.1, libc++, TSan, Debug | 53 failed, 2979 passed, 1077 skipped (of 4109); 25 in the Cxx11 family suite, 28 in the Cxx20 one, none in the dedicated suites | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | 3106 passed, 1077 skipped (of 4183) | 8 passed, 1028 skipped (of 1036) |
-| 5b | Clang 23.1, libc++, TSan, Release | 53 failed, 2979 passed, 1077 skipped (of 4109) | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | not run | not run |
-| 5c | Clang 23.1, libstdc++ 13, TSan, Debug | 54 failed, 2980 passed, 1075 skipped (of 4109) | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | 3108 passed, 1075 skipped (of 4183) | not run |
-| 5d | Clang 23.1, libstdc++ 13, TSan, Release | 54 failed, 2980 passed, 1075 skipped (of 4109) | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | not run | not run |
-| 6 | GCC 13.2, libstdc++ 13, TSan, Debug, run under `setarch x86_64 -R` | 53 failed, 2981 passed, 1075 skipped (of 4109) | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | 3108 passed, 1075 skipped (of 4183) | not run |
-| 7 | GCC 8.3, Release, no sanitizer, C++11 targets only | 1641 passed, 136 skipped (of 1777) | 260 passed, 130 skipped (of 390); 2 runs (seeds default, 1111) | 1677 passed, 136 skipped (of 1813) | not run |
-| 8 | GCC 13.2, libstdc++ 13, Release, no sanitizer, all targets | none of 4109 failed, passed and skipped not recorded | 264 passed, 772 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) | 3418 passed, 765 skipped (of 4183) | not run |
-| fallback | GCC 13.2, Release, `LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT`, family suites at C++11 | - | - | 499 passed, 4 skipped (of 503); 3 of the skips are visible skips that name `lock_based_lumex` | - |
+| 1 | GCC 13.2, libstdc++ 13, ASan + UBSan + LSan, Debug | 297 failed of 4109, skips not recorded; 2 runs (seeds default, 7001); UBSan misalignment in test code | 256 failed of 1036, skips not recorded; same class | 3426 passed, 773 skipped (of 4199); 2 runs (seeds default, 7001) | 264 passed, 772 skipped (of 1036); 2 runs (seeds default, 1111) |
+| 2 | GCC 13.2, libstdc++ 13, ASan + UBSan, Release | 3 failed, 3333 passed, 773 skipped (of 4109); UBSan misalignment (`thread_counters_t`) | 264 passed, 772 skipped (of 1036); 2 runs (seeds default, 1111) | 3426 passed, 773 skipped (of 4199) | 264 passed, 772 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) |
+| 3 | Clang 23.1, libstdc++ 13, ASan + UBSan, Debug | 3 failed, 3333 passed, 773 skipped (of 4109); 2 runs (seeds default, 7001); the same three tests in both runs | 264 passed, 772 skipped (of 1036) | 3426 passed, 773 skipped (of 4199); 2 runs (seeds default, 7001) | 264 passed, 772 skipped (of 1036); 2 runs (seeds default, 1111) |
+| 4 | Clang 23.1, libc++, ASan + UBSan, Debug | 3 failed, 3331 passed, 775 skipped (of 4109); 2 runs (seeds default, 7001); the same three tests in both runs | 264 passed, 772 skipped (of 1036) | 3424 passed, 775 skipped (of 4199); 2 runs (seeds default, 7001) | 264 passed, 772 skipped (of 1036); 2 runs (seeds default, 1111) |
+| 5a | Clang 23.1, libc++, TSan, Debug | 53 failed, 2979 passed, 1077 skipped (of 4109); 25 in the Cxx11 family suite, 28 in the Cxx20 one, none in the dedicated suites | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | 3122 passed, 1077 skipped (of 4199) | 8 passed, 1028 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) |
+| 5b | Clang 23.1, libc++, TSan, Release | 53 failed, 2979 passed, 1077 skipped (of 4109) | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | 3122 passed, 1077 skipped (of 4199) | 8 passed, 1028 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) |
+| 5c | Clang 23.1, libstdc++ 13, TSan, Debug | 54 failed, 2980 passed, 1075 skipped (of 4109) | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | 3124 passed, 1075 skipped (of 4199) | 8 passed, 1028 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) |
+| 5d | Clang 23.1, libstdc++ 13, TSan, Release | 54 failed, 2980 passed, 1075 skipped (of 4109) | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | 3124 passed, 1075 skipped (of 4199) | 8 passed, 1028 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) |
+| 6 | GCC 13.2, libstdc++ 13, TSan, Debug, run under `setarch x86_64 -R` | 53 failed, 2981 passed, 1075 skipped (of 4109) | 4 failed, 4 passed, 1028 skipped (of 1036); 2 runs (seeds default, 1111) | 3124 passed, 1075 skipped (of 4199) | 8 passed, 1028 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) |
+| 7 | GCC 8.3, Release, no sanitizer, C++11 targets only | 1641 passed, 136 skipped (of 1777) | 260 passed, 130 skipped (of 390); 2 runs (seeds default, 1111) | 1683 passed, 136 skipped (of 1819) | 260 passed, 130 skipped (of 390); 5 runs (seeds default, 1111, 2222, 3333, 4444) |
+| 8 | GCC 13.2, libstdc++ 13, Release, no sanitizer, all targets | none of 4109 failed, passed and skipped not recorded | 264 passed, 772 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) | 3434 passed, 765 skipped (of 4199) | 264 passed, 772 skipped (of 1036); 5 runs (seeds default, 1111, 2222, 3333, 4444) |
+| fallback | GCC 13.2, Release, `LUMEX_ATOMIC_SMART_PTR_DISABLE_SPLIT_COUNT`, family suites at C++11 | - | - | not run on the final engine (earlier engine: 499 passed, 4 skipped, of 503; 3 of the skips are visible skips that name `lock_based_lumex`) | - |
 
 ![The sanitizer matrix](../../../benchmarks/atomic/results/verification/verification_sanitizer_matrix.svg)
 
-*Figure: the sanitizer matrix as a grid, with the columns of the table above (first run default, first run soak, after the fixes default, after the fixes soak). A row is a compiler, a library and a sanitizer. A cell gives the passed, failed and skipped tests (skipped tests are not passed tests; xN is N seeds). Dark orange cells are runs with failures, green cells are runs in which no test failed, the amber cell is the one run completed in two parts (row 1, soak after the fixes: part 2 re-ran 256 tests of part 1), grey cells are runs that were not made. Data: sanitizer_matrix.csv.*
+*Figure: the sanitizer matrix as a grid, with the columns of the table above (first run default, first run soak, final engine default, final engine soak). A row is a compiler, a library and a sanitizer. A cell gives the passed, failed and skipped tests (skipped tests are not passed tests; xN is N seeds). Dark orange cells are runs with failures, green cells are runs in which no test failed, grey cells are runs that were not made. Data: sanitizer_matrix.csv.*
 
-The soak runs are not repeated at full size on every row: the sanitizer rows ran the default seed and, on some rows, one more seed (1111); only row 8 ran five. The seed (`LUMEX_TEST_SEED`) changes the stress tests; the simulator uses a fixed seed (20261010) for its random schedules, so a soak run with another seed repeats the simulator work and varies only the stress tests. The rows that were run again after the fixes are 1 (default selection and the simulator soak tests), 3, 4, 5a (default selection and the soak run with seed 1111), 5c, 6, 7 and 8 (default selection); rows 2, 5b and 5d were not run again, and the soak runs of rows 3, 4, 5c, 6, 7 and 8 were not repeated. The failures of the first run in the TSan rows are in the family `split_count_engine` suites only; the dedicated suites passed on every TSan row. Only the two C++11 executables with the default backend (the default one and `prefer_split_count`) run the simulator tests, so most of the 1036 tests of the soak selection are skipped by design: of the 1028 simulator soak tests of row 1, 256 execute the simulator and 772 are skipped, and under ThreadSanitizer, where the simulator needs the replaced allocation functions that the TSan trees do not install, the soak run executes only a few tests and ends in under a minute; the simulator is covered by rows 1 to 4 and 8. The numbers of the first run of row 1, of the default run of row 3 with its default seed and of the default run and three of the soak runs of row 8 come from the run output of that time; the log files of those runs were lost. The skipped counts of those runs are not recorded, except where another run of the same row has a log (stated in `sanitizer_matrix.csv`). All other numbers are from the CTest logs.
+Every row was run on the final engine with the default selection and with the soak selection. The seeds (`LUMEX_TEST_SEED`) are those of the matrix: rows 2, 5a to 5d, 6, 7 and 8 ran the soak selection with five seeds (default, 1111, 2222, 3333, 4444), rows 1, 3 and 4 with two (default, 1111); rows 1, 3 and 4 ran the default selection with two seeds (default, 7001), the other rows with the default seed. The seed changes the stress tests; the simulator uses a fixed seed (20261010) for its random schedules, so a soak run with another seed repeats the simulator work and varies only the stress tests. Under ThreadSanitizer the soak selection executes 8 of its 1036 tests and skips the rest by design (the simulator needs the replaced allocation functions that the TSan trees do not install), so the TSan soak runs take about a minute each. The failures of the first run in the TSan rows were in the family `split_count_engine` suites only; the final engine passes every TSan row. The numbers of the first run of row 1, of the default run of row 3 with its default seed and of some runs of row 8 come from the run output of that time; the log files of those runs were lost, and their skipped counts are not recorded. All other numbers are from the CTest logs of the final runs.
 
 What the first run found, and what was done about it:
 
@@ -518,7 +536,7 @@ What the first run found, and what was done about it:
 
 How the TSan reports were attributed to the backend and not to the engine (the reduction): the four failing ABA and lifecycle tests of the family suite (a reuse pool, allocator boundaries that yield, lockers against the last owner, a weak pointer published after the strong one) were each run alone on the Cxx11 target of row 5a. Each failed alone in every configuration tried (default threads, 2 and 4 threads, default seed and seed 4242), with 8 to 264 TSan reports per run; the run with the fewest reports was `LumexAtomicSmartPtrAbaTest.GivenAllocatorBoundariesThatYield_WhenNodesAreRecycledAtOnce_ThenNoNodeIsStaleOrCorrupt` with 2 threads and seed 4242 (8 reports, 9 with the default seed); `...GivenLockersAndAnOwner_WhenTheLastStrongReferenceGoes_ThenPromotionIsLiveOrNull` gave 13 or 14 with 2 threads and 17 with the default threads. The same target built with the same flags and `LUMEX_DWCAS_BACKEND=3`: the 13 tests of the ABA suite passed in three of three runs (against 4 of 13 failing in three of three runs on the assembly backend), and the whole family `split_count_engine.cxx11` suite passed (485 of 485; 25 of 485 failed on the assembly backend, 3472 TSan warnings). The reports therefore come from the assembly backend that ThreadSanitizer cannot see; they were not a race of the engine. That is a statement about these reports, not a proof that the engine has no race on the assembly backend, which ThreadSanitizer cannot check (see the limits below).
 
-Known limits: ThreadSanitizer covers the built-in backend only (the inline-assembly backend is invisible to it, so the TSan rows use `LUMEX_DWCAS_BACKEND=3`); the hardware `lock cmpxchg16b` path is covered by the ASan and UBSan rows and by the plain rows 7 and 8; the rows of this table have no Windows or MSVC run (the Windows runs that are recorded are in `VERIFICATION.md`). A variant of the suites whose engine a build lacks runs the lock-based engine instead and reports a skip that names the engine that ran (`LumexAtomicEngineFallbackTest`; the fallback row above is the build with the engine disabled). The repository's own gate (the CTest cases whose names start with `cmake.` or `lint.`) passes 196 of 196 with GCC 13.2; with a GCC 8.3 tree one case fails, `cmake.consumer_atomic_lock_free_hooks` (`free(): invalid pointer`), which fails the same way on the tree before the sanitizer work and concerns the hazard-pointer box engine, not the split-count engine; it was not investigated.
+Known limits: ThreadSanitizer covers the built-in backend only (the inline-assembly backend is invisible to it, so the TSan rows use `LUMEX_DWCAS_BACKEND=3`); the hardware `lock cmpxchg16b` path is covered by the ASan and UBSan rows and by the plain rows 7 and 8; the rows of this table have no Windows or MSVC run (the Windows runs that are recorded are in `VERIFICATION.md`). A variant of the suites whose engine a build lacks runs the lock-based engine instead and reports a skip that names the engine that ran (`LumexAtomicEngineFallbackTest`; the fallback row above is the build with the engine disabled). The repository's own gate (the CTest cases whose names start with `cmake.` or `lint.`) passes 200 of 200 with GCC 13.2 on the final engine; with a GCC 8.3 tree (not rerun on the final engine) one case failed, `cmake.consumer_atomic_lock_free_hooks` (`free(): invalid pointer`), which fails the same way on the tree before the sanitizer work and concerns the hazard-pointer box engine, not the split-count engine; it was not investigated.
 
 ## The benchmarks (V6)
 
@@ -529,7 +547,7 @@ Measured strengths:
 - Faster than the lock-based engine over the same pointer for `store ()` and `exchange ()` with 4 or more threads (3.5 against 5.8 at 4 threads, 3.5 against 12.9 at 20), for `compare_exchange_strong ()` from 8 threads (16.0 against 19.2; 22.2 against 31.1 at 20), and, at 12 threads and more, for `load ()` against the C++20 build of the lock-based engine (9.1 against 12.2 at 20 threads; the C++11 build of the lock-based engine, 8.0, is ahead). Uncontended `store ()` and `exchange ()` are 9 to 12 % cheaper (18.3 and 19.2 ns against 20.9 and 21.1).
 - Faster than `std::atomic<std::shared_ptr>` of libstdc++ 13 from 8 threads on (at 20 threads 3.4 times for `load ()`, 5.6 for `store ()`, 6.5 for `exchange ()`, 3.1 for `compare_exchange_strong ()`, as the quotient of the two median ratios), and flat from 20 to 60 threads on 20 CPUs where the standard type grows to 98 for `load ()`.
 - The replaced value is destroyed within 0.8 us at the 99th percentile with 3 reader threads; the box engine's 99th percentile is 892 us.
-- Writers are not starved by readers in the read-heavy run (one writer, up to 19 readers, and up to 60 threads on 20 CPUs): the writer keeps storing, 0.5 million stores per second at 20 threads. The longest wait of a single store was not measured.
+- Writers are not starved by readers in the read-heavy run (one writer, up to 19 readers, and up to 60 threads on 20 CPUs): the writer keeps storing, 0.5 million stores per second at 20 threads. The longest single store seen under that load was 54 ms for the split-count engine (one writer, 40 repetitions of 100000 timed stores per thread count, 2 to 60 threads); at 8 threads and more every store of the split-count and lock-based series over 1 ms was followed by an involuntary context switch of the writer, with at most one exception per cell, while `std::atomic` and the box engine had stores over 1 ms without one (a bound observed on this machine, not a proof of starvation freedom).
 
 Measured weaknesses:
 
@@ -547,7 +565,8 @@ Five sets of mutations were run; the identifiers belong to their set, and the sa
 | Pre-registered list (M1 to M38) | 38 | per-mutant records: M8, M10 and M33 caught by the models, M9 caught under the ThreadSanitizer counter only, M25 survives; aggregate records: 14 numbers (15 mutants, M22 has two forms) caught by the simulator, 26 by the unit suites (M13 and M14 by the word codec tests, which the commit that added them records as catching a mutation of the window shift and of the sign extension) |
 | ABA campaign (V2/M01 to V2/N11) | 24 | 21 caught at the quick bound, 1 only at the soak bound, 1 equivalent, 1 survivor |
 | Review of the family suites (V3/M1 to V3/M5) | 5 | 5 caught (the Aba and Linearizability suites catch all five) |
-| Relacy mutant cases | 16 cases | 14 caught, 2 survive (M9 under the library counter, M25) |
+| Relacy mutant cases | 20 cases | 18 caught, 2 survive (M9 under the library counter, M25); V4/201 to V4/204 are the four mutations of the reserve of the compare-exchange |
+| Mutations of the reserve of the compare-exchange on the production engine (X1 to X5) and the V3 mutations M1 to M5 rerun on it | 5 + 6 | all caught (table below); X4 and X5 only by the window test of the Exact suite |
 | Further simulator mutants (V1/R4 to V1/R7) | 4 | not recorded; R5 to R7 cannot be reproduced from the repository |
 
 Where a per-mutant record exists, every mutation was caught except the survivors, the equivalent mutant and the masked order named here: M25 (argued not catchable, section on Relacy), V2/N11 (a gap of the scenario vocabulary), V2/M14b (equivalent), and M9 under the library counter (masked by the counter fence; real under the ThreadSanitizer counter).
@@ -601,6 +620,28 @@ Thirty-eight mutations of the protocol were written down before the engine was t
 | M37 | use_count returns count only |  |  | A | caught (aggregate record) | expected: unit suites (exactness oracle (a)) |
 | M38 | L9 take_and_settle replaced by add (payment forgotten) |  |  | A | caught (aggregate record) | expected: unit suites (I4); V1 S01 (R8, bound 1) rerun not recorded |
 
+### The mutations of the reserve of the compare-exchange
+
+Made on the engine after the compare-exchange got its reserve: the production header was mutated one mutation at a time and the test targets rebuilt (GCC 13.2 Release, C++11 suites), the 3177 tests of the dedicated suites (`atomic.smart_ptr.split_count.*`, with the soak tests left out) and of the family suites over the split-count engine (`*.split_count_engine.*`) were run, and the header was restored. "Failing" is the number of failing tests of the 3177; "dedicated" those of the dedicated suites (simulator and ABA scenarios / the other unit suites); the last column the family tests of the Aba, Linearizability, Structures and Lifecycle files. The mutations M1 to M5 are those of the review of the family suites (V3), here on the engine with the reserve; X1 to X5 are new.
+
+| Mutation | Failing | Dedicated (simulator / unit) | Family: Aba / Lin / Struct / Life |
+| --- | ---: | --- | --- |
+| M1 compare ignores the offset (`same_value`) | 17 | 8 (3 / 5) | 2 / 2 / 0 / 0 |
+| M2 `store` drops the replaced word without its decrement | 206 | 158 (102 / 56) | 10 / 1 / 0 / 7 |
+| M3 `exchange` returns `load ()` and drops the stored word | 49 | 29 (13 / 16) | 2 / 3 / 0 / 2 |
+| M4 a successful compare-exchange skips the drop of the old word (path with the reserve) | 102 | 47 (15 / 32) | 7 / 6 / 4 / 5 |
+| M4 the same in the path without a reserve (`cas_reserve () == 0`) | 18 | 18 (11 / 7) | 0 / 0 / 0 / 0 |
+| M5 compare ignores the block | 159 | 49 (17 / 32) | 8 / 7 / 4 / 4 |
+| X1 the surplus returned with the drop is one too big | 103 | 47 (15 / 32) | 7 / 6 / 4 / 5 |
+| X2 the strong form keeps its deposit but does not top it up | 39 | 19 (7 / 12) | 2 / 5 / 3 / 3 |
+| X3 the holder deposit is one short | 19 | 19 (7 / 12) | 0 / 0 / 0 / 0 |
+| X4 the block deposit is the ticks without the reserve | 1, and 2 with the test added later | 1 (0 / 1), and 2 | 0 / 0 / 0 / 0 |
+| X5 the holder deposit is the ticks without the reserve | 1, and 2 with the test added later | 1 (0 / 1), and 2 | 0 / 0 / 0 / 0 |
+| X8 the top-up of the kept deposit goes to the ticks without the reserve (`need` instead of `need + k`) | not in the first run; 1 in the rerun | 1 (0 / 1) | 0 / 0 / 0 / 0 |
+| X9 the strong form never keeps its deposit (withdraws and deposits again on every equivalent failure) | not in the first run; 1 in the rerun | 1 (0 / 1) | 0 / 0 / 0 / 0 |
+
+All thirteen are caught (X8 and X9 are mutations that an independent review found to survive the first version of the suites; X4 and X5 are the review's X7 and H2). The review's statement stands: the Aba and Linearizability tests catch M1 to M5 in the family variant (the Structures tests catch M4 and M5 only, as in the review). The family suites run the production policy only, so they do not reach the path without a reserve (the second M4 row) or the holder deposit; those are caught by the dedicated suites, which run the policies with the reserve 8 and 0. X4, X5, X8 and X9 (a deposit without the reserve, a top-up without the reserve, no kept deposit) break no bound from above and no balance, so the simulator and the ledger do not see them (the simulator's W2BOUND is deliberately an upper bound only: the reserve is a performance choice, not a protocol invariant). The Exact suite catches them by reading `use_count ()` with a compare-exchange held before its swap: `GivenACompareExchangeHeldAfterItsDeposit_...` (X4, X5) and `GivenAStrongCompareExchangeThatFailsOnTheSameValue_...` (X4, X5, X8, X9), which holds a strong compare-exchange before its second swap after a loader's tick made the first one fail on the same value, and asserts the deposit (kept at `L + k`, or topped up to `L' + k`) and that nothing was withdrawn before the success (reserve 8; with reserve 0 the block word withdraws and deposits again, the holder word tops up to `L'`). The same three mutations of the models are V4/201 to V4/203 in the table of the Relacy mutants (X1, X2 and X3 as logic mutants of the model: the check of the balance fails).
+
 ## What the verification does not show, and what not to infer
 
 - **A bounded argument, not a proof.** V1 explores, at its soak bound, every schedule of its scenarios with at most 3 preemptions (2 above three threads; S08 stopped at its cap of 600,000 schedules), and nothing beyond: a defect that needs more preemptions, more operations per thread than the scenarios have, or more than six threads is out of reach. V4 explores the C++11 memory model under Relacy's restricted reads-from search; its random searches are evidence, and the full and bounded searches are exhaustive only over that restricted relation.
@@ -612,7 +653,7 @@ Thirty-eight mutations of the protocol were written down before the engine was t
 - **Survivors and gaps.** M25 survives V4 and is argued not to matter on x86-64; M9 survives under the library counter because the counter fence masks it, and is caught under the ThreadSanitizer counter; M14b (V2) is an equivalent mutant; N11 (V2) survives because of a gap of the scenario vocabulary; M32, M33 and M25 are not caught by the unit suites (the simulator and the models close the first two); the oracle and the schedule of each V1 catch, the catching test of each unit-suite catch and the V1 reruns of M3, M19, M28 and M38 are not recorded; the scripts of the V1, V2 and V3 mutation runs are not in the repository.
 - **What a user must not infer.**
   - That `use_count () == 1` is stable while other threads operate on the same atomic: it never reports fewer owners than exist, so it can fail a test for sole ownership wrongly, never pass it wrongly, and it is exact only at rest (windows i to iii).
-  - That the engine is wait-free or starvation-free, or that a writer's single store has a bounded wait: only the rate of stores under a read-heavy load was measured.
+  - That the engine is wait-free or starvation-free, or that a writer's single store has a bounded wait: the longest store seen in the read-heavy run was 54 ms (split-count) and 392 ms (`std::atomic`), which is a bound observed on one machine.
   - That a clean TSan or Relacy run covers the assembly backend, the weak engine's orders, `wait`, or hardware weaker than x86-64.
   - That the number of caught mutants is a mutation score of the engine: the mutants were chosen by the people who wrote the tests and the oracles, and a defect unlike all of them can still be there.
   - That the benchmarks decide whether this engine should be the family alias: they show the price, not the policy.

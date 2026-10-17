@@ -1,0 +1,37 @@
+<map id="lumex::core::fmt::Detail::write_character" name="lumex::core::fmt::Detail::write_character">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,289,183,329"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a27635de3a8f0b450244beb0536dcc18b" title="The ? (debug) form of a string or a character." alt="" coords="231,321,408,361"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,319,218,324,217,329,183,325"/>
+<area shape="rect" id="Node000008" href="$a01541.html#a9c9a25218bf7a93eebf8242de6a1d169" title="Writes [first, stop) padded to specs.width." alt="" coords="231,232,408,272"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="172,287,227,273,228,278,173,292"/>
+<area shape="rect" id="Node000003" href="$a01541.html#aea68f84128932af81acea442416d4e71" title="Decodes one code point at it (UTF&#45;8 for char, UTF&#45;16 or UTF&#45;32 for wchar_t); an invalid sequence yiel..." alt="" coords="941,261,1118,301"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="408,333,864,297,927,291,927,296,864,303,408,338"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a9cf9ad2a9a71262b6f6e0f4145a5a3e7" title=" " alt="" coords="456,427,633,467"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="355,359,457,412,474,419,472,424,455,417,352,364"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a7c1f19007d88c2cbb57cb2da7a1bbd9a" title=" " alt="" coords="456,363,633,403"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="409,355,443,361,442,367,408,360"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a75efee4aab636332a2977208066e5121" title="Select the digit writer that does not divide a 128&#45;bit value." alt="" coords="681,427,864,467"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="633,444,668,444,668,449,633,449"/>
+<area shape="rect" id="Node000006" href="$a01541.html#aa5164d1e854b75e53cc0707028b65fff" title="Digits of an integer of at most 64 bits." alt="" coords="912,427,1147,467"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="864,444,898,444,898,449,864,449"/>
+<area shape="rect" id="Node000009" href="$a02991.html#af889c72b016fbc4382a83b4d44a4b9fe" title=" " alt="" coords="684,248,861,288"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="408,237,516,229,575,229,634,233,687,242,686,248,633,239,575,235,516,235,408,242"/>
+<area shape="rect" id="Node000011" href="$a01541.html#a2ed0744f528e973133ba3815d7650826" title="Estimated display width, as std::format (C++23) defines it." alt="" coords="456,133,633,173"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="364,230,455,190,485,176,487,181,457,194,366,234"/>
+<area shape="rect" id="Node000017" href="$a01541.html#a3e45da52824f4287006ffe4514534657" title=" " alt="" coords="456,248,633,288"/>
+<area shape="poly" id="edge17_Node000008_Node000017" title=" " alt="" coords="409,256,442,258,442,263,408,261"/>
+<area shape="rect" id="Node000010" href="$a02991.html#a6f4eb61317095976b06eebbf9d38c205" title=" " alt="" coords="941,325,1118,365"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="833,286,913,311,941,319,940,324,911,316,831,291"/>
+<area shape="rect" id="Node000012" href="$a01541.html#a9e0a7453f21fa61d5f221016d15cbe2e" title="Moves it past one extended grapheme cluster and returns its estimated width: the width of its first c..." alt="" coords="684,133,861,173"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="633,151,670,151,670,156,633,156"/>
+<area shape="poly" id="edge12_Node000012_Node000003" title=" " alt="" coords="798,171,849,210,913,247,931,254,929,259,911,252,846,214,795,175"/>
+<area shape="rect" id="Node000013" href="$a01541.html#ad7db5669bbcd6622f5c86c4fca26b2c3" title="Extended_Pictographic (approximated by the emoji blocks): a code point that a zero width joiner glues..." alt="" coords="931,69,1127,109"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="853,131,935,110,937,115,854,136"/>
+<area shape="rect" id="Node000014" href="$a01541.html#aff580c84b9a022c6cd09fff2dd4357ed" title="The code point joins the preceding one in the same extended grapheme cluster: Grapheme_Cluster_Break ..." alt="" coords="941,133,1118,173"/>
+<area shape="poly" id="edge14_Node000012_Node000014" title=" " alt="" coords="861,151,927,151,927,156,861,156"/>
+<area shape="rect" id="Node000015" href="$a01541.html#a7ed054b3519f96e75e5f34a597d411ee" title="Regional indicator symbols (two of them form one flag)." alt="" coords="941,197,1118,237"/>
+<area shape="poly" id="edge15_Node000012_Node000015" title=" " alt="" coords="854,171,937,191,935,197,853,176"/>
+<area shape="rect" id="Node000016" href="$a01541.html#a92eaf1c71d6bb3ecff60069c005917f8" title=" " alt="" coords="941,5,1118,45"/>
+<area shape="poly" id="edge16_Node000012_Node000016" title=" " alt="" coords="795,131,846,93,911,55,929,47,931,52,913,60,849,97,798,135"/>
+<area shape="poly" id="edge18_Node000017_Node000009" title=" " alt="" coords="633,265,670,265,670,271,633,271"/>
+</map>

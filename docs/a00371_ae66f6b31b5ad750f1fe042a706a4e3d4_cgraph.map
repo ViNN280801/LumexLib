@@ -1,0 +1,16 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,157,60,182"/>
+<area shape="rect" id="Node000002" href="$a02055.html#afbc5c3841ea20a009a439ae264462ea9" title="Access the newest element (back)." alt="" coords="108,5,315,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="35,155,61,107,81,79,106,55,114,50,117,54,110,59,85,83,65,110,40,158"/>
+<area shape="rect" id="Node000004" href="$a02055.html#a3d9d4aeb03998d6bd83b53ccf46d9905" title="Access the oldest element (front)." alt="" coords="127,70,295,125"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="59,155,107,135,126,127,128,132,109,140,61,160"/>
+<area shape="rect" id="Node000005" href="$a02055.html#a04d667565ac3dcb51157f6448ba77c21" title="Checks whether the buffer is full." alt="" coords="113,149,310,189"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="60,167,99,167,99,172,60,172"/>
+<area shape="rect" id="Node000006" href="$a02055.html#ab8b530317c0c039c0856ccc14b6e7575" title="Appends a copy of an element." alt="" coords="127,214,295,269"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="61,179,109,199,128,206,126,211,107,204,59,184"/>
+<area shape="rect" id="Node000007" href="$a02055.html#a5ecc4cbf0af26e45311c542a7d3f7e41" title="Returns the current number of elements in the buffer." alt="" coords="110,293,313,333"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="40,181,66,228,86,255,110,278,120,285,117,289,106,282,82,259,61,231,36,184"/>
+<area shape="rect" id="Node000003" href="$a02055.html#a8d484612f38792175e6101ef13cb1513" title="Checks whether the buffer is empty." alt="" coords="363,34,531,89"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="315,39,350,44,349,49,314,44"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="295,82,349,74,350,79,296,87"/>
+</map>

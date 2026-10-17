@@ -1,0 +1,14 @@
+<map id="LumexContractsHandler.hpp" name="LumexContractsHandler.hpp">
+<area shape="rect" id="Node000001" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="171,5,378,31"/>
+<area shape="rect" id="Node000002" href="$a01361.html" title="Contracts module: LUMEX_CONTRACT_ASSERT, the contract assertion of C++26 (P2900) from C++11 on,..." alt="" coords="143,152,271,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,38,189,55,166,80,162,98,168,117,180,135,194,150,190,153,176,138,163,119,157,98,162,77,185,51,215,34"/>
+<area shape="rect" id="Node000005" href="$a01001.html" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand..." alt="" coords="176,79,373,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="277,44,277,78,272,78,272,44"/>
+<area shape="rect" id="Node000006" href="$a01004.html" title=" " alt="" coords="397,79,603,104"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="327,32,462,76,460,81,326,37"/>
+<area shape="rect" id="Node000003" href="$a00437.html" title=" " alt="" coords="5,225,179,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="176,187,114,227,111,223,174,183"/>
+<area shape="rect" id="Node000004" href="$a00434.html" title=" " alt="" coords="203,225,442,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="240,182,304,223,301,227,237,187"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="255,116,221,153,217,150,252,112"/>
+</map>

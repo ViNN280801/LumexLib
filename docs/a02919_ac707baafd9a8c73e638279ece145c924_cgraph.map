@@ -1,0 +1,18 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::transform_error" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::transform_error">
+<area shape="rect" id="Node000001" title="Calls func with the contained error (const lvalue) if present, and wraps the result in the error of a..." alt="" coords="5,59,217,113"/>
+<area shape="rect" id="Node000002" href="$a02919.html#a72092f1c4a7809f1670784a1c76775b1" title=" " alt="" coords="525,32,708,87"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,69,265,65,393,58,511,56,512,62,393,64,266,70,218,74"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="975,107,1141,147"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,56,265,42,388,19,486,6,584,4,708,18,788,33,866,55,997,100,995,105,864,60,786,39,708,23,584,10,487,11,389,25,266,47,204,61"/>
+<area shape="rect" id="Node000004" href="$a02919.html#ab85fa9facbb340b3a99dd7060cc5e269" title="Calls func with the contained error (lvalue) if present, and wraps the result in the error of a new e..." alt="" coords="265,103,477,157"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="218,101,252,107,251,112,217,106"/>
+<area shape="rect" id="Node000005" href="$a02919.html#a0a1747d909987c95555691cc5fd51b3b" title="Checks the state; throws if the object holds an error." alt="" coords="525,165,708,220"/>
+<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="152,111,205,142,266,167,328,181,392,190,512,195,512,200,392,195,327,187,265,172,202,147,149,116"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="466,100,511,87,513,92,467,105"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="477,127,961,125,961,130,478,132"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="324,102,324,92,332,83,348,78,371,76,399,79,415,87,412,92,398,84,371,81,349,83,335,88,329,94,329,102"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="478,154,513,163,512,168,477,160"/>
+<area shape="rect" id="Node000006" href="$a01533.html#a32b16d60d745c9c9149f741d862646d5" title="Throws bad_expected_access&lt;E&gt; that holds error; with exceptions off (LUMEX_EXPECTED_HAS_EXCEPTIONS is..." alt="" coords="756,165,927,220"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="708,190,742,190,742,195,708,195"/>
+<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="926,164,977,149,979,154,928,169"/>
+</map>

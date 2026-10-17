@@ -1,0 +1,8 @@
+<map id="lumex::core::filesystem::fs::path::replace_filename" name="lumex::core::filesystem::fs::path::replace_filename">
+<area shape="rect" id="Node000001" title="Replaces the filename component of the path with a new path filename." alt="" coords="5,61,204,101"/>
+<area shape="rect" id="Node000002" href="$a02947.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="265,29,440,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,66,251,60,252,65,204,71"/>
+<area shape="rect" id="Node000003" href="$a02947.html#ae245cefabf5e31ddbc434a41e2b476b9" title="Removes the filename component from the path_arg, leaving only the parent path_arg." alt="" coords="252,93,453,133"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="204,92,239,96,238,101,204,97"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="307,30,304,20,311,10,328,5,353,3,381,6,397,13,395,18,380,11,353,8,329,10,314,15,309,21,312,28"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="lumex::core::environment::env::lumex_environment::EnvResult::EnvResult" name="lumex::core::environment::env::lumex_environment::EnvResult::EnvResult">
+<area shape="rect" id="Node000001" title="Constructs an EnvResult in a default (unsuccessful) state." alt="" coords="245,45,437,100"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="381,34,367,27,341,24,320,26,306,31,300,37,300,45,295,45,295,35,303,26,319,21,341,19,368,22,384,30"/>
+<area shape="rect" id="Node000002" href="$a02603.html#a4ae0414faca8f78c7a81b9cef8d96b03" title="Constructs an unsuccessful EnvResult with an error code and an optional fallback value." alt="" coords="5,5,197,60"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="231,57,197,51,198,46,232,52"/>
+<area shape="rect" id="Node000003" href="$a02603.html#a22264244bf8d72096b8b5321c5302899" title="Constructs a successful EnvResult with a given value." alt="" coords="5,84,197,139"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="232,93,198,98,197,93,231,88"/>
+</map>

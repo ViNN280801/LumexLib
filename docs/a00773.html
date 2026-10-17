@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_json.cpp File Reference</title>
+<title>LumexLib: LumexSharedPtr.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -105,167 +105,298 @@ $(function(){initNavTree('a00773.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_json.cpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexSharedPtr.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
-<code>#include &lt;exception&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01157_source.html">lumex/applied/json/LumexJson</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00548_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
+
+<p><code>shared_ptr&lt;T&gt;</code>: shared ownership with the module's own control block, at the level of the C++17 <code>std::shared_ptr</code>.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;ostream&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00758_source.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00761_source.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlKinds.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00776_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrAccess.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00779_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00782_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrTraits.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00767_source.html">lumex/core/smart_ptr/shared/LumexBadWeakPtr.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01106_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_json.cpp:</div>
+Include dependency graph for LumexSharedPtr.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00774.png" border="0" usemap="#aexample__json_8cpp" alt=""/></div>
+<div class="center"><img src="a00774.png" border="0" usemap="#aLumexSharedPtr_8hpp" alt=""/></div>
+<map name="aLumexSharedPtr_8hpp" id="aLumexSharedPtr_8hpp">
+<area shape="rect" title="shared_ptr&lt;T&gt;: shared ownership with the module&#39;s own control block, at the level of the C++17 std::s..." alt="" coords="682,5,838,31"/>
+<area shape="rect" title=" " alt="" coords="251,262,322,287"/>
+<area shape="poly" title=" " alt="" coords="682,24,542,31,380,43,240,60,191,70,164,81,136,109,121,139,119,171,134,205,147,214,173,227,241,255,239,259,171,232,144,219,130,208,114,172,116,137,132,105,161,76,189,65,239,55,380,38,542,26,682,19"/>
+<area shape="rect" title=" " alt="" coords="1185,350,1252,375"/>
+<area shape="poly" title=" " alt="" coords="838,20,1063,40,1175,56,1254,76,1296,92,1328,107,1355,129,1378,166,1385,187,1378,208,1361,228,1341,236,1320,243,1298,257,1261,298,1235,340,1230,337,1257,295,1294,253,1317,238,1339,231,1358,223,1374,205,1380,187,1374,168,1351,133,1325,112,1294,97,1253,81,1174,62,1062,46,838,26"/>
+<area shape="rect" title=" " alt="" coords="859,262,946,287"/>
+<area shape="poly" title=" " alt="" coords="769,29,891,249,887,251,765,32"/>
+<area shape="rect" title=" " alt="" coords="144,174,221,199"/>
+<area shape="poly" title=" " alt="" coords="682,23,545,30,388,41,254,58,208,68,185,81,175,98,171,119,177,161,171,161,166,119,170,97,181,77,206,63,253,52,388,35,545,24,682,18"/>
+<area shape="rect" title=" " alt="" coords="1658,86,1734,111"/>
+<area shape="poly" title=" " alt="" coords="838,18,1251,38,1476,55,1569,65,1639,76,1652,79,1651,84,1638,81,1568,70,1475,60,1251,43,838,23"/>
+<area shape="rect" title=" " alt="" coords="167,614,259,639"/>
+<area shape="poly" title=" " alt="" coords="682,25,348,46,189,63,132,72,100,81,62,101,33,122,14,148,8,187,8,450,12,479,23,505,41,528,62,549,113,583,163,607,161,611,110,588,59,553,37,532,19,508,7,481,3,451,3,186,10,146,29,118,59,97,98,76,131,66,188,57,348,41,682,19"/>
+<area shape="rect" title=" " alt="" coords="970,262,1030,287"/>
+<area shape="poly" title=" " alt="" coords="776,29,825,77,982,249,978,253,821,81,772,33"/>
+<area shape="rect" href="a00758.html" title="ctl_base: the control block of shared_ptr and weak_ptr, 32 bytes on a 64&#45;bit target." alt="" coords="1138,167,1363,207"/>
+<area shape="poly" title=" " alt="" coords="839,21,1068,42,1170,58,1205,67,1226,77,1239,93,1248,113,1254,152,1249,153,1243,114,1235,96,1222,81,1204,72,1169,63,1067,48,838,26"/>
+<area shape="rect" href="a00779.html" title="Configuration macros of core/smart_ptr: exception handling, ThreadSanitizer detection,..." alt="" coords="519,343,756,383"/>
+<area shape="poly" title=" " alt="" coords="756,32,729,75,709,99,686,121,650,139,618,145,586,151,552,169,529,188,513,206,501,227,491,255,485,275,490,293,512,317,540,335,537,339,509,321,486,296,480,275,485,254,496,225,508,203,525,184,549,164,585,146,617,140,648,134,682,116,705,96,725,72,751,29"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1254,607,1509,647"/>
+<area shape="poly" title=" " alt="" coords="838,18,1055,35,1185,52,1315,76,1368,84,1422,86,1520,88,1561,95,1594,111,1606,124,1615,141,1621,162,1623,187,1623,451,1619,479,1608,505,1592,528,1571,548,1521,581,1468,605,1466,600,1518,576,1567,544,1588,525,1603,503,1614,478,1617,450,1617,187,1615,163,1610,143,1602,128,1590,116,1560,100,1520,93,1421,91,1368,89,1314,81,1184,57,1054,40,838,24"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="712,607,925,647"/>
+<area shape="poly" title=" " alt="" coords="682,23,531,28,355,39,202,56,150,68,122,81,110,99,108,118,112,140,113,167,114,238,122,299,140,351,165,397,200,439,243,479,295,517,356,556,382,568,416,579,504,596,603,609,699,617,698,623,603,614,503,602,415,584,380,573,353,561,292,521,240,483,196,443,161,400,135,353,117,300,108,238,108,167,106,141,103,118,105,98,118,77,148,63,201,51,355,34,531,23,682,17"/>
+<area shape="rect" href="a00761.html" title="The control blocks shared_ptr creates: ctl_ptr (a separate object with a deleter),..." alt="" coords="443,79,672,119"/>
+<area shape="poly" title=" " alt="" coords="729,33,622,76,620,71,727,28"/>
+<area shape="rect" href="a00782.html" title="Building blocks of the smart pointers: the type identity without RTTI, the empty&#45;base storage of dele..." alt="" coords="562,167,793,207"/>
+<area shape="poly" title=" " alt="" coords="760,32,749,72,730,120,706,157,701,154,726,117,744,70,755,30"/>
+<area shape="rect" href="a00776.html" title="Forward declarations of the pointer classes and detail::access, the friend that gives the split&#45;count..." alt="" coords="970,79,1211,119"/>
+<area shape="poly" title=" " alt="" coords="813,28,995,73,994,78,811,33"/>
+<area shape="rect" href="a00767.html" title="bad_weak_ptr: the exception that shared_ptr (weak_ptr) and shared_from_this () throw when the object ..." alt="" coords="195,79,419,119"/>
+<area shape="poly" title=" " alt="" coords="689,33,433,79,432,74,688,28"/>
+<area shape="poly" title=" " alt="" coords="1250,207,1226,337,1221,336,1244,206"/>
+<area shape="rect" href="a00764.html" title="split_counter: the packed reference counter of the control block, one 64&#45;bit atomic word {count:32,..." alt="" coords="1307,255,1533,295"/>
+<area shape="poly" title=" " alt="" coords="1291,204,1370,246,1368,251,1288,209"/>
+<area shape="poly" title=" " alt="" coords="1233,209,850,598,846,595,1229,205"/>
+<area shape="poly" title=" " alt="" coords="1375,297,1261,347,1259,342,1373,292"/>
+<area shape="rect" title=" " alt="" coords="1327,350,1393,375"/>
+<area shape="poly" title=" " alt="" coords="1408,297,1379,340,1374,337,1404,294"/>
+<area shape="rect" title=" " alt="" coords="1417,350,1481,375"/>
+<area shape="poly" title=" " alt="" coords="1429,294,1443,336,1438,338,1424,296"/>
+<area shape="poly" title=" " alt="" coords="1307,290,770,350,769,345,1307,285"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="659,519,848,559"/>
+<area shape="poly" title=" " alt="" coords="1452,293,1475,312,1494,335,1503,359,1502,372,1495,384,1477,402,1453,419,1389,447,1309,471,1218,491,1028,519,862,535,861,529,1027,514,1217,486,1307,466,1387,442,1450,414,1474,398,1491,381,1497,371,1498,360,1489,338,1471,316,1448,297"/>
+<area shape="poly" title=" " alt="" coords="1383,297,1349,318,1317,345,1290,374,1272,403,1248,458,1237,485,1221,511,1199,536,1168,561,1128,578,1071,593,939,616,938,610,1070,588,1127,573,1165,556,1196,532,1217,508,1232,482,1243,456,1268,400,1286,371,1313,341,1346,314,1380,292"/>
+<area shape="rect" title=" " alt="" coords="405,438,470,463"/>
+<area shape="poly" title=" " alt="" coords="593,385,480,435,478,430,590,380"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="546,431,729,471"/>
+<area shape="poly" title=" " alt="" coords="640,383,640,417,635,417,635,383"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="403,526,584,551"/>
+<area shape="poly" title=" " alt="" coords="606,473,527,521,524,517,603,469"/>
+<area shape="poly" title=" " alt="" coords="666,469,717,508,714,512,663,473"/>
+<area shape="poly" title=" " alt="" coords="636,471,634,514,639,537,649,557,673,581,704,599,701,603,670,585,645,560,634,538,629,514,631,471"/>
+<area shape="poly" title=" " alt="" coords="659,557,273,620,273,614,658,551"/>
+<area shape="poly" title=" " alt="" coords="848,549,1241,604,1240,610,848,555"/>
+<area shape="poly" title=" " alt="" coords="771,557,798,594,793,597,766,561"/>
+<area shape="poly" title=" " alt="" coords="443,119,390,139,343,169,326,187,313,208,296,250,291,248,308,206,322,184,340,165,388,134,441,114"/>
+<area shape="poly" title=" " alt="" coords="448,121,347,143,241,169,231,172,229,167,239,164,346,137,447,116"/>
+<area shape="poly" title=" " alt="" coords="457,121,369,144,332,156,307,169,231,268,165,363,165,451,169,493,179,534,204,601,199,603,174,535,164,493,160,451,160,362,227,265,304,165,330,151,368,139,456,116"/>
+<area shape="poly" title=" " alt="" coords="652,116,728,137,806,164,897,208,970,252,967,257,894,213,804,169,726,142,650,121"/>
+<area shape="poly" title=" " alt="" coords="673,111,1125,168,1124,173,672,116"/>
+<area shape="poly" title=" " alt="" coords="507,121,476,141,452,168,434,202,425,232,428,261,445,293,458,305,480,316,537,336,535,341,477,321,455,309,441,296,423,263,420,231,429,200,447,165,473,137,504,117"/>
+<area shape="poly" title=" " alt="" coords="489,121,454,141,426,168,392,221,363,271,342,320,330,367,328,414,336,461,358,508,392,557,406,565,431,573,507,589,698,613,698,618,507,594,430,578,404,570,389,561,353,511,331,462,322,414,325,366,337,318,358,269,387,218,422,165,451,136,487,116"/>
+<area shape="rect" title=" " alt="" coords="499,262,549,287"/>
+<area shape="poly" title=" " alt="" coords="556,119,532,249,526,248,551,118"/>
+<area shape="poly" title=" " alt="" coords="587,117,640,156,637,160,584,121"/>
+<area shape="poly" title=" " alt="" coords="589,209,336,266,335,261,588,204"/>
+<area shape="poly" title=" " alt="" coords="713,204,791,252,819,274,849,292,936,321,1025,340,1107,352,1172,358,1171,363,1106,357,1024,345,934,326,847,297,816,279,788,257,710,209"/>
+<area shape="poly" title=" " alt="" coords="730,204,859,255,857,260,728,209"/>
+<area shape="poly" title=" " alt="" coords="658,209,563,297,487,359,426,404,367,452,298,520,262,564,232,604,228,601,258,560,294,517,363,448,423,400,484,354,560,293,655,205"/>
+<area shape="poly" title=" " alt="" coords="784,204,871,225,960,252,964,254,963,259,958,257,869,230,783,209"/>
+<area shape="poly" title=" " alt="" coords="675,207,648,330,642,328,670,206"/>
+<area shape="poly" title=" " alt="" coords="704,205,726,227,747,253,792,322,822,378,844,439,863,518,866,539,863,559,845,597,840,594,857,558,860,539,857,519,839,440,817,380,788,324,743,256,722,231,700,209"/>
+<area shape="poly" title=" " alt="" coords="643,209,559,257,557,253,641,205"/>
+<area shape="rect" title=" " alt="" coords="675,262,733,287"/>
+<area shape="poly" title=" " alt="" coords="686,206,699,248,694,249,681,208"/>
+<area shape="poly" title=" " alt="" coords="970,113,235,184,235,179,969,108"/>
+<area shape="poly" title=" " alt="" coords="1098,118,1104,155,1105,203,1096,252,1087,276,1073,296,1042,328,1012,352,982,370,951,383,890,395,826,397,760,394,690,395,616,406,577,417,536,433,510,451,484,473,438,498,392,521,246,609,243,604,389,516,436,493,481,468,506,447,533,428,575,412,615,400,690,390,760,389,826,391,889,390,950,377,980,365,1009,348,1039,324,1069,293,1082,273,1091,251,1100,202,1098,156,1093,119"/>
+<area shape="poly" title=" " alt="" coords="1071,121,1052,143,1034,168,1017,209,1007,249,1002,247,1012,208,1030,165,1047,139,1067,117"/>
+<area shape="poly" title=" " alt="" coords="1129,117,1203,158,1201,162,1126,121"/>
+<area shape="poly" title=" " alt="" coords="1091,120,1076,216,1062,264,1054,283,1045,297,1025,310,999,321,931,338,851,351,770,359,770,353,850,345,930,333,997,316,1023,305,1041,293,1049,281,1057,263,1071,214,1086,119"/>
+<area shape="poly" title=" " alt="" coords="1212,116,1328,141,1444,176,1495,196,1535,220,1562,246,1569,260,1572,274,1572,451,1567,475,1553,496,1531,515,1502,533,1427,561,1334,584,1232,601,1127,613,939,626,939,620,1127,607,1231,595,1333,579,1425,556,1500,528,1528,511,1549,493,1562,473,1567,450,1567,275,1564,262,1558,249,1532,224,1492,201,1443,181,1327,146,1211,121"/>
+<area shape="poly" title=" " alt="" coords="279,121,213,168,210,164,276,117"/>
+</map>
 </div>
-</div><table class="memberdecls">
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00775.png" border="0" usemap="#aLumexSharedPtr_8hppdep" alt=""/></div>
+<map name="aLumexSharedPtr_8hppdep" id="aLumexSharedPtr_8hppdep">
+<area shape="rect" title="shared_ptr&lt;T&gt;: shared ownership with the module&#39;s own control block, at the level of the C++17 std::s..." alt="" coords="407,5,563,31"/>
+<area shape="rect" href="a00803.html" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="378,152,591,192"/>
+<area shape="poly" title=" " alt="" coords="487,45,487,152,482,152,482,45"/>
+<area shape="rect" href="a00770.html" title="enable_shared_from_this&lt;T&gt;: lets an object that is owned by a shared_ptr of this module hand out furt..." alt="" coords="666,159,909,185"/>
+<area shape="poly" title=" " alt="" coords="577,26,647,44,683,58,716,76,738,95,757,117,783,158,778,160,753,121,734,99,712,81,680,63,646,49,576,31"/>
+<area shape="rect" href="a01397.html" title="Smart pointer module: shared_ptr, weak_ptr, enable_shared_from_this, make_shared, allocate_shared,..." alt="" coords="279,240,402,265"/>
+<area shape="poly" title=" " alt="" coords="461,42,413,90,389,120,368,153,352,200,345,240,339,239,347,199,364,151,385,117,409,86,457,38"/>
+<area shape="rect" href="a00785.html" title="make_shared and allocate_shared: create the object and its control block in one allocation ([util...." alt="" coords="5,79,180,104"/>
+<area shape="poly" title=" " alt="" coords="404,36,161,81,160,76,403,31"/>
+<area shape="rect" href="a00755.html" title="Explicit conversions between the module&#39;s shared_ptr and std::shared_ptr: from_std and to_std." alt="" coords="204,79,376,104"/>
+<area shape="poly" title=" " alt="" coords="439,38,325,81,323,76,437,33"/>
+<area shape="rect" href="a00818.html" title="What the split&#45;count engine needs to know about the pointer it stores: the counter group its referenc..." alt="" coords="933,159,1129,185"/>
+<area shape="poly" title=" " alt="" coords="560,31,747,76,886,119,996,157,995,162,884,124,745,81,559,36"/>
+<area shape="rect" href="a00788.html" title="weak_ptr&lt;T&gt; and owner_less: non&#45;owning observers of an object that a shared_ptr owns ([util...." alt="" coords="555,79,702,104"/>
+<area shape="poly" title=" " alt="" coords="523,35,605,76,602,81,521,39"/>
+<area shape="poly" title=" " alt="" coords="704,190,403,244,402,239,703,185"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="63,313,229,353"/>
+<area shape="poly" title=" " alt="" coords="298,273,196,316,194,311,296,268"/>
+<area shape="rect" href="a00266.html" title=" " alt="" coords="253,321,428,346"/>
+<area shape="poly" title=" " alt="" coords="343,279,343,320,338,320,338,279"/>
+<area shape="rect" href="a00269.html" title=" " alt="" coords="452,321,693,346"/>
+<area shape="poly" title=" " alt="" coords="391,267,537,318,535,323,389,272"/>
+<area shape="poly" title=" " alt="" coords="125,109,322,238,320,242,123,114"/>
+<area shape="poly" title=" " alt="" coords="301,117,339,239,334,241,296,118"/>
+<area shape="rect" href="a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="938,240,1125,265"/>
+<area shape="poly" title=" " alt="" coords="1034,199,1034,239,1029,239,1029,199"/>
+<area shape="poly" title=" " alt="" coords="595,113,522,154,519,150,592,109"/>
+<area shape="poly" title=" " alt="" coords="667,108,764,157,761,162,665,113"/>
+<area shape="poly" title=" " alt="" coords="632,118,626,157,618,177,605,194,571,213,519,229,403,248,402,243,517,223,569,208,602,190,613,174,621,155,627,117"/>
+<area shape="poly" title=" " alt="" coords="706,104,968,157,967,162,705,109"/>
+</map>
+</div>
+</div>
+<p><a href="a00773_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06391.html">LumexJsonHelper</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One API for flat and sectioned JSON configurations.  <a href="a06391.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03863.html">lumex::core::smart_ptr::shared_ptr&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared ownership of an object ([util.smartptr.shared]).  <a href="a03863.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06395.html">LumexJsonSchemaNormalizer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shares the schema walker and the strict/non-strict error policy between concrete normalizers.  <a href="a06395.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06399.html">LumexJsonSchemaException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carries the failure reason, the JSON path of the offending value (<code>$.items[2].name</code>) and a human-readable detail.  <a href="a06399.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06403.html">LumexJsonSchemaTraverser</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stateless schema walker. All members are static.  <a href="a06403.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06407.html">LumexJsonSchemaValidator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses raw JSON text and walks it against one schema tree in <code>validate_only</code> mode. It never normalizes or rewrites fields; use a <code><a class="el" href="a06395.html" title="Shares the schema walker and the strict/non-strict error policy between concrete normalizers.">LumexJsonSchemaNormalizer</a></code> subclass for that.  <a href="a06407.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04007.html">std::hash&lt; lumex::core::smart_ptr::shared_ptr&lt; T &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash of the stored pointer ([util.smartptr.hash]).  <a href="a04007.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a210b248fe3338b4d5161ae03caad7942" id="r_a210b248fe3338b4d5161ae03caad7942"><td class="memItemLeft" align="right" valign="top">typedef lumex_basic_string_view&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a210b248fe3338b4d5161ae03caad7942">lumex_string_view</a></td></tr>
-<tr class="memdesc:a210b248fe3338b4d5161ae03caad7942"><td class="mdescLeft">&#160;</td><td class="mdescRight">The view of <code>char</code>: the <code>std::string_view</code> of the library.  <br /></td></tr>
-<tr class="separator:a210b248fe3338b4d5161ae03caad7942"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:acf6c250fe30b33bf20e97c6bc52ad446" id="r_acf6c250fe30b33bf20e97c6bc52ad446"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf6c250fe30b33bf20e97c6bc52ad446">LumexJsonDiagnosticLevel</a> </td></tr>
-<tr class="memdesc:acf6c250fe30b33bf20e97c6bc52ad446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Severity of a diagnostic message.  <a href="#acf6c250fe30b33bf20e97c6bc52ad446">More...</a><br /></td></tr>
-<tr class="separator:acf6c250fe30b33bf20e97c6bc52ad446"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01562.html">lumex::core::smart_ptr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01527.html">std</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c1c9ae8fd4d21054801c40a3c89dbb5" id="r_a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c1c9ae8fd4d21054801c40a3c89dbb5">set_diagnostic_reporter</a> (json_diagnostic_fn reporter) noexcept</td></tr>
-<tr class="memdesc:a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the report sink. <code>nullptr</code> restores the default (<code>warning</code> and <code>error</code> to <code>std::cerr</code>, the rest dropped).  <br /></td></tr>
-<tr class="separator:a7c1c9ae8fd4d21054801c40a3c89dbb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dd151ffaf25c201f5aede9dc9ebef7b" id="r_a3dd151ffaf25c201f5aede9dc9ebef7b"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a3dd151ffaf25c201f5aede9dc9ebef7b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a3dd151ffaf25c201f5aede9dc9ebef7b">lumex::core::smart_ptr::operator==</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, <a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;b) noexcept</td></tr>
+<tr class="memdesc:a3dd151ffaf25c201f5aede9dc9ebef7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when the stored pointers are equal.  <br /></td></tr>
+<tr class="separator:a3dd151ffaf25c201f5aede9dc9ebef7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9b4126adc3a2a2943fda72657a480fe" id="r_ac9b4126adc3a2a2943fda72657a480fe"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:ac9b4126adc3a2a2943fda72657a480fe"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#ac9b4126adc3a2a2943fda72657a480fe">lumex::core::smart_ptr::operator==</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, std::nullptr_t) noexcept</td></tr>
+<tr class="memdesc:ac9b4126adc3a2a2943fda72657a480fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code class="param">a</code> stores a null pointer.  <br /></td></tr>
+<tr class="separator:ac9b4126adc3a2a2943fda72657a480fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0b1547f766b67831fff4f5560f8de66" id="r_ab0b1547f766b67831fff4f5560f8de66"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:ab0b1547f766b67831fff4f5560f8de66"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#ab0b1547f766b67831fff4f5560f8de66">lumex::core::smart_ptr::operator!=</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, <a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:ab0b1547f766b67831fff4f5560f8de66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d5f15fac7d4fcdd48718da746f93cb9" id="r_a2d5f15fac7d4fcdd48718da746f93cb9"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a2d5f15fac7d4fcdd48718da746f93cb9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a2d5f15fac7d4fcdd48718da746f93cb9">lumex::core::smart_ptr::operator!=</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, std::nullptr_t) noexcept</td></tr>
+<tr class="separator:a2d5f15fac7d4fcdd48718da746f93cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1eafcfb58c1deb16d493db4fb0559cd" id="r_aa1eafcfb58c1deb16d493db4fb0559cd"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:aa1eafcfb58c1deb16d493db4fb0559cd"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#aa1eafcfb58c1deb16d493db4fb0559cd">lumex::core::smart_ptr::operator==</a> (std::nullptr_t, <a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:aa1eafcfb58c1deb16d493db4fb0559cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5181eb8107371b7cf5efd21296dc9a8" id="r_aa5181eb8107371b7cf5efd21296dc9a8"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:aa5181eb8107371b7cf5efd21296dc9a8"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#aa5181eb8107371b7cf5efd21296dc9a8">lumex::core::smart_ptr::operator!=</a> (std::nullptr_t, <a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:aa5181eb8107371b7cf5efd21296dc9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7de31ee6e7e3b09e789c33b61df0ef4d" id="r_a7de31ee6e7e3b09e789c33b61df0ef4d"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a7de31ee6e7e3b09e789c33b61df0ef4d"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a7de31ee6e7e3b09e789c33b61df0ef4d">lumex::core::smart_ptr::operator&lt;</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, <a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;b) noexcept</td></tr>
+<tr class="memdesc:a7de31ee6e7e3b09e789c33b61df0ef4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orders by the stored pointers (<code>std::less</code> of their common type).  <br /></td></tr>
+<tr class="separator:a7de31ee6e7e3b09e789c33b61df0ef4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8841a741f39d4eb57de9261cf867be67" id="r_a8841a741f39d4eb57de9261cf867be67"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a8841a741f39d4eb57de9261cf867be67"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a8841a741f39d4eb57de9261cf867be67">lumex::core::smart_ptr::operator&gt;</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, <a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:a8841a741f39d4eb57de9261cf867be67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc58d94a66464d3171252eeb1aab3236" id="r_afc58d94a66464d3171252eeb1aab3236"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:afc58d94a66464d3171252eeb1aab3236"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#afc58d94a66464d3171252eeb1aab3236">lumex::core::smart_ptr::operator&lt;=</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, <a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:afc58d94a66464d3171252eeb1aab3236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a9cff7662b4fccb7e097797cc025174" id="r_a6a9cff7662b4fccb7e097797cc025174"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a6a9cff7662b4fccb7e097797cc025174"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a6a9cff7662b4fccb7e097797cc025174">lumex::core::smart_ptr::operator&gt;=</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, <a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:a6a9cff7662b4fccb7e097797cc025174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b90e5c077afb9d956725e63599862fa" id="r_a2b90e5c077afb9d956725e63599862fa"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a2b90e5c077afb9d956725e63599862fa"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a2b90e5c077afb9d956725e63599862fa">lumex::core::smart_ptr::operator&lt;</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, std::nullptr_t) noexcept</td></tr>
+<tr class="separator:a2b90e5c077afb9d956725e63599862fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad702bb5f3e8513939fee4e9921a9d379" id="r_ad702bb5f3e8513939fee4e9921a9d379"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:ad702bb5f3e8513939fee4e9921a9d379"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#ad702bb5f3e8513939fee4e9921a9d379">lumex::core::smart_ptr::operator&lt;</a> (std::nullptr_t, <a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:ad702bb5f3e8513939fee4e9921a9d379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48a5708afce0ba181aa0b08e643896dc" id="r_a48a5708afce0ba181aa0b08e643896dc"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a48a5708afce0ba181aa0b08e643896dc"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a48a5708afce0ba181aa0b08e643896dc">lumex::core::smart_ptr::operator&gt;</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, std::nullptr_t) noexcept</td></tr>
+<tr class="separator:a48a5708afce0ba181aa0b08e643896dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53311c661c7532cd3341c260f6dee979" id="r_a53311c661c7532cd3341c260f6dee979"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a53311c661c7532cd3341c260f6dee979"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a53311c661c7532cd3341c260f6dee979">lumex::core::smart_ptr::operator&gt;</a> (std::nullptr_t, <a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:a53311c661c7532cd3341c260f6dee979"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6271737450c0cd2998e96179506e8802" id="r_a6271737450c0cd2998e96179506e8802"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a6271737450c0cd2998e96179506e8802"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a6271737450c0cd2998e96179506e8802">lumex::core::smart_ptr::operator&lt;=</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, std::nullptr_t) noexcept</td></tr>
+<tr class="separator:a6271737450c0cd2998e96179506e8802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29a976a93d5ab6abad4219fc7c211147" id="r_a29a976a93d5ab6abad4219fc7c211147"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a29a976a93d5ab6abad4219fc7c211147"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a29a976a93d5ab6abad4219fc7c211147">lumex::core::smart_ptr::operator&lt;=</a> (std::nullptr_t, <a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:a29a976a93d5ab6abad4219fc7c211147"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb58d5d4781363b1f7a8073acdc3737f" id="r_abb58d5d4781363b1f7a8073acdc3737f"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:abb58d5d4781363b1f7a8073acdc3737f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#abb58d5d4781363b1f7a8073acdc3737f">lumex::core::smart_ptr::operator&gt;=</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;a, std::nullptr_t) noexcept</td></tr>
+<tr class="separator:abb58d5d4781363b1f7a8073acdc3737f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6e8c45af6cc0ad09eb8e21c5cabdc36" id="r_ac6e8c45af6cc0ad09eb8e21c5cabdc36"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:ac6e8c45af6cc0ad09eb8e21c5cabdc36"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#ac6e8c45af6cc0ad09eb8e21c5cabdc36">lumex::core::smart_ptr::operator&gt;=</a> (std::nullptr_t, <a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;b) noexcept</td></tr>
+<tr class="separator:ac6e8c45af6cc0ad09eb8e21c5cabdc36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8455ef02644d1f5fd6ffd614b9fbe9f2" id="r_a8455ef02644d1f5fd6ffd614b9fbe9f2"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a8455ef02644d1f5fd6ffd614b9fbe9f2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a8455ef02644d1f5fd6ffd614b9fbe9f2">lumex::core::smart_ptr::swap</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; &amp;a, <a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; &amp;b) noexcept</td></tr>
+<tr class="memdesc:a8455ef02644d1f5fd6ffd614b9fbe9f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges two pointers ([util.smartptr.shared.spec]).  <br /></td></tr>
+<tr class="separator:a8455ef02644d1f5fd6ffd614b9fbe9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0cfa25270119fcd95332fa349817aca" id="r_ad0cfa25270119fcd95332fa349817aca"><td class="memTemplParams" colspan="2">template&lt;class E, class Tr, class T&gt; </td></tr>
+<tr class="memitem:ad0cfa25270119fcd95332fa349817aca"><td class="memTemplItemLeft" align="right" valign="top">std::basic_ostream&lt; E, Tr &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#ad0cfa25270119fcd95332fa349817aca">lumex::core::smart_ptr::operator&lt;&lt;</a> (std::basic_ostream&lt; E, Tr &gt; &amp;os, <a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;p)</td></tr>
+<tr class="memdesc:ad0cfa25270119fcd95332fa349817aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the stored pointer to <code class="param">os</code>.  <br /></td></tr>
+<tr class="separator:ad0cfa25270119fcd95332fa349817aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e3d9dcac0bec89fe26be2e26f03f67d" id="r_a6e3d9dcac0bec89fe26be2e26f03f67d"><td class="memTemplParams" colspan="2">template&lt;class D, class T&gt; </td></tr>
+<tr class="memitem:a6e3d9dcac0bec89fe26be2e26f03f67d"><td class="memTemplItemLeft" align="right" valign="top">D *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a6e3d9dcac0bec89fe26be2e26f03f67d">lumex::core::smart_ptr::get_deleter</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt; const &amp;p) noexcept</td></tr>
+<tr class="memdesc:a6e3d9dcac0bec89fe26be2e26f03f67d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the deleter of type <code>D</code> that <code class="param">p</code> owns, or null.  <br /></td></tr>
+<tr class="separator:a6e3d9dcac0bec89fe26be2e26f03f67d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a618474632af563f5c850161604e5c5d5" id="r_a618474632af563f5c850161604e5c5d5"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a618474632af563f5c850161604e5c5d5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a618474632af563f5c850161604e5c5d5">lumex::core::smart_ptr::static_pointer_cast</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;r) noexcept</td></tr>
+<tr class="memdesc:a618474632af563f5c850161604e5c5d5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast</code> of the stored pointer; shares ownership with <code class="param">r</code>.  <br /></td></tr>
+<tr class="separator:a618474632af563f5c850161604e5c5d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ffad3a4e6e1e336e79fcf121b606d46" id="r_a1ffad3a4e6e1e336e79fcf121b606d46"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a1ffad3a4e6e1e336e79fcf121b606d46"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a1ffad3a4e6e1e336e79fcf121b606d46">lumex::core::smart_ptr::static_pointer_cast</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; &amp;&amp;r) noexcept</td></tr>
+<tr class="memdesc:a1ffad3a4e6e1e336e79fcf121b606d46"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static_cast</code> of the stored pointer; takes the ownership of <code class="param">r</code>.  <br /></td></tr>
+<tr class="separator:a1ffad3a4e6e1e336e79fcf121b606d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec68624b44b0af5f293afeff61878d78" id="r_aec68624b44b0af5f293afeff61878d78"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:aec68624b44b0af5f293afeff61878d78"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#aec68624b44b0af5f293afeff61878d78">lumex::core::smart_ptr::dynamic_pointer_cast</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;r) noexcept</td></tr>
+<tr class="memdesc:aec68624b44b0af5f293afeff61878d78"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>dynamic_cast</code> of the stored pointer: empty when the cast fails.  <br /></td></tr>
+<tr class="separator:aec68624b44b0af5f293afeff61878d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e52b45ee0dd86c37d9f4fbe465811a" id="r_ab5e52b45ee0dd86c37d9f4fbe465811a"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:ab5e52b45ee0dd86c37d9f4fbe465811a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#ab5e52b45ee0dd86c37d9f4fbe465811a">lumex::core::smart_ptr::dynamic_pointer_cast</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; &amp;&amp;r) noexcept</td></tr>
+<tr class="separator:ab5e52b45ee0dd86c37d9f4fbe465811a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4f918efe1893301a418b6d39276183e" id="r_ae4f918efe1893301a418b6d39276183e"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:ae4f918efe1893301a418b6d39276183e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#ae4f918efe1893301a418b6d39276183e">lumex::core::smart_ptr::const_pointer_cast</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;r) noexcept</td></tr>
+<tr class="memdesc:ae4f918efe1893301a418b6d39276183e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>const_cast</code> of the stored pointer; shares ownership with <code class="param">r</code>.  <br /></td></tr>
+<tr class="separator:ae4f918efe1893301a418b6d39276183e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0203ada693414b176bf705a4929ede2" id="r_ae0203ada693414b176bf705a4929ede2"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:ae0203ada693414b176bf705a4929ede2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#ae0203ada693414b176bf705a4929ede2">lumex::core::smart_ptr::const_pointer_cast</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; &amp;&amp;r) noexcept</td></tr>
+<tr class="memdesc:ae0203ada693414b176bf705a4929ede2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>const_cast</code> of the stored pointer; takes the ownership of <code class="param">r</code>.  <br /></td></tr>
+<tr class="separator:ae0203ada693414b176bf705a4929ede2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e9816498106b5f067aeadf965340f98" id="r_a3e9816498106b5f067aeadf965340f98"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a3e9816498106b5f067aeadf965340f98"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a3e9816498106b5f067aeadf965340f98">lumex::core::smart_ptr::reinterpret_pointer_cast</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; const &amp;r) noexcept</td></tr>
+<tr class="memdesc:a3e9816498106b5f067aeadf965340f98"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinterpret_cast</code> of the stored pointer; shares ownership with <code class="param">r</code>.  <br /></td></tr>
+<tr class="separator:a3e9816498106b5f067aeadf965340f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d75cf6edae7783507b9e93fcd95711a" id="r_a6d75cf6edae7783507b9e93fcd95711a"><td class="memTemplParams" colspan="2">template&lt;class T, class U&gt; </td></tr>
+<tr class="memitem:a6d75cf6edae7783507b9e93fcd95711a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03863.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01562.html#a6d75cf6edae7783507b9e93fcd95711a">lumex::core::smart_ptr::reinterpret_pointer_cast</a> (<a class="el" href="a03863.html">shared_ptr</a>&lt; U &gt; &amp;&amp;r) noexcept</td></tr>
+<tr class="memdesc:a6d75cf6edae7783507b9e93fcd95711a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>reinterpret_cast</code> of the stored pointer; takes the ownership of <code class="param">r</code>.  <br /></td></tr>
+<tr class="separator:a6d75cf6edae7783507b9e93fcd95711a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a210b248fe3338b4d5161ae03caad7942" name="a210b248fe3338b4d5161ae03caad7942"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a210b248fe3338b4d5161ae03caad7942">&#9670;&#160;</a></span>lumex_string_view</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef lumex_basic_string_view&lt;char&gt; <a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The view of <code>char</code>: the <code>std::string_view</code> of the library. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="acf6c250fe30b33bf20e97c6bc52ad446" name="acf6c250fe30b33bf20e97c6bc52ad446"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf6c250fe30b33bf20e97c6bc52ad446">&#9670;&#160;</a></span>LumexJsonDiagnosticLevel</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="a01264.html#acf6c250fe30b33bf20e97c6bc52ad446">lumex::applied::json::diagnostics::LumexJsonDiagnosticLevel</a> : std::uint8_t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Severity of a diagnostic message. </p>
-<p><code><a class="el" href="a00743.html#a75839935a8fd0da03fd56602968144fb">to_string()</a></code> returns the enumerator name (<code>"warning"</code>). </p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00773_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00773_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a7c1c9ae8fd4d21054801c40a3c89dbb5" name="a7c1c9ae8fd4d21054801c40a3c89dbb5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c1c9ae8fd4d21054801c40a3c89dbb5">&#9670;&#160;</a></span>set_diagnostic_reporter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lumex::applied::json::diagnostics::set_diagnostic_reporter </td>
-          <td>(</td>
-          <td class="paramtype">json_diagnostic_fn</td>          <td class="paramname"><span class="paramname"><em>reporter</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Installs the report sink. <code>nullptr</code> restores the default (<code>warning</code> and <code>error</code> to <code>std::cerr</code>, the rest dropped). </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00773_a7c1c9ae8fd4d21054801c40a3c89dbb5_icgraph.png" border="0" usemap="#aa00773_a7c1c9ae8fd4d21054801c40a3c89dbb5_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><code>shared_ptr&lt;T&gt;</code>: shared ownership with the module's own control block, at the level of the C++17 <code>std::shared_ptr</code>. </p>
+<p>The class has the interface of [util.smartptr.shared] of C++17 on every standard from C++11: all constructors (default, <code>nullptr</code>, <code>Y *</code>, <code>Y *</code> with a deleter and an allocator, <code>nullptr</code> with a deleter, the aliasing constructors with an lvalue and with an rvalue, copy and move, converting, from <code>weak_ptr</code>, from <code>unique_ptr</code>), the assignments, <code>swap</code>, the four <code>reset</code> forms, <code>get</code>, <code>*</code>, <code>-&gt;</code>, <code>[]</code> for arrays, <code>use_count</code>, <code>operator bool</code>, <code>owner_before</code>, the comparison operators (with <code>&lt;=&gt;</code> from C++20), <code>swap</code>, <code>get_deleter</code>, <code>operator&lt;&lt;</code>, <code>std::hash</code>, and the deduction guides of C++17. <code>T[]</code> and <code>T[N]</code> follow the C++17 text; <code>make_shared</code> for arrays (C++20) is not provided. <code>unique ()</code> is not provided (removed in C++20).</p>
+<p>Differences from <code>std::shared_ptr</code> that are on purpose:</p><ul>
+<li>The control block is the module's own <code>detail::ctl_base</code> (32 bytes, a packed strong counter and a weak ledger), designed for the split-count engine of <code>core/atomic</code>. The class is two pointers in size, as the standard one is.</li>
+<li>No implicit conversion to or from <code>std::shared_ptr</code>; <code>from_std</code> and <code>to_std</code> (<code><a class="el" href="a00755.html" title="Explicit conversions between the module&#39;s shared_ptr and std::shared_ptr: from_std and to_std.">interop/LumexSmartPtrStd.hpp</a></code>) wrap explicitly.</li>
+<li><code>shared_ptr&lt;T&gt; (Y *)</code> rejects, with a <code>static_assert</code>, a class that derives from <code>std::enable_shared_from_this</code> and not from the module's <code>enable_shared_from_this</code> (the standard base would stay unset); see <code>LUMEX_SMART_PTR_ALLOW_STD_ENABLE_SHARED_FROM_THIS</code>.</li>
+<li>The deleter and the pointer type of an allocator must not be fancy pointers.</li>
+<li><code>get_deleter</code> finds the deleters of the module's own blocks only.</li>
+</ul>
+<p>Thread safety is that of [util.smartptr.shared.general]: the counters are atomic, so distinct <code>shared_ptr</code> objects that share ownership may be copied, assigned and destroyed concurrently; one object needs external synchronization (or the atomic smart pointers of <code>core/atomic</code>). <code>use_count ()</code> is exact when no other thread changes the owners of the block at that moment. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_4071ad1724fa0e77f3bdca2354e6ad35.html">json</a></li><li class="navelem"><a class="el" href="a00773.html">example_json.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_f49348c03cbbd10cc8855c06335ffde3.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_f68d338aa642dfc48956382e16ce2706.html">shared</a></li><li class="navelem"><a class="el" href="a00773.html">LumexSharedPtr.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

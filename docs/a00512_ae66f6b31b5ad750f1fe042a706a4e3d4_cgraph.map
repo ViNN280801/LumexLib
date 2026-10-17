@@ -1,0 +1,9 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,99,60,124"/>
+<area shape="rect" id="Node000002" href="$a04251.html#a32efb9c5bcc248c83b37abd86a5dd24d" title="Retrieves the current date and time formatted as a string." alt="" coords="138,5,309,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="53,96,107,69,124,62,126,67,109,74,56,101"/>
+<area shape="rect" id="Node000003" href="$a04251.html#adbf4558e73e47c43171464e02e5182a1" title="Gets the current timestamp in milliseconds since epoch." alt="" coords="138,84,309,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,109,124,109,124,114,60,114"/>
+<area shape="rect" id="Node000004" href="$a01582.html#a2cc90c92f6a2261ecfb8bc76e3943ed1" title="Invokes callable with args and returns elapsed wall&#45;clock time in milliseconds." alt="" coords="108,163,339,203"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="56,122,109,148,134,157,133,162,107,152,54,127"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::init_value" name="lumex::core::expected::result::detail::storage::expected_storage::init_value">
+<area shape="rect" id="Node000001" title="The conversion of a value from a source (the class val_type is built from *rhs)." alt="" coords="272,57,491,111"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="426,46,410,38,381,35,357,37,342,42,335,49,335,57,330,57,330,46,339,38,356,32,381,30,411,33,428,41"/>
+<area shape="rect" id="Node000002" href="$a02847.html#a248267f736f364dadd6dc926bd0f08bd" title="Converts the alternative of an expected&lt;U, G&gt;: the converting constructors of [expected...." alt="" coords="7,5,222,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,66,222,60,223,55,259,61"/>
+<area shape="rect" id="Node000003" href="$a02847.html#a8bd7a33ae63eb902c288cfb3e1bb8576" title="Unit stands for void: there is no value to read." alt="" coords="5,99,224,154"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="259,106,225,112,224,106,258,101"/>
+</map>

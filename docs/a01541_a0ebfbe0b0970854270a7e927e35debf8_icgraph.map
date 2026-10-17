@@ -1,0 +1,9 @@
+<map id="lumex::core::fmt::Detail::is_float_presentation" name="lumex::core::fmt::Detail::is_float_presentation">
+<area shape="rect" id="Node000001" title=" " alt="" coords="688,5,865,45"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a139ccf757ca65d8e8ac71e3ed3407e5f" title="Checks the parsed specification against what kind accepts." alt="" coords="463,5,640,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="674,28,640,28,640,23,674,23"/>
+<area shape="rect" id="Node000003" href="$a01541.html#acd49f7dcde40ad4568f6d1ff160ec51f" title="Parses [[fill]align][sign][#][0][width][.precision][L][type] starting at ctx.begin(); returns the pos..." alt="" coords="237,5,415,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="449,28,415,28,415,23,449,23"/>
+<area shape="rect" id="Node000004" href="$a03099.html#a5bd9434b7065ca09ea27fa6aafca3d27" title=" " alt="" coords="5,5,189,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="223,28,190,28,190,23,223,23"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="lumex::applied::resource_monitor::monitor::detail::process_member_t" name="lumex::applied::resource_monitor::monitor::detail::process_member_t">
+<area shape="rect" id="Node000001" title="One process inside a sum: what process_usage_t::members lists." alt="" coords="333,34,517,89"/>
+<area shape="rect" id="Node000002" href="$a03407.html" title=" " alt="" coords="5,5,192,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,35,333,48,333,54,206,40"/>
+<area shape="rect" id="Node000003" href="$a03407.html" title=" " alt="" coords="19,70,179,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,84,333,69,333,74,193,90"/>
+</map>

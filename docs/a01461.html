@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc16_ibm3740_spec_t Struct Reference</title>
+<title>LumexLib: lumex::applied::resource_monitor::process::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,61 +104,439 @@ $(function(){initNavTree('a01461.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01458.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc16_ibm3740_spec_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::resource_monitor::process::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CRC-16/IBM-3740: width=16 poly=0x1021 init=0xffff refin=false refout=false xorout=0.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
+<p>Implementation details of <code><a class="el" href="a01823.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code>, public only for its tests.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a86c805f70162d367f8771aa54a43c02f" id="r_a86c805f70162d367f8771aa54a43c02f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86c805f70162d367f8771aa54a43c02f">ValueType</a> = std::uint16_t</td></tr>
-<tr class="separator:a86c805f70162d367f8771aa54a43c02f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01779.html">proc_pid_stat_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The fields of <code>/proc/&lt;pid&gt;/stat</code> the monitor needs.  <a href="a01779.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01783.html">proc_pid_status_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The memory fields of <code>/proc/&lt;pid&gt;/status</code> the monitor needs.  <a href="a01783.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01787.html">process_link_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One process and its parent, as the process tree rules need them.  <a href="a01787.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01791.html">process_tree_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A process and every process below it.  <a href="a01791.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a10551b3a47d1efec76c4af7c3e5a8fdf" id="r_a10551b3a47d1efec76c4af7c3e5a8fdf"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10551b3a47d1efec76c4af7c3e5a8fdf">kWidth</a> = 16</td></tr>
-<tr class="separator:a10551b3a47d1efec76c4af7c3e5a8fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6cedc398229f1d299edbf8885c86e72" id="r_ae6cedc398229f1d299edbf8885c86e72"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6cedc398229f1d299edbf8885c86e72">kPoly</a> = 0x1021U</td></tr>
-<tr class="separator:ae6cedc398229f1d299edbf8885c86e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfe8aa969c04263cd29dd858820f14a5" id="r_abfe8aa969c04263cd29dd858820f14a5"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfe8aa969c04263cd29dd858820f14a5">kInit</a> = 0xFFFFU</td></tr>
-<tr class="separator:abfe8aa969c04263cd29dd858820f14a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85fa05601c36d0e2e9887326ec3c4ad6" id="r_a85fa05601c36d0e2e9887326ec3c4ad6"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85fa05601c36d0e2e9887326ec3c4ad6">kRefIn</a> = false</td></tr>
-<tr class="separator:a85fa05601c36d0e2e9887326ec3c4ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2c2d3d53671b0a8d28a2c5b5f82f665" id="r_ad2c2d3d53671b0a8d28a2c5b5f82f665"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2c2d3d53671b0a8d28a2c5b5f82f665">kRefOut</a> = false</td></tr>
-<tr class="separator:ad2c2d3d53671b0a8d28a2c5b5f82f665"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae32dc9c67bd6a4da885e85c214079f8c" id="r_ae32dc9c67bd6a4da885e85c214079f8c"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae32dc9c67bd6a4da885e85c214079f8c">kXorOut</a> = 0x0000U</td></tr>
-<tr class="separator:ae32dc9c67bd6a4da885e85c214079f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a746d5d3317e96627c5bc7f632478d14c" id="r_a746d5d3317e96627c5bc7f632478d14c"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a746d5d3317e96627c5bc7f632478d14c">kCatalogCheck</a> = 0x29B1U</td></tr>
-<tr class="separator:a746d5d3317e96627c5bc7f632478d14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a4732c0dcb60b25cb92c642d4545ea018" id="r_a4732c0dcb60b25cb92c642d4545ea018"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> = std::uint32_t</td></tr>
+<tr class="memdesc:a4732c0dcb60b25cb92c642d4545ea018"><td class="mdescLeft">&#160;</td><td class="mdescRight">A process ID (<code>DWORD</code> on Windows, <code>pid_t</code> on POSIX).  <br /></td></tr>
+<tr class="separator:a4732c0dcb60b25cb92c642d4545ea018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab97f8f8bddf5fcda9df7dd830459706d" id="r_ab97f8f8bddf5fcda9df7dd830459706d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00986.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; <a class="el" href="a01779.html">proc_pid_stat_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab97f8f8bddf5fcda9df7dd830459706d">parse_proc_pid_stat</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> text)</td></tr>
+<tr class="memdesc:ab97f8f8bddf5fcda9df7dd830459706d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the text of <code>/proc/&lt;pid&gt;/stat</code>.  <br /></td></tr>
+<tr class="separator:ab97f8f8bddf5fcda9df7dd830459706d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfd03a410a583bd4d98d8452b164f802" id="r_abfd03a410a583bd4d98d8452b164f802"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01783.html">proc_pid_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfd03a410a583bd4d98d8452b164f802">parse_proc_pid_status</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> text)</td></tr>
+<tr class="memdesc:abfd03a410a583bd4d98d8452b164f802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the text of <code>/proc/&lt;pid&gt;/status</code>.  <br /></td></tr>
+<tr class="separator:abfd03a410a583bd4d98d8452b164f802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a338216e93dcc183c0b94bcc5f00f0579" id="r_a338216e93dcc183c0b94bcc5f00f0579"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a338216e93dcc183c0b94bcc5f00f0579">executable_name</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> link_target)</td></tr>
+<tr class="memdesc:a338216e93dcc183c0b94bcc5f00f0579"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file name of a <code>/proc/&lt;pid&gt;/exe</code> link target.  <br /></td></tr>
+<tr class="separator:a338216e93dcc183c0b94bcc5f00f0579"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fdc61ad2fd0b3708f639104d5888ca3" id="r_a1fdc61ad2fd0b3708f639104d5888ca3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00986.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fdc61ad2fd0b3708f639104d5888ca3">first_argument_name</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> cmdline)</td></tr>
+<tr class="memdesc:a1fdc61ad2fd0b3708f639104d5888ca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file name of the first argument in a <code>/proc/&lt;pid&gt;/cmdline</code> text.  <br /></td></tr>
+<tr class="separator:a1fdc61ad2fd0b3708f639104d5888ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab85d8b416a2ab829a4f6ab529a0fb87c" id="r_ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab85d8b416a2ab829a4f6ab529a0fb87c">linux_name_matches</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> requested, <a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> name, bool name_is_comm)</td></tr>
+<tr class="memdesc:ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Linux name rule: does a process named <code class="param">name</code> match the requested name?  <br /></td></tr>
+<tr class="separator:ab85d8b416a2ab829a4f6ab529a0fb87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa17a3f0aaa3c95a1ed09133d4d7e7a02" id="r_aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa17a3f0aaa3c95a1ed09133d4d7e7a02">descendants_of</a> (<a class="el" href="#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> root, std::vector&lt; <a class="el" href="a01787.html">process_link_t</a> &gt; const &amp;links)</td></tr>
+<tr class="memdesc:aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every process below one process: its children, their children, and so on.  <br /></td></tr>
+<tr class="separator:aa17a3f0aaa3c95a1ed09133d4d7e7a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab09c4e1b3214362a5927245f139cad05" id="r_ab09c4e1b3214362a5927245f139cad05"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a01791.html">process_tree_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab09c4e1b3214362a5927245f139cad05">process_trees</a> (std::vector&lt; <a class="el" href="#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt; const &amp;roots, std::vector&lt; <a class="el" href="a01787.html">process_link_t</a> &gt; const &amp;links)</td></tr>
+<tr class="memdesc:ab09c4e1b3214362a5927245f139cad05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Groups processes into trees, so that every process is counted once.  <br /></td></tr>
+<tr class="separator:ab09c4e1b3214362a5927245f139cad05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed847477a88ce98cee280fdd2732ab07" id="r_aed847477a88ce98cee280fdd2732ab07"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed847477a88ce98cee280fdd2732ab07">windows_name_matches</a> (<a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> requested, <a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a> name)</td></tr>
+<tr class="memdesc:aed847477a88ce98cee280fdd2732ab07"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Windows name rule: equal without regard to ASCII case, with or without <code>.exe</code> on either side.  <br /></td></tr>
+<tr class="separator:aed847477a88ce98cee280fdd2732ab07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad2529eaee467605722c3e72490f3ac7f" id="r_ad2529eaee467605722c3e72490f3ac7f"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2529eaee467605722c3e72490f3ac7f">KCOMM_LENGTH</a> = 15</td></tr>
+<tr class="memdesc:ad2529eaee467605722c3e72490f3ac7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The length the Linux kernel cuts a process's <code>comm</code> to.  <br /></td></tr>
+<tr class="separator:ad2529eaee467605722c3e72490f3ac7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-16/IBM-3740: width=16 poly=0x1021 init=0xffff refin=false refout=false xorout=0. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-16/IBM-3740 </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a86c805f70162d367f8771aa54a43c02f" name="a86c805f70162d367f8771aa54a43c02f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86c805f70162d367f8771aa54a43c02f">&#9670;&#160;</a></span>ValueType</h2>
+<div class="textblock"><p>Implementation details of <code><a class="el" href="a01823.html" title="Samples the CPU and RAM of processes on request.">LumexProcessMonitor</a></code>, public only for its tests. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a4732c0dcb60b25cb92c642d4545ea018" name="a4732c0dcb60b25cb92c642d4545ea018"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4732c0dcb60b25cb92c642d4545ea018">&#9670;&#160;</a></span>process_id_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#a86c805f70162d367f8771aa54a43c02f">lumex::core::crc::parametric::crc16_ibm3740_spec_t::ValueType</a> = std::uint16_t</td>
+          <td class="memname">using <a class="el" href="#a4732c0dcb60b25cb92c642d4545ea018">lumex::applied::resource_monitor::process::detail::process_id_t</a> = std::uint32_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>A process ID (<code>DWORD</code> on Windows, <code>pid_t</code> on POSIX). </p>
+
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a746d5d3317e96627c5bc7f632478d14c" name="a746d5d3317e96627c5bc7f632478d14c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a746d5d3317e96627c5bc7f632478d14c">&#9670;&#160;</a></span>kCatalogCheck</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="aa17a3f0aaa3c95a1ed09133d4d7e7a02" name="aa17a3f0aaa3c95a1ed09133d4d7e7a02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa17a3f0aaa3c95a1ed09133d4d7e7a02">&#9670;&#160;</a></span>descendants_of()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt; lumex::applied::resource_monitor::process::detail::descendants_of </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a></td>          <td class="paramname"><span class="paramname"><em>root</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="a01787.html">process_link_t</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>links</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Every process below one process: its children, their children, and so on. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">root</td><td>The process ID to start from. It does not have to be in <code class="param">links</code>. </td></tr>
+    <tr><td class="paramname">links</td><td>The processes that exist, with their parents. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The IDs below <code class="param">root</code>, nearest first, each once. A process is left out (with everything below it) when it started before its parent: the parent's ID was then reused by another process, and the link is stale. A process that is its own parent (Windows' idle process) has no children of its own. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01461_aa17a3f0aaa3c95a1ed09133d4d7e7a02_icgraph.png" border="0" usemap="#aa01461_aa17a3f0aaa3c95a1ed09133d4d7e7a02_icgraph" alt=""/></div>
+<map name="aa01461_aa17a3f0aaa3c95a1ed09133d4d7e7a02_icgraph" id="aa01461_aa17a3f0aaa3c95a1ed09133d4d7e7a02_icgraph">
+<area shape="rect" title="Every process below one process: its children, their children, and so on." alt="" coords="869,67,1052,122"/>
+<area shape="rect" href="a01823.html#a536e5b8a5303fd999c96f3d257046351" title="Finds every process below one process: its children, their children, and so on." alt="" coords="581,27,821,82"/>
+<area shape="poly" title=" " alt="" coords="856,81,821,76,822,71,856,76"/>
+<area shape="rect" href="a01461.html#ab09c4e1b3214362a5927245f139cad05" title="Groups processes into trees, so that every process is counted once." alt="" coords="610,106,793,161"/>
+<area shape="poly" title=" " alt="" coords="856,113,793,122,792,117,855,108"/>
+<area shape="rect" href="a01823.html#a6dab1e927389c40d7ef02763946f8643" title=" " alt="" coords="5,27,245,82"/>
+<area shape="poly" title=" " alt="" coords="589,27,533,17,413,8,294,17,224,30,223,25,293,12,413,3,534,12,590,22"/>
+<area shape="rect" href="a01823.html#af7f3caf609e5155aa7f5245fc231101f" title="Samples one process, with the processes below it." alt="" coords="293,27,533,82"/>
+<area shape="poly" title=" " alt="" coords="568,57,534,57,534,52,568,52"/>
+<area shape="poly" title=" " alt="" coords="280,57,246,57,246,52,280,52"/>
+<area shape="rect" href="a00449.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="98,113,153,138"/>
+<area shape="poly" title=" " alt="" coords="289,88,153,121,152,116,288,83"/>
+<area shape="rect" href="a01823.html#a223f546f37ce831bc11c81cdfb10e29f" title="Samples the processes with this executable name, with the processes below them." alt="" coords="293,106,533,161"/>
+<area shape="poly" title=" " alt="" coords="596,136,534,136,534,131,596,131"/>
+<area shape="poly" title=" " alt="" coords="299,105,225,85,226,80,301,100"/>
+<area shape="poly" title=" " alt="" coords="280,132,153,129,153,123,280,127"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a338216e93dcc183c0b94bcc5f00f0579" name="a338216e93dcc183c0b94bcc5f00f0579"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a338216e93dcc183c0b94bcc5f00f0579">&#9670;&#160;</a></span>executable_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::resource_monitor::process::detail::executable_name </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>link_target</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The file name of a <code>/proc/&lt;pid&gt;/exe</code> link target. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">link_target</td><td>The target; <code>(deleted)</code> at its end (the executable was replaced or removed after the start) is dropped. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The part after the last <code>/</code>; empty for an empty target. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01461_a338216e93dcc183c0b94bcc5f00f0579_cgraph.png" border="0" usemap="#aa01461_a338216e93dcc183c0b94bcc5f00f0579_cgraph" alt=""/></div>
+<map name="aa01461_a338216e93dcc183c0b94bcc5f00f0579_cgraph" id="aa01461_a338216e93dcc183c0b94bcc5f00f0579_cgraph">
+<area shape="rect" title="The file name of a /proc/&lt;pid&gt;/exe link target." alt="" coords="5,84,188,139"/>
+<area shape="rect" href="a04167.html#af4f4f902216e25b31d01b19e904e7118" title="The view ends with suffix." alt="" coords="245,5,431,60"/>
+<area shape="poly" title=" " alt="" coords="180,81,240,62,242,67,182,86"/>
+<area shape="rect" href="a04167.html#a9f1e8d50a3b9e51a05fd9d0c0fdd0332" title="Drops the last n characters (all of them when n &gt; size())." alt="" coords="236,84,440,139"/>
+<area shape="poly" title=" " alt="" coords="188,109,223,109,223,114,188,114"/>
+<area shape="rect" href="a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="245,163,431,217"/>
+<area shape="poly" title=" " alt="" coords="182,136,242,156,240,161,180,141"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1fdc61ad2fd0b3708f639104d5888ca3" name="a1fdc61ad2fd0b3708f639104d5888ca3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fdc61ad2fd0b3708f639104d5888ca3">&#9670;&#160;</a></span>first_argument_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00986.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; std::string &gt; lumex::applied::resource_monitor::process::detail::first_argument_name </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>cmdline</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The file name of the first argument in a <code>/proc/&lt;pid&gt;/cmdline</code> text. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmdline</td><td>The file text: arguments separated by <code>\0</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The part of the first argument after its last <code>/</code>, or nothing when the first argument is empty (kernel threads, zombies). </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01461_a1fdc61ad2fd0b3708f639104d5888ca3_cgraph.png" border="0" usemap="#aa01461_a1fdc61ad2fd0b3708f639104d5888ca3_cgraph" alt=""/></div>
+<map name="aa01461_a1fdc61ad2fd0b3708f639104d5888ca3_cgraph" id="aa01461_a1fdc61ad2fd0b3708f639104d5888ca3_cgraph">
+<area shape="rect" title="The file name of the first argument in a /proc/&lt;pid&gt;/cmdline text." alt="" coords="5,45,188,100"/>
+<area shape="rect" href="a04167.html#add66982ae60be5e4553a6d7b349ad6b0" title="The first occurrence of needle at an index &gt;= pos." alt="" coords="236,5,423,60"/>
+<area shape="poly" title=" " alt="" coords="188,54,222,48,223,54,189,60"/>
+<area shape="rect" href="a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title="The view of min(n, size() &#45; pos) characters from pos." alt="" coords="236,84,423,139"/>
+<area shape="poly" title=" " alt="" coords="189,85,223,91,222,96,188,91"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab85d8b416a2ab829a4f6ab529a0fb87c" name="ab85d8b416a2ab829a4f6ab529a0fb87c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab85d8b416a2ab829a4f6ab529a0fb87c">&#9670;&#160;</a></span>linux_name_matches()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::resource_monitor::process::detail::linux_name_matches </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>requested</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>name_is_comm</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The Linux name rule: does a process named <code class="param">name</code> match the requested name? </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">requested</td><td>The requested executable name. </td></tr>
+    <tr><td class="paramname">name</td><td>The process's name. </td></tr>
+    <tr><td class="paramname">name_is_comm</td><td>Whether <code class="param">name</code> is the kernel's <code>comm</code> (the executable and the command line could not be read). A <code>comm</code> of exactly <a class="el" href="#ad2529eaee467605722c3e72490f3ac7f">KCOMM_LENGTH</a> characters then also matches a longer requested name that starts with it. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01461_ab85d8b416a2ab829a4f6ab529a0fb87c_cgraph.png" border="0" usemap="#aa01461_ab85d8b416a2ab829a4f6ab529a0fb87c_cgraph" alt=""/></div>
+<map name="aa01461_ab85d8b416a2ab829a4f6ab529a0fb87c_cgraph" id="aa01461_ab85d8b416a2ab829a4f6ab529a0fb87c_cgraph">
+<area shape="rect" title="The Linux name rule: does a process named name match the requested name?" alt="" coords="5,84,188,139"/>
+<area shape="rect" href="a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="236,5,423,60"/>
+<area shape="poly" title=" " alt="" coords="177,81,235,62,236,67,179,86"/>
+<area shape="rect" href="a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="236,84,423,139"/>
+<area shape="poly" title=" " alt="" coords="188,109,223,109,223,114,188,114"/>
+<area shape="rect" href="a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title="The view of min(n, size() &#45; pos) characters from pos." alt="" coords="236,163,423,217"/>
+<area shape="poly" title=" " alt="" coords="179,136,236,156,235,161,177,141"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab97f8f8bddf5fcda9df7dd830459706d" name="ab97f8f8bddf5fcda9df7dd830459706d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab97f8f8bddf5fcda9df7dd830459706d">&#9670;&#160;</a></span>parse_proc_pid_stat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00986.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; <a class="el" href="a01779.html">proc_pid_stat_t</a> &gt; lumex::applied::resource_monitor::process::detail::parse_proc_pid_stat </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>text</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Parses the text of <code>/proc/&lt;pid&gt;/stat</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The file text. <code>comm</code> may contain spaces and parentheses: it runs from the first <code>(</code> to the last <code>)</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The fields, or nothing when the text is not a stat line with at least 22 fields. </dd></dl>
+
+</div>
+</div>
+<a id="abfd03a410a583bd4d98d8452b164f802" name="abfd03a410a583bd4d98d8452b164f802"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfd03a410a583bd4d98d8452b164f802">&#9670;&#160;</a></span>parse_proc_pid_status()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01783.html">proc_pid_status_t</a> lumex::applied::resource_monitor::process::detail::parse_proc_pid_status </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>text</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Parses the text of <code>/proc/&lt;pid&gt;/status</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The file text. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The fields that are present. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01461_abfd03a410a583bd4d98d8452b164f802_cgraph.png" border="0" usemap="#aa01461_abfd03a410a583bd4d98d8452b164f802_cgraph" alt=""/></div>
+<map name="aa01461_abfd03a410a583bd4d98d8452b164f802_cgraph" id="aa01461_abfd03a410a583bd4d98d8452b164f802_cgraph">
+<area shape="rect" title="Parses the text of /proc/&lt;pid&gt;/status." alt="" coords="5,84,188,139"/>
+<area shape="rect" href="a01456.html#a6717a3ed5cd72967d51be31b9a06e15b" title="The value of a Key: &lt;number&gt; kB line, as /proc/meminfo and /proc/&lt;pid&gt;/status write them." alt="" coords="236,84,420,139"/>
+<area shape="poly" title=" " alt="" coords="188,109,222,109,222,114,188,114"/>
+<area shape="rect" href="a04167.html#aed3dc0a97328de954474f41db2f02a3c" title="Lexicographic comparison: negative, zero or positive." alt="" coords="468,5,655,60"/>
+<area shape="poly" title=" " alt="" coords="409,81,466,62,468,67,410,86"/>
+<area shape="rect" href="a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="468,84,655,139"/>
+<area shape="poly" title=" " alt="" coords="420,109,455,109,455,114,420,114"/>
+<area shape="rect" href="a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title="The view of min(n, size() &#45; pos) characters from pos." alt="" coords="468,163,655,217"/>
+<area shape="poly" title=" " alt="" coords="410,136,468,156,466,161,409,141"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab09c4e1b3214362a5927245f139cad05" name="ab09c4e1b3214362a5927245f139cad05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab09c4e1b3214362a5927245f139cad05">&#9670;&#160;</a></span>process_trees()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="a01791.html">process_tree_t</a> &gt; lumex::applied::resource_monitor::process::detail::process_trees </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="#a4732c0dcb60b25cb92c642d4545ea018">process_id_t</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>roots</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="a01787.html">process_link_t</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>links</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Groups processes into trees, so that every process is counted once. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">roots</td><td>Processes, for example every process with one name. </td></tr>
+    <tr><td class="paramname">links</td><td>The processes that exist, with their parents. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A tree for every process of <code class="param">roots</code> that is not below another process of <code class="param">roots</code>, in ascending order of the root ID. A repeated ID gives one tree. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01461_ab09c4e1b3214362a5927245f139cad05_cgraph.png" border="0" usemap="#aa01461_ab09c4e1b3214362a5927245f139cad05_cgraph" alt=""/></div>
+<map name="aa01461_ab09c4e1b3214362a5927245f139cad05_cgraph" id="aa01461_ab09c4e1b3214362a5927245f139cad05_cgraph">
+<area shape="rect" title="Groups processes into trees, so that every process is counted once." alt="" coords="5,5,188,60"/>
+<area shape="rect" href="a01461.html#aa17a3f0aaa3c95a1ed09133d4d7e7a02" title="Every process below one process: its children, their children, and so on." alt="" coords="236,5,419,60"/>
+<area shape="poly" title=" " alt="" coords="188,30,222,30,222,35,188,35"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01461_ab09c4e1b3214362a5927245f139cad05_icgraph.png" border="0" usemap="#aa01461_ab09c4e1b3214362a5927245f139cad05_icgraph" alt=""/></div>
+<map name="aa01461_ab09c4e1b3214362a5927245f139cad05_icgraph" id="aa01461_ab09c4e1b3214362a5927245f139cad05_icgraph">
+<area shape="rect" title="Groups processes into trees, so that every process is counted once." alt="" coords="581,23,764,77"/>
+<area shape="rect" href="a01823.html#a223f546f37ce831bc11c81cdfb10e29f" title="Samples the processes with this executable name, with the processes below them." alt="" coords="293,23,533,77"/>
+<area shape="poly" title=" " alt="" coords="568,53,533,53,533,47,568,47"/>
+<area shape="rect" href="a00449.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="98,5,153,31"/>
+<area shape="poly" title=" " alt="" coords="280,38,153,24,153,18,280,33"/>
+<area shape="rect" href="a01823.html#a6dab1e927389c40d7ef02763946f8643" title=" " alt="" coords="5,55,245,109"/>
+<area shape="poly" title=" " alt="" coords="280,67,246,71,245,66,280,62"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aed847477a88ce98cee280fdd2732ab07" name="aed847477a88ce98cee280fdd2732ab07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed847477a88ce98cee280fdd2732ab07">&#9670;&#160;</a></span>windows_name_matches()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::resource_monitor::process::detail::windows_name_matches </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>requested</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726">lumex_string_view</a></td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The Windows name rule: equal without regard to ASCII case, with or without <code>.exe</code> on either side. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">requested</td><td>The requested executable name. </td></tr>
+    <tr><td class="paramname">name</td><td>The process's executable name (Toolhelp32 gives it with <code>.exe</code>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01461_aed847477a88ce98cee280fdd2732ab07_cgraph.png" border="0" usemap="#aa01461_aed847477a88ce98cee280fdd2732ab07_cgraph" alt=""/></div>
+<map name="aa01461_aed847477a88ce98cee280fdd2732ab07_cgraph" id="aa01461_aed847477a88ce98cee280fdd2732ab07_cgraph">
+<area shape="rect" title="The Windows name rule: equal without regard to ASCII case, with or without .exe on either side." alt="" coords="5,5,200,60"/>
+<area shape="rect" href="a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="248,5,435,60"/>
+<area shape="poly" title=" " alt="" coords="200,30,234,30,234,35,200,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ad2529eaee467605722c3e72490f3ac7f" name="ad2529eaee467605722c3e72490f3ac7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2529eaee467605722c3e72490f3ac7f">&#9670;&#160;</a></span>KCOMM_LENGTH</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +545,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint16_t lumex::core::crc::parametric::crc16_ibm3740_spec_t::kCatalogCheck = 0x29B1U</td>
+          <td class="memname">constLUMEX_CONSTINITstd::size_t lumex::applied::resource_monitor::process::detail::KCOMM_LENGTH = 15</td>
         </tr>
       </table>
   </td>
@@ -177,149 +555,16 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="abfe8aa969c04263cd29dd858820f14a5" name="abfe8aa969c04263cd29dd858820f14a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfe8aa969c04263cd29dd858820f14a5">&#9670;&#160;</a></span>kInit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_ibm3740_spec_t::kInit = 0xFFFFU</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>The length the Linux kernel cuts a process's <code>comm</code> to. </p>
 
 </div>
 </div>
-<a id="ae6cedc398229f1d299edbf8885c86e72" name="ae6cedc398229f1d299edbf8885c86e72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6cedc398229f1d299edbf8885c86e72">&#9670;&#160;</a></span>kPoly</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_ibm3740_spec_t::kPoly = 0x1021U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a85fa05601c36d0e2e9887326ec3c4ad6" name="a85fa05601c36d0e2e9887326ec3c4ad6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85fa05601c36d0e2e9887326ec3c4ad6">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc16_ibm3740_spec_t::kRefIn = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad2c2d3d53671b0a8d28a2c5b5f82f665" name="ad2c2d3d53671b0a8d28a2c5b5f82f665"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2c2d3d53671b0a8d28a2c5b5f82f665">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc16_ibm3740_spec_t::kRefOut = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a10551b3a47d1efec76c4af7c3e5a8fdf" name="a10551b3a47d1efec76c4af7c3e5a8fdf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10551b3a47d1efec76c4af7c3e5a8fdf">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc16_ibm3740_spec_t::kWidth = 16</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae32dc9c67bd6a4da885e85c214079f8c" name="ae32dc9c67bd6a4da885e85c214079f8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae32dc9c67bd6a4da885e85c214079f8c">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_ibm3740_spec_t::kXorOut = 0x0000U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01461.html">crc16_ibm3740_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01454.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a01460.html">process</a></li><li class="navelem"><a class="el" href="a01461.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

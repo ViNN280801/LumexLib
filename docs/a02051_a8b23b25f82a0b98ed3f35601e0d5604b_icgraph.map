@@ -1,0 +1,16 @@
+<map id="lumex::core::base64::validate::validator::is_valid_base64" name="lumex::core::base64::validate::validator::is_valid_base64">
+<area shape="rect" id="Node000001" title="Checks whether size characters starting at str are valid Base64." alt="" coords="485,183,640,238"/>
+<area shape="rect" id="Node000002" href="$a02039.html#ac8bf414de7a978ca3fd9ea7121916435" title="Decodes size Base64 characters starting at encoded into out." alt="" coords="245,133,437,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="471,190,418,176,419,171,473,185"/>
+<area shape="rect" id="Node000006" href="$a00404.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="74,198,129,223"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="471,213,129,213,129,208,471,208"/>
+<area shape="rect" id="Node000007" href="$a02051.html#a1d9c71796e7ea3011f64939ff07a92f6" title="Checks if a given string is a valid Base64 encoded string (see the pointer and size overload for the ..." alt="" coords="264,249,419,303"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="473,240,419,256,418,251,472,235"/>
+<area shape="rect" id="Node000003" href="$a02039.html#a74954c082460dfd907f881e4d021286c" title="Decodes size Base64 characters starting at encoded." alt="" coords="5,5,197,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="303,127,254,93,196,60,168,48,170,43,199,55,256,88,306,123"/>
+<area shape="rect" id="Node000004" href="$a02039.html#abf0c2c4214bf10c4e53c7f7a3b5f5d33" title="Decodes a Base64 string." alt="" coords="5,69,197,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="252,132,176,112,177,107,254,127"/>
+<area shape="rect" id="Node000005" href="$a02039.html#a360afd49df79519220388de49571f5a4" title="Decodes a Base64 string into out (see the pointer and size overload)." alt="" coords="5,133,197,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="231,156,198,156,198,151,231,151"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="245,179,130,207,128,201,243,174"/>
+</map>

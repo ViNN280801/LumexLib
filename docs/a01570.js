@@ -1,7 +1,9 @@
 var a01570 =
 [
-    [ "log_entry_t", "a01570.html#a388ec8405355a1c47d6ddbf65f3132d9", null ],
-    [ "level", "a01570.html#aedce3417fed0732d6a765c39dab2b4d7", null ],
-    [ "message", "a01570.html#a728f5d7b7d8997eb17a025a7279ed91a", null ],
-    [ "timestamp", "a01570.html#a060e999accc52a8ed7857ac703469085", null ]
+    [ "detail", "a01571.html", "a01571" ],
+    [ "operator<<", "a01570.html#aabd30bcdf02da92ec12422a30fd4c4f4", null ],
+    [ "operator<<", "a01570.html#a069a5bbde352f2d95ec427f786215113", null ],
+    [ "stringify", "a01570.html#a6edd6a773e25b016b0dab32f38d58ff9", null ],
+    [ "stringify", "a01570.html#a5c0b80a6f74a32424bed62d7597a6759", null ],
+    [ "stringify_v2", "a01570.html#affeacca04aee3e02bb2cbc36fac533db", null ]
 ];

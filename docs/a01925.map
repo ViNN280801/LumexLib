@@ -1,0 +1,5 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::atomic_shared_ptr_lock_based&lt; T &gt;" name="lumex::core::atomic::smart_ptr::table_wait::atomic_shared_ptr_lock_based&lt; T &gt;">
+<area shape="rect" id="Node000001" title="Atomic std::shared_ptr&lt;T&gt; over a lock (the lock&#45;based engine)." alt="" coords="265,20,451,89"/>
+<area shape="rect" id="Node000002" href="$a01923.html" title=" " alt="" coords="5,5,217,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,52,265,52,265,57,231,57"/>
+</map>

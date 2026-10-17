@@ -1,0 +1,5 @@
+<map id="lumex::core::optional::opt::detail::has_nonconst_copy_ctor&lt; T &gt;" name="lumex::core::optional::opt::detail::has_nonconst_copy_ctor&lt; T &gt;">
+<area shape="rect" id="Node000001" title="Whether T has a copy constructor that takes a non&#45;const reference and none that takes a const one." alt="" coords="295,57,488,111"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,247,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="260,81,294,81,294,87,260,87"/>
+</map>

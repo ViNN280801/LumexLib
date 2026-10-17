@@ -1,4 +1,5 @@
 var a01447 =
 [
-    [ "is_safe_comparable", "a04746.html", "a04746" ]
+    [ "ILumexJsonSchemaValidator", "a01735.html", "a01735" ],
+    [ "LumexJsonSchemaValidator", "a01739.html", "a01739" ]
 ];

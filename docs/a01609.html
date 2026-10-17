@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc10_gsm_spec_t Struct Reference</title>
+<title>LumexLib: lumex::core::utility::ranges::Algorithm Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,222 +104,189 @@ $(function(){initNavTree('a01609.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01606.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc10_gsm_spec_t Struct Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::ranges::Algorithm Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>CRC-10/GSM: width=10 poly=0x175 init=0x000 refin=false refout=false xorout=0x3ff.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a7564c30b5e7dd3ee68786a5b632f9d4c" id="r_a7564c30b5e7dd3ee68786a5b632f9d4c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7564c30b5e7dd3ee68786a5b632f9d4c">ValueType</a> = std::uint16_t</td></tr>
-<tr class="separator:a7564c30b5e7dd3ee68786a5b632f9d4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01610.html">Detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a74c0405f8300b1e26f53ab19de44b140" id="r_a74c0405f8300b1e26f53ab19de44b140"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74c0405f8300b1e26f53ab19de44b140">kWidth</a> = 10</td></tr>
-<tr class="separator:a74c0405f8300b1e26f53ab19de44b140"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa83b4b2f59b7f1eae259ce212b638a71" id="r_aa83b4b2f59b7f1eae259ce212b638a71"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa83b4b2f59b7f1eae259ce212b638a71">kPoly</a> = 0x175U</td></tr>
-<tr class="separator:aa83b4b2f59b7f1eae259ce212b638a71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8961c35d5e6e3ee0751916ac1c199a69" id="r_a8961c35d5e6e3ee0751916ac1c199a69"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8961c35d5e6e3ee0751916ac1c199a69">kInit</a> = 0x000U</td></tr>
-<tr class="separator:a8961c35d5e6e3ee0751916ac1c199a69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae38c14b0ba0097287d9b2fcb7b612ec5" id="r_ae38c14b0ba0097287d9b2fcb7b612ec5"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae38c14b0ba0097287d9b2fcb7b612ec5">kRefIn</a> = false</td></tr>
-<tr class="separator:ae38c14b0ba0097287d9b2fcb7b612ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a867decfed42305275970d795ea05a227" id="r_a867decfed42305275970d795ea05a227"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a867decfed42305275970d795ea05a227">kRefOut</a> = false</td></tr>
-<tr class="separator:a867decfed42305275970d795ea05a227"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e1bcfba7446583885f3eba5c84d26a2" id="r_a6e1bcfba7446583885f3eba5c84d26a2"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e1bcfba7446583885f3eba5c84d26a2">kXorOut</a> = 0x3FFU</td></tr>
-<tr class="separator:a6e1bcfba7446583885f3eba5c84d26a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39233fd018c1b472698f6d78bf708adf" id="r_a39233fd018c1b472698f6d78bf708adf"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39233fd018c1b472698f6d78bf708adf">kCatalogCheck</a> = 0x12AU</td></tr>
-<tr class="separator:a39233fd018c1b472698f6d78bf708adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aec0a81087adec6bd2d38380a680fb136" id="r_aec0a81087adec6bd2d38380a680fb136"><td class="memTemplParams" colspan="2">template&lt;typename IteratorType, typename Sentinel, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04563.html">Detail::is_nearest_call</a>&lt; IteratorType, Sentinel, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:aec0a81087adec6bd2d38380a680fb136"><td class="memTemplItemLeft" align="right" valign="top">constexpr IteratorType&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aec0a81087adec6bd2d38380a680fb136">get_nearest_to</a> (IteratorType first, Sentinel last, ValueType const &amp;value, Predicate pred=Predicate(), Projection proj=Projection())</td></tr>
+<tr class="memdesc:aec0a81087adec6bd2d38380a680fb136"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the iterator whose (projected) value is numerically nearest to <code>value</code>.  <br /></td></tr>
+<tr class="separator:aec0a81087adec6bd2d38380a680fb136"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdb08d96519514d27aa1d6345cc1ad6b" id="r_abdb08d96519514d27aa1d6345cc1ad6b"><td class="memTemplParams" colspan="2">template&lt;typename RangeType, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04567.html">Detail::is_nearest_range_call</a>&lt; RangeType, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:abdb08d96519514d27aa1d6345cc1ad6b"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="a04535.html">Detail::range_types</a>&lt; RangeType &gt;::iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abdb08d96519514d27aa1d6345cc1ad6b">get_nearest_to</a> (RangeType &amp;&amp;range, ValueType const &amp;value, Predicate pred=Predicate(), Projection proj=Projection())</td></tr>
+<tr class="memdesc:abdb08d96519514d27aa1d6345cc1ad6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Range-based overload of <a class="el" href="#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value.">get_nearest_to()</a>.  <br /></td></tr>
+<tr class="separator:abdb08d96519514d27aa1d6345cc1ad6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-10/GSM: width=10 poly=0x175 init=0x000 refin=false refout=false xorout=0x3ff. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-10/GSM </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a7564c30b5e7dd3ee68786a5b632f9d4c" name="a7564c30b5e7dd3ee68786a5b632f9d4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7564c30b5e7dd3ee68786a5b632f9d4c">&#9670;&#160;</a></span>ValueType</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="aec0a81087adec6bd2d38380a680fb136" name="aec0a81087adec6bd2d38380a680fb136"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec0a81087adec6bd2d38380a680fb136">&#9670;&#160;</a></span>get_nearest_to() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a7564c30b5e7dd3ee68786a5b632f9d4c">lumex::core::crc::parametric::crc10_gsm_spec_t::ValueType</a> = std::uint16_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a39233fd018c1b472698f6d78bf708adf" name="a39233fd018c1b472698f6d78bf708adf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39233fd018c1b472698f6d78bf708adf">&#9670;&#160;</a></span>kCatalogCheck</h2>
-
-<div class="memitem">
-<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IteratorType, typename Sentinel, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04563.html">Detail::is_nearest_call</a>&lt; IteratorType, Sentinel, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint16_t lumex::core::crc::parametric::crc10_gsm_spec_t::kCatalogCheck = 0x12AU</td>
+          <td class="memname">IteratorType lumex::core::utility::ranges::Algorithm::get_nearest_to </td>
+          <td>(</td>
+          <td class="paramtype">IteratorType</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Sentinel</td>          <td class="paramname"><span class="paramname"><em>last</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ValueType const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Predicate</td>          <td class="paramname"><span class="paramname"><em>pred</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Predicate&#160;()</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Projection</td>          <td class="paramname"><span class="paramname"><em>proj</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Projection&#160;()</span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Finds the iterator whose (projected) value is numerically nearest to <code>value</code>. </p>
+<p>Requires the range to be sorted according to <code>pred</code>/<code>proj</code> (uses <code>std::ranges::lower_bound</code> from C++20 and <code>std::lower_bound</code> below), then compares the found element and its predecessor to pick whichever is closer to <code>value</code>; on a tie the predecessor wins. A sentinel of another type than the iterator is walked to once, before the search. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">IteratorType</td><td>Bidirectional iterator over the range. </td></tr>
+    <tr><td class="paramname">Sentinel</td><td>Sentinel type for <code>IteratorType</code>. </td></tr>
+    <tr><td class="paramname">ValueType</td><td>Numeric type of <code>value</code> (see <code><a class="el" href="a06560.html" title="A &quot;real&quot; numeric type: any integral type except bool, or any floating-point type (cv-qualifiers ignor...">is_numeric</a></code> of the math module). </td></tr>
+    <tr><td class="paramname">Projection</td><td>Projection applied to elements before comparison (defaults to <code><a class="el" href="a04383.html" title="The function object that returns its argument unchanged, as the same reference (the counterpart of st...">functional::identity</a></code>); a callable or a pointer to a member. </td></tr>
+    <tr><td class="paramname">Predicate</td><td>Strict-weak-order predicate used for the search (defaults to <code><a class="el" href="a04391.html" title="The function object that compares two operands of any types with &lt; (the counterpart of std::less&lt;void...">functional::less</a></code>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Iterator to the nearest element, or the end iterator if <code>first == last</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01609_aec0a81087adec6bd2d38380a680fb136_cgraph.png" border="0" usemap="#aa01609_aec0a81087adec6bd2d38380a680fb136_cgraph" alt=""/></div>
+<map name="aa01609_aec0a81087adec6bd2d38380a680fb136_cgraph" id="aa01609_aec0a81087adec6bd2d38380a680fb136_cgraph">
+<area shape="rect" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="5,124,160,179"/>
+<area shape="poly" title=" " alt="" coords="40,124,41,114,48,105,62,99,83,97,107,100,121,108,118,113,106,105,83,103,63,105,51,109,46,116,46,124"/>
+<area shape="rect" href="a01610.html#a0fd1a5acf2f1fed8edeee1309059b06f" title="Absolute difference |a &#45; b| of two integers, computed without an intermediate signed underflow for un..." alt="" coords="223,5,378,60"/>
+<area shape="poly" title=" " alt="" coords="120,122,207,69,218,63,220,68,209,74,123,126"/>
+<area shape="rect" href="a01610.html#a1b56a450e15cc28e53421e2f7d8fd7b4" title="projection (argument) with the INVOKE rules: a callable, or a pointer to a data member or a member fu..." alt="" coords="208,84,393,139"/>
+<area shape="poly" title=" " alt="" coords="160,134,194,128,195,133,161,140"/>
+<area shape="rect" href="a01610.html#a355239355da779ff320602768f793190" title="The iterator that last stands for: last itself when it is an iterator of the same type,..." alt="" coords="223,163,378,217"/>
+<area shape="poly" title=" " alt="" coords="161,162,210,171,209,176,160,168"/>
+<area shape="rect" href="a01610.html#a6f1b3a468e3bc9e2ca02b75c1f0829aa" title=" " alt="" coords="215,241,387,296"/>
+<area shape="poly" title=" " alt="" coords="125,177,209,226,223,233,220,238,207,231,123,181"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01609_aec0a81087adec6bd2d38380a680fb136_icgraph.png" border="0" usemap="#aa01609_aec0a81087adec6bd2d38380a680fb136_icgraph" alt=""/></div>
+<map name="aa01609_aec0a81087adec6bd2d38380a680fb136_icgraph" id="aa01609_aec0a81087adec6bd2d38380a680fb136_icgraph">
+<area shape="rect" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="208,29,363,84"/>
+<area shape="poly" title=" " alt="" coords="319,18,307,11,285,8,267,10,256,15,251,21,251,29,245,29,246,19,253,10,266,5,285,3,308,6,322,14"/>
+<area shape="rect" href="a01609.html#abdb08d96519514d27aa1d6345cc1ad6b" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,29,160,84"/>
+<area shape="poly" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>
+</div>
+
 </div>
 </div>
-<a id="a8961c35d5e6e3ee0751916ac1c199a69" name="a8961c35d5e6e3ee0751916ac1c199a69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8961c35d5e6e3ee0751916ac1c199a69">&#9670;&#160;</a></span>kInit</h2>
+<a id="abdb08d96519514d27aa1d6345cc1ad6b" name="abdb08d96519514d27aa1d6345cc1ad6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdb08d96519514d27aa1d6345cc1ad6b">&#9670;&#160;</a></span>get_nearest_to() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename RangeType, typename ValueType, typename Projection = functional::identity, typename Predicate = functional::less, typename std::enable_if&lt; <a class="el" href="a04567.html">Detail::is_nearest_range_call</a>&lt; RangeType, ValueType, Predicate, Projection &gt;::value, int &gt;::type = 0&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc10_gsm_spec_t::kInit = 0x000U</td>
+          <td class="memname"><a class="el" href="a04535.html">Detail::range_types</a>&lt; RangeType &gt;::iterator lumex::core::utility::ranges::Algorithm::get_nearest_to </td>
+          <td>(</td>
+          <td class="paramtype">RangeType &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa83b4b2f59b7f1eae259ce212b638a71" name="aa83b4b2f59b7f1eae259ce212b638a71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa83b4b2f59b7f1eae259ce212b638a71">&#9670;&#160;</a></span>kPoly</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc10_gsm_spec_t::kPoly = 0x175U</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ValueType const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae38c14b0ba0097287d9b2fcb7b612ec5" name="ae38c14b0ba0097287d9b2fcb7b612ec5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae38c14b0ba0097287d9b2fcb7b612ec5">&#9670;&#160;</a></span>kRefIn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc10_gsm_spec_t::kRefIn = false</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Predicate</td>          <td class="paramname"><span class="paramname"><em>pred</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Predicate&#160;()</span>, </td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a867decfed42305275970d795ea05a227" name="a867decfed42305275970d795ea05a227"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a867decfed42305275970d795ea05a227">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc10_gsm_spec_t::kRefOut = false</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Projection</td>          <td class="paramname"><span class="paramname"><em>proj</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Projection&#160;()</span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Range-based overload of <a class="el" href="#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value.">get_nearest_to()</a>. </p>
+<p><code>RangeType</code> is deduced as a forwarding reference. The range must outlive the call (see the file comment): below C++20 only an lvalue range is accepted, from C++20 also a borrowed range. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01609_abdb08d96519514d27aa1d6345cc1ad6b_cgraph.png" border="0" usemap="#aa01609_abdb08d96519514d27aa1d6345cc1ad6b_cgraph" alt=""/></div>
+<map name="aa01609_abdb08d96519514d27aa1d6345cc1ad6b_cgraph" id="aa01609_abdb08d96519514d27aa1d6345cc1ad6b_cgraph">
+<area shape="rect" title="Range&#45;based overload of get_nearest_to()." alt="" coords="5,84,160,139"/>
+<area shape="rect" href="a01610.html#abef5f7c3d2178dabfde845fb876bf38c" title=" " alt="" coords="208,5,363,60"/>
+<area shape="poly" title=" " alt="" coords="153,81,201,62,203,67,155,86"/>
+<area shape="rect" href="a01610.html#a66202dfc4f2374989b80f34adf0ba9ac" title=" " alt="" coords="208,84,363,139"/>
+<area shape="poly" title=" " alt="" coords="160,109,194,109,194,114,160,114"/>
+<area shape="rect" href="a01609.html#aec0a81087adec6bd2d38380a680fb136" title="Finds the iterator whose (projected) value is numerically nearest to value." alt="" coords="208,187,363,241"/>
+<area shape="poly" title=" " alt="" coords="138,136,220,178,218,183,136,141"/>
+<area shape="poly" title=" " alt="" coords="245,187,246,177,253,168,266,162,285,160,308,163,322,171,319,176,307,168,285,165,267,167,256,172,251,178,251,187"/>
+<area shape="rect" href="a01610.html#a0fd1a5acf2f1fed8edeee1309059b06f" title="Absolute difference |a &#45; b| of two integers, computed without an intermediate signed underflow for un..." alt="" coords="426,68,581,123"/>
+<area shape="poly" title=" " alt="" coords="323,184,409,132,421,126,423,131,412,136,326,189"/>
+<area shape="rect" href="a01610.html#a1b56a450e15cc28e53421e2f7d8fd7b4" title="projection (argument) with the INVOKE rules: a callable, or a pointer to a data member or a member fu..." alt="" coords="411,147,596,201"/>
+<area shape="poly" title=" " alt="" coords="362,197,396,191,397,196,363,202"/>
+<area shape="rect" href="a01610.html#a355239355da779ff320602768f793190" title="The iterator that last stands for: last itself when it is an iterator of the same type,..." alt="" coords="426,225,581,280"/>
+<area shape="poly" title=" " alt="" coords="363,225,413,234,412,239,362,230"/>
+<area shape="rect" href="a01610.html#a6f1b3a468e3bc9e2ca02b75c1f0829aa" title=" " alt="" coords="417,304,589,359"/>
+<area shape="poly" title=" " alt="" coords="328,239,412,289,425,296,423,300,409,294,325,244"/>
+</map>
 </div>
-</div>
-<a id="a74c0405f8300b1e26f53ab19de44b140" name="a74c0405f8300b1e26f53ab19de44b140"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74c0405f8300b1e26f53ab19de44b140">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc10_gsm_spec_t::kWidth = 10</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6e1bcfba7446583885f3eba5c84d26a2" name="a6e1bcfba7446583885f3eba5c84d26a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e1bcfba7446583885f3eba5c84d26a2">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc10_gsm_spec_t::kXorOut = 0x3FFU</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01609.html">crc10_gsm_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01586.html">utility</a></li><li class="navelem"><a class="el" href="a01608.html">ranges</a></li><li class="navelem"><a class="el" href="a01609.html">Algorithm</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

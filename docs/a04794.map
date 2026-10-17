@@ -1,0 +1,5 @@
+<map id="lumex::core::utility::traits::range::has_streamable_elements&lt; Range, Enable &gt;" name="lumex::core::utility::traits::range::has_streamable_elements&lt; Range, Enable &gt;">
+<area shape="rect" id="Node000001" title="Range is iterable and its elements (after std::decay) are streamable." alt="" coords="5,79,188,148"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="37,5,156,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,44,99,79,94,79,94,44"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XPathVariableSet.hpp File Reference</title>
+<title>LumexLib: LumexHazardPointerObjBase.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -107,64 +107,141 @@ $(function(){initNavTree('a01145.html',''); initResizable(true); });
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XPathVariableSet.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexHazardPointerObjBase.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>XPathVariableSet</code>, the named variables an XPath expression can refer to, and the lookup helper the parser uses.  
+<p><code>hazard_pointer_obj_base&lt;T, D&gt;</code>, the base class of objects that hazard pointers protect, and the trait <code>is_hazard_protectable</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &lt;array&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00617_source.html">lumex/core/utility/macros/LumexConstantMacros.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01091_source.html">lumex/xml/xpath/node/XPathNodeSet.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01139_source.html">XPathVariable.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01148_source.html">lumex/core/hazard_pointer/engine/LumexHazardPointerEngine.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XPathVariableSet.hpp:</div>
+Include dependency graph for LumexHazardPointerObjBase.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01146.png" border="0" usemap="#a_x_path_variable_set_8hpp" alt=""/></div>
+<div class="center"><img src="a01146.png" border="0" usemap="#aLumexHazardPointerObjBase_8hpp" alt=""/></div>
+<map name="aLumexHazardPointerObjBase_8hpp" id="aLumexHazardPointerObjBase_8hpp">
+<area shape="rect" title="hazard_pointer_obj_base&lt;T, D&gt;, the base class of objects that hazard pointers protect,..." alt="" coords="68,5,308,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,83,111"/>
+<area shape="poly" title=" " alt="" coords="166,33,80,81,78,77,164,29"/>
+<area shape="rect" title=" " alt="" coords="106,350,198,375"/>
+<area shape="poly" title=" " alt="" coords="177,33,161,54,148,80,139,114,134,150,133,223,140,287,149,336,143,337,135,288,128,223,129,150,134,113,143,78,156,51,173,29"/>
+<area shape="rect" title=" " alt="" coords="158,86,218,111"/>
+<area shape="poly" title=" " alt="" coords="191,31,191,72,185,72,185,31"/>
+<area shape="rect" href="a01148.html" title="The engine behind hazard_pointer: hazard slots, retired nodes, the entry points compiled into lumex::..." alt="" coords="243,79,525,119"/>
+<area shape="poly" title=" " alt="" coords="220,28,323,71,321,76,218,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="533,343,747,383"/>
+<area shape="poly" title=" " alt="" coords="297,28,434,49,495,62,538,76,574,94,601,111,623,133,646,165,658,188,664,208,669,254,671,275,669,295,658,331,653,329,664,294,666,275,664,255,659,209,654,190,642,168,619,136,598,115,572,98,536,81,493,67,433,54,296,33"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="157,262,339,287"/>
+<area shape="poly" title=" " alt="" coords="287,121,251,140,224,168,217,188,218,209,225,230,234,249,229,252,220,232,213,210,211,187,219,165,248,136,285,116"/>
+<area shape="rect" title=" " alt="" coords="233,174,300,199"/>
+<area shape="poly" title=" " alt="" coords="358,121,296,168,293,164,355,117"/>
+<area shape="rect" title=" " alt="" coords="325,174,395,199"/>
+<area shape="poly" title=" " alt="" coords="381,120,370,161,365,160,376,118"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="419,167,602,207"/>
+<area shape="poly" title=" " alt="" coords="415,117,472,156,469,161,412,121"/>
+<area shape="poly" title=" " alt="" coords="493,116,567,137,597,150,617,165,630,184,639,204,649,249,651,292,648,330,643,329,646,292,644,249,634,206,625,186,613,169,594,155,566,142,491,121"/>
+<area shape="poly" title=" " alt="" coords="451,209,300,260,298,255,450,204"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="363,255,552,295"/>
+<area shape="poly" title=" " alt="" coords="501,208,479,244,474,241,496,206"/>
+<area shape="poly" title=" " alt="" coords="529,205,566,253,621,330,616,333,562,256,525,208"/>
+<area shape="poly" title=" " alt="" coords="388,297,210,349,209,344,387,292"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="254,343,509,383"/>
+<area shape="poly" title=" " alt="" coords="442,297,410,334,406,330,438,293"/>
+<area shape="poly" title=" " alt="" coords="500,292,587,334,585,339,498,297"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01147.png" border="0" usemap="#a_x_path_variable_set_8hppdep" alt=""/></div>
+<div class="center"><img src="a01147.png" border="0" usemap="#aLumexHazardPointerObjBase_8hppdep" alt=""/></div>
+<map name="aLumexHazardPointerObjBase_8hppdep" id="aLumexHazardPointerObjBase_8hppdep">
+<area shape="rect" title="hazard_pointer_obj_base&lt;T, D&gt;, the base class of objects that hazard pointers protect,..." alt="" coords="241,5,481,31"/>
+<area shape="rect" href="a01385.html" title="Hazard pointer module: hazard_pointer, hazard_pointer_obj_base and make_hazard_pointer,..." alt="" coords="256,225,415,251"/>
+<area shape="poly" title=" " alt="" coords="337,42,323,60,313,80,306,120,310,161,321,197,332,224,327,226,316,199,305,162,301,120,307,78,319,57,333,39"/>
+<area shape="rect" href="a01157.html" title="hazard_pointer, the owner of one hazard slot, with make_hazard_pointer, swap and the extension clean_..." alt="" coords="323,79,551,104"/>
+<area shape="poly" title=" " alt="" coords="385,38,425,76,421,80,382,42"/>
+<area shape="rect" href="a00800.html" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="5,306,228,331"/>
+<area shape="poly" title=" " alt="" coords="289,258,152,308,150,303,287,253"/>
+<area shape="rect" href="a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="77,387,303,427"/>
+<area shape="poly" title=" " alt="" coords="317,263,210,388,206,384,313,259"/>
+<area shape="rect" href="a00524.html" title=" " alt="" coords="303,306,512,331"/>
+<area shape="poly" title=" " alt="" coords="358,259,398,304,394,307,354,263"/>
+<area shape="rect" href="a00521.html" title=" " alt="" coords="536,299,719,339"/>
+<area shape="poly" title=" " alt="" coords="395,252,555,296,554,301,394,257"/>
+<area shape="poly" title=" " alt="" coords="138,341,175,385,171,388,134,344"/>
+<area shape="poly" title=" " alt="" coords="404,114,382,132,363,153,346,191,339,226,334,225,341,190,358,151,378,128,401,110"/>
+<area shape="rect" href="a01154.html" title="make_hazard_pointer_batch and clear_hazard_pointer_batch, which fill and empty many holders at once (..." alt="" coords="372,152,595,177"/>
+<area shape="poly" title=" " alt="" coords="454,114,477,150,473,153,450,117"/>
+<area shape="poly" title=" " alt="" coords="447,186,362,228,360,223,444,181"/>
+</map>
 </div>
 </div>
 <p><a href="a01145_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05170.html">lumex::xml::xpath::variable::XPathVariableSet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a collection of XPath variables.  <a href="a05170.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03223.html">lumex::core::hazard_pointer::detail::node_base</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03227.html">lumex::core::hazard_pointer::detail::is_final_class&lt; D &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03231.html">lumex::core::hazard_pointer::detail::deleter_storage&lt; D, bool &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03235.html">lumex::core::hazard_pointer::detail::deleter_storage&lt; D, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03239.html">lumex::core::hazard_pointer::detail::make_void&lt;... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03243.html">lumex::core::hazard_pointer::detail::base_pair&lt; U, D &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03247.html">lumex::core::hazard_pointer::detail::protectable_base&lt; T, bool &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03251.html">lumex::core::hazard_pointer::detail::protectable_base&lt; T, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03255.html">lumex::core::hazard_pointer::detail::protectable_impl&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03259.html">lumex::core::hazard_pointer::is_hazard_protectable&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True when <code>T</code> is hazard-protectable ([saferecl.hp.general]).  <a href="a03259.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03219.html">lumex::core::hazard_pointer::hazard_pointer_obj_base&lt; T, D &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class of objects that hazard pointers protect ([saferecl.hp.base]).  <a href="a03219.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01501.html">lumex::xml::xpath</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01544.html">lumex::core::hazard_pointer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01503.html">lumex::xml::xpath::variable</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01545.html">lumex::core::hazard_pointer::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2e440c9a87ed869364c0351b332f26e4" id="r_a2e440c9a87ed869364c0351b332f26e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01503.html#a2e440c9a87ed869364c0351b332f26e4">lumex::xml::xpath::variable::get_variable_scratch</a> (<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a>(&amp;buffer)[32], <a class="el" href="a05170.html">XPathVariableSet</a> *set, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *begin, <a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a> const *end, <a class="el" href="a05150.html">XPathVariable</a> **out_result)</td></tr>
-<tr class="memdesc:a2e440c9a87ed869364c0351b332f26e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to retrieve a variable from a set, handling scratch buffer for name.  <br /></td></tr>
-<tr class="separator:a2e440c9a87ed869364c0351b332f26e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f21c406cdccab59f13bd1802e4f0abc" id="r_a5f21c406cdccab59f13bd1802e4f0abc"><td class="memTemplParams" colspan="2">template&lt;class T, class U, class D, class = decltype (static_cast&lt;U *&gt; (              std::declval&lt;hazard_pointer_obj_base&lt;U, D&gt; *&gt; ()))&gt; </td></tr>
+<tr class="memitem:a5f21c406cdccab59f13bd1802e4f0abc"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_same&lt; U, typenamestd::remove_cv&lt; T &gt;::type &gt;::value &amp;&amp;std::is_convertible&lt; T *, <a class="el" href="a03219.html">hazard_pointer_obj_base</a>&lt; U, D &gt;constvolatile * &gt;::value, std::true_type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01545.html#a5f21c406cdccab59f13bd1802e4f0abc">lumex::core::hazard_pointer::detail::protectable_probe</a> (<a class="el" href="a03219.html">hazard_pointer_obj_base</a>&lt; U, D &gt; const volatile *)</td></tr>
+<tr class="separator:a5f21c406cdccab59f13bd1802e4f0abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7381e2c77b78d528b935bf76c9ad5eda" id="r_a7381e2c77b78d528b935bf76c9ad5eda"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a7381e2c77b78d528b935bf76c9ad5eda"><td class="memTemplItemLeft" align="right" valign="top">std::false_type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01545.html#a7381e2c77b78d528b935bf76c9ad5eda">lumex::core::hazard_pointer::detail::protectable_probe</a> (...)</td></tr>
+<tr class="separator:a7381e2c77b78d528b935bf76c9ad5eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1723f153b1668a5b639e74a168ea7b1" id="r_ad1723f153b1668a5b639e74a168ea7b1"><td class="memTemplParams" colspan="2">template&lt;class U, class D&gt; </td></tr>
+<tr class="memitem:ad1723f153b1668a5b639e74a168ea7b1"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03243.html">base_pair</a>&lt; U, D &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01545.html#ad1723f153b1668a5b639e74a168ea7b1">lumex::core::hazard_pointer::detail::base_of_probe</a> (<a class="el" href="a03219.html">hazard_pointer_obj_base</a>&lt; U, D &gt; const volatile *)</td></tr>
+<tr class="separator:ad1723f153b1668a5b639e74a168ea7b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>XPathVariableSet</code>, the named variables an XPath expression can refer to, and the lookup helper the parser uses. </p>
-<p>The set owns its variables and finds them by name in a hash table of 64 chained buckets; copying it copies every variable. <code>add</code> creates a variable or returns the existing one of the same type, and <code>set</code> changes the value of an existing variable of the matching type. The parser binds variable references to the variables of the set when a query is compiled, so every referenced variable must be added before compiling, and the set must outlive the query. A value changed afterwards is seen by the next evaluation.</p>
-<p><code>get_variable_scratch</code> looks up a name that is not terminated, copying it into a scratch buffer first. Consumers include the file through <code>lumex/xml/LumexXml</code>. </p>
+<div class="textblock"><p><code>hazard_pointer_obj_base&lt;T, D&gt;</code>, the base class of objects that hazard pointers protect, and the trait <code>is_hazard_protectable</code>. </p>
+<p>A class <code>T</code> is hazard-protectable ([saferecl.hp.general]) when it has exactly one base class of the form <code>hazard_pointer_obj_base&lt;T, D&gt;</code> for some <code>D</code>, that base is public and not virtual, and no base class is a <code>hazard_pointer_obj_base</code> of another object type. <code>retire</code> hands the object to the domain; its deleter runs, on some thread, once no hazard pointer protects the object ([saferecl.hp.base]). <code>retire</code> may reclaim other possibly-reclaimable objects on the calling thread.</p>
+<p>The base carries a two-word retire node and the deleter (stored through the empty base optimization when <code>D</code> is an empty, non-final class). A copy or a move of an object makes a fresh node: the copy is not retired, even when the source is; assignment leaves the node of the target alone. An object is retired at most once (retiring it twice aborts through <code>LUMEX_ASSERT</code>); the deleter must not throw.</p>
+<p>The classes are the library's own on every standard and toolchain, in <code><a class="el" href="a01544.html">lumex::core::hazard_pointer</a></code>; the API shape is the standard's. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_fc0ba0971833cb384bf790ca47625916.html">variable</a></li><li class="navelem"><a class="el" href="a01145.html">XPathVariableSet.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_6af0c2de0c279f8479476a3ac4c68aac.html">hazard_pointer</a></li><li class="navelem"><a class="el" href="dir_7a703f72ea5033ec84e2dfc5ad3163bc.html">base</a></li><li class="navelem"><a class="el" href="a01145.html">LumexHazardPointerObjBase.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

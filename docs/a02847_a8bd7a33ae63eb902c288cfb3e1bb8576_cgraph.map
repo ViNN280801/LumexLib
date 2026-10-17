@@ -1,0 +1,18 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::init_value" name="lumex::core::expected::result::detail::storage::expected_storage::init_value">
+<area shape="rect" id="Node000001" title="Unit stands for void: there is no value to read." alt="" coords="5,19,224,74"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="1001,33,1192,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,35,272,32,464,18,613,6,762,4,954,19,1008,28,1007,33,953,24,762,10,613,12,464,23,272,37,224,40"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="539,37,739,77"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,46,525,52,525,58,224,51"/>
+<area shape="rect" id="Node000006" href="$a02847.html#aa22251b92c968a4dc3f08cb88fe846c1" title="The conversion of a value from a source (the class val_type is built from *rhs)." alt="" coords="272,109,491,163"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="197,71,288,102,286,107,196,77"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="787,97,953,137"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="717,75,780,91,778,96,716,80"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="787,33,953,73"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="739,53,773,52,773,58,739,58"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="954,51,987,51,987,56,954,56"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="491,156,591,169,708,176,770,175,832,171,893,161,953,147,984,134,1014,117,1064,80,1067,84,1017,122,986,139,954,152,894,167,832,176,770,181,708,182,591,175,491,161"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="470,106,559,79,561,84,472,111"/>
+<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="491,129,773,118,773,124,491,134"/>
+<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="332,108,332,98,341,89,357,84,381,82,410,85,427,93,424,98,409,90,381,87,358,89,344,94,337,100,337,108"/>
+</map>

@@ -1,0 +1,23 @@
+<map id="lumex::core::fmt::Detail::float_body" name="lumex::core::fmt::Detail::float_body">
+<area shape="rect" id="Node000001" title="Text of a non&#45;negative finite value in style / precision." alt="" coords="5,167,183,207"/>
+<area shape="rect" id="Node000002" href="$a01540.html#a6a63800323204704cefa342dec4cad40" title="Formats args into a std::string." alt="" coords="231,37,413,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,164,165,122,229,79,263,64,265,69,232,84,168,126,117,168"/>
+<area shape="rect" id="Node000005" href="$a01541.html#af34a0e837174fedbea5a781fb348eb59" title="Replaces the C locale&#39;s decimal point with .." alt="" coords="461,96,656,136"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="127,164,175,141,230,123,285,113,342,107,448,106,448,111,342,113,286,118,231,128,177,146,130,169"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a211ae3ef1ab3a61baa6061f1e9285687" title="snprintf with one * precision, as a std::string." alt="" coords="470,165,647,205"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="183,186,231,187,413,187,456,186,456,191,413,192,231,192,183,191"/>
+<area shape="rect" id="Node000007" href="$a01541.html#abdf402da92f2de56a23be3b0e34728b1" title=" " alt="" coords="470,241,647,281"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="183,198,457,242,456,248,183,204"/>
+<area shape="rect" id="Node000008" href="$a01541.html#a62c7cfc22dcd8543a9330cbdc936a9d0" title="Shortest decimal text that reads back to value (non&#45;negative, finite), in std::to_chars plain style: ..." alt="" coords="233,137,411,177"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="182,173,219,168,220,173,183,178"/>
+<area shape="rect" id="Node000009" href="$a01541.html#a7e9c3f435e31b7193fc3b49f7b8490b5" title="Removes 0x / 0X and redundant trailing zeros of a." alt="" coords="233,303,411,343"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="120,205,171,242,232,282,257,294,255,299,229,286,168,247,117,209"/>
+<area shape="rect" id="Node000003" href="$a01540.html#a1a7369743e9a56cdf14f5bd2ce80b599" title="Type&#45;erased arguments for vformat; the result refers to args, so use it within the same full expressi..." alt="" coords="471,29,646,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="414,47,458,47,458,52,414,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="515,30,513,20,520,10,535,5,559,3,586,6,600,13,598,18,584,11,559,8,536,10,523,15,518,21,520,28"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a7c0b83d64d43d9c8746e82f05d43db5a" title=" " alt="" coords="704,29,881,69"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="646,47,691,47,691,52,646,52"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="410,139,447,133,448,138,411,144"/>
+<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="411,165,457,171,456,176,410,170"/>
+<area shape="poly" id="edge11_Node000008_Node000007" title=" " alt="" coords="369,175,502,233,499,238,367,180"/>
+</map>

@@ -1,0 +1,59 @@
+<map id="lumex::core::expected::result::detail::invoke_call" name="lumex::core::expected::result::detail::invoke_call">
+<area shape="rect" id="Node000001" title=" " alt="" coords="541,701,736,741"/>
+<area shape="rect" id="Node000002" href="$a02699.html#a3f094c33f965d71f6301bd81dd132efa" title=" " alt="" coords="5,5,225,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="634,688,622,550,596,359,577,263,553,177,525,107,509,81,492,62,463,42,432,27,398,17,363,11,292,9,226,16,225,11,292,4,364,6,399,12,433,22,466,37,495,58,513,78,530,105,558,175,582,262,601,358,627,549,639,687"/>
+<area shape="rect" id="Node000003" href="$a02699.html#a24a4c679b7664d08072c8f6c2e46ebc3" title=" " alt="" coords="273,96,493,165"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="631,688,611,576,579,427,538,282,515,225,491,186,471,167,475,163,495,182,520,223,543,281,584,426,616,575,636,687"/>
+<area shape="rect" id="Node000004" href="$a02699.html#a623f8a75f5a2a45a18ec52aed866391f" title=" " alt="" coords="5,107,225,176"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="630,688,610,586,578,453,559,386,538,326,515,277,492,245,462,233,396,214,225,171,226,166,397,209,463,228,495,241,520,275,543,324,564,385,584,452,615,585,635,687"/>
+<area shape="rect" id="Node000005" href="$a02699.html#a89da229f2586a83a9a0074c06a2a3881" title=" " alt="" coords="5,215,225,284"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="629,688,609,594,577,475,558,415,537,363,515,320,492,293,463,273,431,258,397,247,362,239,292,233,226,235,226,229,292,227,363,234,398,242,433,253,465,268,495,289,519,317,542,360,563,414,582,473,614,593,635,687"/>
+<area shape="rect" id="Node000006" href="$a02919.html#a4db1d5c9e778d2301939602f1cf907da" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (rvalue), and returns its expected." alt="" coords="24,311,207,366"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="629,689,608,602,576,493,536,392,514,355,492,331,458,313,421,300,382,294,343,292,265,299,196,314,195,309,264,293,343,286,383,288,422,295,460,308,495,327,518,352,540,390,581,491,613,601,634,687"/>
+<area shape="rect" id="Node000007" href="$a02919.html#a9e60352e1b421c19aba7be15c54afa10" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (lvalue), and returns its expected." alt="" coords="292,366,475,421"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="627,689,609,636,581,570,542,502,518,470,492,442,464,423,467,419,495,438,522,467,547,499,586,568,614,634,632,687"/>
+<area shape="rect" id="Node000008" href="$a02919.html#a2222728c3a6554ff8204c338a5438120" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (const rvalue), and returns its expected." alt="" coords="24,395,207,450"/>
+<area shape="poly" id="edge15_Node000001_Node000008" title=" " alt="" coords="625,689,606,645,577,592,539,540,517,517,492,497,471,486,442,476,369,458,207,434,207,429,370,453,444,471,473,481,495,492,520,513,543,536,582,589,611,642,630,687"/>
+<area shape="rect" id="Node000009" href="$a02919.html#aba27ce8c411bdd93611eedca20c99e99" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (const lvalue), and returns its expected." alt="" coords="24,478,207,533"/>
+<area shape="poly" id="edge16_Node000001_Node000009" title=" " alt="" coords="622,690,601,652,572,610,536,569,492,537,458,521,422,510,347,496,273,492,207,495,207,490,273,487,347,491,423,505,460,516,495,532,539,565,577,607,606,650,626,687"/>
+<area shape="rect" id="Node000010" href="$a02839.html#a1516e3d18bcfa435b32fe583495fd9cd" title="Starts unex with the result of invoke_call (fn, args...)." alt="" coords="291,547,475,616"/>
+<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="598,696,548,663,492,630,468,619,470,614,495,626,551,659,601,691"/>
+<area shape="rect" id="Node000011" href="$a02839.html#aba41464c2d7761379463675ba3ffd71c" title="Starts val with the result of invoke_call (fn, args...)." alt="" coords="291,640,475,709"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="527,704,475,694,476,689,528,698"/>
+<area shape="rect" id="Node000012" href="$a02835.html#ad1e1428ce8218c115602a1f77019cd38" title="Starts unex with the result of invoke_call (fn, args...)." alt="" coords="294,733,473,803"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="528,744,473,754,472,749,527,739"/>
+<area shape="rect" id="Node000013" href="$a02835.html#ab6c35f385e5329a7099dd8b679561e11" title="Starts val with the result of invoke_call (fn, args...)." alt="" coords="294,827,473,896"/>
+<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="601,751,551,784,495,817,470,829,468,824,492,812,548,780,598,747"/>
+<area shape="rect" id="Node000014" href="$a02699.html#a43d0de74db7d62ad6fb724d79708c1f3" title=" " alt="" coords="5,907,225,976"/>
+<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="626,755,605,793,576,836,539,877,495,910,429,937,359,952,289,958,225,957,225,951,289,952,358,947,427,932,492,906,536,873,572,833,601,790,621,753"/>
+<area shape="rect" id="Node000015" href="$a02699.html#ae480daed65cfb06506d4c40756fed427" title=" " alt="" coords="273,995,493,1064"/>
+<area shape="poly" id="edge22_Node000001_Node000015" title=" " alt="" coords="626,755,574,849,537,903,495,954,444,996,440,992,491,950,533,900,569,846,621,753"/>
+<area shape="rect" id="Node000016" href="$a02699.html#a7155ca81347a4925741edba4dcbf444e" title=" " alt="" coords="5,1009,225,1079"/>
+<area shape="poly" id="edge27_Node000001_Node000016" title=" " alt="" coords="639,756,630,827,606,917,588,963,563,1007,533,1046,495,1078,460,1097,422,1108,383,1113,343,1113,266,1101,197,1081,198,1076,267,1096,344,1108,383,1108,421,1103,458,1092,492,1074,529,1042,559,1004,583,961,601,915,624,826,634,755"/>
+<area shape="rect" id="Node000017" href="$a02699.html#a7948ed9dc40b20b3405d60d79c906731" title=" " alt="" coords="5,1111,225,1180"/>
+<area shape="poly" id="edge28_Node000001_Node000017" title=" " alt="" coords="634,756,612,843,580,953,540,1055,518,1094,495,1119,465,1139,432,1153,362,1170,291,1174,225,1169,226,1164,291,1168,361,1164,430,1148,462,1134,492,1115,514,1091,535,1053,575,951,607,841,629,754"/>
+<area shape="rect" id="Node000018" href="$a02919.html#aee903e27a376e61d709f85da73026d0e" title="Calls func with the contained error (rvalue) if present, and returns its expected." alt="" coords="24,1206,207,1261"/>
+<area shape="poly" id="edge29_Node000001_Node000018" title=" " alt="" coords="635,756,615,854,584,982,564,1045,543,1102,520,1148,495,1179,474,1192,445,1203,372,1218,287,1228,207,1233,207,1228,287,1223,371,1213,444,1198,472,1187,492,1175,515,1146,538,1100,559,1043,579,980,610,853,630,755"/>
+<area shape="rect" id="Node000019" href="$a02919.html#a52cada5a35feb01f7619e4476e2d5426" title="Calls func with the contained error (lvalue) if present, and returns its expected." alt="" coords="292,1265,475,1319"/>
+<area shape="poly" id="edge30_Node000001_Node000019" title=" " alt="" coords="640,755,630,844,607,965,588,1032,564,1099,533,1164,495,1223,472,1247,444,1267,441,1262,468,1243,491,1220,529,1161,559,1097,583,1030,602,964,625,843,634,755"/>
+<area shape="rect" id="Node000020" href="$a02919.html#abbcaede56864be9378e38c3bc2819e3e" title="Calls func with the contained error (const rvalue) if present, and returns its expected." alt="" coords="24,1287,207,1342"/>
+<area shape="poly" id="edge35_Node000001_Node000020" title=" " alt="" coords="639,755,625,884,598,1060,579,1148,556,1227,528,1291,512,1315,495,1333,459,1355,420,1368,379,1375,337,1376,255,1364,184,1345,185,1340,256,1359,337,1370,378,1369,419,1363,457,1350,492,1329,508,1312,523,1289,551,1225,574,1147,593,1059,620,883,633,755"/>
+<area shape="rect" id="Node000021" href="$a02919.html#a7f8cb3d8c8fc29e828f79f0c0ffc874a" title="Calls func with the contained error (const lvalue) if present, and returns its expected." alt="" coords="24,1371,207,1426"/>
+<area shape="poly" id="edge36_Node000001_Node000021" title=" " alt="" coords="639,755,627,892,601,1081,581,1177,558,1263,529,1333,513,1360,495,1379,463,1401,428,1417,391,1427,352,1433,276,1433,206,1424,207,1419,276,1428,352,1428,390,1422,426,1412,461,1397,492,1375,509,1357,525,1331,553,1262,576,1176,595,1080,621,892,634,755"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="267,94,217,77,219,72,268,89"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="424,85,409,78,383,75,362,77,348,81,340,88,339,96,333,95,336,85,345,77,361,71,383,69,411,73,427,81"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="260,138,226,140,225,134,260,133"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="293,173,195,217,193,212,291,169"/>
+<area shape="poly" id="edge11_Node000007_Node000006" title=" " alt="" coords="278,375,206,360,207,355,279,369"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="426,355,410,348,383,345,361,347,346,351,339,358,339,366,334,366,334,356,343,347,360,341,383,339,412,342,428,350"/>
+<area shape="poly" id="edge13_Node000007_Node000008" title=" " alt="" coords="278,408,207,415,207,410,278,402"/>
+<area shape="poly" id="edge14_Node000007_Node000009" title=" " alt="" coords="309,429,226,464,186,480,184,475,224,459,307,424"/>
+<area shape="poly" id="edge23_Node000015_Node000014" title=" " alt="" coords="264,993,220,979,222,974,266,988"/>
+<area shape="poly" id="edge24_Node000015_Node000015" title=" " alt="" coords="424,984,409,976,383,973,362,975,348,980,340,987,339,995,333,994,336,984,345,975,361,970,383,968,411,971,427,979"/>
+<area shape="poly" id="edge25_Node000015_Node000016" title=" " alt="" coords="260,1039,226,1041,225,1035,260,1033"/>
+<area shape="poly" id="edge26_Node000015_Node000017" title=" " alt="" coords="291,1072,197,1113,195,1108,289,1067"/>
+<area shape="poly" id="edge31_Node000019_Node000018" title=" " alt="" coords="278,1272,206,1256,207,1251,279,1267"/>
+<area shape="poly" id="edge32_Node000019_Node000019" title=" " alt="" coords="426,1254,410,1246,383,1243,361,1245,346,1250,339,1257,339,1265,334,1265,334,1254,343,1246,360,1240,383,1238,412,1241,428,1249"/>
+<area shape="poly" id="edge33_Node000019_Node000020" title=" " alt="" coords="278,1304,207,1310,207,1304,278,1298"/>
+<area shape="poly" id="edge34_Node000019_Node000021" title=" " alt="" coords="303,1327,185,1374,183,1369,301,1322"/>
+</map>

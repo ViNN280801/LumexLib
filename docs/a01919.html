@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::applied::settings::xml::LumexSettingsXML Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a01922.html',''); initResizable(true); });
+$(function(){initNavTree('a01919.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,824 @@ $(function(){initNavTree('a01922.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::contracts::detail::quick_enforce_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="a01916.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::settings::xml::LumexSettingsXML Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01922.html">lumex::core::contracts::detail::quick_enforce_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01922.html#acb395e6f2f91df3a99811104c6611722">violated</a>(char const *, source_location const &amp;, contracts::detection_mode) noexcept</td><td class="entry"><a class="el" href="a01922.html">lumex::core::contracts::detail::quick_enforce_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<p>A lightweight, C++11-based XML settings manager.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01214_source.html">LumexSettingsXML.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::applied::settings::xml::LumexSettingsXML:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01918.png" border="0" usemap="#alumex_1_1applied_1_1settings_1_1xml_1_1LumexSettingsXML_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1applied_1_1settings_1_1xml_1_1LumexSettingsXML_inherit__map" id="alumex_1_1applied_1_1settings_1_1xml_1_1LumexSettingsXML_inherit__map">
+<area shape="rect" title="A lightweight, C++11&#45;based XML settings manager." alt="" coords="5,93,192,133"/>
+<area shape="rect" href="a01911.html" title="Interface of a settings store kept in a configuration file." alt="" coords="9,5,188,45"/>
+<area shape="poly" title=" " alt="" coords="101,59,101,93,96,93,96,59"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::applied::settings::xml::LumexSettingsXML:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01917.png" border="0" usemap="#alumex_1_1applied_1_1settings_1_1xml_1_1LumexSettingsXML_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1applied_1_1settings_1_1xml_1_1LumexSettingsXML_coll__map" id="alumex_1_1applied_1_1settings_1_1xml_1_1LumexSettingsXML_coll__map">
+<area shape="rect" title="A lightweight, C++11&#45;based XML settings manager." alt="" coords="5,93,192,133"/>
+<area shape="rect" href="a01911.html" title="Interface of a settings store kept in a configuration file." alt="" coords="9,5,188,45"/>
+<area shape="poly" title=" " alt="" coords="101,59,101,93,96,93,96,59"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:aee36de8debc87784e6a28833736c0f88" id="r_aee36de8debc87784e6a28833736c0f88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee36de8debc87784e6a28833736c0f88">load</a> (std::string const &amp;<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) override</td></tr>
+<tr class="memdesc:aee36de8debc87784e6a28833736c0f88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads and parses an XML file from the given path.  <br /></td></tr>
+<tr class="separator:aee36de8debc87784e6a28833736c0f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49ecba46ab453277477a0298ca001778" id="r_a49ecba46ab453277477a0298ca001778"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49ecba46ab453277477a0298ca001778">load</a> (char const *<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>)</td></tr>
+<tr class="separator:a49ecba46ab453277477a0298ca001778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb5ef6e05c93bdb8f76b5d059923e388" id="r_afb5ef6e05c93bdb8f76b5d059923e388"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb5ef6e05c93bdb8f76b5d059923e388">save</a> (std::string const &amp;<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) const override</td></tr>
+<tr class="memdesc:afb5ef6e05c93bdb8f76b5d059923e388"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves the current settings as canonical XML.  <br /></td></tr>
+<tr class="separator:afb5ef6e05c93bdb8f76b5d059923e388"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6e0321b99e2cc418849320787815641" id="r_ac6e0321b99e2cc418849320787815641"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6e0321b99e2cc418849320787815641">save</a> (char const *<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>) const</td></tr>
+<tr class="separator:ac6e0321b99e2cc418849320787815641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdd3841842f97972dcee82fca7ac1412" id="r_acdd3841842f97972dcee82fca7ac1412"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdd3841842f97972dcee82fca7ac1412">get</a> (std::string const &amp;section, std::string const &amp;key) const override</td></tr>
+<tr class="memdesc:acdd3841842f97972dcee82fca7ac1412"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a string value for a given section and key.  <br /></td></tr>
+<tr class="separator:acdd3841842f97972dcee82fca7ac1412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a329cbe03809f11567c247392b669aa13" id="r_a329cbe03809f11567c247392b669aa13"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a329cbe03809f11567c247392b669aa13">get</a> (char const *section, char const *key) const</td></tr>
+<tr class="separator:a329cbe03809f11567c247392b669aa13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad38af7fcdb702801b644cf27e8326a08" id="r_ad38af7fcdb702801b644cf27e8326a08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad38af7fcdb702801b644cf27e8326a08">add</a> (std::string const &amp;section, std::string const &amp;key, std::string const &amp;value) override</td></tr>
+<tr class="memdesc:ad38af7fcdb702801b644cf27e8326a08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds or updates a key-value pair in a specific section.  <br /></td></tr>
+<tr class="separator:ad38af7fcdb702801b644cf27e8326a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5681a6cb0cc82bb3f9178b7b456ec863" id="r_a5681a6cb0cc82bb3f9178b7b456ec863"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5681a6cb0cc82bb3f9178b7b456ec863">add</a> (char const *section, char const *key, char const *value)</td></tr>
+<tr class="separator:a5681a6cb0cc82bb3f9178b7b456ec863"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38fdd47780dcb3f11faf92504e337e84" id="r_a38fdd47780dcb3f11faf92504e337e84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38fdd47780dcb3f11faf92504e337e84">remove</a> (std::string const &amp;section, std::string const &amp;key) override</td></tr>
+<tr class="memdesc:a38fdd47780dcb3f11faf92504e337e84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a key-value pair from a section.  <br /></td></tr>
+<tr class="separator:a38fdd47780dcb3f11faf92504e337e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e566b3a4ffdeb3b96cdc3a4cb2de217" id="r_a9e566b3a4ffdeb3b96cdc3a4cb2de217"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e566b3a4ffdeb3b96cdc3a4cb2de217">remove</a> (char const *section, char const *key)</td></tr>
+<tr class="separator:a9e566b3a4ffdeb3b96cdc3a4cb2de217"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a01911"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_a01911')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a01911.html">lumex::applied::settings::ILumexSettings</a></td></tr>
+<tr class="memitem:a67340373f009ef86ebf93a8c3bd15104 inherit pub_methods_a01911" id="r_a67340373f009ef86ebf93a8c3bd15104"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01911.html#a67340373f009ef86ebf93a8c3bd15104">~ILumexSettings</a> ()=default</td></tr>
+<tr class="memdesc:a67340373f009ef86ebf93a8c3bd15104 inherit pub_methods_a01911"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defaulted virtual destructor for polymorphic behavior.  <br /></td></tr>
+<tr class="separator:a67340373f009ef86ebf93a8c3bd15104 inherit pub_methods_a01911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af986dca3db635a971bc7f9aa83097284 inherit pub_methods_a01911" id="r_af986dca3db635a971bc7f9aa83097284"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01911.html#af986dca3db635a971bc7f9aa83097284">ILumexSettings</a> ()=default</td></tr>
+<tr class="memdesc:af986dca3db635a971bc7f9aa83097284 inherit pub_methods_a01911"><td class="mdescLeft">&#160;</td><td class="mdescRight">A default-constructible polymorphic interface.  <br /></td></tr>
+<tr class="separator:af986dca3db635a971bc7f9aa83097284 inherit pub_methods_a01911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa774ee064267d174a376e97272dacbec inherit pub_methods_a01911" id="r_aa774ee064267d174a376e97272dacbec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01911.html#aa774ee064267d174a376e97272dacbec">ILumexSettings</a> (<a class="el" href="a01911.html">ILumexSettings</a> const &amp;)=delete</td></tr>
+<tr class="separator:aa774ee064267d174a376e97272dacbec inherit pub_methods_a01911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d9a67b703f053be3b1f83d9f4108ee inherit pub_methods_a01911" id="r_a98d9a67b703f053be3b1f83d9f4108ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01911.html">ILumexSettings</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01911.html#a98d9a67b703f053be3b1f83d9f4108ee">operator=</a> (<a class="el" href="a01911.html">ILumexSettings</a> const &amp;)=delete</td></tr>
+<tr class="separator:a98d9a67b703f053be3b1f83d9f4108ee inherit pub_methods_a01911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ae1b637ba55ed87cd379edb2d82afdf23" id="r_ae1b637ba55ed87cd379edb2d82afdf23"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1b637ba55ed87cd379edb2d82afdf23">is_xml_valid</a> (std::string const &amp;<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>)</td></tr>
+<tr class="memdesc:ae1b637ba55ed87cd379edb2d82afdf23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks that a path is a readable, well-formed XML file with a document element.  <br /></td></tr>
+<tr class="separator:ae1b637ba55ed87cd379edb2d82afdf23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d037cd5f5f2336c9295633a24a5f53c" id="r_a8d037cd5f5f2336c9295633a24a5f53c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d037cd5f5f2336c9295633a24a5f53c">is_xml_valid</a> (char const *<a class="el" href="a01425.html#a45ac34be96c8025d67f85eb38698bf0e">path</a>)</td></tr>
+<tr class="separator:a8d037cd5f5f2336c9295633a24a5f53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A lightweight, C++11-based XML settings manager. </p>
+<p>Implements <code><a class="el" href="a01911.html" title="Interface of a settings store kept in a configuration file.">ILumexSettings</a></code> with the same section/key/value contract as <code><a class="el" href="a01232.html#aa4b9184a671b4fab21d16ff231591689">LumexSettingsINI</a></code>. Parsing and writing go through <code>LumexXml</code> only; this class does not vendor a second XML library.</p>
+<p>Load mapping:</p><ul>
+<li>Any well-formed document with a root element is accepted.</li>
+<li>If any child of the root has an element child, those children are sections and their leaf children are keys. Leaf children of the root itself are stored under a section named after the root.</li>
+<li>Otherwise the root is a single section (logger-style <code>&lt;logger&gt;&lt;LEVEL&gt;DEBUG&lt;/LEVEL&gt;&lt;/logger&gt;</code>).</li>
+</ul>
+<p>Save always writes the canonical shape <code>&lt;settings&gt;&lt;section&gt;&lt;key&gt;value&lt;/key&gt;&lt;/section&gt;&lt;/settings&gt;</code>.</p>
+<p>When <code>LUMEX_SETTINGS_WITH_XML</code> is not defined (XML module not built), <code>load</code> / <code>save</code> / <code>is_xml_valid</code> return false. The factory then returns nullptr for <code>LumexSettingsExtensions::XML</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>This class is not designed to be thread-safe for concurrent writes. External synchronization is required if instances are shared across threads. </dd></dl>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5681a6cb0cc82bb3f9178b7b456ec863" name="a5681a6cb0cc82bb3f9178b7b456ec863"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5681a6cb0cc82bb3f9178b7b456ec863">&#9670;&#160;</a></span>add() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::settings::xml::LumexSettingsXML::add </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>section</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_a5681a6cb0cc82bb3f9178b7b456ec863_cgraph.png" border="0" usemap="#aa01919_a5681a6cb0cc82bb3f9178b7b456ec863_cgraph" alt=""/></div>
+<map name="aa01919_a5681a6cb0cc82bb3f9178b7b456ec863_cgraph" id="aa01919_a5681a6cb0cc82bb3f9178b7b456ec863_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,224,45"/>
+<area shape="rect" href="a01919.html#ad38af7fcdb702801b644cf27e8326a08" title="Adds or updates a key&#45;value pair in a specific section." alt="" coords="272,5,491,45"/>
+<area shape="poly" title=" " alt="" coords="224,23,258,23,258,28,224,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad38af7fcdb702801b644cf27e8326a08" name="ad38af7fcdb702801b644cf27e8326a08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad38af7fcdb702801b644cf27e8326a08">&#9670;&#160;</a></span>add() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::settings::xml::LumexSettingsXML::add </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds or updates a key-value pair in a specific section. </p>
+<p>Creates the section if it does not exist. Empty section, key, or value is ignored (same as <code><a class="el" href="a01232.html#aa4b9184a671b4fab21d16ff231591689">LumexSettingsINI</a></code>). </p>
+
+<p>Implements <a class="el" href="a01911.html#aa62d2c035f9f5262cc3ff5ed0aa090e6">lumex::applied::settings::ILumexSettings</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_ad38af7fcdb702801b644cf27e8326a08_icgraph.png" border="0" usemap="#aa01919_ad38af7fcdb702801b644cf27e8326a08_icgraph" alt=""/></div>
+<map name="aa01919_ad38af7fcdb702801b644cf27e8326a08_icgraph" id="aa01919_ad38af7fcdb702801b644cf27e8326a08_icgraph">
+<area shape="rect" title="Adds or updates a key&#45;value pair in a specific section." alt="" coords="272,5,491,45"/>
+<area shape="rect" href="a01919.html#a5681a6cb0cc82bb3f9178b7b456ec863" title=" " alt="" coords="5,5,224,45"/>
+<area shape="poly" title=" " alt="" coords="258,28,224,28,224,23,258,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a329cbe03809f11567c247392b669aa13" name="a329cbe03809f11567c247392b669aa13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a329cbe03809f11567c247392b669aa13">&#9670;&#160;</a></span>get() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::settings::xml::LumexSettingsXML::get </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>section</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>key</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_a329cbe03809f11567c247392b669aa13_cgraph.png" border="0" usemap="#aa01919_a329cbe03809f11567c247392b669aa13_cgraph" alt=""/></div>
+<map name="aa01919_a329cbe03809f11567c247392b669aa13_cgraph" id="aa01919_a329cbe03809f11567c247392b669aa13_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,221,45"/>
+<area shape="rect" href="a01919.html#acdd3841842f97972dcee82fca7ac1412" title="Retrieves a string value for a given section and key." alt="" coords="269,5,485,45"/>
+<area shape="poly" title=" " alt="" coords="221,23,255,23,255,28,221,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="acdd3841842f97972dcee82fca7ac1412" name="acdd3841842f97972dcee82fca7ac1412"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdd3841842f97972dcee82fca7ac1412">&#9670;&#160;</a></span>get() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string lumex::applied::settings::xml::LumexSettingsXML::get </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves a string value for a given section and key. </p>
+<dl class="section return"><dt>Returns</dt><dd>The value, or an empty string if the section or key is missing. </dd></dl>
+
+<p>Implements <a class="el" href="a01911.html#a4dd441bfa740a2514899dfecceb4dd70">lumex::applied::settings::ILumexSettings</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_acdd3841842f97972dcee82fca7ac1412_icgraph.png" border="0" usemap="#aa01919_acdd3841842f97972dcee82fca7ac1412_icgraph" alt=""/></div>
+<map name="aa01919_acdd3841842f97972dcee82fca7ac1412_icgraph" id="aa01919_acdd3841842f97972dcee82fca7ac1412_icgraph">
+<area shape="rect" title="Retrieves a string value for a given section and key." alt="" coords="269,35,485,75"/>
+<area shape="rect" href="a01919.html#a329cbe03809f11567c247392b669aa13" title=" " alt="" coords="5,5,221,45"/>
+<area shape="poly" title=" " alt="" coords="256,44,221,40,222,35,256,39"/>
+<area shape="rect" href="a00317.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="86,70,141,95"/>
+<area shape="poly" title=" " alt="" coords="256,70,141,82,141,77,255,65"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a8d037cd5f5f2336c9295633a24a5f53c" name="a8d037cd5f5f2336c9295633a24a5f53c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d037cd5f5f2336c9295633a24a5f53c">&#9670;&#160;</a></span>is_xml_valid() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::settings::xml::LumexSettingsXML::is_xml_valid </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_a8d037cd5f5f2336c9295633a24a5f53c_cgraph.png" border="0" usemap="#aa01919_a8d037cd5f5f2336c9295633a24a5f53c_cgraph" alt=""/></div>
+<map name="aa01919_a8d037cd5f5f2336c9295633a24a5f53c_cgraph" id="aa01919_a8d037cd5f5f2336c9295633a24a5f53c_cgraph">
+<area shape="rect" title=" " alt="" coords="5,557,192,611"/>
+<area shape="rect" href="a01919.html#ae1b637ba55ed87cd379edb2d82afdf23" title="Checks that a path is a readable, well&#45;formed XML file with a document element." alt="" coords="240,557,427,611"/>
+<area shape="poly" title=" " alt="" coords="192,581,226,581,226,587,192,587"/>
+<area shape="rect" href="a05127.html#a051729e78e5db139897fbb590c8293b3" title="Retrieves the document element (root element) of the XML document." alt="" coords="475,521,671,575"/>
+<area shape="poly" title=" " alt="" coords="426,567,461,562,461,567,427,573"/>
+<area shape="rect" href="a05127.html#a0c8de91086d1d88840e929509c835bf1" title="Loads an XML document from a file specified by a C&#45;style character path." alt="" coords="479,600,666,640"/>
+<area shape="poly" title=" " alt="" coords="427,595,466,601,465,607,426,601"/>
+<area shape="rect" href="a05143.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="719,528,923,568"/>
+<area shape="poly" title=" " alt="" coords="671,545,705,545,705,551,671,551"/>
+<area shape="poly" title=" " alt="" coords="775,528,772,518,779,509,796,503,821,501,849,504,865,511,863,516,848,509,821,507,797,509,782,513,777,519,780,527"/>
+<area shape="rect" href="a05143.html#a7f4d671f25c6951150f5c727dbc8261f" title="Finds the first attribute with the specified name." alt="" coords="971,69,1175,109"/>
+<area shape="poly" title=" " alt="" coords="819,527,829,454,852,347,872,288,897,230,929,175,969,126,983,114,987,118,973,130,933,178,902,232,877,290,857,348,834,454,825,528"/>
+<area shape="rect" href="a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="1223,188,1427,228"/>
+<area shape="poly" title=" " alt="" coords="819,527,826,456,835,408,848,356,867,303,893,253,927,207,969,170,1006,151,1045,141,1086,137,1127,140,1206,157,1272,180,1270,185,1204,162,1126,145,1086,143,1046,146,1008,156,972,174,931,211,898,255,872,305,853,358,840,409,831,457,824,528"/>
+<area shape="rect" href="a05143.html#a0ba3799de746669b14031ceebdee242c" title="Finds the first child node with the specified name." alt="" coords="971,5,1175,45"/>
+<area shape="poly" title=" " alt="" coords="822,527,843,431,876,293,896,222,919,157,943,104,969,67,998,48,1001,53,973,71,948,107,924,159,901,224,881,294,848,432,828,528"/>
+<area shape="rect" href="a05143.html#a036f6d862ca3981c48d42bf54ccbfad2" title="Checks if the XmlNode object is empty." alt="" coords="971,184,1175,224"/>
+<area shape="poly" title=" " alt="" coords="822,527,836,470,864,391,884,349,907,307,936,268,969,234,975,229,979,233,972,238,940,271,912,310,888,351,869,393,842,471,827,528"/>
+<area shape="rect" href="a05143.html#a1fd71ea59944927bf9867fc98be0ffcf" title="Retrieves the first attribute of the node." alt="" coords="971,248,1175,288"/>
+<area shape="poly" title=" " alt="" coords="825,527,843,480,873,419,915,354,940,324,969,298,977,293,980,297,972,302,944,328,919,357,877,421,848,482,830,529"/>
+<area shape="rect" href="a05143.html#a82a93da169b71235dc2923bd9a3a3da4" title="Retrieves the first child node of the current node." alt="" coords="971,312,1175,352"/>
+<area shape="poly" title=" " alt="" coords="834,526,887,452,925,410,969,374,1011,354,1013,359,972,378,929,414,891,456,838,529"/>
+<area shape="rect" href="a05143.html#a3cf020917a8af507489d56a9280a0a9d" title="Retrieves the last attribute of the node." alt="" coords="971,376,1175,416"/>
+<area shape="poly" title=" " alt="" coords="839,526,895,476,931,449,969,426,983,419,986,424,972,430,934,454,898,480,843,530"/>
+<area shape="rect" href="a05143.html#a17efa757a74e1e5a08131df5e4317ddb" title="Retrieves the last child node of the current node." alt="" coords="971,440,1175,480"/>
+<area shape="poly" title=" " alt="" coords="902,525,970,501,1027,482,1028,487,972,507,904,530"/>
+<area shape="rect" href="a05143.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="971,528,1175,568"/>
+<area shape="poly" title=" " alt="" coords="923,545,957,545,957,551,923,551"/>
+<area shape="rect" href="a05143.html#af0c57674f2aa78e5a10d9ffecd11793a" title="Retrieves the next sibling node of the current node." alt="" coords="971,592,1175,632"/>
+<area shape="poly" title=" " alt="" coords="872,566,958,589,956,594,870,571"/>
+<area shape="rect" href="a05143.html#ad4130676f6cd5dcdfb86275d28ef6d94" title="Retrieves the parent node of the current node." alt="" coords="971,656,1175,696"/>
+<area shape="poly" title=" " alt="" coords="858,566,891,579,924,598,938,610,946,622,963,646,958,649,942,625,934,614,921,602,889,584,856,571"/>
+<area shape="rect" href="a05143.html#aae031f4e25d06ebfa007e468904d05b4" title="Retrieves the previous sibling node of the current node." alt="" coords="971,720,1175,760"/>
+<area shape="poly" title=" " alt="" coords="867,566,897,579,924,598,936,612,943,627,948,655,952,682,964,709,959,711,947,684,943,656,938,629,932,615,921,602,894,583,865,571"/>
+<area shape="rect" href="a05143.html#ae75074132cc71a473fe3f862cb3d56e2" title="Retrieves the root of the DOM tree to which this node belongs." alt="" coords="971,784,1175,824"/>
+<area shape="poly" title=" " alt="" coords="870,566,899,579,925,598,940,621,948,644,949,688,948,730,953,751,965,773,960,775,948,753,943,731,944,688,943,645,935,623,921,602,897,583,868,571"/>
+<area shape="rect" href="a05143.html#ac327d0433bdcac1e44124582ed24dc92" title="Retrieves a text object (XmlText) associated with the current node." alt="" coords="971,848,1175,888"/>
+<area shape="poly" title=" " alt="" coords="899,566,925,586,945,619,953,651,952,683,948,713,944,744,944,774,953,804,973,834,976,837,972,841,969,838,948,806,939,774,939,743,943,713,947,682,947,652,940,621,921,590,896,570"/>
+<area shape="rect" href="a05143.html#a6473de83822e0e12f4f02d25420747ca" title="Retrieves the type of the XML node." alt="" coords="971,912,1175,952"/>
+<area shape="poly" title=" " alt="" coords="900,566,925,586,949,628,957,668,955,707,948,746,941,784,940,822,948,860,973,898,975,901,971,905,969,902,943,862,934,822,936,783,943,745,950,706,952,668,944,629,921,590,897,570"/>
+<area shape="rect" href="a05143.html#a3ab22f27c7a36eebc5236b8190546186" title="Retrieves the value of the XML node." alt="" coords="971,1000,1175,1040"/>
+<area shape="poly" title=" " alt="" coords="901,566,925,586,942,611,953,636,963,683,961,729,953,774,944,819,940,865,948,913,958,937,973,962,987,978,1005,991,1001,996,983,982,969,966,953,939,943,914,935,865,938,819,947,773,956,728,958,683,948,637,937,614,921,590,897,570"/>
+<area shape="poly" title=" " alt="" coords="1130,107,1176,126,1279,179,1277,184,1174,130,1128,112"/>
+<area shape="rect" href="a01671.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="1253,37,1396,77"/>
+<area shape="poly" title=" " alt="" coords="1174,74,1240,65,1240,71,1175,79"/>
+<area shape="poly" title=" " alt="" coords="973,47,973,47,948,82,925,134,902,197,882,267,849,408,829,514,823,513,844,407,877,266,897,196,920,132,944,79,969,44,969,43"/>
+<area shape="poly" title=" " alt="" coords="1175,36,1240,44,1240,49,1174,41"/>
+<area shape="poly" title=" " alt="" coords="1156,245,1226,229,1228,234,1158,251"/>
+<area shape="poly" title=" " alt="" coords="973,354,972,354,928,391,890,435,859,479,837,517,832,514,854,476,885,432,924,387,969,350,970,349"/>
+<area shape="poly" title=" " alt="" coords="1150,373,1173,362,1212,333,1247,301,1300,238,1304,241,1250,304,1215,338,1176,366,1153,378"/>
+<area shape="poly" title=" " alt="" coords="972,482,972,483,862,525,860,520,970,477,970,477"/>
+<area shape="poly" title=" " alt="" coords="1026,528,1023,518,1031,509,1047,503,1073,501,1102,504,1118,511,1115,516,1100,509,1073,507,1048,509,1034,513,1028,519,1031,527"/>
+<area shape="poly" title=" " alt="" coords="1022,594,935,571,936,566,1023,589"/>
+<area shape="poly" title=" " alt="" coords="1025,658,996,648,969,634,953,620,944,606,936,592,921,578,920,578,923,573,924,574,940,589,949,603,957,617,972,630,999,643,1026,653"/>
+<area shape="poly" title=" " alt="" coords="1014,722,990,713,969,698,957,684,949,669,943,641,937,611,931,596,921,580,925,577,936,593,943,609,948,639,954,668,961,681,972,694,993,708,1016,717"/>
+<area shape="poly" title=" " alt="" coords="1010,786,988,777,969,762,952,739,944,717,942,672,941,627,935,604,921,580,925,577,939,602,946,626,947,672,949,716,957,737,973,758,991,772,1013,782"/>
+<area shape="rect" href="a01676.html#a9ff47d1fab33d9dac2db3f3203dd5b2b" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="1240,784,1409,824"/>
+<area shape="poly" title=" " alt="" coords="1175,801,1226,801,1226,807,1175,807"/>
+<area shape="poly" title=" " alt="" coords="1026,1000,1023,990,1031,981,1047,975,1073,973,1102,976,1118,983,1115,988,1100,981,1073,979,1048,981,1034,985,1028,991,1031,999"/>
+<area shape="rect" href="a05127.html#a20b942adcf753027eb5e49afbf383920" title="Removes all nodes from the document, leaving it in an empty state." alt="" coords="736,600,905,640"/>
+<area shape="poly" title=" " alt="" coords="666,617,723,617,723,623,666,623"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae1b637ba55ed87cd379edb2d82afdf23" name="ae1b637ba55ed87cd379edb2d82afdf23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1b637ba55ed87cd379edb2d82afdf23">&#9670;&#160;</a></span>is_xml_valid() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::settings::xml::LumexSettingsXML::is_xml_valid </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks that a path is a readable, well-formed XML file with a document element. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_ae1b637ba55ed87cd379edb2d82afdf23_cgraph.png" border="0" usemap="#aa01919_ae1b637ba55ed87cd379edb2d82afdf23_cgraph" alt=""/></div>
+<map name="aa01919_ae1b637ba55ed87cd379edb2d82afdf23_cgraph" id="aa01919_ae1b637ba55ed87cd379edb2d82afdf23_cgraph">
+<area shape="rect" title="Checks that a path is a readable, well&#45;formed XML file with a document element." alt="" coords="5,557,192,611"/>
+<area shape="rect" href="a05127.html#a051729e78e5db139897fbb590c8293b3" title="Retrieves the document element (root element) of the XML document." alt="" coords="240,521,436,575"/>
+<area shape="poly" title=" " alt="" coords="192,567,226,562,227,567,193,573"/>
+<area shape="rect" href="a05127.html#a0c8de91086d1d88840e929509c835bf1" title="Loads an XML document from a file specified by a C&#45;style character path." alt="" coords="245,600,431,640"/>
+<area shape="poly" title=" " alt="" coords="193,595,231,601,231,607,192,601"/>
+<area shape="rect" href="a05143.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="484,528,688,568"/>
+<area shape="poly" title=" " alt="" coords="436,545,470,545,470,551,436,551"/>
+<area shape="poly" title=" " alt="" coords="540,528,537,518,545,509,561,503,586,501,615,504,631,511,628,516,613,509,586,507,562,509,548,513,542,519,545,527"/>
+<area shape="rect" href="a05143.html#a7f4d671f25c6951150f5c727dbc8261f" title="Finds the first attribute with the specified name." alt="" coords="736,69,940,109"/>
+<area shape="poly" title=" " alt="" coords="585,527,594,454,618,347,637,288,662,230,694,175,734,126,749,114,752,118,738,130,699,178,667,232,642,290,623,348,599,454,590,528"/>
+<area shape="rect" href="a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="988,188,1192,228"/>
+<area shape="poly" title=" " alt="" coords="584,527,591,456,600,408,613,356,633,303,658,253,692,207,734,170,771,151,810,141,851,137,892,140,971,157,1037,180,1035,185,970,162,892,145,851,143,811,146,773,156,738,174,696,211,663,255,637,305,619,358,605,409,597,457,589,528"/>
+<area shape="rect" href="a05143.html#a0ba3799de746669b14031ceebdee242c" title="Finds the first child node with the specified name." alt="" coords="736,5,940,45"/>
+<area shape="poly" title=" " alt="" coords="588,527,608,431,641,293,662,222,684,157,708,104,734,67,763,48,766,53,738,71,713,107,689,159,667,224,646,294,613,432,593,528"/>
+<area shape="rect" href="a05143.html#a036f6d862ca3981c48d42bf54ccbfad2" title="Checks if the XmlNode object is empty." alt="" coords="736,184,940,224"/>
+<area shape="poly" title=" " alt="" coords="587,527,602,470,629,391,649,349,673,307,701,268,734,234,741,229,744,233,738,238,705,271,677,310,654,351,634,393,607,471,592,528"/>
+<area shape="rect" href="a05143.html#a1fd71ea59944927bf9867fc98be0ffcf" title="Retrieves the first attribute of the node." alt="" coords="736,248,940,288"/>
+<area shape="poly" title=" " alt="" coords="590,527,608,480,638,419,680,354,706,324,734,298,742,293,745,297,738,302,709,328,684,357,643,421,613,482,595,529"/>
+<area shape="rect" href="a05143.html#a82a93da169b71235dc2923bd9a3a3da4" title="Retrieves the first child node of the current node." alt="" coords="736,312,940,352"/>
+<area shape="poly" title=" " alt="" coords="599,526,653,452,691,410,735,374,776,354,778,359,737,378,694,414,657,456,604,529"/>
+<area shape="rect" href="a05143.html#a3cf020917a8af507489d56a9280a0a9d" title="Retrieves the last attribute of the node." alt="" coords="736,376,940,416"/>
+<area shape="poly" title=" " alt="" coords="604,526,660,476,696,449,735,426,749,419,751,424,737,430,699,454,664,480,608,530"/>
+<area shape="rect" href="a05143.html#a17efa757a74e1e5a08131df5e4317ddb" title="Retrieves the last child node of the current node." alt="" coords="736,440,940,480"/>
+<area shape="poly" title=" " alt="" coords="667,525,735,501,792,482,794,487,737,507,669,530"/>
+<area shape="rect" href="a05143.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="736,528,940,568"/>
+<area shape="poly" title=" " alt="" coords="688,545,722,545,722,551,688,551"/>
+<area shape="rect" href="a05143.html#af0c57674f2aa78e5a10d9ffecd11793a" title="Retrieves the next sibling node of the current node." alt="" coords="736,592,940,632"/>
+<area shape="poly" title=" " alt="" coords="637,566,723,589,722,594,636,571"/>
+<area shape="rect" href="a05143.html#ad4130676f6cd5dcdfb86275d28ef6d94" title="Retrieves the parent node of the current node." alt="" coords="736,656,940,696"/>
+<area shape="poly" title=" " alt="" coords="624,566,657,579,690,598,703,610,712,622,728,646,723,649,707,625,699,614,686,602,654,584,622,571"/>
+<area shape="rect" href="a05143.html#aae031f4e25d06ebfa007e468904d05b4" title="Retrieves the previous sibling node of the current node." alt="" coords="736,720,940,760"/>
+<area shape="poly" title=" " alt="" coords="632,566,662,579,690,598,701,612,708,627,714,655,717,682,729,709,725,711,712,684,708,656,703,629,697,615,686,602,660,583,630,571"/>
+<area shape="rect" href="a05143.html#ae75074132cc71a473fe3f862cb3d56e2" title="Retrieves the root of the DOM tree to which this node belongs." alt="" coords="736,784,940,824"/>
+<area shape="poly" title=" " alt="" coords="636,566,665,579,690,598,706,621,713,644,714,688,713,730,718,751,730,773,725,775,713,753,708,731,709,688,708,645,701,623,686,602,662,583,634,571"/>
+<area shape="rect" href="a05143.html#ac327d0433bdcac1e44124582ed24dc92" title="Retrieves a text object (XmlText) associated with the current node." alt="" coords="736,848,940,888"/>
+<area shape="poly" title=" " alt="" coords="665,566,690,586,710,619,718,651,718,683,714,713,710,744,710,774,718,804,738,834,741,837,737,841,734,838,713,806,704,774,704,743,708,713,712,682,713,652,705,621,686,590,661,570"/>
+<area shape="rect" href="a05143.html#a6473de83822e0e12f4f02d25420747ca" title="Retrieves the type of the XML node." alt="" coords="736,912,940,952"/>
+<area shape="poly" title=" " alt="" coords="666,566,690,586,714,628,722,668,720,707,713,746,706,784,705,822,714,860,738,898,741,901,737,905,734,902,709,862,700,822,701,783,708,745,715,706,717,668,709,629,686,590,662,570"/>
+<area shape="rect" href="a05143.html#a3ab22f27c7a36eebc5236b8190546186" title="Retrieves the value of the XML node." alt="" coords="736,1000,940,1040"/>
+<area shape="poly" title=" " alt="" coords="666,566,690,586,707,611,718,636,729,683,726,729,718,774,709,819,706,865,714,913,723,937,738,962,752,978,770,991,767,996,749,982,734,966,719,939,708,914,700,865,704,819,713,773,721,728,723,683,713,637,702,614,686,590,663,570"/>
+<area shape="poly" title=" " alt="" coords="896,107,941,126,1045,179,1042,184,939,130,894,112"/>
+<area shape="rect" href="a01671.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="1019,37,1161,77"/>
+<area shape="poly" title=" " alt="" coords="940,74,1005,65,1006,71,940,79"/>
+<area shape="poly" title=" " alt="" coords="738,47,738,47,713,82,690,134,668,197,648,267,614,408,594,514,589,513,609,407,642,266,663,196,685,132,709,79,734,44,735,43"/>
+<area shape="poly" title=" " alt="" coords="940,36,1006,44,1005,49,940,41"/>
+<area shape="poly" title=" " alt="" coords="922,245,992,229,993,234,923,251"/>
+<area shape="poly" title=" " alt="" coords="738,354,738,354,693,391,655,435,624,479,602,517,597,514,620,476,651,432,689,387,734,350,735,349"/>
+<area shape="poly" title=" " alt="" coords="915,373,939,362,977,333,1012,301,1066,238,1070,241,1016,304,980,338,941,366,918,378"/>
+<area shape="poly" title=" " alt="" coords="737,482,737,483,628,525,626,520,735,477,736,477"/>
+<area shape="poly" title=" " alt="" coords="791,528,789,518,796,509,813,503,838,501,867,504,883,511,881,516,866,509,838,507,814,509,799,513,794,519,796,527"/>
+<area shape="poly" title=" " alt="" coords="787,594,700,571,702,566,789,589"/>
+<area shape="poly" title=" " alt="" coords="790,658,762,648,734,634,719,620,710,606,701,592,686,578,686,578,689,573,690,574,705,589,714,603,723,617,738,630,764,643,792,653"/>
+<area shape="poly" title=" " alt="" coords="779,722,756,713,734,698,722,684,715,669,708,641,703,611,697,596,686,580,690,577,701,593,708,609,714,639,720,668,726,681,738,694,758,708,781,717"/>
+<area shape="poly" title=" " alt="" coords="776,786,753,777,734,762,718,739,710,717,707,672,706,627,700,604,686,580,691,577,705,602,712,626,713,672,715,716,722,737,738,758,756,772,778,782"/>
+<area shape="rect" href="a01676.html#a9ff47d1fab33d9dac2db3f3203dd5b2b" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="1005,784,1175,824"/>
+<area shape="poly" title=" " alt="" coords="940,801,992,801,992,807,940,807"/>
+<area shape="poly" title=" " alt="" coords="791,1000,789,990,796,981,813,975,838,973,867,976,883,983,881,988,866,981,838,979,814,981,799,985,794,991,796,999"/>
+<area shape="rect" href="a05127.html#a20b942adcf753027eb5e49afbf383920" title="Removes all nodes from the document, leaving it in an empty state." alt="" coords="501,600,671,640"/>
+<area shape="poly" title=" " alt="" coords="431,617,488,617,488,623,431,623"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_ae1b637ba55ed87cd379edb2d82afdf23_icgraph.png" border="0" usemap="#aa01919_ae1b637ba55ed87cd379edb2d82afdf23_icgraph" alt=""/></div>
+<map name="aa01919_ae1b637ba55ed87cd379edb2d82afdf23_icgraph" id="aa01919_ae1b637ba55ed87cd379edb2d82afdf23_icgraph">
+<area shape="rect" title="Checks that a path is a readable, well&#45;formed XML file with a document element." alt="" coords="547,77,733,132"/>
+<area shape="rect" href="a01919.html#a8d037cd5f5f2336c9295633a24a5f53c" title=" " alt="" coords="294,5,481,60"/>
+<area shape="poly" title=" " alt="" coords="533,77,480,62,481,57,534,72"/>
+<area shape="rect" href="a01919.html#aee36de8debc87784e6a28833736c0f88" title="Loads and parses an XML file from the given path." alt="" coords="276,85,499,125"/>
+<area shape="poly" title=" " alt="" coords="533,107,499,107,499,102,533,102"/>
+<area shape="rect" href="a00317.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="89,149,144,175"/>
+<area shape="poly" title=" " alt="" coords="534,133,499,139,397,151,296,159,144,164,144,159,295,153,396,146,498,134,533,128"/>
+<area shape="rect" href="a01919.html#a49ecba46ab453277477a0298ca001778" title=" " alt="" coords="5,85,228,125"/>
+<area shape="poly" title=" " alt="" coords="262,107,228,107,228,102,262,102"/>
+<area shape="poly" title=" " alt="" coords="280,130,145,159,144,154,279,125"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a49ecba46ab453277477a0298ca001778" name="a49ecba46ab453277477a0298ca001778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49ecba46ab453277477a0298ca001778">&#9670;&#160;</a></span>load() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::settings::xml::LumexSettingsXML::load </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_a49ecba46ab453277477a0298ca001778_cgraph.png" border="0" usemap="#aa01919_a49ecba46ab453277477a0298ca001778_cgraph" alt=""/></div>
+<map name="aa01919_a49ecba46ab453277477a0298ca001778_cgraph" id="aa01919_a49ecba46ab453277477a0298ca001778_cgraph">
+<area shape="rect" title=" " alt="" coords="5,564,228,604"/>
+<area shape="rect" href="a01919.html#aee36de8debc87784e6a28833736c0f88" title="Loads and parses an XML file from the given path." alt="" coords="276,564,499,604"/>
+<area shape="poly" title=" " alt="" coords="228,581,263,581,263,587,228,587"/>
+<area shape="rect" href="a01919.html#ae1b637ba55ed87cd379edb2d82afdf23" title="Checks that a path is a readable, well&#45;formed XML file with a document element." alt="" coords="547,557,733,611"/>
+<area shape="poly" title=" " alt="" coords="499,581,533,581,533,587,499,587"/>
+<area shape="rect" href="a05127.html#a051729e78e5db139897fbb590c8293b3" title="Retrieves the document element (root element) of the XML document." alt="" coords="781,521,977,575"/>
+<area shape="poly" title=" " alt="" coords="733,567,767,562,768,567,734,573"/>
+<area shape="rect" href="a05127.html#a0c8de91086d1d88840e929509c835bf1" title="Loads an XML document from a file specified by a C&#45;style character path." alt="" coords="786,600,973,640"/>
+<area shape="poly" title=" " alt="" coords="734,595,773,601,772,607,733,601"/>
+<area shape="rect" href="a05143.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="1025,528,1229,568"/>
+<area shape="poly" title=" " alt="" coords="977,545,1012,545,1012,551,977,551"/>
+<area shape="poly" title=" " alt="" coords="1081,528,1078,518,1086,509,1102,503,1127,501,1156,504,1172,511,1170,516,1155,509,1127,507,1103,509,1089,513,1084,519,1086,527"/>
+<area shape="rect" href="a05143.html#a7f4d671f25c6951150f5c727dbc8261f" title="Finds the first attribute with the specified name." alt="" coords="1277,69,1481,109"/>
+<area shape="poly" title=" " alt="" coords="1126,527,1135,454,1159,347,1178,288,1203,230,1236,175,1275,126,1290,114,1293,118,1279,130,1240,178,1208,232,1183,290,1164,348,1141,454,1131,528"/>
+<area shape="rect" href="a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="1529,188,1733,228"/>
+<area shape="poly" title=" " alt="" coords="1125,527,1133,456,1141,408,1155,356,1174,303,1200,253,1233,207,1276,170,1312,151,1352,141,1392,137,1434,140,1513,157,1578,180,1576,185,1511,162,1433,145,1393,143,1352,146,1314,156,1279,174,1237,211,1204,255,1179,305,1160,358,1147,409,1138,457,1131,528"/>
+<area shape="rect" href="a05143.html#a0ba3799de746669b14031ceebdee242c" title="Finds the first child node with the specified name." alt="" coords="1277,5,1481,45"/>
+<area shape="poly" title=" " alt="" coords="1129,527,1149,431,1183,293,1203,222,1226,157,1250,104,1275,67,1305,48,1308,53,1279,71,1254,107,1231,159,1208,224,1188,294,1154,432,1134,528"/>
+<area shape="rect" href="a05143.html#a036f6d862ca3981c48d42bf54ccbfad2" title="Checks if the XmlNode object is empty." alt="" coords="1277,184,1481,224"/>
+<area shape="poly" title=" " alt="" coords="1129,527,1143,470,1171,391,1190,349,1214,307,1242,268,1276,234,1282,229,1285,233,1279,238,1246,271,1218,310,1195,351,1176,393,1148,471,1134,528"/>
+<area shape="rect" href="a05143.html#a1fd71ea59944927bf9867fc98be0ffcf" title="Retrieves the first attribute of the node." alt="" coords="1277,248,1481,288"/>
+<area shape="poly" title=" " alt="" coords="1131,527,1149,480,1179,419,1221,354,1247,324,1276,298,1283,293,1286,297,1279,302,1251,328,1226,357,1184,421,1154,482,1136,529"/>
+<area shape="rect" href="a05143.html#a82a93da169b71235dc2923bd9a3a3da4" title="Retrieves the first child node of the current node." alt="" coords="1277,312,1481,352"/>
+<area shape="poly" title=" " alt="" coords="1141,526,1194,452,1232,410,1276,374,1317,354,1320,359,1279,378,1236,414,1198,456,1145,529"/>
+<area shape="rect" href="a05143.html#a3cf020917a8af507489d56a9280a0a9d" title="Retrieves the last attribute of the node." alt="" coords="1277,376,1481,416"/>
+<area shape="poly" title=" " alt="" coords="1146,526,1202,476,1238,449,1276,426,1290,419,1292,424,1279,430,1241,454,1205,480,1149,530"/>
+<area shape="rect" href="a05143.html#a17efa757a74e1e5a08131df5e4317ddb" title="Retrieves the last child node of the current node." alt="" coords="1277,440,1481,480"/>
+<area shape="poly" title=" " alt="" coords="1209,525,1276,501,1333,482,1335,487,1278,507,1210,530"/>
+<area shape="rect" href="a05143.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="1277,528,1481,568"/>
+<area shape="poly" title=" " alt="" coords="1229,545,1264,545,1264,551,1229,551"/>
+<area shape="rect" href="a05143.html#af0c57674f2aa78e5a10d9ffecd11793a" title="Retrieves the next sibling node of the current node." alt="" coords="1277,592,1481,632"/>
+<area shape="poly" title=" " alt="" coords="1178,566,1264,589,1263,594,1177,571"/>
+<area shape="rect" href="a05143.html#ad4130676f6cd5dcdfb86275d28ef6d94" title="Retrieves the parent node of the current node." alt="" coords="1277,656,1481,696"/>
+<area shape="poly" title=" " alt="" coords="1165,566,1198,579,1231,598,1245,610,1253,622,1269,646,1265,649,1248,625,1240,614,1228,602,1196,584,1163,571"/>
+<area shape="rect" href="a05143.html#aae031f4e25d06ebfa007e468904d05b4" title="Retrieves the previous sibling node of the current node." alt="" coords="1277,720,1481,760"/>
+<area shape="poly" title=" " alt="" coords="1174,566,1204,579,1231,598,1243,612,1250,627,1255,655,1258,682,1271,709,1266,711,1253,684,1250,656,1245,629,1238,615,1228,602,1201,583,1171,571"/>
+<area shape="rect" href="a05143.html#ae75074132cc71a473fe3f862cb3d56e2" title="Retrieves the root of the DOM tree to which this node belongs." alt="" coords="1277,784,1481,824"/>
+<area shape="poly" title=" " alt="" coords="1177,566,1206,579,1231,598,1247,621,1254,644,1256,688,1255,730,1260,751,1271,773,1267,775,1255,753,1249,731,1250,688,1249,645,1242,623,1227,602,1203,583,1175,571"/>
+<area shape="rect" href="a05143.html#ac327d0433bdcac1e44124582ed24dc92" title="Retrieves a text object (XmlText) associated with the current node." alt="" coords="1277,848,1481,888"/>
+<area shape="poly" title=" " alt="" coords="1206,566,1231,586,1251,619,1259,651,1259,683,1255,713,1251,744,1251,774,1259,804,1279,834,1282,837,1279,841,1275,838,1254,806,1246,774,1246,743,1250,713,1254,682,1254,652,1246,621,1227,590,1203,570"/>
+<area shape="rect" href="a05143.html#a6473de83822e0e12f4f02d25420747ca" title="Retrieves the type of the XML node." alt="" coords="1277,912,1481,952"/>
+<area shape="poly" title=" " alt="" coords="1207,566,1231,586,1255,628,1264,668,1262,707,1255,746,1248,784,1246,822,1255,860,1279,898,1282,901,1278,905,1275,902,1250,862,1241,822,1242,783,1249,745,1256,706,1258,668,1250,629,1227,590,1203,570"/>
+<area shape="rect" href="a05143.html#a3ab22f27c7a36eebc5236b8190546186" title="Retrieves the value of the XML node." alt="" coords="1277,1000,1481,1040"/>
+<area shape="poly" title=" " alt="" coords="1208,566,1231,586,1248,611,1260,636,1270,683,1268,729,1259,774,1250,819,1247,865,1255,913,1265,937,1279,962,1294,978,1311,991,1308,996,1290,982,1275,966,1260,939,1250,914,1242,865,1245,819,1254,773,1262,728,1265,683,1255,637,1244,614,1227,590,1204,570"/>
+<area shape="poly" title=" " alt="" coords="1437,107,1482,126,1586,179,1584,184,1480,130,1435,112"/>
+<area shape="rect" href="a01671.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="1560,37,1703,77"/>
+<area shape="poly" title=" " alt="" coords="1481,74,1546,65,1547,71,1482,79"/>
+<area shape="poly" title=" " alt="" coords="1280,47,1279,47,1255,82,1231,134,1209,197,1189,267,1156,408,1135,514,1130,513,1151,407,1184,266,1204,196,1226,132,1250,79,1275,44,1276,43"/>
+<area shape="poly" title=" " alt="" coords="1482,36,1547,44,1546,49,1481,41"/>
+<area shape="poly" title=" " alt="" coords="1463,245,1533,229,1534,234,1464,251"/>
+<area shape="poly" title=" " alt="" coords="1279,354,1279,354,1235,391,1196,435,1165,479,1143,517,1139,514,1161,476,1192,432,1231,387,1276,350,1276,349"/>
+<area shape="poly" title=" " alt="" coords="1457,373,1480,362,1518,333,1553,301,1607,238,1611,241,1557,304,1522,338,1483,366,1459,378"/>
+<area shape="poly" title=" " alt="" coords="1279,482,1278,483,1169,525,1167,520,1276,477,1277,477"/>
+<area shape="poly" title=" " alt="" coords="1333,528,1330,518,1337,509,1354,503,1379,501,1408,504,1424,511,1422,516,1407,509,1379,507,1355,509,1340,513,1335,519,1338,527"/>
+<area shape="poly" title=" " alt="" coords="1329,594,1242,571,1243,566,1330,589"/>
+<area shape="poly" title=" " alt="" coords="1331,658,1303,648,1276,634,1260,620,1251,606,1242,592,1228,578,1227,578,1230,573,1231,574,1246,589,1255,603,1264,617,1279,630,1305,643,1333,653"/>
+<area shape="poly" title=" " alt="" coords="1321,722,1297,713,1276,698,1263,684,1256,669,1250,641,1244,611,1238,596,1227,580,1232,577,1243,593,1249,609,1255,639,1261,668,1268,681,1279,694,1299,708,1323,717"/>
+<area shape="poly" title=" " alt="" coords="1317,786,1295,777,1275,762,1259,739,1251,717,1249,672,1248,627,1241,604,1227,580,1232,577,1246,602,1253,626,1254,672,1256,716,1264,737,1279,758,1298,772,1319,782"/>
+<area shape="rect" href="a01676.html#a9ff47d1fab33d9dac2db3f3203dd5b2b" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="1547,784,1716,824"/>
+<area shape="poly" title=" " alt="" coords="1481,801,1533,801,1533,807,1481,807"/>
+<area shape="poly" title=" " alt="" coords="1333,1000,1330,990,1337,981,1354,975,1379,973,1408,976,1424,983,1422,988,1407,981,1379,979,1355,981,1340,985,1335,991,1338,999"/>
+<area shape="rect" href="a05127.html#a20b942adcf753027eb5e49afbf383920" title="Removes all nodes from the document, leaving it in an empty state." alt="" coords="1043,600,1212,640"/>
+<area shape="poly" title=" " alt="" coords="973,617,1029,617,1029,623,973,623"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aee36de8debc87784e6a28833736c0f88" name="aee36de8debc87784e6a28833736c0f88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee36de8debc87784e6a28833736c0f88">&#9670;&#160;</a></span>load() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::settings::xml::LumexSettingsXML::load </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Loads and parses an XML file from the given path. </p>
+<p>Validates the file with <code><a class="el" href="#ae1b637ba55ed87cd379edb2d82afdf23" title="Checks that a path is a readable, well-formed XML file with a document element.">is_xml_valid()</a></code> first. On success the in-memory store is replaced with the parsed sections and keys. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The filesystem path to the XML file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the file is valid and at least one key was loaded, <code>false</code> otherwise. </dd></dl>
+
+<p>Implements <a class="el" href="a01911.html#a5e8c879f253d759120c2ef9dce35a6fe">lumex::applied::settings::ILumexSettings</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_aee36de8debc87784e6a28833736c0f88_cgraph.png" border="0" usemap="#aa01919_aee36de8debc87784e6a28833736c0f88_cgraph" alt=""/></div>
+<map name="aa01919_aee36de8debc87784e6a28833736c0f88_cgraph" id="aa01919_aee36de8debc87784e6a28833736c0f88_cgraph">
+<area shape="rect" title="Loads and parses an XML file from the given path." alt="" coords="5,564,228,604"/>
+<area shape="rect" href="a01919.html#ae1b637ba55ed87cd379edb2d82afdf23" title="Checks that a path is a readable, well&#45;formed XML file with a document element." alt="" coords="276,557,463,611"/>
+<area shape="poly" title=" " alt="" coords="228,581,262,581,262,587,228,587"/>
+<area shape="rect" href="a05127.html#a051729e78e5db139897fbb590c8293b3" title="Retrieves the document element (root element) of the XML document." alt="" coords="511,521,707,575"/>
+<area shape="poly" title=" " alt="" coords="462,567,497,562,497,567,463,573"/>
+<area shape="rect" href="a05127.html#a0c8de91086d1d88840e929509c835bf1" title="Loads an XML document from a file specified by a C&#45;style character path." alt="" coords="515,600,702,640"/>
+<area shape="poly" title=" " alt="" coords="463,595,502,601,501,607,462,601"/>
+<area shape="rect" href="a05143.html#a9ba652be4d38ecccaa3933b5dde6401e" title="Default constructor. Constructs an empty (null) node." alt="" coords="755,528,959,568"/>
+<area shape="poly" title=" " alt="" coords="707,545,741,545,741,551,707,551"/>
+<area shape="poly" title=" " alt="" coords="811,528,808,518,815,509,832,503,857,501,885,504,901,511,899,516,884,509,857,507,833,509,818,513,813,519,816,527"/>
+<area shape="rect" href="a05143.html#a7f4d671f25c6951150f5c727dbc8261f" title="Finds the first attribute with the specified name." alt="" coords="1007,69,1211,109"/>
+<area shape="poly" title=" " alt="" coords="855,527,865,454,888,347,908,288,933,230,965,175,1005,126,1019,114,1023,118,1009,130,969,178,938,232,913,290,893,348,870,454,861,528"/>
+<area shape="rect" href="a05143.html#a15674661156ec0a973ef0815fe299700" title=" " alt="" coords="1259,188,1463,228"/>
+<area shape="poly" title=" " alt="" coords="855,527,862,456,871,408,884,356,903,303,929,253,963,207,1005,170,1042,151,1081,141,1122,137,1163,140,1242,157,1308,180,1306,185,1240,162,1162,145,1122,143,1082,146,1044,156,1008,174,967,211,934,255,908,305,889,358,876,409,867,457,860,528"/>
+<area shape="rect" href="a05143.html#a0ba3799de746669b14031ceebdee242c" title="Finds the first child node with the specified name." alt="" coords="1007,5,1211,45"/>
+<area shape="poly" title=" " alt="" coords="858,527,879,431,912,293,932,222,955,157,979,104,1005,67,1034,48,1037,53,1009,71,984,107,960,159,937,224,917,294,884,432,864,528"/>
+<area shape="rect" href="a05143.html#a036f6d862ca3981c48d42bf54ccbfad2" title="Checks if the XmlNode object is empty." alt="" coords="1007,184,1211,224"/>
+<area shape="poly" title=" " alt="" coords="858,527,872,470,900,391,920,349,943,307,972,268,1005,234,1011,229,1015,233,1008,238,976,271,948,310,924,351,905,393,878,471,863,528"/>
+<area shape="rect" href="a05143.html#a1fd71ea59944927bf9867fc98be0ffcf" title="Retrieves the first attribute of the node." alt="" coords="1007,248,1211,288"/>
+<area shape="poly" title=" " alt="" coords="861,527,879,480,909,419,951,354,976,324,1005,298,1013,293,1016,297,1008,302,980,328,955,357,913,421,884,482,866,529"/>
+<area shape="rect" href="a05143.html#a82a93da169b71235dc2923bd9a3a3da4" title="Retrieves the first child node of the current node." alt="" coords="1007,312,1211,352"/>
+<area shape="poly" title=" " alt="" coords="870,526,923,452,961,410,1005,374,1047,354,1049,359,1008,378,965,414,927,456,874,529"/>
+<area shape="rect" href="a05143.html#a3cf020917a8af507489d56a9280a0a9d" title="Retrieves the last attribute of the node." alt="" coords="1007,376,1211,416"/>
+<area shape="poly" title=" " alt="" coords="875,526,931,476,967,449,1005,426,1019,419,1022,424,1008,430,970,454,934,480,879,530"/>
+<area shape="rect" href="a05143.html#a17efa757a74e1e5a08131df5e4317ddb" title="Retrieves the last child node of the current node." alt="" coords="1007,440,1211,480"/>
+<area shape="poly" title=" " alt="" coords="938,525,1006,501,1063,482,1064,487,1008,507,940,530"/>
+<area shape="rect" href="a05143.html#a5df8244a361d9f9de429da1b1ab53629" title="Retrieves the name of the XML node." alt="" coords="1007,528,1211,568"/>
+<area shape="poly" title=" " alt="" coords="959,545,993,545,993,551,959,551"/>
+<area shape="rect" href="a05143.html#af0c57674f2aa78e5a10d9ffecd11793a" title="Retrieves the next sibling node of the current node." alt="" coords="1007,592,1211,632"/>
+<area shape="poly" title=" " alt="" coords="908,566,994,589,992,594,906,571"/>
+<area shape="rect" href="a05143.html#ad4130676f6cd5dcdfb86275d28ef6d94" title="Retrieves the parent node of the current node." alt="" coords="1007,656,1211,696"/>
+<area shape="poly" title=" " alt="" coords="894,566,927,579,960,598,974,610,982,622,999,646,994,649,978,625,970,614,957,602,925,584,892,571"/>
+<area shape="rect" href="a05143.html#aae031f4e25d06ebfa007e468904d05b4" title="Retrieves the previous sibling node of the current node." alt="" coords="1007,720,1211,760"/>
+<area shape="poly" title=" " alt="" coords="903,566,933,579,960,598,972,612,979,627,984,655,988,682,1000,709,995,711,983,684,979,656,974,629,968,615,957,602,930,583,901,571"/>
+<area shape="rect" href="a05143.html#ae75074132cc71a473fe3f862cb3d56e2" title="Retrieves the root of the DOM tree to which this node belongs." alt="" coords="1007,784,1211,824"/>
+<area shape="poly" title=" " alt="" coords="906,566,935,579,961,598,976,621,984,644,985,688,984,730,989,751,1001,773,996,775,984,753,979,731,980,688,979,645,971,623,957,602,933,583,904,571"/>
+<area shape="rect" href="a05143.html#ac327d0433bdcac1e44124582ed24dc92" title="Retrieves a text object (XmlText) associated with the current node." alt="" coords="1007,848,1211,888"/>
+<area shape="poly" title=" " alt="" coords="935,566,961,586,981,619,989,651,988,683,984,713,980,744,980,774,989,804,1009,834,1012,837,1008,841,1005,838,984,806,975,774,975,743,979,713,983,682,983,652,976,621,957,590,932,570"/>
+<area shape="rect" href="a05143.html#a6473de83822e0e12f4f02d25420747ca" title="Retrieves the type of the XML node." alt="" coords="1007,912,1211,952"/>
+<area shape="poly" title=" " alt="" coords="936,566,961,586,985,628,993,668,991,707,984,746,977,784,976,822,984,860,1009,898,1011,901,1007,905,1005,902,979,862,970,822,972,783,979,745,986,706,988,668,980,629,957,590,933,570"/>
+<area shape="rect" href="a05143.html#a3ab22f27c7a36eebc5236b8190546186" title="Retrieves the value of the XML node." alt="" coords="1007,1000,1211,1040"/>
+<area shape="poly" title=" " alt="" coords="937,566,961,586,978,611,989,636,999,683,997,729,989,774,980,819,976,865,984,913,994,937,1009,962,1023,978,1041,991,1037,996,1019,982,1005,966,989,939,979,914,971,865,974,819,983,773,992,728,994,683,984,637,973,614,957,590,933,570"/>
+<area shape="poly" title=" " alt="" coords="1166,107,1212,126,1315,179,1313,184,1210,130,1164,112"/>
+<area shape="rect" href="a01671.html#a7d02305444b9427e8e8371818ab1c99c" title=" " alt="" coords="1289,37,1432,77"/>
+<area shape="poly" title=" " alt="" coords="1210,74,1276,65,1276,71,1211,79"/>
+<area shape="poly" title=" " alt="" coords="1009,47,1009,47,984,82,961,134,938,197,918,267,885,408,865,514,859,513,880,407,913,266,933,196,956,132,980,79,1005,44,1005,43"/>
+<area shape="poly" title=" " alt="" coords="1211,36,1276,44,1276,49,1210,41"/>
+<area shape="poly" title=" " alt="" coords="1192,245,1262,229,1264,234,1194,251"/>
+<area shape="poly" title=" " alt="" coords="1009,354,1008,354,964,391,926,435,895,479,873,517,868,514,890,476,921,432,960,387,1005,350,1006,349"/>
+<area shape="poly" title=" " alt="" coords="1186,373,1209,362,1248,333,1283,301,1336,238,1340,241,1286,304,1251,338,1212,366,1189,378"/>
+<area shape="poly" title=" " alt="" coords="1008,482,1008,483,898,525,896,520,1006,477,1006,477"/>
+<area shape="poly" title=" " alt="" coords="1062,528,1059,518,1067,509,1083,503,1109,501,1138,504,1154,511,1151,516,1136,509,1109,507,1084,509,1070,513,1064,519,1067,527"/>
+<area shape="poly" title=" " alt="" coords="1058,594,971,571,972,566,1059,589"/>
+<area shape="poly" title=" " alt="" coords="1061,658,1032,648,1005,634,989,620,980,606,972,592,957,578,956,578,959,573,960,574,976,589,985,603,993,617,1008,630,1035,643,1062,653"/>
+<area shape="poly" title=" " alt="" coords="1050,722,1026,713,1005,698,993,684,985,669,979,641,973,611,967,596,957,580,961,577,972,593,979,609,984,639,990,668,997,681,1008,694,1029,708,1052,717"/>
+<area shape="poly" title=" " alt="" coords="1046,786,1024,777,1005,762,988,739,980,717,978,672,977,627,971,604,957,580,961,577,975,602,982,626,983,672,985,716,993,737,1009,758,1027,772,1049,782"/>
+<area shape="rect" href="a01676.html#a9ff47d1fab33d9dac2db3f3203dd5b2b" title="Retrieves a reference to the XmlDocumentBase object that owns a given object (node or attribute)." alt="" coords="1276,784,1445,824"/>
+<area shape="poly" title=" " alt="" coords="1211,801,1262,801,1262,807,1211,807"/>
+<area shape="poly" title=" " alt="" coords="1062,1000,1059,990,1067,981,1083,975,1109,973,1138,976,1154,983,1151,988,1136,981,1109,979,1084,981,1070,985,1064,991,1067,999"/>
+<area shape="rect" href="a05127.html#a20b942adcf753027eb5e49afbf383920" title="Removes all nodes from the document, leaving it in an empty state." alt="" coords="772,600,941,640"/>
+<area shape="poly" title=" " alt="" coords="702,617,759,617,759,623,702,623"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_aee36de8debc87784e6a28833736c0f88_icgraph.png" border="0" usemap="#aa01919_aee36de8debc87784e6a28833736c0f88_icgraph" alt=""/></div>
+<map name="aa01919_aee36de8debc87784e6a28833736c0f88_icgraph" id="aa01919_aee36de8debc87784e6a28833736c0f88_icgraph">
+<area shape="rect" title="Loads and parses an XML file from the given path." alt="" coords="276,35,499,75"/>
+<area shape="rect" href="a01919.html#a49ecba46ab453277477a0298ca001778" title=" " alt="" coords="5,5,228,45"/>
+<area shape="poly" title=" " alt="" coords="262,44,228,40,228,35,263,38"/>
+<area shape="rect" href="a00317.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="89,70,144,95"/>
+<area shape="poly" title=" " alt="" coords="262,70,145,82,144,77,262,65"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9e566b3a4ffdeb3b96cdc3a4cb2de217" name="a9e566b3a4ffdeb3b96cdc3a4cb2de217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e566b3a4ffdeb3b96cdc3a4cb2de217">&#9670;&#160;</a></span>remove() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::settings::xml::LumexSettingsXML::remove </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>section</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>key</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_a9e566b3a4ffdeb3b96cdc3a4cb2de217_cgraph.png" border="0" usemap="#aa01919_a9e566b3a4ffdeb3b96cdc3a4cb2de217_cgraph" alt=""/></div>
+<map name="aa01919_a9e566b3a4ffdeb3b96cdc3a4cb2de217_cgraph" id="aa01919_a9e566b3a4ffdeb3b96cdc3a4cb2de217_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,192,60"/>
+<area shape="rect" href="a01919.html#a38fdd47780dcb3f11faf92504e337e84" title="Removes a key&#45;value pair from a section." alt="" coords="240,5,427,60"/>
+<area shape="poly" title=" " alt="" coords="192,30,226,30,226,35,192,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a38fdd47780dcb3f11faf92504e337e84" name="a38fdd47780dcb3f11faf92504e337e84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38fdd47780dcb3f11faf92504e337e84">&#9670;&#160;</a></span>remove() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void lumex::applied::settings::xml::LumexSettingsXML::remove </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>section</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Removes a key-value pair from a section. </p>
+<p>Missing section or key is a no-op. Removing the last key does not remove the section itself. </p>
+
+<p>Implements <a class="el" href="a01911.html#a7dd9c0cca546a7b92b0250f1af966c01">lumex::applied::settings::ILumexSettings</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_a38fdd47780dcb3f11faf92504e337e84_icgraph.png" border="0" usemap="#aa01919_a38fdd47780dcb3f11faf92504e337e84_icgraph" alt=""/></div>
+<map name="aa01919_a38fdd47780dcb3f11faf92504e337e84_icgraph" id="aa01919_a38fdd47780dcb3f11faf92504e337e84_icgraph">
+<area shape="rect" title="Removes a key&#45;value pair from a section." alt="" coords="240,5,427,60"/>
+<area shape="rect" href="a01919.html#a9e566b3a4ffdeb3b96cdc3a4cb2de217" title=" " alt="" coords="5,5,192,60"/>
+<area shape="poly" title=" " alt="" coords="227,35,192,35,192,30,227,30"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac6e0321b99e2cc418849320787815641" name="ac6e0321b99e2cc418849320787815641"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6e0321b99e2cc418849320787815641">&#9670;&#160;</a></span>save() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::settings::xml::LumexSettingsXML::save </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_ac6e0321b99e2cc418849320787815641_cgraph.png" border="0" usemap="#aa01919_ac6e0321b99e2cc418849320787815641_cgraph" alt=""/></div>
+<map name="aa01919_ac6e0321b99e2cc418849320787815641_cgraph" id="aa01919_ac6e0321b99e2cc418849320787815641_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,232,45"/>
+<area shape="rect" href="a01919.html#afb5ef6e05c93bdb8f76b5d059923e388" title="Saves the current settings as canonical XML." alt="" coords="280,5,507,45"/>
+<area shape="poly" title=" " alt="" coords="232,23,266,23,266,28,232,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="afb5ef6e05c93bdb8f76b5d059923e388" name="afb5ef6e05c93bdb8f76b5d059923e388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb5ef6e05c93bdb8f76b5d059923e388">&#9670;&#160;</a></span>save() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::applied::settings::xml::LumexSettingsXML::save </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Saves the current settings as canonical XML. </p>
+<p>If the parent directory does not exist, it will be created. The document is serialized first and written to a temporary file that replaces <code>path</code> only when complete (<code>lumex_filesystem::replace_file_content</code>), so a failed save leaves the previous file unchanged. Does not throw. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The filesystem path to save the XML file to. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the file is written successfully, <code>false</code> otherwise. </dd></dl>
+
+<p>Implements <a class="el" href="a01911.html#a8c93c820977807fe52ac6dbbf8f3ca4c">lumex::applied::settings::ILumexSettings</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01919_afb5ef6e05c93bdb8f76b5d059923e388_icgraph.png" border="0" usemap="#aa01919_afb5ef6e05c93bdb8f76b5d059923e388_icgraph" alt=""/></div>
+<map name="aa01919_afb5ef6e05c93bdb8f76b5d059923e388_icgraph" id="aa01919_afb5ef6e05c93bdb8f76b5d059923e388_icgraph">
+<area shape="rect" title="Saves the current settings as canonical XML." alt="" coords="280,5,507,45"/>
+<area shape="rect" href="a01919.html#ac6e0321b99e2cc418849320787815641" title=" " alt="" coords="5,5,232,45"/>
+<area shape="poly" title=" " alt="" coords="266,28,232,28,232,23,266,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="a01214_source.html">LumexSettingsXML.hpp</a></li>
+<li><a class="el" href="a01211.html">LumexSettingsXML.cpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01477.html">settings</a></li><li class="navelem"><a class="el" href="a01486.html">xml</a></li><li class="navelem"><a class="el" href="a01919.html">LumexSettingsXML</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

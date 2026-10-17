@@ -1,0 +1,20 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;">
+<area shape="rect" id="Node000001" title="expected specialization when the success value is absent (void)." alt="" coords="1664,30,1847,85"/>
+<area shape="rect" id="Node000002" href="$a02895.html" title="The layer of the move assignment. Kind is 0 (the compiler&#39;s operator, trivial when the layer below is..." alt="" coords="1429,5,1616,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1630,37,1664,42,1663,47,1629,43"/>
+<area shape="rect" id="Node000003" href="$a02883.html" title="The layer of the copy assignment. Kind is 0 (the compiler&#39;s operator, trivial when the layer below is..." alt="" coords="1167,23,1381,92"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1395,39,1429,35,1430,40,1395,44"/>
+<area shape="rect" id="Node000009" href="$a02895.html" title="The layer of the move assignment. Kind is 0 (the compiler&#39;s operator, trivial when the layer below is..." alt="" coords="1429,69,1616,109"/>
+<area shape="poly" id="edge9_Node000009_Node000003" title=" " alt="" coords="1395,70,1430,75,1429,80,1395,76"/>
+<area shape="rect" id="Node000004" href="$a02871.html" title="The layer of the move constructor. Kind is 0 (the compiler&#39;s constructor, trivial when the layer belo..." alt="" coords="920,23,1119,92"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1133,55,1167,55,1167,60,1133,60"/>
+<area shape="rect" id="Node000005" href="$a02859.html" title="The layer of the copy constructor. Kind is 0 (the compiler&#39;s constructor, trivial when the layer belo..." alt="" coords="679,23,872,92"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="885,55,920,55,920,60,885,60"/>
+<area shape="rect" id="Node000006" href="$a02851.html" title="The layer that destroys the active alternative; trivial." alt="" coords="443,23,631,92"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="645,55,679,55,679,60,645,60"/>
+<area shape="rect" id="Node000007" href="$a02847.html" title="has_val and the union of [expected.object.general], the constructors that start one alternative,..." alt="" coords="195,30,395,85"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="408,55,442,55,442,60,408,60"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="5,45,147,70"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="160,55,195,55,195,60,160,60"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1629,72,1663,67,1664,73,1630,77"/>
+</map>

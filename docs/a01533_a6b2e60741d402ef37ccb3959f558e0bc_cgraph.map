@@ -1,0 +1,15 @@
+<map id="lumex::core::expected::result::detail::reinit_nothrow" name="lumex::core::expected::result::detail::reinit_nothrow">
+<area shape="rect" id="Node000001" title="The reinit&#45;expected of [expected.object.assign]/1 for the case that the construction of the new objec..." alt="" coords="5,46,172,101"/>
+<area shape="rect" id="Node000002" href="$a01533.html#a07d94bee6da20f2047136d97431d8d45" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="683,32,873,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,50,220,40,335,20,427,7,518,4,635,13,700,26,699,31,634,19,518,9,427,12,336,25,220,45,173,55"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="220,81,420,121"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,81,207,85,206,90,172,86"/>
+<area shape="rect" id="Node000004" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="468,28,635,68"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="172,66,454,51,454,56,173,71"/>
+<area shape="rect" id="Node000006" href="$a01533.html#aac3cdf6524f1c94486d6cff93fba3008" title="Ends the lifetime of the T at where: std::destroy_at for an object that is not an array." alt="" coords="225,145,415,185"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="146,98,221,131,242,138,240,143,219,136,144,103"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="406,79,454,68,455,73,407,84"/>
+<area shape="rect" id="Node000005" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="468,92,635,132"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="420,103,454,105,454,110,420,109"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="627,89,688,73,690,78,628,94"/>
+</map>

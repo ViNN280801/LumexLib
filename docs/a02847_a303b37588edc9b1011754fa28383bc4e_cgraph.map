@@ -1,0 +1,9 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::expected_storage" name="lumex::core::expected::result::detail::storage::expected_storage::expected_storage">
+<area shape="rect" id="Node000001" title="Starts unex with args...; has_value () is false." alt="" coords="5,65,220,135"/>
+<area shape="rect" id="Node000002" href="$a02847.html#a73885ecff15c51b575ae662aa8190c9e" title="Starts val with args...; has_value () is true." alt="" coords="268,29,483,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,83,254,78,255,83,221,88"/>
+<area shape="rect" id="Node000003" href="$a01533.html#a8a84107209623635f4270b7b6c0d6339" title="static_cast&lt;T &amp;&amp;&gt; (t), the body of std::forward for a constexpr function of C++11,..." alt="" coords="531,80,697,120"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="221,106,268,108,375,111,483,108,517,106,517,111,483,113,375,116,268,113,220,111"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="328,29,331,19,340,10,355,5,375,3,401,6,416,14,414,19,399,11,375,8,356,10,342,15,335,21,334,30"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="483,78,517,83,516,88,482,83"/>
+</map>

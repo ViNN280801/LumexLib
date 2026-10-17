@@ -1,0 +1,12 @@
+<map id="lumex::xml::attribute::XmlAttributeIterator::XmlAttributeIterator" name="lumex::xml::attribute::XmlAttributeIterator::XmlAttributeIterator">
+<area shape="rect" id="Node000001" title="Default constructor. Constructs a singular (invalid) attribute iterator." alt="" coords="215,124,376,179"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="330,113,317,105,295,103,277,105,265,109,260,116,260,124,254,124,255,114,262,105,276,99,295,97,319,100,332,108"/>
+<area shape="rect" id="Node000002" href="$a05155.html#a404e0ca39a47ce517b44e1836a13819e" title="Compares two XmlAttributeIterator objects for inequality." alt="" coords="5,5,167,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="241,119,165,74,144,62,146,58,168,69,244,114"/>
+<area shape="rect" id="Node000003" href="$a05155.html#ac58f8286d229d62f9589209955c34a24" title="Post&#45;increments the iterator to move to the next attribute in the list." alt="" coords="5,84,167,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,136,166,129,167,124,202,131"/>
+<area shape="rect" id="Node000004" href="$a05155.html#a21208ce2044a4e7d9b233327d99085c1" title="Post&#45;decrements the iterator to move to the previous attribute in the list." alt="" coords="5,163,167,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="202,171,167,178,166,172,201,166"/>
+<area shape="rect" id="Node000005" href="$a05155.html#ab91332855fcfae7a3f1f3fa6e4750fda" title="Compares two XmlAttributeIterator objects for equality." alt="" coords="5,241,167,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="242,188,168,231,144,244,141,239,165,226,239,183"/>
+</map>

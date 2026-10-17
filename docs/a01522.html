@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::xpath::utility Namespace Reference</title>
+<title>LumexLib: lumex::core::exceptions::Wrapper Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,205 +104,228 @@ $(function(){initNavTree('a01522.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::xpath::utility Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">lumex::core::exceptions::Wrapper Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01524.html">detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a44e9e9da5b97d168978390c418a62b3f" id="r_a44e9e9da5b97d168978390c418a62b3f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> = void (*) (char const *message)</td></tr>
+<tr class="memdesc:a44e9e9da5b97d168978390c418a62b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consumer report sink for a fully built failure line.  <br /></td></tr>
+<tr class="separator:a44e9e9da5b97d168978390c418a62b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a06d335726027c6477be96cb86f9e56ce" id="r_a06d335726027c6477be96cb86f9e56ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06d335726027c6477be96cb86f9e56ce">xpath_get_order</a> (<a class="el" href="a05106.html">XPathNode</a> const *begin, <a class="el" href="a05106.html">XPathNode</a> const *end)</td></tr>
-<tr class="memdesc:a06d335726027c6477be96cb86f9e56ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the current document order of a range of XPath nodes.  <br /></td></tr>
-<tr class="separator:a06d335726027c6477be96cb86f9e56ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cda3af8de6ebb42fc0186a350a138e1" id="r_a1cda3af8de6ebb42fc0186a350a138e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cda3af8de6ebb42fc0186a350a138e1">xpath_sort</a> (<a class="el" href="a05106.html">XPathNode</a> *begin, <a class="el" href="a05106.html">XPathNode</a> *end, <a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> type, bool rev)</td></tr>
-<tr class="memdesc:a1cda3af8de6ebb42fc0186a350a138e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sorts a range of XPath nodes by document order.  <br /></td></tr>
-<tr class="separator:a1cda3af8de6ebb42fc0186a350a138e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb9de3a45c0762f05c942cebbd27e46a" id="r_abb9de3a45c0762f05c942cebbd27e46a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a05106.html">XPathNode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb9de3a45c0762f05c942cebbd27e46a">xpath_first</a> (<a class="el" href="a05106.html">XPathNode</a> const *begin, <a class="el" href="a05106.html">XPathNode</a> const *end, <a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> type)</td></tr>
-<tr class="memdesc:abb9de3a45c0762f05c942cebbd27e46a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the first node in document order from a range of XPath nodes.  <br /></td></tr>
-<tr class="separator:abb9de3a45c0762f05c942cebbd27e46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5664ce2a10255b6aca45326df60fcb8e" id="r_a5664ce2a10255b6aca45326df60fcb8e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5664ce2a10255b6aca45326df60fcb8e">copy_xpath_variable</a> (<a class="el" href="a05150.html">XPathVariable</a> *lhs, <a class="el" href="a05150.html">XPathVariable</a> const *rhs)</td></tr>
-<tr class="memdesc:a5664ce2a10255b6aca45326df60fcb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the value of one XPath variable to another.  <br /></td></tr>
-<tr class="separator:a5664ce2a10255b6aca45326df60fcb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d9df48ad62f6a5f94220cd14b5f70c" id="r_a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71d9df48ad62f6a5f94220cd14b5f70c">set_safe_call_reporter</a> (<a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> reporter) noexcept</td></tr>
+<tr class="memdesc:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:a71d9df48ad62f6a5f94220cd14b5f70c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e00681207c6fe8355e6416db22d6ee8" id="r_a0e00681207c6fe8355e6416db22d6ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e00681207c6fe8355e6416db22d6ee8">get_safe_call_reporter</a> () noexcept</td></tr>
+<tr class="memdesc:a0e00681207c6fe8355e6416db22d6ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>.  <br /></td></tr>
+<tr class="separator:a0e00681207c6fe8355e6416db22d6ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb06f391d20856dda70f63c9b3e13037" id="r_afb06f391d20856dda70f63c9b3e13037"><td class="memTemplParams" colspan="2">template&lt;typename Function, typename... Args&gt; </td></tr>
+<tr class="memitem:afb06f391d20856dda70f63c9b3e13037"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#afb06f391d20856dda70f63c9b3e13037">exception_wrapper</a> (std::string const &amp;excMessage, std::string const &amp;unknownExcMessage, Function &amp;&amp;func, Args &amp;&amp;...args) noexcept(noexcept(std::declval&lt; Function &gt;()(std::declval&lt; Args &gt;()...))) -&gt; <a class="el" href="a01615.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a>&lt; Function, Args... &gt;</td></tr>
+<tr class="memdesc:afb06f391d20856dda70f63c9b3e13037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <code>func(args...)</code>, catching and safely reporting any exception it throws instead of letting it propagate.  <br /></td></tr>
+<tr class="separator:afb06f391d20856dda70f63c9b3e13037"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a44e9e9da5b97d168978390c418a62b3f" name="a44e9e9da5b97d168978390c418a62b3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e9e9da5b97d168978390c418a62b3f">&#9670;&#160;</a></span>safe_call_report_fn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">lumex::core::exceptions::Wrapper::safe_call_report_fn</a> = void (*) (char const *message)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Consumer report sink for a fully built failure line. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>Non-owning, null-terminated text. Valid only for the call. The function may throw; <code>exception_wrapper</code> then writes the same line to <code>std::cerr</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a5664ce2a10255b6aca45326df60fcb8e" name="a5664ce2a10255b6aca45326df60fcb8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5664ce2a10255b6aca45326df60fcb8e">&#9670;&#160;</a></span>copy_xpath_variable()</h2>
+<a id="afb06f391d20856dda70f63c9b3e13037" name="afb06f391d20856dda70f63c9b3e13037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb06f391d20856dda70f63c9b3e13037">&#9670;&#160;</a></span>exception_wrapper()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Function, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::xml::xpath::utility::copy_xpath_variable </td>
+          <td class="memname">auto lumex::core::exceptions::Wrapper::exception_wrapper </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a05150.html">XPathVariable</a> *</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>excMessage</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="a05150.html">XPathVariable</a> const *</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>unknownExcMessage</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Function &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>func</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt; <a class="el" href="a01615.html#a18993038d7df3aedaeeb999287ff42b2">lumex::core::utility::traits::invoke::invoke_result_t</a>&lt;Function,
+                                                                 Args...&gt;
+</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Copies the value of one XPath variable to another. </p>
-<p>This function performs a deep copy of the value from <code>rhs</code> (source variable) to <code>lhs</code> (destination variable), handling different XPath variable types (node-set, number, string, boolean). It forwards to the inline <code><a class="el" href="a01503.html#a8c614ae14269eea0013728c7722e8f69" title="Copies the value of one XPath variable to another.">lumex::xml::xpath::variable::copy_xpath_variable</a></code> of <a class="el" href="a01139.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea...">XPathVariable.hpp</a>, which holds the only implementation; this exported function is kept so that programs linked against it still find it. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Calls <code>func(args...)</code>, catching and safely reporting any exception it throws instead of letting it propagate. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Function</td><td>Callable type; must be invocable with <code>Args...</code>. </td></tr>
+    <tr><td class="paramname">Args</td><td>Types of the arguments forwarded to <code>func</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lhs</td><td>A pointer to the destination <code><a class="el" href="a05150.html" title="Base class for all XPath variables.">XPathVariable</a></code> to which the value will be copied. </td></tr>
-    <tr><td class="paramname">rhs</td><td>A constant pointer to the source <code><a class="el" href="a05150.html" title="Base class for all XPath variables.">XPathVariable</a></code> from which the value will be copied. </td></tr>
+    <tr><td class="paramname">excMessage</td><td>Message reported (to <code>std::cerr</code>) when <code>func</code> throws a <code>std::exception</code>; the exception's own <code>what()</code> is appended after it. </td></tr>
+    <tr><td class="paramname">unknownExcMessage</td><td>Message reported when <code>func</code> throws anything that is not a <code>std::exception</code> (e.g. a plain <code>int</code>, or a type from another ABI). </td></tr>
+    <tr><td class="paramname">func</td><td>The callable to invoke. </td></tr>
+    <tr><td class="paramname">args</td><td>Arguments forwarded to <code>func</code>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the copy was successful, <code>false</code> otherwise (e.g., if memory allocation fails for node-set). </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if an invalid variable type is encountered. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>This function is typically used in XPath variable assignment or initialization scenarios. </dd></dl>
-<div class="dynheader">
+<dl class="section return"><dt>Returns</dt><dd>Whatever <code>func(args...)</code> returns on success; a value-initialized default (<code><a class="el" href="a04619.html" title="Helper providing a default value for a type, primarily meant for exception-safe fallbacks.">lumex::core::utility::traits::meta::default_return</a>&lt;ReturnType&gt;::value()</code>) if it throws.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code>noexcept</code> is conditional on whether the wrapped call itself is <code>noexcept</code>: reporting a failure is unconditionally <code>noexcept</code> (see <code><a class="el" href="a01524.html#a730010fd0f524d97727a82bb42f2ddd3" title="Writes &quot;prefix. Reason: &lt;whatMsg&gt;\n&quot; to std::cerr using only noexcept operations.">detail::write_to_stderr</a></code>), so it never needs to be part of this check. </dd>
+<dd>
+Invocation intentionally uses plain <code>func(args...)</code>, not <code><a class="el" href="a01616.html#a8ba7e4193163e68cb15bccd03b229d9c">lumex::core::utility::traits::invoke::detail::INVOKE</a></code> - that helper only has a <code>decltype</code>-computed trailing return type (no function body) because it exists solely to drive <code>invoke_result</code>/ <code>is_callable</code> at compile time, not to be called at runtime. <code>invoke_result_t</code>/<code>is_callable</code> (built on top of it) remain the right tools for return-type deduction and the Callable-Named-Requirement check below.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd>The snippet below shows the intended use.</dd></dl>
+<div class="fragment"><div class="line"><span class="comment">// Simple usage with default, source-location-based messages.</span></div>
+<div class="line"><span class="keywordtype">int</span> result = <a class="code hl_define" href="a00863.html#a03ec1ac9d020fd4f7b12362a94f204e9">LUMEX_SAFE_CALL</a>(someFunction(42));</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Usage with custom messages.</span></div>
+<div class="line"><span class="keywordtype">int</span> result = <a class="code hl_define" href="a00863.html#a261fa5b1604d900afd08ec4e0bebacb8">LUMEX_SAFE_CALL_MSG</a>(</div>
+<div class="line">    someFunction(42),</div>
+<div class="line">    <span class="stringliteral">&quot;Failed to execute someFunction&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;Unknown error in someFunction&quot;</span></div>
+<div class="line">);</div>
+<div class="ttc" id="aa00863_html_a03ec1ac9d020fd4f7b12362a94f204e9"><div class="ttname"><a href="a00863.html#a03ec1ac9d020fd4f7b12362a94f204e9">LUMEX_SAFE_CALL</a></div><div class="ttdeci">#define LUMEX_SAFE_CALL(expr)</div><div class="ttdoc">Safely evaluates expr, with default, source-location-based diagnostic messages.</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:358</div></div>
+<div class="ttc" id="aa00863_html_a261fa5b1604d900afd08ec4e0bebacb8"><div class="ttname"><a href="a00863.html#a261fa5b1604d900afd08ec4e0bebacb8">LUMEX_SAFE_CALL_MSG</a></div><div class="ttdeci">#define LUMEX_SAFE_CALL_MSG(expr, excMessage, unknExcMessage)</div><div class="ttdoc">Safely evaluates expr, with caller-supplied diagnostic messages.</div><div class="ttdef"><b>Definition</b> LumexExceptionWrapper.hpp:375</div></div>
+</div><!-- fragment --> <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01522_a5664ce2a10255b6aca45326df60fcb8e_cgraph.png" border="0" usemap="#aa01522_a5664ce2a10255b6aca45326df60fcb8e_cgraph" alt=""/></div>
+<div class="center"><img src="a01522_afb06f391d20856dda70f63c9b3e13037_cgraph.png" border="0" usemap="#aa01522_afb06f391d20856dda70f63c9b3e13037_cgraph" alt=""/></div>
+<map name="aa01522_afb06f391d20856dda70f63c9b3e13037_cgraph" id="aa01522_afb06f391d20856dda70f63c9b3e13037_cgraph">
+<area shape="rect" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,85,221,125"/>
+<area shape="rect" href="a01524.html#a6731c24b90644c9b4b94c4c81af602dd" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="283,29,462,84"/>
+<area shape="poly" title=" " alt="" coords="221,82,269,73,270,78,222,87"/>
+<area shape="rect" href="a01524.html#ab7031ff23205b8e8d31fb72ed3744806" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="269,133,476,173"/>
+<area shape="poly" title=" " alt="" coords="222,122,256,128,255,134,221,127"/>
+<area shape="poly" title=" " alt="" coords="326,29,326,19,335,10,350,5,373,3,400,6,415,14,413,18,398,11,373,8,351,10,337,15,331,21,331,29"/>
+<area shape="rect" href="a01522.html#a0e00681207c6fe8355e6416db22d6ee8" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="524,25,703,80"/>
+<area shape="poly" title=" " alt="" coords="462,53,510,52,510,57,462,58"/>
+<area shape="rect" href="a01524.html#a730010fd0f524d97727a82bb42f2ddd3" title="Writes &quot;prefix. Reason: &lt;whatMsg&gt;\n&quot; to std::cerr using only noexcept operations." alt="" coords="524,128,703,183"/>
+<area shape="poly" title=" " alt="" coords="445,82,477,94,539,120,537,125,475,99,444,87"/>
+<area shape="poly" title=" " alt="" coords="567,128,567,118,575,109,591,103,613,101,640,104,656,112,653,117,639,110,613,107,592,109,578,113,572,120,572,128"/>
+<area shape="poly" title=" " alt="" coords="420,130,534,83,536,88,422,135"/>
+<area shape="poly" title=" " alt="" coords="476,151,510,152,510,157,476,156"/>
+<area shape="poly" title=" " alt="" coords="328,133,325,123,332,114,348,108,373,106,401,109,416,116,414,121,399,114,373,111,349,113,336,118,330,124,333,132"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="abb9de3a45c0762f05c942cebbd27e46a" name="abb9de3a45c0762f05c942cebbd27e46a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb9de3a45c0762f05c942cebbd27e46a">&#9670;&#160;</a></span>xpath_first()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a05106.html">XPathNode</a> lumex::xml::xpath::utility::xpath_first </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a05106.html">XPathNode</a> const *</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a05106.html">XPathNode</a> const *</td>          <td class="paramname"><span class="paramname"><em>end</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Retrieves the first node in document order from a range of XPath nodes. </p>
-<p>This function efficiently finds the first <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in XML document order within the specified range <code>[begin, end)</code>. If the range is already sorted, it directly returns the first or last element. If unsorted, it performs a linear scan using <code>std::min_element</code> with a document order comparator. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">begin</td><td>A pointer to the first <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the range. </td></tr>
-    <tr><td class="paramname">end</td><td>A pointer to one past the last <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the range. </td></tr>
-    <tr><td class="paramname">type</td><td>The <code><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c" title="Enumeration defining the ordering type of the node set.">XPathNodeSet::type_t</a></code> indicating the current order of the nodes. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> that appears first in document order, or an empty <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> if the range is empty. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">`LUMEX_ASSERT`</td><td>if an invalid <code>type</code> is provided. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01522_abb9de3a45c0762f05c942cebbd27e46a_icgraph.png" border="0" usemap="#aa01522_abb9de3a45c0762f05c942cebbd27e46a_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="a06d335726027c6477be96cb86f9e56ce" name="a06d335726027c6477be96cb86f9e56ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06d335726027c6477be96cb86f9e56ce">&#9670;&#160;</a></span>xpath_get_order()</h2>
+<a id="a0e00681207c6fe8355e6416db22d6ee8" name="a0e00681207c6fe8355e6416db22d6ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e00681207c6fe8355e6416db22d6ee8">&#9670;&#160;</a></span>get_safe_call_reporter()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> lumex::xml::xpath::utility::xpath_get_order </td>
+          <td class="memname"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a> lumex::core::exceptions::Wrapper::get_safe_call_reporter </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a05106.html">XPathNode</a> const *</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="a05106.html">XPathNode</a> const *</td>          <td class="paramname"><span class="paramname"><em>end</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Determines the current document order of a range of XPath nodes. </p>
-<p>This function efficiently checks if a given range of <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code>s is sorted in ascending, descending, or unsorted document order. It is an optimization to avoid unnecessary sorting. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">begin</td><td>A pointer to the first <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the range. </td></tr>
-    <tr><td class="paramname">end</td><td>A pointer to one past the last <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An <code><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c" title="Enumeration defining the ordering type of the node set.">XPathNodeSet::type_t</a></code> value indicating the order of the nodes in the range. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function performs a linear scan and is primarily used internally by <code>xpath_sort</code>. </dd></dl>
+<p>Returns the installed sink, or <code>nullptr</code> when reports go to <code>std::cerr</code>. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01522_a06d335726027c6477be96cb86f9e56ce_icgraph.png" border="0" usemap="#aa01522_a06d335726027c6477be96cb86f9e56ce_icgraph" alt=""/></div>
+<div class="center"><img src="a01522_a0e00681207c6fe8355e6416db22d6ee8_icgraph.png" border="0" usemap="#aa01522_a0e00681207c6fe8355e6416db22d6ee8_icgraph" alt=""/></div>
+<map name="aa01522_a0e00681207c6fe8355e6416db22d6ee8_icgraph" id="aa01522_a0e00681207c6fe8355e6416db22d6ee8_icgraph">
+<area shape="rect" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="524,77,703,132"/>
+<area shape="rect" href="a01524.html#a6731c24b90644c9b4b94c4c81af602dd" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="283,29,462,84"/>
+<area shape="poly" title=" " alt="" coords="510,87,462,77,463,72,511,82"/>
+<area shape="rect" href="a01524.html#ab7031ff23205b8e8d31fb72ed3744806" title="Sends line to the installed sink. On a null sink or a throw from the sink, writes line to std::cerr." alt="" coords="269,133,476,173"/>
+<area shape="poly" title=" " alt="" coords="511,128,474,135,473,130,510,123"/>
+<area shape="poly" title=" " alt="" coords="413,18,398,11,373,8,351,10,337,15,331,21,331,29,326,29,326,19,335,10,350,5,373,3,400,6,415,14"/>
+<area shape="rect" href="a01522.html#afb06f391d20856dda70f63c9b3e13037" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,85,221,125"/>
+<area shape="poly" title=" " alt="" coords="270,78,222,87,221,82,269,73"/>
+<area shape="poly" title=" " alt="" coords="255,134,221,127,222,122,256,128"/>
+<area shape="poly" title=" " alt="" coords="414,121,399,114,373,111,349,113,336,118,330,124,333,132,328,133,325,123,332,114,348,108,373,106,401,109,416,116"/>
+</map>
 </div>
 
 </div>
 </div>
-<a id="a1cda3af8de6ebb42fc0186a350a138e1" name="a1cda3af8de6ebb42fc0186a350a138e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cda3af8de6ebb42fc0186a350a138e1">&#9670;&#160;</a></span>xpath_sort()</h2>
+<a id="a71d9df48ad62f6a5f94220cd14b5f70c" name="a71d9df48ad62f6a5f94220cd14b5f70c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71d9df48ad62f6a5f94220cd14b5f70c">&#9670;&#160;</a></span>set_safe_call_reporter()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a> lumex::xml::xpath::utility::xpath_sort </td>
+          <td class="memname">void lumex::core::exceptions::Wrapper::set_safe_call_reporter </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a05106.html">XPathNode</a> *</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="#a44e9e9da5b97d168978390c418a62b3f">safe_call_report_fn</a></td>          <td class="paramname"><span class="paramname"><em>reporter</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="a05106.html">XPathNode</a> *</td>          <td class="paramname"><span class="paramname"><em>end</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c">XPathNodeSet::type_t</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rev</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Sorts a range of XPath nodes by document order. </p>
-<p>This function sorts the nodes in the specified range <code>[begin, end)</code> according to their XML document order. It can sort in ascending or descending order. It first checks the current order using <code>xpath_get_order</code> to avoid redundant sorting. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">begin</td><td>A pointer to the first <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the mutable range to sort. </td></tr>
-    <tr><td class="paramname">end</td><td>A pointer to one past the last <code><a class="el" href="a05106.html" title="Represents a node in an XPath node-set, which can be either an XML element/document node or an XML at...">XPathNode</a></code> in the mutable range to sort. </td></tr>
-    <tr><td class="paramname">type</td><td>The current <code><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c" title="Enumeration defining the ordering type of the node set.">XPathNodeSet::type_t</a></code> of the range before sorting. </td></tr>
-    <tr><td class="paramname">rev</td><td>If <code>true</code>, sort in descending document order; otherwise, ascending. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The new <code><a class="el" href="a05110.html#adb8cd64c821b92dc30490b083e5e686c" title="Enumeration defining the ordering type of the node set.">XPathNodeSet::type_t</a></code> indicating the sorted order of the nodes. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01522_a1cda3af8de6ebb42fc0186a350a138e1_cgraph.png" border="0" usemap="#aa01522_a1cda3af8de6ebb42fc0186a350a138e1_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01522_a1cda3af8de6ebb42fc0186a350a138e1_icgraph.png" border="0" usemap="#aa01522_a1cda3af8de6ebb42fc0186a350a138e1_icgraph" alt=""/></div>
-</div>
+<p>Installs the process-wide report sink. <code>nullptr</code> restores <code>std::cerr</code>. </p>
+<dl class="section note"><dt>Note</dt><dd>The pointer is stored in this library's binary, so the executable and the exceptions DLL share one sink. </dd></dl>
 
 </div>
 </div>
@@ -311,7 +334,7 @@ Here is the caller graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01492.html">xml</a></li><li class="navelem"><a class="el" href="a01501.html">xpath</a></li><li class="navelem"><a class="el" href="a01522.html">utility</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01519.html">exceptions</a></li><li class="navelem"><a class="el" href="a01522.html">Wrapper</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

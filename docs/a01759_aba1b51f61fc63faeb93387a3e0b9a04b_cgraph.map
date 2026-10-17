@@ -1,0 +1,16 @@
+<map id="lumex::applied::logging::log::LumexLogging::to_file" name="lumex::applied::logging::log::LumexLogging::to_file">
+<area shape="rect" id="Node000001" title="Write a log to a file in the logs/ directory." alt="" coords="5,91,207,131"/>
+<area shape="rect" id="Node000002" href="$a04251.html#a32efb9c5bcc248c83b37abd86a5dd24d" title="Retrieves the current date and time formatted as a string." alt="" coords="261,5,431,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,89,248,62,250,67,168,94"/>
+<area shape="rect" id="Node000003" href="$a01759.html#ad00cb0a154e2546162cb226d3b494de5" title="Get the path to the logs directory." alt="" coords="255,84,437,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="207,109,241,109,241,114,207,114"/>
+<area shape="rect" id="Node000007" href="$a04251.html#a869c4e47c5c72561f0c99282b06049c6" title="Gettters for the time since epoch in different time units." alt="" coords="261,163,431,217"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="168,129,250,156,248,161,166,134"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a395ab3b27b542b7cb9092beed95f748d" title="Static convenience method to retrieve an environment variable." alt="" coords="485,91,707,131"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="438,109,472,109,472,114,438,114"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="755,32,956,87"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="695,89,741,80,742,85,696,94"/>
+<area shape="rect" id="Node000006" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="759,135,951,189"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="699,129,746,138,745,143,698,134"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="805,135,805,124,814,116,831,110,855,108,884,111,901,119,899,124,883,116,855,113,832,115,817,120,810,126,810,135"/>
+</map>

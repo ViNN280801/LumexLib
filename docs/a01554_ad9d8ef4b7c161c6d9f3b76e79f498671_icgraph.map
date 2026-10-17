@@ -1,0 +1,12 @@
+<map id="lumex::core::optional::opt::detail::mv" name="lumex::core::optional::opt::detail::mv">
+<area shape="rect" id="Node000001" title="static_cast&lt;remove_reference_t&lt;T&gt; &amp;&amp;&gt; (t): std::move is not constexpr in C++11." alt="" coords="291,157,451,197"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="412,145,398,138,371,135,347,137,333,142,327,148,330,156,325,157,322,147,330,138,346,132,371,130,399,133,415,140"/>
+<area shape="rect" id="Node000002" href="$a03627.html#aacffdca717045c04e546d4f86849a8cf" title="[optional.assign]/8: as the copy assignment, with moves. other keeps its (moved&#45;from) value." alt="" coords="5,5,243,60"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="340,149,295,110,241,74,218,63,220,58,244,69,298,106,343,145"/>
+<area shape="rect" id="Node000003" href="$a03407.html#aed8aafe41bce885dd17fa99fa9f13c9c" title=" " alt="" coords="21,84,227,168"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="277,160,227,150,228,145,278,155"/>
+<area shape="rect" id="Node000004" href="$a03587.html#a36cd86f3b18503234ffbe745b93e94dc" title=" " alt="" coords="37,193,211,262"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="278,198,212,212,211,207,277,193"/>
+<area shape="rect" id="Node000005" href="$a03407.html#a0e5860fd06ce04691a7d78215b20e552" title=" " alt="" coords="21,287,227,371"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="339,208,295,242,244,276,221,289,219,284,241,272,291,238,335,204"/>
+</map>

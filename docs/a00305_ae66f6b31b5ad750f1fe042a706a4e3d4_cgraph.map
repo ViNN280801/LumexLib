@@ -1,0 +1,41 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,292,60,317"/>
+<area shape="rect" id="Node000002" href="$a01867.html#aec4e0ca8a3228735b8dde7e2c5e51f7e" title="Closes the port; safe to call on a closed session." alt="" coords="127,5,290,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="30,291,34,250,46,191,68,127,85,96,106,70,114,62,118,66,110,73,89,99,73,129,51,192,40,250,36,292"/>
+<area shape="rect" id="Node000003" href="$a01465.html#aa0d54b6acae1ec6f1744d15ce56f769f" title="Enumerate serial port names only." alt="" coords="113,84,305,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="33,291,55,224,77,184,106,148,110,145,114,149,110,152,81,187,60,226,38,293"/>
+<area shape="rect" id="Node000008" href="$a01465.html#ae27c22d50630c732a459b88a4f0e4260" title="True when Windows registered port_name through a Bluetooth enumerator (BTHENUM / BTHLEENUM)." alt="" coords="108,163,309,217"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="41,290,68,259,106,227,114,222,117,226,110,231,72,262,45,293"/>
+<area shape="rect" id="Node000009" href="$a01867.html#aeccb8971734d9825d958152ec2e6ed49" title="True while the port is open." alt="" coords="127,241,290,296"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="60,296,113,286,114,291,61,302"/>
+<area shape="rect" id="Node000010" href="$a01867.html#aa345ad61b5406b3ed295788ec6ad8ffd" title="Opens the port with the configured settings inside deadline." alt="" coords="111,321,306,361"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="61,308,98,315,97,321,60,313"/>
+<area shape="rect" id="Node000011" href="$a01465.html#a72a94a2885dc60a216e50441898ce62c" title="Write a grouped port table to os." alt="" coords="111,385,306,440"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="46,316,74,343,109,370,121,377,118,382,107,375,70,347,42,320"/>
+<area shape="rect" id="Node000012" href="$a01867.html#a845214e6e33fa487163f38e3b13ee1ec" title="Opens the port when needed, sends request and collects the response until response_complete confirms ..." alt="" coords="127,464,290,519"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="38,317,61,380,82,417,110,449,117,455,114,459,106,453,78,420,57,382,33,318"/>
+<area shape="rect" id="Node000020" href="$a01867.html#a2bec366a058baf6a1573254d30bce52e" title="Reads once: returns as soon as at least one byte is available or the deadline expires." alt="" coords="113,543,304,583"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="36,317,40,358,51,414,73,475,89,503,110,528,116,534,112,538,106,532,85,506,68,477,46,416,34,358,30,318"/>
+<area shape="rect" id="Node000004" href="$a01465.html#a06d1dda0ef41ff2008e9792d2c6744ab" title="Enumerate serial ports with full serial_port_info_t records." alt="" coords="357,84,549,139"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="305,109,344,109,344,114,305,114"/>
+<area shape="rect" id="Node000005" href="$a01465.html#a0a518e9f25f40fbb213907e34b881f81" title="Opens open_path so the caller never waits past deadline." alt="" coords="615,5,792,60"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="540,81,603,62,604,67,541,86"/>
+<area shape="rect" id="Node000006" href="$a01465.html#aeda0fc72f871cf1ddc177f5c172131ea" title="Closes handle; a no&#45;op for the invalid value." alt="" coords="604,84,803,139"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="550,109,590,109,590,114,550,114"/>
+<area shape="rect" id="Node000007" href="$a01465.html#a2baec958c3eebd588ab9cbc9bccd7e5f" title="Maps an open outcome to the enumeration state." alt="" coords="607,163,799,217"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="541,136,604,156,603,161,540,141"/>
+<area shape="rect" id="Node000013" href="$a01471.html#aad815f0706b5da1500fbda9d64a48e88" title="Runs one bounded probe over transport." alt="" coords="361,471,546,511"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="290,489,347,489,347,494,290,494"/>
+<area shape="rect" id="Node000014" href="$a01471.html#abfe791d5b660fa24d46ceb665e918f12" title="Milliseconds elapsed since start." alt="" coords="597,281,809,321"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="464,469,516,401,553,363,596,330,607,324,609,329,599,335,557,367,520,405,468,473"/>
+<area shape="rect" id="Node000015" href="$a01839.html#a03d9d7c732ecaba43e39d3dea068c656" title="True while the port is open." alt="" coords="622,345,785,400"/>
+<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="485,469,537,439,596,409,610,403,612,408,598,414,539,444,488,473"/>
+<area shape="rect" id="Node000016" href="$a01839.html#adc8013c9670a1b893619cd2c852108ab" title="Bounded open with the configured settings." alt="" coords="622,424,785,479"/>
+<area shape="poly" id="edge15_Node000013_Node000016" title=" " alt="" coords="546,474,608,464,609,469,546,479"/>
+<area shape="rect" id="Node000017" href="$a01839.html#a9e89076cc288e82ded1f5c9c4f4a2087" title="Flushes the input and output buffers." alt="" coords="622,503,785,557"/>
+<area shape="poly" id="edge16_Node000013_Node000017" title=" " alt="" coords="546,503,609,513,608,518,546,508"/>
+<area shape="rect" id="Node000018" href="$a01839.html#ab8d9442067657ea5b9a0d99f85c33c02" title="Reads at least one byte or stops at the deadline." alt="" coords="622,581,785,636"/>
+<area shape="poly" id="edge17_Node000013_Node000018" title=" " alt="" coords="489,509,598,566,615,574,613,578,596,571,486,514"/>
+<area shape="rect" id="Node000019" href="$a01839.html#ac5f44687a280f415d8fd6a924e961497" title="Writes size bytes or stops at the deadline." alt="" coords="622,660,785,715"/>
+<area shape="poly" id="edge18_Node000013_Node000019" title=" " alt="" coords="469,510,521,576,558,614,599,646,611,654,608,658,596,651,554,618,517,580,465,513"/>
+</map>

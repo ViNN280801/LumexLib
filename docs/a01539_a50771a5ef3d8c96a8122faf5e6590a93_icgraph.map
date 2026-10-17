@@ -1,0 +1,8 @@
+<map id="lumex::core::filesystem::fs::detail::path_to_standard" name="lumex::core::filesystem::fs::detail::path_to_standard">
+<area shape="rect" id="Node000001" title="Builds a std::filesystem::path from a path (see path)." alt="" coords="248,30,423,85"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="374,19,360,12,335,9,315,11,301,15,295,22,295,30,290,30,290,20,298,11,313,5,335,3,362,6,377,14"/>
+<area shape="rect" id="Node000002" href="$a02947.html#a8338c1c7b83d5bde1a943af87b5407c5" title="Implicit conversion to std::filesystem::path (C++17)." alt="" coords="5,5,200,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,46,200,41,200,36,234,41"/>
+<area shape="rect" id="Node000003" href="$a01537.html#a471fcd39c7f23869126a88a50df95b93" title="Concatenation of a std::filesystem::path and a path: lhs / rhs." alt="" coords="15,69,190,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="234,74,191,80,190,75,234,69"/>
+</map>

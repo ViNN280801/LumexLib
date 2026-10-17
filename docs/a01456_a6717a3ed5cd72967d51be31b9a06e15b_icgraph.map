@@ -1,0 +1,7 @@
+<map id="lumex::applied::resource_monitor::monitor::detail::parse_kib_field" name="lumex::applied::resource_monitor::monitor::detail::parse_kib_field">
+<area shape="rect" id="Node000001" title="The value of a Key: &lt;number&gt; kB line, as /proc/meminfo and /proc/&lt;pid&gt;/status write them." alt="" coords="237,45,421,100"/>
+<area shape="rect" id="Node000002" href="$a01456.html#adb9007f2be00ed6f67e4ea5fb3bcf1af" title="Parses the text of /proc/meminfo." alt="" coords="5,5,189,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,57,189,51,190,46,224,52"/>
+<area shape="rect" id="Node000003" href="$a01461.html#abfd03a410a583bd4d98d8452b164f802" title="Parses the text of /proc/&lt;pid&gt;/status." alt="" coords="6,84,189,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,93,189,99,188,93,224,88"/>
+</map>

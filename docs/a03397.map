@@ -1,0 +1,5 @@
+<map id="lumex::core::optional::opt::detail::is_std_optional&lt; T &gt;" name="lumex::core::optional::opt::detail::is_std_optional&lt; T &gt;">
+<area shape="rect" id="Node000001" title="Whether T is a specialization of std::optional." alt="" coords="5,79,165,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="26,5,145,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,45,88,78,83,78,83,45"/>
+</map>

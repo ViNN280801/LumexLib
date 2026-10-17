@@ -1,0 +1,8 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::current_path" name="lumex::core::filesystem::fs::lumex_filesystem::current_path">
+<area shape="rect" id="Node000001" title="Sets the current working directory to the specified path_arg." alt="" coords="5,46,180,101"/>
+<area shape="rect" id="Node000002" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="228,5,403,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,52,214,44,215,50,181,57"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a5b441e7f7be38a0f7dc925a913bd30ed" title="Retrieves the current working directory." alt="" coords="228,94,403,149"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,90,215,97,214,102,179,95"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="272,94,272,84,280,75,294,69,315,67,340,70,355,78,352,83,339,76,315,73,296,75,283,79,277,86,277,94"/>
+</map>

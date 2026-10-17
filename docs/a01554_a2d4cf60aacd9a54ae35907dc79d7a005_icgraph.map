@@ -1,0 +1,8 @@
+<map id="lumex::core::optional::opt::detail::construct_at" name="lumex::core::optional::opt::detail::construct_at">
+<area shape="rect" id="Node000001" title="std::construct_at: constexpr from C++20, a placement new before. T is not const: the union stores the..." alt="" coords="260,53,444,93"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="393,41,379,34,352,31,329,33,314,38,309,44,312,52,307,53,304,43,311,34,327,28,352,26,380,29,396,36"/>
+<area shape="rect" id="Node000002" href="$a03547.html#ab533b5304b0d2c0211f379f48f03e9f9" title="Starts the value&#39;s life with args...; the flag is set last, so a throwing constructor leaves the obje..." alt="" coords="16,5,201,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,58,201,51,202,45,247,53"/>
+<area shape="rect" id="Node000003" href="$a03551.html#a980d708c48acedf4965cba31d51c383a" title=" " alt="" coords="5,84,212,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,92,213,97,212,92,246,87"/>
+</map>

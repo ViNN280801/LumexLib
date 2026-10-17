@@ -1,0 +1,10 @@
+<map id="lumex::applied::logging::log::LumexLogging::get_logs_directory" name="lumex::applied::logging::log::LumexLogging::get_logs_directory">
+<area shape="rect" id="Node000001" title="Get the path to the logs directory." alt="" coords="5,57,188,112"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a395ab3b27b542b7cb9092beed95f748d" title="Static convenience method to retrieve an environment variable." alt="" coords="236,65,457,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,82,222,82,222,87,188,87"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="505,5,707,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="446,62,492,53,493,58,447,67"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="510,108,702,163"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="450,102,497,111,496,117,449,107"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="556,108,556,98,565,89,582,83,606,81,635,84,652,92,649,97,634,90,606,87,583,89,568,93,561,100,561,108"/>
+</map>

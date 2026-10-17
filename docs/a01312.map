@@ -1,0 +1,13 @@
+<map id="LumexCPUVectorizationCapabilities.hpp" name="LumexCPUVectorizationCapabilities.hpp">
+<area shape="rect" id="Node000001" title="Run&#45;time detection of the SIMD instruction sets that the processor and the operating system support." alt="" coords="120,5,403,31"/>
+<area shape="rect" id="Node000002" href="$a01319.html" title=" " alt="" coords="5,79,288,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,41,168,81,165,76,228,36"/>
+<area shape="rect" id="Node000003" href="$a01331.html" title="Hardware module: a profile of the CPU, memory and GPUs of the machine, the SIMD instruction sets the ..." alt="" coords="311,79,441,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="294,36,357,76,354,81,292,41"/>
+<area shape="rect" id="Node000004" href="$a00455.html" title=" " alt="" coords="22,152,223,192"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="324,111,187,154,185,149,322,106"/>
+<area shape="rect" id="Node000005" href="$a00452.html" title=" " alt="" coords="248,159,504,185"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="379,118,379,159,373,159,373,118"/>
+<area shape="rect" id="Node000006" href="$a00458.html" title=" " alt="" coords="529,159,767,185"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="433,105,606,157,604,162,432,111"/>
+</map>

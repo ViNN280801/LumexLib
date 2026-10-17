@@ -1,0 +1,5 @@
+<map id="lumex::xml::xpath::variable::xpath_variable_boolean" name="lumex::xml::xpath::variable::xpath_variable_boolean">
+<area shape="rect" id="Node000001" title="Represents an XPath variable holding a boolean value." alt="" coords="5,93,185,148"/>
+<area shape="rect" id="Node000002" href="$a05327.html" title="Base class for all XPath variables." alt="" coords="9,5,182,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,59,98,93,93,93,93,59"/>
+</map>

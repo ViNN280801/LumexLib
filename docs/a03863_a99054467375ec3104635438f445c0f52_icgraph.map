@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::shared_ptr::swap" name="lumex::core::smart_ptr::shared_ptr::swap">
+<area shape="rect" id="Node000001" title="Exchanges the pointers and the ownership; never throws." alt="" coords="252,5,419,45"/>
+<area shape="rect" id="Node000002" href="$a03863.html#ae48fe6199fff60d013753d41cc224048" title=" " alt="" coords="5,5,204,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,28,204,28,204,23,238,23"/>
+</map>

@@ -1,0 +1,66 @@
+<map id="example_span_iterators.cpp" name="example_span_iterators.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1645,5,1851,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="1589,321,1659,346"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1729,33,1703,53,1681,80,1655,140,1638,203,1630,261,1627,307,1622,306,1625,260,1633,202,1649,138,1676,77,1700,49,1725,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="1785,79,1852,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1762,29,1799,67,1795,70,1758,33"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="1876,79,1956,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1778,28,1875,71,1873,76,1776,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="1146,409,1217,434"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1743,32,1716,89,1705,126,1700,165,1700,245,1701,306,1694,331,1674,355,1649,367,1606,377,1484,396,1231,420,1230,415,1483,390,1605,372,1648,362,1670,351,1689,328,1696,305,1695,245,1695,165,1699,125,1711,87,1738,30"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="1454,409,1546,434"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1751,31,1751,165,1751,245,1751,278,1748,305,1738,330,1718,355,1691,372,1651,387,1560,412,1559,407,1650,382,1689,367,1714,351,1733,327,1743,304,1745,278,1745,245,1745,165,1745,31"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="1981,79,2043,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1796,28,1968,76,1967,81,1794,33"/>
+<area shape="rect" id="Node000008" href="$a01400.html" title="Span module: a C++11 implementation of the C++20 std::span." alt="" coords="883,79,1093,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1645,31,1107,83,1107,77,1644,25"/>
+<area shape="rect" id="Node000009" href="$a01040.html" title="Constants, the byte type and the traits behind span." alt="" coords="890,233,1086,258"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="991,104,991,219,985,219,985,104"/>
+<area shape="rect" id="Node000019" href="$a01046.html" title="C++11 implementation of std::span (C++20): a non&#45;owning view of a contiguous sequence of objects." alt="" coords="605,152,766,177"/>
+<area shape="poly" id="edge27_Node000008_Node000019" title=" " alt="" coords="936,107,752,151,751,146,935,101"/>
+<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="1086,253,1286,278,1519,311,1575,321,1574,326,1518,316,1286,283,1086,259"/>
+<area shape="poly" id="edge12_Node000009_Node000005" title=" " alt="" coords="992,258,1004,303,1016,329,1033,352,1055,371,1081,386,1134,407,1132,412,1079,391,1052,375,1029,355,1012,331,999,305,987,259"/>
+<area shape="poly" id="edge14_Node000009_Node000006" title=" " alt="" coords="1087,251,1321,275,1422,292,1456,301,1476,311,1491,330,1499,352,1504,395,1499,395,1494,353,1486,333,1473,315,1454,306,1420,297,1320,281,1086,256"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="589,321,645,346"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="894,261,780,282,658,316,653,318,652,313,657,311,779,277,893,255"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="670,321,781,346"/>
+<area shape="poly" id="edge11_Node000009_Node000011" title=" " alt="" coords="951,261,777,319,775,314,949,256"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="1042,321,1129,346"/>
+<area shape="poly" id="edge13_Node000009_Node000012" title=" " alt="" coords="1004,256,1063,309,1059,313,1001,260"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="805,321,865,346"/>
+<area shape="poly" id="edge15_Node000009_Node000013" title=" " alt="" coords="967,261,870,316,867,312,964,256"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="1153,321,1231,346"/>
+<area shape="poly" id="edge16_Node000009_Node000014" title=" " alt="" coords="1019,256,1151,313,1149,318,1017,261"/>
+<area shape="rect" id="Node000015" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="325,313,515,353"/>
+<area shape="poly" id="edge17_Node000009_Node000015" title=" " alt="" coords="906,261,529,319,528,314,906,255"/>
+<area shape="rect" id="Node000016" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="293,401,547,441"/>
+<area shape="poly" id="edge21_Node000009_Node000016" title=" " alt="" coords="987,259,965,307,947,334,923,356,895,369,859,380,768,398,663,411,562,418,561,413,663,405,767,393,858,375,894,364,920,351,943,330,961,305,982,257"/>
+<area shape="rect" id="Node000017" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="5,401,219,441"/>
+<area shape="poly" id="edge22_Node000009_Node000017" title=" " alt="" coords="977,260,879,356,823,373,752,385,670,392,583,396,412,399,280,404,233,409,232,404,280,399,412,393,583,390,670,387,751,380,822,368,876,351,973,256"/>
+<area shape="rect" id="Node000018" href="$a01049.html" title="is_contiguous_iterator for the iterator classes of the standard libraries below C++20." alt="" coords="1255,313,1462,353"/>
+<area shape="poly" id="edge23_Node000009_Node000018" title=" " alt="" coords="1036,255,1254,308,1253,313,1034,261"/>
+<area shape="poly" id="edge18_Node000015_Node000006" title=" " alt="" coords="515,344,578,351,903,378,1230,399,1440,414,1440,420,1229,404,903,383,577,356,514,349"/>
+<area shape="poly" id="edge19_Node000015_Node000016" title=" " alt="" coords="423,354,423,387,417,387,417,354"/>
+<area shape="poly" id="edge20_Node000015_Node000017" title=" " alt="" coords="350,356,197,400,195,395,349,351"/>
+<area shape="poly" id="edge24_Node000018_Node000005" title=" " alt="" coords="1319,356,1220,405,1218,400,1317,351"/>
+<area shape="poly" id="edge25_Node000018_Node000006" title=" " alt="" coords="1393,351,1469,399,1466,403,1390,356"/>
+<area shape="poly" id="edge26_Node000018_Node000009" title=" " alt="" coords="1281,316,1061,264,1062,258,1283,311"/>
+<area shape="poly" id="edge29_Node000019_Node000002" title=" " alt="" coords="766,163,968,168,1217,179,1440,196,1520,208,1565,223,1586,241,1601,262,1620,306,1615,309,1596,265,1582,244,1563,228,1518,213,1440,201,1217,184,968,173,766,169"/>
+<area shape="poly" id="edge31_Node000019_Node000005" title=" " alt="" coords="669,180,630,213,589,258,575,282,566,307,567,330,579,351,607,365,661,378,817,397,993,410,1132,417,1132,422,992,415,817,402,660,383,605,370,575,355,562,331,561,306,570,280,585,255,626,209,666,176"/>
+<area shape="poly" id="edge32_Node000019_Node000006" title=" " alt="" coords="766,164,948,173,1059,183,1172,197,1280,216,1377,241,1455,272,1484,291,1506,312,1516,332,1519,354,1512,396,1507,395,1514,354,1511,333,1502,315,1481,295,1452,277,1376,246,1279,221,1171,202,1058,188,948,179,766,169"/>
+<area shape="poly" id="edge39_Node000019_Node000009" title=" " alt="" coords="734,175,928,226,926,232,732,180"/>
+<area shape="poly" id="edge28_Node000019_Node000010" title=" " alt="" coords="683,178,630,309,625,307,678,176"/>
+<area shape="poly" id="edge30_Node000019_Node000011" title=" " alt="" coords="691,177,722,306,717,308,686,178"/>
+<area shape="poly" id="edge33_Node000019_Node000013" title=" " alt="" coords="699,176,816,309,812,312,695,179"/>
+<area shape="poly" id="edge40_Node000019_Node000015" title=" " alt="" coords="642,180,589,200,535,228,487,265,448,305,444,301,483,261,532,223,587,195,640,175"/>
+<area shape="poly" id="edge41_Node000019_Node000016" title=" " alt="" coords="634,180,549,203,452,235,366,274,335,294,316,315,309,333,316,352,334,375,357,392,354,397,330,379,311,355,304,333,311,312,331,290,363,269,450,230,547,198,632,175"/>
+<area shape="poly" id="edge42_Node000019_Node000017" title=" " alt="" coords="604,169,457,175,286,186,138,203,88,214,62,227,50,245,45,265,45,286,50,308,68,352,91,389,86,392,63,354,45,310,40,287,40,264,46,243,58,223,86,209,137,197,285,180,456,169,604,164"/>
+<area shape="rect" id="Node000020" href="$a01043.html" title="The switch of the precondition checks of span: the macro LUMEX_SPAN_CHECKS and the macro LUMEX_SPAN_C..." alt="" coords="73,225,250,265"/>
+<area shape="poly" id="edge34_Node000019_Node000020" title=" " alt="" coords="605,178,270,228,264,229,263,224,269,223,604,173"/>
+<area shape="poly" id="edge37_Node000020_Node000015" title=" " alt="" coords="222,263,349,306,347,311,220,268"/>
+<area shape="poly" id="edge38_Node000020_Node000017" title=" " alt="" coords="131,267,107,288,89,314,85,333,85,352,97,388,91,390,80,353,79,332,84,312,103,285,127,263"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="99,321,160,346"/>
+<area shape="poly" id="edge35_Node000020_Node000021" title=" " alt="" coords="156,267,141,309,136,307,151,265"/>
+<area shape="rect" id="Node000022" title=" " alt="" coords="185,321,250,346"/>
+<area shape="poly" id="edge36_Node000020_Node000022" title=" " alt="" coords="177,264,204,308,200,310,172,267"/>
+</map>

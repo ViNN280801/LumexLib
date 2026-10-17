@@ -1,0 +1,23 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,156,60,181"/>
+<area shape="rect" id="Node000002" href="$a02595.html#a27c94dc4eecb36bb648246014552efed" title=" " alt="" coords="113,5,319,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="43,154,69,119,106,83,141,63,144,68,110,87,73,122,47,157"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="34,155,57,112,77,87,100,64,104,68,81,91,62,115,39,157"/>
+<area shape="rect" id="Node000003" href="$a01513.html#abe3bcc143a0031fd14358b238d67479b" title="CRC for catalogue index all_crc_specs_t (0 ... get_crc_catalog_entry_count &#45; 1)." alt="" coords="125,85,307,125"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="59,154,107,134,130,126,132,131,109,139,61,159"/>
+<area shape="rect" id="Node000004" href="$a04027.html#aa847f85780dba4fa954740d7d9fd0f27" title="The first Count elements as a span of static extent." alt="" coords="143,237,289,277"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="60,179,163,228,161,233,58,184"/>
+<area shape="rect" id="Node000006" href="$a01513.html#a32a414d57e5bec9066f58c00ef117124" title="Catalogue entry width in bits; &#45;1 on error." alt="" coords="117,149,315,189"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="60,166,103,166,103,171,60,171"/>
+<area shape="rect" id="Node000008" href="$a01513.html#a152fd8144b7bd06c1fed1fe9ee0b8244" title="Number of catalogue algorithms (order matches all_crc_specs_t)." alt="" coords="108,301,324,341"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="40,181,64,232,84,262,110,287,117,292,114,296,106,291,80,265,60,235,35,183"/>
+<area shape="rect" id="Node000009" href="$a04027.html#ad4abbc4006bca1e6fce5d5a980de958f" title="The last Count elements as a span of static extent." alt="" coords="143,389,289,429"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="37,181,45,214,58,259,80,307,110,351,128,367,149,380,146,385,125,371,106,354,75,310,53,261,39,215,32,182"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="182,237,180,227,185,218,197,212,216,210,237,213,249,220,246,225,236,218,216,215,199,217,189,222,185,228,187,236"/>
+<area shape="rect" id="Node000005" href="$a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="397,313,544,353"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="285,274,325,286,391,306,390,311,323,291,283,279"/>
+<area shape="rect" id="Node000007" href="$a01513.html#a1b42d882b939ecd329d7f964d0a71b2b" title=" " alt="" coords="372,149,569,189"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="316,166,358,166,358,171,316,171"/>
+<area shape="poly" id="edge12_Node000009_Node000005" title=" " alt="" coords="282,386,390,354,391,359,284,391"/>
+<area shape="poly" id="edge11_Node000009_Node000009" title=" " alt="" coords="182,389,180,379,185,370,197,364,216,362,237,365,249,372,246,377,236,370,216,367,199,369,189,374,185,380,187,388"/>
+</map>

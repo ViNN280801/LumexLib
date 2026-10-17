@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexKeywords.hpp File Reference</title>
+<title>LumexLib: XPathAllocator.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,305 +104,187 @@ $(function(){initNavTree('a00623.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">LumexKeywords.hpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XPathAllocator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Macros that spell C++ keywords and specifiers only where the compiled standard supports them, so one source compiles from C++11 to C++26.  
+<p><code>XPathAllocator</code>, the bump allocator of the XPath engine, and <code>XPathAllocatorCapture</code>, which rolls it back at the end of a scope.  
 <a href="#details">More...</a></p>
-
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00626_source.html">XPathMemoryBlock.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for XPathAllocator.hpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00624.png" border="0" usemap="#aXPathAllocator_8hpp" alt=""/></div>
+<map name="aXPathAllocator_8hpp" id="aXPathAllocator_8hpp">
+<area shape="rect" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="136,5,280,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,159,187,185"/>
+<area shape="poly" title=" " alt="" coords="144,33,105,51,88,64,74,80,69,96,69,113,82,146,77,148,64,114,63,95,70,77,84,60,102,46,142,28"/>
+<area shape="rect" title=" " alt="" coords="85,79,150,104"/>
+<area shape="poly" title=" " alt="" coords="194,33,146,72,142,68,191,29"/>
+<area shape="rect" title=" " alt="" coords="175,79,241,104"/>
+<area shape="poly" title=" " alt="" coords="211,31,211,65,205,65,205,31"/>
+<area shape="rect" href="a00626.html" title="XPathMemoryBlock, the unit of memory of the XPath allocator." alt="" coords="265,79,441,104"/>
+<area shape="poly" title=" " alt="" coords="235,28,317,70,315,75,232,33"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="583,328,796,368"/>
+<area shape="poly" title=" " alt="" coords="281,28,365,48,454,76,547,106,624,129,658,145,689,166,719,197,748,239,754,260,749,281,739,301,724,319,720,316,734,298,744,279,748,260,743,241,715,200,686,171,655,149,622,134,546,111,453,81,364,53,280,33"/>
+<area shape="poly" title=" " alt="" coords="313,107,150,158,149,153,312,102"/>
+<area shape="rect" title=" " alt="" coords="235,159,291,185"/>
+<area shape="poly" title=" " alt="" coords="341,106,289,152,286,148,337,102"/>
+<area shape="rect" title=" " alt="" coords="293,247,363,273"/>
+<area shape="poly" title=" " alt="" coords="354,104,335,234,329,233,349,104"/>
+<area shape="rect" href="a00587.html" title="Size limits and alignment of the XPath engine." alt="" coords="365,152,565,192"/>
+<area shape="poly" title=" " alt="" coords="373,102,428,142,425,146,370,106"/>
+<area shape="poly" title=" " alt="" coords="435,194,361,242,358,238,432,190"/>
+<area shape="rect" title=" " alt="" coords="388,247,455,273"/>
+<area shape="poly" title=" " alt="" coords="458,194,436,236,432,234,453,191"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="479,240,734,280"/>
+<area shape="poly" title=" " alt="" coords="499,190,564,230,561,235,496,194"/>
+<area shape="poly" title=" " alt="" coords="628,279,663,316,659,320,624,282"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00625.png" border="0" usemap="#aXPathAllocator_8hppdep" alt=""/></div>
+<map name="aXPathAllocator_8hppdep" id="aXPathAllocator_8hppdep">
+<area shape="rect" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="1480,5,1624,31"/>
+<area shape="rect" href="a00614.html" title=" " alt="" coords="150,79,292,104"/>
+<area shape="poly" title=" " alt="" coords="1466,22,976,38,646,55,312,81,293,83,292,78,311,76,646,50,976,33,1466,17"/>
+<area shape="rect" href="a00641.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="419,79,562,104"/>
+<area shape="poly" title=" " alt="" coords="1466,27,562,89,562,84,1466,21"/>
+<area shape="rect" href="a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="2156,299,2283,324"/>
+<area shape="poly" title=" " alt="" coords="1637,16,1945,21,2354,31,2732,49,2869,61,2950,76,2984,89,3010,102,3031,121,3050,151,3061,168,3074,181,3098,196,3112,203,3099,204,3054,202,2964,207,2816,222,2599,253,2284,304,2283,299,2598,248,2815,217,2963,201,3054,197,3099,198,3107,202,3095,200,3070,185,3057,172,3045,153,3027,124,3007,106,2982,93,2948,81,2869,66,2732,54,2354,36,1945,26,1637,21"/>
+<area shape="rect" href="a00551.html" title="XPathQuery, a compiled XPath expression that can be evaluated many times, and its private implementat..." alt="" coords="424,225,548,251"/>
+<area shape="poly" title=" " alt="" coords="1466,22,1196,28,853,39,551,57,452,68,422,74,408,81,398,97,396,116,402,136,412,156,442,194,472,223,469,227,438,198,408,159,397,138,391,117,393,96,405,77,421,69,451,63,551,51,853,34,1196,22,1466,17"/>
+<area shape="rect" href="a00617.html" title="The memory an XPath evaluation runs on: XPathStack, a pair of allocators, and XPathStackData,..." alt="" coords="2814,79,2937,104"/>
+<area shape="poly" title=" " alt="" coords="1638,16,1844,20,2132,29,2463,47,2800,76,2814,78,2814,83,2799,81,2463,53,2131,35,1843,25,1637,21"/>
+<area shape="rect" href="a00584.html" title="XPathString, the string type of XPath evaluation, and the conversions of nodes and numbers to it." alt="" coords="2662,79,2788,104"/>
+<area shape="poly" title=" " alt="" coords="1638,21,2663,85,2662,90,1637,26"/>
+<area shape="rect" href="a00713.html" title="Header&#45;only helpers of the XML implementation: encoding detection and buffer conversion,..." alt="" coords="1498,79,1605,104"/>
+<area shape="poly" title=" " alt="" coords="1554,44,1554,78,1549,78,1549,44"/>
+<area shape="rect" href="a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="340,299,432,324"/>
+<area shape="poly" title=" " alt="" coords="406,101,280,119,211,134,143,155,67,178,38,195,13,227,8,238,12,249,28,257,58,266,148,282,340,305,340,310,147,288,57,271,26,262,8,252,3,238,8,224,35,191,64,173,142,149,209,129,279,114,405,96"/>
+<area shape="rect" href="a00572.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="2444,225,2587,251"/>
+<area shape="poly" title=" " alt="" coords="551,105,712,147,826,175,975,190,1174,203,1650,221,2118,231,2444,235,2444,240,2118,236,1650,227,1174,209,975,196,825,180,710,153,550,110"/>
+<area shape="rect" href="a00644.html" title=" " alt="" coords="66,225,208,251"/>
+<area shape="poly" title=" " alt="" coords="405,100,337,107,266,118,205,134,182,143,166,154,153,170,145,189,140,225,135,224,140,187,149,167,162,150,179,139,203,129,265,113,336,102,405,95"/>
+<area shape="rect" href="a00632.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="176,152,293,177"/>
+<area shape="poly" title=" " alt="" coords="433,110,280,154,278,149,432,105"/>
+<area shape="rect" href="a00563.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="470,152,610,177"/>
+<area shape="poly" title=" " alt="" coords="509,114,533,150,529,153,504,117"/>
+<area shape="rect" href="a00566.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="838,225,999,251"/>
+<area shape="poly" title=" " alt="" coords="539,106,731,175,878,223,877,228,730,180,537,111"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="638,299,748,324"/>
+<area shape="poly" title=" " alt="" coords="472,116,456,146,455,162,459,176,480,197,503,206,530,211,561,223,625,262,676,296,674,301,622,266,559,228,528,216,501,211,477,202,455,179,449,162,451,145,467,114"/>
+<area shape="rect" href="a00389.html" title=" " alt="" coords="399,372,520,397"/>
+<area shape="poly" title=" " alt="" coords="411,332,449,370,445,373,407,336"/>
+<area shape="rect" href="a00395.html" title=" " alt="" coords="544,372,666,397"/>
+<area shape="poly" title=" " alt="" coords="438,326,568,369,566,374,436,331"/>
+<area shape="rect" href="a00392.html" title=" " alt="" coords="108,372,230,397"/>
+<area shape="poly" title=" " alt="" coords="337,331,208,374,206,369,335,326"/>
+<area shape="rect" href="a00398.html" title=" " alt="" coords="254,372,375,397"/>
+<area shape="poly" title=" " alt="" coords="366,336,329,373,325,370,363,332"/>
+<area shape="rect" href="a00575.html" title=" " alt="" coords="2445,299,2586,324"/>
+<area shape="poly" title=" " alt="" coords="2518,264,2518,298,2513,298,2513,264"/>
+<area shape="poly" title=" " alt="" coords="2452,257,2272,301,2271,296,2451,251"/>
+<area shape="rect" href="a00605.html" title=" " alt="" coords="2157,372,2282,397"/>
+<area shape="poly" title=" " alt="" coords="2222,338,2222,372,2217,372,2217,338"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="857,372,980,397"/>
+<area shape="poly" title=" " alt="" coords="2143,318,980,384,980,379,2142,313"/>
+<area shape="poly" title=" " alt="" coords="208,188,156,227,153,223,205,183"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="232,225,348,251"/>
+<area shape="poly" title=" " alt="" coords="254,187,283,223,278,226,250,190"/>
+<area shape="poly" title=" " alt="" coords="478,185,443,202,414,227,403,244,396,263,390,299,384,298,391,262,398,242,410,224,441,198,476,180"/>
+<area shape="poly" title=" " alt="" coords="623,168,731,175,1245,197,1747,215,2444,234,2444,239,1747,220,1245,203,730,180,623,173"/>
+<area shape="poly" title=" " alt="" coords="484,184,335,228,333,223,483,179"/>
+<area shape="rect" href="a00560.html" title=" " alt="" coords="624,225,762,251"/>
+<area shape="poly" title=" " alt="" coords="580,181,667,223,665,228,578,186"/>
+<area shape="poly" title=" " alt="" coords="619,177,853,223,852,228,618,183"/>
+<area shape="poly" title=" " alt="" coords="825,254,433,308,432,302,824,248"/>
+<area shape="poly" title=" " alt="" coords="1013,241,2156,305,2156,310,1013,246"/>
+<area shape="poly" title=" " alt="" coords="1013,246,2157,375,2157,380,1012,251"/>
+<area shape="poly" title=" " alt="" coords="921,264,921,372,916,372,916,264"/>
+<area shape="rect" href="a00569.html" title=" " alt="" coords="1696,299,1856,324"/>
+<area shape="poly" title=" " alt="" coords="1013,243,1696,302,1695,307,1013,249"/>
+<area shape="poly" title=" " alt="" coords="867,257,733,301,731,296,866,252"/>
+<area shape="poly" title=" " alt="" coords="459,261,406,301,402,296,456,257"/>
+<area shape="poly" title=" " alt="" coords="515,257,566,290,627,322,687,342,748,357,857,376,856,381,747,362,685,347,625,326,563,295,513,261"/>
+<area shape="poly" title=" " alt="" coords="536,253,658,296,656,301,534,258"/>
+<area shape="poly" title=" " alt="" coords="2868,118,2850,151,2823,180,2781,198,2720,212,2588,233,2587,228,2719,207,2779,193,2820,175,2846,147,2864,116"/>
+<area shape="rect" href="a00620.html" title=" " alt="" coords="2913,152,3036,177"/>
+<area shape="poly" title=" " alt="" coords="2906,110,2958,149,2955,154,2902,114"/>
+<area shape="poly" title=" " alt="" coords="2763,109,2783,124,2799,141,2807,160,2801,179,2786,191,2766,201,2712,217,2649,228,2588,235,2587,230,2648,223,2711,212,2764,196,2783,186,2796,176,2802,160,2795,144,2779,128,2760,113"/>
+<area shape="rect" href="a00581.html" title=" " alt="" coords="2663,152,2787,177"/>
+<area shape="poly" title=" " alt="" coords="2728,118,2728,152,2722,152,2722,118"/>
+<area shape="poly" title=" " alt="" coords="1484,95,1186,100,774,111,387,128,246,140,164,155,128,166,100,178,77,196,57,227,52,238,57,249,75,263,103,275,180,292,266,302,340,307,340,313,265,308,179,298,102,280,72,268,52,252,47,239,52,224,73,193,97,174,126,161,163,149,246,135,386,123,774,105,1186,94,1484,89"/>
+<area shape="poly" title=" " alt="" coords="1619,91,2164,112,2438,129,2529,139,2573,150,2595,168,2611,189,2623,210,2630,233,2631,256,2627,280,2617,303,2600,326,2584,335,2556,344,2472,359,2283,382,2282,376,2471,354,2554,339,2582,330,2597,322,2612,300,2622,278,2626,256,2625,234,2618,212,2607,192,2591,172,2571,154,2528,144,2438,134,2164,117,1619,96"/>
+<area shape="poly" title=" " alt="" coords="1485,96,968,116,673,133,550,143,457,155,378,170,300,190,175,228,174,223,298,185,377,165,457,149,550,138,673,128,968,110,1484,91"/>
+<area shape="poly" title=" " alt="" coords="1485,97,1120,116,876,133,629,155,610,157,610,152,629,149,876,127,1119,110,1484,91"/>
+<area shape="poly" title=" " alt="" coords="1485,97,1091,118,893,135,823,144,782,154,757,170,735,189,704,227,700,224,731,185,754,165,780,150,822,139,893,129,1090,112,1484,91"/>
+<area shape="poly" title=" " alt="" coords="1619,92,2161,118,2428,134,2514,142,2551,150,2557,164,2551,179,2537,190,2515,200,2449,219,2361,238,2257,255,2038,285,1856,306,1856,301,2037,280,2256,250,2360,233,2448,214,2513,195,2535,185,2547,176,2552,165,2547,154,2513,148,2428,140,2161,123,1619,97"/>
+<area shape="poly" title=" " alt="" coords="1484,96,1317,102,1111,114,927,131,863,142,826,154,814,164,807,175,799,198,792,224,777,252,747,280,717,301,714,296,744,276,772,249,788,222,794,197,802,172,810,161,824,150,861,137,927,126,1111,108,1317,97,1484,91"/>
+<area shape="poly" title=" " alt="" coords="1619,90,2051,106,2345,123,2644,149,2663,152,2663,157,2643,155,2344,129,2051,111,1619,95"/>
+<area shape="rect" href="a00602.html" title=" " alt="" coords="1840,152,2000,177"/>
+<area shape="poly" title=" " alt="" coords="1619,102,1856,149,1855,155,1618,107"/>
+<area shape="rect" href="a00548.html" title=" " alt="" coords="2024,152,2156,177"/>
+<area shape="poly" title=" " alt="" coords="1619,97,2012,149,2025,151,2024,157,2011,155,1619,102"/>
+<area shape="rect" href="a00539.html" title=" " alt="" coords="2180,152,2344,177"/>
+<area shape="poly" title=" " alt="" coords="1619,95,1861,117,2168,149,2181,151,2180,156,2167,155,1861,122,1619,100"/>
+<area shape="rect" href="a00677.html" title=" " alt="" coords="2369,152,2537,177"/>
+<area shape="poly" title=" " alt="" coords="1619,93,1937,113,2356,149,2369,151,2368,156,2355,155,1937,119,1619,98"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="838,152,980,177"/>
+<area shape="poly" title=" " alt="" coords="1485,100,1266,123,993,155,981,156,980,151,993,149,1266,117,1484,95"/>
+<area shape="rect" href="a00728.html" title=" " alt="" coords="1005,152,1208,177"/>
+<area shape="poly" title=" " alt="" coords="1485,105,1184,155,1183,149,1484,100"/>
+<area shape="rect" href="a00722.html" title=" " alt="" coords="1232,152,1373,177"/>
+<area shape="poly" title=" " alt="" coords="1496,110,1347,154,1345,149,1495,105"/>
+<area shape="rect" href="a00683.html" title=" " alt="" coords="1398,152,1548,177"/>
+<area shape="poly" title=" " alt="" coords="1530,115,1489,153,1485,150,1526,111"/>
+<area shape="rect" href="a00686.html" title=" " alt="" coords="1573,152,1688,177"/>
+<area shape="poly" title=" " alt="" coords="1577,111,1618,150,1615,153,1574,115"/>
+<area shape="rect" href="a00680.html" title=" " alt="" coords="1712,152,1815,177"/>
+<area shape="poly" title=" " alt="" coords="1602,106,1728,149,1726,154,1601,111"/>
+</map>
+</div>
+</div>
 <p><a href="a00623_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a7efa0880bd62481ba01b90becb04f413" id="r_a7efa0880bd62481ba01b90becb04f413"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7efa0880bd62481ba01b90becb04f413">LUMEX_CONSTINIT</a>&#160;&#160;&#160;constinit</td></tr>
-<tr class="separator:a7efa0880bd62481ba01b90becb04f413"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa83cbe7f4ea7b2fd1f213698427b535d" id="r_aa83cbe7f4ea7b2fd1f213698427b535d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa83cbe7f4ea7b2fd1f213698427b535d">LUMEX_CONSTEVAL</a>&#160;&#160;&#160;consteval</td></tr>
-<tr class="separator:aa83cbe7f4ea7b2fd1f213698427b535d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47e6f687e9ccc7895ec20cace7a357d8" id="r_a47e6f687e9ccc7895ec20cace7a357d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47e6f687e9ccc7895ec20cace7a357d8">LUMEX_INLINE_VARIABLE</a>&#160;&#160;&#160;inline</td></tr>
-<tr class="separator:a47e6f687e9ccc7895ec20cace7a357d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8932f306494e2abfe9045da20a41e47c" id="r_a8932f306494e2abfe9045da20a41e47c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>&#160;&#160;&#160;noexcept</td></tr>
-<tr class="separator:a8932f306494e2abfe9045da20a41e47c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a519cca5cda98cc22e4eaf9dea1bcca4b" id="r_a519cca5cda98cc22e4eaf9dea1bcca4b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a519cca5cda98cc22e4eaf9dea1bcca4b">LUMEX_NOEXCEPT_IF</a>(...)</td></tr>
-<tr class="separator:a519cca5cda98cc22e4eaf9dea1bcca4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38079da46fca9b9ae17e90b731d6ab0c" id="r_a38079da46fca9b9ae17e90b731d6ab0c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38079da46fca9b9ae17e90b731d6ab0c">LUMEX_CONSTEXPR_IF</a>&#160;&#160;&#160;if constexpr</td></tr>
-<tr class="separator:a38079da46fca9b9ae17e90b731d6ab0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b5f5ff346254db7b10ff8acfb874e0a" id="r_a6b5f5ff346254db7b10ff8acfb874e0a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b5f5ff346254db7b10ff8acfb874e0a">LUMEX_RESTRICT</a></td></tr>
-<tr class="separator:a6b5f5ff346254db7b10ff8acfb874e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81fe93b4daec85db53b06073263b888f" id="r_a81fe93b4daec85db53b06073263b888f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81fe93b4daec85db53b06073263b888f">LUMEX_CONSTEXPR_FUNCTION</a>&#160;&#160;&#160;constexpr</td></tr>
-<tr class="separator:a81fe93b4daec85db53b06073263b888f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa40239baec57106b1798029a91d87025" id="r_aa40239baec57106b1798029a91d87025"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa40239baec57106b1798029a91d87025">LUMEX_CONSTEXPR_VIRTUAL_FUNCTION</a>&#160;&#160;&#160;constexpr</td></tr>
-<tr class="separator:aa40239baec57106b1798029a91d87025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aac503affc067676ceedfe24f4c3357" id="r_a8aac503affc067676ceedfe24f4c3357"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8aac503affc067676ceedfe24f4c3357">LUMEX_CONSTEXPR_CTOR</a>&#160;&#160;&#160;constexpr</td></tr>
-<tr class="separator:a8aac503affc067676ceedfe24f4c3357"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1301de49ecd91c86b7a61015084dc3fc" id="r_a1301de49ecd91c86b7a61015084dc3fc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1301de49ecd91c86b7a61015084dc3fc">LUMEX_CONSTEXPR_DEFAULTED_CTOR</a></td></tr>
-<tr class="separator:a1301de49ecd91c86b7a61015084dc3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6ade2ee3e7399a6546df90d11ec8518" id="r_ac6ade2ee3e7399a6546df90d11ec8518"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6ade2ee3e7399a6546df90d11ec8518">LUMEX_CONSTEXPR_DTOR</a>&#160;&#160;&#160;constexpr</td></tr>
-<tr class="separator:ac6ade2ee3e7399a6546df90d11ec8518"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82311fbffabf10f9f7d8a089711dae6a" id="r_a82311fbffabf10f9f7d8a089711dae6a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82311fbffabf10f9f7d8a089711dae6a">LUMEX_CONSTEXPR_DEFAULTED_DTOR</a></td></tr>
-<tr class="separator:a82311fbffabf10f9f7d8a089711dae6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5623e00fcb6be5c2ab39f71b96fca788" id="r_a5623e00fcb6be5c2ab39f71b96fca788"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5623e00fcb6be5c2ab39f71b96fca788">LUMEX_CONSTEXPR_VIRTUAL_DTOR</a></td></tr>
-<tr class="separator:a5623e00fcb6be5c2ab39f71b96fca788"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01a7d3864d496126e9efae4bd106ffd3" id="r_a01a7d3864d496126e9efae4bd106ffd3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01a7d3864d496126e9efae4bd106ffd3">LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR</a></td></tr>
-<tr class="separator:a01a7d3864d496126e9efae4bd106ffd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1513006a1992e7dc9cc43b2e081cc33f" id="r_a1513006a1992e7dc9cc43b2e081cc33f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a>&#160;&#160;&#160;<a class="el" href="#a81fe93b4daec85db53b06073263b888f">LUMEX_CONSTEXPR_FUNCTION</a></td></tr>
-<tr class="separator:a1513006a1992e7dc9cc43b2e081cc33f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d4728a7aecaee53cd10dc2ae6646db1" id="r_a4d4728a7aecaee53cd10dc2ae6646db1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d4728a7aecaee53cd10dc2ae6646db1">LUMEX_CONSTEXPR_CXX14</a>&#160;&#160;&#160;constexpr</td></tr>
-<tr class="separator:a4d4728a7aecaee53cd10dc2ae6646db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05259.html">lumex::xml::xpath::memory::XPathAllocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocator for XPath-related data structures.  <a href="a05259.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05263.html">lumex::xml::xpath::memory::XPathAllocatorCapture</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A RAII helper to capture and restore <a class="el" href="a05259.html" title="Allocator for XPath-related data structures.">XPathAllocator</a> state.  <a href="a05263.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01678.html">lumex::xml::xpath</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01694.html">lumex::xml::xpath::memory</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Macros that spell C++ keywords and specifiers only where the compiled standard supports them, so one source compiles from C++11 to C++26. </p>
-<p><code>LUMEX_NOEXCEPT</code> and <code><a class="el" href="#a519cca5cda98cc22e4eaf9dea1bcca4b">LUMEX_NOEXCEPT_IF(...)</a></code> are <code>noexcept</code> and its conditional form. <code>LUMEX_CONSTEXPR</code> and the <code>LUMEX_CONSTEXPR_*</code> family for functions, constructors, destructors and virtual functions expand to <code>constexpr</code> only from the standard the header picks for that kind of declaration: C++11 for functions and constructors, C++20 for virtual functions and destructors, C++23 for defaulted special members and virtual destructors. <code>LUMEX_CONSTEXPR_CXX14</code> marks a function body that needs the relaxed rules of C++14. <code>LUMEX_CONSTEXPR_IF</code> is <code>if constexpr</code> from C++17 and a plain <code>if</code> before, so both branches must compile. <code>LUMEX_INLINE_VARIABLE</code> is <code>inline</code> from C++17 and empty before; <code>LUMEX_CONSTINIT</code> and <code>LUMEX_CONSTEVAL</code> are the C++20 keywords and <code>constexpr</code> before; <code>LUMEX_RESTRICT</code> is the compiler's <code>__restrict</code> extension. The header includes nothing. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aa83cbe7f4ea7b2fd1f213698427b535d" name="aa83cbe7f4ea7b2fd1f213698427b535d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa83cbe7f4ea7b2fd1f213698427b535d">&#9670;&#160;</a></span>LUMEX_CONSTEVAL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEVAL&#160;&#160;&#160;consteval</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1513006a1992e7dc9cc43b2e081cc33f" name="a1513006a1992e7dc9cc43b2e081cc33f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1513006a1992e7dc9cc43b2e081cc33f">&#9670;&#160;</a></span>LUMEX_CONSTEXPR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR&#160;&#160;&#160;<a class="el" href="#a81fe93b4daec85db53b06073263b888f">LUMEX_CONSTEXPR_FUNCTION</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8aac503affc067676ceedfe24f4c3357" name="a8aac503affc067676ceedfe24f4c3357"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8aac503affc067676ceedfe24f4c3357">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_CTOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_CTOR&#160;&#160;&#160;constexpr</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4d4728a7aecaee53cd10dc2ae6646db1" name="a4d4728a7aecaee53cd10dc2ae6646db1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d4728a7aecaee53cd10dc2ae6646db1">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_CXX14</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_CXX14&#160;&#160;&#160;constexpr</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1301de49ecd91c86b7a61015084dc3fc" name="a1301de49ecd91c86b7a61015084dc3fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1301de49ecd91c86b7a61015084dc3fc">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_DEFAULTED_CTOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_DEFAULTED_CTOR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a82311fbffabf10f9f7d8a089711dae6a" name="a82311fbffabf10f9f7d8a089711dae6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82311fbffabf10f9f7d8a089711dae6a">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_DEFAULTED_DTOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_DEFAULTED_DTOR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a01a7d3864d496126e9efae4bd106ffd3" name="a01a7d3864d496126e9efae4bd106ffd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01a7d3864d496126e9efae4bd106ffd3">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_DEFAULTED_VIRTUAL_DTOR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac6ade2ee3e7399a6546df90d11ec8518" name="ac6ade2ee3e7399a6546df90d11ec8518"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6ade2ee3e7399a6546df90d11ec8518">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_DTOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_DTOR&#160;&#160;&#160;constexpr</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a81fe93b4daec85db53b06073263b888f" name="a81fe93b4daec85db53b06073263b888f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81fe93b4daec85db53b06073263b888f">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_FUNCTION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_FUNCTION&#160;&#160;&#160;constexpr</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a38079da46fca9b9ae17e90b731d6ab0c" name="a38079da46fca9b9ae17e90b731d6ab0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38079da46fca9b9ae17e90b731d6ab0c">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_IF</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_IF&#160;&#160;&#160;if constexpr</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5623e00fcb6be5c2ab39f71b96fca788" name="a5623e00fcb6be5c2ab39f71b96fca788"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5623e00fcb6be5c2ab39f71b96fca788">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_VIRTUAL_DTOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_VIRTUAL_DTOR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa40239baec57106b1798029a91d87025" name="aa40239baec57106b1798029a91d87025"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa40239baec57106b1798029a91d87025">&#9670;&#160;</a></span>LUMEX_CONSTEXPR_VIRTUAL_FUNCTION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTEXPR_VIRTUAL_FUNCTION&#160;&#160;&#160;constexpr</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7efa0880bd62481ba01b90becb04f413" name="a7efa0880bd62481ba01b90becb04f413"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7efa0880bd62481ba01b90becb04f413">&#9670;&#160;</a></span>LUMEX_CONSTINIT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_CONSTINIT&#160;&#160;&#160;constinit</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a47e6f687e9ccc7895ec20cace7a357d8" name="a47e6f687e9ccc7895ec20cace7a357d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47e6f687e9ccc7895ec20cace7a357d8">&#9670;&#160;</a></span>LUMEX_INLINE_VARIABLE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_INLINE_VARIABLE&#160;&#160;&#160;inline</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8932f306494e2abfe9045da20a41e47c" name="a8932f306494e2abfe9045da20a41e47c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8932f306494e2abfe9045da20a41e47c">&#9670;&#160;</a></span>LUMEX_NOEXCEPT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_NOEXCEPT&#160;&#160;&#160;noexcept</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a519cca5cda98cc22e4eaf9dea1bcca4b" name="a519cca5cda98cc22e4eaf9dea1bcca4b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a519cca5cda98cc22e4eaf9dea1bcca4b">&#9670;&#160;</a></span>LUMEX_NOEXCEPT_IF</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_NOEXCEPT_IF</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">noexcept</span> (__VA_ARGS__)</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a6b5f5ff346254db7b10ff8acfb874e0a" name="a6b5f5ff346254db7b10ff8acfb874e0a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b5f5ff346254db7b10ff8acfb874e0a">&#9670;&#160;</a></span>LUMEX_RESTRICT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_RESTRICT</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p><code>XPathAllocator</code>, the bump allocator of the XPath engine, and <code>XPathAllocatorCapture</code>, which rolls it back at the end of a scope. </p>
+<p>The allocator takes memory in sequence from a chain of <code>XPathMemoryBlock</code>s and adds a block when the current one is full. Only the most recent allocation can grow in place. Nothing is freed individually: <code>revert</code> returns to a saved state and frees the blocks added since, and <code>XPathAllocatorCapture</code> does so on scope exit, which drops the temporaries of a subexpression. A failed allocation returns <code>nullptr</code> and sets the error flag given to the constructor; callers turn that into <code>std::bad_alloc</code>.</p>
+<p>A compiled query keeps its tree in one allocator (<code>XPathQueryImpl</code>), and every evaluation uses the two of an <code>XPathStackData</code>. The allocator is not synchronized and is internal to the XPath engine. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_aaa57aed14d71e316a67f95634c796d3.html">utility</a></li><li class="navelem"><a class="el" href="dir_e3f214e8a41a41e150fac712d4956bd2.html">macros</a></li><li class="navelem"><a class="el" href="a00623.html">LumexKeywords.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_19857d72d820dc03d02d27eca0dc23fe.html">memory</a></li><li class="navelem"><a class="el" href="a00623.html">XPathAllocator.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

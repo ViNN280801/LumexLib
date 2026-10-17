@@ -1,0 +1,12 @@
+<map id="lumex::core::utility::dump::core_dump_generator::initialize" name="lumex::core::utility::dump::core_dump_generator::initialize">
+<area shape="rect" id="Node000001" title="Initialize the crash dump handler." alt="" coords="5,69,223,124"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="64,69,64,59,73,50,90,45,114,43,143,46,160,54,157,58,142,51,114,48,91,50,76,55,69,61,69,69"/>
+<area shape="rect" id="Node000002" href="$a04367.html#afc6cdbe900e2509620b120b132847470" title="Create a dump configuration for the specified type." alt="" coords="290,29,455,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,77,276,69,277,74,223,82"/>
+<area shape="rect" id="Node000004" href="$a04363.html#a0ff5aa176e47a23ef046f4335491bbf6" title=" " alt="" coords="271,108,475,163"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="223,110,258,115,257,121,223,116"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="326,29,326,19,335,10,350,5,373,3,400,6,415,14,413,18,398,11,373,8,351,10,337,15,331,21,331,29"/>
+<area shape="rect" id="Node000003" href="$a04367.html#a8385c6ac0f9474e9d0f7744b6d0e56c4" title="Get the default dump type for the current platform." alt="" coords="523,29,707,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="456,54,509,54,509,59,456,59"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="568,29,568,19,577,10,592,5,615,3,642,6,657,14,655,18,640,11,615,8,593,10,579,15,573,21,573,29"/>
+</map>

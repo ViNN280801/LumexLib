@@ -1,0 +1,15 @@
+<map id="lumex::applied::logging::log::LumexLogging::warning" name="lumex::applied::logging::log::LumexLogging::warning">
+<area shape="rect" id="Node000001" title="Log a WARNING&#45;level message." alt="" coords="588,123,801,163"/>
+<area shape="rect" id="Node000002" href="$a01903.html#af9bac403ac10a4c027b0b3b3e7242dab" title="Copies filename to a sibling &lt;filename&gt;.bak.&lt;YYYYMMDD&#45;HHMMSS&gt; backup file." alt="" coords="317,5,527,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="641,120,539,74,508,63,510,58,541,69,643,115"/>
+<area shape="rect" id="Node000003" href="$a01903.html#a1b16b4af8293c508e1b10b2181ab3bb3" title="Ensures every key in specs is present and valid, restoring default_value otherwise." alt="" coords="317,84,527,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="574,132,527,126,528,121,574,127"/>
+<area shape="rect" id="Node000005" href="$a00440.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="395,163,449,188"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="574,160,450,175,449,169,574,155"/>
+<area shape="rect" id="Node000006" href="$a01711.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="304,212,540,267"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="628,171,541,202,505,214,503,209,539,197,626,166"/>
+<area shape="rect" id="Node000004" href="$a00311.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="103,99,158,124"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="303,114,158,114,158,109,303,109"/>
+<area shape="rect" id="Node000007" href="$a01711.html#a3eaf2f4c04de9dfd7a0692f22f8c0b41" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="5,212,256,267"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="291,242,256,242,256,237,291,237"/>
+</map>

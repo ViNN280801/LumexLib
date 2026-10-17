@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::resource_monitor::process::detail::proc_pid_stat_t Struct Reference</title>
+<title>LumexLib: lumex::core::utility::functional::detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,146 +104,123 @@ $(function(){initNavTree('a01602.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01599.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::resource_monitor::process::detail::proc_pid_stat_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::functional::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The fields of <code>/proc/&lt;pid&gt;/stat</code> the monitor needs.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00161_source.html">LumexProcessDetail.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ac1ebc81453de8b3f30b5e0bea0bef95d" id="r_ac1ebc81453de8b3f30b5e0bea0bef95d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1ebc81453de8b3f30b5e0bea0bef95d">comm</a></td></tr>
-<tr class="memdesc:ac1ebc81453de8b3f30b5e0bea0bef95d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field 2, <code>comm</code>, without its parentheses.  <br /></td></tr>
-<tr class="separator:ac1ebc81453de8b3f30b5e0bea0bef95d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb798c5b99da415f710b567e6e72b474" id="r_adb798c5b99da415f710b567e6e72b474"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb798c5b99da415f710b567e6e72b474">state</a> {}</td></tr>
-<tr class="memdesc:adb798c5b99da415f710b567e6e72b474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field 3, the state: <code>R</code>, <code>S</code>, <code>D</code>, <code>T</code>, <code>Z</code> (zombie: exited, not yet reaped by its parent), <code>X</code> (dead), ...  <br /></td></tr>
-<tr class="separator:adb798c5b99da415f710b567e6e72b474"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0890083429e890931ca982ba20e12bb5" id="r_a0890083429e890931ca982ba20e12bb5"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0890083429e890931ca982ba20e12bb5">parent_pid</a> {}</td></tr>
-<tr class="memdesc:a0890083429e890931ca982ba20e12bb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field 4, the ID of the parent process (0 for the first process and for a process whose parent is outside its PID namespace).  <br /></td></tr>
-<tr class="separator:a0890083429e890931ca982ba20e12bb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a604668cc5d478746c47109933629c1d5" id="r_a604668cc5d478746c47109933629c1d5"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a604668cc5d478746c47109933629c1d5">utime_ticks</a> {}</td></tr>
-<tr class="memdesc:a604668cc5d478746c47109933629c1d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field 14, user CPU time, in clock ticks.  <br /></td></tr>
-<tr class="separator:a604668cc5d478746c47109933629c1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a699778d5f413d933dc03a863ac7b642f" id="r_a699778d5f413d933dc03a863ac7b642f"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a699778d5f413d933dc03a863ac7b642f">stime_ticks</a> {}</td></tr>
-<tr class="memdesc:a699778d5f413d933dc03a863ac7b642f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field 15, kernel CPU time, in clock ticks.  <br /></td></tr>
-<tr class="separator:a699778d5f413d933dc03a863ac7b642f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09687cfeaa9b31a1cfeea66734101e01" id="r_a09687cfeaa9b31a1cfeea66734101e01"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09687cfeaa9b31a1cfeea66734101e01">start_ticks</a> {}</td></tr>
-<tr class="memdesc:a09687cfeaa9b31a1cfeea66734101e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field 22, the start time after boot, in clock ticks.  <br /></td></tr>
-<tr class="separator:a09687cfeaa9b31a1cfeea66734101e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04387.html">are_object_pointers</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Both operands are pointers to objects (an array counts as one after the array-to-pointer conversion), so <code>&lt;</code> between them is the built-in comparison of pointers, which is only unspecified for pointers into different objects.  <a href="a04387.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a06f8cd754e5ecbe50469970c7f935ac5" id="r_a06f8cd754e5ecbe50469970c7f935ac5"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a06f8cd754e5ecbe50469970c7f935ac5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a06f8cd754e5ecbe50469970c7f935ac5">compare_less</a> (T &amp;&amp;left, U &amp;&amp;right, std::false_type) noexcept(noexcept(static_cast&lt; T &amp;&amp; &gt;(left)&lt; static_cast&lt; U &amp;&amp; &gt;(right))) -&gt; decltype(static_cast&lt; T &amp;&amp; &gt;(left)&lt; static_cast&lt; U &amp;&amp; &gt;(right))</td></tr>
+<tr class="memdesc:a06f8cd754e5ecbe50469970c7f935ac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The comparison is <code>left &lt; right</code>.  <br /></td></tr>
+<tr class="separator:a06f8cd754e5ecbe50469970c7f935ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a282d14f5f34033aea6080ac116b7a42b" id="r_a282d14f5f34033aea6080ac116b7a42b"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
+<tr class="memitem:a282d14f5f34033aea6080ac116b7a42b"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a282d14f5f34033aea6080ac116b7a42b">compare_less</a> (T &amp;&amp;left, U &amp;&amp;right, std::true_type) noexcept</td></tr>
+<tr class="memdesc:a282d14f5f34033aea6080ac116b7a42b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Two pointers compare as the strict total order of <code>std::less</code>.  <br /></td></tr>
+<tr class="separator:a282d14f5f34033aea6080ac116b7a42b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The fields of <code>/proc/&lt;pid&gt;/stat</code> the monitor needs. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="ac1ebc81453de8b3f30b5e0bea0bef95d" name="ac1ebc81453de8b3f30b5e0bea0bef95d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1ebc81453de8b3f30b5e0bea0bef95d">&#9670;&#160;</a></span>comm</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a06f8cd754e5ecbe50469970c7f935ac5" name="a06f8cd754e5ecbe50469970c7f935ac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06f8cd754e5ecbe50469970c7f935ac5">&#9670;&#160;</a></span>compare_less() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string lumex::applied::resource_monitor::process::detail::proc_pid_stat_t::comm</td>
+          <td class="memname">auto lumex::core::utility::functional::detail::compare_less </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>left</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>right</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::false_type</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;) -&gt; decltype (static_cast&lt;T &amp;&amp;&gt; (left) &lt; static_cast&lt;U &amp;&amp;&gt; (right))
+</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Field 2, <code>comm</code>, without its parentheses. </p>
+<p>The comparison is <code>left &lt; right</code>. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01602_a06f8cd754e5ecbe50469970c7f935ac5_icgraph.png" border="0" usemap="#aa01602_a06f8cd754e5ecbe50469970c7f935ac5_icgraph" alt=""/></div>
+<map name="aa01602_a06f8cd754e5ecbe50469970c7f935ac5_icgraph" id="aa01602_a06f8cd754e5ecbe50469970c7f935ac5_icgraph">
+<area shape="rect" title="The comparison is left &lt; right." alt="" coords="256,5,401,60"/>
+<area shape="rect" href="a04391.html#a1b21e7a0ed796b42e0995f7c6f081b62" title="Compares left with right." alt="" coords="5,13,208,53"/>
+<area shape="poly" title=" " alt="" coords="242,35,208,35,208,30,242,30"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="a0890083429e890931ca982ba20e12bb5" name="a0890083429e890931ca982ba20e12bb5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0890083429e890931ca982ba20e12bb5">&#9670;&#160;</a></span>parent_pid</h2>
+<a id="a282d14f5f34033aea6080ac116b7a42b" name="a282d14f5f34033aea6080ac116b7a42b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a282d14f5f34033aea6080ac116b7a42b">&#9670;&#160;</a></span>compare_less() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::uint64_t lumex::applied::resource_monitor::process::detail::proc_pid_stat_t::parent_pid {}</td>
+          <td class="memname">bool lumex::core::utility::functional::detail::compare_less </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>left</em></span>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Field 4, the ID of the parent process (0 for the first process and for a process whose parent is outside its PID namespace). </p>
-
-</div>
-</div>
-<a id="a09687cfeaa9b31a1cfeea66734101e01" name="a09687cfeaa9b31a1cfeea66734101e01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09687cfeaa9b31a1cfeea66734101e01">&#9670;&#160;</a></span>start_ticks</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">std::uint64_t lumex::applied::resource_monitor::process::detail::proc_pid_stat_t::start_ticks {}</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>right</em></span>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Field 22, the start time after boot, in clock ticks. </p>
-
-</div>
-</div>
-<a id="adb798c5b99da415f710b567e6e72b474" name="adb798c5b99da415f710b567e6e72b474"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb798c5b99da415f710b567e6e72b474">&#9670;&#160;</a></span>state</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">char lumex::applied::resource_monitor::process::detail::proc_pid_stat_t::state {}</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::true_type</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Field 3, the state: <code>R</code>, <code>S</code>, <code>D</code>, <code>T</code>, <code>Z</code> (zombie: exited, not yet reaped by its parent), <code>X</code> (dead), ... </p>
+<p>Two pointers compare as the strict total order of <code>std::less</code>. </p>
 
 </div>
 </div>
-<a id="a699778d5f413d933dc03a863ac7b642f" name="a699778d5f413d933dc03a863ac7b642f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a699778d5f413d933dc03a863ac7b642f">&#9670;&#160;</a></span>stime_ticks</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::applied::resource_monitor::process::detail::proc_pid_stat_t::stime_ticks {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Field 15, kernel CPU time, in clock ticks. </p>
-
-</div>
-</div>
-<a id="a604668cc5d478746c47109933629c1d5" name="a604668cc5d478746c47109933629c1d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a604668cc5d478746c47109933629c1d5">&#9670;&#160;</a></span>utime_ticks</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t lumex::applied::resource_monitor::process::detail::proc_pid_stat_t::utime_ticks {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Field 14, user CPU time, in clock ticks. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00161_source.html">LumexProcessDetail.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01277.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a01283.html">process</a></li><li class="navelem"><a class="el" href="a01284.html">detail</a></li><li class="navelem"><a class="el" href="a01602.html">proc_pid_stat_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01586.html">utility</a></li><li class="navelem"><a class="el" href="a01601.html">functional</a></li><li class="navelem"><a class="el" href="a01602.html">detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

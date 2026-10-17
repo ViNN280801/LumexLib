@@ -1,0 +1,14 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,192,60,217"/>
+<area shape="rect" id="Node000002" href="$a02623.html#a58a9eb2674e70e8bdc39f055da939803" title=" " alt="" coords="108,29,317,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="41,190,69,157,106,123,111,119,115,123,110,127,72,161,45,193"/>
+<area shape="rect" id="Node000004" href="$a02623.html#a7d600b66d9c0b1055104fcc1e1333ff5" title="Checks if the stacktrace contains no entries." alt="" coords="119,137,307,192"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="59,196,104,186,106,191,61,201"/>
+<area shape="rect" id="Node000005" href="$a02623.html#a174444befdacb4093b044425ee107fcc" title="Returns the number of entries in the stacktrace." alt="" coords="119,216,307,271"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="61,208,106,218,104,223,59,213"/>
+<area shape="rect" id="Node000006" href="$a01525.html#a463b20e052ece938038738494e2b95a8" title="Converts a lumex_basic_stacktrace object to its string representation." alt="" coords="123,295,302,335"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="44,216,71,248,110,280,124,287,121,292,106,284,67,252,40,219"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="177,28,179,18,186,10,198,5,213,3,231,6,243,14,240,18,229,11,213,8,199,10,190,14,184,21,182,29"/>
+<area shape="rect" id="Node000003" href="$a01526.html#abae5e5ea16517cfe808d236a42d3d8ae" title="Platform&#45;specific stacktrace capture implementation for POSIX systems." alt="" coords="365,44,544,99"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="317,69,352,69,352,74,317,74"/>
+</map>

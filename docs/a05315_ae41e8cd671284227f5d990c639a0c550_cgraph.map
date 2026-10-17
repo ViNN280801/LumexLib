@@ -1,0 +1,9 @@
+<map id="lumex::xml::xpath::query::XPathQuery::evaluate_string" name="lumex::xml::xpath::query::XPathQuery::evaluate_string">
+<area shape="rect" id="Node000001" title="Evaluates the XPath query to a string value." alt="" coords="5,45,212,100"/>
+<area shape="rect" id="Node000002" href="$a05323.html#a7acb7be43308736f13b9cd4aa8c2fff8" title="Returns a pointer to the null&#45;terminated C&#45;style string." alt="" coords="260,5,409,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,52,246,46,247,51,213,57"/>
+<area shape="rect" id="Node000003" href="$a05323.html#abe39a62ae0c73e945db3063fc32f7095" title="Returns the length of the string (number of characters)." alt="" coords="260,84,409,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,88,247,94,246,99,212,93"/>
+<area shape="rect" id="Node000004" href="$a01671.html#aef8fee41b36e9987a5b7ed339b83ce42" title=" " alt="" coords="457,91,600,131"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="410,109,443,109,443,114,410,114"/>
+</map>

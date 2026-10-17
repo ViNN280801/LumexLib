@@ -1,0 +1,11 @@
+<map id="lumex::xml::xpath::node::XPathNodeSet::XPathNodeSet" name="lumex::xml::xpath::node::XPathNodeSet::XPathNodeSet">
+<area shape="rect" id="Node000001" title="Default constructor. Constructs an empty node set." alt="" coords="216,124,379,179"/>
+<area shape="rect" id="Node000002" href="$a05287.html#aec97a6f86e1592ccdc3fec17426b66ec" title="Move assignment operator." alt="" coords="5,5,168,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,119,167,74,145,62,147,58,169,69,245,114"/>
+<area shape="rect" id="Node000003" href="$a05287.html#ab38ef47c649d1e2ff47f3d5c54b7e65c" title="Copy assignment operator." alt="" coords="5,84,168,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,136,168,129,169,124,203,131"/>
+<area shape="rect" id="Node000004" href="$a05287.html#ab84e68ff3c7a20ef9608b7960e891899" title="Move constructor." alt="" coords="5,163,168,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="203,171,169,178,168,172,202,166"/>
+<area shape="rect" id="Node000005" href="$a05287.html#ab9216b78cb9a692b4b97cc5c8e060ff3" title="Copy constructor." alt="" coords="5,241,168,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="243,188,169,231,145,244,143,239,167,226,241,183"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::can_transform_error&lt; Fn, ValueType, ValueArg, Args &gt;" name="lumex::core::expected::result::detail::can_transform_error&lt; Fn, ValueType, ValueArg, Args &gt;">
+<area shape="rect" id="Node000001" title="transform_error: Fn (Args...) returns a value (void cannot be an error type), and the value can be co..." alt="" coords="297,20,508,89"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,249,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,52,297,52,297,57,263,57"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::move_error" name="lumex::core::expected::result::detail::move_error">
+<area shape="rect" id="Node000001" title="std::move (unex).error () where error () &amp;&amp; of unexpected is not constexpr." alt="" coords="5,5,200,45"/>
+<area shape="rect" id="Node000002" href="$a02651.html#a4d83aa2b2112492fa615797adbecc232" title="Returns a mutable lvalue reference to the stored error." alt="" coords="248,5,432,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,23,234,23,234,28,200,28"/>
+</map>

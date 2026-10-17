@@ -1,0 +1,29 @@
+<map id="lumex::xml::text::XmlText::data" name="lumex::xml::text::XmlText::data">
+<area shape="rect" id="Node000001" title="Retrieves the underlying data node (node_pcdata or node_cdata) for this text object." alt="" coords="835,261,1025,301"/>
+<area shape="rect" id="Node000002" href="$a05187.html#a3ac43617a58a465715a123b6b01c1413" title="Converts the text object&#39;s value to a bool." alt="" coords="581,5,772,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="915,250,896,206,868,155,831,103,785,59,766,48,768,43,788,55,835,100,872,152,901,204,920,247"/>
+<area shape="rect" id="Node000003" href="$a05187.html#a4c30af9900428ec2da7eaa3e1c81b515" title="Converts the text object&#39;s value to a double." alt="" coords="581,69,772,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="908,251,857,186,823,152,785,124,762,112,765,107,788,119,827,148,861,183,912,248"/>
+<area shape="rect" id="Node000004" href="$a05187.html#ad10371243db3b2167f8ccd00530ebb55" title="Converts the text object&#39;s value to a float." alt="" coords="581,133,772,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="893,255,843,220,786,188,755,176,757,171,788,183,846,216,896,251"/>
+<area shape="rect" id="Node000005" href="$a05187.html#a9216d03ae5dbb7049af4c3c0a1ffa50d" title="Converts the text object&#39;s value to an int." alt="" coords="581,197,772,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="837,261,755,240,756,235,838,255"/>
+<area shape="rect" id="Node000006" href="$a05187.html#a62bbd99961c455e12cf4ca0125c07e68" title="Converts the text object&#39;s value to a long long." alt="" coords="581,261,772,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="821,284,772,284,772,279,821,279"/>
+<area shape="rect" id="Node000007" href="$a05187.html#a3aea739b9e42f00e6e94a0d05f753bbb" title="Retrieves the text content as a C&#45;style string, or a default value if empty." alt="" coords="581,325,772,365"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="838,307,756,328,755,323,837,302"/>
+<area shape="rect" id="Node000008" href="$a05187.html#a094a83a88f5f711314348ed5f484281b" title="Converts the text object&#39;s value to an unsigned int." alt="" coords="581,389,772,429"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="896,312,846,347,788,380,757,392,755,387,786,375,843,342,893,308"/>
+<area shape="rect" id="Node000009" href="$a05187.html#a6bab2adcf794264fda7114649688fae3" title="Converts the text object&#39;s value to an unsigned long long." alt="" coords="581,453,772,493"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="912,315,861,380,827,414,788,444,765,456,762,451,785,439,823,410,857,377,908,312"/>
+<area shape="rect" id="Node000010" href="$a05187.html#a2a65ec7571621b8fa6a07e24c0977b89" title="Retrieves the text content as a C&#45;style string." alt="" coords="567,518,787,543"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="921,315,902,359,873,412,836,464,813,487,788,508,764,520,761,516,785,503,809,483,832,460,869,409,897,357,916,313"/>
+<area shape="rect" id="Node000011" href="$a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="402,486,457,511"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="565,519,456,505,457,500,565,514"/>
+<area shape="rect" id="Node000012" href="$a01755.html#a18e6ebf596904b610362cfb2257fd9b4" title="Reads logger configuration from an absolute enable/config path." alt="" coords="340,535,519,590"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="565,548,519,554,519,548,565,542"/>
+<area shape="rect" id="Node000013" href="$a01651.html#aab14961ea93b42c8867851c5113e6744" title=" " alt="" coords="108,543,292,583"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="326,565,292,565,292,560,326,560"/>
+<area shape="rect" id="Node000014" href="$a00329.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,550,60,575"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="94,565,60,565,60,560,94,560"/>
+</map>

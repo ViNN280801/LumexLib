@@ -1,0 +1,15 @@
+<map id="lumex::core::filesystem::fs::filesystem_result::success" name="lumex::core::filesystem::fs::filesystem_result::success">
+<area shape="rect" id="Node000001" title="Checks if the operation was successful." alt="" coords="228,184,403,239"/>
+<area shape="rect" id="Node000002" href="$a02967.html#acc96cd1cd2ca1a6ffb8fdeed8ba3ca4c" title="Checks if a file is empty or a directory is empty." alt="" coords="5,29,180,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="277,176,231,136,179,98,159,86,161,82,181,93,235,132,280,172"/>
+<area shape="rect" id="Node000003" href="$a02967.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,132,180,187"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="214,190,180,182,181,177,216,185"/>
+<area shape="rect" id="Node000004" href="$a02967.html#a538ee94b70991213bf07c01bc51b3af4" title="Moves a file from one location to another." alt="" coords="5,235,180,289"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="216,237,181,245,180,239,214,232"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a5168b663198b53cd34ffad9098fea240" title="Replaces the content of a file without ever leaving it truncated." alt="" coords="5,337,180,392"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="266,249,134,339,131,335,263,244"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="129,18,116,11,93,8,73,10,60,15,55,21,55,29,49,29,50,19,57,10,72,5,93,3,118,6,132,14"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="129,121,116,114,93,111,73,113,60,117,55,124,55,132,49,132,50,122,57,113,72,107,93,105,118,108,132,116"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="129,224,116,216,93,213,73,215,60,220,55,226,55,235,49,235,50,224,57,216,72,210,93,208,118,211,132,219"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="129,326,116,319,93,316,73,318,60,323,55,329,55,337,49,337,50,327,57,318,72,313,93,311,118,314,132,322"/>
+</map>

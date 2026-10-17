@@ -1,0 +1,11 @@
+<map id="lumex::xml::text::XmlText::as_int" name="lumex::xml::text::XmlText::as_int">
+<area shape="rect" id="Node000001" title="Converts the text object&#39;s value to an int." alt="" coords="5,37,196,77"/>
+<area shape="rect" id="Node000002" href="$a05187.html#a04729cf70921cbf2ada7655e91bf10b6" title="Retrieves the underlying data node (node_pcdata or node_cdata) for this text object." alt="" coords="244,5,435,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,42,230,37,231,43,196,47"/>
+<area shape="rect" id="Node000004" href="$a01671.html#a16b4ac35b0b90e24e97c3db4edf3944a" title=" " alt="" coords="268,69,411,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,67,255,75,254,81,196,73"/>
+<area shape="rect" id="Node000003" href="$a05187.html#a93c80d4442ba4b50bfd4dd7985283928" title=" " alt="" coords="483,5,673,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="435,23,469,23,469,28,435,28"/>
+<area shape="rect" id="Node000005" href="$a01671.html#a97919c57db6358f57a97461f9f97cc7f" title=" " alt="" coords="507,69,649,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="411,87,493,87,493,92,411,92"/>
+</map>

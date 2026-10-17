@@ -1,0 +1,15 @@
+<map id="lumex::core::crc::catalog::validate_crc_rev_eng_params" name="lumex::core::crc::catalog::validate_crc_rev_eng_params">
+<area shape="rect" id="Node000001" title="Validates parameters before computation (width 1..64)." alt="" coords="511,171,735,211"/>
+<area shape="rect" id="Node000002" href="$a01513.html#aa5d24e5342341b52fdda8ca8addd3c05" title="Computes a CRC from explicit RevEng parameters (bit engine, width 1..64)." alt="" coords="280,124,463,179"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="497,174,462,169,463,163,497,169"/>
+<area shape="rect" id="Node000007" href="$a01513.html#a9faa38b2c3c0193a7798370cda2a59d9" title="Transport: caller&#45;defined 8&#45;bit CRC (must match the peer)." alt="" coords="280,203,463,257"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="497,213,463,219,462,213,497,208"/>
+<area shape="rect" id="Node000003" href="$a01513.html#afa5241d4011b7522e92d3525103e2b88" title="Appends the least&#45;significant CRC bytes to buffer (LE, first byte = low 8 bits)." alt="" coords="10,5,227,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,119,231,74,204,63,206,58,233,69,318,115"/>
+<area shape="rect" id="Node000004" href="$a01513.html#ae84da39375729a1f5bb89a71e8dd8257" title="RevEng&#45;parameter CRC of a span of bytes. Available from C++11, see compute_crc_catalog above for what..." alt="" coords="27,84,210,139"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="266,137,210,128,211,123,267,132"/>
+<area shape="rect" id="Node000005" href="$a01513.html#af660164540fe1116f4b5b82c68b5f20e" title="RevEng&#45;parameter CRC of a string (raw bytes, no trailing &#39;\0&#39;). Available from C++11,..." alt="" coords="27,163,210,217"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="267,170,211,179,210,173,266,165"/>
+<area shape="rect" id="Node000006" href="$a01513.html#ab9efb7958f8bba112a81c3ad0ec6f296" title="8&#45;bit transport checksum for the current process&#45;global mode." alt="" coords="5,242,232,282"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="289,188,282,192,258,213,233,232,206,244,204,239,231,228,255,209,278,188,287,183"/>
+</map>

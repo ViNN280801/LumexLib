@@ -1,0 +1,11 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,139,60,164"/>
+<area shape="rect" id="Node000002" href="$a03215.html#aff593f0ddd4f103a5a331dff5e8b704f" title="Gets a random number with explicitly specified parameters." alt="" coords="108,5,316,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="40,137,67,103,106,69,114,64,117,69,110,73,71,107,44,140"/>
+<area shape="rect" id="Node000003" href="$a03215.html#a347e7f8450eab090b752d6da1d9ab0e8" title="Generates a sequence (vector) of random numbers." alt="" coords="108,84,316,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,143,94,135,95,140,61,148"/>
+<area shape="rect" id="Node000004" href="$a03215.html#a63dcb2caff9e59abf2462cff31e6c15a" title="Sets both the lower and upper bounds for subsequent random number generations." alt="" coords="108,163,316,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="61,155,95,162,94,167,60,160"/>
+<area shape="rect" id="Node000005" href="$a03215.html#aa6ba9a0ac3b8ea0c2a01e1face75e142" title="Sets the probability distribution type for subsequent random number generations." alt="" coords="108,241,316,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="45,163,72,194,110,227,120,233,117,237,106,231,68,198,41,166"/>
+</map>

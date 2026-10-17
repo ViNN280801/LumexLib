@@ -1,0 +1,5 @@
+<map id="lumex::xml::xpath::document::node_is_before" name="lumex::xml::xpath::document::node_is_before">
+<area shape="rect" id="Node000001" title="Determines if ln_node comes before rn_node in overall document order." alt="" coords="5,13,200,53"/>
+<area shape="rect" id="Node000002" href="$a01692.html#a390bce9be17e61e113730fb8084c70cc" title="Determines if ln_node comes before rn_node among siblings in document order." alt="" coords="248,5,443,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,30,234,30,234,35,200,35"/>
+</map>

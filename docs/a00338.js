@@ -1,8 +1,6 @@
 var a00338 =
 [
-    [ "lumex::core::contracts::source_location", "a01934.html", "a01934" ],
-    [ "LUMEX_CONTRACTS_BUILTIN_COLUMN", "a00338.html#a9a981869722fa42e2a913bb8105422b6", null ],
-    [ "LUMEX_CONTRACTS_HAS_BUILTIN_COLUMN", "a00338.html#a7d0b8afddb92bdb1470361239e71a4c6", null ],
-    [ "LUMEX_CONTRACTS_HAS_BUILTIN_LOCATION", "a00338.html#a6fca5b2c0af71e0e19874aed8b14de6a", null ],
-    [ "lumex::core::contracts::detail::equal_texts", "a01333.html#a6d0ebd9bd3c808173185f36dd8a61deb", null ]
+    [ "channel_t", "a00338.html#a132d3d5ae6c8674d8f1c886a1ae553af", null ],
+    [ "main", "a00338.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ],
+    [ "parse_channel", "a00338.html#a7812c02118e45cbb954e31f14f2fb778", null ]
 ];

@@ -1,0 +1,21 @@
+<map id="lumex::xml::attribute::XmlAttribute::XmlAttribute" name="lumex::xml::attribute::XmlAttribute::XmlAttribute">
+<area shape="rect" id="Node000001" title="Default constructor. Constructs an empty (null) attribute." alt="" coords="501,245,705,285"/>
+<area shape="rect" id="Node000002" href="$a05115.html#afc2f57264c98deb2e092e1088c63ee88" title="Retrieves the next attribute in the list of attributes belonging to the same parent node." alt="" coords="274,5,434,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="583,234,530,155,494,112,452,75,432,62,435,58,455,71,497,109,534,152,588,231"/>
+<area shape="rect" id="Node000004" href="$a05115.html#aee5f265bfade0ee2569c7e68d821b441" title="Compares two XmlAttribute objects for inequality." alt="" coords="258,85,450,125"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="573,237,520,187,487,161,452,139,426,127,429,122,455,134,490,157,523,183,577,233"/>
+<area shape="rect" id="Node000005" href="$a05115.html#a972020e230548bcfb4084a6d7c4ac9c5" title="Compares two XmlAttribute objects using the less&#45;than operator." alt="" coords="261,149,447,189"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="546,242,452,203,419,191,420,186,454,198,548,237"/>
+<area shape="rect" id="Node000006" href="$a05115.html#ad0db3c238649935e9e31f1c2e9159723" title="Compares two XmlAttribute objects using the less&#45;than&#45;or&#45;equal&#45;to operator." alt="" coords="255,213,453,253"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="487,252,453,248,454,243,488,247"/>
+<area shape="rect" id="Node000007" href="$a05115.html#ac48ac5d5097027144f43cfd9fefeae50" title="Compares two XmlAttribute objects for equality." alt="" coords="255,277,453,317"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="488,282,454,287,453,281,487,277"/>
+<area shape="rect" id="Node000008" href="$a05115.html#a19bca41b6662eaaea1a5fe10baff570e" title="Compares two XmlAttribute objects using the greater&#45;than operator." alt="" coords="261,341,447,381"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="548,293,454,331,420,343,419,338,452,326,546,288"/>
+<area shape="rect" id="Node000009" href="$a05115.html#a37a6d5fb6c8463b12e6aa5a06af93ca3" title="Compares two XmlAttribute objects using the greater&#45;than&#45;or&#45;equal&#45;to operator." alt="" coords="255,405,453,445"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="577,297,523,347,490,372,455,395,429,407,426,402,452,390,487,368,520,343,573,293"/>
+<area shape="rect" id="Node000010" href="$a05115.html#ac94493c68b46f2d5fd103672281f9daf" title="Retrieves the previous attribute in the list of attributes belonging to the same parent node." alt="" coords="265,469,443,524"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="588,298,534,377,497,421,455,459,435,471,432,467,452,455,494,417,530,374,583,295"/>
+<area shape="rect" id="Node000003" href="$a05251.html#a3fde20e05ee26c7a8f5479ab92beaefd" title="Compares two XPathNode objects for their document order." alt="" coords="5,5,207,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="260,35,207,35,207,30,260,30"/>
+</map>

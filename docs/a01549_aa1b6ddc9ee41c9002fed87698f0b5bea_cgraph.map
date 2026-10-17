@@ -1,0 +1,12 @@
+<map id="lumex::core::math::ops::checked_narrow_cast" name="lumex::core::math::ops::checked_narrow_cast">
+<area shape="rect" id="Node000001" title="Casts sourceValue to TargetType, throwing if the value is non&#45;finite (for a floating&#45;point source) or..." alt="" coords="5,69,199,109"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="58,70,55,60,62,50,78,45,102,43,130,46,145,53,142,58,128,51,102,48,79,50,65,55,60,61,63,68"/>
+<area shape="rect" id="Node000002" href="$a01551.html#a3502a023a6571d1aa9955e571d05724c" title="Integral source, integral target: exact comparison." alt="" coords="265,5,415,45"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="176,67,252,46,253,51,177,72"/>
+<area shape="rect" id="Node000004" href="$a01551.html#ab02125f45f18a96bf33bfb97c10bc6b6" title="Prints a value as a number: the unary plus promotes character types, so they print their code,..." alt="" coords="247,69,433,109"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="199,87,233,87,233,92,199,92"/>
+<area shape="rect" id="Node000005" href="$a01551.html#ade0e34f98cff83fb7a018f3243ff5195" title=" " alt="" coords="263,134,417,189"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="169,107,251,132,249,137,168,112"/>
+<area shape="rect" id="Node000003" href="$a01551.html#a251e77cb9662dd8266b1d6c1ba9589c9" title="a &lt; b for two integers of any signedness, without the usual arithmetic conversions turning a negative..." alt="" coords="481,5,643,45"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="415,23,467,23,467,28,415,28"/>
+</map>

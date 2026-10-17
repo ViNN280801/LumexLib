@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::operator=" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::operator=">
+<area shape="rect" id="Node000001" title="Replaces the contents with an error (copy)." alt="" coords="5,5,188,60"/>
+<area shape="rect" id="Node000002" href="$a02651.html#a4d83aa2b2112492fa615797adbecc232" title="Returns a mutable lvalue reference to the stored error." alt="" coords="236,13,420,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,30,222,30,222,35,188,35"/>
+</map>

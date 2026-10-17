@@ -1,0 +1,7 @@
+<map id="lumex::applied::serial::probe::SerialProber::read" name="lumex::applied::serial::probe::SerialProber::read">
+<area shape="rect" id="Node000001" title="Reads once: returns as soon as at least one byte is available or the deadline expires." alt="" coords="216,30,407,70"/>
+<area shape="rect" id="Node000002" href="$a00305.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="59,5,114,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,37,114,25,115,19,202,32"/>
+<area shape="rect" id="Node000003" href="$a01867.html#aa8020d760bfd17ec23e6a1d3c0e358ad" title="Moves the session, including an open port, into other." alt="" coords="5,55,168,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,68,169,73,168,68,202,63"/>
+</map>

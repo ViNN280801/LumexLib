@@ -1,0 +1,18 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,249,60,275"/>
+<area shape="rect" id="Node000002" href="$a01755.html#a36a153bd4f5449d3339821cc6494d9a3" title="Returns the single logger instance (singleton)." alt="" coords="115,29,283,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="33,249,40,218,54,177,76,133,106,94,109,91,113,95,110,97,80,136,59,179,45,219,38,250"/>
+<area shape="rect" id="Node000004" href="$a01449.html#a6a777d3254c1603458f55b8b39089ced" title=" " alt="" coords="115,132,283,187"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="44,247,71,222,107,196,115,191,117,196,109,200,75,226,47,251"/>
+<area shape="rect" id="Node000005" href="$a01449.html#a7864ecc2658e8eb513d1aba5ffb65478" title="String form of the current std::thread id for the log prefix." alt="" coords="113,235,284,289"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="60,259,100,259,100,265,60,265"/>
+<area shape="rect" id="Node000006" href="$a01449.html#ab944acb7713bba95ceddae9897f3c225" title="Formats a function name from FUNCSIG/__PRETTY_FUNCTION__, stripping the return type and arguments." alt="" coords="113,313,284,368"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="58,272,109,298,124,305,122,310,107,303,55,277"/>
+<area shape="rect" id="Node000007" href="$a01449.html#aaf05501301a7c59a8bbcd8e648959327" title=" " alt="" coords="108,393,289,433"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="40,274,65,324,85,352,110,377,119,384,116,388,106,381,81,356,61,327,35,276"/>
+<area shape="rect" id="Node000003" href="$a01755.html#aef03577e7cdcbf9eb2afaaf6d125df7c" title=" " alt="" coords="337,29,505,84"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="283,54,324,54,324,59,283,59"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="378,29,378,19,386,10,400,5,421,3,446,6,461,14,458,18,445,11,421,8,402,10,389,15,383,21,383,29"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="166,132,166,122,172,113,183,107,199,105,217,108,228,116,225,120,215,113,199,111,184,112,175,117,171,124,171,132"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="166,235,166,225,172,216,183,210,199,208,217,211,228,219,225,223,215,216,199,213,184,215,175,220,171,226,171,235"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::core::optional::opt::detail::is_optional_specialization&lt; T &gt;" name="lumex::core::optional::opt::detail::is_optional_specialization&lt; T &gt;">
+<area shape="rect" id="Node000001" title="Whether T is a specialization of optional (no cv, no reference)." alt="" coords="5,79,180,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="33,5,152,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,45,95,78,90,78,90,45"/>
+</map>

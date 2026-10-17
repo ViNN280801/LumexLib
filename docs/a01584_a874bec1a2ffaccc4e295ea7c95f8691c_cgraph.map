@@ -1,0 +1,7 @@
+<map id="lumex::core::unicode::convert::to_wide" name="lumex::core::unicode::convert::to_wide">
+<area shape="rect" id="Node000001" title="Converts a UTF&#45;8 std::string to a wchar_t string." alt="" coords="5,13,164,53"/>
+<area shape="rect" id="Node000002" href="$a01584.html#a13d59f937ade78876e613ede4929011e" title="Converts length bytes of UTF&#45;8 text to a wchar_t string." alt="" coords="212,13,371,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,30,198,30,198,35,165,35"/>
+<area shape="rect" id="Node000003" href="$a04287.html#a0ea14e7a0dd342f28237c0e7ff007335" title=" " alt="" coords="419,5,577,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="371,30,405,30,405,35,371,35"/>
+</map>

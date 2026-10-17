@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::xml::xpath::parser Namespace Reference</title>
+<title>LumexLib: lumex::core::environment::env Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,32 +104,148 @@ $(function(){initNavTree('a01518.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#nested-classes">Classes</a>  </div>
-  <div class="headertitle"><div class="title">lumex::xml::xpath::parser Namespace Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::environment::env Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01519.html">lexer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05134.html">xpath_parse_result_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the result of an XPath parsing operation.  <a href="a05134.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02599.html">lumex_environment</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a cross-platform, and thread-safe way to manage environment variables.  <a href="a02599.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05130.html">XPathParser</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses XPath expressions into an Abstract Syntax Tree (AST).  <a href="a05130.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a133dac804e9421baedf88340deadad5b" id="r_a133dac804e9421baedf88340deadad5b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a133dac804e9421baedf88340deadad5b">is_env_set</a> (<a class="el" href="a02599.html#a069e608139c4cd3e397d64f8b7d5657b">lumex_environment::string_type</a> const &amp;name)</td></tr>
+<tr class="memdesc:a133dac804e9421baedf88340deadad5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an environment variable is set to a non-empty value.  <br /></td></tr>
+<tr class="separator:a133dac804e9421baedf88340deadad5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4773a4875c22bf328b9834b55316947e" id="r_a4773a4875c22bf328b9834b55316947e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4773a4875c22bf328b9834b55316947e">is_env_truthy</a> (<a class="el" href="a02599.html#a069e608139c4cd3e397d64f8b7d5657b">lumex_environment::string_type</a> const &amp;name)</td></tr>
+<tr class="memdesc:a4773a4875c22bf328b9834b55316947e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an environment variable is "truthy" (enabled).  <br /></td></tr>
+<tr class="separator:a4773a4875c22bf328b9834b55316947e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a133dac804e9421baedf88340deadad5b" name="a133dac804e9421baedf88340deadad5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a133dac804e9421baedf88340deadad5b">&#9670;&#160;</a></span>is_env_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::environment::env::is_env_set </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02599.html#a069e608139c4cd3e397d64f8b7d5657b">lumex_environment::string_type</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether an environment variable is set to a non-empty value. </p>
+<p>A small free-function helper, equivalent to <code>!lumex_environment::get_or(name, {}).empty()</code>: true only when the variable exists and its value is not an empty string. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Name of the environment variable to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the variable exists and is non-empty, false otherwise. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is thread-safe (delegates to <code><a class="el" href="a02599.html" title="Provides a cross-platform, and thread-safe way to manage environment variables.">lumex_environment</a></code>). </dd>
+<dd>
+Does not throw. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01518_a133dac804e9421baedf88340deadad5b_cgraph.png" border="0" usemap="#aa01518_a133dac804e9421baedf88340deadad5b_cgraph" alt=""/></div>
+<map name="aa01518_a133dac804e9421baedf88340deadad5b_cgraph" id="aa01518_a133dac804e9421baedf88340deadad5b_cgraph">
+<area shape="rect" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="5,115,196,155"/>
+<area shape="rect" href="a02599.html#a7e295dbaae2f46319c7256b862a1cd5e" title="Static convenience method to retrieve an environment variable with a default fallback." alt="" coords="244,108,436,163"/>
+<area shape="poly" title=" " alt="" coords="196,133,230,133,230,138,196,138"/>
+<area shape="rect" href="a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="484,56,705,111"/>
+<area shape="poly" title=" " alt="" coords="436,113,470,106,471,111,437,118"/>
+<area shape="rect" href="a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="499,159,691,213"/>
+<area shape="poly" title=" " alt="" coords="437,152,485,162,484,167,436,157"/>
+<area shape="rect" href="a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="753,5,955,60"/>
+<area shape="poly" title=" " alt="" coords="705,59,739,52,740,58,706,64"/>
+<area shape="rect" href="a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="758,108,950,163"/>
+<area shape="poly" title=" " alt="" coords="706,103,745,111,744,116,705,108"/>
+<area shape="poly" title=" " alt="" coords="804,108,804,98,813,89,830,83,854,81,883,84,900,92,897,97,882,90,854,87,831,89,816,93,809,100,809,108"/>
+<area shape="poly" title=" " alt="" coords="545,159,546,148,555,140,571,134,595,132,623,135,639,143,637,148,622,140,595,137,572,139,557,144,551,150,551,159"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01518_a133dac804e9421baedf88340deadad5b_icgraph.png" border="0" usemap="#aa01518_a133dac804e9421baedf88340deadad5b_icgraph" alt=""/></div>
+<map name="aa01518_a133dac804e9421baedf88340deadad5b_icgraph" id="aa01518_a133dac804e9421baedf88340deadad5b_icgraph">
+<area shape="rect" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="315,27,505,67"/>
+<area shape="rect" href="a00530.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="160,5,215,31"/>
+<area shape="poly" title=" " alt="" coords="300,36,215,24,215,19,301,30"/>
+<area shape="rect" href="a01582.html#ac2a95e66868e1a2cc9cc1da9676e38c8" title="Optionally gates timing/reporting via an environment variable, then measures callable and writes the ..." alt="" coords="108,55,267,95"/>
+<area shape="poly" title=" " alt="" coords="301,64,267,68,267,63,301,58"/>
+<area shape="rect" href="a00509.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,63,60,88"/>
+<area shape="poly" title=" " alt="" coords="94,78,60,78,60,73,94,73"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a4773a4875c22bf328b9834b55316947e" name="a4773a4875c22bf328b9834b55316947e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4773a4875c22bf328b9834b55316947e">&#9670;&#160;</a></span>is_env_truthy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lumex::core::environment::env::is_env_truthy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02599.html#a069e608139c4cd3e397d64f8b7d5657b">lumex_environment::string_type</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether an environment variable is "truthy" (enabled). </p>
+<p>A small free-function helper, equivalent to <code>lumex_environment::is_truthy(name)</code>. A variable is truthy unless it is unset, empty, or equal to "0"/"false" once lower-cased. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Name of the environment variable to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the variable is truthy, false otherwise. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is thread-safe (delegates to <code><a class="el" href="a02599.html" title="Provides a cross-platform, and thread-safe way to manage environment variables.">lumex_environment</a></code>). </dd>
+<dd>
+Does not throw. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a01518_a4773a4875c22bf328b9834b55316947e_cgraph.png" border="0" usemap="#aa01518_a4773a4875c22bf328b9834b55316947e_cgraph" alt=""/></div>
+<map name="aa01518_a4773a4875c22bf328b9834b55316947e_cgraph" id="aa01518_a4773a4875c22bf328b9834b55316947e_cgraph">
+<area shape="rect" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="5,77,196,117"/>
+<area shape="rect" href="a02599.html#a912f81b65b63e21ed82800b08faf7968" title="Static convenience method to check whether an environment variable is truthy (enabled)." alt="" coords="244,69,436,124"/>
+<area shape="poly" title=" " alt="" coords="196,94,230,94,230,99,196,99"/>
+<area shape="rect" href="a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="507,29,699,84"/>
+<area shape="poly" title=" " alt="" coords="436,79,492,71,493,76,437,85"/>
+<area shape="rect" href="a02599.html#ae2d2cea9826e834a647332598a7cc024" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="484,108,721,163"/>
+<area shape="poly" title=" " alt="" coords="437,108,471,113,470,118,436,113"/>
+<area shape="poly" title=" " alt="" coords="552,29,552,19,561,10,578,5,603,3,632,6,649,14,646,18,631,11,603,8,579,10,564,15,557,21,557,29"/>
+<area shape="rect" href="a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="769,108,991,163"/>
+<area shape="poly" title=" " alt="" coords="721,133,756,133,756,138,721,138"/>
+<area shape="rect" href="a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="1039,56,1240,111"/>
+<area shape="poly" title=" " alt="" coords="990,111,1025,104,1026,109,991,116"/>
+<area shape="rect" href="a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="1043,159,1235,213"/>
+<area shape="poly" title=" " alt="" coords="991,154,1030,162,1029,167,990,160"/>
+<area shape="poly" title=" " alt="" coords="1089,159,1089,148,1098,140,1115,134,1139,132,1168,135,1185,143,1183,148,1167,140,1139,137,1116,139,1101,144,1094,150,1094,159"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01492.html">xml</a></li><li class="navelem"><a class="el" href="a01501.html">xpath</a></li><li class="navelem"><a class="el" href="a01518.html">parser</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01517.html">environment</a></li><li class="navelem"><a class="el" href="a01518.html">env</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,5 @@
+<map id="lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::detach" name="lumex::core::atomic::smart_ptr::table_wait::Detail::split_pointer_traits_t&lt;::lumex::core::smart_ptr::weak_ptr&lt; T &gt; &gt;::detach">
+<area shape="rect" id="Node000001" title="Empties pointer without dropping its weak count." alt="" coords="5,5,189,104"/>
+<area shape="rect" id="Node000002" href="$a03899.html#a101d18057b6db6b9e3fdb4602605fa34" title="Empties p without dropping its weak count (see detach)." alt="" coords="237,27,383,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,52,224,52,224,57,189,57"/>
+</map>

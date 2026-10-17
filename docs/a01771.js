@@ -1,0 +1,5 @@
+var a01771 =
+[
+    [ "details", "a01771.html#a256952c9544d644b97645693b2f9bb52", null ],
+    [ "head", "a01771.html#ac5ac9277341bea022547da574eaff737", null ]
+];

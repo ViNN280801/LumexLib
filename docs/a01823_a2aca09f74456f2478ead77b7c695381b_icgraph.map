@@ -1,0 +1,5 @@
+<map id="lumex::applied::resource_monitor::process::LumexProcessMonitor::find_by_name" name="lumex::applied::resource_monitor::process::LumexProcessMonitor::find_by_name">
+<area shape="rect" id="Node000001" title="Finds the processes with this executable name, without sampling them." alt="" coords="293,5,533,60"/>
+<area shape="rect" id="Node000002" href="$a01823.html#a6dab1e927389c40d7ef02763946f8643" title=" " alt="" coords="5,5,245,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="280,35,246,35,246,30,280,30"/>
+</map>

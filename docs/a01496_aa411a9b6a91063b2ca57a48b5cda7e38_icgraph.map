@@ -1,0 +1,6 @@
+<map id="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_lock" name="lumex::core::atomic::sync::table_wait::Detail::tsan_mutex_post_lock">
+<area shape="rect" id="Node000001" title="ThreadSanitizer annotations of the lock word; no&#45;ops in other builds." alt="" coords="208,29,423,84"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="354,18,340,11,315,8,295,10,281,15,275,21,275,29,270,29,270,19,278,10,293,5,315,3,342,6,357,14"/>
+<area shape="rect" id="Node000002" href="$a02031.html#ae648a43fbb445ff49b32ce6409112165" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,29,160,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>

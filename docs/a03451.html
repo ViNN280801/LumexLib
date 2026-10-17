@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::optional::opt::detail::conjunction&lt; B &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03454.html',''); initResizable(true); });
+$(function(){initNavTree('a03451.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,23 +103,46 @@ $(function(){initNavTree('a03454.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt; Member List</div></div>
+  <div class="headertitle"><div class="title">lumex::core::optional::opt::detail::conjunction&lt; B &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03454.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03454.html#ac27c07a9f7192bbd066020a3f366dcac">base_type</a> typedef</td><td class="entry"><a class="el" href="a03454.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03454.html#aa8e1890532d0332ffe00e0cc2bc39fa7">operator=</a>(opt_move_assign_base const &amp;)=default</td><td class="entry"><a class="el" href="a03454.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03454.html#a5a6b69a929bfb966cf1a0096ac9d393f">operator=</a>(opt_move_assign_base &amp;&amp;)=delete</td><td class="entry"><a class="el" href="a03454.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03454.html#a1fb90494169e2902a691bd15d32759ff">opt_move_assign_base</a>()=default</td><td class="entry"><a class="el" href="a03454.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a03454.html#aefffa1b65045b9988f2aeaba0a6630e9">opt_move_assign_base</a>(opt_move_assign_base const &amp;)=default</td><td class="entry"><a class="el" href="a03454.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a03454.html#a4bb599c2e8019a45c5508641c320000b">opt_move_assign_base</a>(opt_move_assign_base &amp;&amp;)=default</td><td class="entry"><a class="el" href="a03454.html">lumex::core::optional::opt::detail::opt_move_assign_base&lt; T, 0 &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>std::conjunction</code> of C++17: the first false trait ends the evaluation, so a later trait is not instantiated. The constraints of the converting operations name the cheap exclusions first (<code>T</code> is <code>U</code>, <code>U</code> is <code>optional</code>) so that a <code>T</code> whose constructor template tests <code>is_copy_constructible&lt;optional&lt;T&gt;&gt;</code> (such as <code>std::any</code>) is not asked about <code>optional&lt;T&gt;</code> while <code>optional&lt;T&gt;</code> is being declared.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00995_source.html">LumexOptionalDetail.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::optional::opt::detail::conjunction&lt; B &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03450.png" border="0" usemap="#alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1conjunction_3_01B_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1conjunction_3_01B_01_4_inherit__map" id="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1conjunction_3_01B_01_4_inherit__map">
+<area shape="rect" title="std::conjunction of C++17: the first false trait ends the evaluation, so a later trait is not instant..." alt="" coords="5,79,224,119"/>
+<area shape="rect" title=" " alt="" coords="59,5,171,31"/>
+<area shape="poly" title=" " alt="" coords="117,44,117,78,112,78,112,44"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for lumex::core::optional::opt::detail::conjunction&lt; B &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03449.png" border="0" usemap="#alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1conjunction_3_01B_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1conjunction_3_01B_01_4_coll__map" id="alumex_1_1core_1_1optional_1_1opt_1_1detail_1_1conjunction_3_01B_01_4_coll__map">
+<area shape="rect" title="std::conjunction of C++17: the first false trait ends the evaluation, so a later trait is not instant..." alt="" coords="5,79,224,119"/>
+<area shape="rect" title=" " alt="" coords="59,5,171,31"/>
+<area shape="poly" title=" " alt="" coords="117,44,117,78,112,78,112,44"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename... B&gt;<br />
+struct lumex::core::optional::opt::detail::conjunction&lt; B &gt;</div><p><code>std::conjunction</code> of C++17: the first false trait ends the evaluation, so a later trait is not instantiated. The constraints of the converting operations name the cheap exclusions first (<code>T</code> is <code>U</code>, <code>U</code> is <code>optional</code>) so that a <code>T</code> whose constructor template tests <code>is_copy_constructible&lt;optional&lt;T&gt;&gt;</code> (such as <code>std::any</code>) is not asked about <code>optional&lt;T&gt;</code> while <code>optional&lt;T&gt;</code> is being declared. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00995_source.html">LumexOptionalDetail.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01552.html">optional</a></li><li class="navelem"><a class="el" href="a01553.html">opt</a></li><li class="navelem"><a class="el" href="a01554.html">detail</a></li><li class="navelem"><a class="el" href="a03451.html">conjunction</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

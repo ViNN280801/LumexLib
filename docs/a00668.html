@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_base64.cpp File Reference</title>
+<title>LumexLib: XmlWriterFile.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,54 +104,50 @@ $(function(){initNavTree('a00668.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_base64.cpp File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">XmlWriterFile.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01178_source.html">lumex/core/base64/LumexBase64</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01223_source.html">lumex/core/span/LumexSpan</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00671_source.html">XmlWriterFile.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_base64.cpp:</div>
+Include dependency graph for XmlWriterFile.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00669.png" border="0" usemap="#aexample__base64_8cpp" alt=""/></div>
+<div class="center"><img src="a00669.png" border="0" usemap="#aXmlWriterFile_8cpp" alt=""/></div>
+<map name="aXmlWriterFile_8cpp" id="aXmlWriterFile_8cpp">
+<area shape="rect" title=" " alt="" coords="41,5,177,31"/>
+<area shape="rect" title=" " alt="" coords="17,79,79,104"/>
+<area shape="poly" title=" " alt="" coords="101,32,70,69,66,66,97,29"/>
+<area shape="rect" href="a00671.html" title="XmlWriterFile, an IXmlWriter that writes to a C FILE stream opened by the caller." alt="" coords="103,79,241,104"/>
+<area shape="poly" title=" " alt="" coords="122,29,154,66,150,69,118,33"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,225,187,251"/>
+<area shape="poly" title=" " alt="" coords="150,106,124,126,102,153,95,182,95,212,89,212,89,182,98,151,120,122,147,102"/>
+<area shape="rect" title=" " alt="" coords="222,225,293,251"/>
+<area shape="poly" title=" " alt="" coords="196,102,222,123,245,151,256,181,260,211,255,212,251,182,240,153,218,127,193,106"/>
+<area shape="rect" href="a00674.html" title="IXmlWriter, the output interface that XML serialization writes bytes to." alt="" coords="113,152,231,177"/>
+<area shape="poly" title=" " alt="" coords="175,104,175,138,169,138,169,104"/>
+<area shape="poly" title=" " alt="" coords="161,179,121,217,117,214,157,176"/>
+<area shape="poly" title=" " alt="" coords="189,175,233,214,230,218,185,179"/>
+</map>
 </div>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a06387.html">span&lt; ElementType, Extent &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning view of a contiguous sequence of objects.  <a href="a06387.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a07486181f1990291c2a348de8eb4c480" id="r_a07486181f1990291c2a348de8eb4c480"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07486181f1990291c2a348de8eb4c480">LUMEX_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a07486181f1990291c2a348de8eb4c480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a07486181f1990291c2a348de8eb4c480" name="a07486181f1990291c2a348de8eb4c480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07486181f1990291c2a348de8eb4c480">&#9670;&#160;</a></span>LUMEX_IMPLEMENTATION</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">#define LUMEX_IMPLEMENTATION</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00668_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00668_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
 
 </div>
 </div>
@@ -160,7 +156,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_c1442713eba162e14608b50b6047dc37.html">base64</a></li><li class="navelem"><a class="el" href="a00668.html">example_base64.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7b089e18b7c2a92c23a9cf3b22a6463e.html">writer</a></li><li class="navelem"><a class="el" href="a00668.html">XmlWriterFile.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

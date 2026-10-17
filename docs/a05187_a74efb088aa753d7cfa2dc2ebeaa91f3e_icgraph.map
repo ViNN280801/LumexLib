@@ -1,0 +1,27 @@
+<map id="lumex::xml::text::XmlText::set" name="lumex::xml::text::XmlText::set">
+<area shape="rect" id="Node000001" title="Sets the text content from a null&#45;terminated C&#45;style string." alt="" coords="272,365,491,390"/>
+<area shape="rect" id="Node000002" href="$a05187.html#adf9743a903c23313463863a1b5b5cf92" title="Assignment operator for a boolean." alt="" coords="19,5,210,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="373,352,357,291,328,212,308,171,284,130,255,92,222,59,205,48,208,43,226,55,259,89,288,127,313,168,333,210,362,290,379,350"/>
+<area shape="rect" id="Node000003" href="$a05187.html#a39307a0d5b9e4102aad287b16178733e" title="Assignment operator for a C&#45;style string." alt="" coords="19,69,210,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="370,353,351,304,319,242,277,178,251,149,222,123,203,112,206,107,226,119,255,145,281,175,324,239,355,301,375,351"/>
+<area shape="rect" id="Node000004" href="$a05187.html#a279b1f564a5be9313c73688159edfdb1" title="Assignment operator for a double&#45;precision floating&#45;point number." alt="" coords="19,133,210,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="366,354,343,317,310,272,270,226,223,188,200,176,203,171,225,183,273,223,314,269,347,314,370,351"/>
+<area shape="rect" id="Node000005" href="$a05187.html#a24830fb72eec89075c826044b9355d9a" title="Assignment operator for a single&#45;precision floating&#45;point number." alt="" coords="19,197,210,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="358,357,299,304,262,276,223,252,196,240,198,235,225,247,265,272,303,300,361,353"/>
+<area shape="rect" id="Node000006" href="$a05187.html#a5d592ecf66a0989d99f10c4b56ea520a" title="Assignment operator for an integer." alt="" coords="19,261,210,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="339,362,223,316,187,304,188,299,225,311,341,357"/>
+<area shape="rect" id="Node000007" href="$a05187.html#addee4661b9e3dbf98633eaa197a9e691" title="Assignment operator for a long long integer." alt="" coords="19,325,210,365"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="262,366,210,359,211,354,262,360"/>
+<area shape="rect" id="Node000008" href="$a05187.html#a6f52ef9705fa4054768025a185abddfe" title="Assignment operator for a long integer." alt="" coords="19,389,210,429"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="262,394,211,400,210,395,262,389"/>
+<area shape="rect" id="Node000009" href="$a05187.html#a5fd089e0964587b6b63692d2627e76b1" title="Assignment operator for a string_view_t." alt="" coords="19,453,210,493"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="341,398,225,444,188,456,187,451,223,439,339,393"/>
+<area shape="rect" id="Node000010" href="$a05187.html#ad315b1f1d44ec5dcdd5dd452d39acaa3" title="Assignment operator for an unsigned integer." alt="" coords="19,517,210,557"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="361,402,303,455,265,483,225,508,198,520,196,515,223,503,262,479,299,451,358,398"/>
+<area shape="rect" id="Node000011" href="$a05187.html#acb365dee8ae1e91b4d6595c556575460" title="Assignment operator for an unsigned long long integer." alt="" coords="19,581,210,621"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="370,404,347,441,314,486,273,532,225,572,203,584,200,579,223,567,270,528,310,483,343,438,366,401"/>
+<area shape="rect" id="Node000012" href="$a05187.html#aa3a8c4cc58660f712e9e1f80dc168c01" title="Assignment operator for an unsigned long integer." alt="" coords="19,645,210,685"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="375,404,355,453,324,516,281,580,255,610,226,635,206,647,203,643,222,631,251,606,277,577,319,513,351,451,370,402"/>
+<area shape="rect" id="Node000013" href="$a05187.html#aafe4e3e064d50ec3c914cd5be7ae7a79" title="Sets the text content from a string_view_t." alt="" coords="5,710,224,735"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="379,404,363,465,335,545,314,588,290,629,260,667,226,699,204,712,201,708,222,695,256,663,285,626,310,585,330,543,358,463,374,403"/>
+</map>

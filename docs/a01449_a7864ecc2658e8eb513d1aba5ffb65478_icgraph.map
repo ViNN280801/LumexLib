@@ -1,0 +1,6 @@
+<map id="lumex::applied::logger::logger::logger_format_current_thread_id" name="lumex::applied::logger::logger::logger_format_current_thread_id">
+<area shape="rect" id="Node000001" title="String form of the current std::thread id for the log prefix." alt="" coords="108,29,279,84"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="219,18,210,11,193,8,179,10,171,14,167,21,167,29,161,29,161,19,167,11,178,5,193,3,212,6,222,13"/>
+<area shape="rect" id="Node000002" href="$a00332.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,44,60,69"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="94,59,60,59,60,54,94,54"/>
+</map>

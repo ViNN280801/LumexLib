@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::utility::functional::detail Namespace Reference</title>
+<title>LumexLib: lumex Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,109 +104,232 @@ $(function(){initNavTree('a01425.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::utility::functional::detail Namespace Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle"><div class="title">lumex Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04210.html">are_object_pointers</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Both operands are pointers to objects (an array counts as one after the array-to-pointer conversion), so <code>&lt;</code> between them is the built-in comparison of pointers, which is only unspecified for pointers into different objects.  <a href="a04210.html#details">More...</a><br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01426.html">applied</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01650.html">examples</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a06f8cd754e5ecbe50469970c7f935ac5" id="r_a06f8cd754e5ecbe50469970c7f935ac5"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:a06f8cd754e5ecbe50469970c7f935ac5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a06f8cd754e5ecbe50469970c7f935ac5">compare_less</a> (T &amp;&amp;left, U &amp;&amp;right, std::false_type) noexcept(noexcept(static_cast&lt; T &amp;&amp; &gt;(left)&lt; static_cast&lt; U &amp;&amp; &gt;(right))) -&gt; decltype(static_cast&lt; T &amp;&amp; &gt;(left)&lt; static_cast&lt; U &amp;&amp; &gt;(right))</td></tr>
-<tr class="memdesc:a06f8cd754e5ecbe50469970c7f935ac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The comparison is <code>left &lt; right</code>.  <br /></td></tr>
-<tr class="separator:a06f8cd754e5ecbe50469970c7f935ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a282d14f5f34033aea6080ac116b7a42b" id="r_a282d14f5f34033aea6080ac116b7a42b"><td class="memTemplParams" colspan="2">template&lt;typename T, typename U&gt; </td></tr>
-<tr class="memitem:a282d14f5f34033aea6080ac116b7a42b"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a282d14f5f34033aea6080ac116b7a42b">compare_less</a> (T &amp;&amp;left, U &amp;&amp;right, std::true_type) noexcept</td></tr>
-<tr class="memdesc:a282d14f5f34033aea6080ac116b7a42b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Two pointers compare as the strict total order of <code>std::less</code>.  <br /></td></tr>
-<tr class="separator:a282d14f5f34033aea6080ac116b7a42b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a45ac34be96c8025d67f85eb38698bf0e" id="r_a45ac34be96c8025d67f85eb38698bf0e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45ac34be96c8025d67f85eb38698bf0e">path</a> = core::filesystem::fs::path</td></tr>
+<tr class="memdesc:a45ac34be96c8025d67f85eb38698bf0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::path</code>.  <br /></td></tr>
+<tr class="separator:a45ac34be96c8025d67f85eb38698bf0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03817bfe3dc516c68cf412bdd64eae24" id="r_a03817bfe3dc516c68cf412bdd64eae24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03817bfe3dc516c68cf412bdd64eae24">directory_entry</a> = core::filesystem::fs::directory_entry</td></tr>
+<tr class="memdesc:a03817bfe3dc516c68cf412bdd64eae24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_entry</code>.  <br /></td></tr>
+<tr class="separator:a03817bfe3dc516c68cf412bdd64eae24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f07a6ef44d43b14db3ad76c82a5d387" id="r_a9f07a6ef44d43b14db3ad76c82a5d387"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f07a6ef44d43b14db3ad76c82a5d387">directory_iterator</a> = core::filesystem::fs::directory_iterator</td></tr>
+<tr class="memdesc:a9f07a6ef44d43b14db3ad76c82a5d387"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_iterator</code>.  <br /></td></tr>
+<tr class="separator:a9f07a6ef44d43b14db3ad76c82a5d387"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e94cb01262971f50bc5ed5975329895" id="r_a3e94cb01262971f50bc5ed5975329895"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e94cb01262971f50bc5ed5975329895">file_type</a> = core::filesystem::fs::file_type</td></tr>
+<tr class="memdesc:a3e94cb01262971f50bc5ed5975329895"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_type</code>.  <br /></td></tr>
+<tr class="separator:a3e94cb01262971f50bc5ed5975329895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04c078c93259a2479b20f764e0fb6454" id="r_a04c078c93259a2479b20f764e0fb6454"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04c078c93259a2479b20f764e0fb6454">file_status</a> = core::filesystem::fs::file_status</td></tr>
+<tr class="memdesc:a04c078c93259a2479b20f764e0fb6454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_status</code>.  <br /></td></tr>
+<tr class="separator:a04c078c93259a2479b20f764e0fb6454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92e14adfb48f45e660bb8f8bcb8d8bde" id="r_a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92e14adfb48f45e660bb8f8bcb8d8bde">perms</a> = core::filesystem::fs::perms</td></tr>
+<tr class="memdesc:a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::perms</code>.  <br /></td></tr>
+<tr class="separator:a92e14adfb48f45e660bb8f8bcb8d8bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a047133438b431876e19f1fb9a35be223" id="r_a047133438b431876e19f1fb9a35be223"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a047133438b431876e19f1fb9a35be223">write_mode</a> = core::filesystem::fs::write_mode</td></tr>
+<tr class="memdesc:a047133438b431876e19f1fb9a35be223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::write_mode</code>.  <br /></td></tr>
+<tr class="separator:a047133438b431876e19f1fb9a35be223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac969d538333bc541eb7d13de1f4e1944" id="r_ac969d538333bc541eb7d13de1f4e1944"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac969d538333bc541eb7d13de1f4e1944">space_info</a> = core::filesystem::fs::space_info</td></tr>
+<tr class="memdesc:ac969d538333bc541eb7d13de1f4e1944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::space_info</code>.  <br /></td></tr>
+<tr class="separator:ac969d538333bc541eb7d13de1f4e1944"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77de8edea14bb4049de2fe633b6f6e4f" id="r_a77de8edea14bb4049de2fe633b6f6e4f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77de8edea14bb4049de2fe633b6f6e4f">filesystem</a> = core::filesystem::fs::lumex_filesystem</td></tr>
+<tr class="memdesc:a77de8edea14bb4049de2fe633b6f6e4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::lumex_filesystem</code>.  <br /></td></tr>
+<tr class="separator:a77de8edea14bb4049de2fe633b6f6e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3949d82b26417e74b46290efe0816635" id="r_a3949d82b26417e74b46290efe0816635"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a3949d82b26417e74b46290efe0816635"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3949d82b26417e74b46290efe0816635">filesystem_result</a> = core::filesystem::fs::filesystem_result&lt;T&gt;</td></tr>
+<tr class="memdesc:a3949d82b26417e74b46290efe0816635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::filesystem_result</code>.  <br /></td></tr>
+<tr class="separator:a3949d82b26417e74b46290efe0816635"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a06f8cd754e5ecbe50469970c7f935ac5" name="a06f8cd754e5ecbe50469970c7f935ac5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06f8cd754e5ecbe50469970c7f935ac5">&#9670;&#160;</a></span>compare_less() <span class="overload">[1/2]</span></h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a03817bfe3dc516c68cf412bdd64eae24" name="a03817bfe3dc516c68cf412bdd64eae24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03817bfe3dc516c68cf412bdd64eae24">&#9670;&#160;</a></span>directory_entry</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a03817bfe3dc516c68cf412bdd64eae24">lumex::directory_entry</a> = core::filesystem::fs::directory_entry</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_entry</code>. </p>
+<p>This allows <code><a class="el" href="#a03817bfe3dc516c68cf412bdd64eae24" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_entry.">directory_entry</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a9f07a6ef44d43b14db3ad76c82a5d387" name="a9f07a6ef44d43b14db3ad76c82a5d387"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f07a6ef44d43b14db3ad76c82a5d387">&#9670;&#160;</a></span>directory_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a9f07a6ef44d43b14db3ad76c82a5d387">lumex::directory_iterator</a> = core::filesystem::fs::directory_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::directory_iterator</code>. </p>
+<p>This allows <code><a class="el" href="#a9f07a6ef44d43b14db3ad76c82a5d387" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::directory_iterator.">directory_iterator</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a04c078c93259a2479b20f764e0fb6454" name="a04c078c93259a2479b20f764e0fb6454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04c078c93259a2479b20f764e0fb6454">&#9670;&#160;</a></span>file_status</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a04c078c93259a2479b20f764e0fb6454">lumex::file_status</a> = core::filesystem::fs::file_status</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_status</code>. </p>
+<p>This allows <code><a class="el" href="#a04c078c93259a2479b20f764e0fb6454" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::file_status.">file_status</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a3e94cb01262971f50bc5ed5975329895" name="a3e94cb01262971f50bc5ed5975329895"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e94cb01262971f50bc5ed5975329895">&#9670;&#160;</a></span>file_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a3e94cb01262971f50bc5ed5975329895">lumex::file_type</a> = core::filesystem::fs::file_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::file_type</code>. </p>
+<p>This allows <code><a class="el" href="#a3e94cb01262971f50bc5ed5975329895" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::file_type.">file_type</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a77de8edea14bb4049de2fe633b6f6e4f" name="a77de8edea14bb4049de2fe633b6f6e4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77de8edea14bb4049de2fe633b6f6e4f">&#9670;&#160;</a></span>filesystem</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a77de8edea14bb4049de2fe633b6f6e4f">lumex::filesystem</a> = core::filesystem::fs::lumex_filesystem</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::lumex_filesystem</code>. </p>
+<p>This allows <code>filesystem</code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a3949d82b26417e74b46290efe0816635" name="a3949d82b26417e74b46290efe0816635"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3949d82b26417e74b46290efe0816635">&#9670;&#160;</a></span>filesystem_result</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto lumex::core::utility::functional::detail::compare_less </td>
-          <td>(</td>
-          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>left</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>right</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::false_type</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;) -&gt; decltype (static_cast&lt;T &amp;&amp;&gt; (left) &lt; static_cast&lt;U &amp;&amp;&gt; (right))
-</td>
+          <td class="memname">using <a class="el" href="#a3949d82b26417e74b46290efe0816635">lumex::filesystem_result</a> = core::filesystem::fs::filesystem_result&lt;T&gt;</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>The comparison is <code>left &lt; right</code>. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a01425_a06f8cd754e5ecbe50469970c7f935ac5_icgraph.png" border="0" usemap="#aa01425_a06f8cd754e5ecbe50469970c7f935ac5_icgraph" alt=""/></div>
-</div>
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::filesystem_result</code>. </p>
+<p>This allows <code><a class="el" href="#a3949d82b26417e74b46290efe0816635" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::filesystem_result.">filesystem_result</a></code> to be used without full namespace qualification. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the value held by the result. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="a282d14f5f34033aea6080ac116b7a42b" name="a282d14f5f34033aea6080ac116b7a42b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a282d14f5f34033aea6080ac116b7a42b">&#9670;&#160;</a></span>compare_less() <span class="overload">[2/2]</span></h2>
+<a id="a45ac34be96c8025d67f85eb38698bf0e" name="a45ac34be96c8025d67f85eb38698bf0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45ac34be96c8025d67f85eb38698bf0e">&#9670;&#160;</a></span>path</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool lumex::core::utility::functional::detail::compare_less </td>
-          <td>(</td>
-          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>left</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>right</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::true_type</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="memname">using <a class="el" href="#a45ac34be96c8025d67f85eb38698bf0e">lumex::path</a> = core::filesystem::fs::path</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Two pointers compare as the strict total order of <code>std::less</code>. </p>
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::path</code>. </p>
+<p>This allows <code>path</code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a92e14adfb48f45e660bb8f8bcb8d8bde" name="a92e14adfb48f45e660bb8f8bcb8d8bde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92e14adfb48f45e660bb8f8bcb8d8bde">&#9670;&#160;</a></span>perms</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a92e14adfb48f45e660bb8f8bcb8d8bde">lumex::perms</a> = core::filesystem::fs::perms</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::perms</code>. </p>
+<p>This allows <code>perms</code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="ac969d538333bc541eb7d13de1f4e1944" name="ac969d538333bc541eb7d13de1f4e1944"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac969d538333bc541eb7d13de1f4e1944">&#9670;&#160;</a></span>space_info</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ac969d538333bc541eb7d13de1f4e1944">lumex::space_info</a> = core::filesystem::fs::space_info</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::lumex_filesystem::space_info</code>. </p>
+<p>This allows <code><a class="el" href="#ac969d538333bc541eb7d13de1f4e1944" title="Global alias for lumex::core::filesystem::fs::lumex_filesystem::space_info.">space_info</a></code> to be used without full namespace qualification. </p>
+
+</div>
+</div>
+<a id="a047133438b431876e19f1fb9a35be223" name="a047133438b431876e19f1fb9a35be223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a047133438b431876e19f1fb9a35be223">&#9670;&#160;</a></span>write_mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a047133438b431876e19f1fb9a35be223">lumex::write_mode</a> = core::filesystem::fs::write_mode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Global alias for <code>lumex::core::filesystem::fs::write_mode</code>. </p>
+<p>This allows <code><a class="el" href="#a047133438b431876e19f1fb9a35be223" title="Global alias for lumex::core::filesystem::fs::write_mode.">write_mode</a></code> to be used without full namespace qualification. </p>
 
 </div>
 </div>
@@ -215,7 +338,7 @@ template&lt;typename T, typename U&gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01311.html">core</a></li><li class="navelem"><a class="el" href="a01409.html">utility</a></li><li class="navelem"><a class="el" href="a01424.html">functional</a></li><li class="navelem"><a class="el" href="a01425.html">detail</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

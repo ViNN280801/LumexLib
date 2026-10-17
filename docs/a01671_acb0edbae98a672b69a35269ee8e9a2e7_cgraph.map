@@ -1,0 +1,7 @@
+<map id="lumex::xml::utility::convert_buffer_output" name="lumex::xml::utility::convert_buffer_output">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,49,179,89"/>
+<area shape="rect" id="Node000002" href="$a01671.html#ab83253de00b48533ee88aa1ca631391e" title=" " alt="" coords="227,5,400,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,52,213,46,213,52,179,57"/>
+<area shape="rect" id="Node000003" href="$a01587.html#aeb7c418e8ef454625d57b7b098e59e04" title="Tells whether the machine stores the least significant byte of an integer first (little endian)." alt="" coords="236,85,391,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,80,223,87,222,92,178,85"/>
+</map>

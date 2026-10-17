@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexWStringView.hpp File Reference</title>
+<title>LumexLib: XPathQuery.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,59 +104,168 @@ $(function(){initNavTree('a00551.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a>  </div>
-  <div class="headertitle"><div class="title">LumexWStringView.hpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XPathQuery.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code><a class="el" href="#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code>: the view over <code>wchar_t</code>, the <code>std::wstring_view</code> of the library from C++11.  
+<p><code>XPathQuery</code>, a compiled XPath expression that can be evaluated many times, and its private implementation record.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00545_source.html">lumex/core/string_view/view/LumexBasicStringView.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00656_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00623_source.html">lumex/xml/xpath/memory/XPathAllocator.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00626_source.html">lumex/xml/xpath/memory/XPathMemoryBlock.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00611_source.html">lumex/xml/xpath/parser/XPathParseResult.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexWStringView.hpp:</div>
+Include dependency graph for XPathQuery.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00552.png" border="0" usemap="#a_lumex_w_string_view_8hpp" alt=""/></div>
+<div class="center"><img src="a00552.png" border="0" usemap="#aXPathQuery_8hpp" alt=""/></div>
+<map name="aXPathQuery_8hpp" id="aXPathQuery_8hpp">
+<area shape="rect" title="XPathQuery, a compiled XPath expression that can be evaluated many times, and its private implementat..." alt="" coords="469,5,593,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="40,262,221,287"/>
+<area shape="poly" title=" " alt="" coords="498,33,381,86,309,124,242,169,201,206,154,254,150,250,197,202,238,165,307,120,378,81,496,28"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="2048,343,2237,383"/>
+<area shape="poly" title=" " alt="" coords="593,22,791,44,1038,76,1192,94,1326,102,1555,110,1664,121,1776,145,1899,187,2039,252,2064,269,2087,289,2123,330,2119,334,2083,293,2061,273,2036,257,1897,192,1775,150,1663,126,1555,115,1326,107,1192,99,1037,81,791,49,593,27"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="557,431,771,471"/>
+<area shape="poly" title=" " alt="" coords="571,28,608,47,626,61,641,77,658,104,665,129,667,187,667,275,667,417,661,417,661,275,661,187,660,129,653,106,637,80,622,65,605,52,568,33"/>
+<area shape="rect" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="799,86,1025,111"/>
+<area shape="poly" title=" " alt="" coords="591,28,839,80,838,86,590,33"/>
+<area shape="rect" href="a00623.html" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="435,79,627,119"/>
+<area shape="poly" title=" " alt="" coords="533,31,533,65,528,65,528,31"/>
+<area shape="rect" href="a00626.html" title="XPathMemoryBlock, the unit of memory of the XPath allocator." alt="" coords="309,174,485,199"/>
+<area shape="poly" title=" " alt="" coords="493,33,456,52,439,65,425,80,414,99,407,120,400,161,395,160,401,119,409,97,421,77,436,61,453,47,491,28"/>
+<area shape="rect" href="a00611.html" title="xpath_parse_result_t, the outcome of compiling an XPath expression." alt="" coords="5,167,184,207"/>
+<area shape="poly" title=" " alt="" coords="469,28,322,49,252,64,204,81,179,97,156,117,119,157,115,154,152,113,176,93,202,76,251,59,321,44,468,22"/>
+<area shape="rect" title=" " alt="" coords="2030,438,2122,463"/>
+<area shape="poly" title=" " alt="" coords="2129,385,2096,428,2092,425,2125,381"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1569,431,1823,471"/>
+<area shape="poly" title=" " alt="" coords="2048,384,1812,431,1811,425,2047,379"/>
+<area shape="poly" title=" " alt="" coords="2048,378,1984,385,1643,411,1306,430,784,450,784,445,1306,424,1643,406,1984,380,2048,373"/>
+<area shape="rect" title=" " alt="" coords="701,350,768,375"/>
+<area shape="poly" title=" " alt="" coords="906,113,753,340,749,337,901,110"/>
+<area shape="rect" title=" " alt="" coords="883,350,941,375"/>
+<area shape="poly" title=" " alt="" coords="915,111,915,336,909,336,909,111"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="1079,167,1281,207"/>
+<area shape="poly" title=" " alt="" coords="952,109,1106,160,1105,165,950,114"/>
+<area shape="rect" href="a00710.html" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa..." alt="" coords="1787,262,2026,287"/>
+<area shape="poly" title=" " alt="" coords="984,109,1822,257,1821,262,983,114"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="1165,255,1403,295"/>
+<area shape="poly" title=" " alt="" coords="1206,205,1251,244,1248,248,1202,209"/>
+<area shape="poly" title=" " alt="" coords="1403,280,1689,303,2030,340,2034,341,2033,346,2029,345,1689,308,1403,285"/>
+<area shape="poly" title=" " alt="" coords="1403,279,1745,304,1899,321,1953,330,1985,340,2011,358,2033,380,2065,425,2061,428,2029,384,2008,362,1983,345,1952,336,1898,326,1744,309,1403,284"/>
+<area shape="poly" title=" " alt="" coords="1366,292,1428,313,1489,340,1515,360,1540,380,1584,404,1628,423,1626,428,1582,408,1537,385,1512,364,1487,345,1426,318,1364,297"/>
+<area shape="poly" title=" " alt="" coords="1166,294,1085,315,1005,345,991,355,981,365,970,375,955,385,870,417,785,437,784,432,868,412,952,380,967,371,977,361,987,350,1003,340,1083,309,1164,289"/>
+<area shape="poly" title=" " alt="" coords="1165,284,982,304,880,321,781,345,774,347,772,342,779,340,879,316,982,299,1165,279"/>
+<area shape="poly" title=" " alt="" coords="1166,297,1065,317,961,345,954,347,952,342,959,340,1064,312,1165,291"/>
+<area shape="rect" title=" " alt="" coords="225,350,295,375"/>
+<area shape="poly" title=" " alt="" coords="1165,281,960,289,713,302,478,320,382,332,309,345,300,348,298,343,307,340,381,327,478,315,713,296,959,283,1165,275"/>
+<area shape="rect" title=" " alt="" coords="792,350,859,375"/>
+<area shape="poly" title=" " alt="" coords="1165,289,1023,310,946,326,871,345,865,347,863,342,870,340,945,320,1022,305,1165,284"/>
+<area shape="rect" title=" " alt="" coords="1017,350,1103,375"/>
+<area shape="poly" title=" " alt="" coords="1234,297,1106,347,1104,342,1232,292"/>
+<area shape="rect" title=" " alt="" coords="1127,350,1214,375"/>
+<area shape="poly" title=" " alt="" coords="1259,297,1200,344,1196,339,1256,293"/>
+<area shape="rect" title=" " alt="" coords="1238,350,1279,375"/>
+<area shape="poly" title=" " alt="" coords="1281,296,1269,337,1264,336,1276,294"/>
+<area shape="rect" title=" " alt="" coords="1303,350,1374,375"/>
+<area shape="poly" title=" " alt="" coords="1299,294,1326,337,1321,340,1294,296"/>
+<area shape="rect" title=" " alt="" coords="1399,350,1476,375"/>
+<area shape="poly" title=" " alt="" coords="1321,293,1405,341,1402,345,1318,297"/>
+<area shape="rect" title=" " alt="" coords="1551,350,1627,375"/>
+<area shape="poly" title=" " alt="" coords="1363,292,1533,340,1542,343,1540,348,1531,345,1362,297"/>
+<area shape="rect" title=" " alt="" coords="1651,350,1738,375"/>
+<area shape="poly" title=" " alt="" coords="1403,290,1518,312,1639,340,1650,343,1648,348,1638,345,1517,317,1402,295"/>
+<area shape="rect" title=" " alt="" coords="1762,350,1851,375"/>
+<area shape="poly" title=" " alt="" coords="1403,283,1568,305,1660,321,1750,340,1761,343,1760,348,1749,345,1659,326,1568,310,1402,288"/>
+<area shape="rect" title=" " alt="" coords="1875,350,1973,375"/>
+<area shape="poly" title=" " alt="" coords="1403,279,1619,300,1742,317,1863,340,1876,343,1875,349,1862,345,1741,322,1618,305,1403,284"/>
+<area shape="poly" title=" " alt="" coords="1942,285,2077,335,2075,340,1940,290"/>
+<area shape="poly" title=" " alt="" coords="437,121,368,142,299,169,269,187,242,209,165,257,162,252,238,204,266,183,296,164,366,137,435,116"/>
+<area shape="poly" title=" " alt="" coords="553,117,572,139,589,165,614,223,626,271,634,320,648,382,657,417,652,418,643,383,629,321,621,272,609,225,584,168,568,143,549,121"/>
+<area shape="poly" title=" " alt="" coords="566,117,634,165,685,210,734,258,808,338,804,342,730,262,682,214,630,169,563,121"/>
+<area shape="rect" title=" " alt="" coords="510,174,575,199"/>
+<area shape="poly" title=" " alt="" coords="536,119,542,160,536,161,531,119"/>
+<area shape="poly" title=" " alt="" coords="501,121,429,169,426,164,498,117"/>
+<area shape="poly" title=" " alt="" coords="359,202,183,260,181,255,358,197"/>
+<area shape="poly" title=" " alt="" coords="363,202,322,223,302,238,286,256,276,275,269,296,263,337,258,336,264,295,271,273,282,253,299,234,319,219,360,197"/>
+<area shape="rect" title=" " alt="" coords="520,262,576,287"/>
+<area shape="poly" title=" " alt="" coords="421,197,516,253,513,257,418,202"/>
+<area shape="rect" href="a00587.html" title="Size limits and alignment of the XPath engine." alt="" coords="296,255,496,295"/>
+<area shape="poly" title=" " alt="" coords="400,200,399,241,394,241,394,200"/>
+<area shape="poly" title=" " alt="" coords="474,292,689,348,687,353,473,297"/>
+<area shape="poly" title=" " alt="" coords="366,297,293,345,290,340,363,293"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="321,343,575,383"/>
+<area shape="poly" title=" " alt="" coords="410,294,431,329,427,332,406,296"/>
+<area shape="poly" title=" " alt="" coords="499,380,603,423,601,428,497,385"/>
+<area shape="poly" title=" " alt="" coords="105,206,123,248,118,250,101,208"/>
+<area shape="poly" title=" " alt="" coords="185,194,298,204,612,220,856,224,1101,230,1245,238,1415,252,1585,271,1755,294,2035,340,2034,345,1754,300,1585,276,1414,257,1245,243,1101,235,856,229,611,225,297,209,184,199"/>
+<area shape="poly" title=" " alt="" coords="69,209,49,228,32,249,24,272,25,283,30,293,41,303,58,313,106,330,212,353,211,358,104,335,56,318,38,307,26,296,20,284,18,271,27,247,45,224,65,205"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00553.png" border="0" usemap="#a_lumex_w_string_view_8hppdep" alt=""/></div>
+<div class="center"><img src="a00553.png" border="0" usemap="#aXPathQuery_8hppdep" alt=""/></div>
+<map name="aXPathQuery_8hppdep" id="aXPathQuery_8hppdep">
+<area shape="rect" title="XPathQuery, a compiled XPath expression that can be evaluated many times, and its private implementat..." alt="" coords="353,5,477,31"/>
+<area shape="rect" href="a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="237,79,329,104"/>
+<area shape="poly" title=" " alt="" coords="381,40,308,81,305,76,379,35"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="354,79,477,104"/>
+<area shape="poly" title=" " alt="" coords="418,44,418,78,413,78,413,44"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="501,79,610,104"/>
+<area shape="poly" title=" " alt="" coords="453,35,532,76,530,81,450,39"/>
+<area shape="rect" href="a00389.html" title=" " alt="" coords="5,152,127,177"/>
+<area shape="poly" title=" " alt="" coords="234,111,105,154,103,149,232,106"/>
+<area shape="rect" href="a00395.html" title=" " alt="" coords="151,152,272,177"/>
+<area shape="poly" title=" " alt="" coords="263,116,226,153,222,150,259,112"/>
+<area shape="rect" href="a00392.html" title=" " alt="" coords="296,152,417,177"/>
+<area shape="poly" title=" " alt="" coords="308,112,345,150,342,153,304,116"/>
+<area shape="rect" href="a00398.html" title=" " alt="" coords="441,152,563,177"/>
+<area shape="poly" title=" " alt="" coords="335,106,465,149,463,154,333,111"/>
+</map>
 </div>
 </div>
 <p><a href="a00551_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a173552e384fc2d1f2339f480c26e13e3" id="r_a173552e384fc2d1f2339f480c26e13e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a173552e384fc2d1f2339f480c26e13e3">lumex_wstring_view</a> = <a class="el" href="a01396.html#af7b214ae975ac5374970bd02dab72ab3">lumex::core::string_view::view::lumex_wstring_view</a></td></tr>
-<tr class="memdesc:a173552e384fc2d1f2339f480c26e13e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global alias of <code><a class="el" href="a01396.html#af7b214ae975ac5374970bd02dab72ab3" title="The view of wchar_t: the std::wstring_view of the library.">lumex::core::string_view::view::lumex_wstring_view</a></code>.  <br /></td></tr>
-<tr class="separator:a173552e384fc2d1f2339f480c26e13e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05315.html">lumex::xml::xpath::query::XPathQuery</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a compiled XPath query ready for evaluation.  <a href="a05315.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05319.html">lumex::xml::xpath::XPathQueryImpl</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal implementation structure for <a class="el" href="a05315.html" title="Represents a compiled XPath query ready for evaluation.">XPathQuery</a>.  <a href="a05319.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01678.html">lumex::xml::xpath</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01688.html">lumex::xml::xpath::ast</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01679.html">lumex::xml::xpath::node</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01680.html">lumex::xml::xpath::variable</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01681.html">lumex::xml::xpath::query</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code><a class="el" href="#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code>: the view over <code>wchar_t</code>, the <code>std::wstring_view</code> of the library from C++11. </p>
-<p>A header-only alias of <code>lumex_basic_string_view&lt;wchar_t&gt;</code> (see <code><a class="el" href="a00545.html" title="Header-only, C++11-first basic_string_view: the class template behind lumex_string_view,...">LumexBasicStringView.hpp</a></code> for the class). The global alias <code><a class="el" href="#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code> is the wide view type of the whole library in every C++ standard. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="a173552e384fc2d1f2339f480c26e13e3" name="a173552e384fc2d1f2339f480c26e13e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a173552e384fc2d1f2339f480c26e13e3">&#9670;&#160;</a></span>lumex_wstring_view</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a173552e384fc2d1f2339f480c26e13e3">lumex_wstring_view</a> = <a class="el" href="a01396.html#af7b214ae975ac5374970bd02dab72ab3">lumex::core::string_view::view::lumex_wstring_view</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Global alias of <code><a class="el" href="a01396.html#af7b214ae975ac5374970bd02dab72ab3" title="The view of wchar_t: the std::wstring_view of the library.">lumex::core::string_view::view::lumex_wstring_view</a></code>. </p>
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p><code>XPathQuery</code>, a compiled XPath expression that can be evaluated many times, and its private implementation record. </p>
+<p>The constructor compiles the expression, with an optional <code>XPathVariableSet</code>, and throws <code>XPathException</code> for an invalid expression or <code>std::bad_alloc</code> when memory runs out. The <code>evaluate_*</code> functions evaluate it against a context <code>XPathNode</code> and convert the result to a boolean, a number, a string, a node set or the first node in document order. A query can be moved but not copied. <code>XPathQueryImpl</code> holds the expression tree and its allocator behind an opaque pointer.</p>
+<p><code>XmlNode::select_nodes</code> and its relatives accept an <code>XPathQuery</code> as well as a string, so an expression used often is compiled once. Consumers include the file through <code>lumex/xml/LumexXml</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="dir_95349814814eaf45a7cf2d6bae5f3802.html">view</a></li><li class="navelem"><a class="el" href="a00551.html">LumexWStringView.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_d38a0fae6a8e48d91b3b62673cf0c708.html">xpath</a></li><li class="navelem"><a class="el" href="dir_d0dd2f4c44bc85668beafa2a6c97f3ba.html">query</a></li><li class="navelem"><a class="el" href="a00551.html">XPathQuery.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

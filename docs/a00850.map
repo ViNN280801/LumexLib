@@ -1,0 +1,24 @@
+<map id="LumexBitLock.hpp" name="LumexBitLock.hpp">
+<area shape="rect" id="Node000001" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="518,5,661,31"/>
+<area shape="rect" id="Node000002" href="$a00794.html" title="Storage and operations behind atomic_shared_ptr_lock_based, atomic_weak_ptr_lock_based and the *_std_..." alt="" coords="478,79,701,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="592,44,592,78,587,78,587,44"/>
+<area shape="rect" id="Node000003" href="$a00806.html" title="atomic_shared_ptr&lt;T&gt; and its engines (atomic_shared_ptr_lock_free, atomic_shared_ptr_lock_based,..." alt="" coords="5,159,208,185"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="497,109,220,155,178,162,178,157,220,149,496,104"/>
+<area shape="rect" id="Node000008" href="$a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="232,152,459,192"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="539,111,407,154,405,149,537,106"/>
+<area shape="rect" id="Node000009" href="$a00803.html" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="483,152,696,192"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="592,118,592,152,587,152,587,118"/>
+<area shape="rect" id="Node000010" href="$a00797.html" title="atomic_weak_ptr&lt;T&gt; and its engines (atomic_weak_ptr_lock_free, atomic_weak_ptr_lock_based,..." alt="" coords="721,159,914,185"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="639,106,782,157,780,162,637,111"/>
+<area shape="rect" id="Node000011" href="$a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="939,159,1125,185"/>
+<area shape="poly" id="edge11_Node000002_Node000011" title=" " alt="" coords="675,104,927,149,966,157,965,162,926,155,674,109"/>
+<area shape="rect" id="Node000004" href="$a01352.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="405,240,517,265"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="176,185,406,237,405,243,175,190"/>
+<area shape="rect" id="Node000005" href="$a00275.html" title=" " alt="" coords="171,313,349,353"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="418,273,311,316,309,311,416,268"/>
+<area shape="rect" id="Node000006" href="$a00272.html" title=" " alt="" coords="373,313,549,353"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="464,279,464,313,459,313,459,279"/>
+<area shape="rect" id="Node000007" href="$a00278.html" title=" " alt="" coords="574,313,741,353"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="506,268,609,311,607,316,504,273"/>
+<area shape="poly" id="edge10_Node000010_Node000004" title=" " alt="" coords="749,190,518,243,517,237,747,185"/>
+</map>

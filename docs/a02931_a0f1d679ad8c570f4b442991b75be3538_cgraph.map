@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::failure_t::failure_t" name="lumex::core::expected::result::failure_t::failure_t">
+<area shape="rect" id="Node000001" title="Constructs from an rvalue error." alt="" coords="5,5,172,60"/>
+<area shape="rect" id="Node000002" href="$a02931.html#a2125233630e584f43f12be8dbe8bbb51" title="Returns the stored error (const lvalue)." alt="" coords="220,13,388,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,30,206,30,206,35,173,35"/>
+</map>

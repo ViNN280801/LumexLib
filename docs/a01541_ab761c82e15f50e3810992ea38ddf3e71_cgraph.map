@@ -1,0 +1,20 @@
+<map id="lumex::core::fmt::Detail::make_arg" name="lumex::core::fmt::Detail::make_arg">
+<area shape="rect" id="Node000001" title="Type&#45;erases one (decayed) value into arg." alt="" coords="5,113,183,153"/>
+<area shape="rect" id="Node000002" href="$a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="465,41,624,66"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,115,459,66,460,71,184,120"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a36ba631ed556433cf82a615650711b90" title="Storage kind of an argument of type T (after decay and after unwrapping a named argument): built in,..." alt="" coords="231,171,408,211"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,151,228,165,227,170,172,156"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a24e1689d8a19eee3efc71c48ef7c5efe" title=" " alt="" coords="686,157,863,197"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="183,133,389,140,634,156,673,160,672,165,633,161,389,145,183,138"/>
+<area shape="rect" id="Node000006" href="$a01541.html#aad5f22f79a0e3ad34115a809dd6d25d8" title=" " alt="" coords="681,264,868,304"/>
+<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="121,151,171,186,232,220,292,246,341,263,391,274,456,284,506,289,544,288,633,284,668,284,668,289,633,289,544,294,505,294,456,289,390,279,339,268,290,251,229,225,168,191,118,156"/>
+<area shape="rect" id="Node000008" href="$a01541.html#aa88197a195f6c5764a3b96718dcca27d" title=" " alt="" coords="231,5,408,45"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="131,111,230,62,258,49,260,54,232,66,133,116"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a09714a12a6e0072636b67fef0440066e" title="Storage kind of a built&#45;in type T (decayed) for character type Char, or ArgKind::none when T is not b..." alt="" coords="456,235,633,275"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="391,208,461,228,460,233,389,213"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a6fc398c1d4ed4998c2df05aa40afd752" title="formatter&lt;T, Char&gt; is enabled." alt="" coords="456,171,633,211"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="408,188,442,188,442,193,408,193"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="604,232,702,199,703,204,605,237"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="634,263,668,268,667,273,633,269"/>
+<area shape="poly" id="edge8_Node000008_Node000002" title=" " alt="" coords="409,34,452,39,451,44,408,39"/>
+</map>

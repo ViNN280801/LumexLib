@@ -1,0 +1,12 @@
+<map id="lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, 1 &gt;" name="lumex::core::expected::result::detail::storage::expected_move_base&lt; T, E, 1 &gt;">
+<area shape="rect" id="Node000001" title="The move constructor is written out: [expected.object.cons]/12 and /15." alt="" coords="920,5,1119,75"/>
+<area shape="rect" id="Node000002" href="$a02859.html" title="The layer of the copy constructor. Kind is 0 (the compiler&#39;s constructor, trivial when the layer belo..." alt="" coords="679,5,872,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="885,46,920,46,920,52,885,52"/>
+<area shape="poly" id="edge5_Node000001_Node000002" title=" " alt="" coords="885,28,920,28,920,34,885,34"/>
+<area shape="rect" id="Node000003" href="$a02851.html" title="The layer that destroys the active alternative; trivial." alt="" coords="443,5,631,75"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="645,37,679,37,679,43,645,43"/>
+<area shape="rect" id="Node000004" href="$a02847.html" title="has_val and the union of [expected.object.general], the constructors that start one alternative,..." alt="" coords="195,13,395,67"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="408,37,442,37,442,43,408,43"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,27,147,53"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="160,37,195,37,195,43,160,43"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="lumex::xml::node::prepend_node" name="lumex::xml::node::prepend_node">
+<area shape="rect" id="Node000001" title="Prepends a child node to the beginning of a node&#39;s child list." alt="" coords="509,141,745,166"/>
+<area shape="rect" id="Node000002" href="$a05143.html#a2b60652b5cf0a8218617bcc2256066b5" title="Prepends a new child node of a specified type to the current node." alt="" coords="257,69,461,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="560,140,443,112,444,107,561,135"/>
+<area shape="rect" id="Node000006" href="$a05143.html#acf48c85813bfecc4b524bfc0e2cb9344" title="Prepends a deep copy of an existing XmlNode (proto) as a child of the current node." alt="" coords="257,133,461,173"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="496,156,461,156,461,151,496,151"/>
+<area shape="rect" id="Node000007" href="$a05143.html#a493772587914bb88310871ebf632e53c" title="Moves an existing XmlNode (moved) to become the first child of the current node." alt="" coords="257,197,461,237"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="561,172,444,200,443,195,560,167"/>
+<area shape="rect" id="Node000003" href="$a05143.html#aa6f134b485f2cd2c478edf6c0af50243" title="Prepends a new child element with the specified name to the current node." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="266,68,185,48,187,43,268,63"/>
+<area shape="rect" id="Node000004" href="$a05143.html#ad1158e66c6a726feead88bf858821421" title="prepend_child with a name of size characters at name, which need no terminating NUL (a range of a lar..." alt="" coords="5,69,209,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="244,92,210,92,210,87,244,87"/>
+<area shape="rect" id="Node000005" href="$a05143.html#a077e87bb4351f086653426a4b66560e3" title="Prepends a new child element with the specified name (string_view_t) to the current node." alt="" coords="5,133,209,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="268,115,187,136,185,131,266,110"/>
+</map>

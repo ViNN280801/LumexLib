@@ -1,0 +1,9 @@
+<map id="lumex::core::environment::env::is_env_set" name="lumex::core::environment::env::is_env_set">
+<area shape="rect" id="Node000001" title="Checks whether an environment variable is set to a non&#45;empty value." alt="" coords="315,27,505,67"/>
+<area shape="rect" id="Node000002" href="$a00530.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="160,5,215,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,36,215,24,215,19,301,30"/>
+<area shape="rect" id="Node000003" href="$a01582.html#ac2a95e66868e1a2cc9cc1da9676e38c8" title="Optionally gates timing/reporting via an environment variable, then measures callable and writes the ..." alt="" coords="108,55,267,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="301,64,267,68,267,63,301,58"/>
+<area shape="rect" id="Node000004" href="$a00509.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,63,60,88"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="94,78,60,78,60,73,94,73"/>
+</map>

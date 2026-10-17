@@ -1,0 +1,66 @@
+<map id="XPathNode.hpp" name="XPathNode.hpp">
+<area shape="rect" id="Node000001" title="XPathNode, an item of an XPath result: either an XML node or an attribute together with its element." alt="" coords="982,5,1103,31"/>
+<area shape="rect" id="Node000002" href="$a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="757,299,849,324"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1117,23,1216,40,1267,53,1314,69,1352,89,1378,114,1384,129,1386,144,1382,161,1371,179,1356,195,1336,209,1280,235,1211,256,1133,273,974,298,849,311,849,305,973,292,1132,268,1210,251,1278,230,1333,205,1353,191,1367,176,1377,159,1380,144,1379,130,1373,117,1349,94,1312,74,1265,58,1215,45,1116,28"/>
+<area shape="rect" id="Node000007" href="$a00578.html" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="368,152,507,177"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="968,29,831,49,675,81,560,118,468,154,466,149,558,113,674,76,830,43,968,24"/>
+<area shape="rect" id="Node000013" href="$a00650.html" title="Comparison of XPath nodes by document order, used to sort node sets." alt="" coords="995,79,1261,104"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="1070,38,1114,76,1111,80,1066,42"/>
+<area shape="rect" id="Node000016" href="$a00635.html" title=" " alt="" coords="1432,79,1552,104"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="1118,28,1432,79,1431,84,1117,33"/>
+<area shape="rect" id="Node000017" href="$a00641.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="686,79,829,104"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="980,37,808,81,806,76,979,32"/>
+<area shape="rect" id="Node000019" href="$a00632.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="899,152,1016,177"/>
+<area shape="poly" id="edge38_Node000001_Node000019" title=" " alt="" coords="1018,42,1000,59,985,80,969,118,962,152,957,151,964,117,980,77,996,56,1014,38"/>
+<area shape="rect" id="Node000024" href="$a00725.html" title=" " alt="" coords="5,299,115,324"/>
+<area shape="poly" id="edge39_Node000001_Node000024" title=" " alt="" coords="968,24,838,34,667,57,574,74,479,95,385,122,294,154,226,189,164,230,76,301,72,296,160,225,224,184,292,150,383,117,478,90,573,69,666,52,837,29,968,19"/>
+<area shape="rect" id="Node000025" href="$a00581.html" title=" " alt="" coords="1577,79,1701,104"/>
+<area shape="poly" id="edge37_Node000001_Node000025" title=" " alt="" coords="1117,23,1319,45,1564,76,1577,78,1576,83,1564,81,1319,50,1117,28"/>
+<area shape="rect" id="Node000003" href="$a00389.html" title=" " alt="" coords="879,372,1001,397"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="840,328,917,369,915,374,837,333"/>
+<area shape="rect" id="Node000004" href="$a00395.html" title=" " alt="" coords="1025,372,1146,397"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="863,324,1037,369,1036,375,861,329"/>
+<area shape="rect" id="Node000005" href="$a00392.html" title=" " alt="" coords="589,372,710,397"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="765,332,677,374,675,369,763,328"/>
+<area shape="rect" id="Node000006" href="$a00398.html" title=" " alt="" coords="734,372,855,397"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="802,338,799,372,793,371,797,337"/>
+<area shape="rect" id="Node000008" href="$a00572.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="417,225,559,251"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="456,187,481,223,477,226,452,190"/>
+<area shape="rect" id="Node000009" href="$a00575.html" title=" " alt="" coords="576,299,717,324"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="529,254,620,296,618,301,527,259"/>
+<area shape="rect" id="Node000010" href="$a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="425,299,551,324"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="491,264,491,298,485,298,485,264"/>
+<area shape="rect" id="Node000011" href="$a00605.html" title=" " alt="" coords="275,372,400,397"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="451,332,365,374,363,369,449,328"/>
+<area shape="rect" id="Node000012" href="$a00554.html" title=" " alt="" coords="425,372,548,397"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="490,338,490,372,484,371,485,337"/>
+<area shape="rect" id="Node000014" href="$a00647.html" title=" " alt="" coords="1091,152,1357,177"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1157,110,1208,149,1205,154,1154,114"/>
+<area shape="rect" id="Node000015" href="$a00629.html" title=" " alt="" coords="1014,225,1130,251"/>
+<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="1107,116,1093,133,1082,153,1074,192,1074,225,1068,225,1069,191,1078,151,1089,130,1103,113"/>
+<area shape="poly" id="edge17_Node000017_Node000002" title=" " alt="" coords="774,116,788,151,797,193,802,234,805,298,800,298,797,235,792,194,783,153,769,118"/>
+<area shape="poly" id="edge18_Node000017_Node000008" title=" " alt="" coords="713,112,623,154,558,193,507,227,505,223,556,188,620,150,711,107"/>
+<area shape="rect" id="Node000018" href="$a00644.html" title=" " alt="" coords="848,225,989,251"/>
+<area shape="poly" id="edge19_Node000017_Node000018" title=" " alt="" coords="785,111,831,150,907,223,904,227,828,154,782,115"/>
+<area shape="poly" id="edge20_Node000017_Node000019" title=" " alt="" coords="806,106,923,149,922,154,804,111"/>
+<area shape="rect" id="Node000020" href="$a00563.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="633,152,773,177"/>
+<area shape="poly" id="edge23_Node000017_Node000020" title=" " alt="" coords="742,116,715,153,710,150,738,113"/>
+<area shape="rect" id="Node000022" href="$a00566.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="231,225,393,251"/>
+<area shape="poly" id="edge35_Node000017_Node000022" title=" " alt="" coords="702,111,574,154,520,180,438,207,364,228,363,223,437,202,518,175,572,150,700,105"/>
+<area shape="poly" id="edge36_Node000017_Node000024" title=" " alt="" coords="673,98,523,116,439,132,357,155,317,170,287,187,220,228,85,301,82,296,217,223,284,182,314,166,355,149,438,127,522,110,672,93"/>
+<area shape="poly" id="edge22_Node000019_Node000015" title=" " alt="" coords="990,183,1053,223,1050,227,988,187"/>
+<area shape="poly" id="edge21_Node000019_Node000018" title=" " alt="" coords="947,191,928,226,923,224,942,188"/>
+<area shape="poly" id="edge24_Node000020_Node000002" title=" " alt="" coords="721,187,796,297,792,300,717,190"/>
+<area shape="poly" id="edge25_Node000020_Node000008" title=" " alt="" coords="653,184,526,228,524,223,651,179"/>
+<area shape="poly" id="edge26_Node000020_Node000015" title=" " alt="" coords="781,177,1014,224,1013,229,780,183"/>
+<area shape="rect" id="Node000021" href="$a00560.html" title=" " alt="" coords="584,225,723,251"/>
+<area shape="poly" id="edge27_Node000020_Node000021" title=" " alt="" coords="689,190,664,226,660,223,684,187"/>
+<area shape="poly" id="edge28_Node000020_Node000022" title=" " alt="" coords="622,182,381,228,380,223,621,177"/>
+<area shape="poly" id="edge29_Node000022_Node000002" title=" " alt="" coords="407,249,730,296,757,301,756,306,729,301,406,254"/>
+<area shape="poly" id="edge31_Node000022_Node000010" title=" " alt="" coords="356,253,458,296,456,301,354,258"/>
+<area shape="poly" id="edge30_Node000022_Node000011" title=" " alt="" coords="319,264,338,371,332,372,314,265"/>
+<area shape="poly" id="edge32_Node000022_Node000012" title=" " alt="" coords="339,258,414,322,472,370,469,374,410,326,335,262"/>
+<area shape="rect" id="Node000023" href="$a00569.html" title=" " alt="" coords="139,299,299,324"/>
+<area shape="poly" id="edge33_Node000022_Node000023" title=" " alt="" coords="287,261,237,300,234,296,283,257"/>
+<area shape="poly" id="edge34_Node000022_Node000024" title=" " alt="" coords="256,257,105,301,103,296,254,252"/>
+</map>

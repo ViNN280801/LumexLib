@@ -1,0 +1,9 @@
+<map id="lumex::core::environment::env::lumex_environment::is_truthy" name="lumex::core::environment::env::lumex_environment::is_truthy">
+<area shape="rect" id="Node000001" title="Static convenience method to check whether an environment variable is truthy (enabled)." alt="" coords="245,55,437,110"/>
+<area shape="rect" id="Node000002" href="$a01518.html#a4773a4875c22bf328b9834b55316947e" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="6,5,197,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,59,185,48,186,43,233,54"/>
+<area shape="rect" id="Node000003" href="$a00530.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="74,70,129,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,85,129,85,129,80,232,80"/>
+<area shape="rect" id="Node000004" href="$a02599.html#ac02c7b9738c63ae45eb982591086e9fc" title="Deleted move assignment operator." alt="" coords="5,119,197,174"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="233,114,198,124,197,118,231,109"/>
+</map>

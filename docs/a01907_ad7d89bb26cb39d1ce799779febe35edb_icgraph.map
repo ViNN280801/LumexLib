@@ -1,0 +1,11 @@
+<map id="lumex::applied::settings::ini::LumexSettingsINI::is_ini_valid" name="lumex::applied::settings::ini::LumexSettingsINI::is_ini_valid">
+<area shape="rect" id="Node000001" title="Performs a static check on an INI file for basic validity." alt="" coords="512,77,691,132"/>
+<area shape="rect" id="Node000002" href="$a01907.html#aa6aaa50b95d5d9c5a1f4ada8259ac040" title=" " alt="" coords="272,5,451,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="498,77,450,62,452,57,500,71"/>
+<area shape="rect" id="Node000003" href="$a01907.html#ad8582ddd78b5445e1a56534be5908038" title="Loads and parses an INI file from the given path." alt="" coords="259,85,464,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="498,107,464,107,464,102,498,102"/>
+<area shape="rect" id="Node000005" href="$a00320.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="334,149,389,175"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="499,132,389,158,388,153,498,127"/>
+<area shape="rect" id="Node000004" href="$a01907.html#aa305f824caad57d086476758c8625d40" title=" " alt="" coords="5,85,211,125"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="245,107,211,107,211,102,245,102"/>
+</map>

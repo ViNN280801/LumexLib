@@ -1,0 +1,17 @@
+<map id="XPathParseResult.cpp" name="XPathParseResult.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="166,5,327,31"/>
+<area shape="rect" id="Node000002" href="$a00611.html" title="xpath_parse_result_t, the outcome of compiling an XPath expression." alt="" coords="165,79,328,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,31,249,65,244,65,244,31"/>
+<area shape="rect" id="Node000003" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,159,187,185"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="224,106,133,155,131,150,222,102"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="211,159,282,185"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="249,104,249,145,244,145,244,104"/>
+<area shape="rect" id="Node000005" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="307,152,496,192"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="272,102,352,143,349,148,270,106"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="158,247,250,273"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="357,195,246,244,244,239,355,190"/>
+<area shape="rect" id="Node000007" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="274,240,529,280"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="404,192,404,226,399,226,399,192"/>
+<area shape="rect" id="Node000008" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="553,240,767,280"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="462,190,589,233,587,238,460,195"/>
+</map>

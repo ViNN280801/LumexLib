@@ -1,0 +1,21 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,179,60,204"/>
+<area shape="rect" id="Node000002" href="$a01759.html#ad00cb0a154e2546162cb226d3b494de5" title="Get the path to the logs directory." alt="" coords="123,56,306,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="42,176,70,149,107,121,118,115,121,119,109,126,74,153,46,180"/>
+<area shape="rect" id="Node000006" href="$a01759.html#aafb110cd6feeb2ab91305f27352b9118" title="Log an INFO&#45;level message." alt="" coords="121,135,308,175"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="60,183,107,174,108,179,61,188"/>
+<area shape="rect" id="Node000008" href="$a01759.html#a75864780c708757d7a260b1bb6d339d4" title="Set the name of the application." alt="" coords="124,200,305,255"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="61,194,111,204,110,209,60,199"/>
+<area shape="rect" id="Node000009" href="$a01759.html#af4fec23e76323ffee4eaf2aaf716eb15" title="Log a WARNING&#45;level message." alt="" coords="108,279,321,319"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="44,203,72,233,109,264,124,272,122,276,107,268,68,237,40,206"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a395ab3b27b542b7cb9092beed95f748d" title="Static convenience method to retrieve an environment variable." alt="" coords="369,63,591,103"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="306,81,355,81,355,86,306,86"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="639,5,840,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="582,61,624,52,625,58,583,66"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="643,108,835,163"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="580,101,631,111,630,116,579,106"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="689,108,689,98,698,89,715,83,739,81,768,84,785,92,783,97,767,90,739,87,716,89,701,93,694,100,694,108"/>
+<area shape="rect" id="Node000007" href="$a01570.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="408,207,552,247"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="289,173,395,202,394,207,288,178"/>
+<area shape="poly" id="edge10_Node000009_Node000007" title=" " alt="" coords="288,277,394,248,395,253,289,282"/>
+</map>

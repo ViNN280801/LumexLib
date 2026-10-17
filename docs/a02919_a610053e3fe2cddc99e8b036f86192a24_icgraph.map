@@ -1,0 +1,10 @@
+<map id="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::transform" name="lumex::core::expected::result::expected&lt; void, ErrorType &gt;::transform">
+<area shape="rect" id="Node000001" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (lvalue), and wraps the result in an expect..." alt="" coords="236,84,419,139"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="366,73,352,66,327,63,307,65,294,69,288,76,288,84,283,84,283,74,291,65,306,59,327,57,353,60,368,68"/>
+<area shape="rect" id="Node000002" href="$a02919.html#a51b86b270abf9aa1b1c28e95a0965189" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (rvalue), and wraps the result in an expect..." alt="" coords="5,5,188,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,82,176,63,178,58,235,77"/>
+<area shape="rect" id="Node000003" href="$a02919.html#a26c152d0e0b5cda92ca1fe710ee9dc83" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (const rvalue), and wraps the result in an ..." alt="" coords="5,84,188,139"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="222,114,188,114,188,109,222,109"/>
+<area shape="rect" id="Node000004" href="$a02919.html#a7dcaa5fd805d9c151042a6e291f2e0aa" title="Calls func if this expected&lt;void, ErrorType&gt; is a success (const lvalue), and wraps the result in an ..." alt="" coords="5,163,188,217"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="235,146,178,165,176,160,233,141"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="lumex::core::crc::catalog::compute_transport_checksum" name="lumex::core::crc::catalog::compute_transport_checksum">
+<area shape="rect" id="Node000001" title="8&#45;bit transport checksum for the current process&#45;global mode." alt="" coords="5,53,232,93"/>
+<area shape="rect" id="Node000002" href="$a02595.html#a27c94dc4eecb36bb648246014552efed" title=" " alt="" coords="280,5,503,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,53,266,48,267,54,233,59"/>
+<area shape="rect" id="Node000003" href="$a01513.html#aa5d24e5342341b52fdda8ca8addd3c05" title="Computes a CRC from explicit RevEng parameters (bit engine, width 1..64)." alt="" coords="300,84,483,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,86,287,94,286,99,232,91"/>
+<area shape="rect" id="Node000004" href="$a01516.html#ae2643b622470bf19e829bc827d4d62c6" title=" " alt="" coords="560,59,765,99"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="483,98,546,90,546,96,483,103"/>
+<area shape="rect" id="Node000005" href="$a01513.html#a387c6bf3f3bd9d744ec43a4e006e95b8" title="Validates parameters before computation (width 1..64)." alt="" coords="551,123,775,163"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="483,119,537,126,537,131,483,125"/>
+</map>

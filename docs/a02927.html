@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::result::success_t&lt; void &gt; Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02930.html',''); initResizable(true); });
+$(function(){initNavTree('a02927.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,365 @@ $(function(){initNavTree('a02930.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::runtime_format_string_t&lt; Char &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a02924.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::success_t&lt; void &gt; Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02930.html">lumex::core::fmt::runtime_format_string_t&lt; Char &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02930.html#a69b16976ed0c9ffb626672648446a1a3">text</a></td><td class="entry"><a class="el" href="a02930.html">lumex::core::fmt::runtime_format_string_t&lt; Char &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Marker returned by <a class="el" href="a01532.html#acf582366ba9e45e54dfb712995539ba3" title="Creates a marker for a successful call that carries no value.">success()</a>: a successful call with no value.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00905_source.html">SuccessFailure.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:aa1a72b491cb37bac7388e72a893c737e" id="r_aa1a72b491cb37bac7388e72a893c737e"><td class="memTemplParams" colspan="2">template&lt;typename Target, typename ErrorType, typename = typename std::enable_if&lt;                std::is_default_constructible&lt;Target&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:aa1a72b491cb37bac7388e72a893c737e"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa1a72b491cb37bac7388e72a893c737e">operator expected&lt; Target, ErrorType &gt;</a> () const</td></tr>
+<tr class="memdesc:aa1a72b491cb37bac7388e72a893c737e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion into a successful <code>expected&lt;Target, ErrorType&gt;</code>.  <br /></td></tr>
+<tr class="separator:aa1a72b491cb37bac7388e72a893c737e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39fe83ac417771772362eae86056564e" id="r_a39fe83ac417771772362eae86056564e"><td class="memTemplParams" colspan="2">template&lt;typename ErrorType&gt; </td></tr>
+<tr class="memitem:a39fe83ac417771772362eae86056564e"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a39fe83ac417771772362eae86056564e">operator expected&lt; void, ErrorType &gt;</a> () const</td></tr>
+<tr class="memdesc:a39fe83ac417771772362eae86056564e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion into a successful <code>expected&lt;void, ErrorType&gt;</code>.  <br /></td></tr>
+<tr class="separator:a39fe83ac417771772362eae86056564e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add7c90048f67864901346d8d3b556789" id="r_add7c90048f67864901346d8d3b556789"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02923.html#add7c90048f67864901346d8d3b556789">success_t</a> (void const &amp;<a class="el" href="a02923.html#a43328dedc196cf16e74382833084a476">value</a>)</td></tr>
+<tr class="memdesc:add7c90048f67864901346d8d3b556789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs from a const lvalue value.  <br /></td></tr>
+<tr class="separator:add7c90048f67864901346d8d3b556789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75c4f2ec6cfb79468983bb7f8e944636" id="r_a75c4f2ec6cfb79468983bb7f8e944636"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02923.html#a75c4f2ec6cfb79468983bb7f8e944636">success_t</a> (void &amp;&amp;<a class="el" href="a02923.html#a43328dedc196cf16e74382833084a476">value</a>)</td></tr>
+<tr class="memdesc:a75c4f2ec6cfb79468983bb7f8e944636"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs from an rvalue value.  <br /></td></tr>
+<tr class="separator:a75c4f2ec6cfb79468983bb7f8e944636"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43328dedc196cf16e74382833084a476" id="r_a43328dedc196cf16e74382833084a476"><td class="memItemLeft" align="right" valign="top">void &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02923.html#a43328dedc196cf16e74382833084a476">value</a> () &amp;</td></tr>
+<tr class="memdesc:a43328dedc196cf16e74382833084a476"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stored value (mutable lvalue).  <br /></td></tr>
+<tr class="separator:a43328dedc196cf16e74382833084a476"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad95c524f55411c5add9ee254a424f432" id="r_ad95c524f55411c5add9ee254a424f432"><td class="memItemLeft" align="right" valign="top">void const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02923.html#ad95c524f55411c5add9ee254a424f432">value</a> () const &amp;</td></tr>
+<tr class="memdesc:ad95c524f55411c5add9ee254a424f432"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stored value (const lvalue).  <br /></td></tr>
+<tr class="separator:ad95c524f55411c5add9ee254a424f432"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6826bea70c81bfa99bfe677b68d51d9" id="r_ac6826bea70c81bfa99bfe677b68d51d9"><td class="memItemLeft" align="right" valign="top">void &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02923.html#ac6826bea70c81bfa99bfe677b68d51d9">value</a> () &amp;&amp;</td></tr>
+<tr class="memdesc:ac6826bea70c81bfa99bfe677b68d51d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stored value (rvalue).  <br /></td></tr>
+<tr class="separator:ac6826bea70c81bfa99bfe677b68d51d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b0e89dc1f9cefb54be7917d05af855d" id="r_a7b0e89dc1f9cefb54be7917d05af855d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02923.html#a7b0e89dc1f9cefb54be7917d05af855d">operator expected&lt; Target, ErrorType &gt;</a> () &amp;&amp;</td></tr>
+<tr class="memdesc:a7b0e89dc1f9cefb54be7917d05af855d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion into a successful <code>expected</code> (rvalue marker).  <br /></td></tr>
+<tr class="separator:a7b0e89dc1f9cefb54be7917d05af855d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d04fef75ebff6c6cbdfcb023d6a0801" id="r_a3d04fef75ebff6c6cbdfcb023d6a0801"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02923.html#a3d04fef75ebff6c6cbdfcb023d6a0801">operator expected&lt; Target, ErrorType &gt;</a> () const &amp;</td></tr>
+<tr class="memdesc:a3d04fef75ebff6c6cbdfcb023d6a0801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion into a successful <code>expected</code> (const lvalue marker).  <br /></td></tr>
+<tr class="separator:a3d04fef75ebff6c6cbdfcb023d6a0801"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Marker returned by <a class="el" href="a01532.html#acf582366ba9e45e54dfb712995539ba3" title="Creates a marker for a successful call that carries no value.">success()</a>: a successful call with no value. </p>
+<p>Converts into <code>expected&lt;void, ErrorType&gt;</code> (success without a value) or into <code>expected&lt;Target, ErrorType&gt;</code> when <code>Target</code> is default-constructible; the <code>void</code> success type is what keeps the two conversions from competing. </p><dl class="section note"><dt>Note</dt><dd>Stateless: it carries no data. </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="add7c90048f67864901346d8d3b556789" name="add7c90048f67864901346d8d3b556789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add7c90048f67864901346d8d3b556789">&#9670;&#160;</a></span>success_t() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::success_t </td>
+          <td>(</td>
+          <td class="paramtype">void const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs from a const lvalue value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Value to store. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Not declared <code>noexcept</code>; throws whatever the copy constructor of <code>ValueType</code> throws. </dd></dl>
+
+</div>
+</div>
+<a id="a75c4f2ec6cfb79468983bb7f8e944636" name="a75c4f2ec6cfb79468983bb7f8e944636"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75c4f2ec6cfb79468983bb7f8e944636">&#9670;&#160;</a></span>success_t() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::success_t </td>
+          <td>(</td>
+          <td class="paramtype">void &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs from an rvalue value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Value to store. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Not declared <code>noexcept</code>; throws whatever the move constructor of <code>ValueType</code> throws. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7b0e89dc1f9cefb54be7917d05af855d" name="a7b0e89dc1f9cefb54be7917d05af855d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b0e89dc1f9cefb54be7917d05af855d">&#9670;&#160;</a></span>operator expected&lt; Target, ErrorType &gt;() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::operator <a class="el" href="a02699.html">expected</a>&lt; Target, ErrorType &gt; </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> &amp;&amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion into a successful <code>expected</code> (rvalue marker). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Target</td><td>Success type of the produced <code>expected</code>. </td></tr>
+    <tr><td class="paramname">ErrorType</td><td>Error type of the produced <code>expected</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>expected&lt;Target, ErrorType&gt;</code> holding the stored value. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Removed by SFINAE when <code>Target</code> cannot be built from <code>ValueType &amp;&amp;</code>; use the const overload for a named marker. </dd></dl>
+
+</div>
+</div>
+<a id="aa1a72b491cb37bac7388e72a893c737e" name="aa1a72b491cb37bac7388e72a893c737e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1a72b491cb37bac7388e72a893c737e">&#9670;&#160;</a></span>operator expected&lt; Target, ErrorType &gt;() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Target, typename ErrorType, typename = typename std::enable_if&lt;                std::is_default_constructible&lt;Target&gt;::value&gt;::type&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::operator <a class="el" href="a02699.html">expected</a>&lt; Target, ErrorType &gt; </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion into a successful <code>expected&lt;Target, ErrorType&gt;</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Target</td><td>Success type; must be default-constructible. </td></tr>
+    <tr><td class="paramname">ErrorType</td><td>Error type of the produced <code>expected</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>expected&lt;Target, ErrorType&gt;</code> in the success state, holding a default-constructed value. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Removed by SFINAE when <code>Target</code> is not default-constructible (<code>void</code> included), which sends <code>expected&lt;void, E&gt;</code> to the overload below. </dd></dl>
+
+</div>
+</div>
+<a id="a3d04fef75ebff6c6cbdfcb023d6a0801" name="a3d04fef75ebff6c6cbdfcb023d6a0801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d04fef75ebff6c6cbdfcb023d6a0801">&#9670;&#160;</a></span>operator expected&lt; Target, ErrorType &gt;() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::operator <a class="el" href="a02699.html">expected</a>&lt; Target, ErrorType &gt; </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const &amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion into a successful <code>expected</code> (const lvalue marker). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Target</td><td>Success type of the produced <code>expected</code>. </td></tr>
+    <tr><td class="paramname">ErrorType</td><td>Error type of the produced <code>expected</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>expected&lt;Target, ErrorType&gt;</code> holding a copy of the stored value. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Removed by SFINAE when <code>Target</code> cannot be built from <code>ValueType const &amp;</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a39fe83ac417771772362eae86056564e" name="a39fe83ac417771772362eae86056564e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39fe83ac417771772362eae86056564e">&#9670;&#160;</a></span>operator expected&lt; void, ErrorType &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::operator <a class="el" href="a02699.html">expected</a>&lt; void, ErrorType &gt; </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion into a successful <code>expected&lt;void, ErrorType&gt;</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Error type of the produced <code>expected</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>expected&lt;void, ErrorType&gt;</code> in the success state. </dd></dl>
+
+</div>
+</div>
+<a id="a43328dedc196cf16e74382833084a476" name="a43328dedc196cf16e74382833084a476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43328dedc196cf16e74382833084a476">&#9670;&#160;</a></span>value() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void &amp; <a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::value </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> &amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the stored value (mutable lvalue). </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the stored <code>ValueType</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function does not throw. </dd></dl>
+
+</div>
+</div>
+<a id="ac6826bea70c81bfa99bfe677b68d51d9" name="ac6826bea70c81bfa99bfe677b68d51d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6826bea70c81bfa99bfe677b68d51d9">&#9670;&#160;</a></span>value() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void &amp;&amp; <a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::value </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> &amp;&amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the stored value (rvalue). </p>
+<dl class="section return"><dt>Returns</dt><dd>Rvalue reference to the stored <code>ValueType</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function does not throw. </dd></dl>
+
+</div>
+</div>
+<a id="ad95c524f55411c5add9ee254a424f432" name="ad95c524f55411c5add9ee254a424f432"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad95c524f55411c5add9ee254a424f432">&#9670;&#160;</a></span>value() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void const &amp; <a class="el" href="a02923.html">lumex::core::expected::result::success_t</a>&lt; void &gt;::value </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const &amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the stored value (const lvalue). </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reference to the stored <code>ValueType</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function does not throw. </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00905_source.html">SuccessFailure.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01532.html">result</a></li><li class="navelem"><a class="el" href="a02927.html">success_t&lt; void &gt;</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

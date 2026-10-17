@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlTypes.hpp File Reference</title>
+<title>LumexLib: LumexFormatChrono.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,325 +106,262 @@ $(function(){initNavTree('a01016.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
-  <div class="headertitle"><div class="title">XmlTypes.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">LumexFormatChrono.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>The basic types and enumerations of the XML module: character and string types, node types, encodings, parse statuses, and the internal enumerations of the parser and the XPath engine.  
+<p><code>std::chrono::duration</code> and <code>system_clock</code> time points for LumexFormat, with the chrono specification of C++20 <code>std::format</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;ctime&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;locale&gt;</code><br />
+<code>#include &lt;ratio&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00548_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01019_source.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01013_source.html">lumex/core/fmt/LumexFormat.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlTypes.hpp:</div>
+Include dependency graph for LumexFormatChrono.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01017.png" border="0" usemap="#a_xml_types_8hpp" alt=""/></div>
+<div class="center"><img src="a01017.png" border="0" usemap="#aLumexFormatChrono_8hpp" alt=""/></div>
+<map name="aLumexFormatChrono_8hpp" id="aLumexFormatChrono_8hpp">
+<area shape="rect" title="std::chrono::duration and system_clock time points for LumexFormat, with the chrono specification of ..." alt="" coords="2149,5,2336,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,72,104"/>
+<area shape="poly" title=" " alt="" coords="2149,22,1052,44,445,61,222,71,91,81,86,82,85,77,90,76,222,66,444,56,1052,38,2149,17"/>
+<area shape="rect" title=" " alt="" coords="198,159,261,185"/>
+<area shape="poly" title=" " alt="" coords="2149,23,1765,36,1223,62,942,79,678,101,451,126,281,155,271,157,269,152,279,149,450,120,677,95,941,74,1223,56,1765,31,2149,18"/>
+<area shape="rect" title=" " alt="" coords="2042,247,2113,273"/>
+<area shape="poly" title=" " alt="" coords="2311,28,2351,46,2369,60,2384,77,2400,108,2406,136,2401,165,2383,194,2366,208,2340,220,2272,239,2195,251,2127,259,2126,254,2195,246,2271,234,2338,215,2363,203,2379,190,2396,163,2401,136,2395,110,2379,80,2365,64,2348,51,2309,33"/>
+<area shape="rect" title=" " alt="" coords="2501,79,2560,104"/>
+<area shape="poly" title=" " alt="" coords="2294,28,2483,76,2488,77,2487,83,2482,81,2293,33"/>
+<area shape="rect" title=" " alt="" coords="1947,247,2018,273"/>
+<area shape="poly" title=" " alt="" coords="2261,29,2296,60,2332,102,2345,125,2352,149,2351,172,2339,194,2315,211,2280,222,2192,231,2099,234,2060,237,2030,243,2023,245,2022,240,2029,237,2060,232,2099,229,2191,226,2279,216,2313,206,2335,190,2346,170,2347,149,2340,127,2327,105,2292,63,2258,33"/>
+<area shape="rect" title=" " alt="" coords="2165,159,2227,185"/>
+<area shape="poly" title=" " alt="" coords="2241,32,2206,147,2201,145,2236,30"/>
+<area shape="rect" title=" " alt="" coords="2585,79,2637,104"/>
+<area shape="poly" title=" " alt="" coords="2330,28,2441,48,2572,76,2571,82,2440,53,2329,33"/>
+<area shape="rect" title=" " alt="" coords="2251,159,2325,185"/>
+<area shape="poly" title=" " alt="" coords="2249,30,2283,145,2278,147,2244,32"/>
+<area shape="rect" title=" " alt="" coords="571,247,629,273"/>
+<area shape="poly" title=" " alt="" coords="2149,23,1395,44,961,61,643,81,570,84,503,79,387,67,335,68,285,80,261,91,237,107,188,154,179,172,187,190,205,200,240,210,342,228,557,253,556,259,341,234,239,215,203,205,183,194,174,172,183,150,233,103,258,86,283,75,334,63,387,62,504,74,570,79,643,76,961,55,1395,38,2149,17"/>
+<area shape="rect" title=" " alt="" coords="575,423,667,449"/>
+<area shape="poly" title=" " alt="" coords="2149,22,1081,41,516,59,325,70,233,81,186,96,148,111,133,120,122,133,115,150,112,172,112,260,115,276,125,292,141,307,162,321,218,347,286,370,435,405,562,426,561,431,434,410,284,375,216,352,160,326,138,311,121,295,110,278,107,260,107,172,109,149,117,130,129,116,145,106,185,91,231,76,325,64,516,54,1081,36,2149,17"/>
+<area shape="rect" href="a01013.html" title="std::format&#45;style text formatting from C++11 on." alt="" coords="1322,79,1566,104"/>
+<area shape="poly" title=" " alt="" coords="2149,29,1580,82,1579,76,2149,24"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1687,416,1900,456"/>
+<area shape="poly" title=" " alt="" coords="2306,28,2358,47,2385,60,2408,77,2433,97,2452,117,2463,140,2467,172,2467,260,2462,281,2450,301,2431,318,2406,334,2342,362,2262,384,2173,401,2082,415,1914,432,1914,426,2081,410,2172,396,2261,379,2340,357,2404,329,2428,314,2446,297,2457,279,2461,260,2461,172,2458,142,2447,120,2430,101,2405,81,2382,65,2356,52,2304,33"/>
+<area shape="poly" title=" " alt="" coords="1322,95,1078,100,778,110,489,128,371,140,281,155,270,157,269,152,279,149,370,135,489,123,778,105,1078,95,1322,90"/>
+<area shape="poly" title=" " alt="" coords="1566,95,1843,116,1962,131,2004,140,2028,150,2046,168,2060,189,2075,233,2070,235,2055,192,2042,171,2025,154,2002,145,1961,136,1842,121,1566,100"/>
+<area shape="poly" title=" " alt="" coords="1566,93,1696,101,1832,112,1944,128,1982,138,2003,150,2014,170,2014,193,2008,216,2000,236,1995,234,2003,214,2009,193,2008,172,1999,154,1980,143,1943,134,1831,118,1695,106,1566,99"/>
+<area shape="poly" title=" " alt="" coords="1566,95,1881,116,2035,131,2147,149,2157,152,2155,157,2146,155,2035,137,1880,121,1566,100"/>
+<area shape="poly" title=" " alt="" coords="1566,93,1927,113,2108,129,2239,149,2249,152,2247,157,2238,155,2108,135,1927,119,1566,99"/>
+<area shape="poly" title=" " alt="" coords="1322,98,869,119,667,136,602,145,574,154,565,172,566,193,574,215,585,235,580,237,569,217,561,194,560,171,570,150,601,140,667,130,868,114,1321,93"/>
+<area shape="poly" title=" " alt="" coords="1322,96,1051,103,729,114,455,131,365,142,339,148,326,154,312,173,304,192,304,212,309,231,319,250,334,269,374,306,425,340,479,370,577,416,575,421,476,375,422,345,371,310,330,273,315,253,304,233,298,212,299,191,307,171,322,150,337,143,365,137,454,126,729,109,1051,97,1322,91"/>
+<area shape="rect" title=" " alt="" coords="969,159,1036,185"/>
+<area shape="poly" title=" " alt="" coords="1322,104,1189,123,1118,137,1049,155,1042,157,1040,152,1047,149,1117,132,1188,118,1321,99"/>
+<area shape="rect" title=" " alt="" coords="1061,159,1129,185"/>
+<area shape="poly" title=" " alt="" coords="1366,107,1262,127,1149,155,1139,157,1138,152,1147,149,1261,121,1365,101"/>
+<area shape="rect" title=" " alt="" coords="1532,159,1599,185"/>
+<area shape="poly" title=" " alt="" coords="1465,102,1536,149,1533,154,1462,107"/>
+<area shape="rect" title=" " alt="" coords="1623,159,1684,185"/>
+<area shape="poly" title=" " alt="" coords="1483,102,1612,150,1616,151,1614,156,1610,154,1481,107"/>
+<area shape="rect" title=" " alt="" coords="1709,159,1774,185"/>
+<area shape="poly" title=" " alt="" coords="1512,101,1601,122,1697,149,1703,152,1701,157,1695,155,1599,127,1511,107"/>
+<area shape="rect" title=" " alt="" coords="1798,159,1885,185"/>
+<area shape="poly" title=" " alt="" coords="1541,101,1659,121,1786,149,1796,152,1795,157,1785,155,1658,126,1540,107"/>
+<area shape="rect" title=" " alt="" coords="1909,159,1989,185"/>
+<area shape="poly" title=" " alt="" coords="1567,98,1725,116,1812,131,1897,149,1907,152,1905,157,1895,155,1811,136,1724,122,1566,103"/>
+<area shape="rect" title=" " alt="" coords="1864,247,1923,273"/>
+<area shape="poly" title=" " alt="" coords="1452,103,1478,147,1497,171,1521,190,1565,211,1605,223,1641,227,1677,227,1753,224,1796,227,1846,237,1854,240,1852,245,1845,243,1796,232,1753,229,1677,232,1641,232,1604,228,1563,216,1519,194,1494,174,1473,150,1447,105"/>
+<area shape="rect" title=" " alt="" coords="911,247,987,273"/>
+<area shape="poly" title=" " alt="" coords="1322,101,1098,122,1006,137,976,145,959,154,948,171,943,192,946,234,940,234,938,192,943,169,956,150,974,140,1005,131,1097,116,1321,96"/>
+<area shape="rect" title=" " alt="" coords="337,159,423,185"/>
+<area shape="poly" title=" " alt="" coords="1322,97,854,115,611,132,511,142,435,155,424,158,422,152,434,149,511,137,611,127,854,110,1322,92"/>
+<area shape="rect" title=" " alt="" coords="706,247,766,273"/>
+<area shape="poly" title=" " alt="" coords="1352,107,1273,125,1193,154,1178,164,1168,174,1157,185,1141,194,1088,213,1042,222,1000,225,961,225,879,224,832,230,778,243,772,244,771,239,777,237,831,224,878,219,961,219,1000,220,1042,217,1087,207,1139,190,1154,181,1164,171,1175,160,1191,150,1271,120,1351,101"/>
+<area shape="rect" title=" " alt="" coords="447,159,510,185"/>
+<area shape="poly" title=" " alt="" coords="1322,97,901,116,686,133,597,143,530,155,520,157,519,152,529,149,597,138,685,127,901,111,1322,92"/>
+<area shape="rect" title=" " alt="" coords="790,247,887,273"/>
+<area shape="poly" title=" " alt="" coords="1322,99,1217,106,1105,117,1006,133,967,143,937,154,911,172,889,193,855,237,851,234,885,190,908,167,935,150,965,138,1005,127,1105,111,1216,100,1322,93"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1113,328,1303,368"/>
+<area shape="poly" title=" " alt="" coords="1446,105,1443,140,1433,187,1415,237,1401,261,1383,282,1350,307,1312,326,1309,321,1347,303,1379,278,1396,258,1410,235,1428,185,1438,139,1441,104"/>
+<area shape="poly" title=" " alt="" coords="1566,95,1861,117,1990,132,2036,141,2063,150,2088,167,2105,186,2116,209,2127,239,2131,276,2122,308,2102,336,2073,359,2037,379,1997,395,1915,419,1913,414,1996,390,2035,374,2070,355,2098,332,2117,306,2126,275,2121,241,2111,211,2101,189,2085,171,2060,154,2034,146,1990,137,1861,122,1566,101"/>
+<area shape="rect" href="a01121.html" title="Macros that declare an exception class in one line." alt="" coords="585,152,845,192"/>
+<area shape="poly" title=" " alt="" coords="1322,106,863,155,859,155,858,150,862,149,1322,100"/>
+<area shape="rect" href="a01067.html" title="Every general&#45;purpose type trait of LumexLib, one sub&#45;namespace of lumex::core::utility::traits per t..." alt="" coords="1205,152,1406,192"/>
+<area shape="poly" title=" " alt="" coords="1423,107,1353,147,1351,143,1420,102"/>
+<area shape="poly" title=" " alt="" coords="1113,365,682,430,681,424,1113,360"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1014,416,1269,456"/>
+<area shape="poly" title=" " alt="" coords="1195,370,1167,407,1163,403,1190,367"/>
+<area shape="poly" title=" " alt="" coords="1303,363,1315,365,1674,418,1673,423,1314,371,1302,369"/>
+<area shape="poly" title=" " alt="" coords="690,195,629,241,626,237,686,190"/>
+<area shape="poly" title=" " alt="" coords="722,192,732,233,727,235,717,193"/>
+<area shape="poly" title=" " alt="" coords="1406,179,2030,237,2039,240,2037,245,2029,243,1406,184"/>
+<area shape="poly" title=" " alt="" coords="1407,179,1714,209,1855,225,1935,237,1943,240,1942,245,1934,243,1854,230,1713,214,1406,184"/>
+<area shape="poly" title=" " alt="" coords="1205,187,1140,195,916,215,819,225,694,243,643,252,642,247,693,237,818,220,916,210,1140,189,1204,182"/>
+<area shape="poly" title=" " alt="" coords="1227,195,1155,216,1080,242,1040,262,1000,282,816,361,668,421,666,416,814,356,998,278,1037,257,1078,238,1153,211,1226,189"/>
+<area shape="poly" title=" " alt="" coords="1407,181,1675,214,1846,237,1854,240,1853,245,1845,243,1674,219,1406,187"/>
+<area shape="poly" title=" " alt="" coords="1205,195,1109,216,1007,243,997,246,996,240,1006,237,1108,211,1204,189"/>
+<area shape="poly" title=" " alt="" coords="1205,192,1186,195,1070,206,979,209,890,217,838,227,778,243,772,244,771,239,777,237,837,222,889,212,979,204,1070,200,1185,189,1204,187"/>
+<area shape="poly" title=" " alt="" coords="1205,191,899,243,887,246,886,241,898,237,1204,186"/>
+<area shape="poly" title=" " alt="" coords="1212,195,1145,216,1119,228,1103,242,1088,272,1086,301,1093,331,1104,367,1121,404,1116,406,1099,369,1088,332,1081,301,1083,271,1099,238,1116,224,1143,211,1211,189"/>
+<area shape="poly" title=" " alt="" coords="1407,182,1634,213,1728,227,1774,238,1803,255,1824,273,1839,296,1852,327,1857,348,1852,369,1841,390,1828,408,1823,404,1837,387,1847,367,1851,348,1847,329,1834,299,1820,277,1800,260,1772,242,1727,233,1633,218,1406,188"/>
+<area shape="rect" title=" " alt="" coords="1651,247,1738,273"/>
+<area shape="poly" title=" " alt="" coords="1407,186,1519,208,1639,237,1649,240,1648,245,1638,243,1518,213,1406,191"/>
+<area shape="rect" title=" " alt="" coords="1113,247,1191,273"/>
+<area shape="poly" title=" " alt="" coords="1271,195,1187,243,1185,238,1269,190"/>
+<area shape="rect" title=" " alt="" coords="1215,247,1270,273"/>
+<area shape="poly" title=" " alt="" coords="1293,194,1262,238,1258,235,1289,191"/>
+<area shape="rect" title=" " alt="" coords="1295,247,1369,273"/>
+<area shape="poly" title=" " alt="" coords="1314,192,1327,233,1322,235,1309,193"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1445,240,1627,280"/>
+<area shape="poly" title=" " alt="" coords="1359,190,1472,233,1470,238,1357,195"/>
+<area shape="rect" href="a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="1583,328,1838,368"/>
+<area shape="poly" title=" " alt="" coords="1406,181,1622,210,1710,225,1751,238,1760,258,1759,279,1751,300,1739,319,1734,316,1746,297,1754,277,1755,259,1748,242,1708,231,1621,216,1406,187"/>
+<area shape="poly" title=" " alt="" coords="1462,283,1297,327,1296,322,1460,278"/>
+<area shape="poly" title=" " alt="" coords="1540,280,1548,324,1558,346,1573,366,1590,378,1617,390,1684,410,1683,415,1615,395,1588,383,1569,370,1553,349,1543,325,1534,281"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1327,335,1508,361"/>
+<area shape="poly" title=" " alt="" coords="1510,283,1447,329,1444,325,1507,278"/>
+<area shape="poly" title=" " alt="" coords="1732,367,1767,404,1763,408,1728,370"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01018.png" border="0" usemap="#a_xml_types_8hppdep" alt=""/></div>
+<div class="center"><img src="a01018.png" border="0" usemap="#aLumexFormatChrono_8hppdep" alt=""/></div>
+<map name="aLumexFormatChrono_8hppdep" id="aLumexFormatChrono_8hppdep">
+<area shape="rect" title="std::chrono::duration and system_clock time points for LumexFormat, with the chrono specification of ..." alt="" coords="523,5,709,31"/>
+<area shape="rect" href="a01379.html" title="Format module: std::format&#45;style text formatting from C++11 on, including ranges, tuples and std::chr..." alt="" coords="560,79,672,104"/>
+<area shape="poly" title=" " alt="" coords="619,44,619,78,613,78,613,44"/>
+<area shape="rect" href="a00473.html" title=" " alt="" coords="5,152,163,177"/>
+<area shape="poly" title=" " alt="" coords="547,103,175,155,163,156,163,151,174,149,546,98"/>
+<area shape="rect" href="a00464.html" title=" " alt="" coords="187,152,371,177"/>
+<area shape="poly" title=" " alt="" coords="547,109,338,155,337,149,546,104"/>
+<area shape="rect" href="a00461.html" title=" " alt="" coords="395,152,603,177"/>
+<area shape="poly" title=" " alt="" coords="586,113,521,154,518,150,583,109"/>
+<area shape="rect" href="a00470.html" title=" " alt="" coords="627,152,839,177"/>
+<area shape="poly" title=" " alt="" coords="649,109,714,150,711,154,646,113"/>
+<area shape="rect" href="a00476.html" title=" " alt="" coords="864,152,1072,177"/>
+<area shape="poly" title=" " alt="" coords="686,103,907,149,906,155,685,108"/>
+<area shape="rect" href="a00467.html" title=" " alt="" coords="1097,152,1319,177"/>
+<area shape="poly" title=" " alt="" coords="686,97,1106,149,1105,155,685,103"/>
+</map>
 </div>
 </div>
 <p><a href="a01016_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05018.html">lumex::xml::types::Types::xml_mem_str_header_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03143.html">lumex::core::fmt::Detail::civil_time_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Broken-down calendar date and time of day.  <a href="a03143.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05022.html">lumex::xml::types::Types::xml_extra_buffer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03147.html">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses <code>[[fill]align][width][.precision][L][chrono-specs]</code> and pads the chrono text; base of the duration and time point formatters.  <a href="a03147.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03155.html">lumex::core::fmt::formatter&lt; std::chrono::time_point&lt; std::chrono::system_clock, Duration &gt;, Char, typename std::enable_if&lt;!std::chrono::treat_as_floating_point&lt; typename Duration::rep &gt;::value &gt;::type &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>std::chrono::system_clock</code> time points (UTC): <code>F T</code> by default, the date only for whole-day time points.  <a href="a03155.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01507.html">lumex::xml::types</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01540.html">lumex::core::fmt</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html">lumex::xml::types::Types</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html">lumex::core::fmt::Detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:af5c331138f914028e4642100ea3e7a24" id="r_af5c331138f914028e4642100ea3e7a24"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">lumex::xml::types::Types::char_t</a> = char</td></tr>
-<tr class="separator:af5c331138f914028e4642100ea3e7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a684035fd005e18d771065d359ceca62f" id="r_a684035fd005e18d771065d359ceca62f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a684035fd005e18d771065d359ceca62f">lumex::xml::types::Types::string_t</a> = std::basic_string&lt;<a class="el" href="a01508.html#af5c331138f914028e4642100ea3e7a24">char_t</a>&gt;</td></tr>
-<tr class="separator:a684035fd005e18d771065d359ceca62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58bde010f6e0971e98340b8e9c0573f5" id="r_a58bde010f6e0971e98340b8e9c0573f5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a58bde010f6e0971e98340b8e9c0573f5">lumex::xml::types::Types::string_view_t</a> = <a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td></tr>
-<tr class="separator:a58bde010f6e0971e98340b8e9c0573f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a54c963b7a6def6381146ead18a8753ce" id="r_a54c963b7a6def6381146ead18a8753ce"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753ce">lumex::xml::types::Types::chartype_t</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753cea943e484a4fff51f6828552fa2988ba15">lumex::xml::types::Types::ct_parse_pcdata</a> = 1
-, <a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753ceaa17fb9280b5009c73612ab8771da1ed7">lumex::xml::types::Types::ct_parse_attr</a> = 2
-, <a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753cea7c162e835ff76b5249b89de06ae0a6de">lumex::xml::types::Types::ct_parse_attr_ws</a> = 4
-, <a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753ceaa8a30852435d8ed13d61d235b6b30f8a">lumex::xml::types::Types::ct_space</a> = 8
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753cea618adf38cf7574c6b8d0e64327fd61f6">lumex::xml::types::Types::ct_parse_cdata</a> = 16
-, <a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753ceaed2d435e056ddd199189b210871c0ab8">lumex::xml::types::Types::ct_parse_comment</a> = 32
-, <a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753cea2d8131324979e890e535bb588c7a23ed">lumex::xml::types::Types::ct_symbol</a> = 64
-, <a class="el" href="a01508.html#a54c963b7a6def6381146ead18a8753ceaa48567013132b50ffa4e7178a2afbffa">lumex::xml::types::Types::ct_start_symbol</a> = 128
-<br />
- }</td></tr>
-<tr class="separator:a54c963b7a6def6381146ead18a8753ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a355198379230c3f88efbc231a9f617b3" id="r_a355198379230c3f88efbc231a9f617b3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3">lumex::xml::types::Types::chartypex_t</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3a8a75caa374f154ba53d1590a2f40897d">lumex::xml::types::Types::ctx_special_pcdata</a> = 1
-, <a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3a447c505d0e04e68175d5854827220ecd">lumex::xml::types::Types::ctx_special_attr</a> = 2
-, <a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3a07c4736a89a49102c568fb7d7fb35910">lumex::xml::types::Types::ctx_start_symbol</a> = 4
-, <a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3a0579bb0f657e39ea0f7c7718573a6793">lumex::xml::types::Types::ctx_digit</a> = 8
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a355198379230c3f88efbc231a9f617b3aaa3f507f576fc63c89fd457cf8fc5357">lumex::xml::types::Types::ctx_symbol</a> = 16
-<br />
- }</td></tr>
-<tr class="separator:a355198379230c3f88efbc231a9f617b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ea2ab672e10bb614a49da9b5a7f0801" id="r_a2ea2ab672e10bb614a49da9b5a7f0801"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801">lumex::xml::types::Types::xml_node_type</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801ae5ba2eaf8292639da1b195f2148de6e7">lumex::xml::types::Types::node_null</a>
-, <a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801a296b8402337abf2489633516f4983dc5">lumex::xml::types::Types::node_document</a>
-, <a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801a9e883faaae0f94d812dd30609847f292">lumex::xml::types::Types::node_element</a>
-, <a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801a33e4824ca5e65b09e091889a41fdbd4b">lumex::xml::types::Types::node_pcdata</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801a97cc331e08bf1417ce9679a10b94d682">lumex::xml::types::Types::node_cdata</a>
-, <a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801a99f109060a92e7a18815d2057b502349">lumex::xml::types::Types::node_comment</a>
-, <a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801aa7cda3657ada0759a50adc332e9a1987">lumex::xml::types::Types::node_pi</a>
-, <a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801a5dbfa1850471edd2a0eef3e444653d17">lumex::xml::types::Types::node_declaration</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a2ea2ab672e10bb614a49da9b5a7f0801a898917f0c9df9e775d6a2f2fff7a370a">lumex::xml::types::Types::node_doctype</a>
-<br />
- }</td></tr>
-<tr class="separator:a2ea2ab672e10bb614a49da9b5a7f0801"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1767ae022d3845084f92ab0bc3776a0" id="r_af1767ae022d3845084f92ab0bc3776a0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0">lumex::xml::types::Types::xml_encoding</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0a86500d85e2a14a91063a2f19f14cbf80">lumex::xml::types::Types::encoding_auto</a>
-, <a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0a8f73d135c1732dad295e22b2cea1dbd3">lumex::xml::types::Types::encoding_utf8</a>
-, <a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0af24da3643b8c78b51189e17232a70705">lumex::xml::types::Types::encoding_utf16_le</a>
-, <a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0acb87e5684a8538e60dd2ecda74ef39e2">lumex::xml::types::Types::encoding_utf16_be</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0a292bb1b16cf3a35525d2ecedadc66dcd">lumex::xml::types::Types::encoding_utf16</a>
-, <a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0a2ac806579d476e3e77a3e36d2190cc22">lumex::xml::types::Types::encoding_utf32_le</a>
-, <a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0a4aa858911de924e5322ecce152be848d">lumex::xml::types::Types::encoding_utf32_be</a>
-, <a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0a76b87fb972f0a5dd51404cd696943884">lumex::xml::types::Types::encoding_utf32</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0a3f71c11b5b44d38b2b604ea78ec0dfaf">lumex::xml::types::Types::encoding_wchar</a>
-, <a class="el" href="a01508.html#af1767ae022d3845084f92ab0bc3776a0a13b7c482cfc74974efbfaa40a0ee1868">lumex::xml::types::Types::encoding_latin1</a>
-<br />
- }</td></tr>
-<tr class="separator:af1767ae022d3845084f92ab0bc3776a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8264dfa29bbe6720c402fec104db5408" id="r_a8264dfa29bbe6720c402fec104db5408"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408">lumex::xml::types::Types::xml_parse_status</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408ac4fcd417ecf068859fa8b014426395df">lumex::xml::types::Types::status_ok</a> = 0
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a6a26ac1da139d2635e0be60299ed799a">lumex::xml::types::Types::status_file_not_found</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a1679107e5b77ebb94832de0aa61a8f16">lumex::xml::types::Types::status_io_error</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a0c6cb3e6dd417f8025f10581454d2a5c">lumex::xml::types::Types::status_out_of_memory</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408aab5ea18d65dbd0457afaa3c0caae1525">lumex::xml::types::Types::status_internal_error</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408abbd4e2c3ce4ec8e107e52dfe2134fae1">lumex::xml::types::Types::status_unrecognized_tag</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a5534b6d926433e86cfa4b63e52ccca45">lumex::xml::types::Types::status_bad_pi</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408aa5bda180b15223dbc38411cb819c9e44">lumex::xml::types::Types::status_bad_comment</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408adac4b8a233e5cf51cc44e57366811505">lumex::xml::types::Types::status_bad_cdata</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408ab05ea0d55515e5053fc7e974350ccbd9">lumex::xml::types::Types::status_bad_doctype</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408aa281cfa1c4a5b42d20042d5f04e805a2">lumex::xml::types::Types::status_bad_pcdata</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a34fe3aa2b1a4f4f63ab7e0c83cb1b08c">lumex::xml::types::Types::status_bad_start_element</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a42613777fc875966a0677eafc33988c8">lumex::xml::types::Types::status_bad_attribute</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a1190b896bdfafb3ccc54344983fc1fbc">lumex::xml::types::Types::status_bad_end_element</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a04f8d19a5f7b818dbb2f760eaea0e3cc">lumex::xml::types::Types::status_end_element_mismatch</a>
-, <a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a000f2b16b2a4488f19b3d95f585e53e3">lumex::xml::types::Types::status_append_invalid_root</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a8264dfa29bbe6720c402fec104db5408a3acda84f5df851a4cea50a5a3d2614cd">lumex::xml::types::Types::status_no_document_element</a>
-<br />
- }</td></tr>
-<tr class="separator:a8264dfa29bbe6720c402fec104db5408"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab45611a4d899512e32aa65eb48a191a5" id="r_ab45611a4d899512e32aa65eb48a191a5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#ab45611a4d899512e32aa65eb48a191a5">lumex::xml::types::Types::xpath_value_type</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#ab45611a4d899512e32aa65eb48a191a5aef88a06e63e24db27c45d2b3c9cbddc7">lumex::xml::types::Types::xpath_type_none</a>
-, <a class="el" href="a01508.html#ab45611a4d899512e32aa65eb48a191a5a1141b0c00ff38e450f1b3013c62f155f">lumex::xml::types::Types::xpath_type_node_set</a>
-, <a class="el" href="a01508.html#ab45611a4d899512e32aa65eb48a191a5aab160555061f91030ebc5b20f5db6da0">lumex::xml::types::Types::xpath_type_number</a>
-, <a class="el" href="a01508.html#ab45611a4d899512e32aa65eb48a191a5ad8df1fe43fb818a0c54b05207b890904">lumex::xml::types::Types::xpath_type_string</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#ab45611a4d899512e32aa65eb48a191a5a80042feb7d0f7888e3a86fb3c6c7b641">lumex::xml::types::Types::xpath_type_boolean</a>
-<br />
- }</td></tr>
-<tr class="separator:ab45611a4d899512e32aa65eb48a191a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0457ccbf02882197363e66845f2348f5" id="r_a0457ccbf02882197363e66845f2348f5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5">lumex::xml::types::Types::ast_type_t</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a51ee059af47c2ad8d5ae4032f7902ae7">lumex::xml::types::Types::ast_unknown</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5ab28c92845b8d41ed90b4976aff156f35">lumex::xml::types::Types::ast_op_or</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5aca320b00895ccd2f64b8b09bb5ad8ff5">lumex::xml::types::Types::ast_op_and</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a065958291d0a17d194dc1b707d326000">lumex::xml::types::Types::ast_op_equal</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a1c90a9852a8099e526d428277ce20db8">lumex::xml::types::Types::ast_op_not_equal</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5af74f9b6831e3e6a1f2de1c4c2ad8629b">lumex::xml::types::Types::ast_op_less</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a7190b592265224db7e090f2553cc1f40">lumex::xml::types::Types::ast_op_greater</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a939f56e949502dfc6a9e841629d04c9d">lumex::xml::types::Types::ast_op_less_or_equal</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a8f6053c36c9c7382e0a7004ad0231ee5">lumex::xml::types::Types::ast_op_greater_or_equal</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a3108a118684b2fdc7f1aed1578c87bde">lumex::xml::types::Types::ast_op_add</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a7c8461505e93842fa0f1f4570ba9fa3c">lumex::xml::types::Types::ast_op_subtract</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5ab344afb1ca332b7c891e2927700e0dce">lumex::xml::types::Types::ast_op_multiply</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5af5419bbfb144713c784547b6900f75c4">lumex::xml::types::Types::ast_op_divide</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a1f3066bcbcc02739d804ba98be9c155d">lumex::xml::types::Types::ast_op_mod</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a71c2f37608992f35a127794fc9698e61">lumex::xml::types::Types::ast_op_negate</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a99c424d60f5fb7b025f572eceec478be">lumex::xml::types::Types::ast_op_union</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5ad604ff1d0d717180bada6e1ff41173c3">lumex::xml::types::Types::ast_predicate</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a47ea4556c20b6c9157158b38852fba7c">lumex::xml::types::Types::ast_filter</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a21ab070ded88ac125adec88a8e8e62ee">lumex::xml::types::Types::ast_string_constant</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a97efef3cf73f7f46d2895e61eafaf4af">lumex::xml::types::Types::ast_number_constant</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a463efb35624adeef3324973cf519a001">lumex::xml::types::Types::ast_variable</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5afb81748b640c0739fd281756c7ea7ced">lumex::xml::types::Types::ast_func_last</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5adffb4b2e63cb20e210e4beb10cc687c8">lumex::xml::types::Types::ast_func_position</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a158a23e9ff61a841b43505f75e8e6e8b">lumex::xml::types::Types::ast_func_count</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a4765b831cb792ba2e2bb40e98c8c7cd3">lumex::xml::types::Types::ast_func_id</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5aec665e4c1089b3140ea788051ca6be74">lumex::xml::types::Types::ast_func_local_name_0</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a9635b11a2a950df7efc1cba52afae7a6">lumex::xml::types::Types::ast_func_local_name_1</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a5c5ac0b02e1e1e3d3fb50f7090274fc5">lumex::xml::types::Types::ast_func_namespace_uri_0</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a948765a16ce51fd258c993d8594e1949">lumex::xml::types::Types::ast_func_namespace_uri_1</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a9251ea222c71e53cb49ad0a3fe8590c9">lumex::xml::types::Types::ast_func_name_0</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5af7d8d62e8a4cb5b4d6d295cf03228d98">lumex::xml::types::Types::ast_func_name_1</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a06667758135165605b2aba98252ceee7">lumex::xml::types::Types::ast_func_string_0</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a13cf254fa15bf2e7cec749592c844890">lumex::xml::types::Types::ast_func_string_1</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a6c8bf8fb49ff6cc84f72bbcc43fe406a">lumex::xml::types::Types::ast_func_concat</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5aab748b6e06407ce0fbe29ee394405fbd">lumex::xml::types::Types::ast_func_starts_with</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a2672ce1bc8a6b88db7306785c1942299">lumex::xml::types::Types::ast_func_contains</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a2e23b1987651c5f41606dc6a12ea14c6">lumex::xml::types::Types::ast_func_substring_before</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a44d120916ee66d22db3f7d80911f070d">lumex::xml::types::Types::ast_func_substring_after</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a796b248a91a1bbeb53ef03e43fb9b7ec">lumex::xml::types::Types::ast_func_substring_2</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5ad77ccc7201fe4e11793182e72149b095">lumex::xml::types::Types::ast_func_substring_3</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5ad9bf7e3a0fa098f7aa0342698c04ba66">lumex::xml::types::Types::ast_func_string_length_0</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a5d99ceb74f89f8e9a1295755b19c8f5b">lumex::xml::types::Types::ast_func_string_length_1</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5af676fcd6baa9c1d9dda5362cb458c485">lumex::xml::types::Types::ast_func_normalize_space_0</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a595365d6ad1ae76a992ae96ad3c5f7df">lumex::xml::types::Types::ast_func_normalize_space_1</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a5f87d74f0e2c4027a845b5cfc4afe235">lumex::xml::types::Types::ast_func_translate</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a6b474795688be0ced9209c16bb0f39b4">lumex::xml::types::Types::ast_func_boolean</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5aa349fb18f3a1fc018aa0c20774d49bb3">lumex::xml::types::Types::ast_func_not</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a4a883b47b095038e5543766263c3a7cc">lumex::xml::types::Types::ast_func_true</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5ad12d41e3187d7e2071e6fc13834a5e80">lumex::xml::types::Types::ast_func_false</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a9ca9390b36d8e0209e2585aecf200900">lumex::xml::types::Types::ast_func_lang</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a516516908b03566dbd1be54cce8b54d1">lumex::xml::types::Types::ast_func_number_0</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5ad832fb8ef92a4d94f2173e58cfd1865d">lumex::xml::types::Types::ast_func_number_1</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a1788da887727aab8fd2a9abf46f2e241">lumex::xml::types::Types::ast_func_sum</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a7c8b2687aedb6d3dc7d2838b87e4de68">lumex::xml::types::Types::ast_func_floor</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a4576b189470fc62e1098f73bd03a4b84">lumex::xml::types::Types::ast_func_ceiling</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a1d640b7fa6bae3b25140cef8c424ddf3">lumex::xml::types::Types::ast_func_round</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5aa8d575c4f55df28a60a5c3e2087098f6">lumex::xml::types::Types::ast_step</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5af46bcd6460e17d86ac5ca6e4cce6a22c">lumex::xml::types::Types::ast_step_root</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a605ec3e0bca8207c648384e14e4f830d">lumex::xml::types::Types::ast_opt_translate_table</a>
-, <a class="el" href="a01508.html#a0457ccbf02882197363e66845f2348f5a5ca5d773f951e143d9b5da713c02358c">lumex::xml::types::Types::ast_opt_compare_attribute</a>
-<br />
- }</td></tr>
-<tr class="separator:a0457ccbf02882197363e66845f2348f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2458aaf725b575899a37e1c4b301af5d" id="r_a2458aaf725b575899a37e1c4b301af5d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5d">lumex::xml::types::Types::axis_t</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5dae259cee1b86859640bda1c16d7d7d687">lumex::xml::types::Types::axis_ancestor</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5da58db1d45e8ed558470af7f8e3af2a2c4">lumex::xml::types::Types::axis_ancestor_or_self</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5da0feeee17d74b000549b1262b0535006e">lumex::xml::types::Types::axis_attribute</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5da3c4288ba033253551ff36e81d1dae0c7">lumex::xml::types::Types::axis_child</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5daceecb3bc180786043852a7261479e859">lumex::xml::types::Types::axis_descendant</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5da724687a14cc88c5046db9084482c0b6d">lumex::xml::types::Types::axis_descendant_or_self</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5da91f6679c843983d51ae5489727e067e1">lumex::xml::types::Types::axis_following</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5da003a90826ae0f4d9b5954fd45ef7998b">lumex::xml::types::Types::axis_following_sibling</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5dab9056481a438556ccb7f577be89913c4">lumex::xml::types::Types::axis_namespace</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5daa9c9c0206cfe468d360228ff652bd933">lumex::xml::types::Types::axis_parent</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5da58cfb17f86dc747c5371fbbbccdca1c6">lumex::xml::types::Types::axis_preceding</a>
-, <a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5da11da0df5222c8e648258de4335ef8b5f">lumex::xml::types::Types::axis_preceding_sibling</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a2458aaf725b575899a37e1c4b301af5daaee17092e97dde07d95ae0816c65063f">lumex::xml::types::Types::axis_self</a>
-<br />
- }</td></tr>
-<tr class="separator:a2458aaf725b575899a37e1c4b301af5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6fe030389abaaac33680a9e867b2c67" id="r_ab6fe030389abaaac33680a9e867b2c67"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67">lumex::xml::types::Types::nodetest_t</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67adb0110a6af49b39c13e2f5505679647d">lumex::xml::types::Types::nodetest_none</a>
-, <a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67ab59ef574fb7d55a8d25a271fad71da36">lumex::xml::types::Types::nodetest_name</a>
-, <a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67a30c1a44139c7b2d7bf8a5124cd40aa92">lumex::xml::types::Types::nodetest_type_node</a>
-, <a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67a9de7266a5cd73e7b95260bb43e9ddbaa">lumex::xml::types::Types::nodetest_type_comment</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67afe0990b89e45673186c6e2faf463b25e">lumex::xml::types::Types::nodetest_type_pi</a>
-, <a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67a79cc270b7aacffa87b3ea08bbe04f8d7">lumex::xml::types::Types::nodetest_type_text</a>
-, <a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67a1897d453516abb2426a1fb7718630bbc">lumex::xml::types::Types::nodetest_pi</a>
-, <a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67a26eeae2af08d1f69dc64f571af6d532d">lumex::xml::types::Types::nodetest_all</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#ab6fe030389abaaac33680a9e867b2c67ab216fdbfffd01004f67dc487bb5dced8">lumex::xml::types::Types::nodetest_all_in_namespace</a>
-<br />
- }</td></tr>
-<tr class="separator:ab6fe030389abaaac33680a9e867b2c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1d1a81a6bf6122f9e81f30d2ed87660" id="r_ae1d1a81a6bf6122f9e81f30d2ed87660"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#ae1d1a81a6bf6122f9e81f30d2ed87660">lumex::xml::types::Types::predicate_t</a> : std::uint8_t { <a class="el" href="a01508.html#ae1d1a81a6bf6122f9e81f30d2ed87660ab67a7726461fe60b91cda2219bfa27c5">lumex::xml::types::Types::predicate_default</a>
-, <a class="el" href="a01508.html#ae1d1a81a6bf6122f9e81f30d2ed87660a4cfa650d6ee94448929883adc9103289">lumex::xml::types::Types::predicate_posinv</a>
-, <a class="el" href="a01508.html#ae1d1a81a6bf6122f9e81f30d2ed87660abd037adecc0668d2628f3f00deda5aff">lumex::xml::types::Types::predicate_constant</a>
-, <a class="el" href="a01508.html#ae1d1a81a6bf6122f9e81f30d2ed87660ad6a8416d545b7163f1ebe394161b4c5b">lumex::xml::types::Types::predicate_constant_one</a>
- }</td></tr>
-<tr class="separator:ae1d1a81a6bf6122f9e81f30d2ed87660"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7112968d3220562527a78200ba27ca3" id="r_ae7112968d3220562527a78200ba27ca3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#ae7112968d3220562527a78200ba27ca3">lumex::xml::types::Types::nodeset_eval_t</a> : std::uint8_t { <a class="el" href="a01508.html#ae7112968d3220562527a78200ba27ca3a8ce3213a76508faf606e885d511f3855">lumex::xml::types::Types::nodeset_eval_all</a>
-, <a class="el" href="a01508.html#ae7112968d3220562527a78200ba27ca3ac1edd4b6a67570279a6a92d6c9864764">lumex::xml::types::Types::nodeset_eval_any</a>
-, <a class="el" href="a01508.html#ae7112968d3220562527a78200ba27ca3a96657672f86ed030daf074888c35c392">lumex::xml::types::Types::nodeset_eval_first</a>
- }</td></tr>
-<tr class="separator:ae7112968d3220562527a78200ba27ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63ddb262b3a90024af7c616c32245e57" id="r_a63ddb262b3a90024af7c616c32245e57"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a63ddb262b3a90024af7c616c32245e57">lumex::xml::types::Types::indent_flags_t</a> : std::uint8_t { <a class="el" href="a01508.html#a63ddb262b3a90024af7c616c32245e57a136021c647e8d1f2a0b57dcce316d96c">lumex::xml::types::Types::indent_newline</a> = 1
-, <a class="el" href="a01508.html#a63ddb262b3a90024af7c616c32245e57a32f1f7ce7b4c8d3a6e3e5cddcdad7830">lumex::xml::types::Types::indent_indent</a> = 2
- }</td></tr>
-<tr class="separator:a63ddb262b3a90024af7c616c32245e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a076c365db3d9889789f1c289d6fa4d1e" id="r_a076c365db3d9889789f1c289d6fa4d1e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1e">lumex::xml::types::Types::lexeme_t</a> : std::uint8_t { <br />
-&#160;&#160;<a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eaaeb7aeb5f8c39763474cd21f7ff97a1f">lumex::xml::types::Types::lex_none</a> = 0
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ead983a22676bbedfc24cf5b822f2c890f">lumex::xml::types::Types::lex_equal</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ead4800996cc580758d97d8176dcdb6136">lumex::xml::types::Types::lex_not_equal</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea3692af5b4036c8d738fba2ff2b58702d">lumex::xml::types::Types::lex_less</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eaa77b33b3314a99b6a4c6b0f5da0c5370">lumex::xml::types::Types::lex_greater</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eab667d41bc67730d5d4aaf276bf1924b6">lumex::xml::types::Types::lex_less_or_equal</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea95055d1aba8e38de3386c3ea08abf80a">lumex::xml::types::Types::lex_greater_or_equal</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eadb07419021a05a51b1e62b70fcfe2a01">lumex::xml::types::Types::lex_plus</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eafd2112c97ed8a8033a0687b9ed6aead1">lumex::xml::types::Types::lex_minus</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea7fb476ad4bd62359ecd28790b0b7c352">lumex::xml::types::Types::lex_multiply</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea8c42a4aa3e58f6816771d49f137bc3e9">lumex::xml::types::Types::lex_union</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea73611f34a915a90a0559333024b139fc">lumex::xml::types::Types::lex_var_ref</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea0fe20cd957621f52a728f7f65c116044">lumex::xml::types::Types::lex_open_brace</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea58e4afc33c5eceeec6de1159b186baec">lumex::xml::types::Types::lex_close_brace</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eaf57e8bf91a7a9bebfb1563cc83ef949a">lumex::xml::types::Types::lex_quoted_string</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea5fc754fa69e1ecbdeb4847ac7b945b9c">lumex::xml::types::Types::lex_number</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea01b080426bf9db5d6d479727d43d6ead">lumex::xml::types::Types::lex_slash</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eabb14e5edb757191eeab1f42e7538dffa">lumex::xml::types::Types::lex_double_slash</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea28d5604b7a4e5175798b2bfd33d10ec4">lumex::xml::types::Types::lex_open_square_brace</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea102360907f084a54a44b6468b4fee36a">lumex::xml::types::Types::lex_close_square_brace</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eac4b5d1ea17b5fd3ab8644e3670c56f7c">lumex::xml::types::Types::lex_string</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea7d163df5349c17cfaf91914f1a1a7185">lumex::xml::types::Types::lex_comma</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea08e21529c5a77905501f9e0ac48f4b5c">lumex::xml::types::Types::lex_axis_attribute</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eafecc2353e6452b2d7a24c6e6977ce381">lumex::xml::types::Types::lex_dot</a>
-, <br />
-&#160;&#160;<a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1eab335052a26915a862d2717743fc7bde1">lumex::xml::types::Types::lex_double_dot</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea0d46d296f9632bfb9911969c7e2278e0">lumex::xml::types::Types::lex_double_colon</a>
-, <a class="el" href="a01508.html#a076c365db3d9889789f1c289d6fa4d1ea04dec51ff0c3a5d7f84893c9629bfbec">lumex::xml::types::Types::lex_eof</a>
-<br />
- }</td></tr>
-<tr class="separator:a076c365db3d9889789f1c289d6fa4d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a8a3611c453003762e23f73cdf331d06a" id="r_a8a3611c453003762e23f73cdf331d06a"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html#a8a3611c453003762e23f73cdf331d06a">lumex::core::fmt::Detail::floor_div</a> (long long value, long long divisor) noexcept</td></tr>
+<tr class="memdesc:a8a3611c453003762e23f73cdf331d06a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value / divisor</code> rounded toward negative infinity.  <br /></td></tr>
+<tr class="separator:a8a3611c453003762e23f73cdf331d06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8c7658b63539d3879a215371302723c" id="r_ae8c7658b63539d3879a215371302723c"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html#ae8c7658b63539d3879a215371302723c">lumex::core::fmt::Detail::floor_mod</a> (long long value, long long divisor) noexcept</td></tr>
+<tr class="memdesc:ae8c7658b63539d3879a215371302723c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value mod divisor</code> in <code>[0, divisor)</code> for a positive divisor.  <br /></td></tr>
+<tr class="separator:ae8c7658b63539d3879a215371302723c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a365347e3849bfaedcfb56627e1ee586e" id="r_a365347e3849bfaedcfb56627e1ee586e"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html#a365347e3849bfaedcfb56627e1ee586e">lumex::core::fmt::Detail::days_from_civil</a> (long long year_value, int month_value, int day_value) noexcept</td></tr>
+<tr class="memdesc:a365347e3849bfaedcfb56627e1ee586e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Days since 1970-01-01 of a civil date.  <br /></td></tr>
+<tr class="separator:a365347e3849bfaedcfb56627e1ee586e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf8a964b73ead1cec0f493a86c4b9fab" id="r_abf8a964b73ead1cec0f493a86c4b9fab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html#abf8a964b73ead1cec0f493a86c4b9fab">lumex::core::fmt::Detail::civil_from_days</a> (long long day_count, <a class="el" href="a03143.html">civil_time_t</a> &amp;time) noexcept</td></tr>
+<tr class="memdesc:abf8a964b73ead1cec0f493a86c4b9fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the date part of <code>time</code> from days since 1970-01-01.  <br /></td></tr>
+<tr class="separator:abf8a964b73ead1cec0f493a86c4b9fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf2d03bfeff88c2c87dc0258865374ca" id="r_abf2d03bfeff88c2c87dc0258865374ca"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html#abf2d03bfeff88c2c87dc0258865374ca">lumex::core::fmt::Detail::power_of_ten</a> (int exponent) noexcept</td></tr>
+<tr class="memdesc:abf2d03bfeff88c2c87dc0258865374ca"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>10^exponent</code> for <code>exponent</code> in 0..18.  <br /></td></tr>
+<tr class="separator:abf2d03bfeff88c2c87dc0258865374ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ba235f9fcada7ece959be451804b733" id="r_a6ba235f9fcada7ece959be451804b733"><td class="memTemplParams" colspan="2">template&lt;typename Period&gt; </td></tr>
+<tr class="memitem:a6ba235f9fcada7ece959be451804b733"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a6ba235f9fcada7ece959be451804b733">lumex::core::fmt::Detail::fractional_digits</a> () noexcept</td></tr>
+<tr class="memdesc:a6ba235f9fcada7ece959be451804b733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fractional second digits of <code>S</code> for <code>Period</code>: the smallest <code>n</code> (at most 18) with <code>Period * 10^n</code> whole, 6 when there is none.  <br /></td></tr>
+<tr class="separator:a6ba235f9fcada7ece959be451804b733"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a474c0fd7c9f1ace69805a5a6a099600a" id="r_a474c0fd7c9f1ace69805a5a6a099600a"><td class="memTemplParams" colspan="2">template&lt;typename Rep, typename Period&gt; </td></tr>
+<tr class="memitem:a474c0fd7c9f1ace69805a5a6a099600a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a474c0fd7c9f1ace69805a5a6a099600a">lumex::core::fmt::Detail::split_seconds</a> (std::chrono::duration&lt; Rep, Period &gt; const &amp;value, int digits, long long &amp;whole_seconds, long long &amp;ticks)</td></tr>
+<tr class="memdesc:a474c0fd7c9f1ace69805a5a6a099600a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a non-negative duration into whole seconds and the fraction in <code>10^-digits</code> units (truncated).  <br /></td></tr>
+<tr class="separator:a474c0fd7c9f1ace69805a5a6a099600a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8436ead0f08c22325c76c607c228c592" id="r_a8436ead0f08c22325c76c607c228c592"><td class="memTemplParams" colspan="2">template&lt;typename Period&gt; </td></tr>
+<tr class="memitem:a8436ead0f08c22325c76c607c228c592"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a8436ead0f08c22325c76c607c228c592">lumex::core::fmt::Detail::unit_suffix</a> ()</td></tr>
+<tr class="memdesc:a8436ead0f08c22325c76c607c228c592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit suffix of <code>q</code> / <code>{}</code> for <code>Period</code>.  <br /></td></tr>
+<tr class="separator:a8436ead0f08c22325c76c607c228c592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ccbbce0aa0b3f54e45e28809998ecca" id="r_a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a8ccbbce0aa0b3f54e45e28809998ecca">lumex::core::fmt::Detail::is_chrono_conversion</a> (Char conversion, Char modifier, bool is_duration) noexcept</td></tr>
+<tr class="memdesc:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>%&lt;conversion&gt;</code> is valid for a duration / a time point.  <br /></td></tr>
+<tr class="separator:a8ccbbce0aa0b3f54e45e28809998ecca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28ba701722fdcf7194acbbdaaa6062fd" id="r_a28ba701722fdcf7194acbbdaaa6062fd"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a28ba701722fdcf7194acbbdaaa6062fd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a28ba701722fdcf7194acbbdaaa6062fd">lumex::core::fmt::Detail::check_chrono_specs</a> (Char const *begin, Char const *end, bool is_duration)</td></tr>
+<tr class="memdesc:a28ba701722fdcf7194acbbdaaa6062fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks <code>[begin, end)</code> as chrono-specs; they must start with a conversion.  <br /></td></tr>
+<tr class="separator:a28ba701722fdcf7194acbbdaaa6062fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50d6c5e29743cab15e1594cf58b632a7" id="r_a50d6c5e29743cab15e1594cf58b632a7"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a50d6c5e29743cab15e1594cf58b632a7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a50d6c5e29743cab15e1594cf58b632a7">lumex::core::fmt::Detail::append_ascii</a> (std::basic_string&lt; Char &gt; &amp;out, std::string const &amp;text)</td></tr>
+<tr class="separator:a50d6c5e29743cab15e1594cf58b632a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a818162ff93668f48df1c55821b00846f" id="r_a818162ff93668f48df1c55821b00846f"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a818162ff93668f48df1c55821b00846f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a818162ff93668f48df1c55821b00846f">lumex::core::fmt::Detail::append_number</a> (std::basic_string&lt; Char &gt; &amp;out, long long value, int width)</td></tr>
+<tr class="memdesc:a818162ff93668f48df1c55821b00846f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>value</code> with at least <code>width</code> digits, zero padded, with sign.  <br /></td></tr>
+<tr class="separator:a818162ff93668f48df1c55821b00846f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40ff57adf446dd2e2b97a65f9e817121" id="r_a40ff57adf446dd2e2b97a65f9e817121"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a40ff57adf446dd2e2b97a65f9e817121"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a40ff57adf446dd2e2b97a65f9e817121">lumex::core::fmt::Detail::append_seconds</a> (std::basic_string&lt; Char &gt; &amp;out, <a class="el" href="a03143.html">civil_time_t</a> const &amp;time)</td></tr>
+<tr class="separator:a40ff57adf446dd2e2b97a65f9e817121"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cfab9d85ccf991300e57dec088e9dac" id="r_a3cfab9d85ccf991300e57dec088e9dac"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a3cfab9d85ccf991300e57dec088e9dac"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a3cfab9d85ccf991300e57dec088e9dac">lumex::core::fmt::Detail::append_localized</a> (std::basic_string&lt; Char &gt; &amp;out, <a class="el" href="a03143.html">civil_time_t</a> const &amp;time, char conversion, char modifier, std::locale const &amp;locale)</td></tr>
+<tr class="memdesc:a3cfab9d85ccf991300e57dec088e9dac"><td class="mdescLeft">&#160;</td><td class="mdescRight">One conversion through the locale's <code>std::time_put</code> (<code>L</code>).  <br /></td></tr>
+<tr class="separator:a3cfab9d85ccf991300e57dec088e9dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeefcec729273930a28872e248746c365" id="r_aeefcec729273930a28872e248746c365"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html#aeefcec729273930a28872e248746c365">lumex::core::fmt::Detail::weekday_name</a> (int weekday_index, bool full) noexcept</td></tr>
+<tr class="separator:aeefcec729273930a28872e248746c365"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8add933ba8511f86512df2449d2bd4f9" id="r_a8add933ba8511f86512df2449d2bd4f9"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html#a8add933ba8511f86512df2449d2bd4f9">lumex::core::fmt::Detail::month_name</a> (int month_index, bool full) noexcept</td></tr>
+<tr class="separator:a8add933ba8511f86512df2449d2bd4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bb3e619b249d54a8889159cb394a5bd" id="r_a9bb3e619b249d54a8889159cb394a5bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01541.html#a9bb3e619b249d54a8889159cb394a5bd">lumex::core::fmt::Detail::iso_week</a> (<a class="el" href="a03143.html">civil_time_t</a> const &amp;time, long long &amp;iso_year, int &amp;week) noexcept</td></tr>
+<tr class="memdesc:a9bb3e619b249d54a8889159cb394a5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">ISO 8601 week-based year and week number.  <br /></td></tr>
+<tr class="separator:a9bb3e619b249d54a8889159cb394a5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754034de35d8ea974e37818b711109a8" id="r_a754034de35d8ea974e37818b711109a8"><td class="memTemplParams" colspan="2">template&lt;typename Char&gt; </td></tr>
+<tr class="memitem:a754034de35d8ea974e37818b711109a8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#a754034de35d8ea974e37818b711109a8">lumex::core::fmt::Detail::write_chrono</a> (std::basic_string&lt; Char &gt; &amp;out, Char const *it, Char const *end, <a class="el" href="a03143.html">civil_time_t</a> const &amp;time, std::basic_string&lt; Char &gt; const &amp;count, std::string const &amp;unit, bool localized, std::locale const &amp;locale)</td></tr>
+<tr class="memdesc:a754034de35d8ea974e37818b711109a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes <code>time</code> following the checked chrono-specs <code>[it, end)</code>.  <br /></td></tr>
+<tr class="separator:a754034de35d8ea974e37818b711109a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad543c02880402a3b7f724bbf0650fb51" id="r_ad543c02880402a3b7f724bbf0650fb51"><td class="memTemplParams" colspan="2">template&lt;typename Char, typename Rep&gt; </td></tr>
+<tr class="memitem:ad543c02880402a3b7f724bbf0650fb51"><td class="memTemplItemLeft" align="right" valign="top">std::basic_string&lt; Char &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01541.html#ad543c02880402a3b7f724bbf0650fb51">lumex::core::fmt::Detail::duration_count</a> (Rep count, int precision)</td></tr>
+<tr class="memdesc:ad543c02880402a3b7f724bbf0650fb51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Count of a duration as <code>{}</code> / <code>Q</code> print it.  <br /></td></tr>
+<tr class="separator:ad543c02880402a3b7f724bbf0650fb51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The basic types and enumerations of the XML module: character and string types, node types, encodings, parse statuses, and the internal enumerations of the parser and the XPath engine. </p>
-<p>Everything is in <code><a class="el" href="a01508.html">lumex::xml::types::Types</a></code>. <code>char_t</code> is <code>char</code> (the library has no wide-character mode); <code>string_t</code> is <code>std::basic_string&lt;char_t&gt;</code>. <code>string_view_t</code> is the <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> of <code>lumex::string_view</code> in every standard (a plain alias of the library's own view). A <code>char_t const *</code> and a <code>std::string</code> convert to it, and from C++17 so does a <code>std::string_view</code>. The enumerations consumers meet are <code>xml_node_type</code>, <code>xml_encoding</code>, <code>xml_parse_status</code> and <code>xpath_value_type</code>.</p>
-<p>The other types belong to the implementation: the character class bits <code>chartype_t</code> and <code>chartypex_t</code>, the string header <code>xml_mem_str_header_t</code>, the buffer list <code>xml_extra_buffer</code>, the serializer's <code>indent_flags_t</code>, and the XPath enumerations <code>ast_type_t</code>, <code>axis_t</code>, <code>nodetest_t</code>, <code>predicate_t</code>, <code>nodeset_eval_t</code> and <code>lexeme_t</code>. </p>
+<div class="textblock"><p><code>std::chrono::duration</code> and <code>system_clock</code> time points for LumexFormat, with the chrono specification of C++20 <code>std::format</code>. </p>
+<ul>
+<li><code>{}</code> of a duration prints its count and unit: <code>42s</code>, <code>1500ms</code>, <code>7us</code>, <code>3min</code>, <code>2h</code>, <code>5d</code>, <code>5[1/3]s</code>. A floating-point count prints shortest, or fixed with a precision (<code>{:.2}</code> -&gt; <code>1.56s</code>).</li>
+<li><code>{}</code> of a <code>system_clock</code> time point prints <code>F T</code> in UTC with as many fractional second digits as its duration has (<code>2026-09-25 13:04:05.007</code>); a whole-day time point prints the date only.</li>
+<li>Specification: <code>[[fill]align][width][.precision][L][chrono-specs]</code>, where chrono-specs start with a conversion (<code>H:M</code>) and may contain literal text. Durations: <code>H M S T R I p r j Q q n t %%</code>. Time points additionally: <code>Y C y m d e F D j a A b B h u w U W V G g c x X Z z</code> and the <code>E</code> / <code>O</code> modifiers the standard allows.</li>
+<li><code>S</code> shows as many fractional digits as the duration's period needs (3 for milliseconds, 7 for 100 ns ticks, 6 when no decimal is exact).</li>
+<li>A negative duration prints one <code>-</code> before everything else (<code>-01:02:05</code>).</li>
+<li>Without <code>L</code>, names (<code>a b p</code>) and <code>c x X</code> are those of the C locale (<code>c</code> = <code>a b e T Y</code>); with <code>L</code> they come from the locale's <code>std::time_put</code>.</li>
+<li>The microsecond suffix is the ASCII <code>us</code> (the standard allows it; MSVC prints it too), so the output never depends on the execution charset. </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_a5b83a5e6ef294d8378dcdf947cb7c81.html">types</a></li><li class="navelem"><a class="el" href="a01016.html">XmlTypes.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_338a3242ca58d57e3179a5eb9e6b0159.html">fmt</a></li><li class="navelem"><a class="el" href="a01016.html">LumexFormatChrono.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

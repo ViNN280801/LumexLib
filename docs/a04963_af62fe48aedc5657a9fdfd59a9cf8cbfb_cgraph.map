@@ -1,0 +1,6 @@
+<map id="ExampleSequenceAbort::ExampleSequenceAbort" name="ExampleSequenceAbort::ExampleSequenceAbort">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,191,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="49,30,46,20,54,10,71,5,98,3,129,5,145,13,143,18,127,11,98,8,72,10,57,15,51,21,54,28"/>
+<area shape="rect" id="Node000002" href="$a02619.html#a0df654f69972993c168a44d5cd54a402" title="Constructs a lumex_base_exception with a message." alt="" coords="239,22,489,77"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="191,47,225,47,225,52,191,52"/>
+</map>

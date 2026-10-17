@@ -1,0 +1,8 @@
+<map id="lumex::core::optional::opt::make_optional" name="lumex::core::optional::opt::make_optional">
+<area shape="rect" id="Node000001" title="Creates a optional object containing a copy or move of a value." alt="" coords="213,37,373,77"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="328,26,316,19,293,16,273,18,261,23,257,29,259,36,254,38,252,28,258,18,272,13,293,11,318,14,331,21"/>
+<area shape="rect" id="Node000002" href="$a01553.html#af6d52f5bcebe8439f755b523407d2f38" title="Creates a optional object by in&#45;place construction." alt="" coords="5,5,165,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,46,165,40,166,35,200,40"/>
+<area shape="rect" id="Node000003" href="$a01553.html#a27bcb998130bc71e6aee9a5bbffa5eab" title="Creates a optional object by in&#45;place construction with an initializer list." alt="" coords="5,69,165,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,74,166,80,165,74,199,69"/>
+</map>

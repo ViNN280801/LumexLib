@@ -1,0 +1,5 @@
+<map id="lumex::core::exceptions::stacktrace::lumex_stacktrace_entry::description" name="lumex::core::exceptions::stacktrace::lumex_stacktrace_entry::description">
+<area shape="rect" id="Node000001" title="Gets a human&#45;readable description of this stack frame." alt="" coords="236,5,459,60"/>
+<area shape="rect" id="Node000002" href="$a01525.html#a61029e6793c97e7b82c2ef147c007209" title="Overloads the operator&lt;&lt; for std::basic_ostream to print a lumex_stacktrace_entry." alt="" coords="5,13,188,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,35,188,35,188,30,222,30"/>
+</map>

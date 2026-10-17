@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::contracts::source_location Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02114.html',''); initResizable(true); });
+$(function(){initNavTree('a02111.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,418 @@ $(function(){initNavTree('a02114.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc8_i_code_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
+<a href="a02108.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::contracts::source_location Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02114.html#a04e245f65dbc4ecf79740f968c29edd0">kCatalogCheck</a></td><td class="entry"><a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02114.html#a21d941f83145da9ea354609483813e09">kInit</a></td><td class="entry"><a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02114.html#aca5bf3c34b89003a3b2bde676305e363">kPoly</a></td><td class="entry"><a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02114.html#a65086f74e254ced61d19a67f764b7e67">kRefIn</a></td><td class="entry"><a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02114.html#ad6c2644fe0f43e5ed52842ad5d1f5fa2">kRefOut</a></td><td class="entry"><a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02114.html#a3d253c7baef1f9244daa586c27598f47">kWidth</a></td><td class="entry"><a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02114.html#ad9671a9c9fc7ab6f8bc71c6e58ace2c6">kXorOut</a></td><td class="entry"><a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02114.html#ad592e9ee2b7601529eccba8e192e6a1e">ValueType</a> typedef</td><td class="entry"><a class="el" href="a02114.html">lumex::core::crc::parametric::crc8_i_code_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>File, function, line and column of a place in the program text.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01010_source.html">LumexContractsSourceLocation.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ab17c36dad18bad9bfa987d2396a3a573" id="r_ab17c36dad18bad9bfa987d2396a3a573"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab17c36dad18bad9bfa987d2396a3a573">source_location</a> () noexcept</td></tr>
+<tr class="memdesc:ab17c36dad18bad9bfa987d2396a3a573"><td class="mdescLeft">&#160;</td><td class="mdescRight">The empty location: empty names, line 0, column 0.  <br /></td></tr>
+<tr class="separator:ab17c36dad18bad9bfa987d2396a3a573"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0754d961dbd88026624e60dbdfebb9a" id="r_ad0754d961dbd88026624e60dbdfebb9a"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0754d961dbd88026624e60dbdfebb9a">source_location</a> (char const *<a class="el" href="#a94bb11107320de43ffd8218ee84f5a0e">file_name</a>, char const *<a class="el" href="#a67099ea89fd04d8b6533ab6232b310c5">function_name</a>, std::uint_least32_t <a class="el" href="#a32a7de5a3c08143dc13c818fcba2bfae">line</a>, std::uint_least32_t <a class="el" href="#afded073cef13c26cf4770505404f7fa3">column</a>=0) noexcept</td></tr>
+<tr class="memdesc:ad0754d961dbd88026624e60dbdfebb9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A location of the given values.  <br /></td></tr>
+<tr class="separator:ad0754d961dbd88026624e60dbdfebb9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94bb11107320de43ffd8218ee84f5a0e" id="r_a94bb11107320de43ffd8218ee84f5a0e"><td class="memItemLeft" align="right" valign="top">constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94bb11107320de43ffd8218ee84f5a0e">file_name</a> () const noexcept</td></tr>
+<tr class="memdesc:a94bb11107320de43ffd8218ee84f5a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file name; never null.  <br /></td></tr>
+<tr class="separator:a94bb11107320de43ffd8218ee84f5a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67099ea89fd04d8b6533ab6232b310c5" id="r_a67099ea89fd04d8b6533ab6232b310c5"><td class="memItemLeft" align="right" valign="top">constexpr char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67099ea89fd04d8b6533ab6232b310c5">function_name</a> () const noexcept</td></tr>
+<tr class="memdesc:a67099ea89fd04d8b6533ab6232b310c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The function name; never null.  <br /></td></tr>
+<tr class="separator:a67099ea89fd04d8b6533ab6232b310c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32a7de5a3c08143dc13c818fcba2bfae" id="r_a32a7de5a3c08143dc13c818fcba2bfae"><td class="memItemLeft" align="right" valign="top">constexpr std::uint_least32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32a7de5a3c08143dc13c818fcba2bfae">line</a> () const noexcept</td></tr>
+<tr class="memdesc:a32a7de5a3c08143dc13c818fcba2bfae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The line; 0 when unknown.  <br /></td></tr>
+<tr class="separator:a32a7de5a3c08143dc13c818fcba2bfae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afded073cef13c26cf4770505404f7fa3" id="r_afded073cef13c26cf4770505404f7fa3"><td class="memItemLeft" align="right" valign="top">constexpr std::uint_least32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afded073cef13c26cf4770505404f7fa3">column</a> () const noexcept</td></tr>
+<tr class="memdesc:afded073cef13c26cf4770505404f7fa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The column; 0 when unknown.  <br /></td></tr>
+<tr class="separator:afded073cef13c26cf4770505404f7fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:af28bf5a4f121b198f9861f69e026a0cd" id="r_af28bf5a4f121b198f9861f69e026a0cd"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af28bf5a4f121b198f9861f69e026a0cd">operator==</a> (<a class="el" href="a02111.html">source_location</a> const &amp;left, <a class="el" href="a02111.html">source_location</a> const &amp;right) noexcept</td></tr>
+<tr class="memdesc:af28bf5a4f121b198f9861f69e026a0cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether both names and both numbers are equal (by content).  <br /></td></tr>
+<tr class="separator:af28bf5a4f121b198f9861f69e026a0cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05cfe36fc1298e6d0cb629e088f21c17" id="r_a05cfe36fc1298e6d0cb629e088f21c17"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05cfe36fc1298e6d0cb629e088f21c17">operator!=</a> (<a class="el" href="a02111.html">source_location</a> const &amp;left, <a class="el" href="a02111.html">source_location</a> const &amp;right) noexcept</td></tr>
+<tr class="memdesc:a05cfe36fc1298e6d0cb629e088f21c17"><td class="mdescLeft">&#160;</td><td class="mdescRight">The negation of <code>operator==</code>.  <br /></td></tr>
+<tr class="separator:a05cfe36fc1298e6d0cb629e088f21c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>File, function, line and column of a place in the program text. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab17c36dad18bad9bfa987d2396a3a573" name="ab17c36dad18bad9bfa987d2396a3a573"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab17c36dad18bad9bfa987d2396a3a573">&#9670;&#160;</a></span>source_location() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::contracts::source_location::source_location </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The empty location: empty names, line 0, column 0. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02111_ab17c36dad18bad9bfa987d2396a3a573_icgraph.png" border="0" usemap="#aa02111_ab17c36dad18bad9bfa987d2396a3a573_icgraph" alt=""/></div>
+<map name="aa02111_ab17c36dad18bad9bfa987d2396a3a573_icgraph" id="aa02111_ab17c36dad18bad9bfa987d2396a3a573_icgraph">
+<area shape="rect" title="The empty location: empty names, line 0, column 0." alt="" coords="271,30,453,85"/>
+<area shape="rect" href="a02111.html#a05cfe36fc1298e6d0cb629e088f21c17" title="The negation of operator==." alt="" coords="9,5,219,45"/>
+<area shape="poly" title=" " alt="" coords="257,46,219,42,220,36,257,41"/>
+<area shape="rect" href="a02111.html#af28bf5a4f121b198f9861f69e026a0cd" title="Whether both names and both numbers are equal (by content)." alt="" coords="5,69,223,109"/>
+<area shape="poly" title=" " alt="" coords="257,74,223,78,223,73,256,68"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad0754d961dbd88026624e60dbdfebb9a" name="ad0754d961dbd88026624e60dbdfebb9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0754d961dbd88026624e60dbdfebb9a">&#9670;&#160;</a></span>source_location() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::contracts::source_location::source_location </td>
+          <td>(</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>file_name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>function_name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint_least32_t</td>          <td class="paramname"><span class="paramname"><em>line</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint_least32_t</td>          <td class="paramname"><span class="paramname"><em>column</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A location of the given values. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_name</td><td>The file name; static storage, not copied. </td></tr>
+    <tr><td class="paramname">function_name</td><td>The function name; static storage, not copied. </td></tr>
+    <tr><td class="paramname">line</td><td>The line, counted from 1 (0 means unknown). </td></tr>
+    <tr><td class="paramname">column</td><td>The column, counted from 1 (0 means unknown). </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02111_ad0754d961dbd88026624e60dbdfebb9a_cgraph.png" border="0" usemap="#aa02111_ad0754d961dbd88026624e60dbdfebb9a_cgraph" alt=""/></div>
+<map name="aa02111_ad0754d961dbd88026624e60dbdfebb9a_cgraph" id="aa02111_ad0754d961dbd88026624e60dbdfebb9a_cgraph">
+<area shape="rect" title="A location of the given values." alt="" coords="5,94,188,149"/>
+<area shape="rect" href="a02111.html#afded073cef13c26cf4770505404f7fa3" title="The column; 0 when unknown." alt="" coords="261,5,449,45"/>
+<area shape="poly" title=" " alt="" coords="150,91,235,55,259,47,261,52,237,60,152,96"/>
+<area shape="rect" href="a02111.html#a94bb11107320de43ffd8218ee84f5a0e" title="The file name; never null." alt="" coords="253,69,457,109"/>
+<area shape="poly" title=" " alt="" coords="188,107,238,101,239,106,189,113"/>
+<area shape="rect" href="a02111.html#a67099ea89fd04d8b6533ab6232b310c5" title="The function name; never null." alt="" coords="236,133,473,173"/>
+<area shape="poly" title=" " alt="" coords="189,130,223,134,222,140,188,135"/>
+<area shape="rect" href="a02111.html#a32a7de5a3c08143dc13c818fcba2bfae" title="The line; 0 when unknown." alt="" coords="271,197,438,237"/>
+<area shape="poly" title=" " alt="" coords="152,146,237,183,261,191,259,196,235,188,150,151"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="afded073cef13c26cf4770505404f7fa3" name="afded073cef13c26cf4770505404f7fa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afded073cef13c26cf4770505404f7fa3">&#9670;&#160;</a></span>column()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint_least32_t lumex::core::contracts::source_location::column </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The column; 0 when unknown. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02111_afded073cef13c26cf4770505404f7fa3_icgraph.png" border="0" usemap="#aa02111_afded073cef13c26cf4770505404f7fa3_icgraph" alt=""/></div>
+<map name="aa02111_afded073cef13c26cf4770505404f7fa3_icgraph" id="aa02111_afded073cef13c26cf4770505404f7fa3_icgraph">
+<area shape="rect" title="The column; 0 when unknown." alt="" coords="735,107,923,147"/>
+<area shape="rect" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="496,59,687,114"/>
+<area shape="poly" title=" " alt="" coords="721,111,686,105,687,100,722,106"/>
+<area shape="rect" href="a02111.html#ad0754d961dbd88026624e60dbdfebb9a" title="A location of the given values." alt="" coords="500,138,683,193"/>
+<area shape="poly" title=" " alt="" coords="722,147,683,153,683,148,721,142"/>
+<area shape="rect" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,37,448,77"/>
+<area shape="poly" title=" " alt="" coords="482,76,448,72,449,67,483,71"/>
+<area shape="rect" href="a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="323,102,378,127"/>
+<area shape="poly" title=" " alt="" coords="483,102,379,114,378,109,482,97"/>
+<area shape="rect" href="a02095.html#ace41f89e39c053ae9e4935b8e7b3acc3" title="enforce: the handler runs, then the program is aborted." alt="" coords="7,5,204,45"/>
+<area shape="poly" title=" " alt="" coords="239,46,204,41,205,36,240,40"/>
+<area shape="rect" href="a02091.html#aab54f7f089e730f7d04344425c9d05f4" title="observe: the handler runs, the program continues." alt="" coords="5,69,205,109"/>
+<area shape="poly" title=" " alt="" coords="240,74,206,79,205,74,239,69"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a94bb11107320de43ffd8218ee84f5a0e" name="a94bb11107320de43ffd8218ee84f5a0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94bb11107320de43ffd8218ee84f5a0e">&#9670;&#160;</a></span>file_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const  * lumex::core::contracts::source_location::file_name </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The file name; never null. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02111_a94bb11107320de43ffd8218ee84f5a0e_icgraph.png" border="0" usemap="#aa02111_a94bb11107320de43ffd8218ee84f5a0e_icgraph" alt=""/></div>
+<map name="aa02111_a94bb11107320de43ffd8218ee84f5a0e_icgraph" id="aa02111_a94bb11107320de43ffd8218ee84f5a0e_icgraph">
+<area shape="rect" title="The file name; never null." alt="" coords="735,107,939,147"/>
+<area shape="rect" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="496,59,687,114"/>
+<area shape="poly" title=" " alt="" coords="721,110,686,105,687,100,721,105"/>
+<area shape="rect" href="a02111.html#ad0754d961dbd88026624e60dbdfebb9a" title="A location of the given values." alt="" coords="500,138,683,193"/>
+<area shape="poly" title=" " alt="" coords="722,148,683,154,682,148,721,142"/>
+<area shape="rect" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,37,448,77"/>
+<area shape="poly" title=" " alt="" coords="482,76,448,72,449,67,483,71"/>
+<area shape="rect" href="a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="323,102,378,127"/>
+<area shape="poly" title=" " alt="" coords="483,102,379,114,378,109,482,97"/>
+<area shape="rect" href="a02095.html#ace41f89e39c053ae9e4935b8e7b3acc3" title="enforce: the handler runs, then the program is aborted." alt="" coords="7,5,204,45"/>
+<area shape="poly" title=" " alt="" coords="239,46,204,41,205,36,240,40"/>
+<area shape="rect" href="a02091.html#aab54f7f089e730f7d04344425c9d05f4" title="observe: the handler runs, the program continues." alt="" coords="5,69,205,109"/>
+<area shape="poly" title=" " alt="" coords="240,74,206,79,205,74,239,69"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a67099ea89fd04d8b6533ab6232b310c5" name="a67099ea89fd04d8b6533ab6232b310c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67099ea89fd04d8b6533ab6232b310c5">&#9670;&#160;</a></span>function_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const  * lumex::core::contracts::source_location::function_name </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The function name; never null. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02111_a67099ea89fd04d8b6533ab6232b310c5_icgraph.png" border="0" usemap="#aa02111_a67099ea89fd04d8b6533ab6232b310c5_icgraph" alt=""/></div>
+<map name="aa02111_a67099ea89fd04d8b6533ab6232b310c5_icgraph" id="aa02111_a67099ea89fd04d8b6533ab6232b310c5_icgraph">
+<area shape="rect" title="The function name; never null." alt="" coords="735,107,972,147"/>
+<area shape="rect" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="496,59,687,114"/>
+<area shape="poly" title=" " alt="" coords="721,109,686,104,687,99,721,104"/>
+<area shape="rect" href="a02111.html#ad0754d961dbd88026624e60dbdfebb9a" title="A location of the given values." alt="" coords="500,138,683,193"/>
+<area shape="poly" title=" " alt="" coords="722,149,683,154,683,149,721,144"/>
+<area shape="rect" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,37,448,77"/>
+<area shape="poly" title=" " alt="" coords="482,76,448,72,449,67,483,71"/>
+<area shape="rect" href="a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="323,102,378,127"/>
+<area shape="poly" title=" " alt="" coords="483,102,379,114,378,109,482,97"/>
+<area shape="rect" href="a02095.html#ace41f89e39c053ae9e4935b8e7b3acc3" title="enforce: the handler runs, then the program is aborted." alt="" coords="7,5,204,45"/>
+<area shape="poly" title=" " alt="" coords="239,46,204,41,205,36,240,40"/>
+<area shape="rect" href="a02091.html#aab54f7f089e730f7d04344425c9d05f4" title="observe: the handler runs, the program continues." alt="" coords="5,69,205,109"/>
+<area shape="poly" title=" " alt="" coords="240,74,206,79,205,74,239,69"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a32a7de5a3c08143dc13c818fcba2bfae" name="a32a7de5a3c08143dc13c818fcba2bfae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32a7de5a3c08143dc13c818fcba2bfae">&#9670;&#160;</a></span>line()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint_least32_t lumex::core::contracts::source_location::line </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The line; 0 when unknown. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02111_a32a7de5a3c08143dc13c818fcba2bfae_icgraph.png" border="0" usemap="#aa02111_a32a7de5a3c08143dc13c818fcba2bfae_icgraph" alt=""/></div>
+<map name="aa02111_a32a7de5a3c08143dc13c818fcba2bfae_icgraph" id="aa02111_a32a7de5a3c08143dc13c818fcba2bfae_icgraph">
+<area shape="rect" title="The line; 0 when unknown." alt="" coords="735,107,901,147"/>
+<area shape="rect" href="a01509.html#a9b050992206d89033462d7c9b7eb8c78" title="The default handler: writes one line about violation to standard error and returns." alt="" coords="496,59,687,114"/>
+<area shape="poly" title=" " alt="" coords="721,112,687,106,687,101,722,107"/>
+<area shape="rect" href="a02111.html#ad0754d961dbd88026624e60dbdfebb9a" title="A location of the given values." alt="" coords="500,138,683,193"/>
+<area shape="poly" title=" " alt="" coords="721,146,683,152,682,147,720,141"/>
+<area shape="rect" href="a01509.html#aff0af939d63bcfe05648c2bb8d1b9c87" title="Reports violation to the installed handler, or to the default handler when none is installed (or when..." alt="" coords="253,37,448,77"/>
+<area shape="poly" title=" " alt="" coords="482,76,448,72,449,67,483,71"/>
+<area shape="rect" href="a00437.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="323,102,378,127"/>
+<area shape="poly" title=" " alt="" coords="483,102,379,114,378,109,482,97"/>
+<area shape="rect" href="a02095.html#ace41f89e39c053ae9e4935b8e7b3acc3" title="enforce: the handler runs, then the program is aborted." alt="" coords="7,5,204,45"/>
+<area shape="poly" title=" " alt="" coords="239,46,204,41,205,36,240,40"/>
+<area shape="rect" href="a02091.html#aab54f7f089e730f7d04344425c9d05f4" title="observe: the handler runs, the program continues." alt="" coords="5,69,205,109"/>
+<area shape="poly" title=" " alt="" coords="240,74,206,79,205,74,239,69"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="a05cfe36fc1298e6d0cb629e088f21c17" name="a05cfe36fc1298e6d0cb629e088f21c17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05cfe36fc1298e6d0cb629e088f21c17">&#9670;&#160;</a></span>operator!=</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02111.html">source_location</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>left</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02111.html">source_location</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>right</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The negation of <code>operator==</code>. </p>
+
+</div>
+</div>
+<a id="af28bf5a4f121b198f9861f69e026a0cd" name="af28bf5a4f121b198f9861f69e026a0cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af28bf5a4f121b198f9861f69e026a0cd">&#9670;&#160;</a></span>operator==</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02111.html">source_location</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>left</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a02111.html">source_location</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>right</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether both names and both numbers are equal (by content). </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01010_source.html">LumexContractsSourceLocation.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01509.html">contracts</a></li><li class="navelem"><a class="el" href="a02111.html">source_location</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,8 @@
+<map id="lumex::core::filesystem::fs::directory_entry::is_regular_file" name="lumex::core::filesystem::fs::directory_entry::is_regular_file">
+<area shape="rect" id="Node000001" title="Checks if the entry represents a regular file." alt="" coords="5,29,180,84"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a48c65868ffe788148b87890950c79bf4" title="Checks if the specified path_arg refers to a regular file." alt="" coords="228,29,403,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,54,214,54,214,59,180,59"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="272,29,272,19,280,10,294,5,315,3,340,6,355,14,352,18,339,11,315,8,296,10,283,15,277,21,277,29"/>
+<area shape="rect" id="Node000003" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="451,37,625,77"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="403,54,437,54,437,59,403,59"/>
+</map>

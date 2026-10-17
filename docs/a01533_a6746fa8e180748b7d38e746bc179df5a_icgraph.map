@@ -1,0 +1,16 @@
+<map id="lumex::core::expected::result::detail::reinit" name="lumex::core::expected::result::detail::reinit">
+<area shape="rect" id="Node000001" title="reinit&#45;expected (T = N, U = O): ends the life of oldval and starts newval with args...." alt="" coords="557,197,724,237"/>
+<area shape="rect" id="Node000002" href="$a02847.html#ac152306992f18e0f7f5d020b20848405" title="Assigns the contents of another storage of the same type: [expected.object.assign]/2 and /7." alt="" coords="275,59,509,114"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="604,191,559,159,508,129,480,116,482,112,511,124,562,155,607,187"/>
+<area shape="rect" id="Node000005" href="$a02699.html#ab660bb8fc34d6cb2163f21b5fb2a3a75" title=" " alt="" coords="282,139,502,208"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="543,203,502,195,503,190,544,198"/>
+<area shape="rect" id="Node000006" href="$a02919.html#ac9acfbc413414ed83b13a41fd4f05149" title="Constructs an ErrorType value in place, replacing the current contents." alt="" coords="290,233,494,287"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="544,237,495,245,494,240,543,231"/>
+<area shape="rect" id="Node000007" href="$a02699.html#a38d98f759b5694b88320e1c0e979ff69" title=" " alt="" coords="282,312,502,381"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="602,247,511,302,485,314,483,309,508,298,599,243"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="433,48,418,41,392,38,370,40,355,45,349,51,349,59,344,59,344,49,353,40,369,35,392,33,420,36,436,44"/>
+<area shape="rect" id="Node000003" href="$a02887.html#a8734ff859c7c34d7318f7f83946ab39d" title="Assigns the contents of rhs." alt="" coords="9,5,223,75"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="261,67,223,61,224,56,261,62"/>
+<area shape="rect" id="Node000004" href="$a02899.html#ada48e32652ef5d94acb3cc795f0cd26b" title="Assigns the contents of rhs by move." alt="" coords="5,99,227,168"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="262,111,227,117,226,112,261,106"/>
+</map>

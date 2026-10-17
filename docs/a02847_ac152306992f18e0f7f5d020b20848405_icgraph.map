@@ -1,0 +1,8 @@
+<map id="lumex::core::expected::result::detail::storage::expected_storage::assign_from" name="lumex::core::expected::result::detail::storage::expected_storage::assign_from">
+<area shape="rect" id="Node000001" title="Assigns the contents of another storage of the same type: [expected.object.assign]/2 and /7." alt="" coords="275,59,509,114"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="438,48,421,41,392,38,367,40,351,45,344,51,344,59,339,59,339,49,349,40,366,35,392,33,423,36,440,44"/>
+<area shape="rect" id="Node000002" href="$a02887.html#a8734ff859c7c34d7318f7f83946ab39d" title="Assigns the contents of rhs." alt="" coords="9,5,223,75"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="261,67,223,61,224,56,261,62"/>
+<area shape="rect" id="Node000003" href="$a02899.html#ada48e32652ef5d94acb3cc795f0cd26b" title="Assigns the contents of rhs by move." alt="" coords="5,99,227,168"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="262,111,227,117,226,112,261,106"/>
+</map>

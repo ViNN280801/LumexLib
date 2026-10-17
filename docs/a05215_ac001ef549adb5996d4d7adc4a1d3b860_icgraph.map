@@ -1,0 +1,11 @@
+<map id="lumex::xml::writer::XmlWriterFile::XmlWriterFile" name="lumex::xml::writer::XmlWriterFile::XmlWriterFile">
+<area shape="rect" id="Node000001" title="Constructs an XmlWriterFile with a given file handle." alt="" coords="265,101,477,141"/>
+<area shape="rect" id="Node000002" href="$a05215.html#a7bb0f70fe54863c398648ce62b3cc9bf" title="Deleted move assignment operator." alt="" coords="16,5,207,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="313,98,216,60,180,48,182,43,218,55,315,93"/>
+<area shape="rect" id="Node000003" href="$a05215.html#af974582d54823a8a8092fae83efb63fd" title="Deleted copy assignment operator." alt="" coords="16,69,207,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,109,206,104,207,98,252,104"/>
+<area shape="rect" id="Node000004" href="$a05215.html#a9c47e009ac80dee630f2be00a12d7057" title="Deleted move constructor." alt="" coords="5,133,217,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,139,218,143,217,138,252,133"/>
+<area shape="rect" id="Node000005" href="$a05215.html#a2f3367e817012d9990d77f3dabe56135" title="Deleted copy constructor." alt="" coords="5,197,217,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="315,149,218,188,182,200,180,195,216,183,313,144"/>
+</map>

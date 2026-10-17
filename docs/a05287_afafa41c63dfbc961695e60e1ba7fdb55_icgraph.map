@@ -1,0 +1,30 @@
+<map id="lumex::xml::xpath::node::XPathNodeSet::type" name="lumex::xml::xpath::node::XPathNodeSet::type">
+<area shape="rect" id="Node000001" title="Gets the current ordering type of the node set." alt="" coords="1259,182,1449,222"/>
+<area shape="rect" id="Node000002" href="$a05239.html#a1503ded341dc30788a4db31b632de4e8" title="Evaluates the XPath expression represented by this AST node to a node&#45;set." alt="" coords="1032,175,1211,229"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1245,205,1211,205,1211,199,1245,199"/>
+<area shape="rect" id="Node000003" href="$a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="772,80,951,135"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1032,172,936,137,938,132,1034,167"/>
+<area shape="rect" id="Node000005" href="$a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,83,439,137"/>
+<area shape="poly" id="edge10_Node000002_Node000005" title=" " alt="" coords="1018,192,439,123,439,118,1019,187"/>
+<area shape="rect" id="Node000007" href="$a05315.html#a9e6e14d2583f26c245199b4d022aeae2" title="Evaluates the XPath query to a single node." alt="" coords="739,210,984,250"/>
+<area shape="poly" id="edge11_Node000002_Node000007" title=" " alt="" coords="1019,216,984,219,984,214,1018,210"/>
+<area shape="rect" id="Node000010" href="$a05315.html#a7bf53aa20d04946a89d395e7345c1be5" title="Evaluates the XPath query to a node&#45;set." alt="" coords="758,303,965,357"/>
+<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="1055,238,918,305,916,300,1052,233"/>
+<area shape="rect" id="Node000004" href="$a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="499,5,678,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="758,91,659,63,660,57,759,85"/>
+<area shape="poly" id="edge9_Node000003_Node000005" title=" " alt="" coords="758,118,439,119,439,114,758,113"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="692,49,791,77,790,82,691,55"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="516,67,440,92,438,87,514,62"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="452,99,772,98,772,103,452,105"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="422,75,498,50,500,55,423,81"/>
+<area shape="rect" id="Node000006" href="$a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,83,212,137"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="246,113,212,113,212,107,246,107"/>
+<area shape="rect" id="Node000008" href="$a05143.html#ab3b8c4b5ae7c14a5f5353854af2c0980" title="Selects a single node by evaluating an XPath query." alt="" coords="487,210,691,250"/>
+<area shape="poly" id="edge12_Node000007_Node000008" title=" " alt="" coords="725,233,691,233,691,227,725,227"/>
+<area shape="rect" id="Node000009" href="$a05143.html#a260d31b59a5cd0c5f8fff0fd592c2793" title=" " alt="" coords="487,274,691,314"/>
+<area shape="poly" id="edge13_Node000007_Node000009" title=" " alt="" coords="763,256,674,277,673,271,762,251"/>
+<area shape="rect" id="Node000011" href="$a05143.html#ab8730fb0f45c45e980dc2e0cc918318f" title="Selects a set of nodes by evaluating an XPath query." alt="" coords="487,338,691,378"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="745,345,691,350,690,345,744,339"/>
+<area shape="rect" id="Node000012" href="$a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="322,345,377,371"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="473,361,377,361,377,355,473,355"/>
+</map>

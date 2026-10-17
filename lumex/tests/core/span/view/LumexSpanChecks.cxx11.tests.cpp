@@ -79,9 +79,19 @@ discard (T const &)
 {
 }
 
+// The line number of the check is pinned: GoogleTest matches the death message
+// with a POSIX regular expression where it has one and with its own simple
+// engine (no character classes, but \d) where it has not (Windows).
+#if GTEST_USES_POSIX_RE
+#define LUMEX_SPAN_TEST_LINE "[0-9]+"
+#else
+#define LUMEX_SPAN_TEST_LINE "\\d+"
+#endif
+
 #define LUMEX_SPAN_TEST_ABORTS(statement, message)                            \
-  LUMEX_SPAN_EXPECT_ABORT (discard (statement),                               \
-                           message ".* failed at .*LumexSpan\\.hpp:.*")
+  LUMEX_SPAN_EXPECT_ABORT (                                                   \
+      discard (statement),                                                    \
+      message ".* failed at .*LumexSpan\\.hpp:" LUMEX_SPAN_TEST_LINE)
 } // namespace
 
 class LumexSpanChecksDeathTest : public ::testing::Test
@@ -220,7 +230,7 @@ TEST_F (LumexSpanChecksDeathTest,
   LUMEX_SPAN_EXPECT_ABORT (
       discard (view[9]),
       "^LUMEX_SPAN_CHECKS: index < m_storage.size \\(\\) failed at "
-      ".*LumexSpan\\.hpp:.*\n");
+      ".*LumexSpan\\.hpp:" LUMEX_SPAN_TEST_LINE "\n");
 }
 
 #elif !LUMEX_SPAN_CHECKS

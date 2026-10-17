@@ -1,0 +1,11 @@
+<map id="LumexProcFs.hpp" name="LumexProcFs.hpp">
+<area shape="rect" id="Node000001" title="Text parsers for the Linux /proc/stat and /proc/meminfo files the resource monitor samples." alt="" coords="293,5,429,31"/>
+<area shape="rect" id="Node000002" href="$a01286.html" title=" " alt="" coords="5,79,140,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,37,123,81,122,76,297,32"/>
+<area shape="rect" id="Node000003" href="$a01304.html" title=" " alt="" coords="164,79,347,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="333,41,275,81,272,76,330,36"/>
+<area shape="rect" id="Node000004" href="$a01301.html" title=" " alt="" coords="371,79,561,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="392,36,449,76,446,81,389,41"/>
+<area shape="rect" id="Node000005" href="$a01295.html" title=" " alt="" coords="586,79,786,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="431,31,630,76,629,81,429,36"/>
+</map>

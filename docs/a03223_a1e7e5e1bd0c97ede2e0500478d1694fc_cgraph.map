@@ -1,0 +1,8 @@
+<map id="lumex::core::hazard_pointer::detail::node_base::node_base" name="lumex::core::hazard_pointer::detail::node_base::node_base">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,165,60"/>
+<area shape="rect" id="Node000002" href="$a01546.html#a038376618af78c36c697023858a07862" title="Marks a node as not retired." alt="" coords="421,13,616,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,24,213,22,373,22,408,23,407,29,373,27,213,27,166,30"/>
+<area shape="rect" id="Node000003" href="$a03223.html#a6cdf5f125a8ebb4b072f769fbd77dcd1" title=" " alt="" coords="213,37,373,92"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,42,200,48,199,53,165,48"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="373,51,407,46,408,51,374,56"/>
+</map>

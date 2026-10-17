@@ -1,0 +1,9 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::last_write_time" name="lumex::core::filesystem::fs::lumex_filesystem::last_write_time">
+<area shape="rect" id="Node000001" title="Sets the last write time of a file or directory." alt="" coords="5,5,180,60"/>
+<area shape="rect" id="Node000002" href="$a02947.html#afbc4f64f22c9c5e9057842a5b81178ea" title="Returns a pointer to the null&#45;terminated C&#45;style string representation of the path." alt="" coords="451,13,625,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,15,228,10,315,6,403,10,437,13,437,19,402,15,315,11,228,15,180,20"/>
+<area shape="rect" id="Node000003" href="$a02967.html#a5f52eda248e22d8f7048bded9a186a79" title="Retrieves the last write time of a file or directory." alt="" coords="228,49,403,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,47,215,54,214,59,180,53"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="402,57,437,50,438,55,403,62"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="272,49,272,39,280,30,294,25,315,23,340,26,355,34,352,38,339,31,315,28,296,30,283,35,277,41,277,49"/>
+</map>

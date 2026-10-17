@@ -1,0 +1,13 @@
+<map id="LumexUnicodeConvert.hpp" name="LumexUnicodeConvert.hpp">
+<area shape="rect" id="Node000001" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF&#45;8 and of a UTF&#45;8 string to wchar_t,..." alt="" coords="153,5,351,31"/>
+<area shape="rect" id="Node000002" href="$a00752.html" title=" " alt="" coords="5,79,168,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,39,117,81,115,76,210,34"/>
+<area shape="rect" id="Node000003" href="$a01415.html" title="Unicode module: transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t,..." alt="" coords="193,79,311,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="255,44,255,78,249,78,249,44"/>
+<area shape="rect" id="Node000006" href="$a00734.html" title=" " alt="" coords="335,79,478,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="292,34,381,76,378,81,290,39"/>
+<area shape="rect" id="Node000004" href="$a00491.html" title=" " alt="" coords="59,152,223,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="223,114,162,154,159,150,220,109"/>
+<area shape="rect" id="Node000005" href="$a00488.html" title=" " alt="" coords="248,152,477,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="284,109,345,150,342,154,281,114"/>
+</map>

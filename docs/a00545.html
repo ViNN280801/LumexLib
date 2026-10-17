@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexBasicStringView.hpp File Reference</title>
+<title>LumexLib: XmlAttribute.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,540 +106,229 @@ $(function(){initNavTree('a00545.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">LumexBasicStringView.hpp File Reference</div></div>
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">XmlAttribute.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Header-only, C++11-first <code>basic_string_view</code>: the class template behind <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code>, <code><a class="el" href="a00551.html#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code> and the other character views.  
+<p><code>XmlAttribute</code>, the handle to one attribute of an element: read its name and value, convert the value to numbers and booleans, and change both.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;cstring&gt;</code><br />
-<code>#include &lt;exception&gt;</code><br />
-<code>#include &lt;functional&gt;</code><br />
-<code>#include &lt;ios&gt;</code><br />
-<code>#include &lt;iterator&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;ostream&gt;</code><br />
-<code>#include &lt;stdexcept&gt;</code><br />
-<code>#include &lt;streambuf&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;string_view&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00710_source.html">lumex/xml/utility/XmlMacros.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00536_source.html">XmlAttributeBase.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexBasicStringView.hpp:</div>
+Include dependency graph for XmlAttribute.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00546.png" border="0" usemap="#a_lumex_basic_string_view_8hpp" alt=""/></div>
+<div class="center"><img src="a00546.png" border="0" usemap="#aXmlAttribute_8hpp" alt=""/></div>
+<map name="aXmlAttribute_8hpp" id="aXmlAttribute_8hpp">
+<area shape="rect" title="XmlAttribute, the handle to one attribute of an element: read its name and value, convert the value t..." alt="" coords="775,5,908,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="1357,321,1539,346"/>
+<area shape="poly" title=" " alt="" coords="908,20,1119,41,1225,57,1301,76,1369,103,1422,128,1445,144,1466,165,1486,191,1505,224,1510,248,1504,272,1491,294,1475,312,1471,309,1486,291,1499,270,1505,248,1500,226,1481,194,1462,168,1442,148,1420,133,1367,107,1299,81,1224,62,1119,46,908,25"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="5,489,195,529"/>
+<area shape="poly" title=" " alt="" coords="774,22,616,30,522,40,428,53,342,72,271,96,244,111,224,127,211,145,207,165,207,334,200,377,182,417,158,452,134,481,129,477,154,449,177,414,194,375,201,333,201,164,206,143,220,123,241,106,269,91,341,66,427,48,522,34,616,25,774,17"/>
+<area shape="rect" href="a00710.html" title="Preprocessor macros of the XML module: the decoding of header words and the scanning macros of the pa..." alt="" coords="342,321,581,346"/>
+<area shape="poly" title=" " alt="" coords="828,33,489,314,486,310,824,29"/>
+<area shape="rect" href="a00536.html" title="Internal storage of an XML attribute and the functions that allocate, link, unlink and copy it." alt="" coords="1123,79,1288,104"/>
+<area shape="poly" title=" " alt="" coords="905,28,1129,73,1128,78,904,33"/>
+<area shape="rect" title=" " alt="" coords="166,585,258,610"/>
+<area shape="poly" title=" " alt="" coords="128,528,186,574,183,578,124,532"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="671,577,926,617"/>
+<area shape="poly" title=" " alt="" coords="195,525,207,527,445,558,658,581,658,587,445,564,206,532,194,530"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1339,577,1552,617"/>
+<area shape="poly" title=" " alt="" coords="195,525,207,527,434,546,746,564,1325,590,1325,595,745,569,434,551,206,532,194,530"/>
+<area shape="poly" title=" " alt="" coords="436,349,154,486,152,481,434,344"/>
+<area shape="poly" title=" " alt="" coords="1222,102,1244,124,1266,151,1283,182,1291,210,1301,236,1321,263,1358,292,1398,313,1396,318,1355,297,1317,267,1296,238,1286,212,1278,184,1262,153,1240,127,1218,106"/>
+<area shape="rect" href="a00704.html" title="The page allocator that holds the nodes, attributes and strings of one XML document." alt="" coords="985,152,1252,177"/>
+<area shape="poly" title=" " alt="" coords="1192,106,1146,145,1143,141,1189,102"/>
+<area shape="rect" href="a00698.html" title="The header of a memory page of the XML allocator, and the default page size." alt="" coords="1331,233,1491,258"/>
+<area shape="poly" title=" " alt="" coords="1233,102,1272,123,1314,150,1356,186,1391,220,1387,224,1352,190,1310,154,1269,127,1231,106"/>
+<area shape="poly" title=" " alt="" coords="1141,175,1219,223,1247,244,1276,263,1337,292,1396,314,1394,319,1335,296,1273,268,1244,248,1216,228,1139,180"/>
+<area shape="poly" title=" " alt="" coords="1002,180,859,201,796,214,752,228,725,242,704,257,672,289,641,322,620,339,593,356,495,401,393,439,295,468,209,490,208,485,294,463,391,434,493,397,591,351,617,335,637,318,668,285,700,253,722,237,750,223,795,209,858,195,1001,175"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="1022,225,1205,265"/>
+<area shape="poly" title=" " alt="" coords="1120,178,1118,212,1113,212,1115,177"/>
+<area shape="rect" href="a00656.html" title="The basic types and enumerations of the XML module: character and string types, node types,..." alt="" coords="763,233,989,258"/>
+<area shape="poly" title=" " alt="" coords="1081,180,928,231,926,226,1079,175"/>
+<area shape="poly" title=" " alt="" coords="1166,175,1352,226,1351,232,1164,180"/>
+<area shape="poly" title=" " alt="" coords="1190,263,1387,315,1386,320,1189,268"/>
+<area shape="poly" title=" " alt="" coords="1022,264,859,295,764,316,742,330,726,346,703,380,679,414,662,430,639,444,579,469,526,483,478,489,431,489,332,485,275,486,208,492,208,487,275,481,332,480,431,484,478,483,525,477,577,464,636,439,659,425,675,410,698,377,722,343,738,326,762,311,858,289,1021,259"/>
+<area shape="poly" title=" " alt="" coords="1157,263,1346,351,1395,369,1439,380,1518,395,1554,405,1588,422,1621,448,1652,488,1659,504,1659,520,1653,533,1642,545,1608,565,1566,579,1564,574,1606,560,1638,541,1649,530,1654,519,1654,506,1647,491,1617,452,1585,427,1552,410,1517,400,1438,386,1393,374,1344,356,1155,268"/>
+<area shape="poly" title=" " alt="" coords="817,261,535,320,534,315,816,255"/>
+<area shape="rect" title=" " alt="" coords="219,497,285,522"/>
+<area shape="poly" title=" " alt="" coords="852,261,810,284,764,315,729,351,705,384,680,415,662,430,639,444,590,464,547,475,508,478,470,478,391,476,347,480,295,492,290,494,288,489,294,487,346,475,391,470,470,472,507,473,546,469,588,459,636,439,659,425,676,411,701,381,725,347,761,311,807,280,849,256"/>
+<area shape="rect" title=" " alt="" coords="1483,497,1541,522"/>
+<area shape="poly" title=" " alt="" coords="908,256,1471,489,1469,494,906,261"/>
+<area shape="rect" href="a00854.html" title="lumex_string_view: the view over char, the std::string_view of the library from C++11." alt="" coords="775,313,977,353"/>
+<area shape="poly" title=" " alt="" coords="879,258,879,299,873,299,873,258"/>
+<area shape="rect" href="a00857.html" title="Header&#45;only, C++11&#45;first basic_string_view: the class template behind lumex_string_view,..." alt="" coords="757,401,995,441"/>
+<area shape="poly" title=" " alt="" coords="879,354,879,387,873,387,873,354"/>
+<area shape="poly" title=" " alt="" coords="757,437,688,444,450,465,344,475,209,492,208,487,344,469,449,459,688,439,757,431"/>
+<area shape="poly" title=" " alt="" coords="758,441,739,444,679,450,627,452,539,451,497,453,453,459,405,471,349,492,240,578,237,574,347,487,403,466,452,454,497,448,539,446,627,446,679,445,738,439,757,436"/>
+<area shape="poly" title=" " alt="" coords="995,427,1225,450,1321,467,1353,477,1371,488,1381,509,1378,520,1371,531,1350,543,1313,553,1204,571,1071,584,940,593,940,587,1070,578,1204,565,1312,548,1348,538,1368,527,1374,518,1375,510,1367,491,1351,482,1319,472,1224,456,995,432"/>
+<area shape="poly" title=" " alt="" coords="995,428,1235,454,1337,470,1372,478,1393,487,1411,503,1424,523,1440,563,1435,565,1419,525,1407,507,1391,492,1371,483,1336,475,1235,459,994,434"/>
+<area shape="poly" title=" " alt="" coords="758,442,739,444,616,455,520,460,425,469,305,492,295,495,293,490,303,487,424,463,520,455,616,450,738,439,757,436"/>
+<area shape="poly" title=" " alt="" coords="995,428,1252,454,1375,470,1465,487,1473,489,1471,494,1463,492,1375,475,1251,459,995,434"/>
+<area shape="rect" title=" " alt="" coords="1566,497,1637,522"/>
+<area shape="poly" title=" " alt="" coords="995,426,1298,451,1446,468,1554,487,1562,489,1561,494,1553,492,1446,473,1297,456,995,432"/>
+<area shape="rect" title=" " alt="" coords="360,497,427,522"/>
+<area shape="poly" title=" " alt="" coords="757,442,439,492,433,494,431,489,438,487,757,436"/>
+<area shape="rect" title=" " alt="" coords="451,497,538,522"/>
+<area shape="poly" title=" " alt="" coords="760,444,657,465,550,492,541,495,539,490,549,487,656,460,759,439"/>
+<area shape="rect" title=" " alt="" coords="562,497,649,522"/>
+<area shape="poly" title=" " alt="" coords="811,444,662,492,654,495,652,490,660,487,810,439"/>
+<area shape="rect" title=" " alt="" coords="673,497,714,522"/>
+<area shape="poly" title=" " alt="" coords="829,444,728,492,727,492,725,487,725,487,827,439"/>
+<area shape="rect" title=" " alt="" coords="738,497,809,522"/>
+<area shape="poly" title=" " alt="" coords="854,444,801,489,797,485,850,440"/>
+<area shape="rect" title=" " alt="" coords="833,497,911,522"/>
+<area shape="poly" title=" " alt="" coords="878,442,876,483,871,483,872,442"/>
+<area shape="rect" title=" " alt="" coords="935,497,1011,522"/>
+<area shape="poly" title=" " alt="" coords="900,440,950,485,947,489,897,444"/>
+<area shape="rect" title=" " alt="" coords="1035,497,1122,522"/>
+<area shape="poly" title=" " alt="" coords="924,439,1038,489,1036,494,921,444"/>
+<area shape="rect" title=" " alt="" coords="1146,497,1235,522"/>
+<area shape="poly" title=" " alt="" coords="961,439,1135,487,1145,490,1143,495,1134,492,959,444"/>
+<area shape="rect" title=" " alt="" coords="1259,497,1357,522"/>
+<area shape="poly" title=" " alt="" coords="996,436,1118,458,1249,487,1261,490,1259,495,1247,492,1117,463,995,441"/>
+<area shape="poly" title=" " alt="" coords="1419,257,1440,307,1435,309,1414,259"/>
+<area shape="poly" title=" " alt="" coords="1462,256,1510,277,1533,292,1553,312,1578,354,1593,401,1601,445,1604,482,1599,483,1596,446,1588,402,1573,356,1549,315,1530,296,1507,281,1460,261"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00547.png" border="0" usemap="#a_lumex_basic_string_view_8hppdep" alt=""/></div>
+<div class="center"><img src="a00547.png" border="0" usemap="#aXmlAttribute_8hppdep" alt=""/></div>
+<map name="aXmlAttribute_8hppdep" id="aXmlAttribute_8hppdep">
+<area shape="rect" title="XmlAttribute, the handle to one attribute of an element: read its name and value, convert the value t..." alt="" coords="341,5,475,31"/>
+<area shape="rect" href="a01421.html" title="XML module: a DOM tree of nodes, attributes and text, loading and saving with writers for files and s..." alt="" coords="709,445,801,471"/>
+<area shape="poly" title=" " alt="" coords="328,33,229,53,123,82,78,100,41,120,16,142,10,153,8,165,8,311,14,323,30,335,93,359,185,381,296,401,530,433,709,451,708,457,529,438,295,407,184,387,91,364,28,340,9,326,3,312,3,164,5,151,12,139,38,116,75,95,122,77,227,48,327,28"/>
+<area shape="rect" href="a00638.html" title="XPathNode, an item of an XPath result: either an XML node or an attribute together with its element." alt="" coords="1145,152,1266,177"/>
+<area shape="poly" title=" " alt="" coords="489,30,1145,151,1144,156,488,35"/>
+<area shape="rect" href="a00548.html" title=" " alt="" coords="342,79,474,104"/>
+<area shape="poly" title=" " alt="" coords="411,44,411,78,405,78,405,44"/>
+<area shape="rect" href="a00542.html" title=" " alt="" coords="43,152,221,177"/>
+<area shape="poly" title=" " alt="" coords="373,39,157,154,155,149,371,35"/>
+<area shape="rect" href="a00719.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes..." alt="" coords="579,79,690,104"/>
+<area shape="poly" title=" " alt="" coords="461,32,596,76,594,81,459,37"/>
+<area shape="rect" href="a00389.html" title=" " alt="" coords="477,519,598,544"/>
+<area shape="poly" title=" " alt="" coords="705,478,576,521,574,516,703,473"/>
+<area shape="rect" href="a00395.html" title=" " alt="" coords="622,519,743,544"/>
+<area shape="poly" title=" " alt="" coords="735,482,697,520,694,516,731,479"/>
+<area shape="rect" href="a00392.html" title=" " alt="" coords="767,519,889,544"/>
+<area shape="poly" title=" " alt="" coords="779,479,817,516,813,520,775,482"/>
+<area shape="rect" href="a00398.html" title=" " alt="" coords="913,519,1034,544"/>
+<area shape="poly" title=" " alt="" coords="806,473,936,516,934,521,805,478"/>
+<area shape="poly" title=" " alt="" coords="1131,175,999,195,939,210,899,228,870,251,845,280,804,343,776,403,761,446,756,444,771,401,799,340,841,277,866,248,896,223,937,205,998,190,1130,170"/>
+<area shape="rect" href="a00578.html" title="XPathContext, the context node, position and size that XPath evaluation passes to every subexpression..." alt="" coords="1877,299,2016,324"/>
+<area shape="poly" title=" " alt="" coords="1280,164,1372,170,1486,180,1610,197,1734,223,1788,239,1840,259,1922,296,1920,301,1838,264,1786,244,1733,228,1610,202,1485,185,1371,175,1279,170"/>
+<area shape="rect" href="a00650.html" title="Comparison of XPath nodes by document order, used to sort node sets." alt="" coords="944,225,1211,251"/>
+<area shape="poly" title=" " alt="" coords="1173,187,1101,227,1098,223,1170,182"/>
+<area shape="rect" href="a00635.html" title=" " alt="" coords="1285,225,1405,251"/>
+<area shape="poly" title=" " alt="" coords="1243,181,1322,223,1320,227,1240,186"/>
+<area shape="rect" href="a00641.html" title="XPathNodeSet, the node set an XPath query returns, and XPathNodeSetRaw, the growable array used while..." alt="" coords="1430,225,1573,251"/>
+<area shape="poly" title=" " alt="" coords="1270,178,1450,223,1449,228,1269,183"/>
+<area shape="rect" href="a00632.html" title="Document order sorting of XPath node ranges, and copying of XPath variable values." alt="" coords="1235,299,1352,324"/>
+<area shape="poly" title=" " alt="" coords="1222,188,1288,297,1283,300,1218,191"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="1109,445,1219,471"/>
+<area shape="poly" title=" " alt="" coords="1131,177,1018,199,968,212,933,228,914,243,902,258,885,299,882,317,882,333,895,362,919,386,952,406,991,422,1032,434,1110,449,1109,454,1031,439,989,427,949,411,915,390,890,365,877,334,876,317,880,298,897,255,910,239,931,223,966,207,1017,193,1130,172"/>
+<area shape="rect" href="a00581.html" title=" " alt="" coords="1597,225,1721,251"/>
+<area shape="poly" title=" " alt="" coords="1280,174,1586,223,1597,225,1596,230,1585,228,1279,179"/>
+<area shape="rect" href="a00572.html" title="XPathAstNode, the node of a compiled XPath expression tree, which evaluates itself against a context." alt="" coords="1879,372,2022,397"/>
+<area shape="poly" title=" " alt="" coords="1951,337,1953,371,1947,372,1945,338"/>
+<area shape="rect" href="a00575.html" title=" " alt="" coords="2001,445,2143,471"/>
+<area shape="poly" title=" " alt="" coords="1985,402,2052,443,2049,447,1982,407"/>
+<area shape="rect" href="a00608.html" title="XPathParser, the recursive descent parser that compiles an XPath 1.0 expression into a tree of XPathA..." alt="" coords="1850,445,1977,471"/>
+<area shape="poly" title=" " alt="" coords="1940,411,1922,446,1918,444,1936,408"/>
+<area shape="rect" href="a00605.html" title=" " alt="" coords="1563,519,1688,544"/>
+<area shape="poly" title=" " alt="" coords="1851,477,1676,521,1675,516,1849,472"/>
+<area shape="rect" href="a00554.html" title=" " alt="" coords="1805,519,1928,544"/>
+<area shape="poly" title=" " alt="" coords="1900,484,1877,520,1873,517,1896,481"/>
+<area shape="rect" href="a00647.html" title=" " alt="" coords="894,299,1159,324"/>
+<area shape="poly" title=" " alt="" coords="1063,263,1038,300,1034,297,1059,260"/>
+<area shape="rect" href="a00629.html" title=" " alt="" coords="1073,372,1189,397"/>
+<area shape="poly" title=" " alt="" coords="1127,255,1153,272,1174,298,1179,318,1172,339,1147,373,1143,370,1168,337,1173,318,1170,300,1150,276,1124,259"/>
+<area shape="poly" title=" " alt="" coords="1491,264,1471,296,1444,334,1409,371,1368,400,1334,410,1277,419,1116,436,801,458,801,453,1115,431,1276,414,1333,404,1366,395,1406,367,1440,331,1467,293,1486,261"/>
+<area shape="poly" title=" " alt="" coords="1562,252,1711,296,1918,369,1916,374,1710,301,1560,257"/>
+<area shape="rect" href="a00644.html" title=" " alt="" coords="1213,372,1355,397"/>
+<area shape="poly" title=" " alt="" coords="1473,261,1305,374,1302,370,1470,256"/>
+<area shape="poly" title=" " alt="" coords="1453,258,1330,301,1329,296,1452,253"/>
+<area shape="rect" href="a00563.html" title="XPathVariable, a named and typed XPath variable, its four concrete kinds, and the functions that crea..." alt="" coords="1478,299,1618,324"/>
+<area shape="poly" title=" " alt="" coords="1519,261,1542,297,1537,300,1515,264"/>
+<area shape="rect" href="a00566.html" title="XPathVariableSet, the named variables an XPath expression can refer to, and the lookup helper the par..." alt="" coords="1694,372,1855,397"/>
+<area shape="poly" title=" " alt="" coords="1567,252,1622,271,1676,296,1727,334,1765,370,1761,374,1724,338,1673,301,1620,276,1566,257"/>
+<area shape="poly" title=" " alt="" coords="1575,253,1607,271,1633,297,1647,324,1653,349,1649,374,1632,399,1611,411,1572,421,1459,438,1219,458,1218,452,1458,432,1571,416,1609,406,1629,395,1644,372,1648,350,1642,326,1629,300,1604,275,1573,258"/>
+<area shape="poly" title=" " alt="" coords="1254,332,1160,374,1158,369,1252,327"/>
+<area shape="poly" title=" " alt="" coords="1293,338,1288,372,1283,371,1287,337"/>
+<area shape="poly" title=" " alt="" coords="1524,335,1474,370,1443,386,1412,400,1358,413,1286,425,1112,442,935,453,801,459,801,454,935,448,1112,437,1286,419,1357,408,1410,395,1441,382,1471,365,1521,331"/>
+<area shape="poly" title=" " alt="" coords="1632,324,1881,369,1880,375,1631,329"/>
+<area shape="poly" title=" " alt="" coords="1465,328,1202,375,1189,377,1188,372,1201,369,1464,323"/>
+<area shape="rect" href="a00560.html" title=" " alt="" coords="1480,372,1619,397"/>
+<area shape="poly" title=" " alt="" coords="1551,337,1552,371,1546,372,1546,338"/>
+<area shape="poly" title=" " alt="" coords="1601,326,1736,369,1734,374,1599,331"/>
+<area shape="poly" title=" " alt="" coords="1680,396,1631,400,1146,435,801,458,801,452,1145,430,1630,395,1680,391"/>
+<area shape="poly" title=" " alt="" coords="1812,401,1890,443,1888,447,1810,406"/>
+<area shape="poly" title=" " alt="" coords="1705,403,1643,423,1619,435,1605,447,1599,464,1601,483,1618,517,1613,520,1596,484,1594,463,1600,444,1616,430,1641,418,1703,398"/>
+<area shape="poly" title=" " alt="" coords="1792,408,1861,517,1856,520,1788,411"/>
+<area shape="rect" href="a00569.html" title=" " alt="" coords="1615,445,1775,471"/>
+<area shape="poly" title=" " alt="" coords="1752,409,1711,447,1707,443,1749,405"/>
+<area shape="poly" title=" " alt="" coords="1681,399,1675,400,1219,454,1218,449,1674,395,1680,394"/>
+<area shape="poly" title=" " alt="" coords="657,114,681,151,700,193,705,212,707,238,707,311,711,350,723,387,749,444,745,446,718,389,706,351,701,311,701,238,700,213,695,194,676,153,653,116"/>
+<area shape="poly" title=" " alt="" coords="704,98,1145,154,1144,160,704,103"/>
+<area shape="poly" title=" " alt="" coords="704,97,909,123,997,138,1039,150,1045,164,1040,179,1024,195,1007,203,970,207,934,208,916,214,899,227,882,248,869,269,861,291,858,312,859,334,866,355,879,376,896,395,911,405,932,414,988,430,1109,450,1108,455,986,435,930,419,908,410,893,399,874,379,862,357,854,335,852,312,856,289,864,267,877,245,896,223,914,210,933,203,970,201,1005,198,1021,191,1035,176,1040,164,1036,154,996,143,908,129,703,102"/>
+<area shape="poly" title=" " alt="" coords="566,104,219,155,219,149,565,99"/>
+<area shape="rect" href="a00734.html" title=" " alt="" coords="355,225,498,251"/>
+<area shape="poly" title=" " alt="" coords="567,110,499,130,472,142,454,154,442,171,435,190,430,226,424,225,430,188,438,168,450,150,469,137,498,125,566,104"/>
+<area shape="rect" href="a00743.html" title="XmlDocument, the owner of an XML tree: loading from files, streams, strings and memory buffers,..." alt="" coords="246,152,389,177"/>
+<area shape="poly" title=" " alt="" coords="567,110,373,154,372,149,566,104"/>
+<area shape="rect" href="a00728.html" title=" " alt="" coords="464,152,667,177"/>
+<area shape="poly" title=" " alt="" coords="615,116,580,153,576,150,611,112"/>
+<area shape="rect" href="a00731.html" title=" " alt="" coords="742,152,898,177"/>
+<area shape="poly" title=" " alt="" coords="681,107,788,149,786,154,679,112"/>
+<area shape="rect" href="a00680.html" title=" " alt="" coords="922,152,1025,177"/>
+<area shape="poly" title=" " alt="" coords="704,104,922,151,921,156,703,109"/>
+<area shape="poly" title=" " alt="" coords="322,191,329,221,345,249,385,290,431,326,480,357,532,383,630,422,709,445,708,450,628,427,529,388,478,361,428,330,381,294,341,252,324,222,317,192"/>
+<area shape="poly" title=" " alt="" coords="349,183,409,223,406,227,346,187"/>
+</map>
 </div>
 </div>
 <p><a href="a00545_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03994.html">lumex::core::string_view::view::detail::eq_at&lt; Traits &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03998.html">lumex::core::string_view::view::detail::ne_at&lt; Traits &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04002.html">lumex::core::string_view::view::detail::diff_at&lt; Traits &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04006.html">lumex::core::string_view::view::detail::tier_traits::chars&lt; Traits &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04010.html">lumex::core::string_view::view::detail::tier_traits::search&lt; Traits &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The searches of a view over <code>Traits</code>.  <a href="a04010.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04014.html">lumex::core::string_view::view::detail::tier_traits::search&lt; Traits &gt;::match_at</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>data[idx..idx + count)</code> equals <code>needle[0..count)</code>.  <a href="a04014.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04018.html">lumex::core::string_view::view::detail::tier_traits::search&lt; Traits &gt;::in_set_at</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>data[idx]</code> is one of the characters of the set.  <a href="a04018.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04022.html">lumex::core::string_view::view::detail::tier_traits::search&lt; Traits &gt;::not_in_set_at</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>data[idx]</code> is none of the characters of the set.  <a href="a04022.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04026.html">lumex::core::string_view::view::detail::is_char_range&lt; Range, CharT, Traits, class &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04030.html">lumex::core::string_view::view::detail::make_void&lt;... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04034.html">lumex::core::string_view::view::detail::traits_match&lt; T, Traits, class &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04038.html">lumex::core::string_view::view::detail::traits_match&lt; T, Traits, typename make_void&lt; typename T::traits_type &gt;::type &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04042.html">lumex::core::string_view::view::detail::is_char_range&lt; Range, CharT, Traits, typename std::enable_if&lt; std::is_convertible&lt; decltype(std::declval&lt; Range const &amp; &gt;().data()), CharT const * &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; Range const &amp; &gt;().size()), std::size_t &gt;::value &amp;&amp;std::is_same&lt; typename std::remove_cv&lt; typename std::remove_pointer&lt; decltype(std::declval&lt; Range const &amp; &gt;() .data())&gt;::type &gt;::type, CharT &gt;::value &amp;&amp;traits_match&lt; Range, Traits &gt;::value &amp;&amp;!std::is_convertible&lt; Range const &amp;, CharT const * &gt;::value &amp;&amp;!std::is_convertible&lt; Range const &amp;, lumex_basic_string_view&lt; CharT, Traits &gt; &gt;::value &gt;::type &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03990.html">lumex::core::string_view::view::lumex_basic_string_view&lt; CharT, Traits &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lightweight, non-owning view over a contiguous sequence of characters; the equivalent of <code>std::basic_string_view</code> from C++11.  <a href="a03990.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04046.html">std::hash&lt;::lumex::core::string_view::view::lumex_basic_string_view&lt; char, std::char_traits&lt; char &gt; &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04050.html">std::hash&lt;::lumex::core::string_view::view::lumex_basic_string_view&lt; wchar_t, std::char_traits&lt; wchar_t &gt; &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04054.html">std::hash&lt;::lumex::core::string_view::view::lumex_basic_string_view&lt; char16_t, std::char_traits&lt; char16_t &gt; &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04058.html">std::hash&lt;::lumex::core::string_view::view::lumex_basic_string_view&lt; char32_t, std::char_traits&lt; char32_t &gt; &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05115.html">lumex::xml::attribute::XmlAttribute</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an XML attribute, providing a safe and convenient interface for accessing and modifying its name and value.  <a href="a05115.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01395.html">lumex::core::string_view</a></td></tr>
-<tr class="memdesc:a01395"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core library components. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01670.html">lumex::xml::attribute</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01396.html">lumex::core::string_view::view</a></td></tr>
-<tr class="memdesc:a01396"><td class="mdescLeft">&#160;</td><td class="mdescRight">The string views: <code><a class="el" href="a03990.html" title="A lightweight, non-owning view over a contiguous sequence of characters; the equivalent of std::basic...">lumex_basic_string_view</a></code> and its aliases. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01671.html">lumex::xml::utility</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html">lumex::core::string_view::view::detail</a></td></tr>
-<tr class="memdesc:a01397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation details of the string views; not part of the API. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01398.html">lumex::core::string_view::view::detail::tier_traits</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01399.html">lumex::core::string_view::view::literals</a></td></tr>
-<tr class="memdesc:a01399"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>_sv</code> literals: <code>"text"_sv</code> is a <code><a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942" title="The view of char: the std::string_view of the library.">lumex_string_view</a></code>, <code>L"text"_sv</code> a <code><a class="el" href="a01396.html#af7b214ae975ac5374970bd02dab72ab3" title="The view of wchar_t: the std::wstring_view of the library.">lumex_wstring_view</a></code>, and so on. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01350.html">std</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:ab298899db20f5249da2f4bd4f09976f1" id="r_ab298899db20f5249da2f4bd4f09976f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab298899db20f5249da2f4bd4f09976f1">LUMEX_STRING_VIEW_HAS_EXCEPTIONS</a>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:ab298899db20f5249da2f4bd4f09976f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the compiler compiles <code>try</code>, <code>catch</code> and <code>throw</code> (GCC and Clang: <code>__cpp_exceptions</code> or <code>__EXCEPTIONS</code>; MSVC: <code>_CPPUNWIND</code>), else 0.  <br /></td></tr>
-<tr class="separator:ab298899db20f5249da2f4bd4f09976f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74ce0532fc83822a2d91da3c84cc82da" id="r_a74ce0532fc83822a2d91da3c84cc82da"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74ce0532fc83822a2d91da3c84cc82da">LUMEX_STRING_VIEW_HAS_STD_VIEW</a>&#160;&#160;&#160;1</td></tr>
-<tr class="memdesc:a74ce0532fc83822a2d91da3c84cc82da"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>std::basic_string_view</code> exists (C++17), 0 otherwise.  <br /></td></tr>
-<tr class="separator:a74ce0532fc83822a2d91da3c84cc82da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2c259418355159519a7f1136a9d99dc" id="r_aa2c259418355159519a7f1136a9d99dc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2c259418355159519a7f1136a9d99dc">LUMEX_STRING_VIEW_HAS_THREE_WAY</a>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:aa2c259418355159519a7f1136a9d99dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>operator&lt;=&gt;</code> and <code>&lt;compare&gt;</code> are available, 0 otherwise.  <br /></td></tr>
-<tr class="separator:aa2c259418355159519a7f1136a9d99dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab930fcdc699295a9a9cad8da9fb6bd08" id="r_ab930fcdc699295a9a9cad8da9fb6bd08"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab930fcdc699295a9a9cad8da9fb6bd08">LUMEX_STRING_VIEW_HAS_CONCEPTS</a>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:ab930fcdc699295a9a9cad8da9fb6bd08"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when the C++20 iterator concepts (<code>std::contiguous_iterator</code>, <code>std::sized_sentinel_for</code>) are available, 0 otherwise.  <br /></td></tr>
-<tr class="separator:ab930fcdc699295a9a9cad8da9fb6bd08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e76ace9e9beb6599b8a7b51d9872a2a" id="r_a4e76ace9e9beb6599b8a7b51d9872a2a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e76ace9e9beb6599b8a7b51d9872a2a">LUMEX_STRING_VIEW_HAS_RANGES</a>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:a4e76ace9e9beb6599b8a7b51d9872a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>std::ranges::enable_view</code> and <code>std::ranges::enable_borrowed_range</code> exist, 0 otherwise.  <br /></td></tr>
-<tr class="separator:a4e76ace9e9beb6599b8a7b51d9872a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac939f4acd8c677d5dd18f4bc49293942" id="r_ac939f4acd8c677d5dd18f4bc49293942"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac939f4acd8c677d5dd18f4bc49293942">LUMEX_SV_CONSTANT_P</a>(x)</td></tr>
-<tr class="separator:ac939f4acd8c677d5dd18f4bc49293942"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae79b522a96ffa70dba25d2ccedc702dd" id="r_ae79b522a96ffa70dba25d2ccedc702dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae79b522a96ffa70dba25d2ccedc702dd">LUMEX_SV_CONSTEXPR_CXX17</a>&#160;&#160;&#160;constexpr</td></tr>
-<tr class="separator:ae79b522a96ffa70dba25d2ccedc702dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0a214e7c6b889ed8d8c244dada61952" id="r_ab0a214e7c6b889ed8d8c244dada61952"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0a214e7c6b889ed8d8c244dada61952">LUMEX_SV_CONSTEXPR_TRAITS</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:ab0a214e7c6b889ed8d8c244dada61952"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4dc794e0f26f049c11fd561dfd3ad33f" id="r_a4dc794e0f26f049c11fd561dfd3ad33f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4dc794e0f26f049c11fd561dfd3ad33f">LUMEX_SV_NO_UBSAN</a></td></tr>
-<tr class="separator:a4dc794e0f26f049c11fd561dfd3ad33f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d5a547bae747ed9007d48aee68a70d0" id="r_a4d5a547bae747ed9007d48aee68a70d0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d5a547bae747ed9007d48aee68a70d0">LUMEX_SV_NODISCARD</a>&#160;&#160;&#160;  <a class="el" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (&quot;the result of a string view query is not used&quot;)</td></tr>
-<tr class="separator:a4d5a547bae747ed9007d48aee68a70d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c9677713f3a36fd7eeac6d64cb9f931" id="r_a2c9677713f3a36fd7eeac6d64cb9f931"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c9677713f3a36fd7eeac6d64cb9f931">LUMEX_SV_TIER</a>&#160;&#160;&#160;tier_traits</td></tr>
-<tr class="separator:a2c9677713f3a36fd7eeac6d64cb9f931"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af668d6f86defa4d5c9f640fc3c2554b4" id="r_af668d6f86defa4d5c9f640fc3c2554b4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af668d6f86defa4d5c9f640fc3c2554b4">LUMEX_SV_MIXED_OPERATOR</a>(op)</td></tr>
-<tr class="separator:af668d6f86defa4d5c9f640fc3c2554b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2314921ac0c2564e09e71606575466ed" id="r_a2314921ac0c2564e09e71606575466ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2314921ac0c2564e09e71606575466ed">LUMEX_SV_DEFINE_HASH</a>(CHAR)</td></tr>
-<tr class="memdesc:a2314921ac0c2564e09e71606575466ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">The hash of a view, as the standard has it only for <code>std::char_traits</code> views: the specializations exist for the views of <code>char</code>, <code>wchar_t</code>, <code>char16_t</code>, <code>char32_t</code> (and <code>char8_t</code>) with <code>std::char_traits</code>. A view with other traits has no <code>std::hash</code>: it compares through its traits (a case-insensitive order, say), and a hash of the raw characters would give equal views different hashes.  <br /></td></tr>
-<tr class="separator:a2314921ac0c2564e09e71606575466ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac266c75fbb40ba13cc984c90a9c6fca1" id="r_ac266c75fbb40ba13cc984c90a9c6fca1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac266c75fbb40ba13cc984c90a9c6fca1">LUMEX_SV_HASH_TYPEDEFS</a>(CHAR)</td></tr>
-<tr class="separator:ac266c75fbb40ba13cc984c90a9c6fca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a210b248fe3338b4d5161ae03caad7942" id="r_a210b248fe3338b4d5161ae03caad7942"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td></tr>
-<tr class="memdesc:a210b248fe3338b4d5161ae03caad7942"><td class="mdescLeft">&#160;</td><td class="mdescRight">The view of <code>char</code>: the <code>std::string_view</code> of the library.  <br /></td></tr>
-<tr class="separator:a210b248fe3338b4d5161ae03caad7942"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7b214ae975ac5374970bd02dab72ab3" id="r_af7b214ae975ac5374970bd02dab72ab3"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; wchar_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01396.html#af7b214ae975ac5374970bd02dab72ab3">lumex::core::string_view::view::lumex_wstring_view</a></td></tr>
-<tr class="memdesc:af7b214ae975ac5374970bd02dab72ab3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The view of <code>wchar_t</code>: the <code>std::wstring_view</code> of the library.  <br /></td></tr>
-<tr class="separator:af7b214ae975ac5374970bd02dab72ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0ec590e3e6e6bb9d0ac973d6466584b" id="r_ab0ec590e3e6e6bb9d0ac973d6466584b"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; char16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01396.html#ab0ec590e3e6e6bb9d0ac973d6466584b">lumex::core::string_view::view::lumex_u16string_view</a></td></tr>
-<tr class="memdesc:ab0ec590e3e6e6bb9d0ac973d6466584b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The view of <code>char16_t</code>: the <code>std::u16string_view</code> of the library.  <br /></td></tr>
-<tr class="separator:ab0ec590e3e6e6bb9d0ac973d6466584b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5ccb34476b2ccdbc2a8f0b653cad1fb" id="r_ab5ccb34476b2ccdbc2a8f0b653cad1fb"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; char32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01396.html#ab5ccb34476b2ccdbc2a8f0b653cad1fb">lumex::core::string_view::view::lumex_u32string_view</a></td></tr>
-<tr class="memdesc:ab5ccb34476b2ccdbc2a8f0b653cad1fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The view of <code>char32_t</code>: the <code>std::u32string_view</code> of the library.  <br /></td></tr>
-<tr class="separator:ab5ccb34476b2ccdbc2a8f0b653cad1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a9f4575aeaa450faf079603d2161905e9" id="r_a9f4575aeaa450faf079603d2161905e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html#a9f4575aeaa450faf079603d2161905e9">lumex::core::string_view::view::detail::throw_out_of_range</a> (char const *what)</td></tr>
-<tr class="separator:a9f4575aeaa450faf079603d2161905e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ecd968f695442799eabd23d72a6022d" id="r_a2ecd968f695442799eabd23d72a6022d"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html#a2ecd968f695442799eabd23d72a6022d">lumex::core::string_view::view::detail::min_size</a> (std::size_t lhs, std::size_t rhs) noexcept</td></tr>
-<tr class="separator:a2ecd968f695442799eabd23d72a6022d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abae13cd4f0c82c0a74eb9d0399f9d34d" id="r_abae13cd4f0c82c0a74eb9d0399f9d34d"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html#abae13cd4f0c82c0a74eb9d0399f9d34d">lumex::core::string_view::view::detail::compare_result</a> (int by_chars, std::size_t lhs_size, std::size_t rhs_size) noexcept</td></tr>
-<tr class="memdesc:abae13cd4f0c82c0a74eb9d0399f9d34d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of <code>compare</code>: the characters, then the sizes.  <br /></td></tr>
-<tr class="separator:abae13cd4f0c82c0a74eb9d0399f9d34d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a530d89380590bb5d0052587192cc3430" id="r_a530d89380590bb5d0052587192cc3430"><td class="memTemplParams" colspan="2">template&lt;class Pred&gt; </td></tr>
-<tr class="memitem:a530d89380590bb5d0052587192cc3430"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01398.html#a530d89380590bb5d0052587192cc3430">lumex::core::string_view::view::detail::tier_traits::scan_fwd</a> (Pred const &amp;pred, std::size_t lo, std::size_t hi) noexcept</td></tr>
-<tr class="separator:a530d89380590bb5d0052587192cc3430"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80c8f8417c15546fc3760a0042f56dbb" id="r_a80c8f8417c15546fc3760a0042f56dbb"><td class="memTemplParams" colspan="2">template&lt;class Pred&gt; </td></tr>
-<tr class="memitem:a80c8f8417c15546fc3760a0042f56dbb"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01398.html#a80c8f8417c15546fc3760a0042f56dbb">lumex::core::string_view::view::detail::tier_traits::scan_bwd</a> (Pred const &amp;pred, std::size_t lo, std::size_t hi) noexcept</td></tr>
-<tr class="separator:a80c8f8417c15546fc3760a0042f56dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a079a0b1b80e2deedbcd4533653a64b7d" id="r_a079a0b1b80e2deedbcd4533653a64b7d"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html#a079a0b1b80e2deedbcd4533653a64b7d">lumex::core::string_view::view::detail::hash_round</a> (std::uint64_t acc, std::uint64_t block) noexcept</td></tr>
-<tr class="memdesc:a079a0b1b80e2deedbcd4533653a64b7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The hash of the characters of a view: the same value in every C++ standard, with every compiler and standard library.  <br /></td></tr>
-<tr class="separator:a079a0b1b80e2deedbcd4533653a64b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa308bfa9064fa6b21b9d948d3d11974" id="r_aaa308bfa9064fa6b21b9d948d3d11974"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html#aaa308bfa9064fa6b21b9d948d3d11974">lumex::core::string_view::view::detail::hash_final</a> (std::uint64_t acc) noexcept</td></tr>
-<tr class="separator:aaa308bfa9064fa6b21b9d948d3d11974"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af41b2ee76e2c87911026b6bcbe5cd5e5" id="r_af41b2ee76e2c87911026b6bcbe5cd5e5"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html#af41b2ee76e2c87911026b6bcbe5cd5e5">lumex::core::string_view::view::detail::load_le64</a> (unsigned char const *bytes) noexcept</td></tr>
-<tr class="memdesc:af41b2ee76e2c87911026b6bcbe5cd5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eight bytes as a little-endian integer, on any byte order.  <br /></td></tr>
-<tr class="separator:af41b2ee76e2c87911026b6bcbe5cd5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae45f6da8a478a48f87d579194da8c487" id="r_ae45f6da8a478a48f87d579194da8c487"><td class="memTemplParams" colspan="2">template&lt;class CharT&gt; </td></tr>
-<tr class="memitem:ae45f6da8a478a48f87d579194da8c487"><td class="memTemplItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01397.html#ae45f6da8a478a48f87d579194da8c487">lumex::core::string_view::view::detail::block_hash</a> (CharT const *data, std::size_t size, std::true_type) noexcept</td></tr>
-<tr class="separator:ae45f6da8a478a48f87d579194da8c487"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae00452d3c96bf33b9f379d3221684747" id="r_ae00452d3c96bf33b9f379d3221684747"><td class="memTemplParams" colspan="2">template&lt;class CharT&gt; </td></tr>
-<tr class="memitem:ae00452d3c96bf33b9f379d3221684747"><td class="memTemplItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01397.html#ae00452d3c96bf33b9f379d3221684747">lumex::core::string_view::view::detail::block_hash</a> (CharT const *data, std::size_t size, std::false_type) noexcept</td></tr>
-<tr class="separator:ae00452d3c96bf33b9f379d3221684747"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9ed761ed00377b5694650a0689a25f7" id="r_ac9ed761ed00377b5694650a0689a25f7"><td class="memTemplParams" colspan="2">template&lt;class CharT&gt; </td></tr>
-<tr class="memitem:ac9ed761ed00377b5694650a0689a25f7"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01397.html#ac9ed761ed00377b5694650a0689a25f7">lumex::core::string_view::view::detail::hash_chars</a> (CharT const *data, std::size_t size) noexcept</td></tr>
-<tr class="memdesc:ac9ed761ed00377b5694650a0689a25f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The hash of <code>size</code> characters at <code>data</code> (may be null if size is 0).  <br /></td></tr>
-<tr class="separator:ac9ed761ed00377b5694650a0689a25f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dabe4dc16ae1e082dbb46e53613d3ee" id="r_a6dabe4dc16ae1e082dbb46e53613d3ee"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a6dabe4dc16ae1e082dbb46e53613d3ee"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01397.html#a6dabe4dc16ae1e082dbb46e53613d3ee">lumex::core::string_view::view::detail::put_fill</a> (std::basic_streambuf&lt; CharT, Traits &gt; *buf, CharT fill, std::streamsize count)</td></tr>
-<tr class="memdesc:a6dabe4dc16ae1e082dbb46e53613d3ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes <code>count</code> copies of <code>fill</code> to <code>buf</code>; false when it fails.  <br /></td></tr>
-<tr class="separator:a6dabe4dc16ae1e082dbb46e53613d3ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a7fbb7d8c433dcd773fb0e37466214a" id="r_a3a7fbb7d8c433dcd773fb0e37466214a"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a3a7fbb7d8c433dcd773fb0e37466214a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01397.html#a3a7fbb7d8c433dcd773fb0e37466214a">lumex::core::string_view::view::detail::write_field</a> (std::basic_ostream&lt; CharT, Traits &gt; &amp;ostr, CharT const *data, std::size_t length)</td></tr>
-<tr class="memdesc:a3a7fbb7d8c433dcd773fb0e37466214a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The field of an inserted view: padding, the characters, the width.  <br /></td></tr>
-<tr class="separator:a3a7fbb7d8c433dcd773fb0e37466214a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b5b3782fd2667421d4e9daf50864769" id="r_a8b5b3782fd2667421d4e9daf50864769"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a8b5b3782fd2667421d4e9daf50864769"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#a8b5b3782fd2667421d4e9daf50864769">lumex::core::string_view::view::operator==</a> (<a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; lhs, std::basic_string_view&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="memdesc:a8b5b3782fd2667421d4e9daf50864769"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>==</code> of a view and a <code>std::basic_string_view</code>, in both orders.  <br /></td></tr>
-<tr class="separator:a8b5b3782fd2667421d4e9daf50864769"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4020c77d1c1a1b450d735b8e8df02abd" id="r_a4020c77d1c1a1b450d735b8e8df02abd"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a4020c77d1c1a1b450d735b8e8df02abd"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#a4020c77d1c1a1b450d735b8e8df02abd">lumex::core::string_view::view::operator==</a> (std::basic_string_view&lt; CharT, Traits &gt; lhs, <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="separator:a4020c77d1c1a1b450d735b8e8df02abd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcdd41306758c60ad87c4255dccc6be4" id="r_abcdd41306758c60ad87c4255dccc6be4"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:abcdd41306758c60ad87c4255dccc6be4"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#abcdd41306758c60ad87c4255dccc6be4">lumex::core::string_view::view::operator!=</a> (<a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; lhs, std::basic_string_view&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="memdesc:abcdd41306758c60ad87c4255dccc6be4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>!=</code> of a view and a <code>std::basic_string_view</code>, in both orders.  <br /></td></tr>
-<tr class="separator:abcdd41306758c60ad87c4255dccc6be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6eaa00c97292ab67625365f2a0636352" id="r_a6eaa00c97292ab67625365f2a0636352"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a6eaa00c97292ab67625365f2a0636352"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#a6eaa00c97292ab67625365f2a0636352">lumex::core::string_view::view::operator!=</a> (std::basic_string_view&lt; CharT, Traits &gt; lhs, <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="separator:a6eaa00c97292ab67625365f2a0636352"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeddfefabe7e05848d347d2de9b0aa71d" id="r_aeddfefabe7e05848d347d2de9b0aa71d"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:aeddfefabe7e05848d347d2de9b0aa71d"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#aeddfefabe7e05848d347d2de9b0aa71d">lumex::core::string_view::view::operator&lt;</a> (<a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; lhs, std::basic_string_view&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="memdesc:aeddfefabe7e05848d347d2de9b0aa71d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>&lt;</code> of a view and a <code>std::basic_string_view</code>, in both orders.  <br /></td></tr>
-<tr class="separator:aeddfefabe7e05848d347d2de9b0aa71d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6ef4c2f3fecf4fad4f058b8b0d6ef62" id="r_af6ef4c2f3fecf4fad4f058b8b0d6ef62"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:af6ef4c2f3fecf4fad4f058b8b0d6ef62"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#af6ef4c2f3fecf4fad4f058b8b0d6ef62">lumex::core::string_view::view::operator&lt;</a> (std::basic_string_view&lt; CharT, Traits &gt; lhs, <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="separator:af6ef4c2f3fecf4fad4f058b8b0d6ef62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19adbfc786b4a99130f99b4e29e514e9" id="r_a19adbfc786b4a99130f99b4e29e514e9"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a19adbfc786b4a99130f99b4e29e514e9"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#a19adbfc786b4a99130f99b4e29e514e9">lumex::core::string_view::view::operator&gt;</a> (<a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; lhs, std::basic_string_view&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="memdesc:a19adbfc786b4a99130f99b4e29e514e9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>&gt;</code> of a view and a <code>std::basic_string_view</code>, in both orders.  <br /></td></tr>
-<tr class="separator:a19adbfc786b4a99130f99b4e29e514e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c93f9caad3cf079cffe967fbbec7455" id="r_a9c93f9caad3cf079cffe967fbbec7455"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a9c93f9caad3cf079cffe967fbbec7455"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#a9c93f9caad3cf079cffe967fbbec7455">lumex::core::string_view::view::operator&gt;</a> (std::basic_string_view&lt; CharT, Traits &gt; lhs, <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="separator:a9c93f9caad3cf079cffe967fbbec7455"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3769841532d39a1f518deddb90720ecf" id="r_a3769841532d39a1f518deddb90720ecf"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a3769841532d39a1f518deddb90720ecf"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#a3769841532d39a1f518deddb90720ecf">lumex::core::string_view::view::operator&lt;=</a> (<a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; lhs, std::basic_string_view&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="memdesc:a3769841532d39a1f518deddb90720ecf"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>&lt;=</code> of a view and a <code>std::basic_string_view</code>, in both orders.  <br /></td></tr>
-<tr class="separator:a3769841532d39a1f518deddb90720ecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0169cdf8dd13ba45a8ea74f1cc309765" id="r_a0169cdf8dd13ba45a8ea74f1cc309765"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:a0169cdf8dd13ba45a8ea74f1cc309765"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#a0169cdf8dd13ba45a8ea74f1cc309765">lumex::core::string_view::view::operator&lt;=</a> (std::basic_string_view&lt; CharT, Traits &gt; lhs, <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="separator:a0169cdf8dd13ba45a8ea74f1cc309765"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5a0b35cee8ac12cbfa5d898854bcf61" id="r_aa5a0b35cee8ac12cbfa5d898854bcf61"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:aa5a0b35cee8ac12cbfa5d898854bcf61"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#aa5a0b35cee8ac12cbfa5d898854bcf61">lumex::core::string_view::view::operator&gt;=</a> (<a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; lhs, std::basic_string_view&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="memdesc:aa5a0b35cee8ac12cbfa5d898854bcf61"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>&gt;=</code> of a view and a <code>std::basic_string_view</code>, in both orders.  <br /></td></tr>
-<tr class="separator:aa5a0b35cee8ac12cbfa5d898854bcf61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb7f4913f6a3428715d8f54b98fb6d94" id="r_afb7f4913f6a3428715d8f54b98fb6d94"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:afb7f4913f6a3428715d8f54b98fb6d94"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#afb7f4913f6a3428715d8f54b98fb6d94">lumex::core::string_view::view::operator&gt;=</a> (std::basic_string_view&lt; CharT, Traits &gt; lhs, <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; rhs) noexcept</td></tr>
-<tr class="separator:afb7f4913f6a3428715d8f54b98fb6d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af96061340e122e5068536330f2e3f5fa" id="r_af96061340e122e5068536330f2e3f5fa"><td class="memTemplParams" colspan="2">template&lt;class CharT, class Traits&gt; </td></tr>
-<tr class="memitem:af96061340e122e5068536330f2e3f5fa"><td class="memTemplItemLeft" align="right" valign="top">std::basic_ostream&lt; CharT, Traits &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01396.html#af96061340e122e5068536330f2e3f5fa">lumex::core::string_view::view::operator&lt;&lt;</a> (std::basic_ostream&lt; CharT, Traits &gt; &amp;ostr, <a class="el" href="a03990.html">lumex_basic_string_view</a>&lt; CharT, Traits &gt; sview)</td></tr>
-<tr class="memdesc:af96061340e122e5068536330f2e3f5fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the view to a stream as the standard one does.  <br /></td></tr>
-<tr class="separator:af96061340e122e5068536330f2e3f5fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a120dceaa5e19baabb12fb3d03df0ec46" id="r_a120dceaa5e19baabb12fb3d03df0ec46"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942">lumex_string_view</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01399.html#a120dceaa5e19baabb12fb3d03df0ec46">lumex::core::string_view::view::literals::operator&quot;&quot;_sv</a> (char const *str, std::size_t len) noexcept</td></tr>
-<tr class="memdesc:a120dceaa5e19baabb12fb3d03df0ec46"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>"text"_sv</code>: a <code><a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942" title="The view of char: the std::string_view of the library.">lumex_string_view</a></code> of <code>len</code> characters.  <br /></td></tr>
-<tr class="separator:a120dceaa5e19baabb12fb3d03df0ec46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0746f233544528a9f05760205d3f42ce" id="r_a0746f233544528a9f05760205d3f42ce"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01396.html#af7b214ae975ac5374970bd02dab72ab3">lumex_wstring_view</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01399.html#a0746f233544528a9f05760205d3f42ce">lumex::core::string_view::view::literals::operator&quot;&quot;_sv</a> (wchar_t const *str, std::size_t len) noexcept</td></tr>
-<tr class="memdesc:a0746f233544528a9f05760205d3f42ce"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>L"text"_sv</code>: a <code><a class="el" href="a01396.html#af7b214ae975ac5374970bd02dab72ab3" title="The view of wchar_t: the std::wstring_view of the library.">lumex_wstring_view</a></code> of <code>len</code> characters.  <br /></td></tr>
-<tr class="separator:a0746f233544528a9f05760205d3f42ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e1887b32a4a4a7b8b125a50c8d02ad7" id="r_a1e1887b32a4a4a7b8b125a50c8d02ad7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01396.html#ab0ec590e3e6e6bb9d0ac973d6466584b">lumex_u16string_view</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01399.html#a1e1887b32a4a4a7b8b125a50c8d02ad7">lumex::core::string_view::view::literals::operator&quot;&quot;_sv</a> (char16_t const *str, std::size_t len) noexcept</td></tr>
-<tr class="memdesc:a1e1887b32a4a4a7b8b125a50c8d02ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>u"text"_sv</code>: a <code><a class="el" href="a01396.html#ab0ec590e3e6e6bb9d0ac973d6466584b" title="The view of char16_t: the std::u16string_view of the library.">lumex_u16string_view</a></code> of <code>len</code> characters.  <br /></td></tr>
-<tr class="separator:a1e1887b32a4a4a7b8b125a50c8d02ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3972531d8ec0e3453f46ff285b6cf06" id="r_ad3972531d8ec0e3453f46ff285b6cf06"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="a01396.html#ab5ccb34476b2ccdbc2a8f0b653cad1fb">lumex_u32string_view</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01399.html#ad3972531d8ec0e3453f46ff285b6cf06">lumex::core::string_view::view::literals::operator&quot;&quot;_sv</a> (char32_t const *str, std::size_t len) noexcept</td></tr>
-<tr class="memdesc:ad3972531d8ec0e3453f46ff285b6cf06"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>U"text"_sv</code>: a <code><a class="el" href="a01396.html#ab5ccb34476b2ccdbc2a8f0b653cad1fb" title="The view of char32_t: the std::u32string_view of the library.">lumex_u32string_view</a></code> of <code>len</code> characters.  <br /></td></tr>
-<tr class="separator:ad3972531d8ec0e3453f46ff285b6cf06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:afe3ab615f3925843f98e58582b4dfdc2" id="r_afe3ab615f3925843f98e58582b4dfdc2"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01397.html#afe3ab615f3925843f98e58582b4dfdc2">lumex::core::string_view::view::detail::no_pos</a> = static_cast&lt;std::size_t&gt; (-1)</td></tr>
-<tr class="memdesc:afe3ab615f3925843f98e58582b4dfdc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value of <code>npos</code> of every view.  <br /></td></tr>
-<tr class="separator:afe3ab615f3925843f98e58582b4dfdc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4731c6a775ba12fa3d101ef50312b095" id="r_a4731c6a775ba12fa3d101ef50312b095"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01670.html#a4731c6a775ba12fa3d101ef50312b095">lumex::xml::attribute::operator&amp;&amp;</a> (<a class="el" href="a05115.html">XmlAttribute</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="separator:a4731c6a775ba12fa3d101ef50312b095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7e6c3ff5c5fe38df2d5ccd66aa37f84" id="r_ad7e6c3ff5c5fe38df2d5ccd66aa37f84"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01670.html#ad7e6c3ff5c5fe38df2d5ccd66aa37f84">lumex::xml::attribute::operator||</a> (<a class="el" href="a05115.html">XmlAttribute</a> const &amp;lhs, bool rhs)</td></tr>
+<tr class="separator:ad7e6c3ff5c5fe38df2d5ccd66aa37f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ba3bf150e471b2392f8a8ba5d48a749" id="r_a2ba3bf150e471b2392f8a8ba5d48a749"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01671.html#a2ba3bf150e471b2392f8a8ba5d48a749">lumex::xml::utility::is_attribute_of</a> (<a class="el" href="a05119.html">attribute::XmlAttributeBase</a> *attr, <a class="el" href="a05159.html">node::XmlNodeBase</a> *node)</td></tr>
+<tr class="separator:a2ba3bf150e471b2392f8a8ba5d48a749"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Header-only, C++11-first <code>basic_string_view</code>: the class template behind <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code>, <code><a class="el" href="a00551.html#a173552e384fc2d1f2339f480c26e13e3" title="Global alias of lumex::core::string_view::view::lumex_wstring_view.">lumex_wstring_view</a></code> and the other character views. </p>
-<p><code>lumex_basic_string_view&lt;CharT, Traits&gt;</code> is a non-owning view over a contiguous character sequence with the API of <code>std::basic_string_view</code> (C++17) plus what later standards added (<code>contains</code>, the range constructor, <code>operator&lt;=&gt;</code>), available from C++11. Everything is inline: there is no compiled part, no export macro and no library to link.</p>
-<p>Constant evaluation follows the language of each standard. From C++14 every query is <code>constexpr</code>, and so are the modifiers (<code>remove_prefix</code>, <code>remove_suffix</code>, <code>swap</code>, <code>clear</code>, <code>copy</code>). In C++11 the queries are <code>constexpr</code> as well (a single <code>return</code> statement, loops replaced by a recursion that splits the range in halves, so its depth is the logarithm of the length), the modifiers are not, and <code>rbegin</code>/<code>rend</code> become <code>constexpr</code> in C++17 (<code>std::reverse_iterator</code>). The run-time path of the searches and of <code>compare</code> is a loop over <code>std::char_traits</code> (<code>memchr</code>, <code>memcmp</code> and their wide twins); only a compiler that has neither <code>__builtin_is_constant_evaluated</code> nor <code>__builtin_constant_p</code> (Clang before 9) takes the recursion at run time too.</p>
-<p>Without exceptions (<code>-fno-exceptions</code>) the header still compiles: a call that would throw <code>std::out_of_range</code> (<code>at</code>, <code>substr</code>, <code>copy</code>, the <code>compare</code> overloads with a position) calls <code>std::terminate</code>, and <code>operator&lt;&lt;</code> sets the badbit without catching anything.</p>
-<dl class="section note"><dt>Note</dt><dd>The view does not manage the lifetime of the characters it refers to. Using a view whose characters have been destroyed is undefined behavior. </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ab930fcdc699295a9a9cad8da9fb6bd08" name="ab930fcdc699295a9a9cad8da9fb6bd08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab930fcdc699295a9a9cad8da9fb6bd08">&#9670;&#160;</a></span>LUMEX_STRING_VIEW_HAS_CONCEPTS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_STRING_VIEW_HAS_CONCEPTS&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>1 when the C++20 iterator concepts (<code>std::contiguous_iterator</code>, <code>std::sized_sentinel_for</code>) are available, 0 otherwise. </p>
-<p>When it is 1, the iterator-pair constructor accepts every contiguous iterator, as the standard one does; otherwise only pointers. </p>
-
-</div>
-</div>
-<a id="ab298899db20f5249da2f4bd4f09976f1" name="ab298899db20f5249da2f4bd4f09976f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab298899db20f5249da2f4bd4f09976f1">&#9670;&#160;</a></span>LUMEX_STRING_VIEW_HAS_EXCEPTIONS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_STRING_VIEW_HAS_EXCEPTIONS&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>1 when the compiler compiles <code>try</code>, <code>catch</code> and <code>throw</code> (GCC and Clang: <code>__cpp_exceptions</code> or <code>__EXCEPTIONS</code>; MSVC: <code>_CPPUNWIND</code>), else 0. </p>
-
-</div>
-</div>
-<a id="a4e76ace9e9beb6599b8a7b51d9872a2a" name="a4e76ace9e9beb6599b8a7b51d9872a2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e76ace9e9beb6599b8a7b51d9872a2a">&#9670;&#160;</a></span>LUMEX_STRING_VIEW_HAS_RANGES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_STRING_VIEW_HAS_RANGES&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>1 when <code>std::ranges::enable_view</code> and <code>std::ranges::enable_borrowed_range</code> exist, 0 otherwise. </p>
-<p>When it is 1, every view opts into both. </p>
-
-</div>
-</div>
-<a id="a74ce0532fc83822a2d91da3c84cc82da" name="a74ce0532fc83822a2d91da3c84cc82da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74ce0532fc83822a2d91da3c84cc82da">&#9670;&#160;</a></span>LUMEX_STRING_VIEW_HAS_STD_VIEW</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_STRING_VIEW_HAS_STD_VIEW&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>1 when <code>std::basic_string_view</code> exists (C++17), 0 otherwise. </p>
-<p>When it is 1, each view converts implicitly to and from the standard one and compares with it. </p>
-
-</div>
-</div>
-<a id="aa2c259418355159519a7f1136a9d99dc" name="aa2c259418355159519a7f1136a9d99dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2c259418355159519a7f1136a9d99dc">&#9670;&#160;</a></span>LUMEX_STRING_VIEW_HAS_THREE_WAY</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_STRING_VIEW_HAS_THREE_WAY&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>1 when <code>operator&lt;=&gt;</code> and <code>&lt;compare&gt;</code> are available, 0 otherwise. </p>
-<p>Tested on the language and the library feature together: GCC 8 accepts <code>-std=c++2a</code> without them. </p>
-
-</div>
-</div>
-<a id="ac939f4acd8c677d5dd18f4bc49293942" name="ac939f4acd8c677d5dd18f4bc49293942"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac939f4acd8c677d5dd18f4bc49293942">&#9670;&#160;</a></span>LUMEX_SV_CONSTANT_P</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_CONSTANT_P</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">(<span class="keyword">true</span>)</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ae79b522a96ffa70dba25d2ccedc702dd" name="ae79b522a96ffa70dba25d2ccedc702dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae79b522a96ffa70dba25d2ccedc702dd">&#9670;&#160;</a></span>LUMEX_SV_CONSTEXPR_CXX17</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_CONSTEXPR_CXX17&#160;&#160;&#160;constexpr</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab0a214e7c6b889ed8d8c244dada61952" name="ab0a214e7c6b889ed8d8c244dada61952"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0a214e7c6b889ed8d8c244dada61952">&#9670;&#160;</a></span>LUMEX_SV_CONSTEXPR_TRAITS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_CONSTEXPR_TRAITS&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2314921ac0c2564e09e71606575466ed" name="a2314921ac0c2564e09e71606575466ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2314921ac0c2564e09e71606575466ed">&#9670;&#160;</a></span>LUMEX_SV_DEFINE_HASH</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_DEFINE_HASH</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>CHAR</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">template</span> &lt;&gt;                                                                 \</div>
-<div class="line">  <span class="keyword">struct </span>hash&lt;::<a class="code hl_class" href="a03990.html">lumex::core::string_view::view::lumex_basic_string_view</a>&lt;      \</div>
-<div class="line">      CHAR, std::char_traits&lt;CHAR&gt;&gt;&gt;                                          \</div>
-<div class="line">  {                                                                           \</div>
-<div class="line">    LUMEX_SV_HASH_TYPEDEFS (CHAR)                                             \</div>
-<div class="line">    std::size_t                                                               \</div>
-<div class="line">    operator() (<a class="code hl_class" href="a03990.html">::lumex::core::string_view::view::lumex_basic_string_view</a>&lt;    \</div>
-<div class="line">                CHAR, std::char_traits&lt;CHAR&gt;&gt; <span class="keyword">const</span> &amp;sview) <span class="keyword">const</span>             \</div>
-<div class="line">        <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>                                                        \</div>
-<div class="line">    {                                                                         \</div>
-<div class="line">      return ::lumex::core::string_view::view::detail::hash_chars (           \</div>
-<div class="line">          sview.data (), sview.size ());                                      \</div>
-<div class="line">    }                                                                         \</div>
-<div class="line">  };</div>
-<div class="ttc" id="aa00623_html_a8932f306494e2abfe9045da20a41e47c"><div class="ttname"><a href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a></div><div class="ttdeci">#define LUMEX_NOEXCEPT</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:84</div></div>
-<div class="ttc" id="aa03990_html"><div class="ttname"><a href="a03990.html">lumex::core::string_view::view::lumex_basic_string_view</a></div><div class="ttdoc">A lightweight, non-owning view over a contiguous sequence of characters; the equivalent of std::basic...</div><div class="ttdef"><b>Definition</b> LumexBasicStringView.hpp:1045</div></div>
-</div><!-- fragment -->
-<p>The hash of a view, as the standard has it only for <code>std::char_traits</code> views: the specializations exist for the views of <code>char</code>, <code>wchar_t</code>, <code>char16_t</code>, <code>char32_t</code> (and <code>char8_t</code>) with <code>std::char_traits</code>. A view with other traits has no <code>std::hash</code>: it compares through its traits (a case-insensitive order, say), and a hash of the raw characters would give equal views different hashes. </p>
-
-</div>
-</div>
-<a id="ac266c75fbb40ba13cc984c90a9c6fca1" name="ac266c75fbb40ba13cc984c90a9c6fca1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac266c75fbb40ba13cc984c90a9c6fca1">&#9670;&#160;</a></span>LUMEX_SV_HASH_TYPEDEFS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_HASH_TYPEDEFS</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>CHAR</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af668d6f86defa4d5c9f640fc3c2554b4" name="af668d6f86defa4d5c9f640fc3c2554b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af668d6f86defa4d5c9f640fc3c2554b4">&#9670;&#160;</a></span>LUMEX_SV_MIXED_OPERATOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_MIXED_OPERATOR</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>op</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">class</span> CharT, <span class="keyword">class</span> Traits&gt;                                        \</div>
-<div class="line">  <a class="code hl_define" href="a00623.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">bool</span> <span class="keyword">operator</span> op (                                          \</div>
-<div class="line">      lumex_basic_string_view&lt;CharT, Traits&gt; lhs,                             \</div>
-<div class="line">      std::basic_string_view&lt;CharT, Traits&gt; rhs) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>               \</div>
-<div class="line">  {                                                                           \</div>
-<div class="line">    <span class="keywordflow">return</span> lhs op lumex_basic_string_view&lt;CharT, Traits&gt; (rhs);               \</div>
-<div class="line">  }                                                                           \</div>
-<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">class</span> CharT, <span class="keyword">class</span> Traits&gt;                                        \</div>
-<div class="line">  <a class="code hl_define" href="a00623.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a> <span class="keywordtype">bool</span> <span class="keyword">operator</span> op (                                          \</div>
-<div class="line">      std::basic_string_view&lt;CharT, Traits&gt; lhs,                              \</div>
-<div class="line">      lumex_basic_string_view&lt;CharT, Traits&gt; rhs) <a class="code hl_define" href="a00623.html#a8932f306494e2abfe9045da20a41e47c">LUMEX_NOEXCEPT</a>              \</div>
-<div class="line">  {                                                                           \</div>
-<div class="line">    <span class="keywordflow">return</span> lumex_basic_string_view&lt;CharT, Traits&gt; (lhs) op rhs;               \</div>
-<div class="line">  }</div>
-<div class="ttc" id="aa00623_html_a1513006a1992e7dc9cc43b2e081cc33f"><div class="ttname"><a href="a00623.html#a1513006a1992e7dc9cc43b2e081cc33f">LUMEX_CONSTEXPR</a></div><div class="ttdeci">#define LUMEX_CONSTEXPR</div><div class="ttdef"><b>Definition</b> LumexKeywords.hpp:164</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a4dc794e0f26f049c11fd561dfd3ad33f" name="a4dc794e0f26f049c11fd561dfd3ad33f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4dc794e0f26f049c11fd561dfd3ad33f">&#9670;&#160;</a></span>LUMEX_SV_NO_UBSAN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_NO_UBSAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4d5a547bae747ed9007d48aee68a70d0" name="a4d5a547bae747ed9007d48aee68a70d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d5a547bae747ed9007d48aee68a70d0">&#9670;&#160;</a></span>LUMEX_SV_NODISCARD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_NODISCARD&#160;&#160;&#160;  <a class="el" href="a00584.html#af6aeadbda428235a14f147ade9783f8f">LUMEX_ATTRIBUTE_NODISCARD</a> (&quot;the result of a string view query is not used&quot;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2c9677713f3a36fd7eeac6d64cb9f931" name="a2c9677713f3a36fd7eeac6d64cb9f931"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c9677713f3a36fd7eeac6d64cb9f931">&#9670;&#160;</a></span>LUMEX_SV_TIER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LUMEX_SV_TIER&#160;&#160;&#160;tier_traits</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p><code>XmlAttribute</code>, the handle to one attribute of an element: read its name and value, convert the value to numbers and booleans, and change both. </p>
+<p>An <code>XmlAttribute</code> is one pointer into the tree of an <code>XmlDocument</code>. Copying it copies the handle, not the attribute, and the handle dangles once the document is destroyed, reset or loaded again. An empty handle is safe to use: getters return empty strings or the given defaults and setters return <code>false</code>. Attributes are obtained from <code>XmlNode</code> (<code>attribute</code>, <code>first_attribute</code>, <code>append_attribute</code> and the attribute iterators declared in <code><a class="el" href="a00719.html" title="XmlNode, the handle to a node of a document tree, with the iterators over its children and attributes...">XmlNode.hpp</a></code>).</p>
+<p>The <code>string_view_t</code> overloads (<code>string_view_t</code> is the <code><a class="el" href="a00854.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> of <code>lumex::string_view</code> in every C++ standard; a <code>std::string_view</code> converts to it) exist in every C++ standard. They are inline wrappers over the exported pointer-and-size functions, so the library binary does not depend on the standard of its consumer. The class is not exported, so those wrappers are not <code>dllimport</code>. The file also declares the logical AND and OR operators with a <code>bool</code> and <code>utility::is_attribute_of</code>. Consumers include it through <code>lumex/xml/LumexXml</code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_bbd40a496777ba5881d1b96c9f04381d.html">string_view</a></li><li class="navelem"><a class="el" href="dir_95349814814eaf45a7cf2d6bae5f3802.html">view</a></li><li class="navelem"><a class="el" href="a00545.html">LumexBasicStringView.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_67864fa9b126ea0c63c4a33fb4799790.html">attribute</a></li><li class="navelem"><a class="el" href="a00545.html">XmlAttribute.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

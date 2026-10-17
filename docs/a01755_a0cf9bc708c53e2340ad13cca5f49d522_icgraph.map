@@ -1,0 +1,18 @@
+<map id="lumex::applied::logger::logger::LumexLogger::log" name="lumex::applied::logger::logger::LumexLogger::log">
+<area shape="rect" id="Node000001" title="Writes a message at the given log level." alt="" coords="253,242,448,282"/>
+<area shape="rect" id="Node000002" href="$a01755.html#a5ee54b77c5502ee97bc96cb7998e36d9" title="Writes a LEVEL_DEBUG message." alt="" coords="21,5,189,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="331,231,280,153,245,111,204,73,186,62,189,58,207,69,249,107,285,150,336,228"/>
+<area shape="rect" id="Node000003" href="$a01755.html#a2d24bc38b890ae6332580f706dfdf40d" title="Writes a LEVEL_ERROR message." alt="" coords="21,84,189,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="317,235,266,193,204,152,182,141,184,136,207,148,269,189,321,231"/>
+<area shape="rect" id="Node000004" href="$a01755.html#ab69c4e42321c08ad506e53e29f5cd690" title="Writes a LEVEL_FATAL message." alt="" coords="21,163,189,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="268,241,189,217,190,212,270,236"/>
+<area shape="rect" id="Node000005" href="$a01755.html#a3ac21758ce273e12f65bae4057f216fe" title="Writes a LEVEL_INFO message." alt="" coords="5,242,205,282"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="239,265,205,265,205,259,239,259"/>
+<area shape="rect" id="Node000006" href="$a01755.html#aacec1547aab7430c4da09298b9c04ede" title="Writes a LEVEL_SUCCESS message." alt="" coords="21,307,189,361"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="270,288,190,312,189,307,268,283"/>
+<area shape="rect" id="Node000007" href="$a01755.html#af50ae30fcac294c409da8276f67fa2c0" title="Writes a LEVEL_TRACE message." alt="" coords="21,409,189,464"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="316,293,207,375,152,411,149,407,204,370,313,289"/>
+<area shape="rect" id="Node000008" href="$a01755.html#ad0e42cfbad353430d9bf5016978a0f4f" title="Writes a LEVEL_WARNING message." alt="" coords="21,488,189,543"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="338,296,317,337,288,385,251,434,207,477,188,490,185,486,204,473,247,431,283,382,313,334,334,294"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="146,398,132,391,105,388,83,390,69,395,63,401,63,409,58,409,58,399,66,390,82,385,105,383,133,386,149,394"/>
+</map>

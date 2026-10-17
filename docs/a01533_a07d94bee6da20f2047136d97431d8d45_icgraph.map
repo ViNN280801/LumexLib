@@ -1,0 +1,85 @@
+<map id="lumex::core::expected::result::detail::address_of" name="lumex::core::expected::result::detail::address_of">
+<area shape="rect" id="Node000001" title="The address of object also when T overloads operator&amp;, usable in a constant expression from C++11 (st..." alt="" coords="1608,747,1799,787"/>
+<area shape="rect" id="Node000002" href="$a02699.html#a1b2a169e6f4ed7951fa8717b3905ae11" title=" " alt="" coords="824,71,1044,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1695,734,1675,631,1644,495,1625,427,1604,365,1582,315,1558,281,1503,234,1440,196,1373,166,1303,144,1232,128,1164,117,1044,107,1045,102,1165,112,1233,122,1304,139,1375,161,1443,191,1506,230,1562,277,1586,313,1609,363,1630,425,1649,494,1681,630,1700,733"/>
+<area shape="rect" id="Node000003" href="$a02699.html#aee6d7ed0ec00a532a756080df199b4cf" title=" " alt="" coords="824,165,1044,234"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1699,733,1691,656,1669,554,1651,500,1627,448,1596,399,1558,357,1501,313,1437,278,1369,251,1300,231,1230,216,1163,207,1044,199,1044,194,1163,202,1231,211,1301,225,1371,246,1440,273,1504,309,1562,353,1600,396,1631,445,1656,498,1674,553,1696,655,1705,733"/>
+<area shape="rect" id="Node000004" href="$a02919.html#a6461c297e055db27bf0d22f48b6289e6" title="Puts the object in the success state." alt="" coords="843,259,1025,313"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1698,734,1687,666,1663,578,1645,532,1622,488,1593,447,1558,412,1519,389,1463,368,1395,350,1320,335,1162,311,1025,296,1026,291,1163,306,1321,329,1397,345,1465,363,1521,384,1562,408,1597,443,1626,485,1649,530,1668,576,1692,664,1703,733"/>
+<area shape="rect" id="Node000005" href="$a02847.html#a248267f736f364dadd6dc926bd0f08bd" title="Converts the alternative of an expected&lt;U, G&gt;: the converting constructors of [expected...." alt="" coords="559,565,774,634"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1673,798,1622,837,1561,871,1491,897,1401,926,1297,953,1187,976,1078,993,976,998,930,996,888,990,852,980,822,965,808,949,791,917,750,825,677,635,682,634,755,823,796,915,813,946,826,961,854,975,890,985,930,991,976,993,1077,987,1186,971,1296,948,1400,921,1490,892,1559,866,1620,832,1670,794"/>
+<area shape="rect" id="Node000006" href="$a02847.html#a42ce2c4a222dd75cc821efa0109ab616" title="Copies or moves the alternative of another storage of the same type: [expected.object...." alt="" coords="827,338,1041,407"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1695,735,1680,677,1654,606,1636,570,1614,535,1589,503,1558,476,1498,439,1433,410,1364,389,1294,375,1224,367,1158,363,1042,364,1042,359,1158,357,1225,361,1295,370,1365,384,1435,405,1501,434,1562,472,1592,499,1619,532,1641,567,1659,604,1685,676,1700,733"/>
+<area shape="rect" id="Node000007" href="$a02847.html#aa22251b92c968a4dc3f08cb88fe846c1" title="The conversion of a value from a source (the class val_type is built from *rhs)." alt="" coords="825,456,1043,511"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1692,735,1675,687,1648,629,1609,574,1585,549,1559,529,1497,498,1431,476,1362,461,1292,454,1224,451,1158,453,1044,465,1044,459,1158,448,1224,446,1293,448,1363,456,1432,471,1499,493,1561,525,1589,545,1613,570,1652,627,1680,685,1697,733"/>
+<area shape="rect" id="Node000008" href="$a02847.html#a8bd7a33ae63eb902c288cfb3e1bb8576" title="Unit stands for void: there is no value to read." alt="" coords="557,456,776,511"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="1696,734,1679,615,1649,456,1630,375,1608,302,1584,242,1558,201,1527,172,1498,152,1469,139,1439,132,1373,123,1291,107,1220,85,1157,60,1099,38,1046,20,994,10,942,11,886,27,826,61,801,88,777,130,754,184,732,244,697,364,675,456,670,455,692,363,727,242,749,182,772,128,796,85,822,57,884,22,941,6,994,4,1047,14,1101,33,1159,56,1222,80,1293,102,1374,117,1440,126,1471,134,1501,147,1531,168,1562,198,1589,240,1613,300,1635,374,1654,455,1684,615,1702,733"/>
+<area shape="rect" id="Node000009" href="$a02699.html#a2d497a71c11034b4892d10fd0b6a8747" title=" " alt="" coords="1340,603,1560,673"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="1658,742,1559,687,1534,675,1536,670,1561,682,1660,738"/>
+<area shape="rect" id="Node000010" href="$a02699.html#aaa80873071dd9411b138ee2f1c99983e" title=" " alt="" coords="1340,697,1560,766"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="1594,754,1560,750,1561,744,1595,749"/>
+<area shape="rect" id="Node000011" href="$a01533.html#acccbbbed047c705e9d0dfb50a3e29221" title="reinit&#45;expected when the old object is the Unit that stands for void: there is nothing to destroy or ..." alt="" coords="851,896,1017,951"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="1638,794,1561,818,1412,851,1263,879,1018,916,1017,910,1262,874,1411,846,1559,813,1636,789"/>
+<area shape="rect" id="Node000019" href="$a01533.html#aadb2c52eaf3adcbeb3b512eee66452eb" title="reinit&#45;expected: neither can be done without throwing: save the old object and put it back if the con..." alt="" coords="851,739,1017,793"/>
+<area shape="poly" id="edge22_Node000001_Node000019" title=" " alt="" coords="1594,779,1560,781,1410,783,1261,782,1017,773,1018,768,1261,776,1410,778,1560,775,1594,774"/>
+<area shape="rect" id="Node000020" href="$a01533.html#a4036e7dfa15bb0b3ad160825ec7559a1" title="reinit&#45;expected: the construction may throw, but N can be moved without throwing: build a temporary f..." alt="" coords="851,817,1017,872"/>
+<area shape="poly" id="edge23_Node000001_Node000020" title=" " alt="" coords="1595,786,1560,790,1261,820,1018,841,1017,835,1261,815,1560,785,1594,780"/>
+<area shape="rect" id="Node000021" href="$a01533.html#a6b2e60741d402ef37ccb3959f558e0bc" title="The reinit&#45;expected of [expected.object.assign]/1 for the case that the construction of the new objec..." alt="" coords="851,1027,1017,1081"/>
+<area shape="poly" id="edge24_Node000001_Node000021" title=" " alt="" coords="1697,801,1680,850,1652,908,1613,964,1589,989,1561,1009,1494,1043,1423,1067,1348,1081,1274,1088,1201,1090,1132,1087,1018,1073,1018,1068,1133,1081,1201,1084,1273,1083,1347,1076,1421,1061,1492,1038,1559,1005,1585,985,1609,961,1647,905,1675,848,1692,799"/>
+<area shape="rect" id="Node000023" href="$a02847.html#a5fde6d3bf968ff3d670b32ac2f58db43" title="this is a success and rhs holds an error, for expected&lt;void, / E&gt;: [expected.void...." alt="" coords="840,1181,1028,1250"/>
+<area shape="poly" id="edge26_Node000001_Node000023" title=" " alt="" coords="1704,801,1694,873,1672,966,1653,1015,1629,1061,1599,1104,1562,1140,1500,1180,1431,1208,1360,1227,1287,1239,1215,1244,1146,1243,1028,1234,1029,1229,1146,1238,1214,1238,1286,1233,1359,1222,1430,1203,1497,1175,1558,1136,1595,1100,1625,1059,1648,1012,1666,965,1689,872,1699,800"/>
+<area shape="rect" id="Node000027" href="$a02847.html#a72a1de0013e47660e134becd66c6d942" title="this holds a value, rhs an error, and E is nothrow move constructible: park the error,..." alt="" coords="573,1179,761,1249"/>
+<area shape="poly" id="edge34_Node000001_Node000027" title=" " alt="" coords="1701,802,1682,902,1652,1033,1632,1098,1611,1156,1588,1203,1562,1233,1534,1251,1499,1265,1414,1285,1313,1294,1204,1296,1094,1292,989,1284,824,1265,760,1250,761,1245,824,1259,989,1279,1094,1287,1204,1291,1313,1289,1413,1279,1497,1260,1531,1246,1558,1229,1583,1200,1606,1154,1627,1096,1646,1032,1677,901,1695,801"/>
+<area shape="rect" id="Node000028" href="$a02847.html#aaf5a4bd0f1572b0a5e2b5bd8c35f8adf" title="As above, but E may throw when moved: park the value instead." alt="" coords="573,1085,761,1154"/>
+<area shape="poly" id="edge35_Node000001_Node000028" title=" " alt="" coords="1702,801,1690,864,1665,943,1647,984,1624,1022,1596,1057,1561,1085,1533,1101,1498,1113,1410,1131,1304,1142,1188,1146,953,1142,761,1130,761,1125,953,1137,1188,1141,1304,1137,1409,1126,1496,1108,1531,1096,1559,1081,1592,1053,1619,1019,1642,981,1660,941,1685,863,1697,800"/>
+<area shape="rect" id="Node000029" href="$a01533.html#a530b8cd2ab418fa6df0c17235386995a" title="The address of object as a void *, also for a const or volatile object." alt="" coords="1367,539,1533,579"/>
+<area shape="poly" id="edge36_Node000001_Node000029" title=" " alt="" coords="1683,737,1633,664,1598,626,1559,593,1532,580,1535,575,1561,589,1602,622,1637,661,1688,734"/>
+<area shape="rect" id="Node000031" href="$a02855.html#a37952c8375adb06f55772cf25779bc4c" title="Destroys val if has_value (), otherwise unex." alt="" coords="1353,1325,1547,1409"/>
+<area shape="poly" id="edge52_Node000001_Node000031" title=" " alt="" coords="1701,801,1681,913,1649,1063,1608,1208,1586,1266,1562,1308,1543,1327,1539,1323,1558,1304,1581,1264,1603,1207,1644,1062,1675,912,1695,800"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="860,518,748,567,746,562,857,514"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="977,445,961,437,934,435,911,436,896,441,889,448,890,456,884,456,885,446,893,437,910,431,934,429,963,432,979,440"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="811,486,776,486,776,481,811,481"/>
+<area shape="rect" id="Node000012" href="$a01533.html#a6746fa8e180748b7d38e746bc179df5a" title="reinit&#45;expected (T = N, U = O): ends the life of oldval and starts newval with args...." alt="" coords="583,903,750,943"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="837,926,750,926,750,921,837,921"/>
+<area shape="rect" id="Node000013" href="$a02847.html#ac152306992f18e0f7f5d020b20848405" title="Assigns the contents of another storage of the same type: [expected.object.assign]/2 and /7." alt="" coords="275,767,509,821"/>
+<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="622,898,568,867,508,836,478,824,480,819,510,831,571,862,625,893"/>
+<area shape="rect" id="Node000016" href="$a02699.html#ab660bb8fc34d6cb2163f21b5fb2a3a75" title=" " alt="" coords="282,846,502,915"/>
+<area shape="poly" id="edge19_Node000012_Node000016" title=" " alt="" coords="569,911,502,900,503,895,570,906"/>
+<area shape="rect" id="Node000017" href="$a02919.html#ac9acfbc413414ed83b13a41fd4f05149" title="Constructs an ErrorType value in place, replacing the current contents." alt="" coords="290,940,494,995"/>
+<area shape="poly" id="edge20_Node000012_Node000017" title=" " alt="" coords="570,941,494,954,494,948,569,936"/>
+<area shape="rect" id="Node000018" href="$a02699.html#a38d98f759b5694b88320e1c0e979ff69" title=" " alt="" coords="282,1019,502,1089"/>
+<area shape="poly" id="edge21_Node000012_Node000018" title=" " alt="" coords="621,952,510,1010,484,1021,482,1017,508,1005,619,948"/>
+<area shape="poly" id="edge16_Node000013_Node000013" title=" " alt="" coords="438,756,421,748,392,745,367,747,351,752,344,758,344,766,339,766,339,756,349,747,366,742,392,740,423,743,440,751"/>
+<area shape="rect" id="Node000014" href="$a02887.html#a8734ff859c7c34d7318f7f83946ab39d" title="Assigns the contents of rhs." alt="" coords="9,713,223,782"/>
+<area shape="poly" id="edge17_Node000013_Node000014" title=" " alt="" coords="261,774,223,768,224,763,261,769"/>
+<area shape="rect" id="Node000015" href="$a02899.html#ada48e32652ef5d94acb3cc795f0cd26b" title="Assigns the contents of rhs by move." alt="" coords="5,806,227,875"/>
+<area shape="poly" id="edge18_Node000013_Node000015" title=" " alt="" coords="262,819,227,824,226,819,261,813"/>
+<area shape="rect" id="Node000022" href="$a01533.html#aebb2cc5369b2ff0554cb8d8fbda8dca2" title="reinit&#45;expected for an old object that holds something." alt="" coords="583,1005,750,1060"/>
+<area shape="poly" id="edge25_Node000021_Node000022" title=" " alt="" coords="837,1049,750,1042,751,1037,837,1044"/>
+<area shape="poly" id="edge31_Node000023_Node000023" title=" " alt="" coords="976,1170,960,1162,934,1159,913,1161,898,1166,891,1172,889,1181,884,1180,886,1170,896,1161,912,1156,934,1154,962,1157,978,1165"/>
+<area shape="rect" id="Node000024" href="$a02847.html#adbaff536eceb3a3476f0a5ac8ad0a39c" title="Exchanges the contents with another storage: Table 72 of [expected.object.swap] and Table 73 of [expe..." alt="" coords="573,1297,761,1366"/>
+<area shape="poly" id="edge27_Node000023_Node000024" title=" " alt="" coords="842,1258,748,1299,746,1294,840,1253"/>
+<area shape="poly" id="edge32_Node000023_Node000027" title=" " alt="" coords="826,1217,761,1217,761,1212,826,1212"/>
+<area shape="poly" id="edge33_Node000023_Node000028" title=" " alt="" coords="826,1179,760,1156,762,1151,828,1174"/>
+<area shape="poly" id="edge30_Node000024_Node000024" title=" " alt="" coords="710,1286,694,1278,667,1275,644,1277,629,1282,621,1288,619,1297,614,1296,617,1286,627,1277,643,1272,667,1270,695,1273,712,1281"/>
+<area shape="rect" id="Node000025" href="$a02699.html#a86eadcd8e2cd6155467872091154caad" title=" " alt="" coords="282,1253,502,1322"/>
+<area shape="poly" id="edge28_Node000024_Node000025" title=" " alt="" coords="559,1317,502,1307,503,1302,559,1311"/>
+<area shape="rect" id="Node000026" href="$a02919.html#ac9dba62643741c913b1bf147871ac44d" title="Exchanges contents with another expected&lt;void, ErrorType&gt;." alt="" coords="301,1347,483,1401"/>
+<area shape="poly" id="edge29_Node000024_Node000026" title=" " alt="" coords="560,1351,484,1362,483,1357,559,1345"/>
+<area shape="rect" id="Node000030" href="$a01533.html#a76c301e6299206edbae26117dde3bedc" title="Starts the lifetime of a T at where, direct&#45;non&#45;list&#45;initialized with args...: std::construct_at." alt="" coords="1092,579,1292,619"/>
+<area shape="poly" id="edge37_Node000029_Node000030" title=" " alt="" coords="1353,577,1293,586,1292,581,1353,572"/>
+<area shape="poly" id="edge38_Node000030_Node000002" title=" " alt="" coords="1187,566,1178,484,1154,375,1135,316,1111,258,1080,203,1042,154,1029,143,1033,139,1046,151,1084,200,1116,256,1140,314,1159,373,1183,483,1193,565"/>
+<area shape="poly" id="edge39_Node000030_Node000003" title=" " alt="" coords="1184,566,1169,501,1143,416,1124,371,1101,327,1074,285,1042,248,1028,236,1032,232,1046,244,1078,282,1106,324,1129,369,1148,414,1175,499,1189,565"/>
+<area shape="poly" id="edge40_Node000030_Node000004" title=" " alt="" coords="1180,567,1162,515,1133,451,1093,385,1069,355,1042,328,1024,315,1027,311,1046,324,1073,351,1098,382,1138,448,1167,513,1185,565"/>
+<area shape="poly" id="edge41_Node000030_Node000005" title=" " alt="" coords="1078,602,774,602,774,597,1078,597"/>
+<area shape="poly" id="edge42_Node000030_Node000006" title=" " alt="" coords="1171,569,1118,496,1082,456,1042,421,1024,410,1027,405,1046,417,1086,453,1122,492,1175,566"/>
+<area shape="poly" id="edge43_Node000030_Node000007" title=" " alt="" coords="1137,576,1043,532,999,513,1001,508,1045,527,1139,571"/>
+<area shape="poly" id="edge44_Node000030_Node000008" title=" " alt="" coords="1078,579,823,524,776,513,777,508,825,519,1079,574"/>
+<area shape="poly" id="edge45_Node000030_Node000011" title=" " alt="" coords="1186,633,1168,687,1139,755,1099,824,1074,857,1046,885,1019,903,1016,898,1042,881,1070,853,1095,821,1135,753,1163,686,1181,632"/>
+<area shape="poly" id="edge46_Node000030_Node000019" title=" " alt="" coords="1163,631,1110,676,1045,721,1008,741,1006,736,1043,717,1107,672,1159,627"/>
+<area shape="poly" id="edge47_Node000030_Node000020" title=" " alt="" coords="1179,633,1157,673,1127,719,1090,766,1046,807,1019,822,1017,818,1042,802,1086,762,1123,716,1152,670,1174,631"/>
+<area shape="poly" id="edge48_Node000030_Node000021" title=" " alt="" coords="1187,633,1169,698,1140,784,1099,877,1074,922,1046,965,1014,1000,978,1029,975,1024,1010,996,1042,962,1070,920,1095,875,1135,782,1164,697,1182,632"/>
+<area shape="poly" id="edge49_Node000030_Node000023" title=" " alt="" coords="1190,633,1175,718,1147,835,1105,967,1078,1033,1046,1095,1013,1143,975,1182,972,1179,1009,1139,1042,1093,1073,1031,1100,965,1142,834,1169,717,1185,632"/>
+<area shape="poly" id="edge50_Node000030_Node000027" title=" " alt="" coords="1152,629,1102,658,1045,684,1011,693,980,696,924,692,899,691,874,695,850,707,826,728,805,754,791,781,783,807,780,834,784,887,796,940,810,995,817,1051,815,1079,809,1108,797,1138,778,1168,763,1183,759,1180,774,1164,792,1135,803,1107,810,1078,811,1051,805,996,791,941,779,887,774,833,778,806,786,779,801,752,822,724,847,702,873,690,898,686,924,687,980,690,1010,688,1043,679,1100,653,1150,624"/>
+<area shape="poly" id="edge51_Node000030_Node000028" title=" " alt="" coords="1078,613,1003,624,929,639,866,659,842,671,826,684,808,708,795,731,788,755,784,778,788,825,798,873,809,921,814,971,812,996,806,1022,795,1048,778,1074,763,1090,759,1086,774,1071,790,1045,801,1020,807,995,809,971,804,922,793,874,782,826,779,778,782,754,790,729,803,705,822,680,839,666,864,654,927,634,1002,619,1078,608"/>
+</map>

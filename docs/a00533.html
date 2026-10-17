@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexJoin.hpp File Reference</title>
+<title>LumexLib: XmlTreeWalker.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,62 +104,73 @@ $(function(){initNavTree('a00533.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexJoin.hpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
+  <div class="headertitle"><div class="title">XmlTreeWalker.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Joins the elements of a range into one string.  
+<p><code>XmlTreeWalker</code>, the callback interface of the depth-first traversal performed by <code>XmlNode::traverse</code>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;iterator&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00599_source.html">lumex/core/utility/compiler/LumexCheckFeatures.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00653_source.html">lumex/core/utility/traits/LumexTypeTraits.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00746_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01088_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexJoin.hpp:</div>
+Include dependency graph for XmlTreeWalker.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00534.png" border="0" usemap="#a_lumex_join_8hpp" alt=""/></div>
+<div class="center"><img src="a00534.png" border="0" usemap="#aXmlTreeWalker_8hpp" alt=""/></div>
+<map name="aXmlTreeWalker_8hpp" id="aXmlTreeWalker_8hpp">
+<area shape="rect" title="XmlTreeWalker, the callback interface of the depth&#45;first traversal performed by XmlNode::traverse." alt="" coords="127,5,273,31"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,86,187,111"/>
+<area shape="poly" title=" " alt="" coords="185,33,125,79,122,75,182,29"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="211,79,400,119"/>
+<area shape="poly" title=" " alt="" coords="219,29,270,68,266,72,215,33"/>
+<area shape="rect" title=" " alt="" coords="62,174,154,199"/>
+<area shape="poly" title=" " alt="" coords="261,121,150,171,148,166,259,116"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="178,167,433,207"/>
+<area shape="poly" title=" " alt="" coords="308,119,308,153,303,153,303,119"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="457,167,671,207"/>
+<area shape="poly" title=" " alt="" coords="366,116,493,160,491,165,364,121"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00535.png" border="0" usemap="#a_lumex_join_8hppdep" alt=""/></div>
+<div class="center"><img src="a00535.png" border="0" usemap="#aXmlTreeWalker_8hppdep" alt=""/></div>
+<map name="aXmlTreeWalker_8hppdep" id="aXmlTreeWalker_8hppdep">
+<area shape="rect" title="XmlTreeWalker, the callback interface of the depth&#45;first traversal performed by XmlNode::traverse." alt="" coords="5,5,152,31"/>
+<area shape="rect" href="a00725.html" title=" " alt="" coords="24,79,133,104"/>
+<area shape="poly" title=" " alt="" coords="81,44,81,78,76,78,76,44"/>
+</map>
 </div>
 </div>
 <p><a href="a00533_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01390.html">lumex::core::string</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01391.html">lumex::core::string::text</a></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05191.html">lumex::xml::tree::XmlTreeWalker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for implementing custom XML tree traversal logic.  <a href="a05191.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a663cd429e2385f582c3ea2fe311bc9ba" id="r_a663cd429e2385f582c3ea2fe311bc9ba"><td class="memTemplParams" colspan="2">template&lt;typename Range, typename Separator&gt; </td></tr>
-<tr class="memitem:a663cd429e2385f582c3ea2fe311bc9ba"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="a04618.html">lumex::core::utility::traits::range::has_streamable_elements</a>&lt; Range &gt;::value &amp;&amp;<a class="el" href="a04586.html">lumex::core::utility::traits::stream::is_streamable</a>&lt; typenamestd::decay&lt; Separator &gt;::type &gt;::value, std::string &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01391.html#a663cd429e2385f582c3ea2fe311bc9ba">lumex::core::string::text::join</a> (Range const &amp;range, Separator const &amp;separator)</td></tr>
-<tr class="memdesc:a663cd429e2385f582c3ea2fe311bc9ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streams every element of <code>range</code> with <code>operator&lt;&lt;</code>, separated by <code>separator</code> (C++11 to C++17).  <br /></td></tr>
-<tr class="separator:a663cd429e2385f582c3ea2fe311bc9ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01669.html">lumex::xml</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01672.html">lumex::xml::node</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01683.html">lumex::xml::tree</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Joins the elements of a range into one string. </p>
-<p>C++20: <code>join</code> takes any <code>std::ranges::input_range</code> (views included) and a <code>std::string_view</code> separator. C++11 to C++17: <code>join</code> takes anything a range-based <code>for</code> can walk (containers, C arrays, <code>std::initializer_list</code>) and any separator <code>operator&lt;&lt;</code> can write (<code>"literal"</code>, <code>std::string</code>, <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code>, C++17 <code>std::string_view</code>, <code>char</code>). Both produce the same text for the same elements.</p>
-<p>C++20 takes the range as <code>input_range auto const &amp;</code>: a view that is not iterable through const (<code>std::views::filter</code>) must be materialized first. </p>
+<div class="textblock"><p><code>XmlTreeWalker</code>, the callback interface of the depth-first traversal performed by <code>XmlNode::traverse</code>. </p>
+<p>A walker derives from this class and implements <code>for_each</code>, which is called for every descendant of the node being traversed in document order. <code>begin</code> and <code>end</code> are called once with that node, before and after the descendants. Returning <code>false</code> from <code>begin</code> or <code>for_each</code> stops the walk and makes <code>traverse</code> return <code>false</code>; otherwise it returns what <code>end</code> returns. During <code>for_each</code>, <code>depth()</code> is the depth of the visited node below the traversed one, 0 for its children. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_459f7d6cb411def697850a9e92b67c08.html">string</a></li><li class="navelem"><a class="el" href="dir_7f2a87a12e57e05b49f1824eaaf6f6a8.html">text</a></li><li class="navelem"><a class="el" href="a00533.html">LumexJoin.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_03e6c62a2c1c1df419aaae529fbf0739.html">tree</a></li><li class="navelem"><a class="el" href="a00533.html">XmlTreeWalker.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

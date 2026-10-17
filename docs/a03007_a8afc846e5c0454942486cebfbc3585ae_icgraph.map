@@ -1,0 +1,9 @@
+<map id="lumex::core::fmt::Detail::truncating_buffer::out" name="lumex::core::fmt::Detail::truncating_buffer::out">
+<area shape="rect" id="Node000001" title=" " alt="" coords="416,27,593,67"/>
+<area shape="rect" id="Node000002" href="$a01540.html#a62a311d6ac094ef44b71559d4a6afb7f" title="Writes at most limit characters; size is the full length." alt="" coords="129,5,347,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="402,39,347,33,347,27,402,33"/>
+<area shape="rect" id="Node000004" href="$a03007.html#aa611a91fed5f51e7575a9453bb681c32" title=" " alt="" coords="108,55,368,95"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="403,61,369,64,368,59,402,55"/>
+<area shape="rect" id="Node000003" href="$a00464.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="116,21,60,21,60,15,116,15"/>
+</map>

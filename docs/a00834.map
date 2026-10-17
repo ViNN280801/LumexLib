@@ -1,0 +1,22 @@
+<map id="LumexDwcasBackendAsm.hpp" name="LumexDwcasBackendAsm.hpp">
+<area shape="rect" id="Node000001" title="The lock cmpxchg16b backend in GNU inline assembly (GCC, Clang, clang&#45;cl, MinGW)." alt="" coords="262,5,485,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="324,262,391,287"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="392,29,428,60,467,104,481,129,490,155,491,182,482,208,450,230,397,258,394,254,447,226,478,205,486,181,485,156,477,131,462,107,425,64,389,33"/>
+<area shape="rect" id="Node000003" href="$a00830.html" title="Detection macros of the 128&#45;bit compare&#45;and&#45;swap layer: whether the layer exists on this target and w..." alt="" coords="5,255,195,295"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="268,33,178,52,143,65,121,81,108,98,100,118,91,161,91,204,95,241,90,242,85,204,85,160,94,116,104,95,117,77,141,61,177,47,267,28"/>
+<area shape="rect" id="Node000004" href="$a00845.html" title="cas_operations_t: load, store and exchange of a 128&#45;bit word built on a backend that only has a compa..." alt="" coords="131,79,328,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="352,33,278,74,276,70,349,29"/>
+<area shape="rect" id="Node000006" href="$a00824.html" title="dwcas_value_t, the 16&#45;byte value of a dwcas_word: two 64&#45;bit halves." alt="" coords="279,167,468,207"/>
+<area shape="poly" id="edge12_Node000001_Node000006" title=" " alt="" coords="376,31,376,152,371,152,371,31"/>
+<area shape="rect" id="Node000007" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="415,255,628,295"/>
+<area shape="poly" id="edge13_Node000001_Node000007" title=" " alt="" coords="410,28,447,48,479,77,502,117,516,161,523,204,525,241,519,241,517,205,511,162,497,119,475,80,444,52,408,33"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="209,121,192,140,178,161,172,184,173,195,178,205,198,221,232,237,312,261,310,266,230,242,196,226,174,208,168,196,167,184,173,159,188,136,205,117"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="209,121,165,168,139,207,118,244,114,241,135,204,161,165,205,117"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="188,174,255,199"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="230,119,226,160,221,160,225,119"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="264,117,330,157,328,162,261,121"/>
+<area shape="poly" id="edge11_Node000004_Node000007" title=" " alt="" coords="329,113,419,136,456,149,482,165,496,182,507,201,519,241,514,242,502,203,492,185,478,169,454,154,417,141,328,119"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="372,208,365,249,360,248,367,207"/>
+<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="312,209,176,253,175,248,310,204"/>
+<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="409,205,477,245,474,250,406,209"/>
+</map>

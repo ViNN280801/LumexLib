@@ -1,0 +1,8 @@
+<map id="lumex::core::hazard_pointer::hazard_pointer::protect" name="lumex::core::hazard_pointer::hazard_pointer::protect">
+<area shape="rect" id="Node000001" title="Loads src and protects the loaded object; returns it." alt="" coords="233,29,413,84"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="361,18,347,11,323,8,303,10,290,15,284,21,284,29,279,29,279,19,287,10,302,5,323,3,349,6,364,14"/>
+<area shape="rect" id="Node000002" href="$a00524.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="68,12,123,37"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,45,122,31,123,26,220,39"/>
+<area shape="rect" id="Node000003" href="$a03299.html#ac8706d1bc216c40812555c10f7b6da4f" title="Extension: protect over a callable source and a filter (see try_protect with three arguments)." alt="" coords="5,61,185,116"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="220,74,186,79,185,73,219,69"/>
+</map>

@@ -1,0 +1,23 @@
+<map id="lumex::xml::xpath::variable::XPathVariable::name" name="lumex::xml::xpath::variable::XPathVariable::name">
+<area shape="rect" id="Node000001" title="Retrieves the name of the XPath variable." alt="" coords="551,269,769,309"/>
+<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="706,258,690,251,660,248,634,250,618,255,612,261,615,268,610,270,607,260,615,250,633,245,660,243,691,245,708,253"/>
+<area shape="rect" id="Node000002" href="$a05347.html#ab37f5ebf628ae27ccad60b41c7286ef9" title="Adds a new variable to the set or retrieves an existing one." alt="" coords="276,133,503,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="607,266,428,176,431,171,609,261"/>
+<area shape="rect" id="Node000007" href="$a05327.html#a509b6516d6915210f1528e61a438c3d1" title=" " alt="" coords="293,262,486,317"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="537,301,486,301,486,295,537,296"/>
+<area shape="rect" id="Node000003" href="$a05347.html#a3073c328483b4fa675a412b1783a1406" title="Sets the boolean value of an existing variable." alt="" coords="5,5,228,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="348,128,292,93,227,60,195,48,197,43,229,55,294,88,351,123"/>
+<area shape="rect" id="Node000004" href="$a05347.html#ab3e57ba2cb4341216ebeb3084355b64b" title="Sets the string value of an existing variable." alt="" coords="5,69,228,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="290,133,201,112,202,107,291,128"/>
+<area shape="rect" id="Node000005" href="$a05347.html#a4e6e98b074e72ec24556eedaf4e8da1e" title="Sets the numeric value of an existing variable." alt="" coords="5,133,228,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="262,156,228,156,228,151,262,151"/>
+<area shape="rect" id="Node000006" href="$a05347.html#a15d701b795ad633ec27d534c5236ba0d" title="Sets the node&#45;set value of an existing variable." alt="" coords="5,197,228,237"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="291,179,202,200,201,195,290,174"/>
+<area shape="poly" id="edge10_Node000007_Node000001" title=" " alt="" coords="500,278,550,278,550,283,500,283"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="435,251,418,244,389,241,365,243,349,247,342,254,342,262,337,262,337,252,347,243,364,237,389,235,420,238,437,246"/>
+<area shape="rect" id="Node000008" href="$a05327.html#a10e1f85e3e1818d42fb7ca5b15893818" title="Gets the node&#45;set value of the variable." alt="" coords="30,262,203,317"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="279,301,204,300,204,295,279,296"/>
+<area shape="rect" id="Node000009" href="$a05327.html#aea01b32b88619ec623d8a50408b48336" title="Sets the node&#45;set value of the variable." alt="" coords="16,341,217,381"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="280,321,193,344,192,339,279,316"/>
+<area shape="poly" id="edge9_Node000008_Node000007" title=" " alt="" coords="217,278,292,278,292,283,217,283"/>
+</map>

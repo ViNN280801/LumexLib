@@ -1,0 +1,13 @@
+<map id="lumex::applied::resource_monitor::monitor::detail::parse_proc_meminfo" name="lumex::applied::resource_monitor::monitor::detail::parse_proc_meminfo">
+<area shape="rect" id="Node000001" title="Parses the text of /proc/meminfo." alt="" coords="5,116,189,171"/>
+<area shape="rect" id="Node000002" href="$a01456.html#a6717a3ed5cd72967d51be31b9a06e15b" title="The value of a Key: &lt;number&gt; kB line, as /proc/meminfo and /proc/&lt;pid&gt;/status write them." alt="" coords="237,84,421,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,128,223,123,224,129,190,133"/>
+<area shape="rect" id="Node000006" href="$a00449.html#a765661df16a1d68eca933c5943f17427" title="Adds samples up, for example every process of one name." alt="" coords="303,163,355,188"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="190,153,290,167,289,173,189,159"/>
+<area shape="rect" id="Node000003" href="$a04167.html#aed3dc0a97328de954474f41db2f02a3c" title="Lexicographic comparison: negative, zero or positive." alt="" coords="469,5,656,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="410,81,468,62,469,67,412,86"/>
+<area shape="rect" id="Node000004" href="$a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="469,84,656,139"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="422,109,456,109,456,114,422,114"/>
+<area shape="rect" id="Node000005" href="$a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title="The view of min(n, size() &#45; pos) characters from pos." alt="" coords="469,163,656,217"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="412,136,469,156,468,161,410,141"/>
+</map>

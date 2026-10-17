@@ -1,0 +1,5 @@
+<map id="lumex::xml::document::XmlDocument::load" name="lumex::xml::document::XmlDocument::load">
+<area shape="rect" id="Node000001" title="Loads an XML document from a wide character stream." alt="" coords="5,5,175,45"/>
+<area shape="rect" id="Node000002" href="$a05127.html#a20b942adcf753027eb5e49afbf383920" title="Removes all nodes from the document, leaving it in an empty state." alt="" coords="223,5,392,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,23,209,23,209,28,175,28"/>
+</map>

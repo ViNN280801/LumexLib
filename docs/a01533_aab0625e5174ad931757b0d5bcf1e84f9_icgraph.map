@@ -1,0 +1,7 @@
+<map id="lumex::core::expected::result::detail::move_error" name="lumex::core::expected::result::detail::move_error">
+<area shape="rect" id="Node000001" title="std::move (unex).error () where error () &amp;&amp; of unexpected is not constexpr." alt="" coords="273,64,468,104"/>
+<area shape="rect" id="Node000002" href="$a02699.html#a1a653010457900754d6acdd59031c979" title=" " alt="" coords="5,5,225,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,68,225,62,226,56,260,62"/>
+<area shape="rect" id="Node000003" href="$a02919.html#a3e03c2768b7098bacb858189a9fff731" title="Replaces the contents with an error (move)." alt="" coords="24,99,207,154"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="260,105,207,114,207,109,259,100"/>
+</map>

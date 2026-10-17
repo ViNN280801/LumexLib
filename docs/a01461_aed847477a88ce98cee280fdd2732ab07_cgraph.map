@@ -1,0 +1,5 @@
+<map id="lumex::applied::resource_monitor::process::detail::windows_name_matches" name="lumex::applied::resource_monitor::process::detail::windows_name_matches">
+<area shape="rect" id="Node000001" title="The Windows name rule: equal without regard to ASCII case, with or without .exe on either side." alt="" coords="5,5,200,60"/>
+<area shape="rect" id="Node000002" href="$a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="248,5,435,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,30,234,30,234,35,200,35"/>
+</map>

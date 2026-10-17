@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::applied::resource_monitor::process::detail::proc_pid_status_t Struct Reference</title>
+<title>LumexLib: lumex::core::utility::numeric::Detail Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,70 +104,74 @@ $(function(){initNavTree('a01606.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a01603.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::applied::resource_monitor::process::detail::proc_pid_status_t Struct Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::utility::numeric::Detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The memory fields of <code>/proc/&lt;pid&gt;/status</code> the monitor needs.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00161_source.html">LumexProcessDetail.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ac3e6b79594bc6ea44f34ec747b569715" id="r_ac3e6b79594bc6ea44f34ec747b569715"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00467.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3e6b79594bc6ea44f34ec747b569715">resident_bytes</a></td></tr>
-<tr class="memdesc:ac3e6b79594bc6ea44f34ec747b569715"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>VmRSS</code>; empty for kernel threads, which have no memory of their own.  <br /></td></tr>
-<tr class="separator:ac3e6b79594bc6ea44f34ec747b569715"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a649c44a17384c9232b8749cfb28b410b" id="r_a649c44a17384c9232b8749cfb28b410b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00467.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a649c44a17384c9232b8749cfb28b410b">anonymous_bytes</a></td></tr>
-<tr class="memdesc:a649c44a17384c9232b8749cfb28b410b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>RssAnon</code>; empty before Linux 4.5.  <br /></td></tr>
-<tr class="separator:a649c44a17384c9232b8749cfb28b410b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04427.html">is_own_ordering</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True for the three own ordering classes (no cv-qualifier, no reference).  <a href="a04427.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04431.html">is_plain_ordering</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if <code>T</code>, which has no cv-qualifier and is no reference, is an ordering.  <a href="a04431.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04407.html">literal_zero_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the second parameter of a comparison with <code>0</code>.  <a href="a04407.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a04411.html">ordering_base</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value and the comparisons shared by the three ordering classes.  <a href="a04411.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a0f23ee126a26c0aee8ce3b91e80b3616" id="r_a0f23ee126a26c0aee8ce3b91e80b3616"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616">ordering_value</a> : signed char { <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616ae37e8d912e8f7b8f9b5ef9452ba47ff1">less</a> = -1
+, <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616aa219d952c828c6dfd3c9e7465f0d29c4">equivalent</a> = 0
+, <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616a7b8dc4fb0fb55fc8eb69ff080c45ed7e">greater</a> = 1
+, <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616a2e3a2fe1ab6a59f682eec190c2b1fe27">unordered</a> = 2
+ }</td></tr>
+<tr class="memdesc:a0f23ee126a26c0aee8ce3b91e80b3616"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value of an ordering: the sign of the comparison, and <code>unordered</code> for the one value a <code>partial_ordering</code> has besides the three.  <a href="#a0f23ee126a26c0aee8ce3b91e80b3616">More...</a><br /></td></tr>
+<tr class="separator:a0f23ee126a26c0aee8ce3b91e80b3616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The memory fields of <code>/proc/&lt;pid&gt;/status</code> the monitor needs. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a649c44a17384c9232b8749cfb28b410b" name="a649c44a17384c9232b8749cfb28b410b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a649c44a17384c9232b8749cfb28b410b">&#9670;&#160;</a></span>anonymous_bytes</h2>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a0f23ee126a26c0aee8ce3b91e80b3616" name="a0f23ee126a26c0aee8ce3b91e80b3616"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f23ee126a26c0aee8ce3b91e80b3616">&#9670;&#160;</a></span>ordering_value</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00467.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt;std::uint64_t&gt; lumex::applied::resource_monitor::process::detail::proc_pid_status_t::anonymous_bytes</td>
+          <td class="memname">enum class <a class="el" href="#a0f23ee126a26c0aee8ce3b91e80b3616">lumex::core::utility::numeric::Detail::ordering_value</a> : signed char</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p><code>RssAnon</code>; empty before Linux 4.5. </p>
+<p>The value of an ordering: the sign of the comparison, and <code>unordered</code> for the one value a <code><a class="el" href="a04415.html" title="The result of a three-way comparison that may leave two values unordered (NaN against anything): less...">partial_ordering</a></code> has besides the three. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0f23ee126a26c0aee8ce3b91e80b3616ae37e8d912e8f7b8f9b5ef9452ba47ff1" name="a0f23ee126a26c0aee8ce3b91e80b3616ae37e8d912e8f7b8f9b5ef9452ba47ff1"></a>less&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0f23ee126a26c0aee8ce3b91e80b3616aa219d952c828c6dfd3c9e7465f0d29c4" name="a0f23ee126a26c0aee8ce3b91e80b3616aa219d952c828c6dfd3c9e7465f0d29c4"></a>equivalent&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0f23ee126a26c0aee8ce3b91e80b3616a7b8dc4fb0fb55fc8eb69ff080c45ed7e" name="a0f23ee126a26c0aee8ce3b91e80b3616a7b8dc4fb0fb55fc8eb69ff080c45ed7e"></a>greater&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0f23ee126a26c0aee8ce3b91e80b3616a2e3a2fe1ab6a59f682eec190c2b1fe27" name="a0f23ee126a26c0aee8ce3b91e80b3616a2e3a2fe1ab6a59f682eec190c2b1fe27"></a>unordered&#160;</td><td class="fielddoc"></td></tr>
+</table>
 
 </div>
 </div>
-<a id="ac3e6b79594bc6ea44f34ec747b569715" name="ac3e6b79594bc6ea44f34ec747b569715"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3e6b79594bc6ea44f34ec747b569715">&#9670;&#160;</a></span>resident_bytes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00467.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff">optional</a>&lt;std::uint64_t&gt; lumex::applied::resource_monitor::process::detail::proc_pid_status_t::resident_bytes</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>VmRSS</code>; empty for kernel threads, which have no memory of their own. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00161_source.html">LumexProcessDetail.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a01248.html">lumex</a></li><li class="navelem"><a class="el" href="a01249.html">applied</a></li><li class="navelem"><a class="el" href="a01277.html">resource_monitor</a></li><li class="navelem"><a class="el" href="a01283.html">process</a></li><li class="navelem"><a class="el" href="a01284.html">detail</a></li><li class="navelem"><a class="el" href="a01606.html">proc_pid_status_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01586.html">utility</a></li><li class="navelem"><a class="el" href="a01605.html">numeric</a></li><li class="navelem"><a class="el" href="a01606.html">Detail</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

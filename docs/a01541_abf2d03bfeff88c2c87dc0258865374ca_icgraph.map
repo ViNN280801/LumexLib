@@ -1,0 +1,13 @@
+<map id="lumex::core::fmt::Detail::power_of_ten" name="lumex::core::fmt::Detail::power_of_ten">
+<area shape="rect" id="Node000001" title="10^exponent for exponent in 0..18." alt="" coords="568,111,745,151"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a6ba235f9fcada7ece959be451804b733" title="Fractional second digits of S for Period: the smallest n (at most 18) with Period * 10^n whole,..." alt="" coords="343,79,520,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="554,119,520,115,520,109,555,114"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a474c0fd7c9f1ace69805a5a6a099600a" title="Splits a non&#45;negative duration into whole seconds and the fraction in 10^&#45;digits units (truncated)." alt="" coords="343,143,520,183"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="555,149,520,153,520,148,554,143"/>
+<area shape="rect" id="Node000003" href="$a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,5,269,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,88,268,80,269,75,329,83"/>
+<area shape="rect" id="Node000004" href="$a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,143,295,256"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="363,127,296,150,294,145,361,122"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="362,141,268,107,270,102,364,136"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="329,179,295,183,295,178,329,174"/>
+</map>

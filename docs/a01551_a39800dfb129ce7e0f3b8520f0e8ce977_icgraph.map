@@ -1,0 +1,19 @@
+<map id="lumex::core::math::ops::Detail::adl_end" name="lumex::core::math::ops::Detail::adl_end">
+<area shape="rect" id="Node000001" title="end (range) with std::end and ADL, as a range&#45;for does." alt="" coords="305,165,456,205"/>
+<area shape="rect" id="Node000002" href="$a01549.html#a795166387deab30bf98b02619bca5c5b" title="Arithmetic mean of a range&#39;s elements, or ValueType{0} for an empty range." alt="" coords="108,5,257,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="355,156,312,108,256,60,235,48,238,43,259,55,315,104,359,153"/>
+<area shape="rect" id="Node000004" href="$a01549.html#aedd730aefea1cc3eb2e1d00c1c758bfd" title="Arithmetic mean of only the elements matching predicate, or ValueType{0} if none match (or the range ..." alt="" coords="108,69,257,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="331,161,256,124,230,112,232,107,258,119,333,157"/>
+<area shape="rect" id="Node000005" href="$a01549.html#ab00c52837c8e1c0898a38c85a2cce753" title="Root Mean Square of a range&#39;s elements, or ResultType{0} for an empty range." alt="" coords="108,133,257,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="292,174,257,168,258,163,292,168"/>
+<area shape="rect" id="Node000006" href="$a01549.html#aa5e20059c5304cd10fbb9e5d64d126fb" title="Root Mean Square of the element&#45;wise product of two equally&#45;sized ranges: sqrt( 1/N * sum (x_i * y_i)..." alt="" coords="108,197,257,237"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="292,202,258,208,257,203,292,197"/>
+<area shape="rect" id="Node000007" href="$a01549.html#aeb97b3e1f4e91081b5a15bc768abe7ea" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="108,261,257,301"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="333,214,258,252,232,264,230,259,256,247,331,209"/>
+<area shape="rect" id="Node000008" href="$a01549.html#ad106a6fe4eee4867f98352f46de4259c" title="Root Mean Squared Error between two equally&#45;sized ranges: sqrt( 1/N * sum (x_i &#45; y_i)^2 )...." alt="" coords="108,325,257,365"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="359,218,315,267,259,316,238,328,235,323,256,311,312,263,355,214"/>
+<area shape="rect" id="Node000003" href="$a00359.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,141,60,166"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="117,54,110,59,88,79,69,102,42,142,38,139,65,99,84,76,106,55,114,50"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="94,156,60,156,60,151,94,151"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="114,257,106,251,84,231,65,208,38,168,42,165,69,205,88,227,110,247,117,252"/>
+</map>

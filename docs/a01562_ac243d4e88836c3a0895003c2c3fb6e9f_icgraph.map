@@ -1,0 +1,7 @@
+<map id="lumex::core::smart_ptr::allocate_shared" name="lumex::core::smart_ptr::allocate_shared">
+<area shape="rect" id="Node000001" title="Creates a T constructed from args in one allocation made with a copy of alloc." alt="" coords="301,5,460,45"/>
+<area shape="rect" id="Node000002" href="$a01562.html#af5f9b825794c24606e999e4108a2a9bd" title="Creates a T constructed from args in one allocation." alt="" coords="108,5,253,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="288,28,254,28,254,23,288,23"/>
+<area shape="rect" id="Node000003" href="$a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="94,28,60,28,60,23,94,23"/>
+</map>

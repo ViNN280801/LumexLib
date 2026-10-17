@@ -1,0 +1,8 @@
+<map id="lumex::core::fmt::Detail::parse_default_element" name="lumex::core::fmt::Detail::parse_default_element">
+<area shape="rect" id="Node000001" title="Gives an element formatter its default specification: ? for strings / characters, empty otherwise." alt="" coords="280,73,460,113"/>
+<area shape="rect" id="Node000002" href="$a03187.html#ae77798813a173e1484127d9d57f0808a" title=" " alt="" coords="30,29,207,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,78,207,68,208,62,267,73"/>
+<area shape="rect" id="Node000003" href="$a03211.html#a17890e390c0e0052a3ae901f2af1b561" title=" " alt="" coords="5,94,232,178"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="267,113,233,119,232,114,266,108"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="161,18,146,11,119,8,94,10,80,15,74,21,77,28,72,30,69,20,77,10,93,5,119,3,148,6,164,13"/>
+</map>

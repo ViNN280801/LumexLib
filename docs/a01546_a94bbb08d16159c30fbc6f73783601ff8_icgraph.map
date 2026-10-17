@@ -1,0 +1,8 @@
+<map id="lumex::core::hazard_pointer::engine::clean_up" name="lumex::core::hazard_pointer::engine::clean_up">
+<area shape="rect" id="Node000001" title="Runs a full reclamation pass now and waits for a running one." alt="" coords="307,29,500,69"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="440,18,427,11,403,8,382,10,370,15,365,21,367,28,362,30,360,20,366,10,381,5,403,3,429,6,443,13"/>
+<area shape="rect" id="Node000002" href="$a01544.html#ad4d9a3cd888e73da0c4ae347b790118e" title="Runs a reclamation pass now (extension of this module)." alt="" coords="108,29,259,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="293,52,259,52,259,47,293,47"/>
+<area shape="rect" id="Node000003" href="$a00524.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,37,60,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="94,52,60,52,60,47,94,47"/>
+</map>

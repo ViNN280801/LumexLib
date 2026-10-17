@@ -1,9 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
- // LATEX_PDF_SIZE
-  bgcolor="transparent";
-  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
-  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
-  rankdir="LR";
-  Node0 [id="Node000000",label="lumex::core::unicode\l::utf::utf32_writer",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$a04102.html",tooltip="Writing policy: stores each code point as one 32-bit unit, in the byte order of the machine."];
-}

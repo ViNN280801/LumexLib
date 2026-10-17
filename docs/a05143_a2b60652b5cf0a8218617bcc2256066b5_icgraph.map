@@ -1,0 +1,9 @@
+<map id="lumex::xml::node::XmlNode::prepend_child" name="lumex::xml::node::XmlNode::prepend_child">
+<area shape="rect" id="Node000001" title="Prepends a new child node of a specified type to the current node." alt="" coords="257,69,461,109"/>
+<area shape="rect" id="Node000002" href="$a05143.html#aa6f134b485f2cd2c478edf6c0af50243" title="Prepends a new child element with the specified name to the current node." alt="" coords="5,5,209,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,68,185,48,187,43,268,63"/>
+<area shape="rect" id="Node000003" href="$a05143.html#ad1158e66c6a726feead88bf858821421" title="prepend_child with a name of size characters at name, which need no terminating NUL (a range of a lar..." alt="" coords="5,69,209,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,92,210,92,210,87,244,87"/>
+<area shape="rect" id="Node000004" href="$a05143.html#a077e87bb4351f086653426a4b66560e3" title="Prepends a new child element with the specified name (string_view_t) to the current node." alt="" coords="5,133,209,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="268,115,187,136,185,131,266,110"/>
+</map>

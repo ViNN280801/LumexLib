@@ -1,0 +1,7 @@
+<map id="lumex::core::fmt::Detail::builtin_kind" name="lumex::core::fmt::Detail::builtin_kind">
+<area shape="rect" id="Node000001" title="Storage kind of a built&#45;in type T (decayed) for character type Char, or ArgKind::none when T is not b..." alt="" coords="5,37,183,77"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a24e1689d8a19eee3efc71c48ef7c5efe" title=" " alt="" coords="235,5,413,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,42,222,37,222,42,183,48"/>
+<area shape="rect" id="Node000003" href="$a01541.html#aad5f22f79a0e3ad34115a809dd6d25d8" title=" " alt="" coords="231,69,417,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,67,217,72,217,77,183,72"/>
+</map>

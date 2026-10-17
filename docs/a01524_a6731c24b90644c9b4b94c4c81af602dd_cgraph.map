@@ -1,0 +1,9 @@
+<map id="lumex::core::exceptions::Wrapper::detail::report_exception" name="lumex::core::exceptions::Wrapper::detail::report_exception">
+<area shape="rect" id="Node000001" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="5,57,184,112"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="50,57,51,47,59,38,73,33,95,31,120,34,135,42,132,46,119,39,95,36,74,38,62,43,56,49,56,57"/>
+<area shape="rect" id="Node000002" href="$a01522.html#a0e00681207c6fe8355e6416db22d6ee8" title="Returns the installed sink, or nullptr when reports go to std::cerr." alt="" coords="232,5,411,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,62,218,54,219,59,185,67"/>
+<area shape="rect" id="Node000003" href="$a01524.html#a730010fd0f524d97727a82bb42f2ddd3" title="Writes &quot;prefix. Reason: &lt;whatMsg&gt;\n&quot; to std::cerr using only noexcept operations." alt="" coords="232,108,411,163"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="185,102,219,110,218,115,184,107"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="277,108,277,98,285,89,300,83,321,81,347,84,362,92,359,97,345,90,321,87,301,89,288,93,282,100,282,108"/>
+</map>

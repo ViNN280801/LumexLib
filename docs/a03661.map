@@ -1,0 +1,5 @@
+<map id="lumex::core::optional::opt::detail::or_else_enabled&lt; Fn, Opt, Allowed &gt;" name="lumex::core::optional::opt::detail::or_else_enabled&lt; Fn, Opt, Allowed &gt;">
+<area shape="rect" id="Node000001" title="or_else is viable: Fn () returns Opt and the value can be copied or moved (Allowed,..." alt="" coords="249,13,467,67"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,201,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,37,249,37,249,43,215,43"/>
+</map>

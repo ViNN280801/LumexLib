@@ -1,0 +1,11 @@
+<map id="LumexCrashHandler.hpp" name="LumexCrashHandler.hpp">
+<area shape="rect" id="Node000001" title="lumex_crash_handler, the singleton that writes a dump when the process crashes." alt="" coords="94,5,275,31"/>
+<area shape="rect" id="Node000002" href="$a00893.html" title=" " alt="" coords="5,79,185,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,41,113,80,110,76,157,37"/>
+<area shape="rect" id="Node000003" href="$a01370.html" title="Exceptions module: the lumex_base_exception hierarchy, stack traces, a crash handler that writes mini..." alt="" coords="210,79,341,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,37,261,76,257,80,209,41"/>
+<area shape="rect" id="Node000004" href="$a00299.html" title=" " alt="" coords="86,159,270,185"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="251,115,196,161,192,157,247,111"/>
+<area shape="rect" id="Node000005" href="$a00302.html" title=" " alt="" coords="294,152,451,192"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="303,111,350,150,347,154,300,115"/>
+</map>

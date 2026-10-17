@@ -1,0 +1,7 @@
+<map id="lumex::xml::memory::XmlAllocator" name="lumex::xml::memory::XmlAllocator">
+<area shape="rect" id="Node000001" title="Manages memory allocation and deallocation for XML nodes, attributes, and strings within a document." alt="" coords="5,5,164,45"/>
+<area shape="rect" id="Node000002" href="$a05139.html" title="Represents a single fixed&#45;size memory page used by the XmlAllocator." alt="" coords="5,108,164,148"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="47,56,38,70,36,80,39,89,54,106,49,109,34,91,31,80,33,68,42,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,94,99,70,92,46,97,45,105,69,103,95"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="179,119,191,128,183,136,165,140,164,134,180,131,185,128,176,123"/>
+</map>

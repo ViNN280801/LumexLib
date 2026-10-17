@@ -1,0 +1,15 @@
+<map id="lumex::core::environment::env::lumex_environment::is_truthy" name="lumex::core::environment::env::lumex_environment::is_truthy">
+<area shape="rect" id="Node000001" title="Static convenience method to check whether an environment variable is truthy (enabled)." alt="" coords="5,69,197,124"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="268,29,460,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,79,254,71,255,76,198,85"/>
+<area shape="rect" id="Node000003" href="$a02599.html#ae2d2cea9826e834a647332598a7cc024" title="Checks whether an environment variable is &quot;truthy&quot; (enabled)." alt="" coords="245,108,483,163"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="198,108,232,113,231,118,197,113"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="313,29,314,19,323,10,340,5,364,3,393,6,410,14,408,18,392,11,364,8,341,10,325,15,318,21,319,29"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a96d15dad7b6ca2fa7c910cd5fed9497d" title="Retrieves the value of an environment variable, providing a default fallback." alt="" coords="531,108,752,163"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="483,133,517,133,517,138,483,138"/>
+<area shape="rect" id="Node000005" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="800,56,1001,111"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="752,111,786,104,787,109,753,116"/>
+<area shape="rect" id="Node000006" href="$a02603.html#a425467e8560cb446b98a4e8b50a14427" title="Retrieves the variable&#39;s value or a specified fallback value if the operation failed." alt="" coords="805,159,997,213"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="753,154,792,162,791,167,752,160"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="850,159,851,148,860,140,876,134,901,132,930,135,946,143,944,148,928,140,901,137,877,139,862,144,856,150,856,159"/>
+</map>

@@ -1,0 +1,22 @@
+<map id="lumex::core::filesystem::fs::path::is_absolute" name="lumex::core::filesystem::fs::path::is_absolute">
+<area shape="rect" id="Node000001" title="Checks if the path is an absolute path." alt="" coords="673,123,848,163"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a6ea4d3b9874e796d9408029b9a296d63" title="Converts a path_arg to its absolute form." alt="" coords="451,80,625,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="659,130,625,124,626,119,660,124"/>
+<area shape="rect" id="Node000003" href="$a00260.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="288,5,343,31"/>
+<area shape="poly" id="edge11_Node000001_Node000003" title=" " alt="" coords="729,116,682,78,654,60,624,46,547,25,468,16,397,15,343,18,343,13,397,10,468,11,548,20,626,41,657,55,685,73,733,112"/>
+<area shape="rect" id="Node000007" href="$a02947.html#adf50c9e0f000e87af5af53e8cc724902" title="Checks if the path is a relative path." alt="" coords="451,159,625,199"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="660,162,626,168,625,163,659,157"/>
+<area shape="rect" id="Node000008" href="$a02947.html#afc16e4bcfa55bcbb15ab002eba68115d" title="Appends another path object as a sub&#45;path using the path concatenation operator (/=)." alt="" coords="451,223,625,263"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="713,172,626,214,597,226,595,221,624,209,710,167"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="575,69,561,62,538,59,518,61,506,65,500,72,500,80,495,80,495,70,503,61,517,55,538,53,563,56,577,64"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="474,76,402,45,342,27,344,22,404,39,476,71"/>
+<area shape="rect" id="Node000004" href="$a02967.html#ae0e9cd21508c7b70087362ca94d1d476" title="Constructs a relative path_arg from path_arg to base." alt="" coords="228,79,403,133"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="437,109,403,109,403,104,437,104"/>
+<area shape="rect" id="Node000006" href="$a02967.html#a0cb537a9a04b028a5f3c40d9b744ad44" title="Returns the weakly canonical form of a path_arg." alt="" coords="228,181,403,236"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="467,143,377,184,375,179,464,138"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="352,68,339,60,315,57,296,59,283,64,277,70,277,79,272,79,272,68,280,60,294,54,315,52,340,55,355,63"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a6be78bfb24de6ecace6b252a2f5afa66" title="Constructs a proximate path_arg from path_arg to base." alt="" coords="5,79,180,133"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="215,109,180,109,180,103,215,103"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="129,68,116,60,93,57,73,59,60,64,55,70,55,79,49,79,50,68,57,60,72,54,93,52,118,55,132,63"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="352,170,339,163,315,160,296,162,283,167,277,173,277,181,272,181,272,171,280,162,294,157,315,155,340,158,355,166"/>
+</map>

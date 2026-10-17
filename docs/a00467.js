@@ -1,4 +1,5 @@
 var a00467 =
 [
-    [ "optional", "a00467.html#afbb00d6cc5e9b8ea87e69dfe4629f8ff", null ]
+    [ "lumex::core::fmt::formatter< area_t >", "a05039.html", "a05039" ],
+    [ "main", "a00467.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ]
 ];

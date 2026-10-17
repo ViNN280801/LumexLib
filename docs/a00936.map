@@ -1,0 +1,36 @@
+<map id="LumexMath.hpp" name="LumexMath.hpp">
+<area shape="rect" id="Node000001" title="Numeric helpers: NaN/Inf checks, exact floating&#45;point comparison, checked narrowing casts,..." alt="" coords="576,5,703,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,86,68,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="576,25,315,47,178,63,80,81,74,83,73,78,79,76,178,58,314,41,575,20"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="92,86,163,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="576,24,394,40,285,57,176,81,168,84,167,79,175,76,284,52,394,35,575,18"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="187,86,254,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="576,26,433,45,349,60,267,81,260,83,258,78,265,76,348,55,432,39,575,21"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="279,86,349,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="576,31,475,52,363,81,356,83,354,78,361,76,474,46,575,26"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="374,86,433,111"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="592,33,522,54,446,81,442,83,440,78,444,76,521,49,591,28"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="457,86,531,111"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="617,33,531,81,528,77,615,29"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="556,86,643,111"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="635,32,614,74,610,72,631,30"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="718,174,777,199"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="650,29,734,161,730,164,645,32"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="985,174,1077,199"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="703,17,785,22,878,32,960,50,992,62,1015,77,1028,96,1035,118,1037,160,1032,160,1030,119,1023,98,1011,81,990,67,959,55,877,37,785,27,703,22"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="843,174,903,199"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="703,17,781,22,867,32,942,49,971,62,991,77,998,91,999,105,992,119,982,132,951,154,917,172,914,167,948,149,978,128,988,116,993,104,993,93,987,80,968,66,941,55,866,37,780,27,703,22"/>
+<area shape="rect" id="Node000012" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="1102,79,1291,119"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="703,23,1084,76,1088,77,1087,82,1083,81,702,29"/>
+<area shape="rect" id="Node000013" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1101,167,1356,207"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="703,16,858,21,1048,31,1215,49,1273,61,1293,68,1305,77,1312,87,1314,98,1308,120,1292,141,1272,160,1268,156,1288,138,1303,118,1309,98,1307,89,1301,81,1291,73,1272,66,1215,54,1047,36,858,26,703,22"/>
+<area shape="rect" id="Node000014" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="1381,167,1594,207"/>
+<area shape="poly" id="edge19_Node000001_Node000014" title=" " alt="" coords="703,17,847,22,1027,33,1202,50,1273,62,1327,76,1364,92,1399,113,1456,155,1453,160,1396,117,1361,97,1325,81,1272,67,1201,56,1027,38,846,28,703,22"/>
+<area shape="rect" id="Node000015" href="$a01121.html" title="Macros that declare an exception class in one line." alt="" coords="717,79,977,119"/>
+<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="673,28,784,71,782,76,671,33"/>
+<area shape="poly" id="edge12_Node000012_Node000010" title=" " alt="" coords="1160,121,1069,170,1066,165,1157,117"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="1207,118,1219,153,1214,154,1202,120"/>
+<area shape="poly" id="edge14_Node000012_Node000014" title=" " alt="" coords="1264,116,1408,160,1407,165,1262,121"/>
+<area shape="poly" id="edge17_Node000015_Node000009" title=" " alt="" coords="826,121,774,167,770,163,822,117"/>
+<area shape="poly" id="edge18_Node000015_Node000011" title=" " alt="" coords="856,118,868,160,863,161,851,120"/>
+</map>

@@ -1,0 +1,21 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,335,60,360"/>
+<area shape="rect" id="Node000002" href="$a04167.html#aed3dc0a97328de954474f41db2f02a3c" title="Lexicographic comparison: negative, zero or positive." alt="" coords="108,5,295,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="32,334,58,199,80,122,92,91,106,70,108,68,112,71,110,73,97,94,85,124,63,201,37,335"/>
+<area shape="rect" id="Node000003" href="$a04167.html#aff8d326ef9c6866116899f0eac72cfea" title="The pointer to the first character; null for a default view." alt="" coords="108,84,295,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="31,334,37,298,50,249,72,196,88,171,106,148,109,145,113,149,110,152,92,174,77,198,55,251,43,299,37,335"/>
+<area shape="rect" id="Node000004" href="$a04167.html#a5b3f9ab09fbd99db936fad5d8ae43cc5" title="true when the view has no characters." alt="" coords="108,163,295,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="35,333,61,283,81,253,106,227,111,223,114,227,110,231,85,256,65,285,40,336"/>
+<area shape="rect" id="Node000005" href="$a04167.html#af4f4f902216e25b31d01b19e904e7118" title="The view ends with suffix." alt="" coords="108,241,295,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="54,332,107,305,120,299,122,304,109,310,57,337"/>
+<area shape="rect" id="Node000006" href="$a04167.html#add66982ae60be5e4553a6d7b349ad6b0" title="The first occurrence of needle at an index &gt;= pos." alt="" coords="108,320,295,375"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="60,345,94,345,94,350,60,350"/>
+<area shape="rect" id="Node000007" href="$a04167.html#a86410bb27673095af0bd68d87a6bce96" title="The last occurrence of needle that starts at an index &lt;= pos." alt="" coords="108,399,295,453"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="58,358,109,384,125,391,122,396,107,388,55,363"/>
+<area shape="rect" id="Node000008" href="$a04167.html#aef7453e757e48a1e7b0158b75f958b43" title="The number of characters." alt="" coords="108,477,295,532"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="40,359,66,409,86,437,110,463,116,468,113,472,106,467,81,441,61,411,35,361"/>
+<area shape="rect" id="Node000009" href="$a04167.html#a48c68146715ba5db73170f8ad46cb641" title="The view begins with prefix." alt="" coords="108,556,295,611"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="37,360,43,395,56,443,77,495,92,520,110,542,114,546,111,550,106,545,88,523,73,498,51,445,38,396,32,361"/>
+<area shape="rect" id="Node000010" href="$a04167.html#a8d676f0effc9e9215bc48dc8b4895d25" title="The view of min(n, size() &#45; pos) characters from pos." alt="" coords="108,635,295,689"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="37,360,64,494,85,570,97,600,110,620,114,624,110,628,106,624,93,602,80,572,58,495,32,361"/>
+</map>

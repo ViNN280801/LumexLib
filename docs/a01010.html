@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: XmlText.hpp File Reference</title>
+<title>LumexLib: LumexContractsSourceLocation.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -106,65 +106,149 @@ $(function(){initNavTree('a01010.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">XmlText.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">LumexContractsSourceLocation.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>XmlText</code>, typed access to the text content of a node.  
+<p><code>source_location</code>: the place in the program text that a contract violation names, on every C++ standard.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="a00932_source.html">lumex/LumexExport.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00584_source.html">lumex/core/utility/attr/LumexAttributes.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a01016_source.html">lumex/xml/types/XmlTypes.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for XmlText.hpp:</div>
+Include dependency graph for LumexContractsSourceLocation.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01011.png" border="0" usemap="#a_xml_text_8hpp" alt=""/></div>
+<div class="center"><img src="a01011.png" border="0" usemap="#aLumexContractsSourceLocation_8hpp" alt=""/></div>
+<map name="aLumexContractsSourceLocation_8hpp" id="aLumexContractsSourceLocation_8hpp">
+<area shape="rect" title="source_location: the place in the program text that a contract violation names, on every C++ standard..." alt="" coords="5,5,260,31"/>
+<area shape="rect" title=" " alt="" coords="18,86,85,111"/>
+<area shape="poly" title=" " alt="" coords="121,33,76,78,73,74,118,29"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="109,79,322,119"/>
+<area shape="poly" title=" " alt="" coords="148,29,187,67,183,71,144,33"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="a01012.png" border="0" usemap="#a_xml_text_8hppdep" alt=""/></div>
+<div class="center"><img src="a01012.png" border="0" usemap="#aLumexContractsSourceLocation_8hppdep" alt=""/></div>
+<map name="aLumexContractsSourceLocation_8hppdep" id="aLumexContractsSourceLocation_8hppdep">
+<area shape="rect" title="source_location: the place in the program text that a contract violation names, on every C++ standard..." alt="" coords="169,5,423,31"/>
+<area shape="rect" href="a01361.html" title="Contracts module: LUMEX_CONTRACT_ASSERT, the contract assertion of C++26 (P2900) from C++11 on,..." alt="" coords="316,299,444,324"/>
+<area shape="poly" title=" " alt="" coords="345,34,382,52,416,77,454,111,480,142,500,177,517,225,521,239,517,252,503,269,485,283,445,301,443,296,482,278,499,265,512,249,516,238,512,226,495,179,476,145,450,115,413,81,379,57,343,38"/>
+<area shape="rect" href="a01001.html" title="LUMEX_CONTRACT_ASSERT (expr), the contract assertion of C++26 (contract_assert, P2900) on every stand..." alt="" coords="5,225,203,251"/>
+<area shape="poly" title=" " alt="" coords="243,38,209,56,178,81,151,117,131,158,109,226,104,224,126,156,146,115,174,77,206,52,241,34"/>
+<area shape="rect" href="a00998.html" title="The enumerations assertion_kind, evaluation_semantic and detection_mode, and the class contract_viola..." alt="" coords="189,79,403,104"/>
+<area shape="poly" title=" " alt="" coords="299,44,299,78,293,78,293,44"/>
+<area shape="rect" href="a00437.html" title=" " alt="" coords="179,372,352,397"/>
+<area shape="poly" title=" " alt="" coords="350,334,287,374,284,370,347,329"/>
+<area shape="rect" href="a00434.html" title=" " alt="" coords="377,372,615,397"/>
+<area shape="poly" title=" " alt="" coords="413,329,477,370,474,374,410,333"/>
+<area shape="poly" title=" " alt="" coords="166,252,333,296,331,301,164,257"/>
+<area shape="poly" title=" " alt="" coords="350,107,390,125,432,150,469,183,485,202,497,224,501,238,499,251,482,272,456,289,426,301,424,296,454,284,479,268,494,249,495,238,492,226,480,205,465,187,429,154,388,129,348,111"/>
+<area shape="poly" title=" " alt="" coords="253,112,217,131,182,154,143,192,115,227,111,223,139,188,178,150,214,126,250,108"/>
+<area shape="rect" href="a01007.html" title="The contract&#45;violation handler: set_violation_handler, get_violation_handler, invoke_violation_handle..." alt="" coords="193,152,399,177"/>
+<area shape="poly" title=" " alt="" coords="299,118,299,152,293,152,293,118"/>
+<area shape="poly" title=" " alt="" coords="279,190,265,220,263,235,268,249,280,265,296,278,333,296,330,301,293,282,276,269,263,252,258,236,259,218,274,188"/>
+<area shape="poly" title=" " alt="" coords="251,185,139,228,137,223,249,180"/>
+<area shape="rect" href="a01004.html" title=" " alt="" coords="277,225,483,251"/>
+<area shape="poly" title=" " alt="" coords="323,184,367,223,363,227,319,188"/>
+</map>
 </div>
 </div>
 <p><a href="a01010_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a05010.html">lumex::xml::text::XmlText</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the text content of an XML node, providing type-safe access and modification.  <a href="a05010.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a02111.html">lumex::core::contracts::source_location</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">File, function, line and column of a place in the program text.  <a href="a02111.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01492.html">lumex::xml</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01495.html">lumex::xml::node</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01509.html">lumex::core::contracts</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html">lumex::xml::text</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01510.html">lumex::core::contracts::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a6fca5b2c0af71e0e19874aed8b14de6a" id="r_a6fca5b2c0af71e0e19874aed8b14de6a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6fca5b2c0af71e0e19874aed8b14de6a">LUMEX_CONTRACTS_HAS_BUILTIN_LOCATION</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a6fca5b2c0af71e0e19874aed8b14de6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">1 when <code>source_location::current ()</code> can take the place of its caller (the compiler has <code>__builtin_FILE</code>, <code>__builtin_FUNCTION</code> and <code>__builtin_LINE</code>), otherwise 0.  <br /></td></tr>
+<tr class="separator:a6fca5b2c0af71e0e19874aed8b14de6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a981869722fa42e2a913bb8105422b6" id="r_a9a981869722fa42e2a913bb8105422b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a981869722fa42e2a913bb8105422b6">LUMEX_CONTRACTS_BUILTIN_COLUMN</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a9a981869722fa42e2a913bb8105422b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The column of the place where the macro is expanded (<code>__builtin_COLUMN ()</code>), or 0 where the compiler has no such builtin (GCC before 15). <code>LUMEX_CONTRACTS_HAS_BUILTIN_COLUMN</code> is 1 when it has.  <br /></td></tr>
+<tr class="separator:a9a981869722fa42e2a913bb8105422b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d0b8afddb92bdb1470361239e71a4c6" id="r_a7d0b8afddb92bdb1470361239e71a4c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d0b8afddb92bdb1470361239e71a4c6">LUMEX_CONTRACTS_HAS_BUILTIN_COLUMN</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a7d0b8afddb92bdb1470361239e71a4c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a98673d4a1b8b431dcfef95e6148547eb" id="r_a98673d4a1b8b431dcfef95e6148547eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html#a98673d4a1b8b431dcfef95e6148547eb">lumex::xml::text::operator&amp;&amp;</a> (<a class="el" href="a05010.html">XmlText</a> const &amp;lhs, bool rhs)</td></tr>
-<tr class="memdesc:a98673d4a1b8b431dcfef95e6148547eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for logical AND operator with <code><a class="el" href="a05010.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> on the left-hand side.  <br /></td></tr>
-<tr class="separator:a98673d4a1b8b431dcfef95e6148547eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a637cf8030dca5d7cc1d7a84daa3f1f8f" id="r_a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01505.html#a637cf8030dca5d7cc1d7a84daa3f1f8f">lumex::xml::text::operator||</a> (<a class="el" href="a05010.html">XmlText</a> const &amp;lhs, bool rhs)</td></tr>
-<tr class="memdesc:a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for logical OR operator with <code><a class="el" href="a05010.html" title="Represents the text content of an XML node, providing type-safe access and modification.">XmlText</a></code> on the left-hand side.  <br /></td></tr>
-<tr class="separator:a637cf8030dca5d7cc1d7a84daa3f1f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d0ebd9bd3c808173185f36dd8a61deb" id="r_a6d0ebd9bd3c808173185f36dd8a61deb"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01510.html#a6d0ebd9bd3c808173185f36dd8a61deb">lumex::core::contracts::detail::equal_texts</a> (char const *left, char const *right) noexcept</td></tr>
+<tr class="memdesc:a6d0ebd9bd3c808173185f36dd8a61deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality of two NUL-terminated strings in a constant expression (C++11 form: one return statement, recursion). Neither may be null.  <br /></td></tr>
+<tr class="separator:a6d0ebd9bd3c808173185f36dd8a61deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><code>XmlText</code>, typed access to the text content of a node. </p>
-<p><code>XmlNode::text()</code> returns an <code>XmlText</code> for an element or a text node. It reads the node's first PCDATA or CDATA child, or the element's own value when the document was parsed with <code>kparse_embed_pcdata</code>, and converts it to numbers or a boolean; the given default is returned only when there is no text. Setting a value creates a PCDATA child when there is none. The handle does not own the text and is valid as long as the document.</p>
-<p>The <code>string_view_t</code> overloads (<code>string_view_t</code> is the <code><a class="el" href="a00548.html#a9eb9aacb4cfd8a21f48c3eb714bda726" title="Global alias of lumex::core::string_view::view::lumex_string_view.">lumex_string_view</a></code> of <code>lumex::string_view</code> in every C++ standard; a <code>std::string_view</code> converts to it) exist in every C++ standard. They are inline wrappers and are not <code>dllimport</code>, because the class itself is not exported. The file also declares the logical AND and OR operators with a <code>bool</code>. Consumers include it through <code>lumex/xml/LumexXml</code>. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p><code>source_location</code>: the place in the program text that a contract violation names, on every C++ standard. </p>
+<p>The class has the accessors of <code>std::source_location</code> of C++20 ([source.location]): <code>file_name</code>, <code>function_name</code>, <code>line</code> and <code>column</code>. It is the module's own class on every standard and toolchain, not an alias of the standard one. A <code>std::source_location</code> converts into it implicitly where the standard library has one (C++20 <code>__cpp_lib_source_location</code>); the other direction does not exist, because a <code>std::source_location</code> can only be produced by <code>std::source_location::current ()</code>. Unlike the standard class it can be constructed from four values, which is what the contract macros need, and compared. <code>current ()</code> takes the place of its caller where the compiler provides the builtins (GCC, Clang, MSVC 19.26 and later); on another compiler it returns the empty location.</p>
+<p>The strings are not copied: they must have static storage duration, like <code>__FILE__</code> and the function name builtins. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a9a981869722fa42e2a913bb8105422b6" name="a9a981869722fa42e2a913bb8105422b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a981869722fa42e2a913bb8105422b6">&#9670;&#160;</a></span>LUMEX_CONTRACTS_BUILTIN_COLUMN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_BUILTIN_COLUMN&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The column of the place where the macro is expanded (<code>__builtin_COLUMN ()</code>), or 0 where the compiler has no such builtin (GCC before 15). <code>LUMEX_CONTRACTS_HAS_BUILTIN_COLUMN</code> is 1 when it has. </p>
+
+</div>
+</div>
+<a id="a7d0b8afddb92bdb1470361239e71a4c6" name="a7d0b8afddb92bdb1470361239e71a4c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d0b8afddb92bdb1470361239e71a4c6">&#9670;&#160;</a></span>LUMEX_CONTRACTS_HAS_BUILTIN_COLUMN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_HAS_BUILTIN_COLUMN&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6fca5b2c0af71e0e19874aed8b14de6a" name="a6fca5b2c0af71e0e19874aed8b14de6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fca5b2c0af71e0e19874aed8b14de6a">&#9670;&#160;</a></span>LUMEX_CONTRACTS_HAS_BUILTIN_LOCATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LUMEX_CONTRACTS_HAS_BUILTIN_LOCATION&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>1 when <code>source_location::current ()</code> can take the place of its caller (the compiler has <code>__builtin_FILE</code>, <code>__builtin_FUNCTION</code> and <code>__builtin_LINE</code>), otherwise 0. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_50c9cab4d5411a97d8807a2f6b945ebe.html">xml</a></li><li class="navelem"><a class="el" href="dir_7d2372648e676b867cc7a356791ff2d4.html">text</a></li><li class="navelem"><a class="el" href="a01010.html">XmlText.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_77a8419351938abae08e7136cdf99e60.html">contracts</a></li><li class="navelem"><a class="el" href="dir_181c8b744d1cfdc47e92d931cea6aa3e.html">location</a></li><li class="navelem"><a class="el" href="a01010.html">LumexContractsSourceLocation.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

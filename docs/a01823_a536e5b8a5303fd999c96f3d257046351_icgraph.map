@@ -1,0 +1,10 @@
+<map id="lumex::applied::resource_monitor::process::LumexProcessMonitor::find_descendants" name="lumex::applied::resource_monitor::process::LumexProcessMonitor::find_descendants">
+<area shape="rect" id="Node000001" title="Finds every process below one process: its children, their children, and so on." alt="" coords="581,37,821,92"/>
+<area shape="rect" id="Node000002" href="$a01823.html#a6dab1e927389c40d7ef02763946f8643" title=" " alt="" coords="5,5,245,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="568,60,246,42,246,37,568,55"/>
+<area shape="rect" id="Node000003" href="$a01823.html#af7f3caf609e5155aa7f5245fc231101f" title="Samples one process, with the processes below it." alt="" coords="293,69,533,124"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="568,82,534,86,533,81,568,77"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="279,70,245,62,246,57,281,64"/>
+<area shape="rect" id="Node000004" href="$a00449.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="98,84,153,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="280,99,153,99,153,94,280,94"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="lumex::core::math::ops::squared_difference" name="lumex::core::math::ops::squared_difference">
+<area shape="rect" id="Node000001" title="(a &#45; b)^2, computed in the common type of a and b (promoted, so two short operands give an int)." alt="" coords="305,26,483,66"/>
+<area shape="rect" id="Node000002" href="$a00359.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="308,26,257,17,183,13,108,17,60,19,60,14,108,11,183,8,258,11,309,20"/>
+<area shape="rect" id="Node000003" href="$a01549.html#aeb97b3e1f4e91081b5a15bc768abe7ea" title="Root Mean Squared Error of a range against a fixed scalar: sqrt( 1/N * sum (x_i &#45; scalar)^2 )...." alt="" coords="108,26,257,66"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="292,49,258,49,258,43,292,43"/>
+<area shape="rect" id="Node000004" href="$a01549.html#ad106a6fe4eee4867f98352f46de4259c" title="Root Mean Squared Error between two equally&#45;sized ranges: sqrt( 1/N * sum (x_i &#45; y_i)^2 )...." alt="" coords="108,90,257,130"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="315,73,249,93,248,87,314,68"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="94,32,60,26,61,21,95,27"/>
+</map>

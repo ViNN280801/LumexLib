@@ -1,0 +1,19 @@
+<map id="lumex::core::fmt::vformat_to" name="lumex::core::fmt::vformat_to">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,45,216,70"/>
+<area shape="rect" id="Node000002" href="$a02999.html#ae593c9d2fad6577892999a329d8b354c" title=" " alt="" coords="264,5,441,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,42,250,36,251,41,207,47"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a9b8fbd4db71c1059fadb982021043cb4" title="Formats into buffer; adds the field offset to errors." alt="" coords="264,69,441,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="207,67,251,73,250,78,206,73"/>
+<area shape="rect" id="Node000004" href="$a03103.html#a6ab4cd9529ea82665743a1a876e4e67f" title=" " alt="" coords="489,5,692,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="427,67,502,46,504,51,428,72"/>
+<area shape="rect" id="Node000005" href="$a02971.html#a31ad5f8d467dbd7691cce0e32d953ce0" title=" " alt="" coords="499,69,682,109"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="442,87,486,87,486,92,442,92"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a9fced4d130ed35de9eb22230b7bd6e56" title="Walks a format string and reports literal text, replacement fields and their specifications to handle..." alt="" coords="502,133,679,173"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="428,107,504,127,502,132,427,112"/>
+<area shape="rect" id="Node000007" href="$a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="740,133,917,173"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="680,151,726,151,726,156,680,156"/>
+<area shape="rect" id="Node000008" href="$a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="965,101,1143,141"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="917,138,952,133,952,138,918,143"/>
+<area shape="rect" id="Node000009" href="$a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="965,165,1143,205"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="918,163,952,168,952,173,917,169"/>
+</map>

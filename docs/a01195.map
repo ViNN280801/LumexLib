@@ -1,0 +1,17 @@
+<map id="LumexPortProcessResolver.hpp" name="LumexPortProcessResolver.hpp">
+<area shape="rect" id="Node000001" title="Identifies the process that holds a serial port open." alt="" coords="451,5,677,31"/>
+<area shape="rect" id="Node000002" href="$a01190.html" title=" " alt="" coords="5,79,229,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="474,36,195,81,194,76,473,30"/>
+<area shape="rect" id="Node000003" href="$a01181.html" title=" " alt="" coords="253,79,475,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="517,38,400,81,398,76,516,33"/>
+<area shape="rect" id="Node000004" href="$a01346.html" title="Serial port module: lists serial ports with device details, turns a configuration&#45;style port name int..." alt="" coords="499,79,629,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="567,44,567,78,561,78,561,44"/>
+<area shape="rect" id="Node000007" href="$a01199.html" title=" " alt="" coords="653,79,891,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="614,33,737,76,735,81,612,38"/>
+<area shape="rect" id="Node000008" href="$a01172.html" title=" " alt="" coords="916,79,1087,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="654,30,926,76,925,81,653,36"/>
+<area shape="rect" id="Node000005" href="$a00305.html" title=" " alt="" coords="385,152,535,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="536,114,480,154,477,150,533,110"/>
+<area shape="rect" id="Node000006" href="$a00308.html" title=" " alt="" coords="559,152,774,177"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="594,110,650,150,647,154,591,114"/>
+</map>

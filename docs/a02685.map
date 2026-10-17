@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::error::detail::is_nothrow_swappable_impl&lt; T, bool &gt;" name="lumex::core::expected::error::detail::is_nothrow_swappable_impl&lt; T, bool &gt;">
+<area shape="rect" id="Node000001" title="Such a swap is noexcept (std::is_nothrow_swappable, C++17). For the fallback this is std::swap&#39;s own ..." alt="" coords="5,79,215,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="51,5,169,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,45,113,78,107,78,107,45"/>
+</map>

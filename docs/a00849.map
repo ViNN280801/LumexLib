@@ -1,0 +1,35 @@
+<map id="LumexBitLock.hpp" name="LumexBitLock.hpp">
+<area shape="rect" id="Node000001" title="A lock held in one 32&#45;bit word: one bit marks it as taken, a second bit records that a thread sleeps ..." alt="" coords="253,5,395,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,174,72,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,33,205,81,131,127,70,168,67,164,128,122,203,76,295,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="96,174,163,199"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="311,33,156,167,153,163,308,29"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="187,174,251,199"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="318,32,236,164,232,161,314,29"/>
+<area shape="rect" id="Node000005" href="$a00851.html" title="Blocking wait for a change of a 32&#45;bit atomic word, and the wake&#45;up that ends it, from C++11 on." alt="" coords="299,79,477,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="336,29,366,66,361,69,332,33"/>
+<area shape="rect" id="Node000012" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="780,167,993,207"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="367,28,808,160,806,165,366,33"/>
+<area shape="rect" id="Node000013" href="$a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="917,79,1107,119"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="396,24,904,83,903,89,395,29"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="299,116,196,138,85,169,79,171,77,166,83,164,194,133,298,111"/>
+<area shape="poly" id="edge9_Node000005_Node000003" title=" " alt="" coords="320,121,176,169,171,171,169,166,174,164,318,116"/>
+<area shape="poly" id="edge12_Node000005_Node000004" title=" " alt="" coords="350,121,256,170,254,165,348,116"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="437,174,493,199"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="408,117,447,162,443,165,404,121"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="518,174,661,199"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="435,116,549,166,547,171,433,121"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="685,174,755,199"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="479,114,573,136,673,164,680,166,678,171,671,169,571,141,477,119"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="275,174,339,199"/>
+<area shape="poly" id="edge10_Node000005_Node000009" title=" " alt="" coords="371,121,330,165,326,162,367,117"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="363,174,413,199"/>
+<area shape="poly" id="edge11_Node000005_Node000010" title=" " alt="" coords="391,119,391,160,385,160,385,119"/>
+<area shape="rect" id="Node000011" href="$a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="1018,167,1273,207"/>
+<area shape="poly" id="edge13_Node000005_Node000011" title=" " alt="" coords="478,105,1005,164,1004,169,477,110"/>
+<area shape="poly" id="edge14_Node000005_Node000012" title=" " alt="" coords="478,112,767,163,766,168,477,117"/>
+<area shape="poly" id="edge17_Node000013_Node000011" title=" " alt="" coords="1044,117,1104,156,1101,161,1041,121"/>
+<area shape="poly" id="edge18_Node000013_Node000012" title=" " alt="" coords="984,121,928,161,925,156,981,117"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="1297,174,1389,199"/>
+<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="1102,116,1286,164,1296,167,1294,172,1285,169,1101,121"/>
+</map>

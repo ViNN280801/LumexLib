@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: lumex::core::crc::parametric::crc16_modbus_spec_t Struct Reference</title>
+<title>LumexLib: lumex::applied::serial::port::Constants Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;1.0.3.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,61 +104,35 @@ $(function(){initNavTree('a01469.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a01466.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc16_modbus_spec_t Struct Reference</div></div>
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">lumex::applied::serial::port::Constants Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>CRC-16/MODBUS: width=16 poly=0x8005 init=0xffff refin=true refout=true xorout=0.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
+<p>Numeric channel-type identifiers this module understands.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a5b489845087a617033b5d0a214567b40" id="r_a5b489845087a617033b5d0a214567b40"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b489845087a617033b5d0a214567b40">ValueType</a> = std::uint16_t</td></tr>
-<tr class="separator:a5b489845087a617033b5d0a214567b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a34a97670378822530f1b0bf708b3c682" id="r_a34a97670378822530f1b0bf708b3c682"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34a97670378822530f1b0bf708b3c682">kWidth</a> = 16</td></tr>
-<tr class="separator:a34a97670378822530f1b0bf708b3c682"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0c6c3836aa14aaf377f9757452fb6fa" id="r_ae0c6c3836aa14aaf377f9757452fb6fa"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0c6c3836aa14aaf377f9757452fb6fa">kPoly</a> = 0x8005U</td></tr>
-<tr class="separator:ae0c6c3836aa14aaf377f9757452fb6fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e758b3af9abc981041ade2fb67df65f" id="r_a8e758b3af9abc981041ade2fb67df65f"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e758b3af9abc981041ade2fb67df65f">kInit</a> = 0xFFFFU</td></tr>
-<tr class="separator:a8e758b3af9abc981041ade2fb67df65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab55cff11ad82e7b0fdd693c82d0a5715" id="r_ab55cff11ad82e7b0fdd693c82d0a5715"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab55cff11ad82e7b0fdd693c82d0a5715">kRefIn</a> = true</td></tr>
-<tr class="separator:ab55cff11ad82e7b0fdd693c82d0a5715"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa6be1c1bf1d865151862eb1d2ebff4d" id="r_afa6be1c1bf1d865151862eb1d2ebff4d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa6be1c1bf1d865151862eb1d2ebff4d">kRefOut</a> = true</td></tr>
-<tr class="separator:afa6be1c1bf1d865151862eb1d2ebff4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0087016c7eef9c30dd9ea0b4e988a31f" id="r_a0087016c7eef9c30dd9ea0b4e988a31f"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0087016c7eef9c30dd9ea0b4e988a31f">kXorOut</a> = 0x0000U</td></tr>
-<tr class="separator:a0087016c7eef9c30dd9ea0b4e988a31f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad96b49c3451720b8fba47f6db57c74f4" id="r_ad96b49c3451720b8fba47f6db57c74f4"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad96b49c3451720b8fba47f6db57c74f4">kCatalogCheck</a> = 0x4B37U</td></tr>
-<tr class="separator:ad96b49c3451720b8fba47f6db57c74f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a78a9905c515b8e1e4efd4cdb738b67f3" id="r_a78a9905c515b8e1e4efd4cdb738b67f3"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78a9905c515b8e1e4efd4cdb738b67f3">KSERIAL_PORT_CHANNEL_TYPE</a> = 0x100</td></tr>
+<tr class="memdesc:a78a9905c515b8e1e4efd4cdb738b67f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asynchronous serial port.  <br /></td></tr>
+<tr class="separator:a78a9905c515b8e1e4efd4cdb738b67f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade27fc46c3a7e81d4b4282ecb789e043" id="r_ade27fc46c3a7e81d4b4282ecb789e043"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade27fc46c3a7e81d4b4282ecb789e043">KSERIAL_PORT_SYNC_CHANNEL_TYPE</a> = 0x101</td></tr>
+<tr class="memdesc:ade27fc46c3a7e81d4b4282ecb789e043"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronous serial port.  <br /></td></tr>
+<tr class="separator:ade27fc46c3a7e81d4b4282ecb789e043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60c1583bdbe97272bebce16500252428" id="r_a60c1583bdbe97272bebce16500252428"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60c1583bdbe97272bebce16500252428">KNET_TCP_CHANNEL_TYPE</a> = 0x810</td></tr>
+<tr class="memdesc:a60c1583bdbe97272bebce16500252428"><td class="mdescLeft">&#160;</td><td class="mdescRight">TCP network channel.  <br /></td></tr>
+<tr class="separator:a60c1583bdbe97272bebce16500252428"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e84e78c1d605a4e97a9690581795555" id="r_a8e84e78c1d605a4e97a9690581795555"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e84e78c1d605a4e97a9690581795555">KNET_UDP_CHANNEL_TYPE</a> = 0x820</td></tr>
+<tr class="memdesc:a8e84e78c1d605a4e97a9690581795555"><td class="mdescLeft">&#160;</td><td class="mdescRight">UDP network channel.  <br /></td></tr>
+<tr class="separator:a8e84e78c1d605a4e97a9690581795555"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CRC-16/MODBUS: width=16 poly=0x8005 init=0xffff refin=true refout=true xorout=0. </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-16/MODBUS </dd></dl>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a5b489845087a617033b5d0a214567b40" name="a5b489845087a617033b5d0a214567b40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b489845087a617033b5d0a214567b40">&#9670;&#160;</a></span>ValueType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a5b489845087a617033b5d0a214567b40">lumex::core::crc::parametric::crc16_modbus_spec_t::ValueType</a> = std::uint16_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="ad96b49c3451720b8fba47f6db57c74f4" name="ad96b49c3451720b8fba47f6db57c74f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad96b49c3451720b8fba47f6db57c74f4">&#9670;&#160;</a></span>kCatalogCheck</h2>
+<div class="textblock"><p>Numeric channel-type identifiers this module understands. </p>
+<p>These mirror the values a serial/network communication library (such as Lumex's own DChannel) typically assigns to its channel types. This module does not depend on any particular communication library - it only needs to tell a serial channel apart from a TCP/UDP one, so the values are duplicated here rather than pulled in via a dependency. If the values below and DChannel's own <code>DCT_*</code> macros ever drift apart, callers that bridge the two should pass their own channel-type constant through instead of relying on these. </p>
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a60c1583bdbe97272bebce16500252428" name="a60c1583bdbe97272bebce16500252428"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60c1583bdbe97272bebce16500252428">&#9670;&#160;</a></span>KNET_TCP_CHANNEL_TYPE</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +141,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint16_t lumex::core::crc::parametric::crc16_modbus_spec_t::kCatalogCheck = 0x4B37U</td>
+          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::port::Constants::KNET_TCP_CHANNEL_TYPE = 0x810</td>
         </tr>
       </table>
   </td>
@@ -177,10 +151,12 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>TCP network channel. </p>
+
 </div>
 </div>
-<a id="a8e758b3af9abc981041ade2fb67df65f" name="a8e758b3af9abc981041ade2fb67df65f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e758b3af9abc981041ade2fb67df65f">&#9670;&#160;</a></span>kInit</h2>
+<a id="a8e84e78c1d605a4e97a9690581795555" name="a8e84e78c1d605a4e97a9690581795555"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e84e78c1d605a4e97a9690581795555">&#9670;&#160;</a></span>KNET_UDP_CHANNEL_TYPE</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,7 +165,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_modbus_spec_t::kInit = 0xFFFFU</td>
+          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::port::Constants::KNET_UDP_CHANNEL_TYPE = 0x820</td>
         </tr>
       </table>
   </td>
@@ -199,10 +175,12 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>UDP network channel. </p>
+
 </div>
 </div>
-<a id="ae0c6c3836aa14aaf377f9757452fb6fa" name="ae0c6c3836aa14aaf377f9757452fb6fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0c6c3836aa14aaf377f9757452fb6fa">&#9670;&#160;</a></span>kPoly</h2>
+<a id="a78a9905c515b8e1e4efd4cdb738b67f3" name="a78a9905c515b8e1e4efd4cdb738b67f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78a9905c515b8e1e4efd4cdb738b67f3">&#9670;&#160;</a></span>KSERIAL_PORT_CHANNEL_TYPE</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -211,7 +189,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_modbus_spec_t::kPoly = 0x8005U</td>
+          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::port::Constants::KSERIAL_PORT_CHANNEL_TYPE = 0x100</td>
         </tr>
       </table>
   </td>
@@ -221,10 +199,12 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Asynchronous serial port. </p>
+
 </div>
 </div>
-<a id="ab55cff11ad82e7b0fdd693c82d0a5715" name="ab55cff11ad82e7b0fdd693c82d0a5715"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab55cff11ad82e7b0fdd693c82d0a5715">&#9670;&#160;</a></span>kRefIn</h2>
+<a id="ade27fc46c3a7e81d4b4282ecb789e043" name="ade27fc46c3a7e81d4b4282ecb789e043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade27fc46c3a7e81d4b4282ecb789e043">&#9670;&#160;</a></span>KSERIAL_PORT_SYNC_CHANNEL_TYPE</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,7 +213,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc16_modbus_spec_t::kRefIn = true</td>
+          <td class="memname">constLUMEX_CONSTINITstd::uint32_t lumex::applied::serial::port::Constants::KSERIAL_PORT_SYNC_CHANNEL_TYPE = 0x101</td>
         </tr>
       </table>
   </td>
@@ -243,83 +223,16 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="afa6be1c1bf1d865151862eb1d2ebff4d" name="afa6be1c1bf1d865151862eb1d2ebff4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa6be1c1bf1d865151862eb1d2ebff4d">&#9670;&#160;</a></span>kRefOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc16_modbus_spec_t::kRefOut = true</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Synchronous serial port. </p>
 
 </div>
 </div>
-<a id="a34a97670378822530f1b0bf708b3c682" name="a34a97670378822530f1b0bf708b3c682"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34a97670378822530f1b0bf708b3c682">&#9670;&#160;</a></span>kWidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc16_modbus_spec_t::kWidth = 16</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0087016c7eef9c30dd9ea0b4e988a31f" name="a0087016c7eef9c30dd9ea0b4e988a31f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0087016c7eef9c30dd9ea0b4e988a31f">&#9670;&#160;</a></span>kXorOut</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc16_modbus_spec_t::kXorOut = 0x0000U</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="a00236_source.html">LumexCrcParametric.hpp</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00948.html">lumex</a></li><li class="navelem"><a class="el" href="a01005.html">core</a></li><li class="navelem"><a class="el" href="a01025.html">crc</a></li><li class="navelem"><a class="el" href="a01028.html">parametric</a></li><li class="navelem"><a class="el" href="a01469.html">crc16_modbus_spec_t</a></li>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01426.html">applied</a></li><li class="navelem"><a class="el" href="a01464.html">serial</a></li><li class="navelem"><a class="el" href="a01467.html">port</a></li><li class="navelem"><a class="el" href="a01469.html">Constants</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,0 +1,10 @@
+<map id="lumex::core::temporary::tmp::lumex_temporary::get_temp_directory_path" name="lumex::core::temporary::tmp::lumex_temporary::get_temp_directory_path">
+<area shape="rect" id="Node000001" title="Returns the path to the temporary directory." alt="" coords="5,57,199,112"/>
+<area shape="rect" id="Node000002" href="$a02599.html#a395ab3b27b542b7cb9092beed95f748d" title="Static convenience method to retrieve an environment variable." alt="" coords="247,65,468,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,82,233,82,233,87,199,87"/>
+<area shape="rect" id="Node000003" href="$a02599.html#a7fbb25c5cfa51fc3427bb29df4cb7e6e" title="Retrieves the value of a specified environment variable in a thread&#45;safe manner." alt="" coords="516,5,717,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="457,62,502,53,503,58,458,67"/>
+<area shape="rect" id="Node000004" href="$a02599.html#a8773983c01d39e03732541958672fb84" title="Provides the single, globally accessible instance of lumex_environment." alt="" coords="521,108,713,163"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="460,102,508,111,507,117,459,107"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="566,108,567,98,576,89,592,83,617,81,646,84,662,92,660,97,644,90,617,87,593,89,578,93,572,100,572,108"/>
+</map>

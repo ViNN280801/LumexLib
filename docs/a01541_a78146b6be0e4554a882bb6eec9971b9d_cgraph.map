@@ -1,0 +1,33 @@
+<map id="lumex::core::fmt::Detail::parse_range_fill_align_width" name="lumex::core::fmt::Detail::parse_range_fill_align_width">
+<area shape="rect" id="Node000001" title="[[fill]align][width] of a range / tuple specification: : is never a fill here (it starts the element ..." alt="" coords="5,213,220,253"/>
+<area shape="rect" id="Node000002" href="$a01541.html#ae60423b45d0639b6fcc845a3aebf8a26" title="Parses [[fill]align][width] from ctx.begin(), the part every specification shares (used by the range ..." alt="" coords="268,213,445,253"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,230,254,230,254,235,220,235"/>
+<area shape="rect" id="Node000003" href="$a02979.html#aca48191286b3912fd9d1b0ffd796b441" title=" " alt="" coords="509,5,681,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="367,211,417,143,452,104,492,71,501,65,504,69,495,75,455,108,421,146,371,214"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a223c59fa6c7ce43d8256f0fe2ea9afab" title="Number of code units of the code point starting at it." alt="" coords="507,85,684,125"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="379,210,429,172,492,134,508,127,510,132,495,139,432,177,382,215"/>
+<area shape="rect" id="Node000005" href="$a02979.html#a083812f4abac5c390c1b3f2232466c3f" title=" " alt="" coords="493,149,697,189"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="431,210,507,190,509,195,432,215"/>
+<area shape="rect" id="Node000006" href="$a01541.html#a823b8b6f4700e47cb765fac8dce410ff" title=" " alt="" coords="507,213,684,253"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="446,230,493,230,493,235,446,235"/>
+<area shape="rect" id="Node000007" href="$a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="972,321,1149,361"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="399,250,444,269,494,285,617,309,743,325,860,334,958,338,958,343,859,339,742,330,616,315,493,290,442,274,397,255"/>
+<area shape="rect" id="Node000008" href="$a01541.html#a1d433bc889461c7576948230c7d3a0ed" title="Parses {} / {3} / {name} used as dynamic width / precision." alt="" coords="507,503,684,543"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="376,251,572,491,568,494,371,255"/>
+<area shape="rect" id="Node000015" href="$a01541.html#a73a1e16b59f592ef142c5e35bb5e2cc6" title="Parses a non&#45;negative decimal number; throws when above INT_MAX." alt="" coords="745,263,924,303"/>
+<area shape="poly" id="edge15_Node000002_Node000015" title=" " alt="" coords="432,250,494,262,617,274,732,280,731,285,616,280,493,267,431,255"/>
+<area shape="rect" id="Node000009" href="$a02979.html#af8cbbe975292480629e0c83838452db8" title="Records manual indexing; throws after automatic indexing." alt="" coords="749,457,921,512"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="684,506,735,498,735,503,685,512"/>
+<area shape="rect" id="Node000010" href="$a02979.html#ac7de27e293647be7090e0d6f8bcc0e3a" title="Compile&#45;time check only: argument id is an integer." alt="" coords="749,536,921,591"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="685,536,735,544,735,549,684,541"/>
+<area shape="rect" id="Node000011" href="$a02979.html#afb523ff24fb4035bb928ab2bde553f1d" title="Records a reference by name: it counts as manual indexing when no automatic index was used yet (so {a..." alt="" coords="749,615,921,669"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="633,541,747,601,758,607,756,611,744,606,630,546"/>
+<area shape="rect" id="Node000012" href="$a02979.html#af05a380747221a522d1cc5f2c1cb1382" title="Next automatic argument index; throws after manual indexing." alt="" coords="749,379,921,433"/>
+<area shape="poly" id="edge11_Node000008_Node000012" title=" " alt="" coords="632,501,744,444,759,437,761,442,747,448,634,505"/>
+<area shape="rect" id="Node000013" href="$a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="746,694,923,734"/>
+<area shape="poly" id="edge12_Node000008_Node000013" title=" " alt="" coords="612,542,666,609,704,647,747,680,757,686,754,690,744,684,701,651,662,613,608,545"/>
+<area shape="poly" id="edge13_Node000013_Node000007" title=" " alt="" coords="906,692,922,680,953,645,979,606,1000,563,1018,520,1041,438,1054,374,1059,375,1047,439,1023,522,1005,565,984,608,957,648,926,684,910,696"/>
+<area shape="rect" id="Node000014" href="$a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="972,694,1149,734"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="923,711,958,711,958,717,923,717"/>
+<area shape="poly" id="edge16_Node000015_Node000007" title=" " alt="" coords="914,301,969,315,968,320,913,306"/>
+</map>

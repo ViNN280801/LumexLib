@@ -1,0 +1,5 @@
+<map id="lumex::core::expected::result::detail::can_swap_values&lt; Self, T, E &gt;" name="lumex::core::expected::result::detail::can_swap_values&lt; Self, T, E &gt;">
+<area shape="rect" id="Node000001" title="The Constraints of expected&lt;T, E&gt;::swap ([expected.object.swap]/1). Self is the expected itself: a me..." alt="" coords="400,49,600,104"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,352,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="366,74,400,74,400,79,366,79"/>
+</map>

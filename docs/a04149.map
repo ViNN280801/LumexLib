@@ -1,0 +1,7 @@
+<map id="lumex::core::span::view::detail::is_compatible_iterator&lt; Iterator, T, typename std::enable_if&lt; is_contiguous_iterator&lt; Iterator &gt;::value &amp;&amp;is_array_convertible&lt; typename std::remove_reference&lt; decltype(*std::declval&lt; Iterator &amp; &gt;())&gt;::type, T &gt;::value &gt;::type &gt;" name="lumex::core::span::view::detail::is_compatible_iterator&lt; Iterator, T, typename std::enable_if&lt; is_contiguous_iterator&lt; Iterator &gt;::value &amp;&amp;is_array_convertible&lt; typename std::remove_reference&lt; decltype(*std::declval&lt; Iterator &amp; &gt;())&gt;::type, T &gt;::value &gt;::type &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="8,79,260,221"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,124,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,42,99,77,94,80,76,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="147,5,259,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,44,174,80,169,77,188,42"/>
+</map>

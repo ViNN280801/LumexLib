@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::result::in_place_tag Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02910.html',''); initResizable(true); });
+$(function(){initNavTree('a02907.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,19 +103,64 @@ $(function(){initNavTree('a02910.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::float_limits_t&lt; float &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a02904.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::in_place_tag Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02910.html">lumex::core::fmt::Detail::float_limits_t&lt; float &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02910.html#a155e7612fc3dcec2439035a3b8830a6b">max_digits</a>() noexcept</td><td class="entry"><a class="el" href="a02910.html">lumex::core::fmt::Detail::float_limits_t&lt; float &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02910.html#aae636747e08a7092040ea33806be52ad">read</a>(char const *text) noexcept</td><td class="entry"><a class="el" href="a02910.html">lumex::core::fmt::Detail::float_limits_t&lt; float &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<p>In-place construction tag; C++11 has no std::in_place.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00911_source.html">ExpectedTypes.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a6d3d3e0964ea792b1ccedae67d62d3b0" id="r_a6d3d3e0964ea792b1ccedae67d62d3b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d3d3e0964ea792b1ccedae67d62d3b0">in_place_tag</a> ()=default</td></tr>
+<tr class="memdesc:a6d3d3e0964ea792b1ccedae67d62d3b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicit, as <code>std::in_place_t</code> ([utility.syn]): <code><a class="el" href="a02907.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a> t = / {};</code> does not compile.  <br /></td></tr>
+<tr class="separator:a6d3d3e0964ea792b1ccedae67d62d3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>In-place construction tag; C++11 has no std::in_place. </p>
+<p>Directly constructs the contained value inside <code>expected</code>, avoiding extra copies or moves. Analogue of <code>std::in_place_t</code> from C++17. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6d3d3e0964ea792b1ccedae67d62d3b0" name="a6d3d3e0964ea792b1ccedae67d62d3b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d3d3e0964ea792b1ccedae67d62d3b0">&#9670;&#160;</a></span>in_place_tag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lumex::core::expected::result::in_place_tag::in_place_tag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel explicit">explicit</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Explicit, as <code>std::in_place_t</code> ([utility.syn]): <code><a class="el" href="a02907.html" title="In-place construction tag; C++11 has no std::in_place.">in_place_tag</a> t = / {};</code> does not compile. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00911_source.html">ExpectedTypes.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01532.html">result</a></li><li class="navelem"><a class="el" href="a02907.html">in_place_tag</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

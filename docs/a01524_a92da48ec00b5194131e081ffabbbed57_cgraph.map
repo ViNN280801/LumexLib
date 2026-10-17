@@ -1,0 +1,6 @@
+<map id="lumex::core::exceptions::Wrapper::detail::write_to_stderr" name="lumex::core::exceptions::Wrapper::detail::write_to_stderr">
+<area shape="rect" id="Node000001" title="Writes &quot;line\n&quot; to std::cerr using only noexcept operations." alt="" coords="5,29,184,84"/>
+<area shape="rect" id="Node000002" href="$a01524.html#a730010fd0f524d97727a82bb42f2ddd3" title="Writes &quot;prefix. Reason: &lt;whatMsg&gt;\n&quot; to std::cerr using only noexcept operations." alt="" coords="232,29,411,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,54,218,54,218,59,184,59"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="277,29,277,19,285,10,300,5,321,3,347,6,362,14,359,18,345,11,321,8,301,10,288,15,282,21,282,29"/>
+</map>

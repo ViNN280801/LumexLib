@@ -1,0 +1,9 @@
+<map id="lumex::core::atomic::sync::table_wait::Detail::notify_all" name="lumex::core::atomic::sync::table_wait::Detail::notify_all">
+<area shape="rect" id="Node000001" title="Wakes every thread sleeping in wait_until_changed on word." alt="" coords="224,69,376,124"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="334,58,322,51,300,48,282,50,270,55,264,61,264,69,259,69,259,59,267,50,280,45,300,43,324,46,337,54"/>
+<area shape="rect" id="Node000002" href="$a01496.html#a57da345244e75b4b313c745e12a46382" title="Wakes at least one thread sleeping in wait_until_changed on word." alt="" coords="15,29,167,84"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="210,82,166,74,167,69,211,77"/>
+<area shape="rect" id="Node000003" href="$a02031.html#acd9c9f6d0d6a4ddb3cca44080efd0df7" title="Releases the lock and wakes the threads that sleep on it." alt="" coords="5,108,176,163"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="211,116,177,122,176,117,210,111"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="125,18,113,11,91,8,72,10,60,15,55,21,55,29,50,29,50,19,57,10,71,5,91,3,114,6,128,14"/>
+</map>

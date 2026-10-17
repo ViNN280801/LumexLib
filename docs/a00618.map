@@ -1,0 +1,30 @@
+<map id="XPathStack.hpp" name="XPathStack.hpp">
+<area shape="rect" id="Node000001" title="The memory an XPath evaluation runs on: XPathStack, a pair of allocators, and XPathStackData,..." alt="" coords="240,5,363,31"/>
+<area shape="rect" id="Node000002" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="147,233,328,258"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="303,31,296,95,289,137,277,178,256,222,251,220,272,176,284,136,291,94,298,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="627,233,683,258"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="326,29,416,80,528,150,629,222,626,226,525,154,413,85,323,33"/>
+<area shape="rect" id="Node000004" href="$a00623.html" title="XPathAllocator, the bump allocator of the XPath engine, and XPathAllocatorCapture,..." alt="" coords="104,79,248,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="281,33,211,74,208,69,278,28"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="178,104,179,138,188,176,201,200,217,221,213,224,196,203,183,178,174,138,173,104"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="198,152,263,177"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="188,103,215,139,211,142,183,106"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,152,72,177"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="153,106,76,148,74,143,151,102"/>
+<area shape="rect" id="Node000007" href="$a00626.html" title="XPathMemoryBlock, the unit of memory of the XPath allocator." alt="" coords="339,152,515,177"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="220,102,371,146,369,151,219,107"/>
+<area shape="rect" id="Node000012" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="199,401,412,441"/>
+<area shape="poly" id="edge16_Node000004_Node000012" title=" " alt="" coords="170,105,154,135,137,175,129,220,131,243,137,264,161,304,192,339,226,368,259,392,256,396,223,373,188,343,156,307,132,266,125,244,124,220,132,174,149,133,165,103"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="398,180,281,230,279,225,396,175"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="473,175,541,196,616,223,619,224,617,229,614,228,539,201,472,180"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="281,321,351,346"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="421,179,334,311,330,308,416,176"/>
+<area shape="rect" id="Node000009" href="$a00587.html" title="Size limits and alignment of the XPath engine." alt="" coords="403,225,603,265"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="441,176,476,213,472,217,437,179"/>
+<area shape="poly" id="edge12_Node000009_Node000008" title=" " alt="" coords="461,268,356,317,354,312,459,263"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="655,321,721,346"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="546,263,650,312,648,317,544,268"/>
+<area shape="rect" id="Node000011" href="$a01124.html" title="Macros that declare static constants in the same way in every C++ standard: LUMEX_CONST_NUM,..." alt="" coords="375,313,630,353"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="505,266,505,299,500,299,500,266"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="458,356,364,398,362,393,456,351"/>
+</map>

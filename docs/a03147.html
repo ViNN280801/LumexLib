@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a03150.html',''); initResizable(true); });
+$(function(){initNavTree('a03147.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,18 +103,433 @@ $(function(){initNavTree('a03150.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::math::ops::Detail::range_object&lt; Range &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="a03144.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a03150.html">lumex::core::math::ops::Detail::range_object&lt; Range &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a03150.html#a0c8e1ae34abe7b5e71943461989d9884">type</a> typedef</td><td class="entry"><a class="el" href="a03150.html">lumex::core::math::ops::Detail::range_object&lt; Range &gt;</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Parses <code>[[fill]align][width][.precision][L][chrono-specs]</code> and pads the chrono text; base of the duration and time point formatters.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a01016_source.html">LumexFormatChrono.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03146.png" border="0" usemap="#alumex_1_1core_1_1fmt_1_1Detail_1_1chrono__formatter_3_01Char_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="alumex_1_1core_1_1fmt_1_1Detail_1_1chrono__formatter_3_01Char_01_4_inherit__map" id="alumex_1_1core_1_1fmt_1_1Detail_1_1chrono__formatter_3_01Char_01_4_inherit__map">
+<area shape="rect" title="Parses [[fill]align][width][.precision][L][chrono&#45;specs] and pads the chrono text; base of the durati..." alt="" coords="5,100,208,140"/>
+<area shape="rect" href="a03151.html" title="std::chrono::duration: 42ms, or chrono&#45;specs such as T." alt="" coords="256,5,536,104"/>
+<area shape="poly" title=" " alt="" coords="208,94,255,84,256,89,209,100"/>
+<area shape="rect" href="a03155.html" title="std::chrono::system_clock time points (UTC): F T by default, the date only for whole&#45;day time points." alt="" coords="266,129,526,242"/>
+<area shape="poly" title=" " alt="" coords="209,140,266,153,265,159,208,146"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a116dfda5c2f15b5424dca133b590cdcf" id="r_a116dfda5c2f15b5424dca133b590cdcf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a116dfda5c2f15b5424dca133b590cdcf">chrono_formatter</a> ()</td></tr>
+<tr class="separator:a116dfda5c2f15b5424dca133b590cdcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:af9ba2acf39838afe8a32284dc181d356" id="r_af9ba2acf39838afe8a32284dc181d356"><td class="memItemLeft" align="right" valign="top">Char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9ba2acf39838afe8a32284dc181d356">parse_chrono</a> (<a class="el" href="a02979.html">basic_format_parse_context</a>&lt; Char &gt; &amp;ctx, bool is_duration, bool allows_precision)</td></tr>
+<tr class="separator:af9ba2acf39838afe8a32284dc181d356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3659cd760675b620523a9a6893ce8293" id="r_a3659cd760675b620523a9a6893ce8293"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3659cd760675b620523a9a6893ce8293">precision</a> (<a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; const &amp;ctx) const</td></tr>
+<tr class="memdesc:a3659cd760675b620523a9a6893ce8293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Precision (resolved) or -1.  <br /></td></tr>
+<tr class="separator:a3659cd760675b620523a9a6893ce8293"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a409105bb4970d96c8a5a3295eb29efd5" id="r_a409105bb4970d96c8a5a3295eb29efd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a409105bb4970d96c8a5a3295eb29efd5">write</a> (<a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; &amp;ctx, std::basic_string&lt; Char &gt; const &amp;text) const</td></tr>
+<tr class="separator:a409105bb4970d96c8a5a3295eb29efd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d01feb13812d60facc9e60d237cdc2a" id="r_a7d01feb13812d60facc9e60d237cdc2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d01feb13812d60facc9e60d237cdc2a">has_chrono_specs</a> () const noexcept</td></tr>
+<tr class="separator:a7d01feb13812d60facc9e60d237cdc2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4b2a94512c3c575a5bd227ac5c89d73" id="r_ab4b2a94512c3c575a5bd227ac5c89d73"><td class="memItemLeft" align="right" valign="top">std::basic_string&lt; Char &gt; const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4b2a94512c3c575a5bd227ac5c89d73">chrono_specs</a> () const noexcept</td></tr>
+<tr class="separator:ab4b2a94512c3c575a5bd227ac5c89d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4922691a1df3caae6daee57ac45dddb" id="r_ab4922691a1df3caae6daee57ac45dddb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4922691a1df3caae6daee57ac45dddb">localized</a> () const noexcept</td></tr>
+<tr class="separator:ab4922691a1df3caae6daee57ac45dddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Char&gt;<br />
+class lumex::core::fmt::Detail::chrono_formatter&lt; Char &gt;</div><p>Parses <code>[[fill]align][width][.precision][L][chrono-specs]</code> and pads the chrono text; base of the duration and time point formatters. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a116dfda5c2f15b5424dca133b590cdcf" name="a116dfda5c2f15b5424dca133b590cdcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a116dfda5c2f15b5424dca133b590cdcf">&#9670;&#160;</a></span>chrono_formatter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a03147.html">lumex::core::fmt::Detail::chrono_formatter</a>&lt; Char &gt;::chrono_formatter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab4b2a94512c3c575a5bd227ac5c89d73" name="ab4b2a94512c3c575a5bd227ac5c89d73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4b2a94512c3c575a5bd227ac5c89d73">&#9670;&#160;</a></span>chrono_specs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::basic_string&lt; Char &gt; const  &amp; <a class="el" href="a03147.html">lumex::core::fmt::Detail::chrono_formatter</a>&lt; Char &gt;::chrono_specs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03147_ab4b2a94512c3c575a5bd227ac5c89d73_icgraph.png" border="0" usemap="#aa03147_ab4b2a94512c3c575a5bd227ac5c89d73_icgraph" alt=""/></div>
+<map name="aa03147_ab4b2a94512c3c575a5bd227ac5c89d73_icgraph" id="aa03147_ab4b2a94512c3c575a5bd227ac5c89d73_icgraph">
+<area shape="rect" title=" " alt="" coords="343,111,581,151"/>
+<area shape="rect" href="a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,5,269,119"/>
+<area shape="poly" title=" " alt="" coords="358,111,269,91,270,86,359,106"/>
+<area shape="rect" href="a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,143,295,256"/>
+<area shape="poly" title=" " alt="" coords="357,157,296,170,295,165,356,152"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7d01feb13812d60facc9e60d237cdc2a" name="a7d01feb13812d60facc9e60d237cdc2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d01feb13812d60facc9e60d237cdc2a">&#9670;&#160;</a></span>has_chrono_specs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a03147.html">lumex::core::fmt::Detail::chrono_formatter</a>&lt; Char &gt;::has_chrono_specs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03147_a7d01feb13812d60facc9e60d237cdc2a_icgraph.png" border="0" usemap="#aa03147_a7d01feb13812d60facc9e60d237cdc2a_icgraph" alt=""/></div>
+<map name="aa03147_a7d01feb13812d60facc9e60d237cdc2a_icgraph" id="aa03147_a7d01feb13812d60facc9e60d237cdc2a_icgraph">
+<area shape="rect" title=" " alt="" coords="343,104,520,159"/>
+<area shape="rect" href="a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,5,269,119"/>
+<area shape="poly" title=" " alt="" coords="328,109,268,94,269,89,330,104"/>
+<area shape="rect" href="a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,143,295,256"/>
+<area shape="poly" title=" " alt="" coords="330,159,296,167,294,162,329,153"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab4922691a1df3caae6daee57ac45dddb" name="ab4922691a1df3caae6daee57ac45dddb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4922691a1df3caae6daee57ac45dddb">&#9670;&#160;</a></span>localized()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="a03147.html">lumex::core::fmt::Detail::chrono_formatter</a>&lt; Char &gt;::localized </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af9ba2acf39838afe8a32284dc181d356" name="af9ba2acf39838afe8a32284dc181d356"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9ba2acf39838afe8a32284dc181d356">&#9670;&#160;</a></span>parse_chrono()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Char const  * <a class="el" href="a03147.html">lumex::core::fmt::Detail::chrono_formatter</a>&lt; Char &gt;::parse_chrono </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02979.html">basic_format_parse_context</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_duration</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>allows_precision</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03147_af9ba2acf39838afe8a32284dc181d356_cgraph.png" border="0" usemap="#aa03147_af9ba2acf39838afe8a32284dc181d356_cgraph" alt=""/></div>
+<map name="aa03147_af9ba2acf39838afe8a32284dc181d356_cgraph" id="aa03147_af9ba2acf39838afe8a32284dc181d356_cgraph">
+<area shape="rect" title=" " alt="" coords="5,386,244,426"/>
+<area shape="rect" href="a01541.html#a28ba701722fdcf7194acbbdaaa6062fd" title="Checks [begin, end) as chrono&#45;specs; they must start with a conversion." alt="" coords="292,179,469,219"/>
+<area shape="poly" title=" " alt="" coords="142,384,206,322,290,251,330,224,333,229,294,255,210,326,146,388"/>
+<area shape="rect" href="a02979.html#a083812f4abac5c390c1b3f2232466c3f" title=" " alt="" coords="517,299,721,339"/>
+<area shape="poly" title=" " alt="" coords="239,383,503,337,504,342,240,389"/>
+<area shape="rect" href="a01541.html#adaae5d05b7b1928c889b5c429a0ed1bf" title=" " alt="" coords="995,501,1172,541"/>
+<area shape="poly" title=" " alt="" coords="140,425,200,505,244,550,294,590,351,626,399,646,451,659,518,671,640,686,690,686,737,681,783,671,831,655,946,606,998,578,1044,547,1047,551,1001,582,948,611,833,660,784,676,738,686,691,692,640,692,517,677,450,665,398,651,348,630,290,595,240,554,196,508,136,428"/>
+<area shape="rect" href="a01541.html#a1d433bc889461c7576948230c7d3a0ed" title="Parses {} / {3} / {name} used as dynamic width / precision." alt="" coords="531,235,708,275"/>
+<area shape="poly" title=" " alt="" coords="173,383,291,341,411,305,522,276,523,281,412,311,293,346,175,388"/>
+<area shape="rect" href="a01541.html#ae60423b45d0639b6fcc845a3aebf8a26" title="Parses [[fill]align][width] from ctx.begin(), the part every specification shares (used by the range ..." alt="" coords="292,414,469,454"/>
+<area shape="poly" title=" " alt="" coords="244,416,278,420,278,425,244,422"/>
+<area shape="rect" href="a01541.html#a73a1e16b59f592ef142c5e35bb5e2cc6" title="Parses a non&#45;negative decimal number; throws when above INT_MAX." alt="" coords="530,622,709,662"/>
+<area shape="poly" title=" " alt="" coords="160,424,312,509,414,560,518,608,538,615,536,620,516,612,411,565,310,514,157,428"/>
+<area shape="rect" href="a01541.html#a8ccbbce0aa0b3f54e45e28809998ecca" title="%&lt;conversion&gt; is valid for a duration / a time point." alt="" coords="531,171,708,211"/>
+<area shape="poly" title=" " alt="" coords="469,194,517,192,517,197,470,199"/>
+<area shape="rect" href="a02979.html#af8cbbe975292480629e0c83838452db8" title="Records manual indexing; throws after automatic indexing." alt="" coords="772,228,944,283"/>
+<area shape="poly" title=" " alt="" coords="708,253,758,253,758,258,708,258"/>
+<area shape="rect" href="a02979.html#ac7de27e293647be7090e0d6f8bcc0e3a" title="Compile&#45;time check only: argument id is an integer." alt="" coords="772,307,944,361"/>
+<area shape="poly" title=" " alt="" coords="685,273,722,285,767,300,765,305,721,290,683,278"/>
+<area shape="rect" href="a02979.html#afb523ff24fb4035bb928ab2bde553f1d" title="Records a reference by name: it counts as manual indexing when no automatic index was used yet (so {a..." alt="" coords="772,5,944,60"/>
+<area shape="poly" title=" " alt="" coords="704,233,719,221,733,203,741,186,744,149,747,111,754,91,767,71,771,67,775,71,771,74,758,93,752,112,749,149,746,187,738,206,723,225,707,237"/>
+<area shape="rect" href="a02979.html#af05a380747221a522d1cc5f2c1cb1382" title="Next automatic argument index; throws after manual indexing." alt="" coords="772,149,944,204"/>
+<area shape="poly" title=" " alt="" coords="683,233,721,221,765,206,767,211,722,226,685,238"/>
+<area shape="rect" href="a01541.html#a562623a0bebe727eda8a328a6367f409" title="Parses an arg&#45;id (0, 12, name) at it; leaves it on the character after it." alt="" coords="769,85,947,125"/>
+<area shape="poly" title=" " alt="" coords="701,233,720,221,736,201,743,179,750,157,767,135,774,130,777,134,771,139,755,160,748,181,741,203,723,225,704,237"/>
+<area shape="poly" title=" " alt="" coords="933,123,949,135,983,176,1011,222,1033,271,1051,321,1073,415,1083,487,1078,487,1068,416,1046,323,1028,273,1006,224,979,179,945,139,930,127"/>
+<area shape="rect" href="a01541.html#a9a0112c6db4da55a5ecdb292c7b4a207" title=" " alt="" coords="995,85,1172,125"/>
+<area shape="poly" title=" " alt="" coords="947,102,981,102,981,107,947,107"/>
+<area shape="poly" title=" " alt="" coords="412,412,516,356,548,342,550,347,518,360,415,416"/>
+<area shape="poly" title=" " alt="" coords="452,411,517,399,619,390,665,392,722,399,806,417,889,442,1026,493,1024,498,888,447,805,422,721,405,664,397,620,395,518,405,453,417"/>
+<area shape="poly" title=" " alt="" coords="392,412,442,350,477,315,516,285,527,279,530,283,519,290,480,319,446,353,396,415"/>
+<area shape="rect" href="a02979.html#aca48191286b3912fd9d1b0ffd796b441" title=" " alt="" coords="533,415,705,469"/>
+<area shape="poly" title=" " alt="" coords="470,434,519,436,519,441,469,440"/>
+<area shape="rect" href="a01541.html#a223c59fa6c7ce43d8256f0fe2ea9afab" title="Number of code units of the code point starting at it." alt="" coords="531,494,708,534"/>
+<area shape="poly" title=" " alt="" coords="440,452,518,478,545,487,543,492,516,483,438,457"/>
+<area shape="rect" href="a01541.html#a823b8b6f4700e47cb765fac8dce410ff" title=" " alt="" coords="531,558,708,598"/>
+<area shape="poly" title=" " alt="" coords="402,452,452,498,484,522,519,544,532,550,530,555,516,548,481,527,449,502,398,456"/>
+<area shape="poly" title=" " alt="" coords="398,452,468,545,519,608,528,613,525,618,516,612,464,548,394,456"/>
+<area shape="poly" title=" " alt="" coords="695,619,993,542,994,547,697,625"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03147_af9ba2acf39838afe8a32284dc181d356_icgraph.png" border="0" usemap="#aa03147_af9ba2acf39838afe8a32284dc181d356_icgraph" alt=""/></div>
+<map name="aa03147_af9ba2acf39838afe8a32284dc181d356_icgraph" id="aa03147_af9ba2acf39838afe8a32284dc181d356_icgraph">
+<area shape="rect" title=" " alt="" coords="335,111,573,151"/>
+<area shape="rect" href="a03151.html#af70c80686607990194ad6b9d5c6d7e40" title=" " alt="" coords="27,5,265,119"/>
+<area shape="poly" title=" " alt="" coords="351,111,264,91,265,86,352,106"/>
+<area shape="rect" href="a03155.html#a8c33df3c8d7c78779c80c4419a69501d" title=" " alt="" coords="5,143,287,256"/>
+<area shape="poly" title=" " alt="" coords="351,157,288,171,286,166,350,152"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3659cd760675b620523a9a6893ce8293" name="a3659cd760675b620523a9a6893ce8293"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3659cd760675b620523a9a6893ce8293">&#9670;&#160;</a></span>precision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="a03147.html">lumex::core::fmt::Detail::chrono_formatter</a>&lt; Char &gt;::precision </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Precision (resolved) or -1. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03147_a3659cd760675b620523a9a6893ce8293_cgraph.png" border="0" usemap="#aa03147_a3659cd760675b620523a9a6893ce8293_cgraph" alt=""/></div>
+<map name="aa03147_a3659cd760675b620523a9a6893ce8293_cgraph" id="aa03147_a3659cd760675b620523a9a6893ce8293_cgraph">
+<area shape="rect" title="Precision (resolved) or &#45;1." alt="" coords="5,55,216,95"/>
+<area shape="rect" href="a01541.html#ad5678c6626a8595ede9b1b001237c32b" title=" " alt="" coords="264,55,441,95"/>
+<area shape="poly" title=" " alt="" coords="216,73,250,73,250,78,216,78"/>
+<area shape="rect" href="a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="499,5,657,31"/>
+<area shape="poly" title=" " alt="" coords="431,53,514,31,516,37,432,58"/>
+<area shape="rect" href="a02975.html#a65b345c63de1c27f72d3a00fcd77d668" title=" " alt="" coords="492,55,664,95"/>
+<area shape="poly" title=" " alt="" coords="442,73,478,73,478,78,442,78"/>
+<area shape="rect" href="a02975.html#a0ff5deb7e42e1203c6dcbc429c8da02d" title=" " alt="" coords="489,119,667,159"/>
+<area shape="poly" title=" " alt="" coords="424,93,495,113,493,118,423,98"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03147_a3659cd760675b620523a9a6893ce8293_icgraph.png" border="0" usemap="#aa03147_a3659cd760675b620523a9a6893ce8293_icgraph" alt=""/></div>
+<map name="aa03147_a3659cd760675b620523a9a6893ce8293_icgraph" id="aa03147_a3659cd760675b620523a9a6893ce8293_icgraph">
+<area shape="rect" title="Precision (resolved) or &#45;1." alt="" coords="291,42,501,82"/>
+<area shape="rect" href="a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="5,5,243,119"/>
+<area shape="poly" title=" " alt="" coords="277,65,243,65,243,59,277,59"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a409105bb4970d96c8a5a3295eb29efd5" name="a409105bb4970d96c8a5a3295eb29efd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a409105bb4970d96c8a5a3295eb29efd5">&#9670;&#160;</a></span>write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Char&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a03147.html">lumex::core::fmt::Detail::chrono_formatter</a>&lt; Char &gt;::write </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a02975.html">basic_format_context</a>&lt; Char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::basic_string&lt; Char &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03147_a409105bb4970d96c8a5a3295eb29efd5_cgraph.png" border="0" usemap="#aa03147_a409105bb4970d96c8a5a3295eb29efd5_cgraph" alt=""/></div>
+<map name="aa03147_a409105bb4970d96c8a5a3295eb29efd5_cgraph" id="aa03147_a409105bb4970d96c8a5a3295eb29efd5_cgraph">
+<area shape="rect" title=" " alt="" coords="5,101,189,141"/>
+<area shape="rect" href="a03011.html#a31af630fad97a8533bdc5e768d3e76ce" title="The buffer this appender writes to." alt="" coords="240,5,412,45"/>
+<area shape="poly" title=" " alt="" coords="138,99,236,55,254,48,256,53,238,60,140,104"/>
+<area shape="rect" href="a02975.html#a04c7f3d5ffc13bc90ea29ab029bb88a2" title=" " alt="" coords="240,69,412,109"/>
+<area shape="poly" title=" " alt="" coords="189,106,226,101,227,106,190,111"/>
+<area shape="rect" href="a01541.html#ad5678c6626a8595ede9b1b001237c32b" title=" " alt="" coords="237,133,415,173"/>
+<area shape="poly" title=" " alt="" coords="190,132,224,136,223,142,189,137"/>
+<area shape="rect" href="a01541.html#a9c9a25218bf7a93eebf8242de6a1d169" title="Writes [first, stop) padded to specs.width." alt="" coords="237,223,415,263"/>
+<area shape="poly" title=" " alt="" coords="136,139,277,214,275,219,134,144"/>
+<area shape="rect" href="a01540.html#a71066b6ff2980b7f4a955111551f11e4" title="Names value for a {name} replacement field." alt="" coords="472,35,631,61"/>
+<area shape="poly" title=" " alt="" coords="391,131,413,119,427,107,436,95,446,83,461,71,477,63,479,68,464,76,450,87,441,99,431,111,416,124,393,136"/>
+<area shape="rect" href="a02975.html#a65b345c63de1c27f72d3a00fcd77d668" title=" " alt="" coords="465,85,637,125"/>
+<area shape="poly" title=" " alt="" coords="415,132,451,124,452,129,416,137"/>
+<area shape="rect" href="a02975.html#a0ff5deb7e42e1203c6dcbc429c8da02d" title=" " alt="" coords="463,149,640,189"/>
+<area shape="poly" title=" " alt="" coords="415,157,449,159,449,165,415,162"/>
+<area shape="rect" href="a02991.html#af889c72b016fbc4382a83b4d44a4b9fe" title=" " alt="" coords="688,207,865,247"/>
+<area shape="poly" title=" " alt="" coords="415,237,674,228,674,233,415,242"/>
+<area shape="rect" href="a01541.html#a2ed0744f528e973133ba3815d7650826" title="Estimated display width, as std::format (C++23) defines it." alt="" coords="463,345,640,385"/>
+<area shape="poly" title=" " alt="" coords="364,261,504,336,501,341,362,265"/>
+<area shape="rect" href="a01541.html#a3e45da52824f4287006ffe4514534657" title=" " alt="" coords="463,264,640,304"/>
+<area shape="poly" title=" " alt="" coords="416,256,450,263,449,268,415,262"/>
+<area shape="rect" href="a02991.html#a6f4eb61317095976b06eebbf9d38c205" title=" " alt="" coords="923,197,1100,237"/>
+<area shape="poly" title=" " alt="" coords="865,220,909,219,909,224,865,226"/>
+<area shape="rect" href="a01541.html#a9e0a7453f21fa61d5f221016d15cbe2e" title="Moves it past one extended grapheme cluster and returns its estimated width: the width of its first c..." alt="" coords="688,380,865,420"/>
+<area shape="poly" title=" " alt="" coords="641,376,675,382,674,387,640,382"/>
+<area shape="rect" href="a01541.html#aea68f84128932af81acea442416d4e71" title="Decodes one code point at it (UTF&#45;8 for char, UTF&#45;16 or UTF&#45;32 for wchar_t); an invalid sequence yiel..." alt="" coords="923,261,1100,301"/>
+<area shape="poly" title=" " alt="" coords="802,378,852,344,912,311,929,304,931,309,915,316,855,349,805,382"/>
+<area shape="rect" href="a01541.html#ad7db5669bbcd6622f5c86c4fca26b2c3" title="Extended_Pictographic (approximated by the emoji blocks): a code point that a zero width joiner glues..." alt="" coords="913,325,1109,365"/>
+<area shape="poly" title=" " alt="" coords="862,377,912,366,913,371,863,383"/>
+<area shape="rect" href="a01541.html#aff580c84b9a022c6cd09fff2dd4357ed" title="The code point joins the preceding one in the same extended grapheme cluster: Grapheme_Cluster_Break ..." alt="" coords="923,389,1100,429"/>
+<area shape="poly" title=" " alt="" coords="865,401,909,403,909,408,865,406"/>
+<area shape="rect" href="a01541.html#a7ed054b3519f96e75e5f34a597d411ee" title="Regional indicator symbols (two of them form one flag)." alt="" coords="923,453,1100,493"/>
+<area shape="poly" title=" " alt="" coords="842,417,935,447,933,452,840,423"/>
+<area shape="rect" href="a01541.html#a92eaf1c71d6bb3ecff60069c005917f8" title=" " alt="" coords="923,517,1100,557"/>
+<area shape="poly" title=" " alt="" coords="799,418,850,460,915,503,929,510,926,515,912,508,847,465,796,422"/>
+<area shape="poly" title=" " alt="" coords="629,261,684,247,686,253,631,267"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a03147_a409105bb4970d96c8a5a3295eb29efd5_icgraph.png" border="0" usemap="#aa03147_a409105bb4970d96c8a5a3295eb29efd5_icgraph" alt=""/></div>
+<map name="aa03147_a409105bb4970d96c8a5a3295eb29efd5_icgraph" id="aa03147_a409105bb4970d96c8a5a3295eb29efd5_icgraph">
+<area shape="rect" title=" " alt="" coords="343,111,527,151"/>
+<area shape="rect" href="a03151.html#aee2bdadbbcbe1460c2260749a0c1f8ed" title=" " alt="" coords="31,5,269,119"/>
+<area shape="poly" title=" " alt="" coords="339,111,268,93,269,88,340,105"/>
+<area shape="rect" href="a03155.html#ae34894440a19509a856974897f26ec07" title=" " alt="" coords="5,143,295,256"/>
+<area shape="poly" title=" " alt="" coords="338,157,295,167,294,162,337,152"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="a01016_source.html">LumexFormatChrono.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01540.html">fmt</a></li><li class="navelem"><a class="el" href="a01541.html">Detail</a></li><li class="navelem"><a class="el" href="a03147.html">chrono_formatter</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

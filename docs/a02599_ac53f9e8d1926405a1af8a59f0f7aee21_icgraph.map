@@ -1,0 +1,5 @@
+<map id="lumex::core::environment::env::lumex_environment::unset_environment_variable" name="lumex::core::environment::env::lumex_environment::unset_environment_variable">
+<area shape="rect" id="Node000001" title="Unsets (removes) a specified environment variable in a thread&#45;safe manner." alt="" coords="245,5,461,60"/>
+<area shape="rect" id="Node000002" href="$a02599.html#ac02c7b9738c63ae45eb982591086e9fc" title="Deleted move assignment operator." alt="" coords="5,5,197,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,35,198,35,198,30,232,30"/>
+</map>

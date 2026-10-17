@@ -1,0 +1,9 @@
+<map id="lumex::core::smart_ptr::detail::esft_dispatch::apply" name="lumex::core::smart_ptr::detail::esft_dispatch::apply">
+<area shape="rect" id="Node000001" title=" " alt="" coords="508,5,695,60"/>
+<area shape="rect" id="Node000002" href="$a01562.html#ac243d4e88836c3a0895003c2c3fb6e9f" title="Creates a T constructed from args in one allocation made with a copy of alloc." alt="" coords="301,13,460,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="494,35,460,35,460,30,494,30"/>
+<area shape="rect" id="Node000003" href="$a01562.html#af5f9b825794c24606e999e4108a2a9bd" title="Creates a T constructed from args in one allocation." alt="" coords="108,13,253,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="288,35,254,35,254,30,288,30"/>
+<area shape="rect" id="Node000004" href="$a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,20,60,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="94,35,60,35,60,30,94,30"/>
+</map>

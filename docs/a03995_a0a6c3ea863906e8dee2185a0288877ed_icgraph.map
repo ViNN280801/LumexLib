@@ -1,0 +1,9 @@
+<map id="lumex::core::smart_ptr::detail::ctl_std::create" name="lumex::core::smart_ptr::detail::ctl_std::create">
+<area shape="rect" id="Node000001" title="Allocates a block that owns owner." alt="" coords="301,30,447,85"/>
+<area shape="rect" id="Node000002" href="$a01562.html#a0f7e35c6ff6b5552331b1d5449faf6cc" title="Wraps a std::shared_ptr, taking it over (no extra reference of it)." alt="" coords="108,5,253,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,46,253,40,254,35,288,40"/>
+<area shape="rect" id="Node000003" href="$a01562.html#ac2864e50b7539f646b6e1f278485d428" title="Wraps a std::shared_ptr (see the file text)." alt="" coords="108,69,253,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="288,74,254,80,253,75,287,69"/>
+<area shape="rect" id="Node000004" href="$a00266.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,77,60,102"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="94,92,60,92,60,87,94,87"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="lumex::core::smart_ptr::detail::ctl_inplace::create" name="lumex::core::smart_ptr::detail::ctl_inplace::create">
+<area shape="rect" id="Node000001" title="Allocates a block and constructs the object in it from args." alt="" coords="5,5,176,60"/>
+<area shape="rect" id="Node000002" href="$a01563.html#a277e6ded451b01456aadd0d07940efb6" title="Allocates one object of Block with the allocator Alloc rebound to it, constructs it with make and fre..." alt="" coords="224,13,407,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,30,210,30,210,35,176,35"/>
+</map>

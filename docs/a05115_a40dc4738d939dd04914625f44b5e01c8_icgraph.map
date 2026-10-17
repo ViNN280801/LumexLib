@@ -1,0 +1,39 @@
+<map id="lumex::xml::attribute::XmlAttribute::value" name="lumex::xml::attribute::XmlAttribute::value">
+<area shape="rect" id="Node000001" title="Retrieves the value of the XML attribute as a C&#45;style string." alt="" coords="948,293,1108,333"/>
+<area shape="poly" id="edge21_Node000001_Node000001" title=" " alt="" coords="1066,282,1052,275,1028,272,1007,274,994,279,989,285,992,292,987,294,984,284,991,274,1006,269,1028,267,1054,270,1068,277"/>
+<area shape="rect" id="Node000002" href="$a05115.html#aca25f5d9c4c12f528d05891b16ca099c" title="Converts the attribute&#39;s value to a bool." alt="" coords="721,5,892,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1018,281,1002,232,978,172,944,112,923,84,898,59,881,48,884,43,902,55,927,80,948,109,983,170,1007,230,1023,279"/>
+<area shape="rect" id="Node000004" href="$a05115.html#a7e6beb5b9cc23610b1fa289fd052f78f" title="Converts the attribute&#39;s value to a double." alt="" coords="713,69,900,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1012,281,993,245,968,202,936,160,898,123,879,112,882,107,902,119,940,156,973,199,998,242,1016,279"/>
+<area shape="rect" id="Node000005" href="$a05115.html#a2400242f3d9ec9cbeba2a3147af82350" title="Converts the attribute&#39;s value to a float." alt="" coords="721,133,893,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1002,284,957,235,929,210,899,188,875,176,878,171,901,183,932,205,961,231,1006,281"/>
+<area shape="rect" id="Node000006" href="$a05115.html#a60197dee0eb2b25d5e4e1f8d857630fd" title="Converts the attribute&#39;s value to an int." alt="" coords="727,197,887,237"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="977,289,899,252,868,240,870,235,901,247,980,284"/>
+<area shape="rect" id="Node000008" href="$a05115.html#a1000b87b582c20c1afdde2a70a2e47aa" title="Converts the attribute&#39;s value to a long long." alt="" coords="719,261,894,301"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="934,302,894,297,895,291,934,297"/>
+<area shape="rect" id="Node000009" href="$a05115.html#abb7b38925b73fbe1fa967deb1a9838fe" title="Retrieves the attribute&#39;s value as a C&#45;style string, or a default value if the attribute is empty." alt="" coords="717,325,897,365"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="935,330,897,335,896,330,934,324"/>
+<area shape="rect" id="Node000010" href="$a05115.html#a3f541ed5ee221bb0e96aad7b3273caed" title="Converts the attribute&#39;s value to an unsigned int." alt="" coords="723,389,891,429"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="980,342,901,380,870,392,868,387,899,375,977,338"/>
+<area shape="rect" id="Node000011" href="$a05115.html#adf984b7d352ce6d8d63aeaa0d608306b" title="Converts the attribute&#39;s value to an unsigned long long." alt="" coords="715,453,898,493"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="1006,346,961,396,932,421,901,444,878,456,875,451,899,439,929,417,957,392,1002,342"/>
+<area shape="rect" id="Node000012" href="$a05239.html#a22fd4b0b8128783c9615823bebff036c" title="Evaluates the XPath expression represented by this AST node to a boolean value." alt="" coords="717,518,896,573"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="1016,347,972,426,940,469,902,507,883,520,880,516,898,503,936,466,967,423,1011,345"/>
+<area shape="rect" id="Node000016" href="$a00389.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="779,597,834,622"/>
+<area shape="poly" id="edge20_Node000001_Node000016" title=" " alt="" coords="1024,347,1010,400,987,464,951,530,928,560,902,586,869,603,835,611,834,605,867,598,898,582,924,556,947,527,982,462,1005,398,1019,346"/>
+<area shape="rect" id="Node000003" href="$a00392.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="Main function demonstrating various LumexXml functionalities." alt="" coords="549,77,603,102"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="722,52,604,84,603,79,720,47"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="720,132,603,100,604,94,722,127"/>
+<area shape="rect" id="Node000007" href="$a00395.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="549,205,603,230"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="713,220,604,220,604,215,713,215"/>
+<area shape="rect" id="Node000013" href="$a05239.html#aefd15ccbea8cfa84dcf96d758e336650" title="Evaluates the XPath expression represented by this AST node to a numeric value." alt="" coords="487,479,665,534"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="703,540,665,533,666,528,704,534"/>
+<area shape="rect" id="Node000014" href="$a05239.html#a65b0bbe9cb7bb56b63909808fd092948" title="Evaluates the XPath expression represented by this AST node to a string value." alt="" coords="260,518,439,573"/>
+<area shape="poly" id="edge19_Node000012_Node000014" title=" " alt="" coords="703,556,439,555,439,550,703,550"/>
+<area shape="poly" id="edge14_Node000013_Node000012" title=" " alt="" coords="680,512,717,519,716,524,679,518"/>
+<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="474,536,439,541,439,536,473,531"/>
+<area shape="poly" id="edge16_Node000014_Node000012" title=" " alt="" coords="452,535,717,535,717,541,452,540"/>
+<area shape="poly" id="edge17_Node000014_Node000013" title=" " alt="" coords="452,516,486,510,487,516,453,521"/>
+<area shape="rect" id="Node000015" href="$a05315.html#a246d7958d05f4d033bc4cbdd45f652d1" title="Evaluates the XPath query to a string value, writing to a provided buffer." alt="" coords="5,518,212,573"/>
+<area shape="poly" id="edge18_Node000014_Node000015" title=" " alt="" coords="246,548,212,548,212,543,246,543"/>
+</map>

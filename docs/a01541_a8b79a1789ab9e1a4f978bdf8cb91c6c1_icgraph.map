@@ -1,0 +1,8 @@
+<map id="lumex::core::fmt::Detail::write_with_width" name="lumex::core::fmt::Detail::write_with_width">
+<area shape="rect" id="Node000001" title="Writes with write_body (context) directly, or into a temporary text padded to the resolved width when..." alt="" coords="288,73,465,113"/>
+<area shape="rect" id="Node000002" href="$a03199.html#a4f8059f3994ef544167a8c963effd113" title=" " alt="" coords="31,29,215,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="274,78,214,68,215,63,275,73"/>
+<area shape="rect" id="Node000003" href="$a03211.html#a9855da9aeeff8e79ede9b8c3c49bfe93" title=" " alt="" coords="5,94,240,178"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="275,113,240,119,240,114,274,108"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="166,18,151,11,123,8,98,10,83,15,78,21,81,28,76,30,73,20,80,10,97,5,123,3,152,6,168,13"/>
+</map>

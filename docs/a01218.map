@@ -1,0 +1,16 @@
+<map id="LumexSettingsFactory.hpp" name="LumexSettingsFactory.hpp">
+<area shape="rect" id="Node000001" title="Creates the ILumexSettings implementation for a configuration file format." alt="" coords="109,5,301,31"/>
+<area shape="rect" id="Node000002" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,167,187,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,33,102,51,85,64,72,80,65,98,67,117,82,154,77,156,61,118,60,97,67,77,82,60,99,46,139,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="81,86,159,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,33,146,78,142,74,190,29"/>
+<area shape="rect" id="Node000004" href="$a01229.html" title="The configuration file formats the settings module knows, used to select an implementation from Lumex..." alt="" coords="425,79,677,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="260,28,452,73,451,78,259,33"/>
+<area shape="rect" id="Node000006" href="$a01208.html" title="The interface every settings format implements: load, save, and get, add or remove a string value by ..." alt="" coords="183,79,401,119"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="221,29,262,67,259,71,217,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="517,167,584,192"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="553,119,553,153,548,153,548,119"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="244,121,141,164,139,159,242,116"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="263,167,321,192"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="295,119,295,153,289,153,289,119"/>
+</map>

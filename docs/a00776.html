@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: example_json_workflow.cpp File Reference</title>
+<title>LumexLib: LumexSmartPtrAccess.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,80 +104,189 @@ $(function(){initNavTree('a00776.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">example_json_workflow.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">LumexSmartPtrAccess.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;exception&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
-<code>#include &quot;<a class="el" href="a01157_source.html">lumex/applied/json/LumexJson</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00548_source.html">lumex/core/string_view/view/LumexStringView.hpp</a>&quot;</code><br />
+
+<p>Forward declarations of the pointer classes and <code>detail::access</code>, the friend that gives the split-count engine and the helpers of the module the raw parts of a pointer.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &quot;<a class="el" href="a00758_source.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlBase.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00779_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01127_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for example_json_workflow.cpp:</div>
+Include dependency graph for LumexSmartPtrAccess.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00777.png" border="0" usemap="#aexample__json__workflow_8cpp" alt=""/></div>
+<div class="center"><img src="a00777.png" border="0" usemap="#aLumexSmartPtrAccess_8hpp" alt=""/></div>
+<map name="aLumexSmartPtrAccess_8hpp" id="aLumexSmartPtrAccess_8hpp">
+<area shape="rect" title="Forward declarations of the pointer classes and detail::access, the friend that gives the split&#45;count..." alt="" coords="406,5,602,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,83,111"/>
+<area shape="poly" title=" " alt="" coords="406,30,262,50,102,81,91,84,89,79,101,76,261,44,405,25"/>
+<area shape="rect" title=" " alt="" coords="147,526,239,551"/>
+<area shape="poly" title=" " alt="" coords="447,33,351,58,244,94,196,115,157,138,132,162,125,175,123,187,123,362,128,406,142,447,161,484,178,513,174,516,156,487,137,449,123,407,117,363,117,186,120,173,128,159,154,134,194,111,242,89,349,53,445,28"/>
+<area shape="rect" title=" " alt="" coords="927,86,987,111"/>
+<area shape="poly" title=" " alt="" coords="602,24,748,42,829,57,909,76,917,79,915,84,907,81,828,62,747,48,602,29"/>
+<area shape="rect" href="a00758.html" title="ctl_base: the control block of shared_ptr and weak_ptr, 32 bytes on a 64&#45;bit target." alt="" coords="566,79,791,119"/>
+<area shape="poly" title=" " alt="" coords="533,28,624,71,622,75,531,33"/>
+<area shape="rect" href="a00779.html" title="Configuration macros of core/smart_ptr: exception handling, ThreadSanitizer detection,..." alt="" coords="193,255,431,295"/>
+<area shape="poly" title=" " alt="" coords="497,32,337,245,333,242,492,29"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="603,519,816,559"/>
+<area shape="poly" title=" " alt="" coords="603,28,718,48,769,62,804,76,840,98,868,120,886,147,892,186,892,363,889,389,880,412,867,435,850,455,810,489,768,514,766,510,807,484,846,451,862,431,875,410,884,387,887,363,887,187,881,149,864,123,837,103,801,81,767,67,717,54,602,33"/>
+<area shape="rect" title=" " alt="" coords="735,262,801,287"/>
+<area shape="poly" title=" " alt="" coords="705,117,726,139,745,165,761,208,768,248,763,249,756,209,740,168,722,142,701,121"/>
+<area shape="rect" href="a00764.html" title="split_counter: the packed reference counter of the control block, one 64&#45;bit atomic word {count:32,..." alt="" coords="506,167,731,207"/>
+<area shape="poly" title=" " alt="" coords="667,121,642,156,638,153,663,118"/>
+<area shape="poly" title=" " alt="" coords="718,116,757,143,797,178,815,199,829,223,838,248,841,275,841,363,839,386,832,408,810,449,781,484,751,512,747,508,777,480,806,446,828,406,834,385,836,363,836,275,833,249,824,225,810,202,793,182,754,147,715,121"/>
+<area shape="poly" title=" " alt="" coords="654,205,736,253,734,257,652,209"/>
+<area shape="rect" title=" " alt="" coords="505,262,572,287"/>
+<area shape="poly" title=" " alt="" coords="602,209,562,253,558,250,598,205"/>
+<area shape="rect" title=" " alt="" coords="596,262,660,287"/>
+<area shape="poly" title=" " alt="" coords="623,207,628,248,623,249,618,207"/>
+<area shape="poly" title=" " alt="" coords="549,209,396,253,395,248,548,204"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="368,431,557,471"/>
+<area shape="poly" title=" " alt="" coords="558,209,523,229,495,256,476,295,465,338,462,381,462,417,457,417,456,380,460,338,471,294,491,253,520,225,555,205"/>
+<area shape="poly" title=" " alt="" coords="641,205,659,227,674,254,696,321,708,391,713,454,713,505,708,505,707,455,702,391,691,322,670,256,655,230,637,208"/>
+<area shape="rect" title=" " alt="" coords="158,350,223,375"/>
+<area shape="poly" title=" " alt="" coords="285,297,221,344,218,340,282,293"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="247,343,430,383"/>
+<area shape="poly" title=" " alt="" coords="321,294,331,329,326,330,316,296"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="163,438,344,463"/>
+<area shape="poly" title=" " alt="" coords="321,385,277,430,273,426,317,381"/>
+<area shape="poly" title=" " alt="" coords="369,381,424,420,421,424,366,385"/>
+<area shape="poly" title=" " alt="" coords="431,379,501,399,571,428,631,467,680,507,677,511,628,471,568,433,499,404,430,384"/>
+<area shape="poly" title=" " alt="" coords="402,473,246,524,245,519,400,468"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="323,519,578,559"/>
+<area shape="poly" title=" " alt="" coords="463,471,458,505,453,505,457,471"/>
+<area shape="poly" title=" " alt="" coords="520,468,641,512,640,517,518,473"/>
+</map>
 </div>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a210b248fe3338b4d5161ae03caad7942" id="r_a210b248fe3338b4d5161ae03caad7942"><td class="memItemLeft" align="right" valign="top">typedef lumex_basic_string_view&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a210b248fe3338b4d5161ae03caad7942">lumex_string_view</a></td></tr>
-<tr class="memdesc:a210b248fe3338b4d5161ae03caad7942"><td class="mdescLeft">&#160;</td><td class="mdescRight">The view of <code>char</code>: the <code>std::string_view</code> of the library.  <br /></td></tr>
-<tr class="separator:a210b248fe3338b4d5161ae03caad7942"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00778.png" border="0" usemap="#aLumexSmartPtrAccess_8hppdep" alt=""/></div>
+<map name="aLumexSmartPtrAccess_8hppdep" id="aLumexSmartPtrAccess_8hppdep">
+<area shape="rect" title="Forward declarations of the pointer classes and detail::access, the friend that gives the split&#45;count..." alt="" coords="377,5,573,31"/>
+<area shape="rect" href="a00803.html" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="130,225,343,265"/>
+<area shape="poly" title=" " alt="" coords="430,39,391,58,347,83,305,115,270,154,251,190,242,226,237,224,246,188,265,150,302,111,344,79,388,53,428,34"/>
+<area shape="rect" href="a00770.html" title="enable_shared_from_this&lt;T&gt;: lets an object that is owned by a shared_ptr of this module hand out furt..." alt="" coords="469,233,711,258"/>
+<area shape="poly" title=" " alt="" coords="520,35,545,53,567,77,585,119,593,163,595,203,594,233,589,232,590,203,588,163,580,120,562,80,542,57,517,40"/>
+<area shape="rect" href="a00785.html" title="make_shared and allocate_shared: create the object and its control block in one allocation ([util...." alt="" coords="5,152,180,177"/>
+<area shape="poly" title=" " alt="" coords="364,33,282,51,240,65,201,81,172,98,146,117,106,154,103,150,142,113,169,93,198,76,238,60,281,46,363,28"/>
+<area shape="rect" href="a00773.html" title="shared_ptr&lt;T&gt;: shared ownership with the module&#39;s own control block, at the level of the C++17 std::s..." alt="" coords="397,79,553,104"/>
+<area shape="poly" title=" " alt="" coords="478,44,478,78,473,78,473,44"/>
+<area shape="rect" href="a00755.html" title="Explicit conversions between the module&#39;s shared_ptr and std::shared_ptr: from_std and to_std." alt="" coords="680,152,852,177"/>
+<area shape="poly" title=" " alt="" coords="519,34,611,76,745,150,743,154,609,81,517,39"/>
+<area shape="rect" href="a00818.html" title="What the split&#45;count engine needs to know about the pointer it stores: the counter group its referenc..." alt="" coords="736,233,932,258"/>
+<area shape="poly" title=" " alt="" coords="553,31,640,52,734,79,816,112,847,131,867,151,874,172,870,195,859,216,847,234,843,231,855,214,865,193,869,173,862,153,843,135,814,117,733,84,639,57,552,36"/>
+<area shape="rect" href="a00788.html" title="weak_ptr&lt;T&gt; and owner_less: non&#45;owning observers of an object that a shared_ptr owns ([util...." alt="" coords="306,152,453,177"/>
+<area shape="poly" title=" " alt="" coords="432,39,407,57,387,80,380,98,377,117,379,151,374,152,372,117,375,96,382,77,403,53,429,35"/>
+<area shape="rect" href="a01397.html" title="Smart pointer module: shared_ptr, weak_ptr, enable_shared_from_this, make_shared, allocate_shared,..." alt="" coords="370,313,493,339"/>
+<area shape="poly" title=" " alt="" coords="554,267,458,316,455,311,552,262"/>
+<area shape="rect" href="a00278.html" title=" " alt="" coords="153,387,320,427"/>
+<area shape="poly" title=" " alt="" coords="389,346,286,389,284,384,387,341"/>
+<area shape="rect" href="a00266.html" title=" " alt="" coords="344,394,519,419"/>
+<area shape="poly" title=" " alt="" coords="434,353,434,393,429,393,429,353"/>
+<area shape="rect" href="a00269.html" title=" " alt="" coords="543,394,784,419"/>
+<area shape="poly" title=" " alt="" coords="482,341,628,391,626,396,480,346"/>
+<area shape="poly" title=" " alt="" coords="95,191,100,229,108,248,120,263,137,275,162,285,227,301,302,312,370,319,369,324,301,318,226,306,160,290,134,279,116,267,103,250,95,230,89,191"/>
+<area shape="poly" title=" " alt="" coords="388,110,340,128,296,154,279,170,266,189,247,226,242,224,261,186,275,167,292,150,338,123,386,105"/>
+<area shape="poly" title=" " alt="" coords="495,114,582,231,578,234,491,117"/>
+<area shape="poly" title=" " alt="" coords="475,118,467,178,437,314,432,312,462,177,470,117"/>
+<area shape="poly" title=" " alt="" coords="396,109,160,155,159,149,395,104"/>
+<area shape="poly" title=" " alt="" coords="540,105,716,149,715,155,538,110"/>
+<area shape="poly" title=" " alt="" coords="517,107,668,175,803,230,801,235,666,180,514,112"/>
+<area shape="poly" title=" " alt="" coords="450,114,398,154,395,149,446,110"/>
+<area shape="poly" title=" " alt="" coords="848,178,895,192,934,211,948,223,956,236,956,251,946,267,923,280,880,290,757,307,614,319,493,326,493,321,614,313,756,302,879,285,921,275,943,263,951,250,951,238,944,227,932,216,893,197,846,183"/>
+<area shape="rect" href="a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="741,313,927,339"/>
+<area shape="poly" title=" " alt="" coords="837,272,837,313,831,313,831,272"/>
+<area shape="poly" title=" " alt="" coords="346,187,274,227,271,223,343,182"/>
+<area shape="poly" title=" " alt="" coords="426,180,558,230,556,235,425,185"/>
+<area shape="poly" title=" " alt="" coords="390,190,430,312,425,314,385,192"/>
+<area shape="poly" title=" " alt="" coords="466,177,724,223,764,230,763,235,723,228,465,182"/>
+</map>
+</div>
+</div>
+<p><a href="a00776_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03875.html">lumex::core::smart_ptr::detail::esft_none_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of the probe when a class has no <code><a class="el" href="a03871.html" title="Base class that gives an object access to the shared_ptr that owns it.">enable_shared_from_this</a></code> base.  <a href="a03875.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03879.html">lumex::core::smart_ptr::detail::esft_found_t&lt; U &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of the probe: the class has a base <code><a class="el" href="a03871.html" title="Base class that gives an object access to the shared_ptr that owns it.">enable_shared_from_this</a>&lt;U&gt;</code>.  <a href="a03879.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03883.html">lumex::core::smart_ptr::detail::esft_probe_result&lt; Y &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The probe result for <code>Y</code>: <code><a class="el" href="a03879.html" title="Result of the probe: the class has a base enable_shared_from_this&lt;U&gt;.">esft_found_t</a>&lt;U&gt;</code> or <code><a class="el" href="a03875.html" title="Result of the probe when a class has no enable_shared_from_this base.">esft_none_t</a></code>.  <a href="a03883.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03887.html">lumex::core::smart_ptr::detail::is_std_esft_only&lt; Y &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03891.html">lumex::core::smart_ptr::detail::esft_dispatch&lt; Y, Probe &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the weak reference of the <code><a class="el" href="a03871.html" title="Base class that gives an object access to the shared_ptr that owns it.">enable_shared_from_this</a></code> base of <code>Y</code>, if it has one.  <a href="a03891.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03895.html">lumex::core::smart_ptr::detail::esft_dispatch&lt; Y, esft_found_t&lt; U &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03899.html">lumex::core::smart_ptr::detail::access</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The friend of the pointer classes (see the file text).  <a href="a03899.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03903.html">lumex::core::smart_ptr::detail::access::adopt_tag_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The tag of the private constructors that take over a count.  <a href="a03903.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01425.html">lumex</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01488.html">lumex::core</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01562.html">lumex::core::smart_ptr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01563.html">lumex::core::smart_ptr::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c0f810a88ce8c5badd5267e9ea27274" id="r_a7c0f810a88ce8c5badd5267e9ea27274"><td class="memTemplParams" colspan="2">template&lt;class U, class Y&gt; </td></tr>
+<tr class="memitem:a7c0f810a88ce8c5badd5267e9ea27274"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="a03879.html">esft_found_t</a>&lt; U &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01563.html#a7c0f810a88ce8c5badd5267e9ea27274">lumex::core::smart_ptr::detail::esft_probe</a> (<a class="el" href="a03871.html">enable_shared_from_this</a>&lt; U &gt; const volatile *, Y *, typename std::enable_if&lt; std::is_convertible&lt; Y *, <a class="el" href="a03871.html">enable_shared_from_this</a>&lt; U &gt; const volatile * &gt;<a class="el" href="a01563.html#a2160fb6c20228d4d5420ff46776554f0">::value</a>, int &gt;::type=0)</td></tr>
+<tr class="separator:a7c0f810a88ce8c5badd5267e9ea27274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0281b7b50b5760926edb697eb292fb65" id="r_a0281b7b50b5760926edb697eb292fb65"><td class="memTemplParams" colspan="2">template&lt;class U, class Y&gt; </td></tr>
+<tr class="memitem:a0281b7b50b5760926edb697eb292fb65"><td class="memTemplItemLeft" align="right" valign="top">std::true_type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01563.html#a0281b7b50b5760926edb697eb292fb65">lumex::core::smart_ptr::detail::std_esft_probe</a> (std::enable_shared_from_this&lt; U &gt; const volatile *, Y *, typename std::enable_if&lt; std::is_convertible&lt; Y *, std::enable_shared_from_this&lt; U &gt; const volatile * &gt;<a class="el" href="a01563.html#a2160fb6c20228d4d5420ff46776554f0">::value</a>, int &gt;::type=0)</td></tr>
+<tr class="separator:a0281b7b50b5760926edb697eb292fb65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a287a156e43b3043948bcd3c47dfb25b1" id="r_a287a156e43b3043948bcd3c47dfb25b1"><td class="memItemLeft" align="right" valign="top">std::false_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01563.html#a287a156e43b3043948bcd3c47dfb25b1">lumex::core::smart_ptr::detail::std_esft_probe</a> (...)</td></tr>
+<tr class="separator:a287a156e43b3043948bcd3c47dfb25b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abecc8c6fa95e845e1c541c78b2bbb129" id="r_abecc8c6fa95e845e1c541c78b2bbb129"><td class="memTemplParams" colspan="2">template&lt;class Y&gt; </td></tr>
+<tr class="memitem:abecc8c6fa95e845e1c541c78b2bbb129"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01563.html#abecc8c6fa95e845e1c541c78b2bbb129">lumex::core::smart_ptr::detail::check_std_enable_shared_from_this</a> () noexcept</td></tr>
+<tr class="memdesc:abecc8c6fa95e845e1c541c78b2bbb129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rejects, with a <code>static_assert</code>, a class that derives from <code>std::enable_shared_from_this</code> and not from the module's own base.  <br /></td></tr>
+<tr class="separator:abecc8c6fa95e845e1c541c78b2bbb129"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a102dd89dfe4d2e0bbedef481dcac422c" id="r_a102dd89dfe4d2e0bbedef481dcac422c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a03875.html">esft_none_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01563.html#a102dd89dfe4d2e0bbedef481dcac422c">lumex::core::smart_ptr::detail::esft_probe</a> (...)</td></tr>
+<tr class="separator:a102dd89dfe4d2e0bbedef481dcac422c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a210b248fe3338b4d5161ae03caad7942" name="a210b248fe3338b4d5161ae03caad7942"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a210b248fe3338b4d5161ae03caad7942">&#9670;&#160;</a></span>lumex_string_view</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef lumex_basic_string_view&lt;char&gt; <a class="el" href="a01396.html#a210b248fe3338b4d5161ae03caad7942">lumex::core::string_view::view::lumex_string_view</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The view of <code>char</code>: the <code>std::string_view</code> of the library. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00776_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00776_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Forward declarations of the pointer classes and <code>detail::access</code>, the friend that gives the split-count engine and the helpers of the module the raw parts of a pointer. </p>
+<p><code>access</code> is the documented <code>detail</code> interface of the family. It is a friend of <code>shared_ptr</code>, <code>weak_ptr</code> and <code>enable_shared_from_this</code>; nothing else in the module reads <code>ptr_</code> and <code>cb_</code> directly. Its functions:</p>
+<ul>
+<li><code>control (p)</code> returns the control block of a <code>shared_ptr</code> or <code>weak_ptr</code> (null for an empty pointer, also for an alias of an empty owner).</li>
+<li><code>adopt&lt;T&gt; (cb, ptr)</code> builds a <code>shared_ptr&lt;T&gt;</code> from a block and a stored pointer and takes over ONE strong count that the caller already owns; <code>adopt_weak&lt;T&gt; (cb, ptr)</code> does the same for a weak count of a <code>weak_ptr&lt;T&gt;</code>. Neither touches the counters.</li>
+<li><code>detach (p, ptr)</code> leaves <code class="param">p</code> empty WITHOUT dropping its count, writes the stored pointer to <code class="param">ptr</code> and returns the block: the count moves to the caller (the hand-over of the engine's <code>exchange</code>). <code>detach_weak</code> is the weak twin.</li>
+<li><code>weak_count (p)</code> is the number of weak pointers of the block.</li>
+<li><code>stored (w)</code> returns the stored pointer of a <code>weak_ptr</code> (it has no <code>get ()</code>).</li>
+</ul>
+<p>The enable_shared_from_this support lives here too: <code>esft_dispatch&lt;Y&gt;</code> finds out whether <code>Y</code> has an accessible, unambiguous base <code>enable_shared_from_this&lt;U&gt;</code> and, if so, assigns the weak reference of that base once ([util.smartptr.shared.const]); <code>is_std_esft_only&lt;Y&gt;</code> tells a class that has <code>std::enable_shared_from_this</code> and no base of the module's own, which <code>shared_ptr (Y *)</code> rejects (see <code>LUMEX_SMART_PTR_ALLOW_STD_ENABLE_SHARED_FROM_THIS</code>). </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_4071ad1724fa0e77f3bdca2354e6ad35.html">json</a></li><li class="navelem"><a class="el" href="a00776.html">example_json_workflow.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_f49348c03cbbd10cc8855c06335ffde3.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_db7881c18c2a54adff974a7e9cb42dee.html">detail</a></li><li class="navelem"><a class="el" href="a00776.html">LumexSmartPtrAccess.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

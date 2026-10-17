@@ -1,0 +1,8 @@
+<map id="LumexSerialTransport.hpp" name="LumexSerialTransport.hpp">
+<area shape="rect" id="Node000001" title="Internal transport seam of the serial prober: the operations the probe engine performs on one port." alt="" coords="87,5,277,31"/>
+<area shape="rect" id="Node000002" href="$a01175.html" title="Internal deadline engine of the serial prober." alt="" coords="5,79,217,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,42,126,80,122,76,158,39"/>
+<area shape="rect" id="Node000003" href="$a01172.html" title=" " alt="" coords="97,152,267,177"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="207,39,221,57,231,78,233,100,225,121,199,154,195,150,220,118,227,99,226,79,216,60,203,42"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="135,112,171,150,167,153,131,116"/>
+</map>

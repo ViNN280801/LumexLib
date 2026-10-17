@@ -1,0 +1,11 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::symlink_status" name="lumex::core::filesystem::fs::lumex_filesystem::symlink_status">
+<area shape="rect" id="Node000001" title="Returns the status of the file or directory at the specified path_arg, without following symbolic lin..." alt="" coords="451,69,625,124"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="575,58,561,51,538,48,518,50,506,55,500,61,500,69,495,69,495,59,503,50,517,45,538,43,563,46,577,54"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a00713b0b594d7d121dc92796b64a5dbf" title="Checks if the specified path_arg refers to a symbolic link." alt="" coords="228,29,403,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="437,81,402,75,403,70,438,76"/>
+<area shape="rect" id="Node000004" href="$a02959.html#a770e7f5ab56d908db7c000b46d29e0a4" title="Retrieves the status of the file system entry, without following symbolic links." alt="" coords="228,108,403,163"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="438,117,403,123,402,118,437,112"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="352,18,339,11,315,8,296,10,283,15,277,21,277,29,272,29,272,19,280,10,294,5,315,3,340,6,355,14"/>
+<area shape="rect" id="Node000003" href="$a02959.html#a360aaef4388ccd6ce4557cefc38cd874" title="Checks if the entry represents a symbolic link." alt="" coords="5,29,180,84"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="215,59,180,59,180,54,215,54"/>
+</map>

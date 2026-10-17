@@ -1,0 +1,13 @@
+<map id="LumexStacktraceEntry.hpp" name="LumexStacktraceEntry.hpp">
+<area shape="rect" id="Node000001" title="Defines the lumex_stacktrace_entry class, representing a single frame in a call stack." alt="" coords="243,5,437,31"/>
+<area shape="rect" id="Node000002" href="$a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="5,86,187,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="302,33,148,84,147,79,301,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="211,86,282,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="327,33,274,79,271,75,323,29"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="307,86,373,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="343,31,343,72,337,72,337,31"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="397,86,456,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="356,29,404,74,401,78,352,33"/>
+<area shape="rect" id="Node000006" href="$a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="480,79,693,119"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="380,28,513,72,512,77,378,33"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::expected::result::failure_t&lt; ErrorType &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02934.html',''); initResizable(true); });
+$(function(){initNavTree('a02931.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,20 +103,307 @@ $(function(){initNavTree('a02934.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::fmt::basic_format_string&lt; Char, Args &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a02928.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::expected::result::failure_t&lt; ErrorType &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02934.html">lumex::core::fmt::basic_format_string&lt; Char, Args &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02934.html#a80ae8b9eeb4c7b0c0350148c047cf345">basic_format_string</a>(Text const &amp;text)</td><td class="entry"><a class="el" href="a02934.html">lumex::core::fmt::basic_format_string&lt; Char, Args &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02934.html#ab2cbb2f15eefb53e60b336d4e5ebb779">basic_format_string</a>(runtime_format_string_t&lt; Char &gt; text) noexcept</td><td class="entry"><a class="el" href="a02934.html">lumex::core::fmt::basic_format_string&lt; Char, Args &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02934.html#aa2015078315d37123ea9d2f663ce34d4">get</a>() const noexcept</td><td class="entry"><a class="el" href="a02934.html">lumex::core::fmt::basic_format_string&lt; Char, Args &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>Marker returned by failure(error): a failed call carrying an error.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00905_source.html">SuccessFailure.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae16573dc8b699a1940dc29c1c149af38" id="r_ae16573dc8b699a1940dc29c1c149af38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae16573dc8b699a1940dc29c1c149af38">failure_t</a> (ErrorType const &amp;<a class="el" href="#a2125233630e584f43f12be8dbe8bbb51">error</a>)</td></tr>
+<tr class="memdesc:ae16573dc8b699a1940dc29c1c149af38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs from a const lvalue error.  <br /></td></tr>
+<tr class="separator:ae16573dc8b699a1940dc29c1c149af38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f1d679ad8c570f4b442991b75be3538" id="r_a0f1d679ad8c570f4b442991b75be3538"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f1d679ad8c570f4b442991b75be3538">failure_t</a> (ErrorType &amp;&amp;<a class="el" href="#a2125233630e584f43f12be8dbe8bbb51">error</a>)</td></tr>
+<tr class="memdesc:a0f1d679ad8c570f4b442991b75be3538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs from an rvalue error.  <br /></td></tr>
+<tr class="separator:a0f1d679ad8c570f4b442991b75be3538"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2125233630e584f43f12be8dbe8bbb51" id="r_a2125233630e584f43f12be8dbe8bbb51"><td class="memItemLeft" align="right" valign="top">ErrorType const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2125233630e584f43f12be8dbe8bbb51">error</a> () const &amp;</td></tr>
+<tr class="memdesc:a2125233630e584f43f12be8dbe8bbb51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stored error (const lvalue).  <br /></td></tr>
+<tr class="separator:a2125233630e584f43f12be8dbe8bbb51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e24d913c429cc1bec13bc2375dd7a89" id="r_a2e24d913c429cc1bec13bc2375dd7a89"><td class="memItemLeft" align="right" valign="top">ErrorType &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e24d913c429cc1bec13bc2375dd7a89">error</a> () &amp;&amp;</td></tr>
+<tr class="memdesc:a2e24d913c429cc1bec13bc2375dd7a89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the stored error (rvalue).  <br /></td></tr>
+<tr class="separator:a2e24d913c429cc1bec13bc2375dd7a89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6514e57aebba9cf12e2cde9ced5b204" id="r_ac6514e57aebba9cf12e2cde9ced5b204"><td class="memTemplParams" colspan="2">template&lt;typename Target, typename TargetError, typename = typename std::enable_if&lt;                std::is_constructible&lt;TargetError, ErrorType &amp;&amp;&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:ac6514e57aebba9cf12e2cde9ced5b204"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac6514e57aebba9cf12e2cde9ced5b204">operator expected&lt; Target, TargetError &gt;</a> () &amp;&amp;</td></tr>
+<tr class="memdesc:ac6514e57aebba9cf12e2cde9ced5b204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion into a failed <code>expected</code> (rvalue marker).  <br /></td></tr>
+<tr class="separator:ac6514e57aebba9cf12e2cde9ced5b204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78cc095e33ac06ca2e66a59dbe8af380" id="r_a78cc095e33ac06ca2e66a59dbe8af380"><td class="memTemplParams" colspan="2">template&lt;typename Target, typename TargetError, typename = typename std::enable_if&lt;std::is_constructible&lt;                TargetError, ErrorType const &amp;&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:a78cc095e33ac06ca2e66a59dbe8af380"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a78cc095e33ac06ca2e66a59dbe8af380">operator expected&lt; Target, TargetError &gt;</a> () const &amp;</td></tr>
+<tr class="memdesc:a78cc095e33ac06ca2e66a59dbe8af380"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion into a failed <code>expected</code> (const lvalue marker).  <br /></td></tr>
+<tr class="separator:a78cc095e33ac06ca2e66a59dbe8af380"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename ErrorType&gt;<br />
+struct lumex::core::expected::result::failure_t&lt; ErrorType &gt;</div><p>Marker returned by failure(error): a failed call carrying an error. </p>
+<p>The stored error does not have to match the target error type exactly - anything the target error type can be built from works, so a literal, a <code>std::string</code> or a richer error type can all be returned the same way. The conversion is implicit by design and removed by SFINAE when the target error type cannot be built from the stored error. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ErrorType</td><td>Stored error type (decayed, never a reference). </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae16573dc8b699a1940dc29c1c149af38" name="ae16573dc8b699a1940dc29c1c149af38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae16573dc8b699a1940dc29c1c149af38">&#9670;&#160;</a></span>failure_t() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02931.html">lumex::core::expected::result::failure_t</a>&lt; ErrorType &gt;::failure_t </td>
+          <td>(</td>
+          <td class="paramtype">ErrorType const &amp;</td>          <td class="paramname"><span class="paramname"><em>error</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs from a const lvalue error. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">error</td><td>Error to store. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Not declared <code>noexcept</code>; throws whatever the copy constructor of <code>ErrorType</code> throws. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02931_ae16573dc8b699a1940dc29c1c149af38_cgraph.png" border="0" usemap="#aa02931_ae16573dc8b699a1940dc29c1c149af38_cgraph" alt=""/></div>
+<map name="aa02931_ae16573dc8b699a1940dc29c1c149af38_cgraph" id="aa02931_ae16573dc8b699a1940dc29c1c149af38_cgraph">
+<area shape="rect" title="Constructs from a const lvalue error." alt="" coords="5,5,172,60"/>
+<area shape="rect" href="a02931.html#a2125233630e584f43f12be8dbe8bbb51" title="Returns the stored error (const lvalue)." alt="" coords="220,13,388,53"/>
+<area shape="poly" title=" " alt="" coords="173,30,206,30,206,35,173,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0f1d679ad8c570f4b442991b75be3538" name="a0f1d679ad8c570f4b442991b75be3538"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f1d679ad8c570f4b442991b75be3538">&#9670;&#160;</a></span>failure_t() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02931.html">lumex::core::expected::result::failure_t</a>&lt; ErrorType &gt;::failure_t </td>
+          <td>(</td>
+          <td class="paramtype">ErrorType &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>error</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs from an rvalue error. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">error</td><td>Error to store. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Not declared <code>noexcept</code>; throws whatever the move constructor of <code>ErrorType</code> throws. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02931_a0f1d679ad8c570f4b442991b75be3538_cgraph.png" border="0" usemap="#aa02931_a0f1d679ad8c570f4b442991b75be3538_cgraph" alt=""/></div>
+<map name="aa02931_a0f1d679ad8c570f4b442991b75be3538_cgraph" id="aa02931_a0f1d679ad8c570f4b442991b75be3538_cgraph">
+<area shape="rect" title="Constructs from an rvalue error." alt="" coords="5,5,172,60"/>
+<area shape="rect" href="a02931.html#a2125233630e584f43f12be8dbe8bbb51" title="Returns the stored error (const lvalue)." alt="" coords="220,13,388,53"/>
+<area shape="poly" title=" " alt="" coords="173,30,206,30,206,35,173,35"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2e24d913c429cc1bec13bc2375dd7a89" name="a2e24d913c429cc1bec13bc2375dd7a89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e24d913c429cc1bec13bc2375dd7a89">&#9670;&#160;</a></span>error() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ErrorType &amp;&amp; <a class="el" href="a02931.html">lumex::core::expected::result::failure_t</a>&lt; ErrorType &gt;::error </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> &amp;&amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the stored error (rvalue). </p>
+<dl class="section return"><dt>Returns</dt><dd>Rvalue reference to the stored <code>ErrorType</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function does not throw. </dd></dl>
+
+</div>
+</div>
+<a id="a2125233630e584f43f12be8dbe8bbb51" name="a2125233630e584f43f12be8dbe8bbb51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2125233630e584f43f12be8dbe8bbb51">&#9670;&#160;</a></span>error() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ErrorType const  &amp; <a class="el" href="a02931.html">lumex::core::expected::result::failure_t</a>&lt; ErrorType &gt;::error </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const &amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the stored error (const lvalue). </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reference to the stored <code>ErrorType</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function does not throw. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a02931_a2125233630e584f43f12be8dbe8bbb51_icgraph.png" border="0" usemap="#aa02931_a2125233630e584f43f12be8dbe8bbb51_icgraph" alt=""/></div>
+<map name="aa02931_a2125233630e584f43f12be8dbe8bbb51_icgraph" id="aa02931_a2125233630e584f43f12be8dbe8bbb51_icgraph">
+<area shape="rect" title="Returns the stored error (const lvalue)." alt="" coords="220,53,388,93"/>
+<area shape="rect" href="a02931.html#a0f1d679ad8c570f4b442991b75be3538" title="Constructs from an rvalue error." alt="" coords="5,5,172,60"/>
+<area shape="poly" title=" " alt="" coords="206,57,172,51,173,46,207,52"/>
+<area shape="rect" href="a02931.html#ae16573dc8b699a1940dc29c1c149af38" title="Constructs from a const lvalue error." alt="" coords="5,84,172,139"/>
+<area shape="poly" title=" " alt="" coords="207,93,173,99,172,94,206,88"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac6514e57aebba9cf12e2cde9ced5b204" name="ac6514e57aebba9cf12e2cde9ced5b204"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6514e57aebba9cf12e2cde9ced5b204">&#9670;&#160;</a></span>operator expected&lt; Target, TargetError &gt;() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<div class="memtemplate">
+template&lt;typename Target, typename TargetError, typename = typename std::enable_if&lt;                std::is_constructible&lt;TargetError, ErrorType &amp;&amp;&gt;::value&gt;::type&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02931.html">lumex::core::expected::result::failure_t</a>&lt; ErrorType &gt;::operator <a class="el" href="a02699.html">expected</a>&lt; Target, TargetError &gt; </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> &amp;&amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion into a failed <code>expected</code> (rvalue marker). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Target</td><td>Success type of the produced <code>expected</code>. </td></tr>
+    <tr><td class="paramname">TargetError</td><td>Error type of the produced <code>expected</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>expected&lt;Target, TargetError&gt;</code> in the error state. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Removed by SFINAE when <code>TargetError</code> cannot be built from <code>ErrorType &amp;&amp;</code>; use the const overload for a named marker. </dd></dl>
+
+</div>
+</div>
+<a id="a78cc095e33ac06ca2e66a59dbe8af380" name="a78cc095e33ac06ca2e66a59dbe8af380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78cc095e33ac06ca2e66a59dbe8af380">&#9670;&#160;</a></span>operator expected&lt; Target, TargetError &gt;() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ErrorType&gt; </div>
+<div class="memtemplate">
+template&lt;typename Target, typename TargetError, typename = typename std::enable_if&lt;std::is_constructible&lt;                TargetError, ErrorType const &amp;&gt;::value&gt;::type&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a02931.html">lumex::core::expected::result::failure_t</a>&lt; ErrorType &gt;::operator <a class="el" href="a02699.html">expected</a>&lt; Target, TargetError &gt; </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const &amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion into a failed <code>expected</code> (const lvalue marker). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Target</td><td>Success type of the produced <code>expected</code>. </td></tr>
+    <tr><td class="paramname">TargetError</td><td>Error type of the produced <code>expected</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>expected&lt;Target, TargetError&gt;</code> in the error state. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Removed by SFINAE when <code>TargetError</code> cannot be built from <code>ErrorType const &amp;</code>. </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00905_source.html">SuccessFailure.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01528.html">expected</a></li><li class="navelem"><a class="el" href="a01532.html">result</a></li><li class="navelem"><a class="el" href="a02931.html">failure_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

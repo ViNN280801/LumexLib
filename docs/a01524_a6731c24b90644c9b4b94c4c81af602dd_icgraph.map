@@ -1,0 +1,6 @@
+<map id="lumex::core::exceptions::Wrapper::detail::report_exception" name="lumex::core::exceptions::Wrapper::detail::report_exception">
+<area shape="rect" id="Node000001" title="Builds &quot;prefix. Reason: what&quot; and reports it." alt="" coords="269,29,448,84"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="400,18,385,11,359,8,337,10,323,15,316,21,316,29,311,29,311,19,320,10,336,5,359,3,386,6,402,14"/>
+<area shape="rect" id="Node000002" href="$a01522.html#afb06f391d20856dda70f63c9b3e13037" title="Calls func(args...), catching and safely reporting any exception it throws instead of letting it prop..." alt="" coords="5,37,221,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,59,221,59,221,54,255,54"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: LumexSmartPtrCtlKinds.hpp File Reference</title>
+<title>LumexLib: example_unicode.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -104,89 +104,130 @@ $(function(){initNavTree('a00491.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">LumexSmartPtrCtlKinds.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">example_unicode.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The control blocks <code>shared_ptr</code> creates: <code>ctl_ptr</code> (a separate object with a deleter), <code>ctl_inplace</code> (the object lives in the block) and <code>ctl_holder</code> (an alias that the split-count engine cannot pack).  
-<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;new&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00488_source.html">lumex/core/smart_ptr/ctl/LumexSmartPtrCtlBase.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00497_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrConfig.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00500_source.html">lumex/core/smart_ptr/detail/LumexSmartPtrTraits.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="a00623_source.html">lumex/core/utility/macros/LumexKeywords.hpp</a>&quot;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="a01415_source.html">lumex/core/unicode/LumexUnicode</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01082_source.html">lumex/core/utility/bit/LumexBit.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for LumexSmartPtrCtlKinds.hpp:</div>
+Include dependency graph for example_unicode.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00492.png" border="0" usemap="#a_lumex_smart_ptr_ctl_kinds_8hpp" alt=""/></div>
+<div class="center"><img src="a00492.png" border="0" usemap="#aexample__unicode_8cpp" alt=""/></div>
+<map name="aexample__unicode_8cpp" id="aexample__unicode_8cpp">
+<area shape="rect" title=" " alt="" coords="1059,5,1223,31"/>
+<area shape="rect" title=" " alt="" coords="5,423,76,449"/>
+<area shape="poly" title=" " alt="" coords="1059,24,796,40,631,53,464,70,308,91,179,116,130,131,92,146,69,163,61,180,61,260,56,342,47,410,42,410,51,342,55,260,55,179,64,159,89,142,128,126,178,111,307,86,463,64,631,48,795,35,1058,19"/>
+<area shape="rect" title=" " alt="" coords="1115,423,1182,449"/>
+<area shape="poly" title=" " alt="" coords="1143,31,1143,179,1143,260,1149,409,1144,410,1138,260,1138,179,1138,31"/>
+<area shape="rect" title=" " alt="" coords="1178,86,1253,111"/>
+<area shape="poly" title=" " alt="" coords="1155,29,1196,73,1192,77,1151,33"/>
+<area shape="rect" title=" " alt="" coords="1277,86,1357,111"/>
+<area shape="poly" title=" " alt="" coords="1170,28,1278,78,1275,83,1167,33"/>
+<area shape="rect" title=" " alt="" coords="1381,86,1455,111"/>
+<area shape="poly" title=" " alt="" coords="1197,28,1279,49,1369,76,1376,78,1374,83,1368,81,1277,54,1195,33"/>
+<area shape="rect" title=" " alt="" coords="994,247,1053,273"/>
+<area shape="poly" title=" " alt="" coords="1122,33,1096,53,1074,80,1054,120,1041,161,1028,234,1023,233,1036,160,1049,118,1069,77,1093,50,1118,29"/>
+<area shape="rect" title=" " alt="" coords="1480,86,1543,111"/>
+<area shape="poly" title=" " alt="" coords="1223,25,1340,44,1468,76,1474,78,1472,83,1467,81,1339,50,1222,30"/>
+<area shape="rect" href="a01415.html" title="Unicode module: transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t,..." alt="" coords="781,79,932,119"/>
+<area shape="poly" title=" " alt="" coords="1096,33,941,77,940,72,1095,28"/>
+<area shape="rect" href="a01082.html" title="Bit helpers. count_leading_zeros (C++11) counts the leading zeros of an unsigned integer of 1,..." alt="" coords="723,328,860,368"/>
+<area shape="poly" title=" " alt="" coords="1139,32,1125,79,1114,139,1111,189,1108,212,1101,235,1087,258,1066,282,1034,301,986,317,874,339,873,334,984,311,1032,296,1063,278,1083,255,1096,233,1103,211,1106,188,1109,138,1119,78,1134,30"/>
+<area shape="rect" href="a01037.html" title="to_utf8 and to_wide: conversion of a wchar_t string to UTF&#45;8 and of a UTF&#45;8 string to wchar_t,..." alt="" coords="731,167,982,192"/>
+<area shape="poly" title=" " alt="" coords="859,119,859,153,854,153,854,119"/>
+<area shape="rect" href="a01034.html" title="Transcoding policies for UTF&#45;8, UTF&#45;16, UTF&#45;32, Latin&#45;1 and wchar_t: counters, writers and decoders t..." alt="" coords="619,240,769,280"/>
+<area shape="poly" title=" " alt="" coords="791,121,753,141,721,168,706,196,699,227,694,226,701,195,717,165,750,136,788,116"/>
+<area shape="poly" title=" " alt="" coords="731,190,517,211,418,225,347,243,262,281,183,329,116,377,68,416,64,412,113,373,180,324,260,276,345,237,417,220,516,206,731,185"/>
+<area shape="poly" title=" " alt="" coords="873,190,1126,412,1122,416,869,194"/>
+<area shape="poly" title=" " alt="" coords="884,190,986,239,984,244,882,195"/>
+<area shape="rect" title=" " alt="" coords="1025,423,1091,449"/>
+<area shape="poly" title=" " alt="" coords="866,191,912,268,946,318,984,366,1033,413,1029,417,980,370,942,321,907,271,861,193"/>
+<area shape="rect" title=" " alt="" coords="793,247,861,273"/>
+<area shape="poly" title=" " alt="" coords="854,193,839,235,834,233,849,191"/>
+<area shape="poly" title=" " alt="" coords="832,195,748,236,746,231,830,190"/>
+<area shape="rect" href="a01073.html" title="Assertion macros: LUMEX_ASSERT, checked at run time, and LUMEX_STATIC_ASSERT and LUMEX_STATIC_ASSERT_..." alt="" coords="359,240,541,280"/>
+<area shape="poly" title=" " alt="" coords="793,195,555,242,554,237,792,189"/>
+<area shape="poly" title=" " alt="" coords="619,273,441,301,354,316,292,331,232,351,174,375,78,419,76,414,172,370,230,346,291,325,353,311,440,295,618,268"/>
+<area shape="poly" title=" " alt="" coords="748,278,1104,414,1109,416,1107,420,1102,418,747,282"/>
+<area shape="poly" title=" " alt="" coords="718,278,761,317,757,321,715,282"/>
+<area shape="poly" title=" " alt="" coords="723,368,710,371,616,383,535,388,398,387,332,387,261,390,182,400,89,419,81,421,79,416,88,413,181,395,261,385,331,381,398,382,535,382,616,377,710,365,722,363"/>
+<area shape="poly" title=" " alt="" coords="861,356,976,379,1104,413,1110,416,1108,421,1103,419,975,384,860,362"/>
+<area shape="poly" title=" " alt="" coords="861,364,1014,413,1019,415,1017,420,1012,419,860,369"/>
+<area shape="rect" title=" " alt="" coords="915,423,1001,449"/>
+<area shape="poly" title=" " alt="" coords="831,366,923,415,921,419,828,371"/>
+<area shape="rect" title=" " alt="" coords="734,423,790,449"/>
+<area shape="poly" title=" " alt="" coords="787,369,773,411,768,410,782,368"/>
+<area shape="rect" title=" " alt="" coords="814,423,891,449"/>
+<area shape="poly" title=" " alt="" coords="808,367,838,411,834,414,803,370"/>
+<area shape="rect" title=" " alt="" coords="617,423,709,449"/>
+<area shape="poly" title=" " alt="" coords="763,371,695,418,692,413,760,366"/>
+<area shape="rect" href="a01106.html" title="C++ language, library and attribute feature availability." alt="" coords="339,416,593,456"/>
+<area shape="poly" title=" " alt="" coords="723,369,554,415,552,410,722,364"/>
+<area shape="rect" href="a01127.html" title="Macros that spell C++ keywords and specifiers only where the compiled standard supports them,..." alt="" coords="101,416,314,456"/>
+<area shape="poly" title=" " alt="" coords="723,368,710,371,605,388,521,397,328,418,327,413,521,392,604,382,710,365,722,363"/>
+<area shape="poly" title=" " alt="" coords="384,283,337,303,293,330,256,367,228,406,224,403,252,364,290,326,335,298,382,278"/>
+<area shape="rect" href="a00746.html" title="Export and linkage macros of LumexLib: LUMEX_API, LUMEX_PUBLIC_API, LUMEX_PUBLIC_C_API,..." alt="" coords="517,335,698,361"/>
+<area shape="poly" title=" " alt="" coords="487,278,574,326,571,331,485,283"/>
+<area shape="rect" href="a01088.html" title="LUMEX_ATTRIBUTE_* macros that spell C++ attributes portably, and the structure packing macros LUMEX_P..." alt="" coords="303,328,493,368"/>
+<area shape="poly" title=" " alt="" coords="440,282,419,317,415,315,436,279"/>
+<area shape="poly" title=" " alt="" coords="460,366,606,413,614,416,612,421,604,419,459,371"/>
+<area shape="poly" title=" " alt="" coords="416,367,444,403,440,407,412,370"/>
+<area shape="poly" title=" " alt="" coords="355,371,264,413,262,408,353,366"/>
+</map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00493.png" border="0" usemap="#a_lumex_smart_ptr_ctl_kinds_8hppdep" alt=""/></div>
-</div>
-</div>
-<p><a href="a00491_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03666.html">lumex::core::smart_ptr::detail::ctl_ptr&lt; P, D, A &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A control block over a pointer, a deleter and an allocator.  <a href="a03666.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03670.html">lumex::core::smart_ptr::detail::ctl_inplace&lt; T, A &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The control block of <code>make_shared</code> / <code>allocate_shared</code>: block and object in one allocation.  <a href="a03670.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03678.html">lumex::core::smart_ptr::detail::ctl_holder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A block that owns one strong reference to another block and the stored pointer of an alias (see the file text).  <a href="a03678.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a03682.html">lumex::core::smart_ptr::detail::ctl_weak_holder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The holder of an alias that the engine of <code><a class="el" href="a00659.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> cannot pack: it owns one WEAK reference to another block and the stored pointer.  <a href="a03682.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">lumex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01311.html">lumex::core</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01385.html">lumex::core::smart_ptr</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01386.html">lumex::core::smart_ptr::detail</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a277e6ded451b01456aadd0d07940efb6" id="r_a277e6ded451b01456aadd0d07940efb6"><td class="memTemplParams" colspan="2">template&lt;class Block, class Alloc, class Make&gt; </td></tr>
-<tr class="memitem:a277e6ded451b01456aadd0d07940efb6"><td class="memTemplItemLeft" align="right" valign="top">Block *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01386.html#a277e6ded451b01456aadd0d07940efb6">lumex::core::smart_ptr::detail::create_block</a> (Alloc const &amp;alloc, Make make)</td></tr>
-<tr class="memdesc:a277e6ded451b01456aadd0d07940efb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates one object of <code class="param">Block</code> with the allocator <code class="param">Alloc</code> rebound to it, constructs it with <code class="param">make</code> and frees the memory if the construction throws.  <br /></td></tr>
-<tr class="separator:a277e6ded451b01456aadd0d07940efb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0c5039f4cc087e18a21196551196d0f" id="r_ab0c5039f4cc087e18a21196551196d0f"><td class="memTemplParams" colspan="2">template&lt;class Block, class Alloc&gt; </td></tr>
-<tr class="memitem:ab0c5039f4cc087e18a21196551196d0f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a01386.html#ab0c5039f4cc087e18a21196551196d0f">lumex::core::smart_ptr::detail::destroy_block</a> (Block *block, Alloc const &amp;alloc) noexcept</td></tr>
-<tr class="memdesc:ab0c5039f4cc087e18a21196551196d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys <code class="param">block</code> and deallocates it with the allocator <code class="param">alloc</code> rebound to the block type.  <br /></td></tr>
-<tr class="separator:ab0c5039f4cc087e18a21196551196d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The control blocks <code>shared_ptr</code> creates: <code>ctl_ptr</code> (a separate object with a deleter), <code>ctl_inplace</code> (the object lives in the block) and <code>ctl_holder</code> (an alias that the split-count engine cannot pack). </p>
-<ul>
-<li><code>ctl_ptr&lt;P, D, A&gt;</code> manages a pointer <code>P</code> (<code>Y *</code>, or <code>std::nullptr_t</code>) with a deleter <code>D</code> and an allocator <code>A</code>, both stored with the empty-base optimization. It answers <code>query</code> for the type of <code>D</code>, which is <code>get_deleter</code>. The block is allocated with <code>A</code> rebound to the block type; <code>shared_ptr (Y *)</code> uses <code>block_allocator</code>.</li>
-<li><code>ctl_inplace&lt;T, A&gt;</code> is the single allocation of <code>make_shared</code> and <code>allocate_shared</code>: the object is constructed in the block through <code>allocator_traits&lt;A&gt;::construct</code> (an allocator rebound to the value type) and destroyed through <code>allocator_traits&lt;A&gt;::destroy</code>. <code>get_deleter</code> finds nothing in it, as in the standard libraries.</li>
-<li><code>ctl_holder</code> is a block that owns one strong reference to another block and the stored pointer of an alias. The engine installs it in an atomic smart pointer when the pointer is too far from the anchor of its block to be packed; a reader ticks the holder, reads <code>owner ()</code> and <code>pointer ()</code>, and takes its count on the owner. Disposing the holder drops the owner reference, unless the engine took it over with <code>disown ()</code> (the atomic word's dropper or the result of an exchange then owns it).</li>
-<li><code>ctl_weak_holder</code> is the twin for weak pointers: it owns one weak reference to another block (<code>add_weak</code> in <code>create</code>, <code>release_weak</code> in <code>dispose</code>).</li>
-</ul>
-<p>Allocators must have raw pointers as <code>allocator_traits&lt;A&gt;::pointer</code>; fancy pointers are not supported (a <code>static_assert</code> says so). The allocator is copied into the block and a rebound copy is used to deallocate, as the standard requires. </p>
-</div></div><!-- contents -->
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00491_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#aa00491_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="aa00491_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="aa00491_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,69,60,94"/>
+<area shape="rect" href="a01587.html#abc5424148a3c93bf6ba9afb098dd93a6" title="Reverses the byte order of an integral value (byte swap / endianness reverse), C++11 form." alt="" coords="113,29,258,69"/>
+<area shape="poly" title=" " alt="" coords="60,73,98,65,99,70,61,78"/>
+<area shape="rect" href="a01587.html#aeb7c418e8ef454625d57b7b098e59e04" title="Tells whether the machine stores the least significant byte of an integer first (little endian)." alt="" coords="108,93,263,133"/>
+<area shape="poly" title=" " alt="" coords="61,85,95,92,94,97,60,90"/>
+<area shape="poly" title=" " alt="" coords="156,29,154,20,159,11,169,5,185,3,204,6,214,13,210,17,202,11,185,8,171,10,163,14,160,21,161,28"/>
+<area shape="rect" href="a01588.html#aff30e8b7fe645acb0375d1c7f82f0c1b" title="One&#45;byte value: nothing to reverse." alt="" coords="311,29,489,69"/>
+<area shape="poly" title=" " alt="" coords="258,47,297,47,297,52,258,52"/>
+</map>
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_2eed78fa94d1e9faad02cb0657b7390b.html">core</a></li><li class="navelem"><a class="el" href="dir_f49348c03cbbd10cc8855c06335ffde3.html">smart_ptr</a></li><li class="navelem"><a class="el" href="dir_971c198ac626f07d7f35b23acadbfbbd.html">ctl</a></li><li class="navelem"><a class="el" href="a00491.html">LumexSmartPtrCtlKinds.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_f81308c61c81f97e0b9d0bb0d46de873.html">lumex</a></li><li class="navelem"><a class="el" href="dir_e8ae4df8b8335e2a73ecf531ee4a4a97.html">examples</a></li><li class="navelem"><a class="el" href="dir_96974dbd24a5b5597024f342fa6acb49.html">unicode</a></li><li class="navelem"><a class="el" href="a00491.html">example_unicode.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

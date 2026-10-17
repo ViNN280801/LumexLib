@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LumexLib: Member List</title>
+<title>LumexLib: lumex::core::crc::parametric::crc5_usb_spec_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.0.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('a02154.html',''); initResizable(true); });
+$(function(){initNavTree('a02151.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,25 +103,223 @@ $(function(){initNavTree('a02154.html',''); initResizable(true); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc10_atm_spec_t Member List</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="a02148.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lumex::core::crc::parametric::crc5_usb_spec_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a02154.html#a8807bf6b65f3a6a5de8db702b586946f">kCatalogCheck</a></td><td class="entry"><a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02154.html#a61163027d32e583d775ac5a1ea8c85b6">kInit</a></td><td class="entry"><a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02154.html#a14d2fc31e03405ba2cc8d5c73f3bba85">kPoly</a></td><td class="entry"><a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02154.html#a3f9f8d527dfa5de2cba1b7a6b4d21bc3">kRefIn</a></td><td class="entry"><a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02154.html#abc9362628611d9b0855a9f62ebb9ecfe">kRefOut</a></td><td class="entry"><a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02154.html#a0d66512824ccf0609472c5c2daf57617">kWidth</a></td><td class="entry"><a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a02154.html#aa2d47e1aeb4d78f2856d773c9a443b4f">kXorOut</a></td><td class="entry"><a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="a02154.html#a8710fc6b59de6fde344643aff4080dca">ValueType</a> typedef</td><td class="entry"><a class="el" href="a02154.html">lumex::core::crc::parametric::crc10_atm_spec_t</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>CRC-5/USB: width=5 poly=0x05 init=0x1f refin=true refout=true xorout=0x1f.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="a00944_source.html">LumexCrcParametric.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a2e2f814c4581e355cf54817b88b22aa1" id="r_a2e2f814c4581e355cf54817b88b22aa1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e2f814c4581e355cf54817b88b22aa1">ValueType</a> = std::uint8_t</td></tr>
+<tr class="separator:a2e2f814c4581e355cf54817b88b22aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:aa1d026e761a42804ae3d572c45913b5d" id="r_aa1d026e761a42804ae3d572c45913b5d"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1d026e761a42804ae3d572c45913b5d">kWidth</a> = 5</td></tr>
+<tr class="separator:aa1d026e761a42804ae3d572c45913b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45eeacf99abcfd7633033ce39bce87f1" id="r_a45eeacf99abcfd7633033ce39bce87f1"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45eeacf99abcfd7633033ce39bce87f1">kPoly</a> = 0x05U</td></tr>
+<tr class="separator:a45eeacf99abcfd7633033ce39bce87f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c0b0efb9622027982327a787ca9decf" id="r_a7c0b0efb9622027982327a787ca9decf"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c0b0efb9622027982327a787ca9decf">kInit</a> = 0x1FU</td></tr>
+<tr class="separator:a7c0b0efb9622027982327a787ca9decf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5d2399ab1b0b44562c72f5e389930a0" id="r_ac5d2399ab1b0b44562c72f5e389930a0"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5d2399ab1b0b44562c72f5e389930a0">kRefIn</a> = true</td></tr>
+<tr class="separator:ac5d2399ab1b0b44562c72f5e389930a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89d70b27739dc9de6b9c27446a5fde55" id="r_a89d70b27739dc9de6b9c27446a5fde55"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89d70b27739dc9de6b9c27446a5fde55">kRefOut</a> = true</td></tr>
+<tr class="separator:a89d70b27739dc9de6b9c27446a5fde55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3358dfbf8af2c3c8f0936142257759b8" id="r_a3358dfbf8af2c3c8f0936142257759b8"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3358dfbf8af2c3c8f0936142257759b8">kXorOut</a> = 0x1FU</td></tr>
+<tr class="separator:a3358dfbf8af2c3c8f0936142257759b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa72651ebbf203542caf9f7fa935cead4" id="r_aa72651ebbf203542caf9f7fa935cead4"><td class="memItemLeft" align="right" valign="top">static constLUMEX_CONSTINITstd::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa72651ebbf203542caf9f7fa935cead4">kCatalogCheck</a> = 0x19U</td></tr>
+<tr class="separator:aa72651ebbf203542caf9f7fa935cead4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>CRC-5/USB: width=5 poly=0x05 init=0x1f refin=true refout=true xorout=0x1f. </p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://reveng.sourceforge.io/crc-catalogue/all.htm">https://reveng.sourceforge.io/crc-catalogue/all.htm</a> - CRC-5/USB </dd></dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a2e2f814c4581e355cf54817b88b22aa1" name="a2e2f814c4581e355cf54817b88b22aa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e2f814c4581e355cf54817b88b22aa1">&#9670;&#160;</a></span>ValueType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a2e2f814c4581e355cf54817b88b22aa1">lumex::core::crc::parametric::crc5_usb_spec_t::ValueType</a> = std::uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="aa72651ebbf203542caf9f7fa935cead4" name="aa72651ebbf203542caf9f7fa935cead4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa72651ebbf203542caf9f7fa935cead4">&#9670;&#160;</a></span>kCatalogCheck</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::uint8_t lumex::core::crc::parametric::crc5_usb_spec_t::kCatalogCheck = 0x19U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7c0b0efb9622027982327a787ca9decf" name="a7c0b0efb9622027982327a787ca9decf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c0b0efb9622027982327a787ca9decf">&#9670;&#160;</a></span>kInit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc5_usb_spec_t::kInit = 0x1FU</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a45eeacf99abcfd7633033ce39bce87f1" name="a45eeacf99abcfd7633033ce39bce87f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45eeacf99abcfd7633033ce39bce87f1">&#9670;&#160;</a></span>kPoly</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc5_usb_spec_t::kPoly = 0x05U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac5d2399ab1b0b44562c72f5e389930a0" name="ac5d2399ab1b0b44562c72f5e389930a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5d2399ab1b0b44562c72f5e389930a0">&#9670;&#160;</a></span>kRefIn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc5_usb_spec_t::kRefIn = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89d70b27739dc9de6b9c27446a5fde55" name="a89d70b27739dc9de6b9c27446a5fde55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89d70b27739dc9de6b9c27446a5fde55">&#9670;&#160;</a></span>kRefOut</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITbool lumex::core::crc::parametric::crc5_usb_spec_t::kRefOut = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa1d026e761a42804ae3d572c45913b5d" name="aa1d026e761a42804ae3d572c45913b5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1d026e761a42804ae3d572c45913b5d">&#9670;&#160;</a></span>kWidth</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITint lumex::core::crc::parametric::crc5_usb_spec_t::kWidth = 5</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3358dfbf8af2c3c8f0936142257759b8" name="a3358dfbf8af2c3c8f0936142257759b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3358dfbf8af2c3c8f0936142257759b8">&#9670;&#160;</a></span>kXorOut</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constLUMEX_CONSTINITstd::uint64_t lumex::core::crc::parametric::crc5_usb_spec_t::kXorOut = 0x1FU</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="a00944_source.html">LumexCrcParametric.hpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a01425.html">lumex</a></li><li class="navelem"><a class="el" href="a01488.html">core</a></li><li class="navelem"><a class="el" href="a01512.html">crc</a></li><li class="navelem"><a class="el" href="a01515.html">parametric</a></li><li class="navelem"><a class="el" href="a02151.html">crc5_usb_spec_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

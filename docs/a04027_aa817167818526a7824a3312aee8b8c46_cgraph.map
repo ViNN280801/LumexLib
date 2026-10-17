@@ -1,0 +1,9 @@
+<map id="lumex::core::span::view::span::subspan" name="lumex::core::span::view::span::subspan">
+<area shape="rect" id="Node000001" title="The elements from offset on, count of them or all the rest." alt="" coords="5,5,159,45"/>
+<area shape="rect" id="Node000002" href="$a04027.html#a6f7600a90e7ecaae32edf5924fcfa612" title="Constructs an empty span." alt="" coords="408,5,555,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,11,206,7,283,3,360,7,395,10,394,15,360,12,283,9,207,12,159,17"/>
+<area shape="rect" id="Node000003" href="$a04027.html#a13a83ffe79d91fd182648cca8911f850" title="The elements from Offset on, Count of them or all the rest, as a span of static extent where the size..." alt="" coords="207,45,360,85"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="159,38,194,45,193,50,158,43"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="360,47,394,40,395,45,361,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="246,46,244,36,250,27,263,21,283,19,307,22,319,29,317,34,305,27,283,24,264,26,253,31,249,37,251,44"/>
+</map>

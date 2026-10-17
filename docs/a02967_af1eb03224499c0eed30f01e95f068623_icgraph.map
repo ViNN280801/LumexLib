@@ -1,0 +1,15 @@
+<map id="lumex::core::filesystem::fs::lumex_filesystem::copy_file" name="lumex::core::filesystem::fs::lumex_filesystem::copy_file">
+<area shape="rect" id="Node000001" title="Copies a single file from one location to another." alt="" coords="481,87,656,141"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="608,76,594,68,569,65,547,67,534,72,528,78,528,87,522,87,523,76,531,68,546,62,569,60,596,63,611,71"/>
+<area shape="rect" id="Node000002" href="$a02967.html#a52e549d1699eefae69e6a33e2b8822a4" title="Recursively copies a file or a directory (and its contents) from one location to another." alt="" coords="228,37,433,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="467,92,413,79,414,74,469,87"/>
+<area shape="rect" id="Node000004" href="$a00260.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="303,101,358,127"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="468,117,358,117,358,111,468,111"/>
+<area shape="rect" id="Node000005" href="$a02967.html#a538ee94b70991213bf07c01bc51b3af4" title="Moves a file from one location to another." alt="" coords="243,175,418,229"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="483,149,406,177,404,172,481,144"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="371,25,357,18,331,15,308,17,294,22,289,28,292,36,286,37,284,27,291,18,307,12,331,10,358,13,373,20"/>
+<area shape="rect" id="Node000003" href="$a02967.html#ac1050fc7fb4e882f6b23a9ad965f9e6c" title="Moves a directory and its contents from one location to another." alt="" coords="5,29,180,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="214,59,180,59,180,54,214,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="132,18,118,11,93,8,71,10,58,15,52,21,52,29,46,29,47,19,55,10,70,5,93,3,120,6,135,14"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="370,164,356,156,331,153,309,155,296,160,290,166,290,175,284,175,285,164,293,156,308,150,331,148,358,151,373,159"/>
+</map>

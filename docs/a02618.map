@@ -1,0 +1,9 @@
+<map id="lumex::core::exceptions::exception::lumex_base_exception" name="lumex::core::exceptions::exception::lumex_base_exception">
+<area shape="rect" id="Node000001" title="Base exception that records the stack where it was constructed." alt="" coords="107,79,288,133"/>
+<area shape="rect" id="Node000003" href="$a04959.html" title=" " alt="" coords="5,181,187,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,144,113,183,109,179,154,140"/>
+<area shape="rect" id="Node000004" href="$a04963.html" title=" " alt="" coords="211,181,389,207"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="241,140,287,179,283,183,238,144"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="140,5,255,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,45,200,78,195,78,195,45"/>
+</map>

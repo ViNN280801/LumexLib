@@ -1,0 +1,6 @@
+<map id="lumex::core::atomic::sync::table_wait::Detail::wait_until_changed" name="lumex::core::atomic::sync::table_wait::Detail::wait_until_changed">
+<area shape="rect" id="Node000001" title="Blocks the calling thread while word holds old." alt="" coords="208,29,403,84"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="342,18,329,11,305,8,286,10,273,15,267,21,267,29,262,29,262,19,270,10,284,5,305,3,330,6,345,14"/>
+<area shape="rect" id="Node000002" href="$a02031.html#ae648a43fbb445ff49b32ce6409112165" title="Takes the lock, sleeping while another thread holds it." alt="" coords="5,29,160,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,59,160,59,160,54,194,54"/>
+</map>

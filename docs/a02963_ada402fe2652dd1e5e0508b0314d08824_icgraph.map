@@ -1,0 +1,5 @@
+<map id="lumex::core::filesystem::fs::directory_iterator::operator&#45;&gt;" name="lumex::core::filesystem::fs::directory_iterator::operator&#45;&gt;">
+<area shape="rect" id="Node000001" title="Dereferences the iterator to access members of the current directory_entry." alt="" coords="228,5,403,60"/>
+<area shape="rect" id="Node000002" href="$a02963.html#a4c31283f1efcbbbb0902c3554998e1f3" title="Default destructor. Closes the directory handle/stream if open." alt="" coords="5,5,180,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,35,180,35,180,30,215,30"/>
+</map>

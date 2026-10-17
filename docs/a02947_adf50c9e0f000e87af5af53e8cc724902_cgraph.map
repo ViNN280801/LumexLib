@@ -1,0 +1,14 @@
+<map id="lumex::core::filesystem::fs::path::is_relative" name="lumex::core::filesystem::fs::path::is_relative">
+<area shape="rect" id="Node000001" title="Checks if the path is a relative path." alt="" coords="5,37,180,77"/>
+<area shape="rect" id="Node000002" href="$a02947.html#a5b47ccd46e0f3a7e8d45973bab171356" title="Checks if the path is an absolute path." alt="" coords="228,37,403,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,55,214,55,214,60,180,60"/>
+<area shape="rect" id="Node000003" href="$a02947.html#a190cfff3cd6b0d076ebbfcc2daf07796" title="Checks if the path has a root directory component." alt="" coords="451,5,659,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="402,43,437,38,437,44,403,48"/>
+<area shape="rect" id="Node000004" href="$a02947.html#aa63fa785a22979bf2238c68f73c0d426" title="Checks if the path has a root name component." alt="" coords="461,69,648,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="403,66,448,72,447,78,402,72"/>
+<area shape="rect" id="Node000005" href="$a02947.html#aef30bd7f207328b1373169bdd34a9863" title="Extracts the root name component from the path." alt="" coords="707,69,881,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="648,87,693,87,693,92,648,92"/>
+<area shape="rect" id="Node000006" href="$a02947.html#a3b470303c0431f218eeebe77b8acd417" title="Default constructor. Constructs an empty path." alt="" coords="929,69,1104,109"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="881,87,916,87,916,92,881,92"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="975,70,973,60,979,50,994,45,1017,43,1043,46,1057,53,1054,58,1041,51,1017,48,995,50,983,55,978,61,980,68"/>
+</map>

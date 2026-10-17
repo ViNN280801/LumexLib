@@ -1,0 +1,27 @@
+<map id="lumex::applied::hardware::caps::HardwareCapabilities::apply_optimal_rendering_settings" name="lumex::applied::hardware::caps::HardwareCapabilities::apply_optimal_rendering_settings">
+<area shape="rect" id="Node000001" title="Automatically configures optimal rendering settings based on detected hardware." alt="" coords="5,299,256,353"/>
+<area shape="rect" id="Node000002" href="$a01759.html#aafb110cd6feeb2ab91305f27352b9118" title="Log an INFO&#45;level message." alt="" coords="860,255,1047,295"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,316,846,279,847,285,256,321"/>
+<area shape="rect" id="Node000004" href="$a01711.html#abe50368bd4ba1088c99e329d0fc5deb4" title="Determines whether software rendering should be used instead of hardware acceleration." alt="" coords="304,183,540,237"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="198,296,339,240,341,245,200,301"/>
+<area shape="rect" id="Node000011" href="$a01759.html#a8e7bac7289460386a2e59d59c388d4b6" title="Log a SUCCESS&#45;level message (custom level)." alt="" coords="316,363,528,403"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="257,348,307,358,306,363,256,353"/>
+<area shape="rect" id="Node000003" href="$a01570.html#a5c0b80a6f74a32424bed62d7597a6759" title="Concatenates the streamed text of args." alt="" coords="1113,255,1257,295"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1047,273,1099,273,1099,278,1047,278"/>
+<area shape="poly" id="edge9_Node000004_Node000002" title=" " alt="" coords="529,235,588,246,722,261,847,269,846,275,722,267,588,251,528,240"/>
+<area shape="rect" id="Node000005" href="$a01711.html#af3c48849b42dbcc0651429190b4a86b9" title="Performs comprehensive system hardware detection and analysis." alt="" coords="591,39,799,93"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="459,180,518,142,587,104,602,96,605,101,589,108,521,147,462,185"/>
+<area shape="rect" id="Node000009" href="$a01711.html#a2947a856c7b322f8ed0f3135d34b389f" title="Determines if CPU belongs to legacy/outdated processor family." alt="" coords="591,183,799,237"/>
+<area shape="poly" id="edge10_Node000004_Node000009" title=" " alt="" coords="540,207,577,207,577,213,540,213"/>
+<area shape="rect" id="Node000010" href="$a01759.html#af4fec23e76323ffee4eaf2aaf716eb15" title="Log a WARNING&#45;level message." alt="" coords="588,118,801,158"/>
+<area shape="poly" id="edge11_Node000004_Node000010" title=" " alt="" coords="525,180,605,159,606,164,527,185"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="781,91,803,104,843,136,880,173,935,242,930,246,876,177,840,140,800,108,778,96"/>
+<area shape="rect" id="Node000006" href="$a01711.html#ae7ff4b9ce7d8a1f9749c1f01a0e2d182" title="Estimates CPU generation year based on processor model name analysis." alt="" coords="849,5,1057,60"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="798,50,835,45,836,50,799,55"/>
+<area shape="rect" id="Node000007" href="$a01584.html#ac45f6767d3472ac2a5e6a2f83408b678" title="Converts length characters of a wchar_t string to UTF&#45;8." alt="" coords="874,85,1033,125"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="799,79,861,88,860,93,798,84"/>
+<area shape="rect" id="Node000008" href="$a04315.html#ad5dbca37fafcc821a3b5fb7e4d438979" title=" " alt="" coords="1105,77,1264,132"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="1033,102,1092,102,1092,107,1033,107"/>
+<area shape="poly" id="edge12_Node000010_Node000003" title=" " alt="" coords="767,156,1101,249,1099,254,766,161"/>
+<area shape="poly" id="edge14_Node000011_Node000003" title=" " alt="" coords="528,372,771,347,914,328,1057,305,1099,296,1100,301,1058,310,915,333,771,352,529,377"/>
+</map>

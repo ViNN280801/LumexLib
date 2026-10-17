@@ -1,0 +1,14 @@
+<map id="lumex::core::fmt::Detail::tuple_each::parse" name="lumex::core::fmt::Detail::tuple_each::parse">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,183,77"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="52,38,49,28,56,18,71,13,94,11,120,14,135,21,132,26,119,19,94,16,72,18,59,23,54,29,57,36"/>
+<area shape="rect" id="Node000002" href="$a01541.html#a9f50b7954e7a7d96e6c93d2bc753684f" title="Gives an element formatter its default specification: ? for strings / characters, empty otherwise." alt="" coords="231,37,411,77"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="183,55,217,55,217,60,183,60"/>
+<area shape="rect" id="Node000003" href="$a01541.html#a850a62ba4ff1de10c8f213a64c8aa544" title="Strings and characters print quoted inside ranges and tuples." alt="" coords="459,37,641,77"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="411,55,445,55,445,60,411,60"/>
+<area shape="rect" id="Node000004" href="$a01541.html#a09714a12a6e0072636b67fef0440066e" title="Storage kind of a built&#45;in type T (decayed) for character type Char, or ArgKind::none when T is not b..." alt="" coords="689,37,867,77"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="641,55,676,55,676,60,641,60"/>
+<area shape="rect" id="Node000005" href="$a01541.html#a24e1689d8a19eee3efc71c48ef7c5efe" title=" " alt="" coords="919,5,1097,45"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="867,42,906,37,906,42,867,48"/>
+<area shape="rect" id="Node000006" href="$a01541.html#aad5f22f79a0e3ad34115a809dd6d25d8" title=" " alt="" coords="915,69,1101,109"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="867,67,901,72,901,77,867,72"/>
+</map>

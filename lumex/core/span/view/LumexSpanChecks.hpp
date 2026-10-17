@@ -70,7 +70,9 @@
  * Every translation unit of one program must see the same value: the members
  * of `span` are inline templates, and two units that differ would hand the
  * linker two bodies of one function (MSVC reports a mismatch at link time
- * through `detect_mismatch`, GCC and Clang do not detect it). A violated
+ * through `detect_mismatch` in the translation units of a program; the
+ * compiled modules of LumexLib do not record the value, see
+ * `LUMEX_SPAN_NO_MISMATCH_GUARD`; GCC and Clang do not detect it). A violated
  * check calls the inline handler of this header: it needs nothing to link.
  */
 #ifndef LUMEX_SPAN_CHECKS
@@ -81,7 +83,34 @@
 #endif
 #endif
 
-#if defined(_MSC_VER)
+/**
+ * @def LUMEX_SPAN_NO_MISMATCH_GUARD
+ * @brief Defined to drop the `detect_mismatch` record of `LUMEX_SPAN_CHECKS`
+ * from a translation unit.
+ * @details On MSVC every translation unit that includes this header records
+ * the value of `LUMEX_SPAN_CHECKS` (`#pragma detect_mismatch`), and the linker
+ * rejects objects that disagree (LNK2038). The compiled modules of LumexLib
+ * include this header too (through `LumexUtility`), and their inline span code
+ * calls only `data ()` and `size ()`, which are never checked, so what they
+ * record would only make a program built with `-DLUMEX_SPAN_CHECKS=1` fail to
+ * link against a prebuilt module. The build of the library defines this macro
+ * on its own targets; a consumer does not define it, so the mismatch between
+ * the consumer's translation units is still found. The macro has no other
+ * effect.
+ * @def LUMEX_SPAN_MISMATCH_GUARD
+ * @brief 1 when a translation unit records the value of `LUMEX_SPAN_CHECKS`
+ * for the linker (MSVC only), 0 when it does not. Informational: computed from
+ * `LUMEX_SPAN_NO_MISMATCH_GUARD`, defined on every compiler so that the
+ * plumbing can be tested without MSVC; on a compiler other than MSVC nothing
+ * is recorded whatever the value is.
+ */
+#if defined(LUMEX_SPAN_NO_MISMATCH_GUARD)
+#define LUMEX_SPAN_MISMATCH_GUARD 0
+#else
+#define LUMEX_SPAN_MISMATCH_GUARD 1
+#endif
+
+#if defined(_MSC_VER) && LUMEX_SPAN_MISMATCH_GUARD
 #if LUMEX_SPAN_CHECKS
 #pragma detect_mismatch("LUMEX_SPAN_CHECKS", "1")
 #else
@@ -103,16 +132,17 @@ namespace detail
 /**
  * @brief The handler of a violated precondition: prints
  * `LUMEX_SPAN_CHECKS: <condition> failed at <file>:<line>` to standard error
- * and aborts. It returns `int` (never reached) so that the check can be
- * `static_cast<void> (condition ? 0 : check_failed (...))`, a cast that is not
- * a no-op on every compiler (`-Wuseless-cast`). Not `constexpr`, so a violated
- * check in a constant expression is a compile error. On the MSVC debug runtime
- * `std::abort` may show a modal dialog.
+ * and aborts. It returns `void`, so the check is the conditional
+ * `condition ? static_cast<void> (0) : check_failed (...)`: both operands are
+ * `void` and no cast of a `void` expression is needed (`-Wuseless-cast`), and
+ * `[[noreturn]]` goes with a `void` return on MSVC (C4646). Not `constexpr`,
+ * so a violated check in a constant expression is a compile error. On the MSVC
+ * debug runtime `std::abort` may show a modal dialog.
  * @param condition The text of the failed condition.
  * @param file The source file of the check.
  * @param line The line of the check.
  */
-LUMEX_ATTRIBUTE_NORETURN inline int
+LUMEX_ATTRIBUTE_NORETURN inline void
 check_failed (char const *condition, char const *file, int line) LUMEX_NOEXCEPT
 {
 #if defined(__clang__)
@@ -149,10 +179,9 @@ check_failed (char const *condition, char const *file, int line) LUMEX_NOEXCEPT
  */
 #if LUMEX_SPAN_CHECKS
 #define LUMEX_SPAN_CHECKED(condition, ...)                                    \
-  (static_cast<void> ((condition)                                             \
-                          ? 0                                                 \
-                          : ::lumex::core::span::view::detail::check_failed ( \
-                                #condition, __FILE__, __LINE__)),             \
+  ((condition) ? static_cast<void> (0)                                        \
+               : ::lumex::core::span::view::detail::check_failed (            \
+                     #condition, __FILE__, __LINE__),                         \
    __VA_ARGS__)
 #else
 #define LUMEX_SPAN_CHECKED(condition, ...) (__VA_ARGS__)

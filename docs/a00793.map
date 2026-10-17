@@ -1,0 +1,42 @@
+<map id="LumexAtomicSmartPtrConfig.hpp" name="LumexAtomicSmartPtrConfig.hpp">
+<area shape="rect" id="Node000001" title="The one place that decides which engines exist and which one the common names atomic_shared_ptr and a..." alt="" coords="799,5,1037,31"/>
+<area shape="rect" id="Node000002" href="$a00806.html" title="atomic_shared_ptr&lt;T&gt; and its engines (atomic_shared_ptr_lock_free, atomic_shared_ptr_lock_based,..." alt="" coords="82,159,285,185"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="785,26,604,44,504,60,407,81,350,99,295,121,209,161,207,157,293,116,348,94,405,76,503,54,603,39,784,21"/>
+<area shape="rect" id="Node000007" href="$a00800.html" title="The immutable heap box of the lock&#45;free engine, and the policies that say when a replaced box is dest..." alt="" coords="733,79,956,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="897,42,860,80,856,76,894,39"/>
+<area shape="rect" id="Node000008" href="$a00821.html" title="The lock&#45;free engine behind atomic_shared_ptr_lock_free and atomic_weak_ptr_lock_free: an immutable h..." alt="" coords="578,152,805,192"/>
+<area shape="poly" id="edge15_Node000001_Node000008" title=" " alt="" coords="843,36,772,57,743,68,724,81,712,97,703,115,695,152,690,151,698,114,707,94,720,77,740,64,770,52,842,31"/>
+<area shape="rect" id="Node000009" href="$a00794.html" title="Storage and operations behind atomic_shared_ptr_lock_based, atomic_weak_ptr_lock_based and the *_std_..." alt="" coords="437,79,660,104"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="842,36,614,81,613,76,840,31"/>
+<area shape="rect" id="Node000010" href="$a00803.html" title="The equivalence traits of the module&#39;s own pointer family (lumex::core::smart_ptr::shared_ptr / weak_..." alt="" coords="829,152,1042,192"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="945,39,960,57,971,78,974,98,970,119,953,153,948,151,965,117,969,98,966,79,956,60,941,42"/>
+<area shape="rect" id="Node000011" href="$a00797.html" title="atomic_weak_ptr&lt;T&gt; and its engines (atomic_weak_ptr_lock_free, atomic_weak_ptr_lock_based,..." alt="" coords="309,159,503,185"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="785,29,564,50,474,64,444,72,428,81,415,98,409,119,407,159,402,159,404,118,411,96,424,77,442,67,473,59,564,45,785,24"/>
+<area shape="rect" id="Node000012" href="$a00809.html" title="The split&#45;count engine behind atomic_shared_ptr_lock_free_split_count and atomic_weak_ptr_lock_free_s..." alt="" coords="1122,240,1309,265"/>
+<area shape="poly" id="edge18_Node000001_Node000012" title=" " alt="" coords="946,38,991,77,1047,136,1071,161,1106,190,1148,217,1188,238,1186,242,1146,221,1103,194,1068,165,1043,139,987,81,942,42"/>
+<area shape="rect" id="Node000013" href="$a00812.html" title="The policy of the split&#45;count engine: the named steps of its protocol, the events a ledger counts,..." alt="" coords="1116,159,1315,185"/>
+<area shape="poly" id="edge19_Node000001_Node000013" title=" " alt="" coords="975,32,1028,52,1083,76,1150,118,1201,157,1198,161,1147,123,1081,81,1026,56,973,37"/>
+<area shape="rect" id="Node000014" href="$a00818.html" title="What the split&#45;count engine needs to know about the pointer it stores: the counter group its referenc..." alt="" coords="1371,79,1567,104"/>
+<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="1027,30,1374,76,1373,81,1026,35"/>
+<area shape="rect" id="Node000015" href="$a00815.html" title="The slot word of the split&#45;count engine: a control block, the ticks of the loads in flight and the st..." alt="" coords="1151,79,1346,104"/>
+<area shape="poly" id="edge23_Node000001_Node000015" title=" " alt="" coords="989,31,1192,76,1190,81,988,36"/>
+<area shape="rect" id="Node000003" href="$a01352.html" title="Atomic module: atomic_shared_ptr&lt;T&gt; and atomic_weak_ptr&lt;T&gt;, the interface of the C++20 std::atomic&lt;st..." alt="" coords="239,240,351,265"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="214,191,279,238,276,242,211,195"/>
+<area shape="rect" id="Node000004" href="$a00275.html" title=" " alt="" coords="5,313,183,353"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="252,273,145,316,143,311,250,268"/>
+<area shape="rect" id="Node000005" href="$a00272.html" title=" " alt="" coords="207,313,383,353"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="298,279,298,313,293,313,293,279"/>
+<area shape="rect" id="Node000006" href="$a00278.html" title=" " alt="" coords="408,313,575,353"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="340,268,443,311,441,316,338,273"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="809,113,731,154,729,149,807,108"/>
+<area shape="poly" id="edge9_Node000009_Node000002" title=" " alt="" coords="478,110,242,162,241,157,477,104"/>
+<area shape="poly" id="edge10_Node000009_Node000008" title=" " alt="" coords="585,109,657,150,654,154,582,113"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="623,104,840,149,839,155,622,109"/>
+<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="515,113,430,161,428,157,513,109"/>
+<area shape="poly" id="edge14_Node000009_Node000012" title=" " alt="" coords="548,117,550,156,556,175,568,190,595,202,646,213,795,230,969,241,1121,247,1121,253,968,247,795,235,645,219,593,207,564,194,552,177,545,157,543,118"/>
+<area shape="poly" id="edge13_Node000011_Node000003" title=" " alt="" coords="379,195,315,242,311,238,376,191"/>
+<area shape="poly" id="edge20_Node000013_Node000012" title=" " alt="" coords="1218,199,1218,239,1213,239,1213,199"/>
+<area shape="poly" id="edge22_Node000014_Node000012" title=" " alt="" coords="1447,116,1404,155,1350,194,1299,222,1251,242,1249,237,1297,217,1347,190,1400,151,1444,112"/>
+<area shape="poly" id="edge24_Node000015_Node000012" title=" " alt="" coords="1289,109,1312,127,1330,151,1336,172,1330,193,1316,210,1300,224,1263,242,1261,238,1297,219,1313,206,1325,191,1331,172,1325,153,1308,131,1286,113"/>
+<area shape="poly" id="edge25_Node000015_Node000013" title=" " alt="" coords="1241,118,1223,160,1218,158,1236,116"/>
+</map>
