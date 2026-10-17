@@ -282,7 +282,11 @@ push_chain (record_t *first, record_t *last, std::size_t count) LUMEX_NOEXCEPT
 
 // Pops one slot, or returns null when the pool is empty. A pop takes bit 0
 // first, so two pops never overlap and the head cannot be removed and put
-// back under a popper; concurrent pushes only add in front.
+// back under a popper; concurrent pushes only add in front. The
+// compare-exchange that pops also lets bit 0 go, so it releases: a failed
+// attempt read the link of a slot that stays in the pool, and the next pop may
+// take that slot and write its link (when a thread hands its cache back at
+// exit, or when pushing it back); the read must happen before that write.
 record_t *
 pop_pool () LUMEX_NOEXCEPT
 {
@@ -312,12 +316,13 @@ pop_pool () LUMEX_NOEXCEPT
     {
       record_t *top
           = reinterpret_cast<record_t *> (head & ~std::uintptr_t (1));
+      LUMEX_HAZARD_POINTER_TEST_POINT (pool_popping);
       record_t *next = top->next_free;
       // Unlock and pop in one step; a push that got in between changes the
       // head and the loop reads it again.
       if (g_domain.avail.compare_exchange_weak (
               head, reinterpret_cast<std::uintptr_t> (next),
-              std::memory_order_acquire, std::memory_order_acquire))
+              std::memory_order_acq_rel, std::memory_order_acquire))
         {
           g_domain.pooled.fetch_sub (1, std::memory_order_relaxed);
           return top;
