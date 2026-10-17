@@ -64,6 +64,26 @@ function(lumex_sanitizers_enabled out_var)
   endif()
 endfunction()
 
+# The test-only source that lumex_add_tsan_libcxx_support adds.
+set(LUMEX_TSAN_LIBCXX_SOURCE
+  "${PROJECT_SOURCE_DIR}/lumex/tests/support/LumexTestTsanLibcxx.cpp")
+
+# lumex_add_tsan_libcxx_support(<target>)
+#
+# For a test or in-tree example executable, never a library. In a
+# ThreadSanitizer build with Clang, adds LUMEX_TSAN_LIBCXX_SOURCE to the
+# target: libc++ compiles two members of the shared_ptr control block
+# (__shared_weak_count::__release_weak and lock) into libc++.so.1 without
+# instrumentation, so ThreadSanitizer does not see the ordering of the weak
+# count and of weak_ptr::lock () and reports the free of a control block as a
+# data race. The file defines the two members again in the executable,
+# compiled with the instrumentation; with libstdc++ it is empty.
+function(lumex_add_tsan_libcxx_support target)
+  if(LUMEX_USE_TSAN AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_sources("${target}" PRIVATE "${LUMEX_TSAN_LIBCXX_SOURCE}")
+  endif()
+endfunction()
+
 # Same ADDRESS/UNDEFINED/THREAD mix on every compiled target, including
 # test executables and vendored gtest. Mixing sanitized tests with
 # unsanitized libs (or the reverse) is an ABI / false-positive hole.
