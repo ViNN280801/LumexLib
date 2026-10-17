@@ -7,7 +7,10 @@
 // new (std::nothrow) and freed them with delete would pass a plain malloc
 // block to the operator delete below at thread exit and in a reclamation
 // pass. The engine takes that internal storage from malloc and free, so the
-// program's allocator never sees it. Exit code 0 means every check passed.
+// program's allocator never sees it. The nothrow forms below are replaced with
+// plain malloc on every toolchain, which is what such a libstdc++ does, so a
+// regression to new (std::nothrow) and delete aborts on GCC 9 and later and on
+// libc++ as well. Exit code 0 means every check passed.
 
 #include <atomic>
 #include <cstddef>
@@ -82,6 +85,33 @@ void
 operator delete (void *memory, std::size_t) noexcept
 {
   operator delete (memory);
+}
+
+// The nothrow forms are not routed to the throwing one (PR libstdc++/68210): a
+// block taken with them has no header and must go back with std::free.
+
+void *
+operator new (std::size_t size, std::nothrow_t const &) noexcept
+{
+  return std::malloc (size != 0 ? size : 1);
+}
+
+void *
+operator new[] (std::size_t size, std::nothrow_t const &) noexcept
+{
+  return std::malloc (size != 0 ? size : 1);
+}
+
+void
+operator delete (void *memory, std::nothrow_t const &) noexcept
+{
+  std::free (memory);
+}
+
+void
+operator delete[] (void *memory, std::nothrow_t const &) noexcept
+{
+  std::free (memory);
 }
 
 // --- the retired objects ---------------------------------------------------
