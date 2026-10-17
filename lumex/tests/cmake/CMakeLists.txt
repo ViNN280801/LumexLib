@@ -282,6 +282,9 @@ function(lumex_add_consumer_test name fixture)
     # The nested build uses this tree's C++ flags (a --gcc-toolchain, for
     # example) and its Clang standard library choice, so it builds like the
     # tree that runs it, and runs with the runtime of this tree's compiler.
+    # The other arguments go to the fixture's configure, up to an optional
+    # RUN_PREFIX <command...>, which is put before the fixture's executable.
+    cmake_parse_arguments(ARG "" "" "RUN_PREFIX" ${ARGN})
     lumex_test_name(_ctest_name ${name})
     add_test(NAME ${_ctest_name}
         COMMAND ${CMAKE_COMMAND}
@@ -297,7 +300,8 @@ function(lumex_add_consumer_test name fixture)
             -DCLANG_STDLIB=${LUMEX_CLANG_STDLIB}
             "-DBUILD_RPATH=${_LUMEX_CONSUMER_RPATH}"
             -DBUILD_TYPE=Release
-            "-DEXTRA_ARGS=${ARGN}"
+            "-DEXTRA_ARGS=${ARG_UNPARSED_ARGUMENTS}"
+            "-DRUN_PREFIX=${ARG_RUN_PREFIX}"
             -P ${_LUMEX_CONSUMER_RUN}
     )
     set_tests_properties(${_ctest_name} PROPERTIES
@@ -374,10 +378,31 @@ lumex_add_consumer_test(consumer_atomic_lock_free_hooks atomic_lock_free_hooks)
 # libraries that share one domain, hazard pointers in static constructors and
 # destructors and in thread-local destructors.
 lumex_add_consumer_test(consumer_hazard_pointer_hooks hazard_pointer_hooks)
+# The same tests built with ThreadSanitizer, which sees the ordering of the
+# held interleavings too (the pop lock of the slot pool must release what the
+# pop read). GCC runs through `setarch -R`: its runtime cannot map its shadow
+# with ASLR on. GCC or Clang on a non-Windows host only; elsewhere the fixture
+# skips.
+set(_hp_hooks_tsan_prefix "")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    find_program(LUMEX_SETARCH_PROGRAM NAMES setarch)
+    if(LUMEX_SETARCH_PROGRAM)
+        set(_hp_hooks_tsan_prefix
+            ${LUMEX_SETARCH_PROGRAM} ${CMAKE_HOST_SYSTEM_PROCESSOR} -R)
+    endif()
+endif()
+lumex_add_consumer_test(consumer_hazard_pointer_hooks_tsan hazard_pointer_hooks
+    -DSANITIZE=thread RUN_PREFIX ${_hp_hooks_tsan_prefix})
 lumex_add_consumer_test(consumer_hazard_pointer_two_modules
     hazard_pointer_two_modules)
 lumex_add_consumer_test(consumer_hazard_pointer_static_destruction
     hazard_pointer_static_destruction)
+# A program that replaces only the throwing operator new and delete (with a
+# block header) must not see the engine's internal storage: the thread cache and
+# the scan table come from malloc/free (libstdc++ before GCC 9 does not route
+# new (std::nothrow) to a replaced operator new).
+lumex_add_consumer_test(consumer_hazard_pointer_throwing_new_only
+    hazard_pointer_throwing_new_only)
 # core/contracts: the semantic of the build (the CMake option
 # LUMEX_CONTRACTS_SEMANTIC) reaches a consumer of lumex::contracts and behaves as
 # that semantic, a translation unit may override it; one violation handler per

@@ -180,7 +180,10 @@ enum test_point_id_t
   /// A thread-exit hook is about to hand the cache back.
   cache_evicting = 5,
   /// The reader's fence is about to be issued.
-  reader_fenced = 6
+  reader_fenced = 6,
+  /// A pop of the pool of free slots holds the pool's lock and is about to
+  /// read the link of the slot on top.
+  pool_popping = 7
 };
 
 #if defined(LUMEX_HAZARD_POINTER_TEST_HOOKS)

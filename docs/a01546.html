@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.2.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -133,6 +133,7 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9a12b66c884a2d181514640ebee58a102a">cache_evicting</a> = 5
 , <a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9ae1406426d0d88d3279aafc2dbf8573fb">reader_fenced</a> = 6
+, <a class="el" href="#ae7c0ac99eb3dfb702701ee36df0bcdb9ab1a2427ce98e76743c81004a687c7b11">pool_popping</a> = 7
 <br />
  }</td></tr>
 <tr class="memdesc:ae7c0ac99eb3dfb702701ee36df0bcdb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Named places where a test may stall a thread (<code>LUMEX_HAZARD_POINTER_TEST_HOOKS</code> builds only).  <a href="#ae7c0ac99eb3dfb702701ee36df0bcdb9">More...</a><br /></td></tr>
@@ -194,6 +195,8 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9a12b66c884a2d181514640ebee58a102a" name="ae7c0ac99eb3dfb702701ee36df0bcdb9a12b66c884a2d181514640ebee58a102a"></a>cache_evicting&#160;</td><td class="fielddoc"><p>A thread-exit hook is about to hand the cache back. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9ae1406426d0d88d3279aafc2dbf8573fb" name="ae7c0ac99eb3dfb702701ee36df0bcdb9ae1406426d0d88d3279aafc2dbf8573fb"></a>reader_fenced&#160;</td><td class="fielddoc"><p>The reader's fence is about to be issued. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae7c0ac99eb3dfb702701ee36df0bcdb9ab1a2427ce98e76743c81004a687c7b11" name="ae7c0ac99eb3dfb702701ee36df0bcdb9ab1a2427ce98e76743c81004a687c7b11"></a>pool_popping&#160;</td><td class="fielddoc"><p>A pop of the pool of free slots holds the pool's lock and is about to read the link of the slot on top. </p>
 </td></tr>
 </table>
 

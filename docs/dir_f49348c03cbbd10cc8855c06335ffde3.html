@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.2.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -218,10 +218,10 @@ Files</h2></td></tr>
 <div class="ttc" id="aa03867_html"><div class="ttname"><a href="a03867.html">lumex::core::smart_ptr::weak_ptr</a></div><div class="ttdoc">A weak reference to an object owned by shared_ptr objects.</div><div class="ttdef"><b>Definition</b> LumexWeakPtr.hpp:82</div></div>
 <div class="ttc" id="aa03867_html_ad5c5c5450e46d3cb763d75b5b7dbcf9e"><div class="ttname"><a href="a03867.html#ad5c5c5450e46d3cb763d75b5b7dbcf9e">lumex::core::smart_ptr::weak_ptr::lock</a></div><div class="ttdeci">shared_ptr&lt; T &gt; lock() const noexcept</div><div class="ttdoc">An owner of the observed object, or an empty shared_ptr when it is gone.</div><div class="ttdef"><b>Definition</b> LumexWeakPtr.hpp:233</div></div>
 <div class="ttc" id="aa03871_html"><div class="ttname"><a href="a03871.html">lumex::core::smart_ptr::enable_shared_from_this</a></div><div class="ttdoc">Base class that gives an object access to the shared_ptr that owns it.</div><div class="ttdef"><b>Definition</b> LumexEnableSharedFromThis.hpp:82</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md75"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md77"></a>
 Origin</h1>
 <p>The interface follows [util.smartptr] of the C++17 draft; the observable behavior of every operation the standard fixes is checked against <code>std::shared_ptr</code> on the toolchain (the tests run each scenario on both and compare). The control block is designed from the split reference count of Anthony Williams (the external counter of a lock-free <code>atomic&lt;shared_ptr&gt;</code>) and of Folly's <code>AtomicSharedPtr</code>: ideas only, no source text of either is copied; <code>THIRD-PARTY-NOTICES.md</code> credits them. The two proven corrections to those designs are in the protocol below.</p>
-<h1><a class="anchor" id="autotoc_md76"></a>
+<h1><a class="anchor" id="autotoc_md78"></a>
 Headers</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -253,7 +253,7 @@ Headers</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code><a class="el" href="a00779.html" title="Configuration macros of core/smart_ptr: exception handling, ThreadSanitizer detection,...">detail/LumexSmartPtrConfig.hpp</a></code>   </td><td class="markdownTableBodyNone">Macros: exceptions, ThreadSanitizer, debug asserts, the <code>std::enable_shared_from_this</code> policy   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md77"></a>
+<h1><a class="anchor" id="autotoc_md79"></a>
 Interface</h1>
 <p>The names are in <code><a class="el" href="a01562.html">lumex::core::smart_ptr</a></code> and nowhere else (<code>LumexSmartPtrGlobalNames</code> checks that the module declares nothing globally). Write <code><a class="el" href="a03863.html" title="Shared ownership of an object ([util.smartptr.shared]).">sp::shared_ptr</a></code> after a namespace alias (<code>namespace sp = <a class="el" href="a01562.html">lumex::core::smart_ptr</a>;</code>). Note that <code><a class="el" href="a01490.html">lumex::core::atomic::smart_ptr</a></code> is a different namespace (the atomic smart pointers); code inside <code>core/atomic</code> that wants this module writes <code><a class="el" href="a01562.html">lumex::core::smart_ptr</a></code>, because the plain name finds the atomic one.</p>
 <table class="markdownTable">
@@ -287,7 +287,7 @@ Interface</h1>
 <li>A weak pointer does not cross the families (lock, convert, make a weak pointer from the result).</li>
 <li><code>use_count ()</code> is <code>long</code>; counts are 32 bit (a debug assertion checks 2^31 - 1).</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md78"></a>
+<h1><a class="anchor" id="autotoc_md80"></a>
 Control block</h1>
 <p><code>detail::ctl_base</code>, 32 bytes on a 64-bit target and polymorphic: the table pointer, the strong counter, the weak ledger and the anchor.</p>
 <table class="markdownTable">
@@ -303,7 +303,7 @@ Control block</h1>
 <p><code>count</code> is the number of references taken by an ordinary addition. <code>ext</code> is a debt ledger used only by the split-count engine (see below); every program that does not call <code>transfer_ext</code> and <code>settle</code> sees <code>ext == 0</code> and an ordinary counter. The group ends when <code>count</code> and <code>ext</code> are both zero, which is one comparison of the whole word, made by the one read-modify-write that produces it: <code>dispose ()</code> destroys the object and the implicit weak unit goes; the block is deallocated by whoever brings the weak ledger to zero.</p>
 <p>Memory orders, as in the standard libraries: taking a reference is relaxed; dropping is <code>release</code>, and the thread that sees the word become zero runs an <code>acquire</code> fence before it destroys the object, so every access of every other owner happens before the destruction. ThreadSanitizer does not model fences, so the drop is an <code>acq_rel</code> read-modify-write under it. The promotion of a weak pointer is an <code>acq_rel</code> compare-exchange that never moves a zero word.</p>
 <p>Block kinds: <code>ctl_ptr&lt;P, D, A&gt;</code> (a separate object; deleter and allocator are stored with the empty-base optimization; <code>get_deleter</code> is <code>query</code>), <code>ctl_inplace&lt;T, A&gt;</code> (block and object in one allocation), <code>ctl_std</code> (owner of a <code>std::shared_ptr&lt;void&gt;</code>, the interop block), <code>ctl_holder</code> and <code>ctl_weak_holder</code> (below). Blocks are finished through two private virtual functions, <code>dispose ()</code> and <code>destroy ()</code>.</p>
-<h1><a class="anchor" id="autotoc_md79"></a>
+<h1><a class="anchor" id="autotoc_md81"></a>
 The contract with the split-count engine</h1>
 <p>The engine and its protocol are described in <code><a class="el" href="a06619.html">lumex/core/atomic/README.md</a></code>, section "The split-count engine". The atomic pair of this family, <code>lumex::core::smart_ptr::atomic_shared_ptr</code> and <code><a class="el" href="a00275.html#a3e01c91b16f07375bef18e0fab333a38" title="The common name: std::atomic&lt;std::weak_ptr&lt;T&gt;&gt; from C++11 on.">atomic_weak_ptr</a></code> (declared by <code>lumex/core/atomic/LumexAtomic</code>), is the lock-based engine over these pointers by default, and the split-count engine where the build has it (x86-64) and <code>LUMEX_ATOMIC_SMART_PTR_FAMILY_PREFER_SPLIT_COUNT</code> is defined (<code>LUMEX_ATOMIC_SMART_PTR_FAMILY_IS_SPLIT_COUNT</code> tells which). The split-count engine has been measured against the lock-based engine over these pointers, against the other engines and against <code>std::atomic&lt;std::shared_ptr&gt;</code>: it is cheaper than the lock-based engine for <code>store ()</code>, <code>exchange ()</code> and, from 8 threads, <code>compare_exchange_strong ()</code> under contention, and dearer for an uncontended <code>load ()</code> (29.4 ns against 18.0) and for <code>load ()</code> with 2 to 4 threads; see <code>benchmarks/atomic/README.md</code>, section "The split-count engine". It is still not the default.</p>
 <p>The engine (<code>core/atomic</code>, phase 2) keeps a block pointer, a packed offset of the stored pointer and a count of "ticks" (loads in flight) in one 16-byte atomic word. The module exposes what it needs in <code>detail</code>, documented in the headers and pinned by tests:</p>
@@ -316,10 +316,10 @@ The contract with the split-count engine</h1>
 <li><code>detail::access::stored (w)</code> returns the stored pointer of a <code>weak_ptr</code> (it has no <code>get ()</code>); the split-count engine needs it for the aliases of weak pointers.</li>
 <li><code>ctl_base::anchor ()</code>: the engine packs <code>stored - anchor</code>; the pointers set it once when they create the block.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md80"></a>
+<h1><a class="anchor" id="autotoc_md82"></a>
 Thread safety</h1>
 <p>As [util.smartptr.shared.general]: distinct <code>shared_ptr</code> / <code>weak_ptr</code> objects that share a block may be copied, assigned and destroyed concurrently (the counters are atomic); one object needs external synchronization or the atomic smart pointers of <code>core/atomic</code>. <code>weak_ptr::lock</code> and <code>expired</code> are atomic against the last release. <code>use_count ()</code> is <code>count + ext</code>: the owners plus the owners in transit of the atomic smart pointers (see <code>core/atomic</code>). It never waits and is never below the number of owners that hold a count. It is exact at quiescence; while a store or a compare-exchange of an atomic smart pointer is in flight it can exceed the owners by that operation's units (the windows of <code>core/atomic</code>); outside them it is exact, also for the owner of an alias stored through a holder. <code>use_count_settled ()</code> (on <code>shared_ptr</code> and <code>weak_ptr</code>; <code>split_counter::use_count_settled</code> below them) is the waiting twin: it returns <code>count</code> only when <code>ext</code> is zero and spins (a bounded busy-wait, then <code>yield</code>) while it is not, so it is exact apart from the lag of a slot's decrement. It can block as long as a pinning thread of an atomic smart pointer is suspended, it may not return while loads and stores of an atomic smart pointer that holds the value keep running, and it must not be called from a signal handler on a pinned thread; it is <code>noexcept</code>.</p>
-<h1><a class="anchor" id="autotoc_md81"></a>
+<h1><a class="anchor" id="autotoc_md83"></a>
 Tests</h1>
 <p><code>lumex/tests/core/smart_ptr/</code> follows the source tree; suites for C++11, 14, 17 and 20. The differential scenarios (<code>std_family</code> / <code>lumex_family</code> in <code>LumexSmartPtrTestSupport.hpp</code>) run each behavior on <code>std::shared_ptr</code> and on this module and compare the observations; the concurrent checkers (<code>LumexSmartPtrTestScenarios.hpp</code>) run with 1, 2, 4, 8 and more than the cores threads and four schedule kinds; the ABA tests recycle block addresses through <code>lumex_test::ReusePool</code> and prove with a negative control that the harness sees address reuse. The rejected uses are the compile checks <code>cmake.smart_ptr_compile_checks</code>. Every test carries the label <code>tsan</code>. </p>
 </div><!-- contents -->

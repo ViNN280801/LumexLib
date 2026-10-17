@@ -1,8 +1,8 @@
 var searchData=
 [
   ['x_0',['x',['../a05063.html#abbf302980516682d18d697ac14fc798d',1,'ExamplePoint']]],
-  ['x86_2064_20only_1',['x86-64 only',['..//home/vladislavsemykin/Develop/PEAK_EXPERT_WEB/.cursor/tmp/doxy1132/wt/lumex/core/atomic/README.md#autotoc_md33',1,'']]],
-  ['xml_2',['XML',['../a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa',1,'lumex::applied::settings::ini::XML'],['../a06615.html#autotoc_md102',1,'XML']]],
+  ['x86_2064_20only_1',['x86-64 only',['..//home/vladislavsemykin/Develop/PEAK_EXPERT_WEB/.cursor/tmp/lumexlib-release/lumex/core/atomic/README.md#autotoc_md33',1,'']]],
+  ['xml_2',['XML',['../a01481.html#a1af005d4f6d6cbc1fe9b8ac0dd312222ad38d2aabee52a0cb2d5d2bc9e713baaa',1,'lumex::applied::settings::ini::XML'],['../a06615.html#autotoc_md104',1,'XML']]],
   ['xml_3',['xml',['../a01448.html#a50817df5a1c7ef0cc99cfb1a2fd513e9a0f635d0e0f3874fff8b581c132e6c7a7',1,'lumex::applied::logger']]],
   ['xml_5fencoding_4',['xml_encoding',['../a01685.html#af1767ae022d3845084f92ab0bc3776a0',1,'lumex::xml::types::Types']]],
   ['xml_5fextra_5fbuffer_5',['xml_extra_buffer',['../a05199.html',1,'lumex::xml::types::Types']]],

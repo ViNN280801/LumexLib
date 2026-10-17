@@ -2076,7 +2076,7 @@ struct gthread_t
   std::uint64_t pinned_lo;
   counted_t counted;
   bool in_iii;
-  int dep;
+  int dep; ///< deposited, less withdrawn and consumed by the swap
   val_t dep_val;
   int max_need;
   int pending_untransfer;
@@ -3533,12 +3533,14 @@ private:
         release_row (id, P, E);
         break;
       case pt_note_consumed:
+        if (surplus_step (id, P, E))
+          break;
         if (g.role == r_wr && g.exchange)
-          require (E == pt_note_untransfer || is_end (E) || E == pt_load_count,
-                   id, P, E, "an exchange withdraws or hands over");
+          require (is_end (E) || E == pt_load_count, id, P, E,
+                   "an exchange without a surplus hands over");
         else
-          require (E == pt_note_untransfer || E == pt_release, id, P, E,
-                   "a swap drops the old unit");
+          require (E == pt_release, id, P, E,
+                   "a swap without a surplus drops the old unit");
         break;
       default:
         path_fail (id, P, E, "a step from an unknown point");
@@ -3550,6 +3552,28 @@ private:
       finish_op (id);
     else if (is_end (E) && P == pt_op_begin && g.role == r_user)
       finish_op (id);
+  }
+
+  /// The return of the surplus, for the step of @p id that stopped at @p E
+  /// right after its successful swap (or after the note of the consumed tick
+  /// that follows it). `swap_transition` has taken the ticks that left with
+  /// the word out of the deposit, so what is left of `dep` is the surplus: the
+  /// protocol returns exactly that many units with the drop or the hand-over
+  /// of the old word (a `note_untransfer`, whose units are in
+  /// `pending_untransfer` already), and returns nothing when nothing is left.
+  /// Returns false when there is no surplus and the step returns nothing: the
+  /// caller then checks the drop or the hand-over.
+  bool
+  surplus_step (int id, unsigned P, unsigned E)
+  {
+    gthread_t const &g = rt_[id].g;
+    bool const returns = E == pt_note_untransfer;
+    if (g.dep > 0)
+      require (returns && g.pending_untransfer == g.dep, id, P, E,
+               "the surplus of the deposit returns with the old word");
+    else
+      require (!returns, id, P, E, "a return of units that are not deposited");
+    return returns || g.dep > 0;
   }
 
   /// The row of `swap` (the store and the exchange).
@@ -3669,11 +3693,13 @@ private:
             swap_transition (id, wa);
             if (is_empty_val (old))
               require (is_end (E), id, P, E, "the old value was empty");
-            else
-              require (
-                  E == pt_release
-                      || (info_.cas_reserve != 0u && E == pt_note_untransfer),
-                  id, P, E, "a swap drops the old unit");
+            else if (info_.cas_reserve == 0u)
+              require (E == pt_release, id, P, E,
+                       "a swap without a reserve deposited exactly the ticks "
+                       "and drops the old unit");
+            else if (!surplus_step (id, P, E))
+              require (E == pt_release, id, P, E,
+                       "a swap without a surplus drops the old unit");
           }
         else
           require (E == pt_note_untransfer || E == pt_cas || E == pt_transfer

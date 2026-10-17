@@ -1,0 +1,3865 @@
+{
+ "format": 1,
+ "description": "Mutants of the split-count engine and the checks that must catch them; see README.md.",
+ "executables": {
+  "dedicated": {
+   "target": "LumexAtomicSplitCountCxx11Tests",
+   "binary": "bin/LumexAtomicSplitCountCxx11Tests"
+  },
+  "family": {
+   "target": "LumexAtomicSmartPtrSplitCountEngineCxx11Tests",
+   "binary": "bin/LumexAtomicSmartPtrSplitCountEngineCxx11Tests"
+  },
+  "default20": {
+   "target": "LumexAtomicSmartPtrCxx20Tests",
+   "binary": "bin/LumexAtomicSmartPtrCxx20Tests"
+  }
+ },
+ "mutants": [
+  {
+   "id": "V1/M1",
+   "layer": "v1",
+   "description": "settle: un-tick without the L > 0 guard",
+   "form": "the edit as registered with the mutation (both conditions of settle)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          {",
+      "            Policy::at (split_point_t::settle_untick);"
+     ],
+     "new": [
+      "        if (seen.lo == tag)",
+      "          {",
+      "            Policy::at (split_point_t::settle_untick);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ],
+     "new": [
+      "        if (seen.lo == tag)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M2",
+   "layer": "v1",
+   "description": "pre-transfer moved after the swap (the order of the first design)",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        deposit (current, moved);",
+      "        for (;;)"
+     ],
+     "new": [
+      "        for (;;)"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "                // The writer's own tick left with the word: consumed.",
+     "new": [
+      "                deposit (current, moved);",
+      "                // The writer's own tick left with the word: consumed."
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M3",
+   "layer": "v1",
+   "description": "pre-transfer skipped on the L > 0 path",
+   "form": "the first edit of M2; the registration lists the rerun S01@R8@1 (oracle E-ID)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        deposit (current, moved);",
+      "        for (;;)"
+     ],
+     "new": [
+      "        for (;;)"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R8_*",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M4",
+   "layer": "v1",
+   "description": "exchange hand-over also transfers",
+   "form": "ambiguous: read literally, exchange deposits one more unit after the hand-over's withdraw, so ext stays 1 at rest (empty words skipped)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    withdraw (swapped.old, swapped.surplus);",
+      "    return hand_over (swapped.old);"
+     ],
+     "new": [
+      "    withdraw (swapped.old, swapped.surplus);",
+      "    if (!word::is_empty (swapped.old))",
+      "      deposit (swapped.old, 1u);",
+      "    return hand_over (swapped.old);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M5",
+   "layer": "v1",
+   "description": "holder hand-over adopts the owner reference without the add (shared engine: the holder keeps its reference, no disown)",
+   "form": "ambiguous: the engine hands the holder's reference over by disown (design F1), so the shared form is 'adopt without disown' (the reference is dropped twice); the weak form is V1/M5w",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "  take_owner_reference (block_type *holder, block_type *) LUMEX_NOEXCEPT",
+      "  {",
+      "    static_cast<holder_type *> (holder)->disown ();",
+      "  }"
+     ],
+     "new": [
+      "  take_owner_reference (block_type *, block_type *) LUMEX_NOEXCEPT",
+      "  {",
+      "  }"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M5w",
+   "layer": "v1",
+   "description": "holder hand-over adopts the owner reference without the add (weak engine: no add)",
+   "form": "the literal reading on the weak engine, where the hand-over takes a new weak reference",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "  take_owner_reference (block_type *, block_type *owner) LUMEX_NOEXCEPT",
+      "  {",
+      "    ledger_type::add (owner);",
+      "  }"
+     ],
+     "new": [
+      "  take_owner_reference (block_type *, block_type *) LUMEX_NOEXCEPT",
+      "  {",
+      "  }"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M6",
+   "layer": "v1",
+   "description": "load settles before reading the value (the stored pointer of a holder is read after count_and_settle)",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        owner = holder->owner ();",
+      "        stored = static_cast<element_type *> (holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);",
+      "    return traits_type::adopt (owner, stored);"
+     ],
+     "new": [
+      "        owner = holder->owner ();",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);",
+      "    if (word::is_holder (pinned))",
+      "      stored = static_cast<element_type *> (",
+      "          static_cast<holder_type const *> (block)->pointer ());",
+      "    return traits_type::adopt (owner, stored);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "H1@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioH1R8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "H1@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M7",
+   "layer": "v1",
+   "description": "settle decision taken on the guess (no acquire re-read): the re-read and its scheduling point are deleted",
+   "form": "the literal reading: the acquire re-read of settle and the hook Policy::at (settle_read) in front of it are deleted, so the decision to pay is taken on the first guess; V1/M7g, V1/M7gc and V1/M7gs keep the hook and read a guess instead of the acquire read",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        Policy::at (split_point_t::settle_read);",
+      "        seen = word_.load (std::memory_order_acquire);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ],
+     "new": [
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M7g",
+   "layer": "v1",
+   "description": "settle decision taken on a speculative read (a guess) in place of the acquire read, at both decisions (L5 and L8)",
+   "form": "ambiguous (the plan does not say which decision): the acquire re-read of both decisions of a load, the one of count_and_settle (L5) and the one of settle (L8), is replaced by a speculative read (a guess); the simulator's guess is exact, the torn policy of the unit suites is not. V1/M7gc and V1/M7gs are the two halves; the form that deletes the re-read is V1/M7",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        Policy::at (split_point_t::settle_read);",
+      "        seen = word_.load (std::memory_order_acquire);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ],
+     "new": [
+      "        Policy::at (split_point_t::settle_read);",
+      "        seen = Policy::guess (word_);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        seen = word_.load (std::memory_order_acquire);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ],
+     "new": [
+      "        seen = Policy::guess (word_);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor",
+   "note": "the record of the first review says the unit suites (torn policy) catch it; no suite does when the scheduling point of the re-read stays, because the guess of the simulator is exact and a torn guess must hit a rare interleaving to give a wrong decision"
+  },
+  {
+   "id": "V1/M7gc",
+   "layer": "v1",
+   "description": "decision of count_and_settle (L5) taken on a guess in place of the acquire read",
+   "form": "half of V1/M7g",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        seen = word_.load (std::memory_order_acquire);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ],
+     "new": [
+      "        seen = Policy::guess (word_);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor"
+  },
+  {
+   "id": "V1/M7gs",
+   "layer": "v1",
+   "description": "decision of settle (L8) taken on a guess in place of the acquire read",
+   "form": "half of V1/M7g",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        Policy::at (split_point_t::settle_read);",
+      "        seen = word_.load (std::memory_order_acquire);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ],
+     "new": [
+      "        Policy::at (split_point_t::settle_read);",
+      "        seen = Policy::guess (word_);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor"
+  },
+  {
+   "id": "V1/M8",
+   "layer": "v1",
+   "description": "L3 tick relaxed",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        split_value_t const found = word_.compare_exchange_strong (",
+      "            seen, word::with_tick (seen), order, std::memory_order_relaxed);",
+      "        if (found == seen)",
+      "          {",
+      "            Policy::note (split_event_t::tick, 1u);"
+     ],
+     "new": [
+      "        split_value_t const found = word_.compare_exchange_strong (",
+      "            seen, word::with_tick (seen), std::memory_order_relaxed,",
+      "            std::memory_order_relaxed);",
+      "        if (found == seen)",
+      "          {",
+      "            Policy::note (split_event_t::tick, 1u);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor",
+   "note": "a memory-order mutation: invisible on x86-64 (the Relacy case M8 of relacy/CMakeLists.txt catches it)"
+  },
+  {
+   "id": "V1/M9",
+   "layer": "v1",
+   "description": "S4 and S12 swap success order without acquire",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "                current, image, order, std::memory_order_acquire);",
+     "new": "                current, image, std::memory_order_release, std::memory_order_acquire);"
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                            current, image, rmw_order (success),",
+      "                            std::memory_order_acquire);"
+     ],
+     "new": [
+      "                            current, image, std::memory_order_release,",
+      "                            std::memory_order_acquire);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor",
+   "note": "a memory-order mutation: invisible on x86-64 (the Relacy case M9 catches it under the ThreadSanitizer counter)"
+  },
+  {
+   "id": "V1/M10",
+   "layer": "v1",
+   "description": "L7 un-tick relaxed",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                seen, word::without_tick (seen), std::memory_order_release,",
+      "                std::memory_order_relaxed);"
+     ],
+     "new": [
+      "                seen, word::without_tick (seen), std::memory_order_relaxed,",
+      "                std::memory_order_relaxed);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor",
+   "note": "a memory-order mutation: invisible on x86-64 (the Relacy case M10 catches it)"
+  },
+  {
+   "id": "V1/M11",
+   "layer": "v1",
+   "description": "same_value compares lo only",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": [
+      "    if (a.lo != b.lo)",
+      "      return false;",
+      "    if (a.lo == 0u)",
+      "      return a.hi == b.hi;",
+      "    return (a.hi >> offset_shift ()) == (b.hi >> offset_shift ());"
+     ],
+     "new": [
+      "    return a.lo == b.lo;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M12",
+   "layer": "v1",
+   "description": "same_value compares the whole hi",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": [
+      "    if (a.lo == 0u)",
+      "      return a.hi == b.hi;",
+      "    return (a.hi >> offset_shift ()) == (b.hi >> offset_shift ());"
+     ],
+     "new": [
+      "    return a.hi == b.hi;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "SCL@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioSCLR8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "SCL@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M13",
+   "layer": "v1",
+   "description": "fits with >> 39",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": "return ((offset + offset_sign ()) >> 40) == 0u;",
+     "new": "return ((offset + offset_sign ()) >> 39) == 0u;"
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M14",
+   "layer": "v1",
+   "description": "offset_of without sign extension",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": "return (field ^ offset_sign ()) - offset_sign ();",
+     "new": "return field;"
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M15",
+   "layer": "v1",
+   "description": "weak engine: holder settles on the weak ledger (ignores HG)",
+   "form": "ambiguous: the holder ledger is the ledger of the pointer kind (the weak ledger for the weak engine) instead of always the strong group of the holder",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "  typedef split_strong_ledger_t holder_ledger_type;",
+     "new": "  typedef typename traits_type::ledger_type holder_ledger_type;"
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M16",
+   "layer": "v1",
+   "description": "pin returns an empty guess without the confirming CAS",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            split_value_t const found = word_.compare_exchange_strong (",
+      "                seen, seen, order, std::memory_order_relaxed);",
+      "            if (found == seen)",
+      "              return seen;",
+      "            seen = found;",
+      "            continue;"
+     ],
+     "new": [
+      "            return seen;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M17",
+   "layer": "v1",
+   "description": "tick-limit check removed (pin)",
+   "form": "the check of the load pin only (the writer's pin and the holder pin keep theirs)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (word::ticks_of (seen) >= Policy::tick_limit ())",
+      "          {",
+      "            Policy::back_off ();",
+      "            Policy::at (split_point_t::load_read);",
+      "            seen = word_.load (std::memory_order_relaxed);",
+      "            continue;",
+      "          }"
+     ],
+     "new": ""
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M18",
+   "layer": "v1",
+   "description": ">= replaced by > in the tick-limit check (pin)",
+   "form": "the check of the load pin only",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (word::ticks_of (seen) >= Policy::tick_limit ())",
+      "          {",
+      "            Policy::back_off ();",
+      "            Policy::at (split_point_t::load_read);"
+     ],
+     "new": [
+      "        if (word::ticks_of (seen) > Policy::tick_limit ())",
+      "          {",
+      "            Policy::back_off ();",
+      "            Policy::at (split_point_t::load_read);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M19",
+   "layer": "v1",
+   "description": "S12: settles the own tick after a successful swap (double payment)",
+   "form": "the edit registered for the recommended rerun",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                        Policy::note (split_event_t::consumed, 1u);",
+      "                        drop_word_with_ext (",
+      "                            current, moved - (word::ticks_of (current) - 1u));"
+     ],
+     "new": [
+      "                        Policy::note (split_event_t::consumed, 1u);",
+      "                        Policy::note (split_event_t::settle_ext, 1u);",
+      "                        pay (current, 1u);",
+      "                        drop_word_with_ext (",
+      "                            current, moved - (word::ticks_of (current) - 1u));"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "H4@R8@2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioH4R8_*",
+     "env": {
+      "LUMEX_SIM_ONLY": "H4@R8@2"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M20",
+   "layer": "v1",
+   "description": "compare-exchange: no retire of the image on failure",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (built)",
+      "          drop_word (image);",
+      "        expected = std::move (current);"
+     ],
+     "new": [
+      "        expected = std::move (current);"
+     ],
+     "count": 3
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M21",
+   "layer": "v1",
+   "description": "strong compare-exchange: no retry when the reloaded value is equivalent",
+   "form": "the edit as registered with the mutation (all three functions)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "        if (!weak && equivalent (current, expected))",
+     "new": "        if (!weak && false)",
+     "count": 3
+    }
+   ],
+   "checks": [
+    {
+     "label": "SC@R8@2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioSCR8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "SC@R8@2"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M22a",
+   "layer": "v1",
+   "description": "pre-transfer off by one (L + 1)",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "        std::uint32_t moved = word::ticks_of (seen) + Policy::reserve ();",
+     "new": "        std::uint32_t moved = word::ticks_of (seen) + 1u + Policy::reserve ();"
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M22b",
+   "layer": "v1",
+   "description": "pre-transfer off by one (L - 1)",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "        std::uint32_t moved = word::ticks_of (seen) + Policy::reserve ();",
+     "new": "        std::uint32_t moved = word::ticks_of (seen) - 1u + Policy::reserve ();"
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R0@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R0_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R0@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M23",
+   "layer": "v1",
+   "description": "destructor does not drop",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                                  || word::ticks_of (old) == 0u);",
+      "    drop_word (old);"
+     ],
+     "new": [
+      "                                  || word::ticks_of (old) == 0u);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M24",
+   "layer": "v1",
+   "description": "try_add refuses count == 0",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/smart_ptr/ctl/LumexSmartPtrCounter.hpp",
+     "old": [
+      "        if (current == 0)",
+      "          return false;"
+     ],
+     "new": [
+      "        if (count_of (current) == 0)",
+      "          return false;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "LK@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioLKR8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "LK@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M25",
+   "layer": "v1",
+   "description": "rmw_order ignores seq_cst",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    return order == std::memory_order_seq_cst ? std::memory_order_seq_cst",
+      "                                              : std::memory_order_acq_rel;"
+     ],
+     "new": [
+      "    return std::memory_order_acq_rel;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor",
+   "note": "not catchable on x86-64 by tests (argued in the Relacy section; the litmus models pass with the mutant)"
+  },
+  {
+   "id": "V1/M26",
+   "layer": "v1",
+   "description": "no writer pin (pre-transfer on the guessed block)",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        Policy::at (split_point_t::load_tick);",
+      "        split_value_t const ticked = word_.compare_exchange_strong (",
+      "            seen, word::with_tick (seen), order, std::memory_order_relaxed);",
+      "        if (!(ticked == seen))",
+      "          {",
+      "            seen = ticked;",
+      "            continue;",
+      "          }",
+      "        Policy::note (split_event_t::tick, 1u);",
+      "        Policy::ticked (word::ticks_of (seen) + 1u);",
+      "        split_value_t const pinned = seen;",
+      "        split_value_t current = word::with_tick (seen);"
+     ],
+     "new": [
+      "        split_value_t const pinned = seen;",
+      "        split_value_t current = seen;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "GF@R8@2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioGFR8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "GF@R8@2"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M27",
+   "layer": "v1",
+   "description": "no undo when the word turned to another block",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                pay_back (current, moved);",
+      "                seen = found;",
+      "                break;"
+     ],
+     "new": [
+      "                seen = found;",
+      "                break;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "UW@R8@2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioUWR8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "UW@R8@2"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M28",
+   "layer": "v1",
+   "description": "undo pays moved instead of moved + 1",
+   "form": "the edit registered for the recommended rerun",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "    pay (w, deposited + 1u);",
+     "new": [
+      "    if (deposited != 0u)",
+      "      pay (w, deposited);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "UW@R8@2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioUWR8_*",
+     "env": {
+      "LUMEX_SIM_ONLY": "UW@R8@2"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M29",
+   "layer": "v1",
+   "description": "holder pre-transfer without the owner mirror",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        holder_ledger_type::transfer (block, n);",
+      "        if (traits_type::mirror_holder)",
+      "          owner_of (block)->transfer_strong_ext (n);"
+     ],
+     "new": [
+      "        holder_ledger_type::transfer (block, n);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "H1@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioH1R8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "H1@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M30",
+   "layer": "v1",
+   "description": "holder payment without the mirror payment",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (traits_type::mirror_holder)",
+      "          {",
+      "            if (n == 1u)",
+      "              owner_of (block)->settle_strong ();",
+      "            else",
+      "              owner_of (block)->settle_strong_n (n);",
+      "          }",
+      "        if (n == 1u)",
+      "          holder_ledger_type::settle (block);"
+     ],
+     "new": [
+      "        if (n == 1u)",
+      "          holder_ledger_type::settle (block);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M31",
+   "layer": "v1",
+   "description": "own tick pre-transferred (and settled) instead of consumed",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "        std::uint32_t moved = word::ticks_of (seen) + Policy::reserve ();",
+     "new": "        std::uint32_t moved = word::ticks_of (seen) + 1u + Policy::reserve ();"
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                Policy::note (split_event_t::consumed, 1u);",
+      "                swapped_t const result",
+      "                    = { current, moved - (word::ticks_of (current) - 1u) };"
+     ],
+     "new": [
+      "                Policy::note (split_event_t::settle_ext, 1u);",
+      "                pay (current, 1u);",
+      "                swapped_t const result",
+      "                    = { current, moved - 1u - (word::ticks_of (current) - 1u) };"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M32",
+   "layer": "v1",
+   "description": "swapped-out path counts and pays in two read-modify-writes",
+   "form": "the edit as registered with the mutation; the unit suites do not see it (window of G2)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ],
+     "new": [
+      "        ledger_type::add (owner);",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M33",
+   "layer": "v1",
+   "description": "decision reads relaxed (load and the failure order of the swaps)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "        seen = word_.load (std::memory_order_acquire);",
+     "new": "        seen = word_.load (std::memory_order_relaxed);",
+     "count": 2
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "                current, image, order, std::memory_order_acquire);",
+     "new": "                current, image, order, std::memory_order_relaxed);"
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                            current, image, rmw_order (success),",
+      "                            std::memory_order_acquire);"
+     ],
+     "new": [
+      "                            current, image, rmw_order (success),",
+      "                            std::memory_order_relaxed);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor",
+   "note": "a memory-order mutation: invisible on x86-64 (the Relacy cases M33, M33a and M33b catch it)"
+  },
+  {
+   "id": "V1/M34",
+   "layer": "v1",
+   "description": "fast path without the L == 0 check",
+   "form": "the edit as registered with the mutation",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "        if (word::is_empty (seen) || word::ticks_of (seen) == 0u)",
+     "new": "        if (true)"
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R8_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M35a",
+   "layer": "v1",
+   "description": "reserve surplus not returned (store drops the old word without the surplus)",
+   "form": "ambiguous ('store drop or exchange hand-over'): the store form",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    drop_word_with_ext (swapped.old, swapped.surplus);",
+      "  }",
+      "",
+      "  Pointer",
+      "  exchange"
+     ],
+     "new": [
+      "    drop_word (swapped.old);",
+      "  }",
+      "",
+      "  Pointer",
+      "  exchange"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M35b",
+   "layer": "v1",
+   "description": "reserve surplus not returned (exchange hand-over keeps the surplus deposited)",
+   "form": "ambiguous ('store drop or exchange hand-over'): the exchange form",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    withdraw (swapped.old, swapped.surplus);",
+      "    return hand_over (swapped.old);"
+     ],
+     "new": [
+      "    return hand_over (swapped.old);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M36",
+   "layer": "v1",
+   "description": "reserve exceeded without a top-up",
+   "form": "the edit as registered with the mutation (the top-up block of swap_out)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            if (need > moved)",
+      "              {",
+      "                std::uint32_t const total = need + Policy::reserve ();",
+      "                deposit (found, total - moved);",
+      "                moved = total;",
+      "              }",
+      "            current = found;"
+     ],
+     "new": [
+      "            static_cast<void> (need);",
+      "            current = found;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "TU@R0@3",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioTUR0_*",
+     "expect": "caught",
+     "env": {
+      "LUMEX_SIM_ONLY": "TU@R0@3"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M37",
+   "layer": "v1",
+   "description": "use_count returns count only",
+   "edits": [
+    {
+     "file": "lumex/core/smart_ptr/ctl/LumexSmartPtrCounter.hpp",
+     "old": "    return count_of (word) + ext_of (word);",
+     "new": "    return count_of (word);"
+    }
+   ],
+   "checks": [
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/M38",
+   "layer": "v1",
+   "description": "L9 take_and_settle replaced by add (payment forgotten)",
+   "form": "the edit registered for the recommended rerun",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    else",
+      "      ledger_type::take_and_settle (block);",
+      "  }"
+     ],
+     "new": [
+      "    else",
+      "      ledger_type::add (block);",
+      "  }"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "S01@R8@1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioS01R8_*",
+     "env": {
+      "LUMEX_SIM_ONLY": "S01@R8@1"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V1/R4",
+   "layer": "v1",
+   "description": "swap_out: the same block with L == 0 counts as pinned",
+   "form": "the edit registered for the recommended rerun (the same edit as V2/M09)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "            if (found.lo != pinned.lo || word::ticks_of (found) == 0u)",
+     "new": "            if (found.lo != pinned.lo)"
+    }
+   ],
+   "checks": [
+    {
+     "label": "UW2@R8@2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.GivenScenarioUW2R8_*",
+     "env": {
+      "LUMEX_SIM_ONLY": "UW2@R8@2"
+     }
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M01",
+   "layer": "v2",
+   "description": "same_value ignores the delta (same as N02)",
+   "form": "a non-empty word equals any word of the same block: the offset comparison is replaced by true",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": "    return (a.hi >> offset_shift ()) == (b.hi >> offset_shift ());",
+     "new": "    return true;"
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M02",
+   "layer": "v2",
+   "description": "load: stale holder owner and pointer from the guess; the cache is refreshed on every failed compare-exchange",
+   "form": "the form that the table of VERIFICATION.md states (the cache is read from the holder of each guess, before the tick); the literal 'first guess only' form is V2/M02a",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "  // mutable: a load is a compare-and-swap of the word.",
+     "new": [
+      "  static block_type *&",
+      "  m02_owner () LUMEX_NOEXCEPT",
+      "  {",
+      "    static thread_local block_type *o = nullptr;",
+      "    return o;",
+      "  }",
+      "  static void *&",
+      "  m02_pointer () LUMEX_NOEXCEPT",
+      "  {",
+      "    static thread_local void *p = nullptr;",
+      "    return p;",
+      "  }",
+      "  // mutable: a load is a compare-and-swap of the word."
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        Policy::at (split_point_t::load_tick);",
+      "        split_value_t const found = word_.compare_exchange_strong (",
+      "            seen, word::with_tick (seen), order, std::memory_order_relaxed);",
+      "        if (found == seen)",
+      "          {",
+      "            Policy::note (split_event_t::tick, 1u);"
+     ],
+     "new": [
+      "        if (word::is_holder (seen))",
+      "          {",
+      "            holder_type const *const h0",
+      "                = static_cast<holder_type const *> (word::block_of (seen));",
+      "            m02_owner () = h0->owner ();",
+      "            m02_pointer () = h0->pointer ();",
+      "          }",
+      "        else",
+      "          m02_owner () = nullptr;",
+      "        Policy::at (split_point_t::load_tick);",
+      "        split_value_t const found = word_.compare_exchange_strong (",
+      "            seen, word::with_tick (seen), order, std::memory_order_relaxed);",
+      "        if (found == seen)",
+      "          {",
+      "            Policy::note (split_event_t::tick, 1u);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        owner = holder->owner ();",
+      "        stored = static_cast<element_type *> (holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);"
+     ],
+     "new": [
+      "        owner = m02_owner () != nullptr ? m02_owner () : holder->owner ();",
+      "        stored = static_cast<element_type *> (",
+      "            m02_owner () != nullptr ? m02_pointer () : holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M02a",
+   "layer": "v2",
+   "description": "load: stale holder owner and pointer from the first guess, never refreshed",
+   "form": "the literal reading of 'from the first guess'; VERIFICATION.md says V1 (scenario H2) also catches this form",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "  // mutable: a load is a compare-and-swap of the word.",
+     "new": [
+      "  static block_type *&",
+      "  m02_owner () LUMEX_NOEXCEPT",
+      "  {",
+      "    static thread_local block_type *o = nullptr;",
+      "    return o;",
+      "  }",
+      "  static void *&",
+      "  m02_pointer () LUMEX_NOEXCEPT",
+      "  {",
+      "    static thread_local void *p = nullptr;",
+      "    return p;",
+      "  }",
+      "  // mutable: a load is a compare-and-swap of the word."
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    Policy::at (split_point_t::load_read);",
+      "    split_value_t seen = Policy::guess (word_);",
+      "    for (;;)",
+      "      {",
+      "        if (word::is_empty (seen))",
+      "          {",
+      "            Policy::at (split_point_t::load_tick);"
+     ],
+     "new": [
+      "    Policy::at (split_point_t::load_read);",
+      "    split_value_t seen = Policy::guess (word_);",
+      "    if (word::is_holder (seen))",
+      "      {",
+      "        holder_type const *const h0",
+      "            = static_cast<holder_type const *> (word::block_of (seen));",
+      "        m02_owner () = h0->owner ();",
+      "        m02_pointer () = h0->pointer ();",
+      "      }",
+      "    else",
+      "      m02_owner () = nullptr;",
+      "    for (;;)",
+      "      {",
+      "        if (word::is_empty (seen))",
+      "          {",
+      "            Policy::at (split_point_t::load_tick);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        owner = holder->owner ();",
+      "        stored = static_cast<element_type *> (holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);"
+     ],
+     "new": [
+      "        owner = m02_owner () != nullptr ? m02_owner () : holder->owner ();",
+      "        stored = static_cast<element_type *> (",
+      "            m02_owner () != nullptr ? m02_pointer () : holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M03",
+   "layer": "v2",
+   "description": "holder compare-exchange: owner and pointer read from the guess, before the pin",
+   "form": "the owner and the pointer are read from the holder named by the guess, before the pinning compare-and-swap",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            Policy::at (split_point_t::cas_pin);",
+      "            split_value_t const found = word_.compare_exchange_strong (",
+      "                seen, word::with_tick (seen), rmw_order (success),",
+      "                std::memory_order_relaxed);"
+     ],
+     "new": [
+      "            block_type const *const guess_owner",
+      "                = static_cast<holder_type const *> (word::block_of (seen))->owner ();",
+      "            void const *const guess_pointer",
+      "                = static_cast<holder_type const *> (word::block_of (seen))->pointer ();",
+      "            Policy::at (split_point_t::cas_pin);",
+      "            split_value_t const found = word_.compare_exchange_strong (",
+      "                seen, word::with_tick (seen), rmw_order (success),",
+      "                std::memory_order_relaxed);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            if (holder->owner () == expected_block",
+      "                && holder->pointer () == expected_pointer)"
+     ],
+     "new": [
+      "            static_cast<void> (holder);",
+      "            if (guess_owner == expected_block",
+      "                && guess_pointer == expected_pointer)"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M04",
+   "layer": "v2",
+   "description": "holder compare-exchange: no compare after the pin",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            if (holder->owner () == expected_block",
+      "                && holder->pointer () == expected_pointer)"
+     ],
+     "new": [
+      "            if (true)"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M05",
+   "layer": "v2",
+   "description": "settle: blind retry (a failed un-tick is retried on the new word without looking at it)",
+   "form": "ambiguous ('blind retry'): after a failed un-tick the new word is un-ticked without testing that it still names the block with L > 0",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                Policy::note (split_event_t::untick, 1u);",
+      "                return;",
+      "              }",
+      "            seen = found;",
+      "            continue;"
+     ],
+     "new": [
+      "                Policy::note (split_event_t::untick, 1u);",
+      "                return;",
+      "              }",
+      "            split_value_t last = found;",
+      "            for (;;)",
+      "              {",
+      "                split_value_t const again = word_.compare_exchange_strong (",
+      "                    last, word::without_tick (last), std::memory_order_release,",
+      "                    std::memory_order_relaxed);",
+      "                if (again == last)",
+      "                  {",
+      "                    Policy::note (split_event_t::untick, 1u);",
+      "                    return;",
+      "                  }",
+      "                last = again;",
+      "              }"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M06",
+   "layer": "v2",
+   "description": "settle: un-tick of any block",
+   "form": "the test seen.lo == tag is dropped from the un-tick decision of settle (the decision to pay keeps it)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          {",
+      "            Policy::at (split_point_t::settle_untick);"
+     ],
+     "new": [
+      "        if (word::ticks_of (seen) != 0u)",
+      "          {",
+      "            Policy::at (split_point_t::settle_untick);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M07",
+   "layer": "v2",
+   "description": "count_and_settle: the present decision ignores the tag",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          {",
+      "            ledger_type::add (owner);"
+     ],
+     "new": [
+      "        if (word::ticks_of (seen) != 0u)",
+      "          {",
+      "            ledger_type::add (owner);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ],
+     "new": [
+      "        if (word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M08",
+   "layer": "v2",
+   "description": "count_and_settle: the present decision ignores L != 0",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          {",
+      "            ledger_type::add (owner);"
+     ],
+     "new": [
+      "        if (seen.lo == tag)",
+      "          {",
+      "            ledger_type::add (owner);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ],
+     "new": [
+      "        if (seen.lo == tag)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M09",
+   "layer": "v2",
+   "description": "swap_out: the same block with L == 0 counts as pinned",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "            if (found.lo != pinned.lo || word::ticks_of (found) == 0u)",
+     "new": "            if (found.lo != pinned.lo)"
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M10",
+   "layer": "v2",
+   "description": "swap_out: another block with ticks counts as the same",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "            if (found.lo != pinned.lo || word::ticks_of (found) == 0u)",
+     "new": "            if (word::ticks_of (found) == 0u)"
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "soak:RX@R8@3",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaSoakTest.GivenScenarioRXR8_*",
+     "expect": "caught",
+     "kind": "soak",
+     "env": {
+      "LUMEX_SIM_ONLY": "RX@R8@3"
+     }
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught",
+   "note": "the V2 quick set misses it; the soak bound of V2 and the quick set of V1 catch it"
+  },
+  {
+   "id": "V2/M11",
+   "layer": "v2",
+   "description": "compare-exchange: the image is dropped after a failed swap but reused",
+   "form": "ambiguous: the image is dropped (its unit released) after a failed swap although the retry swaps it in, on both overloads",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                withdraw (seen, moved);",
+      "                seen = found;",
+      "                break;"
+     ],
+     "new": [
+      "                withdraw (seen, moved);",
+      "                drop_word (image);",
+      "                seen = found;",
+      "                break;"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            withdraw (seen, ticks);",
+      "            seen = found;"
+     ],
+     "new": [
+      "            withdraw (seen, ticks);",
+      "            drop_word (image);",
+      "            seen = found;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M12",
+   "layer": "v2",
+   "description": "counter try_add: count_of instead of the whole word",
+   "edits": [
+    {
+     "file": "lumex/core/smart_ptr/ctl/LumexSmartPtrCounter.hpp",
+     "old": [
+      "        if (current == 0)",
+      "          return false;"
+     ],
+     "new": [
+      "        if (count_of (current) == 0)",
+      "          return false;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M13",
+   "layer": "v2",
+   "description": "weak_ptr expired: the count part only",
+   "edits": [
+    {
+     "file": "lumex/core/smart_ptr/ctl/LumexSmartPtrCounter.hpp",
+     "old": "    return load () != 0;",
+     "new": "    return count_of (load ()) != 0;"
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M14a",
+   "layer": "v2",
+   "description": "block_of: the holder flag is not masked",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": "        static_cast<std::uintptr_t> (value.lo & ~holder_flag ()));",
+     "new": "        static_cast<std::uintptr_t> (value.lo));"
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M14b",
+   "layer": "v2",
+   "description": "tag compared without the holder bit",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "seen.lo == tag",
+     "new": "(seen.lo | 1u) == (tag | 1u)",
+     "count": 4
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "equivalent",
+   "note": "equivalent: the pinned block keeps its address, so the holder bit never decides a comparison of two addresses"
+  },
+  {
+   "id": "V2/M15",
+   "layer": "v2",
+   "description": "load: stale holder owner, weak engine only",
+   "form": "reconstructed: the cache of M02 (refreshed per guess) applied to the weak engine only",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "  // mutable: a load is a compare-and-swap of the word.",
+     "new": [
+      "  static block_type *&",
+      "  m02_owner () LUMEX_NOEXCEPT",
+      "  {",
+      "    static thread_local block_type *o = nullptr;",
+      "    return o;",
+      "  }",
+      "  static void *&",
+      "  m02_pointer () LUMEX_NOEXCEPT",
+      "  {",
+      "    static thread_local void *p = nullptr;",
+      "    return p;",
+      "  }",
+      "  // mutable: a load is a compare-and-swap of the word."
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        Policy::at (split_point_t::load_tick);",
+      "        split_value_t const found = word_.compare_exchange_strong (",
+      "            seen, word::with_tick (seen), order, std::memory_order_relaxed);",
+      "        if (found == seen)",
+      "          {",
+      "            Policy::note (split_event_t::tick, 1u);"
+     ],
+     "new": [
+      "        if (word::is_holder (seen) && !traits_type::mirror_holder)",
+      "          {",
+      "            holder_type const *const h0",
+      "                = static_cast<holder_type const *> (word::block_of (seen));",
+      "            m02_owner () = h0->owner ();",
+      "            m02_pointer () = h0->pointer ();",
+      "          }",
+      "        else",
+      "          m02_owner () = nullptr;",
+      "        Policy::at (split_point_t::load_tick);",
+      "        split_value_t const found = word_.compare_exchange_strong (",
+      "            seen, word::with_tick (seen), order, std::memory_order_relaxed);",
+      "        if (found == seen)",
+      "          {",
+      "            Policy::note (split_event_t::tick, 1u);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        owner = holder->owner ();",
+      "        stored = static_cast<element_type *> (holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);"
+     ],
+     "new": [
+      "        owner = m02_owner () != nullptr ? m02_owner () : holder->owner ();",
+      "        stored = static_cast<element_type *> (",
+      "            m02_owner () != nullptr ? m02_pointer () : holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M16",
+   "layer": "v2",
+   "description": "load: a static cross-thread cache from holder to owner",
+   "form": "reconstructed: a one-entry static cache keyed by the holder address, never invalidated",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "  // mutable: a load is a compare-and-swap of the word.",
+     "new": [
+      "  static block_type *",
+      "  m16_owner (holder_type const *h) LUMEX_NOEXCEPT",
+      "  {",
+      "    static holder_type const *key = nullptr;",
+      "    static block_type *value = nullptr;",
+      "    if (key != h)",
+      "      {",
+      "        key = h;",
+      "        value = h->owner ();",
+      "      }",
+      "    return value;",
+      "  }",
+      "  // mutable: a load is a compare-and-swap of the word."
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        owner = holder->owner ();",
+      "        stored = static_cast<element_type *> (holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);"
+     ],
+     "new": [
+      "        owner = m16_owner (holder);",
+      "        stored = static_cast<element_type *> (holder->pointer ());",
+      "      }",
+      "    else",
+      "      stored = block_pointer (block, pinned);",
+      "    count_and_settle (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/M17",
+   "layer": "v2",
+   "description": "compare-exchange of a block: deposit 0 instead of the ticks of the word",
+   "form": "both overloads of the block compare-exchange (the old path and the path with the reserve)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "            deposit (seen, ticks);",
+     "new": "            deposit (seen, 0u);"
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "            deposit (seen, moved);",
+     "new": "            deposit (seen, 0u);"
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/N03",
+   "layer": "v2",
+   "description": "empty same_value ignores the raw pointer",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": [
+      "    if (a.lo == 0u)",
+      "      return a.hi == b.hi;"
+     ],
+     "new": [
+      "    if (a.lo == 0u)",
+      "      return true;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/N04",
+   "layer": "v2",
+   "description": "an empty word equals any word with the same hi",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": [
+      "    if (a.lo != b.lo)",
+      "      return false;",
+      "    if (a.lo == 0u)"
+     ],
+     "new": [
+      "    if (a.lo == 0u || b.lo == 0u)",
+      "      {",
+      "        if ((a.lo == 0u) != (b.lo == 0u))",
+      "          return a.hi == b.hi;",
+      "      }",
+      "    if (a.lo != b.lo)",
+      "      return false;",
+      "    if (a.lo == 0u)"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/N07",
+   "layer": "v2",
+   "description": "settle: the tick counts as present only with the same delta",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          {",
+      "            Policy::at (split_point_t::settle_untick);"
+     ],
+     "new": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u",
+      "            && (seen.hi >> 24) == (pinned.hi >> 24))",
+      "          {",
+      "            Policy::at (split_point_t::settle_untick);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        seen = word_.load (std::memory_order_acquire);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ],
+     "new": [
+      "        seen = word_.load (std::memory_order_acquire);",
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u",
+      "            && (seen.hi >> 24) == (pinned.hi >> 24))",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        pay (pinned, 1u);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "soak:DA@R8@3",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaSoakTest.GivenScenarioDAR8_*",
+     "expect": "caught",
+     "kind": "soak",
+     "env": {
+      "LUMEX_SIM_ONLY": "DA@R8@3"
+     }
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught",
+   "note": "N07 and N08 reproduce the profile of the reviewer's mutants (V2 DA2 at quick, DA at the soak bound 3)"
+  },
+  {
+   "id": "V2/N08",
+   "layer": "v2",
+   "description": "count_and_settle: the tick counts as present only with the same delta",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          {",
+      "            ledger_type::add (owner);"
+     ],
+     "new": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u",
+      "            && (seen.hi >> 24) == (pinned.hi >> 24))",
+      "          {",
+      "            ledger_type::add (owner);"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u)",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ],
+     "new": [
+      "        if (seen.lo == tag && word::ticks_of (seen) != 0u",
+      "            && (seen.hi >> 24) == (pinned.hi >> 24))",
+      "          continue;",
+      "        Policy::note (split_event_t::settle_ext, 1u);",
+      "        take_and_pay (pinned, owner);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "soak:DA@R8@3",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaSoakTest.GivenScenarioDAR8_*",
+     "expect": "caught",
+     "kind": "soak",
+     "env": {
+      "LUMEX_SIM_ONLY": "DA@R8@3"
+     }
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/N10",
+   "layer": "v2",
+   "description": "holder compare-exchange compares the owner only",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            if (holder->owner () == expected_block",
+      "                && holder->pointer () == expected_pointer)"
+     ],
+     "new": [
+      "            if (holder->owner () == expected_block)"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V2/N11",
+   "layer": "v2",
+   "description": "holder compare-exchange compares the pointer only",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            if (holder->owner () == expected_block",
+      "                && holder->pointer () == expected_pointer)"
+     ],
+     "new": [
+      "            if (holder->pointer () == expected_pointer)"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "v2",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "v1",
+     "exe": "dedicated",
+     "filter": "LumexSplitCountSimTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "unit",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSim*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "survivor",
+   "note": "a gap of the scenario vocabulary: in the simulator a far pointer is determined by its owner"
+  },
+  {
+   "id": "V3/M1",
+   "layer": "v3",
+   "description": "compare ignores the offset (same_value)",
+   "form": "the same edit as V2/M01",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": "    return (a.hi >> offset_shift ()) == (b.hi >> offset_shift ());",
+     "new": "    return true;"
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V3/M2",
+   "layer": "v3",
+   "description": "store drops the replaced word without its decrement",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    drop_word_with_ext (swapped.old, swapped.surplus);",
+      "  }",
+      "",
+      "  Pointer",
+      "  exchange"
+     ],
+     "new": [
+      "    static_cast<void> (swapped);",
+      "  }",
+      "",
+      "  Pointer",
+      "  exchange"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V3/M3",
+   "layer": "v3",
+   "description": "exchange returns load () and drops the store",
+   "form": "ambiguous: the literal reading, exchange does no swap and returns load () (the desired value is simply destroyed); the earlier family-differential mutant O3/A returns the desired value instead",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    ::lumex::core::atomic::dwcas::require_dwcas ();",
+      "    split_value_t const image = take_image (desired);",
+      "    swapped_t const swapped = swap_out (image, rmw_order (order));",
+      "    withdraw (swapped.old, swapped.surplus);",
+      "    return hand_over (swapped.old);"
+     ],
+     "new": [
+      "    ::lumex::core::atomic::dwcas::require_dwcas ();",
+      "    return load (order);"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V3/M4",
+   "layer": "v3",
+   "description": "a successful compare-exchange skips the drop of the old word (path with the reserve)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                    drop_word_with_ext (seen, moved - cas_ticks (seen));",
+      "                    return true;"
+     ],
+     "new": [
+      "                    return true;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "V3/M4n",
+   "layer": "v3",
+   "description": "a successful compare-exchange skips the drop of the old word (path without a reserve)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                drop_word (seen);",
+      "                return true;"
+     ],
+     "new": [
+      "                return true;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught",
+   "note": "the family suites run the production policy only, so they do not reach the path without a reserve"
+  },
+  {
+   "id": "V3/M5",
+   "layer": "v3",
+   "description": "compare ignores the block",
+   "form": "ambiguous: the block comparison of same_value is dropped (a word of another block with the same offset is the same value)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountWord.hpp",
+     "old": [
+      "    if (a.lo != b.lo)",
+      "      return false;",
+      "    if (a.lo == 0u)"
+     ],
+     "new": [
+      "    if (a.lo == 0u)"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/X1",
+   "layer": "x",
+   "description": "the surplus returned with the drop is one too big",
+   "form": "the script of the review: X1",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "drop_word_with_ext (seen, moved - cas_ticks (seen));",
+     "new": "drop_word_with_ext (seen, moved - cas_ticks (seen) + 1u);"
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/X2",
+   "layer": "x",
+   "description": "the strong form keeps its deposit but does not top it up",
+   "form": "the script of the review: X3 (the deposit of the top-up is removed, the bookkeeping stays)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                        deposit (found, need + k - moved);",
+      "                        moved = need + k;"
+     ],
+     "new": "                        moved = need + k;"
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/X3",
+   "layer": "x",
+   "description": "the holder deposit is one short",
+   "form": "ambiguous: the script of the review: H3 (the top-up of the holder deposit lacks the reserve k)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "deposit (swapped, need + k - moved);",
+     "new": "deposit (swapped, need - moved);"
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/X4",
+   "layer": "x",
+   "description": "the block deposit is the ticks without the reserve",
+   "form": "the script of the review: X7 (the review's X7)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            if (moved != 0u)",
+      "              moved += k;"
+     ],
+     "new": [
+      "            if (moved != 0u)",
+      "              moved += 0u;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught",
+   "note": "caught only by the window test of the Exact suite"
+  },
+  {
+   "id": "X/X5",
+   "layer": "x",
+   "description": "the holder deposit is the ticks without the reserve",
+   "form": "the script of the review: H2 (the review's H2)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                if (k != 0u && moved != 0u)",
+      "                  moved += k;"
+     ],
+     "new": ""
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught",
+   "note": "caught only by the window test of the Exact suite"
+  },
+  {
+   "id": "X/X8",
+   "layer": "x",
+   "description": "the top-up of the kept deposit goes to the ticks without the reserve (need instead of need + k)",
+   "form": "the script of the review: X8",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                        deposit (found, need + k - moved);",
+      "                        moved = need + k;"
+     ],
+     "new": [
+      "                        deposit (found, need - moved);",
+      "                        moved = need;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/X9",
+   "layer": "x",
+   "description": "the strong form never keeps its deposit (withdraws and deposits again on every equivalent failure)",
+   "form": "the script of the review: X9",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "                if (!weak && word::same_value (found, want))",
+     "new": "                if (false && !weak && word::same_value (found, want))"
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/rX2",
+   "layer": "x",
+   "description": "the success drops the old word without the surplus of the deposit",
+   "form": "the script of the review: X2; not in the table of VERIFICATION.md",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "drop_word_with_ext (seen, moved - cas_ticks (seen));",
+     "new": "drop_word (seen);"
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/rX4",
+   "layer": "x",
+   "description": "a failed swap of the block compare-exchange does not withdraw the deposit",
+   "form": "the script of the review: X4; not in the table of VERIFICATION.md",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                withdraw (seen, moved);",
+      "                seen = found;",
+      "                break;"
+     ],
+     "new": [
+      "                seen = found;",
+      "                break;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/rX5",
+   "layer": "x",
+   "description": "the strong block compare-exchange treats every failure as an equivalent one (keeps the deposit)",
+   "form": "the script of the review: X5; not in the table of VERIFICATION.md",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "                if (!weak && word::same_value (found, want))",
+     "new": "                if (!weak)"
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/rX6",
+   "layer": "x",
+   "description": "the reserve of the block deposit is one too big",
+   "form": "the script of the review: X6; not in the table of VERIFICATION.md",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            if (moved != 0u)",
+      "              moved += k;"
+     ],
+     "new": [
+      "            if (moved != 0u)",
+      "              moved += k + 1u;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/H1",
+   "layer": "x",
+   "description": "the holder deposit has a reserve one too big",
+   "form": "the script of the review: H1; not in the table of VERIFICATION.md",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                if (k != 0u && moved != 0u)",
+      "                  moved += k;"
+     ],
+     "new": [
+      "                if (k != 0u && moved != 0u)",
+      "                  moved += k + 1u;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/F1",
+   "layer": "x",
+   "description": "the path without a reserve: a failed swap does not withdraw",
+   "form": "the script of the review: F1; not in the table of VERIFICATION.md",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            withdraw (seen, ticks);",
+      "            seen = found;"
+     ],
+     "new": "            seen = found;"
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "X/F2",
+   "layer": "x",
+   "description": "the path without a reserve: a balanced over-deposit of one unit",
+   "form": "the script of the review: F2; not in the table of VERIFICATION.md",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": "            deposit (seen, ticks);",
+     "new": "            deposit (seen, ticks == 0u ? 0u : ticks + 1u);"
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "                drop_word (seen);",
+      "                return true;"
+     ],
+     "new": [
+      "                drop_word_with_ext (seen, ticks == 0u ? 0u : 1u);",
+      "                return true;"
+     ]
+    },
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "            withdraw (seen, ticks);",
+      "            seen = found;"
+     ],
+     "new": [
+      "            withdraw (seen, ticks == 0u ? 0u : ticks + 1u);",
+      "            seen = found;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "dedicated",
+     "exe": "dedicated",
+     "filter": "-LumexSplitCountSimSoakTest.*:LumexSplitCountSimAbaSoakTest.*",
+     "expect": "caught"
+    },
+    {
+     "label": "aba",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrAbaTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "lin",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLinearizabilityTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "struct",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrStructuresTest.*",
+     "expect": "uncaught"
+    },
+    {
+     "label": "life",
+     "exe": "family",
+     "filter": "LumexAtomicSmartPtrLifecycleTest.*",
+     "expect": "uncaught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "O3/A",
+   "layer": "o3",
+   "description": "exchange returns the value it was given and still stores it",
+   "form": "the mutant of the review of the differential suite (a copy of the argument is returned instead of the previous value)",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    ::lumex::core::atomic::dwcas::require_dwcas ();",
+      "    split_value_t const image = take_image (desired);",
+      "    swapped_t const swapped = swap_out (image, rmw_order (order));",
+      "    withdraw (swapped.old, swapped.surplus);",
+      "    return hand_over (swapped.old);"
+     ],
+     "new": [
+      "    ::lumex::core::atomic::dwcas::require_dwcas ();",
+      "    Pointer const kept (desired);",
+      "    split_value_t const image = take_image (desired);",
+      "    swapped_t const swapped = swap_out (image, rmw_order (order));",
+      "    withdraw (swapped.old, swapped.surplus);",
+      "    Pointer dropped = hand_over (swapped.old);",
+      "    static_cast<void> (dropped);",
+      "    return kept;"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "differential",
+     "exe": "default20",
+     "filter": "LumexAtomicSmartPtrFamilyDifferentialTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  },
+  {
+   "id": "O3/B",
+   "layer": "o3",
+   "description": "store does not drop the replaced word",
+   "form": "the same edit as V3/M2; the mutant of the review of the differential suite",
+   "edits": [
+    {
+     "file": "lumex/core/atomic/smart_ptr/split_count/LumexSplitCountCell.hpp",
+     "old": [
+      "    drop_word_with_ext (swapped.old, swapped.surplus);",
+      "  }",
+      "",
+      "  Pointer",
+      "  exchange"
+     ],
+     "new": [
+      "    static_cast<void> (swapped);",
+      "  }",
+      "",
+      "  Pointer",
+      "  exchange"
+     ]
+    }
+   ],
+   "checks": [
+    {
+     "label": "differential",
+     "exe": "default20",
+     "filter": "LumexAtomicSmartPtrFamilyDifferentialTest.*",
+     "expect": "caught"
+    }
+   ],
+   "expected": "caught"
+  }
+ ]
+}
