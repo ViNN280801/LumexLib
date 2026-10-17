@@ -70,8 +70,10 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <cstdlib>
 #include <new>
 #include <thread>
+#include <type_traits>
 
 #if defined(_WIN32)
 // Fiber local storage (FlsAlloc) is Windows Vista and later; older MinGW
@@ -191,6 +193,21 @@ struct cache_t
   slot_t *items[kCacheCapacity];
   std::size_t count;
 };
+
+// The cache and the scan table are internal storage: they come from
+// std::malloc and go back with std::free, never from the program's operator
+// new. A libstdc++ before GCC 9 does not route the nothrow forms to a replaced
+// operator new, so a program that replaces only the throwing forms with a
+// scheme that is not malloc/free would pass a block of its own to the
+// library's operator delete at thread exit. malloc gives alignof
+// (std::max_align_t), which both types need at most; both are trivial, so no
+// constructor or destructor has to run.
+static_assert (alignof (cache_t) <= alignof (std::max_align_t),
+               "std::malloc must align the cache");
+static_assert (alignof (std::uintptr_t) <= alignof (std::max_align_t),
+               "std::malloc must align the scan table");
+static_assert (std::is_trivially_destructible<cache_t>::value,
+               "the cache is released without a destructor call");
 
 struct domain_t
 {
@@ -378,7 +395,7 @@ evict_cache (cache_t *cache) LUMEX_NOEXCEPT
         }
       push_chain (first, last, cache->count);
     }
-  delete cache;
+  std::free (cache);
 }
 
 #if defined(_WIN32)
@@ -471,13 +488,14 @@ exit_hook_ready () LUMEX_NOEXCEPT
 cache_t *
 create_cache () LUMEX_NOEXCEPT
 {
-  cache_t *cache = new (std::nothrow) cache_t ();
+  void *const raw = std::malloc (sizeof (cache_t));
+  cache_t *const cache = raw != nullptr ? new (raw) cache_t () : nullptr;
   if (cache != nullptr && exit_hook_ready () && set_exit_hook_value (cache))
     {
       t_cache = cache;
       return cache;
     }
-  delete cache;
+  std::free (cache);
   t_cache = &g_no_cache;
   return &g_no_cache;
 }
@@ -564,7 +582,7 @@ public:
   address_set_t () LUMEX_NOEXCEPT : table_ (nullptr), mask_ (0) {}
   address_set_t (address_set_t const &) = delete;
   address_set_t &operator= (address_set_t const &) = delete;
-  ~address_set_t () { delete[] table_; }
+  ~address_set_t () { std::free (table_); }
 
   bool
   reserve (std::size_t entries) LUMEX_NOEXCEPT
@@ -574,7 +592,8 @@ public:
       {
         capacity *= 2;
       }
-    table_ = new (std::nothrow) std::uintptr_t[capacity];
+    table_ = static_cast<std::uintptr_t *> (
+        std::malloc (capacity * sizeof (std::uintptr_t)));
     if (table_ == nullptr)
       {
         return false;

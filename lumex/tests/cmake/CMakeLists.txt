@@ -378,6 +378,12 @@ lumex_add_consumer_test(consumer_hazard_pointer_two_modules
     hazard_pointer_two_modules)
 lumex_add_consumer_test(consumer_hazard_pointer_static_destruction
     hazard_pointer_static_destruction)
+# A program that replaces only the throwing operator new and delete (with a
+# block header) must not see the engine's internal storage: the thread cache and
+# the scan table come from malloc/free (libstdc++ before GCC 9 does not route
+# new (std::nothrow) to a replaced operator new).
+lumex_add_consumer_test(consumer_hazard_pointer_throwing_new_only
+    hazard_pointer_throwing_new_only)
 # core/contracts: the semantic of the build (the CMake option
 # LUMEX_CONTRACTS_SEMANTIC) reaches a consumer of lumex::contracts and behaves as
 # that semantic, a translation unit may override it; one violation handler per
