@@ -21,6 +21,12 @@
 //
 // Usage: LumexAtomicBenchmark [--csv FILE] [--threads 1,2,4] [--duration-ms N]
 //                             [--warmup-ms N] [--repetition N] [--list]
+//                             [--scenario shared|weak|destroy|store_wait]
+//                             [--objects N] [--stores N] [--pin]
+//
+// Scenario store_wait: one writer times every single store () while the
+// other threads load (); the result is the distribution of the time of one
+// store, not a rate.
 #include <atomic>
 #include <cstdint>
 #include <cstdlib>
@@ -69,7 +75,8 @@ enum scenario_t
 {
   scenario_shared, ///< the operations on the atomic shared pointers
   scenario_weak,   ///< load and lock () on the atomic weak pointers
-  scenario_destroy ///< the latency from a replacing store to the destructor
+  scenario_destroy, ///< the latency from a replacing store to the destructor
+  scenario_store_wait ///< the time of every single store of a writer
 };
 
 #if defined(__cpp_lib_atomic_shared_ptr)
@@ -209,6 +216,8 @@ struct options_t
   bool list;
   bool threads_given;
   long objects; ///< scenario destroy: replacements per measurement
+  long stores;  ///< scenario store_wait: timed stores per measurement
+  bool pin;     ///< scenario store_wait: pin every thread to a CPU
   int scenario;
   std::vector<std::string> series; ///< empty: every series
 };
@@ -232,8 +241,9 @@ print_usage ()
          "                            [--duration-ms N] [--warmup-ms N]\n"
          "                            [--repetition N] [--series KEY,KEY] "
          "[--list]\n"
-         "                            [--scenario shared|weak|destroy]"
-         " [--objects N]\n";
+         "                            [--scenario shared|weak|destroy|store_wait]"
+         " [--objects N]\n"
+         "                            [--stores N] [--pin]\n";
 }
 
 bool
@@ -249,6 +259,8 @@ parse_options (int argc, char **argv, options_t &options)
   options.list = false;
   options.threads_given = false;
   options.objects = 20000;
+  options.stores = 100000;
+  options.pin = false;
   options.scenario = scenario_shared;
   for (int i = 1; i < argc; ++i)
     {
@@ -272,6 +284,8 @@ parse_options (int argc, char **argv, options_t &options)
             options.scenario = scenario_weak;
           else if (std::strcmp (name, "destroy") == 0)
             options.scenario = scenario_destroy;
+          else if (std::strcmp (name, "store_wait") == 0)
+            options.scenario = scenario_store_wait;
           else
             return false;
         }
@@ -281,6 +295,14 @@ parse_options (int argc, char **argv, options_t &options)
               || options.objects == 0)
             return false;
         }
+      else if (std::strcmp (argv[i], "--stores") == 0 && has_value)
+        {
+          if (!parse_positive (argv[++i], options.stores)
+              || options.stores == 0)
+            return false;
+        }
+      else if (std::strcmp (argv[i], "--pin") == 0)
+        options.pin = true;
       else if (std::strcmp (argv[i], "--duration-ms") == 0 && has_value)
         {
           if (!parse_positive (argv[++i], options.duration_ms)
@@ -425,6 +447,57 @@ run_destroy_block (std::ostream &csv, long repetition, int threads,
               << " threads) destroyed an object twice or not at all\n";
   return result.valid;
 }
+
+/**
+ * Writes the rows of the store-wait scenario of one series. ns_per_op carries
+ * the time of one store in ns (the count of stores over 1 ms, in `successes`,
+ * for store_wait_over_1ms; the median cost of an empty pair of clock reads
+ * for store_wait_timer; the writer's involuntary context switches during the
+ * timed stores, and the stores over 1 ms after which that count had advanced,
+ * for store_wait_switches and store_wait_over_1ms_switched); operations the
+ * timed stores.
+ */
+bool
+run_store_wait_block (std::ostream &csv, long repetition, int threads,
+                      bench::implementation_t const &implementation,
+                      long stores, bool pin)
+{
+  bench::store_wait_result_t const result
+      = implementation.store_wait (threads, stores, pin);
+  struct row_t
+  {
+    char const *operation;
+    double value;
+    unsigned long long successes;
+  };
+  row_t const rows[]
+      = { { "store_wait_timer", result.timer_ns, 0u },
+          { "store_wait_median", result.median_ns, 0u },
+          { "store_wait_p90", result.p90_ns, 0u },
+          { "store_wait_p99", result.p99_ns, 0u },
+          { "store_wait_p999", result.p999_ns, 0u },
+          { "store_wait_p9999", result.p9999_ns, 0u },
+          { "store_wait_max", result.max_ns, 0u },
+          { "store_wait_over_1ms", static_cast<double> (result.over_1ms),
+            result.over_1ms },
+          { "store_wait_switches", static_cast<double> (result.switches),
+            result.switches },
+          { "store_wait_over_1ms_switched",
+            static_cast<double> (result.over_1ms_switched),
+            result.over_1ms_switched } };
+  bool const valid = result.valid && (!pin || result.pinned);
+  for (std::size_t i = 0; i < sizeof (rows) / sizeof (rows[0]); ++i)
+    write_row (csv, repetition, "store_wait", threads, implementation.key,
+               rows[i].operation, rows[i].value, result.stores,
+               rows[i].successes, 0.0, 0.0, 0.0, valid, 0.0, 0.0);
+  if (!result.valid)
+    std::cerr << implementation.key << " (store_wait, " << threads
+              << " threads) left a reference behind\n";
+  if (pin && !result.pinned)
+    std::cerr << implementation.key << " (store_wait, " << threads
+              << " threads) could not pin its threads\n";
+  return valid;
+}
 } // namespace
 
 int
@@ -454,6 +527,7 @@ main (int argc, char **argv)
           bench::lumex_lock_based_lumex_cxx11_implementation (),
           bench::lumex_split_count_implementation (),
           bench::lumex_split_count_r4_implementation (),
+          bench::lumex_split_count_nocasres_implementation (),
           bench::lumex_lock_based_lumex_implementation (),
           bench::lumex_split_count_weak_implementation (),
           bench::lumex_lock_based_lumex_weak_implementation (),
@@ -467,6 +541,8 @@ main (int argc, char **argv)
   for (std::size_t i = 0; i < sizeof (candidates) / sizeof (candidates[0]);
        ++i)
     if (candidates[i].measure != nullptr && candidates[i].kind == wanted_kind
+        && (options.scenario != scenario_store_wait
+            || candidates[i].store_wait != nullptr)
         && series_selected (options, candidates[i].key))
       implementations.push_back (candidates[i]);
 
@@ -489,7 +565,9 @@ main (int argc, char **argv)
       std::cerr << "cannot write " << options.csv << '\n';
       return 2;
     }
-  csv.precision (6);
+  // The latencies of the store-wait scenario are whole nanoseconds up to
+  // tens of milliseconds: keep every digit of them.
+  csv.precision (options.scenario == scenario_store_wait ? 12 : 6);
   csv << "# tool=LumexAtomicBenchmark\n"
       << "# compiler=" << compiler_name () << '\n'
       << "# library=" << library_name () << '\n'
@@ -503,10 +581,15 @@ main (int argc, char **argv)
       << "# hardware_concurrency=" << std::thread::hardware_concurrency ()
       << '\n'
       << "# scenario="
-      << (options.scenario == scenario_weak      ? "weak"
-          : options.scenario == scenario_destroy ? "destroy"
-                                                 : "shared")
+      << (options.scenario == scenario_weak        ? "weak"
+          : options.scenario == scenario_destroy   ? "destroy"
+          : options.scenario == scenario_store_wait ? "store_wait"
+                                                   : "shared")
       << '\n';
+  if (options.scenario == scenario_store_wait)
+    csv << "# stores=" << options.stores << '\n'
+        << "# pinned=" << (options.pin ? 1 : 0) << '\n'
+        << "# clock=std::chrono::steady_clock\n";
   for (std::size_t i = 0; i < implementations.size (); ++i)
     csv << "# implementation=" << implementations[i].key << '|'
         << implementations[i].label << '|' << implementations[i].path << '|'
@@ -550,6 +633,30 @@ main (int argc, char **argv)
                                    implementations[(rotation + t + k) % count],
                                    options.objects)
                 && valid;
+      csv.flush ();
+      return valid && csv ? 0 : 3;
+    }
+  if (options.scenario == scenario_store_wait)
+    {
+      // One writer and the readers: two threads and up, the oversubscribed
+      // counts of the 20 logical CPUs included.
+      std::vector<int> counts = options.threads;
+      if (!options.threads_given)
+        {
+          int const defaults[] = { 2, 4, 8, 12, 20, 40, 60 };
+          counts.assign (defaults, defaults + 7);
+        }
+      for (std::size_t t = 0; t < counts.size (); ++t)
+        {
+          std::cerr << "repetition " << options.repetition << ": "
+                    << counts[t] << " threads\n";
+          for (std::size_t k = 0; k < count; ++k)
+            valid = run_store_wait_block (
+                        csv, options.repetition, counts[t],
+                        implementations[(rotation + t + k) % count],
+                        options.stores, options.pin)
+                    && valid;
+        }
       csv.flush ();
       return valid && csv ? 0 : 3;
     }

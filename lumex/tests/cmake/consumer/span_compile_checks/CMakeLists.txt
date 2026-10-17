@@ -136,7 +136,25 @@ foreach(_std IN LISTS _standards)
         # constant evaluation ("constexpr variable 'result' must be
         # initialized by a constant expression"). Only the checked side is
         # compared there.
-        if(NOT (CMAKE_CXX_COMPILER_ID MATCHES "Clang"
+        # Cases 3, 5 and 9 (back () of an empty span, last (5) and last<5> () of
+        # four elements) are undefined behavior with the checks off whatever
+        # the compiler does: the pointer is data () + (size () - count) with
+        # the difference wrapping around, an arithmetic outside the array.
+        # GCC folds it, Clang 23 rightly refuses it. So the off form is not compared; instead the checked
+        # side must be rejected BECAUSE the handler is called (the compiler
+        # names it), which a rejection for another reason would not show.
+        set(_off_is_undefined FALSE)
+        if(_case EQUAL 3 OR _case EQUAL 5 OR _case EQUAL 9)
+            set(_off_is_undefined TRUE)
+        endif()
+        if(_off_is_undefined AND NOT MSVC)
+            if(NOT _on_OUTPUT MATCHES "check_failed")
+                message(FATAL_ERROR
+                    "check_constexpr case ${_case} (${_tag}) is rejected with "
+                    "the checks on, but not because of the handler\n"
+                    "${_on_OUTPUT}")
+            endif()
+        elseif(NOT (CMAKE_CXX_COMPILER_ID MATCHES "Clang"
                 AND CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC"))
             _lumex_span_try_file("${_constexpr_source}" _off bad_c0_${_case}_${_tag}
                 ${_std} -DLUMEX_SPAN_BAD_CASE=${_case} -DLUMEX_SPAN_CHECKS=0)
@@ -202,6 +220,25 @@ if(NOT MSVC)
             message(FATAL_ERROR
                 "LumexSpanChecks.hpp does not record LUMEX_SPAN_CHECKS=${_value} "
                 "with detect_mismatch under _MSC_VER")
+        endif()
+    endforeach()
+    # The compiled modules of the library define LUMEX_SPAN_NO_MISMATCH_GUARD
+    # and record nothing.
+    foreach(_value 0 1)
+        execute_process(
+            COMMAND "${CMAKE_CXX_COMPILER}" -E -P -D_MSC_VER=1930
+                    -DLUMEX_SPAN_CHECKS=${_value}
+                    -DLUMEX_SPAN_NO_MISMATCH_GUARD
+                    -I "${LUMEX_SOURCE_DIR}"
+                    "${LUMEX_SOURCE_DIR}/lumex/core/span/view/LumexSpanChecks.hpp"
+            OUTPUT_VARIABLE _pp ERROR_VARIABLE _pp_err RESULT_VARIABLE _pp_rc)
+        if(NOT _pp_rc EQUAL 0)
+            message(FATAL_ERROR "preprocessing LumexSpanChecks.hpp: ${_pp_err}")
+        endif()
+        string(FIND "${_pp}" "detect_mismatch" _at)
+        if(NOT _at EQUAL -1)
+            message(FATAL_ERROR
+                "LUMEX_SPAN_NO_MISMATCH_GUARD must remove detect_mismatch")
         endif()
     endforeach()
     execute_process(

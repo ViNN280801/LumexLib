@@ -138,7 +138,8 @@ private:
 // *it and *(it + n) are n elements apart. From C++20 the answer is
 // std::contiguous_iterator, so the line is redundant only for an iterator that
 // models it (one with iterator_concept = std::contiguous_iterator_tag and an
-// element_type); the class below declares neither, so it needs the line at
+// operator->, besides the members of a random access iterator; element_type
+// is not required); the class below declares neither, so it needs the line at
 // every standard.
 namespace lumex
 {

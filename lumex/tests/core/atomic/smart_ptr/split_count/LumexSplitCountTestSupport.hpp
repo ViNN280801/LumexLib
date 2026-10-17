@@ -209,6 +209,15 @@ struct ledger_policy_t : split_native_policy_t
   {
     return Reserve;
   }
+
+  /// The compare-exchange takes the reserve of the policy too, so that every
+  /// suite runs the production behavior; `Reserve == 0` also switches the
+  /// reserve of the compare-exchange off (the old path).
+  static constexpr std::uint32_t
+  cas_reserve () noexcept
+  {
+    return Reserve;
+  }
 };
 
 /// Resets the counters of @p Policy.
@@ -553,7 +562,7 @@ struct sim_alloc_redirect_t
 {
   constexpr sim_alloc_redirect_t () : allocate (nullptr), release (nullptr) {}
 
-  std::atomic<void *(*)(std::size_t size)> allocate;
+  std::atomic<void *(*) (std::size_t size)> allocate;
   std::atomic<bool (*) (void *block)> release;
 };
 

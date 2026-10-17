@@ -1,5 +1,6 @@
 // Fixture of cmake.consumer_string_view_no_exceptions_* (see CMakeLists.txt).
 // Exit code 0 on success.
+#include <csignal>
 #include <cstdio>
 #include <iomanip>
 #include <sstream>
@@ -14,6 +15,7 @@
 #endif
 
 #include "lumex/core/string_view/LumexStringView"
+#include "lumex/core/utility/attr/LumexAttributes.hpp"
 
 #if defined(SV_WITH_EXCEPTIONS)
 #include <stdexcept>
@@ -34,7 +36,8 @@ check (bool ok, char const *what)
 }
 
 #if !defined(SV_WITH_EXCEPTIONS) && SV_CAN_FORK
-// A child that runs `call` must end by a signal (std::terminate -> abort).
+// A child that runs `call` must end by SIGABRT (std::terminate -> abort), not
+// by another signal such as a trap.
 template <class Call>
 void
 must_terminate (Call call, char const *what)
@@ -47,7 +50,7 @@ must_terminate (Call call, char const *what)
     }
   int status = 0;
   waitpid (pid, &status, 0);
-  check (WIFSIGNALED (status), what);
+  check (WIFSIGNALED (status) && WTERMSIG (status) == SIGABRT, what);
 }
 #endif
 } // namespace
@@ -73,7 +76,7 @@ main ()
   bool threw = false;
   try
     {
-      (void)view.at (99);
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (view.at (99));
     }
   catch (std::out_of_range const &)
     {
@@ -83,7 +86,7 @@ main ()
   threw = false;
   try
     {
-      (void)view.substr (99);
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (view.substr (99));
     }
   catch (std::out_of_range const &)
     {
@@ -93,7 +96,7 @@ main ()
   threw = false;
   try
     {
-      (void)view.copy (buffer, 1, 99);
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (view.copy (buffer, 1, 99));
     }
   catch (std::out_of_range const &)
     {
@@ -103,7 +106,7 @@ main ()
   threw = false;
   try
     {
-      (void)view.compare (99, 1, "x");
+      LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (view.compare (99, 1, "x"));
     }
   catch (std::out_of_range const &)
     {
@@ -111,12 +114,16 @@ main ()
     }
   check (threw, "compare (pos, ...) throws");
 #elif SV_CAN_FORK
-  must_terminate ([&] { (void)view.at (99); }, "at () terminates");
-  must_terminate ([&] { (void)view.substr (99); }, "substr () terminates");
-  must_terminate ([&] { (void)view.copy (buffer, 1, 99); },
-                  "copy () terminates");
-  must_terminate ([&] { (void)view.compare (99, 1, "x"); },
-                  "compare (pos, ...) terminates");
+  must_terminate ([&] { LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (view.at (99)); },
+                  "at () terminates");
+  must_terminate ([&] { LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (view.substr (99)); },
+                  "substr () terminates");
+  must_terminate (
+      [&] { LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (view.copy (buffer, 1, 99)); },
+      "copy () terminates");
+  must_terminate (
+      [&] { LUMEX_ATTRIBUTE_MAYBE_UNUSED_VAR (view.compare (99, 1, "x")); },
+      "compare (pos, ...) terminates");
 #endif
   if (failures == 0)
     std::puts ("string_view no_exceptions: ok");

@@ -36,7 +36,8 @@ namespace lumex_atomic_bench
  * The split-count policy of production with another reserve. Everything else
  * (the hooks, the guess, the tick limit, the back-off) is the production
  * policy's, inherited, so the two series differ only in the units a writer
- * deposits beyond the ticks it saw.
+ * deposits beyond the ticks it saw (a successful compare-exchange follows the
+ * same reserve).
  */
 template <unsigned Reserve>
 struct reserve_policy_t
@@ -47,6 +48,38 @@ struct reserve_policy_t
   {
     return Reserve;
   }
+
+  static LUMEX_CONSTEXPR std::uint32_t
+  cas_reserve () LUMEX_NOEXCEPT
+  {
+    return Reserve;
+  }
+};
+
+/**
+ * The production policy with the reserve of a successful compare-exchange
+ * switched off (`cas_reserve () == 0`): the engine as it was before that
+ * reserve, so that the effect of the reserve can be measured against the
+ * production series.
+ */
+struct no_cas_reserve_policy_t
+    : lumex::core::atomic::smart_ptr::Detail::split_native_policy_t
+{
+  static LUMEX_CONSTEXPR std::uint32_t
+  cas_reserve () LUMEX_NOEXCEPT
+  {
+    return 0u;
+  }
+};
+
+/** The split-count engine of the shared pointer without that reserve. */
+struct split_count_without_cas_reserve_t
+{
+  typedef lumex::core::atomic::smart_ptr::Detail::basic_atomic_shared_ptr<
+      int,
+      lumex::core::atomic::smart_ptr::Detail::split_count_cell<
+          lumex::core::smart_ptr::shared_ptr<int>, no_cas_reserve_policy_t>>
+      type;
 };
 
 /** The split-count engine of the shared pointer with a given reserve. */

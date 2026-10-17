@@ -66,8 +66,9 @@
  * pointers are measured by the same harness. Beyond the four operations it
  * has: a read-heavy run that also reports the writer's stores, a load plus
  * store pair with the cycles and instructions of the thread (perf), the
- * `lock ()` rate of the weak engines, and the latency between a replacing
- * store and the destructor of the replaced object.
+ * `lock ()` rate of the weak engines, the latency between a replacing
+ * store and the destructor of the replaced object, and the distribution of
+ * the time of every single `store ()` of a writer under a read load.
  */
 
 #ifndef LUMEX_BENCHMARKS_ATOMIC_BENCH_ATOMIC_SMART_PTR_HPP
@@ -85,8 +86,11 @@
 #include <vector>
 
 #if defined(__linux__)
+#include <pthread.h>
+#include <sched.h>
 #include <linux/perf_event.h>
 #include <sys/ioctl.h>
+#include <sys/resource.h>
 #include <sys/syscall.h>
 #include <unistd.h>
 #endif
@@ -169,6 +173,30 @@ struct latency_result_t
 };
 
 /**
+ * The outcome of the store-wait scenario of one implementation: the time of
+ * every single `store ()` of one writer while the other threads load.
+ */
+struct store_wait_result_t
+{
+  double median_ns;                ///< the time of one store, median
+  double p90_ns;                   ///< 90th percentile
+  double p99_ns;                   ///< 99th percentile
+  double p999_ns;                  ///< 99.9th percentile
+  double p9999_ns;                 ///< 99.99th percentile
+  double max_ns;                   ///< the longest store
+  double timer_ns;                 ///< median of an empty pair of clock reads
+  unsigned long long stores;       ///< timed stores
+  unsigned long long over_1ms;     ///< stores that took more than 1 ms
+  unsigned long long switches;     ///< involuntary context switches of the
+                                   ///< writer during the timed stores
+  unsigned long long over_1ms_switched; ///< stores over 1 ms after which the
+                                        ///< writer's switch count had
+                                        ///< advanced since the last reading
+  bool pinned;                     ///< every thread was pinned as requested
+  bool valid;                      ///< no reference left behind afterwards
+};
+
+/**
  * Times `operation` with `threads` threads for `seconds`; on one object
  * shared by all threads when `contended`, otherwise on a private one (one
  * thread).
@@ -183,6 +211,14 @@ typedef measurement_t (*measure_fn) (int operation, int threads,
  */
 typedef latency_result_t (*latency_fn) (int threads, long objects);
 
+/**
+ * One writer thread times `stores` single `store ()` calls of alternating
+ * values on one shared object while `threads - 1` further threads `load ()`
+ * all the while. With `pin` every thread is pinned to a CPU of its own.
+ */
+typedef store_wait_result_t (*store_wait_fn) (int threads, long stores,
+                                              bool pin);
+
 /** An implementation as main () sees it. */
 struct implementation_t
 {
@@ -194,6 +230,7 @@ struct implementation_t
   measure_fn measure; ///< null: the build has no such engine, leave it out
   latency_fn latency; ///< null: no destruction-latency scenario
   int kind;           ///< kind_t
+  store_wait_fn store_wait; ///< null: no store-wait scenario
 };
 
 /** The common name atomic_shared_ptr, built at C++20. */
@@ -235,6 +272,10 @@ implementation_t lumex_split_count_implementation ();
 /** The split-count engine, reserve 4, built at C++20. */
 implementation_t lumex_split_count_r4_implementation ();
 
+/** The split-count engine with the reserve of compare_exchange switched off
+ * (cas_reserve () == 0), reserve 8 for the rest, built at C++20. */
+implementation_t lumex_split_count_nocasres_implementation ();
+
 /** The lock-based engine over the library's own shared_ptr, C++20. */
 implementation_t lumex_lock_based_lumex_implementation ();
 
@@ -267,7 +308,7 @@ inline implementation_t
 unavailable_implementation ()
 {
   implementation_t const none
-      = { "", "", "", 0, false, nullptr, nullptr, kind_shared };
+      = { "", "", "", 0, false, nullptr, nullptr, kind_shared, nullptr };
   return none;
 }
 
@@ -1103,6 +1144,228 @@ measure_latency (int threads, long objects)
   return result;
 }
 
+/** Pins the calling thread to CPU `index` (modulo the CPUs); false: could not. */
+inline bool
+pin_current_thread (int index)
+{
+#if defined(__linux__)
+  unsigned const cpus = std::thread::hardware_concurrency ();
+  if (cpus == 0u)
+    return false;
+  cpu_set_t set;
+  CPU_ZERO (&set);
+  CPU_SET (static_cast<unsigned> (index) % cpus, &set);
+  return ::pthread_setaffinity_np (::pthread_self (), sizeof (set), &set)
+         == 0;
+#else
+  (void)index;
+  return false;
+#endif
+}
+
+/** The nanoseconds of the monotonic clock. */
+inline std::int64_t
+clock_ns ()
+{
+  return std::chrono::duration_cast<std::chrono::nanoseconds> (
+             std::chrono::steady_clock::now ().time_since_epoch ())
+      .count ();
+}
+
+/**
+ * The involuntary context switches of the calling thread so far (the thread
+ * was taken off its CPU by the scheduler); 0 where the system does not say.
+ */
+inline unsigned long long
+involuntary_switches ()
+{
+#if defined(__linux__) && defined(RUSAGE_THREAD)
+  rusage usage;
+  if (::getrusage (RUSAGE_THREAD, &usage) != 0)
+    return 0u;
+  return static_cast<unsigned long long> (usage.ru_nivcsw);
+#else
+  return 0u;
+#endif
+}
+
+/** The value of quantile `fraction` of the sorted `values`. */
+inline double
+quantile_of_sorted (std::vector<std::int64_t> const &values, double fraction)
+{
+  std::size_t index = static_cast<std::size_t> (
+      fraction * static_cast<double> (values.size ()));
+  if (index >= values.size ())
+    index = values.size () - 1u;
+  return static_cast<double> (values[index]);
+}
+
+/** Loads in a loop until `stop`; a reader of the store-wait scenario. */
+template <typename Atomic> struct store_wait_reader_t
+{
+  Atomic *atom;
+  std::atomic<bool> *stop;
+  std::atomic<int> *started;
+  int index;
+  bool pin;
+  std::atomic<int> *pin_failures;
+
+  void
+  operator() () const
+  {
+    if (pin && !pin_current_thread (index))
+      pin_failures->fetch_add (1);
+    started->fetch_add (1);
+    std::uintptr_t checksum = 0u;
+    while (!stop->load (std::memory_order_relaxed))
+      {
+        typename Atomic::value_type const snapshot = atom->load ();
+        checksum += reinterpret_cast<std::uintptr_t> (snapshot.get ());
+      }
+    if (checksum == 1u)
+      stop->store (true);
+  }
+};
+
+/** The writer of the store-wait scenario; times every store. */
+template <typename Atomic> struct store_wait_writer_t
+{
+  Atomic *atom;
+  typename Atomic::value_type const *keep_a;
+  typename Atomic::value_type const *keep_b;
+  std::atomic<int> *started;
+  int readers;
+  long stores;
+  bool pin;
+  std::atomic<int> *pin_failures;
+  std::vector<std::int64_t> *waits;
+  double *timer_ns;
+  unsigned long long *switches;
+  unsigned long long *over_1ms_switched;
+
+  void
+  operator() () const
+  {
+    if (pin && !pin_current_thread (0))
+      pin_failures->fetch_add (1);
+    while (started->load () < readers)
+      std::this_thread::yield ();
+    // Every reader has run its first loads; the stores that follow are the
+    // measurement, after a few that bring the caches to their steady state.
+    bool flip = false;
+    for (int i = 0; i < 2000; ++i)
+      {
+        atom->store (flip ? *keep_a : *keep_b);
+        flip = !flip;
+      }
+    // The cost of the timer: an empty pair of clock reads, with the readers
+    // running.
+    std::vector<std::int64_t> empty (20000u, 0);
+    for (std::size_t i = 0; i < empty.size (); ++i)
+      {
+        std::int64_t const before = clock_ns ();
+        empty[i] = clock_ns () - before;
+      }
+    std::sort (empty.begin (), empty.end ());
+    *timer_ns = static_cast<double> (empty[empty.size () / 2u]);
+
+    // A safety stop: a run that has not finished in a minute is cut short
+    // (the number of stores timed tells).
+    std::int64_t const give_up = clock_ns () + 60000000000ll;
+    std::size_t const count = static_cast<std::size_t> (stores);
+    waits->reserve (count);
+    // The scheduler's counter is read only after a store over 1 ms, never
+    // inside the timed loop of the ordinary stores (a system call per store
+    // would change what is measured).
+    unsigned long long const switches_first = involuntary_switches ();
+    unsigned long long switches_seen = switches_first;
+    for (std::size_t i = 0; i < count; ++i)
+      {
+        typename Atomic::value_type const &value = flip ? *keep_a : *keep_b;
+        std::int64_t const before = clock_ns ();
+        atom->store (value);
+        std::int64_t const after = clock_ns ();
+        waits->push_back (after - before);
+        flip = !flip;
+        if (after - before > 1000000)
+          {
+            unsigned long long const now_seen = involuntary_switches ();
+            if (now_seen != switches_seen)
+              ++*over_1ms_switched;
+            switches_seen = now_seen;
+          }
+        if ((i & 1023u) == 1023u && after > give_up)
+          break;
+      }
+    *switches = involuntary_switches () - switches_first;
+  }
+};
+
+/**
+ * Times every single `store ()` of one writer (the thread with index 0)
+ * while `threads - 1` readers `load ()` all the while, `stores` times with
+ * alternating values, so that every store replaces the value. Reports the
+ * median, the 90th, 99th, 99.9th and 99.99th percentile and the longest
+ * time, and how many stores took more than a millisecond (a preempted
+ * writer shows there). The clock is std::chrono::steady_clock; its own cost
+ * (an empty pair of reads) is measured next to the stores and reported.
+ */
+template <typename Atomic>
+store_wait_result_t
+measure_store_wait (int threads, long stores, bool pin)
+{
+  typedef atomic_traits_t<Atomic> traits_t;
+  typedef typename traits_t::value_type pointer_t;
+  pointer_t const keep_a (traits_t::make (1));
+  pointer_t const keep_b (traits_t::make (2));
+  store_wait_result_t result = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0u, 0u,
+                                 0u,  0u,  false, false };
+  std::vector<std::int64_t> waits;
+  std::atomic<int> pin_failures (0);
+  {
+    atomic_holder_t<Atomic> const holder (keep_a);
+    Atomic *const atom = holder.get ();
+    std::atomic<bool> stop (false);
+    std::atomic<int> started (0);
+    std::vector<std::thread> readers;
+    int const reader_count = threads > 1 ? threads - 1 : 0;
+    for (int t = 1; t <= reader_count; ++t)
+      {
+        store_wait_reader_t<Atomic> const reader
+            = { atom, &stop, &started, t, pin, &pin_failures };
+        readers.push_back (std::thread (reader));
+      }
+    store_wait_writer_t<Atomic> const writer
+        = { atom,   &keep_a, &keep_b, &started,      reader_count,
+            stores, pin,     &pin_failures, &waits, &result.timer_ns,
+            &result.switches, &result.over_1ms_switched };
+    std::thread writer_thread (writer);
+    writer_thread.join ();
+    stop.store (true);
+    for (std::size_t t = 0; t < readers.size (); ++t)
+      readers[t].join ();
+  }
+  traits_t::settle ();
+  result.valid = keep_a.use_count () == 1 && keep_b.use_count () == 1
+                 && !waits.empty ();
+  result.pinned = pin && pin_failures.load () == 0;
+  result.stores = waits.size ();
+  for (std::size_t i = 0; i < waits.size (); ++i)
+    if (waits[i] > 1000000)
+      ++result.over_1ms;
+  if (!waits.empty ())
+    {
+      std::sort (waits.begin (), waits.end ());
+      result.median_ns = quantile_of_sorted (waits, 0.5);
+      result.p90_ns = quantile_of_sorted (waits, 0.9);
+      result.p99_ns = quantile_of_sorted (waits, 0.99);
+      result.p999_ns = quantile_of_sorted (waits, 0.999);
+      result.p9999_ns = quantile_of_sorted (waits, 0.9999);
+      result.max_ns = static_cast<double> (waits.back ());
+    }
+  return result;
+}
+
 /** Fills an implementation_t for `Atomic`. */
 template <typename Atomic>
 implementation_t
@@ -1117,7 +1380,8 @@ make_implementation (char const *key, char const *label, char const *path,
                                             probe.is_lock_free (),
                                             &measure<Atomic>,
                                             &measure_latency<Atomic>,
-                                            kind_shared };
+                                            kind_shared,
+                                            &measure_store_wait<Atomic> };
   return implementation;
 }
 
@@ -1135,7 +1399,8 @@ make_weak_implementation (char const *key, char const *label, char const *path,
                                             probe.is_lock_free (),
                                             &measure_weak<Atomic>,
                                             nullptr,
-                                            kind_weak };
+                                            kind_weak,
+                                            nullptr };
   return implementation;
 }
 } // namespace detail

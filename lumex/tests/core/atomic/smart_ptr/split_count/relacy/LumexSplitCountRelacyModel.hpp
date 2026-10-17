@@ -157,7 +157,12 @@ static const u64 far_offset = 0x1000;
 /**
  * @brief The memory orders of the engine, each with the engine line it
  * transcribes. The mutations M8, M9, M10, M25, M33 and the own mutants
- * (101 to 105, 331, 332) change one function.
+ * (101 to 105, 331, 332) change one function. The mutants 201 to 203 change
+ * the reserve of the compare-exchange instead of an order: the surplus of the
+ * successful swap is one too big (201), the strong form keeps its deposit but
+ * does not top it up (202), the deposit of the holder path is one short (203),
+ * and the strong form never keeps its deposit (204: the balance still holds,
+ * only the coverage requirements of `run_model` fail).
  */
 namespace orders
 {
@@ -283,6 +288,8 @@ enum cover_e
   cover_s12_undo,      ///< S12: the own tick was swapped out, paid back
   cover_s12_topup,     ///< S12: the deposit was topped up
   cover_s11_retry,     ///< S11: the strong form found an equivalent value
+  cover_cas_keep,      ///< S10: a failed swap kept its deposit
+  cover_cas_topup,     ///< S10: ... and topped it up
   cover_count
 };
 
@@ -295,7 +302,7 @@ cover_name (int c)
           "S5-topup",     "S5-undo",       "S4-consumed",   "S6-surplus",
           "S10-cas-swap", "S10-withdraw",  "S12-swap",      "S12-miss",
           "S7-hand-over", "dispose",       "S12-undo",      "S12-topup",
-          "S11-retry" };
+          "S11-retry",    "S10-keep",      "S10-keep-topup" };
   return names[c];
 }
 
@@ -470,6 +477,10 @@ struct pool_t
 template <unsigned Reserve> class cell_t
 {
 public:
+  /// The reserve of a successful compare-exchange: the same `k` (0 is the
+  /// path of a compare-exchange without reserve).
+  static unsigned const cas_reserve = Reserve;
+
   explicit cell_t (pool_t &pool) : pool_ (pool) {}
 
   /// Initializes the word (before the threads start).
@@ -604,6 +615,17 @@ public:
   {
     return compare_exchange_strong (expected, desired, order,
                                     failure_order (order));
+  }
+
+  /// The weak form: one attempt; a failed attempt withdraws its whole
+  /// deposit.
+  bool
+  compare_exchange_weak (sp_t &expected, sp_t desired, mo_t order)
+  {
+    bool const swapped = compare_exchange (expected, desired, true, order,
+                                           failure_order (order));
+    drop_ptr (desired);
+    return swapped;
   }
 
 private:
@@ -1132,23 +1154,46 @@ private:
                 image = take_image (desired);
                 built = true;
               }
-            unsigned const ticks
-                = word::is_empty (seen) ? 0u : word::ticks_of (seen);
-            deposit (seen, ticks); // S9
-            witness_write (image);
-            u64 const found = cas_found (
-                seen, image, orders::cas_success (orders::rmw (success)),
-                rl::mo_relaxed); // S10
-            if (found == seen)
+            unsigned const k = cas_reserve;
+            unsigned moved = cas_ticks (seen);
+            if (moved != 0u)
+              moved += k;
+            deposit (seen, moved); // S9
+            for (;;)
               {
-                cover (cover_cas_swap);
-                gh_remove_old (seen);
-                drop_word (seen);
-                return true;
+                witness_write (image);
+                u64 const found = cas_found (
+                    seen, image, orders::cas_success (orders::rmw (success)),
+                    rl::mo_relaxed); // S10
+                if (found == seen)
+                  {
+                    cover (cover_cas_swap);
+                    gh_remove_old (seen);
+                    drop_word_with_ext (
+                        seen, moved - cas_ticks (seen)
+                                  + (mutant == 201 ? 1u : 0u)); // M201
+                    return true;
+                  }
+                if (k != 0u && !weak && mutant != 204
+                    && word::same_value (found, want))
+                  {
+                    unsigned const need = cas_ticks (found);
+                    cover (cover_cas_keep);
+                    if (need > moved)
+                      {
+                        cover (cover_cas_topup);
+                        if (mutant != 202) // M202: no top-up
+                          deposit (found, need + k - moved);
+                        moved = need + k;
+                      }
+                    seen = found;
+                    continue;
+                  }
+                cover (cover_cas_withdraw);
+                withdraw (seen, moved);
+                seen = found;
+                break;
               }
-            cover (cover_cas_withdraw);
-            withdraw (seen, ticks);
-            seen = found;
             if (!weak)
               continue;
           }
@@ -1171,6 +1216,12 @@ private:
         expected = current;
         return false;
       }
+  }
+
+  static unsigned
+  cas_ticks (u64 w)
+  {
+    return word::is_empty (w) ? 0u : word::ticks_of (w);
   }
 
   static bool
@@ -1214,9 +1265,14 @@ private:
                     image = take_image (desired);
                     built = true;
                   }
+                unsigned const k = cas_reserve;
                 u64 current = word::with_tick (pinned);
                 unsigned moved = word::ticks_of (pinned);
-                deposit (current, moved);
+                if (moved != 0u)
+                  moved += k;
+                deposit (current,
+                         moved - (mutant == 203 && moved != 0u ? 1u : 0u));
+                // M203: the holder deposit is short by one
                 for (;;)
                   {
                     witness_write (image);
@@ -1246,8 +1302,8 @@ private:
                     if (need > moved)
                       {
                         cover (cover_s12_topup);
-                        deposit (swapped, need - moved);
-                        moved = need;
+                        deposit (swapped, need + k - moved);
+                        moved = need + k;
                       }
                     current = swapped;
                   }
@@ -1427,6 +1483,47 @@ scheduler_name (rl::scheduler_type_e scheduler)
                                                               : "full";
 }
 
+/// A step that a model exists to reach: when a search of the model ends
+/// without having reached it, the run fails (a model whose branch is
+/// unreachable proves nothing about it).
+struct cover_requirement_t
+{
+  char const *model;
+  int cover;
+};
+
+inline cover_requirement_t const *
+cover_requirements (std::size_t &count)
+{
+  static cover_requirement_t const table[]
+      = { { "block.cas_load_store/k2", cover_cas_keep },
+          { "block.cas_load_store/k2", cover_cas_topup },
+          { "block.cas_load/k2", cover_cas_keep },
+          { "block.cas_weak_load_store/k2", cover_cas_swap },
+          { "block.cas_weak_load_store/k2", cover_cas_withdraw } };
+  count = sizeof (table) / sizeof (table[0]);
+  return table;
+}
+
+/// Prints the requirements of @p name that the last search did not meet;
+/// true when all were met.
+inline bool
+cover_requirements_met (char const *name)
+{
+  std::size_t count = 0;
+  cover_requirement_t const *const table = cover_requirements (count);
+  bool met = true;
+  for (std::size_t i = 0; i != count; ++i)
+    if (std::string (name) == table[i].model
+        && cover_counts ()[table[i].cover] == 0)
+      {
+        std::cout << "COVERAGE FAILED (model " << name << " never reached "
+                  << cover_name (table[i].cover) << ")" << std::endl;
+        met = false;
+      }
+  return met;
+}
+
 /// Runs @p Test with @p search; prints the report lines.
 template <typename Test>
 inline bool
@@ -1444,12 +1541,14 @@ run_model (char const *name, search_t const &search)
             << " iterations=" << search.iterations
             << " bound=" << params.context_bound << " mutant=" << mutant
             << " counter=" << (tsan_counter ? "tsan" : "default") << std::endl;
-  bool const ok = rl::simulate<Test> (params);
+  bool ok = rl::simulate<Test> (params);
   std::cout << "reached:";
   for (int c = 0; c != cover_count; ++c)
     if (cover_counts ()[c] != 0)
       std::cout << ' ' << cover_name (c) << '=' << cover_counts ()[c];
   std::cout << std::endl;
+  if (ok && !cover_requirements_met (name))
+    ok = false;
   std::cout << (ok ? "RESULT pass " : "RESULT FAIL ") << name << std::endl;
   return ok;
 }
