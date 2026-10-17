@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.1.0</span>
+   <div id="projectname">LumexLib<span id="projectnumber">&#160;2.0.2.0</span>
    </div>
    <div id="projectbrief">A C++11-26 core library for Lumex projects.</div>
   </td>
@@ -219,7 +219,7 @@ $(function(){initNavTree('a01154_source.html',''); initResizable(true); });
 <div class="ttc" id="aa01544_html"><div class="ttname"><a href="a01544.html">lumex::core::hazard_pointer</a></div><div class="ttdef"><b>Definition</b> LumexHazardPointerObjBase.hpp:77</div></div>
 <div class="ttc" id="aa01544_html_a065793a2b525314276ceaf0af8c0f23e"><div class="ttname"><a href="a01544.html#a065793a2b525314276ceaf0af8c0f23e">lumex::core::hazard_pointer::make_hazard_pointer_batch</a></div><div class="ttdeci">void make_hazard_pointer_batch(span::view::span&lt; hazard_pointer &gt; hps)</div><div class="ttdoc">Gives every empty element a hazard slot, all or none.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerBatch.hpp:78</div></div>
 <div class="ttc" id="aa01544_html_afa28bea08e303f9ff638bd1eaca00e41"><div class="ttname"><a href="a01544.html#afa28bea08e303f9ff638bd1eaca00e41">lumex::core::hazard_pointer::clear_hazard_pointer_batch</a></div><div class="ttdeci">void clear_hazard_pointer_batch(span::view::span&lt; hazard_pointer &gt; hps) noexcept</div><div class="ttdoc">Ends the protection of every non-empty element and empties it.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerBatch.hpp:110</div></div>
-<div class="ttc" id="aa01546_html_a05ed59c81364fd53de26142343a8b795"><div class="ttname"><a href="a01546.html#a05ed59c81364fd53de26142343a8b795">lumex::core::hazard_pointer::engine::acquire_slots</a></div><div class="ttdeci">void acquire_slots(slot_t **out, std::size_t count)</div><div class="ttdoc">Takes count hazard slots at once, all or none.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerDomain.cpp:810</div></div>
+<div class="ttc" id="aa01546_html_a05ed59c81364fd53de26142343a8b795"><div class="ttname"><a href="a01546.html#a05ed59c81364fd53de26142343a8b795">lumex::core::hazard_pointer::engine::acquire_slots</a></div><div class="ttdeci">void acquire_slots(slot_t **out, std::size_t count)</div><div class="ttdoc">Takes count hazard slots at once, all or none.</div><div class="ttdef"><b>Definition</b> LumexHazardPointerDomain.cpp:834</div></div>
 <div class="ttc" id="aa03299_html"><div class="ttname"><a href="a03299.html">lumex::core::hazard_pointer::hazard_pointer</a></div><div class="ttdoc">Owner of one hazard slot ([saferecl.hp.holder]).</div><div class="ttdef"><b>Definition</b> LumexHazardPointerHolder.hpp:97</div></div>
 <div class="ttc" id="aa03311_html_a49b4c6de52ac4748816a8346d63295d6"><div class="ttname"><a href="a03311.html#a49b4c6de52ac4748816a8346d63295d6">lumex::core::hazard_pointer::detail::holder_access::slot</a></div><div class="ttdeci">static engine::slot_t *&amp; slot(hazard_pointer &amp;holder) noexcept</div><div class="ttdef"><b>Definition</b> LumexHazardPointerHolder.hpp:360</div></div>
 <div class="ttc" id="aa04027_html"><div class="ttname"><a href="a04027.html">lumex::core::span::view::span</a></div><div class="ttdoc">A non-owning view of a contiguous sequence of objects.</div><div class="ttdef"><b>Definition</b> LumexSpan.hpp:149</div></div>

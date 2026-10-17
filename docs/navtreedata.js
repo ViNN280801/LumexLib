@@ -32,24 +32,25 @@ var NAVTREE =
       [ "Releases made before these rules", "a06613.html#autotoc_md4", null ]
     ] ],
     [ "Verification of the split-count engine", "a06614.html", [
-      [ "What is claimed, and what is not", "a06614.html#autotoc_md40", null ],
-      [ "The properties and the layer that checks each", "a06614.html#autotoc_md41", [
-        [ "The reserve of the compare-exchange under G1, G2 and the balance", "a06614.html#autotoc_md42", null ]
+      [ "What is claimed, and what is not", "a06614.html#autotoc_md41", null ],
+      [ "The properties and the layer that checks each", "a06614.html#autotoc_md42", [
+        [ "The reserve of the compare-exchange under G1, G2 and the balance", "a06614.html#autotoc_md43", null ]
       ] ],
-      [ "The unit and stress suites (U)", "a06614.html#autotoc_md43", null ],
-      [ "The simulator (V1)", "a06614.html#autotoc_md44", null ],
-      [ "The ABA scenarios (V2)", "a06614.html#autotoc_md45", null ],
-      [ "The broad suites over the split-count engine (V3)", "a06614.html#autotoc_md46", null ],
-      [ "The Relacy models (V4)", "a06614.html#autotoc_md47", null ],
-      [ "The sanitizer matrix (V5)", "a06614.html#autotoc_md48", null ],
-      [ "The benchmarks (V6)", "a06614.html#autotoc_md49", null ],
-      [ "The mutations in one view", "a06614.html#autotoc_md50", [
-        [ "The pre-registered mutations", "a06614.html#autotoc_md51", null ],
-        [ "The mutations of the reserve of the compare-exchange", "a06614.html#autotoc_md52", null ]
+      [ "The unit and stress suites (U)", "a06614.html#autotoc_md44", null ],
+      [ "The simulator (V1)", "a06614.html#autotoc_md45", null ],
+      [ "The ABA scenarios (V2)", "a06614.html#autotoc_md46", null ],
+      [ "The broad suites over the split-count engine (V3)", "a06614.html#autotoc_md47", null ],
+      [ "The Relacy models (V4)", "a06614.html#autotoc_md48", null ],
+      [ "The sanitizer matrix (V5)", "a06614.html#autotoc_md49", null ],
+      [ "The benchmarks (V6)", "a06614.html#autotoc_md50", null ],
+      [ "The mutations in one view", "a06614.html#autotoc_md51", [
+        [ "The pre-registered mutations", "a06614.html#autotoc_md52", null ],
+        [ "The mutations of the reserve of the compare-exchange", "a06614.html#autotoc_md53", null ],
+        [ "Re-running the mutations", "a06614.html#autotoc_md54", null ]
       ] ],
-      [ "What the verification does not show, and what not to infer", "a06614.html#autotoc_md53", null ],
-      [ "Reproducing", "a06614.html#autotoc_md54", null ],
-      [ "The data files", "a06614.html#autotoc_md55", null ]
+      [ "What the verification does not show, and what not to infer", "a06614.html#autotoc_md55", null ],
+      [ "Reproducing", "a06614.html#autotoc_md56", null ],
+      [ "The data files", "a06614.html#autotoc_md57", null ]
     ] ],
     [ "Универсальная Система Логирования", "a06615.html", null ],
     [ "Deprecated List", "a01424.html", null ],
@@ -107,10 +108,10 @@ var NAVTREEINDEX =
 "a01492.html#adb6bacd656d47fc088685836f33190d7aa06640f836d006857791f60c27b5e330",
 "a01524.html#a6731c24b90644c9b4b94c4c81af602dd",
 "a01541.html#a34905eb67b16b723ba65a321e0c3a1ee",
-"a01556.html#a0a8d34c9fd7381d1fb19e20251b0c67a",
-"a01587.html#aeb7c418e8ef454625d57b7b098e59e04",
-"a01671.html#a93864568db0bec9a41250c719b5da0ee",
-"a01685.html#a54c963b7a6def6381146ead18a8753ceaa8a30852435d8ed13d61d235b6b30f8a",
+"a01556.html",
+"a01587.html#abc5424148a3c93bf6ba9afb098dd93a6",
+"a01671.html#a8e66e739db023b28cf5a07a620518193",
+"a01685.html#a54c963b7a6def6381146ead18a8753ceaa48567013132b50ffa4e7178a2afbffa",
 "a01743.html#ae9b1ae4a7df855dc4f6393c2714f4349",
 "a01823.html#a7a6c7349125c0a9b61e00fc1418a0dc1",
 "a01911.html#a67340373f009ef86ebf93a8c3bd15104",
@@ -148,16 +149,16 @@ var NAVTREEINDEX =
 "a04451.html#a7b43e1a52335fdea20ef134dd4da7170",
 "a04603.html#af151c50ccbbf1b2abc5be8e7f91d0cbc",
 "a05027.html#a16fa7522772b9ac74837662c5385d201",
-"a05127.html#aa71c7a3299b9cdf2be00f73510968825",
-"a05143.html#ab93fdc51ad6c79aeab15b4df76843306",
+"a05127.html#aa6db85e0f29ddd002d752a2b587a17c8",
+"a05143.html#ab8730fb0f45c45e980dc2e0cc918318f",
 "a05179.html#a9cdc248c3f9503e4127e13d6a3eee28b",
 "a05239.html#a350bf20bba86837f479967880d4aa3c1",
-"a05303.html#a610fd11f14a186285138a6cfe619147f",
-"a05347.html#af1bc38ea23b833ccefb33555a9a347fe",
+"a05303.html#a520412ecc9d356b11ed57cce956a7549",
+"a05347.html#ab3e57ba2cb4341216ebeb3084355b64b",
 "a06532.html#a3f094c33f965d71f6301bd81dd132efa",
 "a06532.html#af8589cafdf1a49027785befb2f7184f2",
-"dir_2f8488fdbf169117866699aa1d08d080.html",
-"functions_w.html"
+"dir_2eed78fa94d1e9faad02cb0657b7390b.html",
+"functions_vars_y.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

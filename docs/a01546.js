@@ -9,7 +9,8 @@ var a01546 =
       [ "pass_scanned", "a01546.html#ae7c0ac99eb3dfb702701ee36df0bcdb9a086a7f0c7eb9c4b06553a15e6be865ca", null ],
       [ "retire_pushed", "a01546.html#ae7c0ac99eb3dfb702701ee36df0bcdb9a846f67f736be5d85119c28c727ddefe7", null ],
       [ "cache_evicting", "a01546.html#ae7c0ac99eb3dfb702701ee36df0bcdb9a12b66c884a2d181514640ebee58a102a", null ],
-      [ "reader_fenced", "a01546.html#ae7c0ac99eb3dfb702701ee36df0bcdb9ae1406426d0d88d3279aafc2dbf8573fb", null ]
+      [ "reader_fenced", "a01546.html#ae7c0ac99eb3dfb702701ee36df0bcdb9ae1406426d0d88d3279aafc2dbf8573fb", null ],
+      [ "pool_popping", "a01546.html#ae7c0ac99eb3dfb702701ee36df0bcdb9ab1a2427ce98e76743c81004a687c7b11", null ]
     ] ],
     [ "acquire_slot", "a01546.html#a3d2a866e3b2b069642be2741590ed4d5", null ],
     [ "acquire_slots", "a01546.html#a05ed59c81364fd53de26142343a8b795", null ],
